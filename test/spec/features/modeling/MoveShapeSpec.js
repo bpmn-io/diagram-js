@@ -75,10 +75,7 @@ describe('features/modeling - move shape', function() {
     it('should move according to delta', inject(function(modeling) {
 
       // when
-      modeling.moveShape(childShape, { x: -10, y: +10 });
-      modeling.moveShape(childShape, { x: -10});
-      modeling.moveShape(childShape, { y: +10 });
-      modeling.moveShape(childShape, { });
+      modeling.moveShape(childShape, { x: -20, y: +20 });
 
       // then
       expect(childShape.x).toBe(90);

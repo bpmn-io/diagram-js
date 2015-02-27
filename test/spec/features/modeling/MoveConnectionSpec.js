@@ -64,10 +64,7 @@ describe('features/modeling - move connection', function() {
   it('should move', inject(function(modeling) {
 
     // when
-    modeling.moveConnection(connection, { x: 10, y: 5 }, otherShape);
-    modeling.moveConnection(connection, { x: 10 });
-    modeling.moveConnection(connection, { y: 5 });
-    modeling.moveConnection(connection, { });
+    modeling.moveConnection(connection, { x: 20, y: 10 }, otherShape);
 
     // then
     expect(connection.waypoints).toDeepEqual([
