@@ -109,7 +109,7 @@ describe('features/create-space - CreateSpace', function() {
       createEvent = Events.scopedCreate(canvas);
     }));
 
-    iit('should have elements in a defined space', inject(function(dragging, elementRegistry, createSpace) {
+    it('should have elements in a defined space', inject(function(dragging, elementRegistry, createSpace) {
       //given
 
       //then
@@ -119,7 +119,7 @@ describe('features/create-space - CreateSpace', function() {
 
     }));
 
-    iit('should move elements rightwards to create some space', inject(function(dragging, elementRegistry, createSpace) {
+    it('should move elements rightwards to create some space', inject(function(dragging, elementRegistry, createSpace) {
       //when
       dragging.activate(createEvent({ x: 410, y: 10 }), 'create-space');
       dragging.move(createEvent({ x: 600, y: 11 }));
@@ -131,7 +131,7 @@ describe('features/create-space - CreateSpace', function() {
       });
     }));
 
-    iit('should move elements then undo and finally have elements in the original place',
+    it('should move elements then undo and finally have elements in the original place',
       inject(function(dragging, elementRegistry, createSpace, commandStack
     ) {
       //when
@@ -146,7 +146,7 @@ describe('features/create-space - CreateSpace', function() {
     }));
 
 
-    iit('should move elements leftwards to create some space', inject(function(dragging, elementRegistry, createSpace) {
+    it('should move elements leftwards to create some space', inject(function(dragging, elementRegistry, createSpace) {
       //when
       dragging.activate(createEvent({ x: 710, y: 10 }), 'create-space');
       dragging.move(createEvent({ x: 510, y: 10 }));
@@ -158,7 +158,7 @@ describe('features/create-space - CreateSpace', function() {
       });
     }));
 
-    iit('should move elements downwards to create some space', inject(function(dragging, elementRegistry, createSpace) {
+    it('should move elements downwards to create some space', inject(function(dragging, elementRegistry, createSpace) {
       //when
       dragging.activate(createEvent({ x: 210, y: 210 }), 'create-space');
       dragging.move(createEvent({ x: 210, y: 310 }));
@@ -170,7 +170,7 @@ describe('features/create-space - CreateSpace', function() {
       });
     }));
 
-    iit('should move elements upwards to create some space', inject(function(dragging, elementRegistry, createSpace) {
+    it('should move elements upwards to create some space', inject(function(dragging, elementRegistry, createSpace) {
       //when
       dragging.activate(createEvent({ x: 210, y: 410 }), 'create-space');
       dragging.move(createEvent({ x: 210, y: 310 }));
