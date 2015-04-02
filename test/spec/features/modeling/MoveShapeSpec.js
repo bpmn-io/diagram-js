@@ -3,8 +3,6 @@ var TestHelper = require('../../../TestHelper');
 /* global bootstrapDiagram, inject */
 
 
-var Matchers = require('../../../Matchers');
-
 var pick = require('lodash/object/pick');
 
 var modelingModule = require('../../../../lib/features/modeling');
@@ -14,8 +12,6 @@ function containment(element) {
 }
 
 describe('features/modeling - move shape', function() {
-
-  beforeEach(Matchers.addDeepEquals);
 
 
   beforeEach(bootstrapDiagram({ modules: [ modelingModule ] }));
@@ -78,11 +74,11 @@ describe('features/modeling - move shape', function() {
       modeling.moveShape(childShape, { x: -20, y: +20 });
 
       // then
-      expect(childShape.x).toBe(90);
-      expect(childShape.y).toBe(130);
+      expect(childShape.x).to.equal(90);
+      expect(childShape.y).to.equal(130);
 
       // keep old parent
-      expect(childShape.parent).toBe(parentShape);
+      expect(childShape.parent).to.equal(parentShape);
     }));
 
 
@@ -93,7 +89,7 @@ describe('features/modeling - move shape', function() {
 
       // then
       // update parent
-      expect(childShape.parent).toBe(rootShape);
+      expect(childShape.parent).to.equal(rootShape);
     }));
 
 
@@ -104,7 +100,7 @@ describe('features/modeling - move shape', function() {
 
       // then
       // update parent
-      expect(connection.waypoints).toDeepEqual([
+      expect(connection.waypoints).to.eql([
         { x : 140, y : 180 }, { x : 250, y : 160 }
       ]);
     }));
@@ -120,19 +116,19 @@ describe('features/modeling - move shape', function() {
       commandStack.undo();
 
       // then
-      expect(childShape.x).toBe(90);
-      expect(childShape.y).toBe(130);
+      expect(childShape.x).to.equal(90);
+      expect(childShape.y).to.equal(130);
 
-      expect(childShape.parent).toBe(rootShape);
+      expect(childShape.parent).to.equal(rootShape);
 
       // when
       commandStack.undo();
 
       // then
-      expect(childShape.x).toBe(110);
-      expect(childShape.y).toBe(110);
+      expect(childShape.x).to.equal(110);
+      expect(childShape.y).to.equal(110);
 
-      expect(childShape.parent).toBe(parentShape);
+      expect(childShape.parent).to.equal(parentShape);
     }));
 
   });
@@ -146,15 +142,15 @@ describe('features/modeling - move shape', function() {
       modeling.moveShapes([ childShape, childShape2 ], { x: -20, y: +20 }, parentShape2);
 
       // then
-      expect(childShape.x).toBe(90);
-      expect(childShape.y).toBe(130);
+      expect(childShape.x).to.equal(90);
+      expect(childShape.y).to.equal(130);
 
-      expect(childShape2.x).toBe(180);
-      expect(childShape2.y).toBe(130);
+      expect(childShape2.x).to.equal(180);
+      expect(childShape2.y).to.equal(130);
 
       // update parent(s)
-      expect(childShape.parent).toBe(parentShape2);
-      expect(childShape2.parent).toBe(parentShape2);
+      expect(childShape.parent).to.equal(parentShape2);
+      expect(childShape2.parent).to.equal(parentShape2);
     }));
 
 
@@ -172,8 +168,8 @@ describe('features/modeling - move shape', function() {
       commandStack.undo();
 
       // then
-      expect(containment(childShape)).toEqual(oldContainment);
-      expect(containment(childShape2)).toEqual(oldContainment2);
+      expect(containment(childShape)).to.eql(oldContainment);
+      expect(containment(childShape2)).to.eql(oldContainment2);
     }));
 
 
@@ -193,8 +189,8 @@ describe('features/modeling - move shape', function() {
       commandStack.redo();
 
       // then
-      expect(containment(childShape)).toEqual(newContainment);
-      expect(containment(childShape2)).toEqual(newContainment2);
+      expect(containment(childShape)).to.eql(newContainment);
+      expect(containment(childShape2)).to.eql(newContainment2);
     }));
 
   });
@@ -208,20 +204,20 @@ describe('features/modeling - move shape', function() {
       modeling.moveShapes([ parentShape ], { x: -20, y: +20 }, parentShape2);
 
       // then
-      expect(childShape.x).toBe(90);
-      expect(childShape.y).toBe(130);
+      expect(childShape.x).to.equal(90);
+      expect(childShape.y).to.equal(130);
 
-      expect(childShape2.x).toBe(180);
-      expect(childShape2.y).toBe(130);
+      expect(childShape2.x).to.equal(180);
+      expect(childShape2.y).to.equal(130);
 
       // update parent(s)
-      expect(childShape.parent).toBe(parentShape);
-      expect(childShape2.parent).toBe(parentShape);
+      expect(childShape.parent).to.equal(parentShape);
+      expect(childShape2.parent).to.equal(parentShape);
 
-      expect(childShape.parent).toEqual(parentShape);
-      expect(childShape2.parent).toEqual(parentShape);
+      expect(childShape.parent).to.equal(parentShape);
+      expect(childShape2.parent).to.equal(parentShape);
 
-      expect(parentShape.children.length).toBe(3);
+      expect(parentShape.children.length).to.equal(3);
     }));
 
 
@@ -239,10 +235,10 @@ describe('features/modeling - move shape', function() {
       commandStack.undo();
 
       // then
-      expect(containment(childShape)).toEqual(oldContainment);
-      expect(containment(childShape2)).toEqual(oldContainment2);
+      expect(containment(childShape)).to.eql(oldContainment);
+      expect(containment(childShape2)).to.eql(oldContainment2);
 
-      expect(parentShape.children.length).toBe(3);
+      expect(parentShape.children.length).to.equal(3);
     }));
 
 
@@ -262,10 +258,10 @@ describe('features/modeling - move shape', function() {
       commandStack.redo();
 
       // then
-      expect(containment(childShape)).toEqual(newContainment);
-      expect(containment(childShape2)).toEqual(newContainment2);
+      expect(containment(childShape)).to.eql(newContainment);
+      expect(containment(childShape2)).to.eql(newContainment2);
 
-      expect(parentShape.children.length).toBe(3);
+      expect(parentShape.children.length).to.equal(3);
     }));
 
   });
@@ -279,8 +275,8 @@ describe('features/modeling - move shape', function() {
       modeling.moveShapes([childShape, childShape2], { x: 450, y: 400 }, parentShape2);
 
       // then
-      expect(childShape.parent).toBe(parentShape2);
-      expect(childShape2.parent).toBe(parentShape2);
+      expect(childShape.parent).to.equal(parentShape2);
+      expect(childShape2.parent).to.equal(parentShape2);
     }));
   });
 

@@ -1,12 +1,10 @@
 'use strict';
 
-var TestHelper = require('../../TestHelper');
-
+require('../../TestHelper');
 /* global bootstrapDiagram, inject */
 
 
 var cmdModule = require('../../../lib/command');
-
 
 // example commands
 
@@ -17,7 +15,7 @@ function TracableCommand(id) {
   };
 
   this.revert = function(ctx) {
-    expect(ctx.element.trace.pop()).toBe(id);
+    expect(ctx.element.trace.pop()).to.equal(id);
   };
 }
 
@@ -72,7 +70,7 @@ describe('command/CommandStack', function() {
       commandStack.register('heho', handler);
 
       // then
-      expect(commandStack._getHandler('heho')).toBe(handler);
+      expect(commandStack._getHandler('heho')).to.equal(handler);
     }));
 
   });
@@ -83,13 +81,13 @@ describe('command/CommandStack', function() {
     var Handler = function(eventBus) {
 
       this.execute = function(ctx) {
-        expect(eventBus).toBeDefined();
+        expect(eventBus).to.be.an('object');
         ctx.heho = 'HE';
       };
 
       this.revert = function(ctx) {
         ctx.heho = 'HO';
-        expect(eventBus).toBeDefined();
+        expect(eventBus).to.be.an('object');
       };
     };
 
@@ -100,7 +98,7 @@ describe('command/CommandStack', function() {
       commandStack.registerHandler('heho', Handler);
 
       // then
-      expect(commandStack._getHandler('heho') instanceof Handler).toBe(true);
+      expect(commandStack._getHandler('heho') instanceof Handler).to.eql(true);
     }));
 
 
@@ -115,7 +113,7 @@ describe('command/CommandStack', function() {
       commandStack.execute('heho', context);
 
       // then
-      expect(context.heho).toBe('HE');
+      expect(context.heho).to.equal('HE');
     }));
 
   });
@@ -127,7 +125,7 @@ describe('command/CommandStack', function() {
 
       expect(function() {
         commandStack.execute();
-      }).toThrow();
+      }).to.throw();
 
     }));
 
@@ -136,7 +134,7 @@ describe('command/CommandStack', function() {
 
       expect(function() {
         commandStack.execute('non-existing-command');
-      }).toThrow();
+      }).to.throw();
 
     }));
 
@@ -152,9 +150,9 @@ describe('command/CommandStack', function() {
       commandStack.execute('simple-command', context);
 
       // then
-      expect(context.element.trace).toEqual([ 'simple-command' ]);
-      expect(commandStack._stack.length).toBe(1);
-      expect(commandStack._stackIdx).toBe(0);
+      expect(context.element.trace).to.eql([ 'simple-command' ]);
+      expect(commandStack._stack.length).to.equal(1);
+      expect(commandStack._stackIdx).to.equal(0);
     }));
 
   });
@@ -168,7 +166,7 @@ describe('command/CommandStack', function() {
       var canExecute = commandStack.canExecute('non-existing-command');
 
       // then
-      expect(canExecute).toBe(false);
+      expect(canExecute).to.equal(false);
     }));
 
 
@@ -189,8 +187,8 @@ describe('command/CommandStack', function() {
         var canExecute = commandStack.canExecute('command', context);
 
         // then
-        expect(canExecute).toBe(accept);
-        expect(context.canExecute).toBe(accept);
+        expect(canExecute).to.equal(accept);
+        expect(context.canExecute).to.equal(accept);
       }
 
 
@@ -227,9 +225,9 @@ describe('command/CommandStack', function() {
         var canExecute = commandStack.canExecute('command', context);
 
         // then
-        expect(canExecute).toBe(false);
-        expect(context.listenerCanExecute).toBe(false);
-        expect(context.commandCanExecute).not.toBeDefined();
+        expect(canExecute).to.equal(false);
+        expect(context.listenerCanExecute).to.equal(false);
+        expect(context.commandCanExecute).to.not.be.defined;
       }));
 
 
@@ -252,9 +250,9 @@ describe('command/CommandStack', function() {
         var canExecute = commandStack.canExecute('command', context);
 
         // then
-        expect(canExecute).toBe(false);
-        expect(context.listenerCanExecute).toBe(true);
-        expect(context.commandCanExecute).toBe(false);
+        expect(canExecute).to.equal(false);
+        expect(context.listenerCanExecute).to.equal(true);
+        expect(context.commandCanExecute).to.equal(false);
       }));
 
     });
@@ -268,7 +266,7 @@ describe('command/CommandStack', function() {
 
       expect(function() {
         commandStack.undo();
-      }).not.toThrow();
+      }).not.to.throw();
 
     }));
 
@@ -286,9 +284,9 @@ describe('command/CommandStack', function() {
       commandStack.undo();
 
       // then
-      expect(context.element.trace).toEqual([]);
-      expect(commandStack._stack.length).toBe(1);
-      expect(commandStack._stackIdx).toBe(-1);
+      expect(context.element.trace).to.eql([]);
+      expect(commandStack._stack.length).to.equal(1);
+      expect(commandStack._stackIdx).to.equal(-1);
     }));
 
   });
@@ -300,7 +298,7 @@ describe('command/CommandStack', function() {
 
       expect(function() {
         commandStack.redo();
-      }).not.toThrow();
+      }).not.to.throw();
 
     }));
 
@@ -319,9 +317,9 @@ describe('command/CommandStack', function() {
       commandStack.redo();
 
       // then
-      expect(context.element.trace).toEqual([ 'simple-command' ]);
-      expect(commandStack._stack.length).toBe(1);
-      expect(commandStack._stackIdx).toBe(0);
+      expect(context.element.trace).to.eql([ 'simple-command' ]);
+      expect(commandStack._stack.length).to.equal(1);
+      expect(commandStack._stackIdx).to.equal(0);
     }));
 
   });
@@ -337,11 +335,11 @@ describe('command/CommandStack', function() {
       commandStack.register('command', {
 
         execute: function(ctx) {
-          expect(ctx).toBe(context);
+          expect(ctx).to.equal(context);
         },
 
         revert: function(ctx) {
-          expect(ctx).toBe(context);
+          expect(ctx).to.equal(context);
         }
       });
 
@@ -379,7 +377,7 @@ describe('command/CommandStack', function() {
       commandStack.execute('complex-command', context);
 
       // then
-      expect(element.trace).toEqual([
+      expect(element.trace).to.eql([
         'pre-command',
         'complex-command',
         'post-command'
@@ -396,12 +394,12 @@ describe('command/CommandStack', function() {
           stackIdx = commandStack._stackIdx;
 
       // then
-      expect(stack.length).toBe(3);
-      expect(stackIdx).toBe(2);
+      expect(stack.length).to.equal(3);
+      expect(stackIdx).to.equal(2);
 
       // expect same id(s)
-      expect(stack[0].id).toEqual(stack[1].id);
-      expect(stack[2].id).toEqual(stack[1].id);
+      expect(stack[0].id).to.equal(stack[1].id);
+      expect(stack[2].id).to.equal(stack[1].id);
     }));
 
 
@@ -415,10 +413,10 @@ describe('command/CommandStack', function() {
           stackIdx = commandStack._stackIdx;
 
       // then
-      expect(stack.length).toBe(3);
-      expect(stackIdx).toBe(-1);
+      expect(stack.length).to.equal(3);
+      expect(stackIdx).to.equal(-1);
 
-      expect(element.trace).toEqual([]);
+      expect(element.trace).eql([]);
     }));
 
 
@@ -433,10 +431,10 @@ describe('command/CommandStack', function() {
           stackIdx = commandStack._stackIdx;
 
       // then
-      expect(stack.length).toBe(3);
-      expect(stackIdx).toBe(2);
+      expect(stack.length).to.equal(3);
+      expect(stackIdx).to.equal(2);
 
-      expect(element.trace).toEqual([
+      expect(element.trace).eql([
         'pre-command',
         'complex-command',
         'post-command'
@@ -465,7 +463,7 @@ describe('command/CommandStack', function() {
         commandStack.execute('complex-command', context);
 
         // then
-        expect(events).toEqual([
+        expect(events).eql([
           'commandStack.preExecute complex-command',
           'commandStack.preExecute pre-command',
           'commandStack.execute pre-command',
@@ -494,7 +492,7 @@ describe('command/CommandStack', function() {
         commandStack.execute('complex-command', context);
 
         // then
-        expect(events).toEqual([
+        expect(events).to.eql([
           'pre-command',
           'complex-command',
           'post-command',
@@ -520,7 +518,7 @@ describe('command/CommandStack', function() {
         commandStack.undo();
 
         // then
-        expect(events).toEqual([
+        expect(events).to.eql([
           'post-command',
           'complex-command',
           'pre-command',
@@ -583,7 +581,7 @@ describe('command/CommandStack', function() {
       commandStack.execute('outer-command', context);
 
       // then
-      expect(events).toEqual([ [ s1, s2 ] ]);
+      expect(events).to.eql([ [ s1, s2 ] ]);
     }));
 
   });
@@ -594,13 +592,13 @@ describe('command/CommandStack', function() {
     var Handler = function(eventBus) {
 
       this.execute = function(ctx) {
-        expect(eventBus).toBeDefined();
+        expect(eventBus).to.be.an('object');
         ctx.heho = 'HE';
       };
 
       this.revert = function(ctx) {
         ctx.heho = 'HO';
-        expect(eventBus).toBeDefined();
+        expect(eventBus).to.be.an('object');
       };
     };
 
@@ -618,14 +616,14 @@ describe('command/CommandStack', function() {
         commandStack.execute('heho', context);
 
         // then
-        expect(commandStack.canUndo()).toBeTruthy();
+        expect(commandStack.canUndo()).to.be.true;
       }));
 
 
       it('should return false', inject(function(commandStack) {
 
         // then
-        expect(commandStack.canUndo()).toBeFalsy();
+        expect(commandStack.canUndo()).to.be.false;
       }));
     });
 
@@ -643,7 +641,7 @@ describe('command/CommandStack', function() {
         commandStack.undo();
 
         // then
-        expect(commandStack.canRedo()).toBeTruthy();
+        expect(commandStack.canRedo()).to.be.true;
       }));
 
 
@@ -658,7 +656,7 @@ describe('command/CommandStack', function() {
         commandStack.execute('heho', context);
 
         // then
-        expect(commandStack.canRedo()).toBeFalsy();
+        expect(commandStack.canRedo()).to.be.false;
       }));
     });
 

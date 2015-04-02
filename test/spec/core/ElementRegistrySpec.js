@@ -1,4 +1,4 @@
-var TestHelper = require('../../TestHelper');
+'use strict';
 
 /* global bootstrapDiagram, inject */
 
@@ -25,8 +25,8 @@ describe('ElementRegistry', function() {
       var shape = elementRegistry.get('3'),
           gfx = elementRegistry.getGraphics(shape);
 
-      expect(shape).toBeDefined();
-      expect(gfx).toBeDefined();
+      expect(shape).to.be.defined;
+      expect(gfx).to.be.defined;
     }));
 
   });
@@ -43,8 +43,8 @@ describe('ElementRegistry', function() {
       var shape = elementRegistry.get('1'),
           gfx = elementRegistry.getGraphics('1');
 
-      expect(shape).not.toBeDefined();
-      expect(gfx).not.toBeDefined();
+      expect(shape).to.not.be.defined;
+      expect(gfx).to.not.be.defined;
     }));
 
   });
@@ -58,7 +58,7 @@ describe('ElementRegistry', function() {
       var gfx = elementRegistry.getGraphics('1');
 
       // then
-      expect(gfx).toBeDefined();
+      expect(gfx).to.be.defined;
     }));
 
   });
@@ -72,8 +72,8 @@ describe('ElementRegistry', function() {
       var shape = elementRegistry.get('1');
 
       // then
-      expect(shape).toBeDefined();
-      expect(shape.id).toEqual('1');
+      expect(shape).to.be.defined;
+      expect(shape.id).to.equal('1');
     }));
 
 
@@ -86,8 +86,8 @@ describe('ElementRegistry', function() {
       var shape = elementRegistry.get(gfx);
 
       // then
-      expect(shape).toBeDefined();
-      expect(shape.id).toEqual('1');
+      expect(shape).to.be.defined;
+      expect(shape.id).to.equal('1');
     }));
 
   });
@@ -101,15 +101,15 @@ describe('ElementRegistry', function() {
       var elements = elementRegistry.filter(function(element, gfx) {
 
         // assume we get element and gfx as params
-        expect(element).toBeDefined();
-        expect(gfx).toBeDefined();
+        expect(element).to.be.defined;
+        expect(gfx).to.be.defined;
 
         return true;
       });
 
       // then
       // two shapes + root
-      expect(elements.length).toBe(3);
+      expect(elements.length).to.equal(3);
     }));
 
 
@@ -121,8 +121,8 @@ describe('ElementRegistry', function() {
       });
 
       // then
-      expect(elements.length).toBe(1);
-      expect(elements[0].type).toBe('FOOO');
+      expect(elements.length).to.equal(1);
+      expect(elements[0].type).to.equal('FOOO');
     }));
 
   });

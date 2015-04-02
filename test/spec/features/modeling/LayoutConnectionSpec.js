@@ -5,16 +5,10 @@ var TestHelper = require('../../../TestHelper');
 /* global bootstrapDiagram, inject */
 
 
-var Matchers = require('../../../Matchers');
-
-
 var modelingModule = require('../../../../lib/features/modeling');
 
 
 describe('features/modeling - layout connection', function() {
-
-  beforeEach(Matchers.addDeepEquals);
-
 
   beforeEach(bootstrapDiagram({ modules: [ modelingModule ] }));
 
@@ -61,7 +55,7 @@ describe('features/modeling - layout connection', function() {
     modeling.layoutConnection(connection);
 
     // then
-    expect(connection.waypoints).toDeepEqual([
+    expect(connection.waypoints).to.eql([
       { x: 150, y: 150 }, { x: 350, y: 350 }
     ]);
   }));
@@ -76,7 +70,7 @@ describe('features/modeling - layout connection', function() {
     commandStack.undo();
 
     // then
-    expect(connection.waypoints).toDeepEqual([
+    expect(connection.waypoints).to.eql([
       { x: 150, y: 150 }, { x: 150, y: 200 }, { x: 350, y: 150 }
     ]);
   }));
