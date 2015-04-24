@@ -220,7 +220,7 @@ describe('features/layout/CroppingConnectionDocking', function() {
       ]);
 
       expect(connectionDocking.getCroppedWaypoints(backAndForthConnection)).to.eql([
-        { x: 200, y: 150, original: backAndForthConnection.waypoints[0] },
+        { x: 200, y: 200, original: backAndForthConnection.waypoints[0] },
         backAndForthConnection.waypoints[1],
         backAndForthConnection.waypoints[2],
         backAndForthConnection.waypoints[3],
@@ -245,4 +245,73 @@ describe('features/layout/CroppingConnectionDocking', function() {
     }));
 
   });
+});
+
+
+describe('get one intersection point', function () {
+
+  beforeEach(bootstrapDiagram({ modules: [ layoutModule ] }));
+
+  var rootShape, shapeA, shapeB;
+
+  beforeEach(inject(function(canvas) {
+
+    shapeA = canvas.addShape({
+      id: 'shapeA',
+      x: 100, y: 100,
+      width: 100, height: 100
+    });
+
+    shapeB = canvas.addShape({
+      id: 'shapeB',
+      x: 300, y: 100,
+      width: 100, height: 100
+    });
+
+  }));
+
+
+  it('should ignore the second intersection point from the right', inject(function(canvas, connectionDocking) {
+
+    // given
+    var connection = canvas.addConnection({
+      id: 'connection',
+      waypoints: [
+        { x: 300, y: 150 },
+        { x: 95, y: 150}
+      ],
+      source: shapeB,
+      target: shapeA 
+    });
+
+    // then
+    expect(connectionDocking.getCroppedWaypoints(connection)).to.eql([
+      { x: 300, y: 150, original: connection.waypoints[0] },
+      { x: 200, y: 150, original: connection.waypoints[1] }
+    ]);
+
+  }));;
+
+
+  it('should ignore the second intersection point from the left', inject(function(canvas, connectionDocking) {
+
+    //given
+    var connection = canvas.addConnection({
+      id: 'connection2',
+      waypoints: [
+        { x: 200, y: 150 },
+        { x: 405, y: 150}
+      ],
+      source: shapeA,
+      target: shapeB 
+    });
+
+    // then 
+    expect(connectionDocking.getCroppedWaypoints(connection)).to.eql([
+      { x: 200, y: 150, original: connection.waypoints[0] },
+      { x: 300, y: 150, original: connection.waypoints[1] }
+    ]);
+
+  }));
+
 });
