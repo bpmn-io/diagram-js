@@ -204,11 +204,10 @@ svg.drop-not-ok {
  * snapping
  */
 .djs-snap-line {
-  stroke: rgb(255, 195, 66);
-  stroke: rgba(255, 195, 66, 0.50);
-  stroke-linecap: round;
+  stroke: rgba(211, 33, 33, 1);
   stroke-width: 2px;
   pointer-events: none;
+  fill: none;
 }
 
 /**
