@@ -153,6 +153,34 @@ describe('features/bendpoints', function() {
       expect(draggingContext.prefix).to.eql('connectionSegment.move');
     }));
 
+    it('should emit element.click on connection when clicking bendpoint', inject(function(eventBus, bendpoints){
+
+      // create bendpoints
+      bendpoints.addHandles(connection);
+
+      // get one
+      var bps = bendpoints.getBendpointsContainer(connection);
+      var bp = bps.select('.djs-bendpoint');
+
+      // given
+      var clickSpy = sinon.spy(function(event) {
+        expect(event.originalEvent.target.innerHtml).to.eql(bp.node.innerHtml);
+        expect(event.element).to.eql(connection);
+      });
+
+      eventBus.once('element.click', clickSpy);
+
+      // when
+      bp.node.dispatchEvent(new MouseEvent('click', {
+        'view': window,
+        'bubbles': true,
+        'cancelable': true
+      }));
+
+      // then
+      expect(clickSpy).to.have.been.called;
+    }));
+
   });
 
 });
