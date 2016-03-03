@@ -153,6 +153,10 @@ describe('features/bendpoints', function() {
       expect(draggingContext.prefix).to.eql('connectionSegment.move');
     }));
 
+    it('should fire dblclick event on dragger dblclick', inject(function(){
+      // todo
+    }));
+
   });
 
 });
