@@ -162,12 +162,21 @@ describe('features/bendpoints', function() {
       var bps = bendpoints.getBendpointsContainer(connection);
       var bp = bps.select('.djs-bendpoint');
 
+<<<<<<< HEAD
       // given
       var clickSpy = sinon.spy(function(event) {
         expect(event.originalEvent.target.innerHtml).to.eql(bp.node.innerHtml);
         expect(event.element).to.eql(connection);
       });
 
+=======
+      var clickSpy = sinon.spy(function(event) {
+        expect(event.originalEvent.target.innerHtml).to.eql(bp.node.innerHtml); // == selected bendpoint
+        expect(event.element).to.eql(connection); // == connection
+      });
+
+      // given
+>>>>>>> e2630bbc72e5df8ce41de90985e3e1449f74bd1b
       eventBus.once('element.click', clickSpy);
 
       // when
