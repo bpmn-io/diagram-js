@@ -6,15 +6,25 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
 
 var labelSupportModule = require('../../../../lib/features/label-support'),
+    moveModule = require('../../../../lib/features/move'),
     modelingModule = require('../../../../lib/features/modeling'),
     rulesModule = require('./rules'),
     spaceToolModule = require('../../../../lib/features/space-tool');
 
 var svgClasses = require('tiny-svg/lib/classes');
 
+
 describe('features/label-support - Label', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ labelSupportModule, modelingModule, rulesModule, spaceToolModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      labelSupportModule,
+      modelingModule,
+      moveModule,
+      rulesModule,
+      spaceToolModule
+    ]
+  }));
 
   beforeEach(inject(function(canvas, dragging) {
     dragging.setOptions({ manual: true });
