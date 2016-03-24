@@ -7,7 +7,9 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 var pick = require('lodash/object/pick');
 
 var attachSupportModule = require('../../../../lib/features/attach-support'),
+    labelSupportModule = require('../../../../lib/features/label-support'),
     modelingModule = require('../../../../lib/features/modeling'),
+    moveModule = require('../../../../lib/features/move'),
     replaceModule = require('../../../../lib/features/replace'),
     spaceToolModule = require('../../../../lib/features/space-tool'),
     rulesModule = require('./rules');
@@ -24,15 +26,17 @@ var svgClasses = require('tiny-svg/lib/classes');
 
 describe('features/attach-support', function() {
 
-  var testModules = [
-    attachSupportModule,
-    modelingModule,
-    rulesModule,
-    replaceModule,
-    spaceToolModule
-  ];
-
-  beforeEach(bootstrapDiagram({ modules: testModules }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      attachSupportModule,
+      labelSupportModule,
+      moveModule,
+      modelingModule,
+      replaceModule,
+      rulesModule,
+      spaceToolModule
+    ]
+  }));
 
 
   beforeEach(inject(function(dragging) {
@@ -189,7 +193,8 @@ describe('features/attach-support', function() {
     // up to someone else to care about
   });
 
-  describe('moving', function() {
+
+  describe('move', function () {
 
     var host, host2, attacher, attacher2;
 
@@ -1690,6 +1695,7 @@ describe('features/attach-support', function() {
       });
     }));
 
+
     it('should move attacher labels after resize', inject(function(elementFactory, elementRegistry, modeling) {
 
       // given
@@ -1755,6 +1761,7 @@ describe('features/attach-support', function() {
       };
 
     }));
+
 
     it('should resize host and move attacher to the right', inject(function(spaceTool, dragging) {
 
