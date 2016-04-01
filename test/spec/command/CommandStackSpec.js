@@ -667,6 +667,40 @@ describe('command/CommandStack', function() {
       expect(events).to.eql([ [ s1, s2 ] ]);
     }));
 
+    it('should update only non-undefined dirty shapes after change', inject(function(commandStack, eventBus) {
+
+      // given
+      var BadInnerHandler = function () {
+
+        this.execute = function (context) {
+          return [ context.s1, undefined, context.s2 ];
+        };
+
+        this.revert = function (context) {
+          return [ context.s1, undefined, context.s2 ];
+        };
+      };
+
+      commandStack.registerHandler('outer-command', OuterHandler);
+      commandStack.registerHandler('inner-command', BadInnerHandler);
+
+      var s1 = {}, s2 = {}, context = { s1: s1, s2: s2 };
+
+      var events = [];
+
+      function logEvent(e) {
+        events.push(e.elements);
+      }
+
+      eventBus.on('elements.changed', logEvent);
+
+      // when
+      commandStack.execute('outer-command', context);
+
+      // then
+      expect(events).to.eql([ [ s1, s2 ] ]);
+    }));
+
   });
 
 
