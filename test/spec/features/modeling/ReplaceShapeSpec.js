@@ -137,4 +137,56 @@ describe('features/modeling - replace shape', function() {
 
   });
 
+
+  describe('readOnly.changed', function() {
+
+    var root, shape;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+
+      root = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(root);
+
+      shape = elementFactory.createShape({
+        id: 'parent',
+        x: 20, y: 20, width: 200, height: 200
+      });
+
+      canvas.addShape(shape, root);
+    }));
+
+    it('should throw Error while read-only', inject(function(modeling, eventBus) {
+
+      // given
+      modeling.readOnly(true);
+
+      // when
+      var action = function () {
+        modeling.replaceShape(shape, { x: 120, y: 120, width: 200, height: 200 });
+      };
+
+      // then
+      expect(action).to.throw(Error, 'model is read-only');
+    }));
+
+    it('should NOT throw Error when re-enabled', inject(function(modeling, eventBus) {
+
+      // given
+      modeling.readOnly(true);
+      modeling.readOnly(false);
+
+      // when
+      var action = function () {
+        modeling.replaceShape(shape, { x: 120, y: 120, width: 200, height: 200 });
+      };
+
+      // then
+      expect(action).not.to.throw();
+    }));
+
+  });
+
 });

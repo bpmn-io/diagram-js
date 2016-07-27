@@ -168,6 +168,54 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
+    describe('readOnly.changed', function () {
+
+      it('should disable dragging while model is read-only', inject(function(eventBus, dragging, canvas) {
+
+        // given
+        var events = recordEvents('foo');
+        eventBus.fire('readOnly.changed', { readOnly: true });
+
+        // when
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+        // then
+        expect(events.map(raw)).to.be.empty;
+      }));
+
+      it('should enable dragging when model is no longer read-only', inject(function(eventBus, dragging, canvas) {
+
+        // given
+        var events = recordEvents('foo');
+        eventBus.fire('readOnly.changed', { readOnly: true });
+        eventBus.fire('readOnly.changed', { readOnly: false });
+
+        // when
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+        // then
+        expect(events.map(raw)).to.not.be.empty;
+      }));
+
+      it('should cancel ongoing running when model becomes read-only', inject(function(eventBus, dragging, canvas) {
+
+        // given
+        var events = recordEvents('foo');
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+        // when
+        eventBus.fire('readOnly.changed', { readOnly: true });
+
+        // then
+        expect(events.map(raw)).to.eql([
+          { type: 'foo.init' },
+          { type: 'foo.cleanup' }
+        ]);
+      }));
+
+    });
+
+
     describe('djs-drag-active marker', function() {
 
       it('should not add to root on drag start', inject(function(dragging, canvas, elementRegistry) {

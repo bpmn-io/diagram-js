@@ -255,4 +255,38 @@ describe('features/modeling - move shape', function() {
 
   });
 
+
+  describe('readOnly.changed', function() {
+
+    it('should throw Error while read-only', inject(function(modeling, eventBus) {
+
+      // given
+      modeling.readOnly(true);
+
+      // when
+      var action = function () {
+        modeling.moveShape(childShape, { x: -20, y: +20 });
+      };
+
+      // then
+      expect(action).to.throw(Error, 'model is read-only');
+    }));
+
+    it('should NOT throw Error when re-enabled', inject(function(modeling, eventBus) {
+
+      // given
+      modeling.readOnly(true);
+      modeling.readOnly(false);
+
+      // when
+      var action = function () {
+        modeling.moveShape(childShape, { x: -20, y: +20 });
+      };
+
+      // then
+      expect(action).not.to.throw();
+    }));
+
+  });
+
 });

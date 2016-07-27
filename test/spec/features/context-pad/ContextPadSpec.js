@@ -227,6 +227,56 @@ describe('features/context-pad', function() {
     }));
 
 
+    describe('readOnly.changed', function () {
+
+      it('should close when model is read-only', inject(function(canvas, contextPad, overlays, eventBus) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        contextPad.open(shape);
+
+        // when
+        eventBus.fire('readOnly.changed', { readOnly: true });
+
+        // then
+        expect(!!contextPad.isOpen()).to.be.false;
+      }));
+
+      it('should NOT open while model is read-only', inject(function(canvas, contextPad, overlays, eventBus) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+        eventBus.fire('readOnly.changed', { readOnly: true });
+
+        // when
+        contextPad.open(shape);
+
+        // then
+        expect(!!contextPad.isOpen()).to.be.false;
+      }));
+
+      it('should open after model has been read-only', inject(function(canvas, contextPad, overlays, eventBus) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+        eventBus.fire('readOnly.changed', { readOnly: true });
+        eventBus.fire('readOnly.changed', { readOnly: false });
+
+        // when
+        contextPad.open(shape);
+
+        // then
+        expect(contextPad.isOpen()).to.be.true;
+      }));
+    });
+
   });
 
 

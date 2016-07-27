@@ -117,6 +117,41 @@ describe('features/modeling - layout connection', function() {
         { x: 350, y: 150, original: { x: 325, y: 125 } }
       ]);
     }));
+
+
+    describe('readOnly.changed', function() {
+
+      it('should throw Error while read-only', inject(function(modeling, eventBus) {
+
+        // given
+        modeling.readOnly(true);
+
+        // when
+        var action = function () {
+          modeling.layoutConnection(connection);
+        };
+
+        // then
+        expect(action).to.throw(Error, 'model is read-only');
+      }));
+
+      it('should NOT throw Error when re-enabled', inject(function(modeling, eventBus) {
+
+        // given
+        modeling.readOnly(true);
+        modeling.readOnly(false);
+
+        // when
+        var action = function () {
+          modeling.layoutConnection(connection);
+        };
+
+        // then
+        expect(action).not.to.throw();
+      }));
+
+    });
+
   });
 
 
