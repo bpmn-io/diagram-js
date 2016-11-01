@@ -132,6 +132,35 @@ describe('features/palette', function() {
       expect(domQuery('img', entryB)).to.exist;
     }));
 
+
+    it('should handle array-of-string as css classes', inject(function(canvas, palette) {
+
+      // given
+      var entries  = {
+        'entryA': {
+          alt: 'A',
+          className: [ 'FOO', 'BAAAR' ]
+        },
+      };
+
+      var provider = new Provider(entries);
+
+      // when
+      palette.registerProvider(provider);
+      palette.open();
+
+      // then data structure should set
+      var pEntries = palette.getEntries();
+      expect(pEntries.entryA).to.exist;
+
+      // then DOM should contain entries
+      var entryA = domQuery('[data-action="entryA"]', palette._container);
+      expect(entryA).to.exist;
+      expect(domClasses(entryA).has('FOO')).to.be.true;
+      expect(domClasses(entryA).has('BAAAR')).to.be.true;
+
+    }));
+
   });
 
 
