@@ -140,7 +140,7 @@ describe('features/palette', function() {
         'entryA': {
           alt: 'A',
           className: [ 'FOO', 'BAAAR' ]
-        },
+        }
       };
 
       var provider = new Provider(entries);
