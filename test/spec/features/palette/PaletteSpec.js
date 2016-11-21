@@ -7,41 +7,50 @@ var paletteModule = require('../../../../lib/features/palette');
 var domQuery = require('min-dom/lib/query'),
     domClasses = require('min-dom/lib/classes');
 
-function Provider(entries) {
-  this.getPaletteEntries = function() {
-    return entries || {};
-  };
-}
+var getDiagramJS = require('../../../TestHelper').getDiagramJS;
+
+var spy = sinon.spy;
 
 
 describe('features/palette', function() {
 
   describe('bootstrap', function() {
 
-    beforeEach(bootstrapDiagram({ modules: [ paletteModule ] }));
+    beforeEach(bootstrapDiagram({
+      modules: [
+        paletteModule
+      ]
+    }));
 
 
-    it('should attach palette to diagram', inject(function(canvas, palette) {
+    it('should not attach without provider', inject(function(canvas, palette) {
+
+      // given
+      var paletteEl = domQuery('.djs-palette', canvas.getContainer());
+
+      // then
+      expect(paletteEl).not.to.exist;
+    }));
+
+
+    it('should create + attach with provider', inject(function(eventBus, canvas, palette) {
+
+      // given
+      var createSpy = spy(function(event) {
+        expect(event.container).to.equal(palette._container);
+      });
+
+      eventBus.on('palette.create', createSpy);
 
       // when
       palette.registerProvider(new Provider());
 
       // then
-      var container = canvas.getContainer();
+      var paletteEl = domQuery('.djs-palette', canvas.getContainer());
 
-      var paletteArray = domQuery.all('.djs-palette', container);
+      expect(paletteEl).to.exist;
 
-      expect(paletteArray.length).to.equal(1);
-    }));
-
-
-    it('should not attach palette to diagram without provider', inject(function(canvas, palette) {
-
-      var container = canvas.getContainer();
-
-      var paletteArray = domQuery.all('.djs-palette', container);
-
-      expect(paletteArray.length).to.equal(0);
+      expect(createSpy).to.have.been.called;
     }));
 
   });
@@ -49,7 +58,11 @@ describe('features/palette', function() {
 
   describe('providers', function() {
 
-    beforeEach(bootstrapDiagram({ modules: [ paletteModule ] }));
+    beforeEach(bootstrapDiagram({
+      modules: [
+        paletteModule
+      ]
+    }));
 
 
     it('should register provider', inject(function(palette) {
@@ -72,7 +85,7 @@ describe('features/palette', function() {
 
       palette.registerProvider(provider);
 
-      sinon.spy(provider, 'getPaletteEntries');
+      var getSpy = spy(provider, 'getPaletteEntries');
 
       // when
       var entries = palette.getEntries();
@@ -81,7 +94,7 @@ describe('features/palette', function() {
       expect(entries).to.eql({});
 
       // pass over providers
-      expect(provider.getPaletteEntries).to.have.been.called;
+      expect(getSpy).to.have.been.called;
     }));
 
 
@@ -186,87 +199,205 @@ describe('features/palette', function() {
 
   describe('lifecycle', function() {
 
-    beforeEach(bootstrapDiagram({ modules: [ paletteModule ] }));
+    beforeEach(bootstrapDiagram({
+      modules: [
+        paletteModule
+      ]
+    }));
 
     beforeEach(inject(function(palette) {
       palette.registerProvider(new Provider());
     }));
 
-    function expectOpen(palette, open) {
-      expect(palette.isOpen()).to.equal(open);
-      expect(domClasses(palette._container).has('open')).to.equal(open);
-    }
 
-    it('should be opened (default)', inject(function(canvas, palette) {
+    it('should be opened (default)', inject(function(palette) {
 
       // then
-      expectOpen(palette, true);
+      expect(palette.isOpen()).to.be.true;
+
+      // marker class on .djs-container
+      expectPaletteCls('open', true);
     }));
 
 
-    it('should close', inject(function(canvas, palette) {
+    it('should close', inject(function(eventBus, palette) {
+
+      // given
+      var changedSpy = spy(function(event) {
+        expect(event.open).to.be.false;
+        expect(event.twoColumn).to.be.false;
+      });
+
+      eventBus.on('palette.changed', changedSpy);
 
       // when
       palette.close();
 
       // then
-      expectOpen(palette, false);
+      expect(palette.isOpen()).to.be.false;
+
+      // no marker class on .djs-container
+      expectPaletteCls('open', false);
+
+      expect(changedSpy).to.have.been.called;
     }));
 
 
-    it('should been opened', inject(function(canvas, palette) {
+    it('should re-open', inject(function(eventBus, palette) {
+
+      // given
+      palette.close();
+
+      var changedSpy = spy(function(event) {
+        expect(event.open).to.be.true;
+        expect(event.twoColumn).to.be.false;
+      });
+
+      eventBus.on('palette.changed', changedSpy);
 
       // when
-      palette.close();
       palette.open();
 
       // then
-      expectOpen(palette, true);
+      expect(palette.isOpen()).to.be.true;
+
+      // no marker class on .djs-container
+      expectPaletteCls('open', true);
+
+      expect(changedSpy).to.have.been.called;
     }));
 
   });
 
 
-  describe('resizing', function() {
+  describe('column layout', function() {
 
-    beforeEach(bootstrapDiagram({ modules: [ paletteModule ] }));
+    var entries = {
+      'entryA': {
+        action: function() {}
+      },
+      'entryB': {
+        action: function() {}
+      },
+      'entryC': {
+        action: function() {}
+      },
+      'entryD': {
+        action: function() {}
+      },
+      'entryE': {
+        action: function() {}
+      }
+    };
+
+    beforeEach(bootstrapDiagram({
+      modules: [ paletteModule ]
+    }));
 
     beforeEach(inject(function(palette) {
-      palette.registerProvider(new Provider());
+
+      palette.registerProvider(new Provider(entries));
     }));
 
 
-    it('should turn the palette into a two columns layout', inject(function(canvas, palette) {
-      // given
-      var parent = canvas.getContainer();
+    it('should be single column if enough space for entries',
+      inject(function(eventBus, canvas, palette) {
+        // given
+        var parent = canvas.getContainer();
 
-      parent.style.height = '649px';
+        parent.style.height = '300px';
 
-      // when
-      canvas.resized();
+        var changedSpy = spy(function(event) {
+          expect(event.open).to.be.true;
+          expect(event.twoColumn).to.be.false;
+        });
 
-      // then
-      expect(domClasses(parent).has('two-column')).to.be.true;
-    }));
+        eventBus.on('palette.changed', changedSpy);
+
+        // when
+        canvas.resized();
+
+        // then
+        expectPaletteCls('two-column', false);
+
+        expect(changedSpy).to.have.been.called;
+      })
+    );
 
 
-    it('should turn the palette into a one column layout', inject(function(canvas, palette) {
-      var parent = canvas.getContainer();
+    it('should collapse into two columns',
+      inject(function(eventBus, canvas, palette) {
+        // given
+        var parent = canvas.getContainer();
 
-      parent.style.height = '649px';
+        parent.style.height = '270px';
 
-      // when
-      canvas.resized();
+        var changedSpy = spy(function(event) {
+          expect(event.open).to.be.true;
+          expect(event.twoColumn).to.be.true;
+        });
 
-      parent.style.height = '650px';
+        eventBus.on('palette.changed', changedSpy);
 
-      canvas.resized();
+        // when
+        canvas.resized();
 
-      // then
-      expect(domClasses(parent).has('two-column')).to.be.false;
-    }));
+        // then
+        expectPaletteCls('two-column', true);
+
+        expect(changedSpy).to.have.been.called;
+      })
+    );
+
+
+    it('should turn the palette into a one column layout',
+      inject(function(canvas, eventBus, palette) {
+        var parent = canvas.getContainer();
+
+        parent.style.height = '270px';
+        canvas.resized();
+
+        var changedSpy = spy(function(event) {
+          expect(event.open).to.be.true;
+          expect(event.twoColumn).to.be.false;
+        });
+
+        eventBus.on('palette.changed', changedSpy);
+
+        // when
+        parent.style.height = '300px';
+        canvas.resized();
+
+        // then
+        expectPaletteCls('two-column', false);
+
+        expect(changedSpy).to.have.been.called;
+      })
+    );
 
   });
 
-
 });
+
+
+
+///////// helpers /////////////////////
+
+function Provider(entries) {
+  this.getPaletteEntries = function() {
+    return entries || {};
+  };
+}
+
+function is(node, cls) {
+  return domClasses(node).has(cls);
+}
+
+
+function expectPaletteCls(marker, expectedActive) {
+  getDiagramJS().invoke(function(palette) {
+    var isActive = is(palette._container, marker);
+
+    expect(isActive).to.eql(expectedActive);
+  });
+}
