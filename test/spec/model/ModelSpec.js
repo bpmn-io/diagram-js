@@ -76,5 +76,40 @@ describe('model', function() {
     expect(shape1.outgoing).to.contain(connection);
     expect(shape2.incoming).to.contain(connection);
   });
+  
+  it('should wire multi label to relationship', function() {
+    
+    //when
+    var parentShape = Model.create('shape');
 
+    var shape1 = Model.create('shape', { parent: parentShape });
+    var shape2 = Model.create('shape', { parent: parentShape });
+
+    var shape1Label = Model.create('label', { parent: parentShape, labelTarget: shape1 });
+
+    var connection = Model.create('connection', { parent: parentShape, source: shape1, target: shape2 });
+    var connectionLabel1 = Model.create('label', { parent: parentShape, labelTarget: connection });
+    var connectionLabel2 = Model.create('label', { parent: parentShape, labelTarget: connection });
+    var connectionLabel3 = Model.create('label', { parent: parentShape, labelTarget: connection });
+
+    //then
+    
+    // expect parent to be wired
+    expect(parentShape.children).to.contain(shape1);
+    expect(parentShape.children).to.contain(shape2);
+    expect(parentShape.children).to.contain(shape1Label);
+    expect(parentShape.children).to.contain(connection);
+    expect(parentShape.children).to.contain(connectionLabel1);
+
+    // expect labels to be wired
+    expect(shape1.label).to.equal(shape1Label);
+    expect(connection.labels).to.contain(connectionLabel1);
+    expect(connection.labels).to.contain(connectionLabel2);
+    expect(connection.labels).to.contain(connectionLabel3);
+
+    // expect outgoing / incoming to be wired
+    expect(shape1.outgoing).to.contain(connection);
+    expect(shape2.incoming).to.contain(connection);
+    
+  });
 });

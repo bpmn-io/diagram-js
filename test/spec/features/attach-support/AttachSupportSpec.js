@@ -1722,7 +1722,7 @@ describe('features/attach-support', function() {
         x: attacher.label.x,
         y: attacher.label.y
       };
-
+      
       // then
       expect(newLabelPosition).to.eql({
         x: oldLabelPosition.x + delta.x,
