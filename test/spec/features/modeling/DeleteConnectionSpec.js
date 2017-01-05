@@ -73,7 +73,7 @@ describe('features/modeling - remove connection', function() {
 
     // then
     expect(label.parent).to.be.null;
-    expect(connection.label).to.be.null;
+    expect(connection.labels).to.be.empty;
   }));
 
 
@@ -87,7 +87,7 @@ describe('features/modeling - remove connection', function() {
 
     // then
     expect(label.parent).to.equal(parentShape);
-    expect(connection.label).to.equal(label);
+    expect(connection.labels).to.contains(label);
   }));
 
 
@@ -102,7 +102,7 @@ describe('features/modeling - remove connection', function() {
 
     // then
     expect(label.parent).to.be.null;
-    expect(connection.label).to.be.null;
+    expect(connection.labels).to.be.empty;
   }));
 
 

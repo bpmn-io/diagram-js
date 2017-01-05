@@ -69,8 +69,8 @@ describe('model', function() {
     expect(parentShape.children).to.contain(connectionLabel);
 
     // expect labels to be wired
-    expect(shape1.label).to.equal(shape1Label);
-    expect(connection.label).to.equal(connectionLabel);
+    expect(shape1.labels).to.contain(shape1Label);
+    expect(connection.labels).to.contain(connectionLabel);
 
     // expect outgoing / incoming to be wired
     expect(shape1.outgoing).to.contain(connection);
