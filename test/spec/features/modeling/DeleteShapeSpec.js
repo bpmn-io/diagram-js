@@ -131,7 +131,7 @@ describe('features/modeling - #removeShape', function() {
 
       // then
       expect(label.parent).to.be.null;
-      expect(childShape.labels).to.be.empty;
+      expect(childShape.label).to.be.null;
     }));
 
 
@@ -145,7 +145,7 @@ describe('features/modeling - #removeShape', function() {
 
       // then
       expect(label.parent).to.equal(parentShape);
-      expect(childShape.labels).to.contain(label);
+      expect(childShape.label).to.equal(label);
     }));
 
 
@@ -160,7 +160,7 @@ describe('features/modeling - #removeShape', function() {
 
       // then
       expect(label.parent).to.be.null;
-      expect(childShape.labels).to.be.empty;
+      expect(childShape.label).to.be.null;
     }));
 
   });

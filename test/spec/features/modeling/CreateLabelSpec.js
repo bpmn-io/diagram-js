@@ -96,7 +96,7 @@ describe('features/modeling - create label', function() {
 
       // then
       expect(newLabel.labelTarget).to.equal(childShape);
-      expect(childShape.labels).to.contains(newLabel);
+      expect(childShape.label).to.equal(newLabel);
     }));
 
 
@@ -157,7 +157,7 @@ describe('features/modeling - create label', function() {
 
       // then
       expect(newLabel.labelTarget).to.equal(connection);
-      expect(connection.labels).to.contains(newLabel);
+      expect(connection.label).to.equal(newLabel);
     }));
 
 

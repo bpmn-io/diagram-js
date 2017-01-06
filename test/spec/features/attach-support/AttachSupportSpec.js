@@ -1699,8 +1699,8 @@ describe('features/attach-support', function() {
       modeling.createLabel(attacher, { x: 600, y: 100 }, label, parentShape);
 
       var oldLabelPosition = {
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       };
 
       var oldBounds = {
@@ -1719,10 +1719,10 @@ describe('features/attach-support', function() {
       modeling.resizeShape(host, newBounds);
 
       var newLabelPosition = {
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       };
-
+      
       // then
       expect(newLabelPosition).to.eql({
         x: oldLabelPosition.x + delta.x,
@@ -1853,8 +1853,8 @@ describe('features/attach-support', function() {
       }, label, parentShape);
 
       var labelPosition = {
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       };
 
       // when
@@ -1865,8 +1865,8 @@ describe('features/attach-support', function() {
 
       // then
       expect({
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       }).to.eql({
         x: labelPosition.x,
         y: labelPosition.y - 20
@@ -1886,8 +1886,8 @@ describe('features/attach-support', function() {
       }, label, parentShape);
 
       var labelPosition = {
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       };
 
       // when
@@ -1898,8 +1898,8 @@ describe('features/attach-support', function() {
 
       // then
       expect({
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       }).to.eql({
         x: labelPosition.x + 100,
         y: labelPosition.y
@@ -1919,8 +1919,8 @@ describe('features/attach-support', function() {
       }, label, parentShape);
 
       var labelPosition = {
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       };
 
       // when
@@ -1931,8 +1931,8 @@ describe('features/attach-support', function() {
 
       // then
       expect({
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       }).to.eql({
         x: labelPosition.x,
         y: labelPosition.y + 20
@@ -1952,8 +1952,8 @@ describe('features/attach-support', function() {
       }, label, parentShape);
 
       var labelPosition = {
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       };
 
       // when
@@ -1964,8 +1964,8 @@ describe('features/attach-support', function() {
 
       // then
       expect({
-        x: attacher.labels[0].x,
-        y: attacher.labels[0].y
+        x: attacher.label.x,
+        y: attacher.label.y
       }).to.eql({
         x: labelPosition.x - 40,
         y: labelPosition.y
