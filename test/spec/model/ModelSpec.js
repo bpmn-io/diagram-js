@@ -76,9 +76,76 @@ describe('model', function() {
     expect(shape1.outgoing).to.contain(connection);
     expect(shape2.incoming).to.contain(connection);
   });
-  
+
+
+  describe('labels', function() {
+
+    it('should set labelTarget', function() {
+
+      // given
+      var shape = Model.create('shape');
+
+      // when
+      var label = Model.create('label', { labelTarget: shape });
+
+      // then
+      expect(shape.label).to.equal(label);
+      expect(shape.labels).to.eql([ label ]);
+    });
+
+
+    it('should set label', function() {
+
+      // when
+      var label = Model.create('label');
+
+      // when
+      var shape = Model.create('shape', { label: label });
+
+      // then
+      expect(shape.labels).to.eql([ label ]);
+
+      expect(label.labelTarget).to.equal(shape);
+    });
+
+
+    it('should unset labelTarget', function() {
+
+      // given
+      var shape = Model.create('shape');
+
+      var label = Model.create('label', { labelTarget: shape });
+
+      // when
+      label.labelTarget = null;
+
+      // then
+      expect(shape.label).not.to.exist;
+      expect(shape.labels).to.be.empty;
+    });
+
+
+    it('should unset label', function() {
+
+      // given
+      var shape = Model.create('shape');
+
+      var label = Model.create('label', { labelTarget: shape });
+
+      // when
+      shape.label = null;
+
+      // then
+      expect(shape.labels).to.eql([ ]);
+
+      expect(label.labelTarget).not.to.exist;
+    });
+
+  });
+
+
   it('should wire multi label to relationship', function() {
-    
+
     //when
     var parentShape = Model.create('shape');
 
@@ -93,7 +160,7 @@ describe('model', function() {
     var connectionLabel3 = Model.create('label', { parent: parentShape, labelTarget: connection });
 
     //then
-    
+
     // expect parent to be wired
     expect(parentShape.children).to.contain(shape1);
     expect(parentShape.children).to.contain(shape2);
@@ -110,6 +177,7 @@ describe('model', function() {
     // expect outgoing / incoming to be wired
     expect(shape1.outgoing).to.contain(connection);
     expect(shape2.incoming).to.contain(connection);
-    
+
   });
+
 });
