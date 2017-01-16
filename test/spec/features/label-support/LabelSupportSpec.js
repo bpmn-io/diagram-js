@@ -11,9 +11,16 @@ var labelSupportModule = require('../../../../lib/features/label-support'),
 
 var svgClasses = require('tiny-svg/lib/classes');
 
+
 describe('features/label-support - Label', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ labelSupportModule, modelingModule, rulesModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      labelSupportModule,
+      modelingModule,
+      rulesModule
+    ]
+  }));
 
   beforeEach(inject(function(canvas, dragging) {
     dragging.setOptions({ manual: true });
@@ -54,7 +61,8 @@ describe('features/label-support - Label', function() {
     modeling.createLabel(childShape, { x: 200, y: 250 }, label, parentShape);
   }));
 
-  describe('modeling', function() {
+
+  describe('moving', function() {
 
     it('should move', inject(function(modeling) {
       // when
@@ -74,6 +82,135 @@ describe('features/label-support - Label', function() {
       expect(label.x).to.eql(235);
       expect(label.y).to.eql(230);
     }));
+
+  });
+
+
+  describe('deletion', function() {
+
+    describe('with connection', function() {
+
+      var childShape2, connection;
+
+      beforeEach(inject(function(elementFactory, canvas, modeling) {
+
+        childShape2 = elementFactory.createShape({
+          id: 'child2',
+          x: 200, y: 110, width: 100, height: 100
+        });
+
+        canvas.addShape(childShape2, parentShape);
+
+        connection = elementFactory.createConnection({
+          id: 'connection',
+          waypoints: [ { x: 150, y: 150 }, { x: 150, y: 200 }, { x: 350, y: 150 } ],
+          source: childShape,
+          target: childShape2
+        });
+
+        canvas.addConnection(connection, parentShape);
+      }));
+
+
+      it('should remove with connection', inject(function(modeling) {
+
+        var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
+
+        // when
+        modeling.removeConnection(connection);
+
+        // then
+        expect(connectionLabel.parent).not.to.exist;
+        expect(connectionLabel.labelTarget).not.to.exist;
+
+        expect(connection.label).not.to.exist;
+      }));
+
+
+      it('should undo remove label', inject(function(modeling, commandStack) {
+
+        var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
+
+        // when
+        modeling.removeConnection(connection);
+        commandStack.undo();
+
+        // then
+        expect(connectionLabel.parent).to.equal(parentShape);
+        expect(connectionLabel.labelTarget).to.equal(connection);
+
+        expect(connection.label).to.equal(connectionLabel);
+      }));
+
+
+      it('should redo remove label', inject(function(modeling, commandStack) {
+
+        var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
+
+        // when
+        modeling.removeConnection(connection);
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(connectionLabel.parent).not.to.exist;
+        expect(connectionLabel.labelTarget).not.to.exist;
+
+        expect(connection.label).not.to.exist;
+      }));
+    });
+
+
+    describe('with shape', function() {
+
+      it('should remove label', inject(function(modeling) {
+
+        var label = modeling.createLabel(childShape, { x: 160, y: 145 });
+
+        // when
+        modeling.removeShape(childShape);
+
+        // then
+        expect(label.parent).not.to.exist;
+        expect(label.labelTarget).not.to.exist;
+
+        expect(childShape.label).not.to.exist;
+      }));
+
+
+      it('should undo remove label', inject(function(modeling, commandStack) {
+
+        var label = modeling.createLabel(childShape, { x: 160, y: 145 });
+
+        // when
+        modeling.removeShape(childShape);
+        commandStack.undo();
+
+        // then
+        expect(label.parent).to.equal(parentShape);
+        expect(label.labelTarget).to.equal(childShape);
+
+        expect(childShape.label).to.equal(label);
+      }));
+
+
+      it('should redo remove label', inject(function(modeling, commandStack) {
+
+        var label = modeling.createLabel(childShape, { x: 160, y: 145 });
+
+        // when
+        modeling.removeShape(childShape);
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(label.parent).not.to.exist;
+        expect(label.labelTarget).not.to.exist;
+
+        expect(childShape.label).not.to.exist;
+      }));
+
+    });
 
   });
 
