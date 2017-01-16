@@ -80,39 +80,111 @@ describe('model', function() {
   });
 
 
-  it('should wire multi label to relationship', function() {
+  describe('labels', function() {
 
-    // when
-    var parentShape = create('shape');
+    it('should set labelTarget', function() {
 
-    var shape1 = create('shape', { parent: parentShape });
-    var shape2 = create('shape', { parent: parentShape });
+      // given
+      var shape = create('shape');
 
-    var shape1Label = create('label', { parent: parentShape, labelTarget: shape1 });
+      // when
+      var label = create('label', { labelTarget: shape });
 
-    var connection = create('connection', { parent: parentShape, source: shape1, target: shape2 });
-    var connectionLabel1 = create('label', { parent: parentShape, labelTarget: connection });
-    var connectionLabel2 = create('label', { parent: parentShape, labelTarget: connection });
-    var connectionLabel3 = create('label', { parent: parentShape, labelTarget: connection });
+      // then
+      expect(shape.label).to.equal(label);
+      expect(shape.labels).to.eql([ label ]);
+    });
 
-    // then
 
-    // expect parent to be wired
-    expect(parentShape.children).to.contain(shape1);
-    expect(parentShape.children).to.contain(shape2);
-    expect(parentShape.children).to.contain(shape1Label);
-    expect(parentShape.children).to.contain(connection);
-    expect(parentShape.children).to.contain(connectionLabel1);
+    it('should set label', function() {
 
-    // expect labels to be wired
-    expect(shape1.label).to.equal(shape1Label);
-    expect(connection.labels).to.contain(connectionLabel1);
-    expect(connection.labels).to.contain(connectionLabel2);
-    expect(connection.labels).to.contain(connectionLabel3);
+      // when
+      var label = create('label');
 
-    // expect outgoing / incoming to be wired
-    expect(shape1.outgoing).to.contain(connection);
-    expect(shape2.incoming).to.contain(connection);
+      // when
+      var shape = create('shape', { label: label });
+
+      // then
+      expect(shape.labels).to.eql([ label ]);
+
+      expect(label.labelTarget).to.equal(shape);
+    });
+
+
+    it('should unset labelTarget', function() {
+
+      // given
+      var shape = create('shape');
+
+      var label = create('label', { labelTarget: shape });
+
+      // when
+      label.labelTarget = null;
+
+      // then
+      expect(shape.label).not.to.exist;
+      expect(shape.labels).to.be.empty;
+    });
+
+
+    it('should unset label', function() {
+
+      // given
+      var shape = create('shape');
+
+      var label = create('label', { labelTarget: shape });
+
+      // when
+      shape.label = null;
+
+      // then
+      expect(shape.labels).to.eql([ ]);
+
+      expect(label.labelTarget).not.to.exist;
+    });
+
+
+    it('should wire multi label to relationship', function() {
+
+      // when
+      var parentShape = create('shape');
+
+      var shape1 = create('shape', { parent: parentShape });
+      var shape2 = create('shape', { parent: parentShape });
+
+      var connection = create('connection', {
+        parent: parentShape,
+        source: shape1,
+        target: shape2
+      });
+
+      var primaryLabel = create('label', {
+        parent: parentShape
+      });
+
+      var label2 = create('label', {
+        parent: parentShape,
+        labelTarget: connection
+      });
+
+      label2.labelTarget = null;
+
+      var label3 = create('label', {
+        parent: parentShape,
+        labelTarget: connection
+      });
+
+      connection.label = primaryLabel;
+
+      // then
+
+      // expect labels to be wired
+      expect(connection.labels).to.eql([
+        primaryLabel,
+        label3
+      ]);
+
+    });
 
   });
 

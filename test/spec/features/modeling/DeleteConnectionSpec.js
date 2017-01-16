@@ -9,7 +9,11 @@ import modelingModule from 'lib/features/modeling';
 describe('features/modeling - remove connection', function() {
 
 
-  beforeEach(bootstrapDiagram({ modules: [ modelingModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      modelingModule
+    ]
+  }));
 
 
   var rootShape, parentShape, childShape, childShape2, connection;
@@ -60,50 +64,66 @@ describe('features/modeling - remove connection', function() {
     modeling.removeConnection(connection);
 
     // then
-    expect(connection.parent).to.be.null;
+    expect(connection.parent).not.to.exist;
   }));
 
 
-  it('should remove label', inject(function(modeling) {
+  describe('should remove label', function() {
 
-    var label = modeling.createLabel(connection, { x: 160, y: 145 });
+    it('execute', inject(function(modeling) {
 
-    // when
-    modeling.removeConnection(connection);
+      var label = modeling.createLabel(connection, { x: 160, y: 145 });
 
-    // then
-    expect(label.parent).to.be.null;
-    expect(connection.label).to.be.null;
-  }));
+      // when
+      modeling.removeConnection(connection);
 
+      // then
+      expect(label.parent).not.to.exist;
 
-  it('should undo remove label', inject(function(modeling, commandStack) {
+      expect(connection.label).not.to.exist;
+      expect(connection.labels).to.be.empty;
 
-    var label = modeling.createLabel(connection, { x: 160, y: 145 });
-
-    // when
-    modeling.removeConnection(connection);
-    commandStack.undo();
-
-    // then
-    expect(label.parent).to.equal(parentShape);
-    expect(connection.label).to.equal(label);
-  }));
+      expect(label.labelTarget).not.to.exist;
+    }));
 
 
-  it('should redo remove label', inject(function(modeling, commandStack) {
+    it('undo', inject(function(modeling, commandStack) {
 
-    var label = modeling.createLabel(connection, { x: 160, y: 145 });
+      var label = modeling.createLabel(connection, { x: 160, y: 145 });
 
-    // when
-    modeling.removeConnection(connection);
-    commandStack.undo();
-    commandStack.redo();
+      // when
+      modeling.removeConnection(connection);
+      commandStack.undo();
 
-    // then
-    expect(label.parent).to.be.null;
-    expect(connection.label).to.be.null;
-  }));
+      // then
+      expect(label.parent).to.equal(parentShape);
+
+      expect(connection.labels).to.eql([ label ]);
+      expect(connection.label).to.equal(label);
+
+      expect(label.labelTarget).to.eql(connection);
+    }));
+
+
+    it('redo', inject(function(modeling, commandStack) {
+
+      var label = modeling.createLabel(connection, { x: 160, y: 145 });
+
+      // when
+      modeling.removeConnection(connection);
+      commandStack.undo();
+      commandStack.redo();
+
+      // then
+      expect(label.parent).not.to.exist;
+
+      expect(connection.labels).to.be.empty;
+      expect(connection.label).not.to.exist;
+
+      expect(label.labelTarget).not.to.exist;
+    }));
+
+  });
 
 
   it('should clean up incoming/outgoing on connected shapes ', inject(function(modeling, elementRegistry) {
@@ -113,10 +133,10 @@ describe('features/modeling - remove connection', function() {
 
     // then
     expect(childShape.outgoing).not.to.contain(connection);
-    expect(connection.source).to.be.null;
+    expect(connection.source).not.to.exist;
 
     expect(childShape2.incoming).not.to.contain(connection);
-    expect(connection.target).to.be.null;
+    expect(connection.target).not.to.exist;
   }));
 
 
