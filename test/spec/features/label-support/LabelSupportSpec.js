@@ -18,6 +18,7 @@ import {
 } from 'tiny-svg';
 
 
+
 describe('features/label-support - Label', function() {
 
   beforeEach(bootstrapDiagram({
@@ -95,7 +96,136 @@ describe('features/label-support - Label', function() {
     modeling.createLabel(attacherShape, { x: 550, y: 250 }, attacherLabel, rootShape);
   }));
 
-  describe('modeling', function() {
+
+  describe('deletion', function() {
+
+    describe('with connection', function() {
+
+      var childShape2, connection;
+
+      beforeEach(inject(function(elementFactory, canvas, modeling) {
+
+        childShape2 = elementFactory.createShape({
+          id: 'child2',
+          x: 200, y: 110, width: 100, height: 100
+        });
+
+        canvas.addShape(childShape2, parentShape);
+
+        connection = elementFactory.createConnection({
+          id: 'connection',
+          waypoints: [ { x: 150, y: 150 }, { x: 150, y: 200 }, { x: 350, y: 150 } ],
+          source: childShape,
+          target: childShape2
+        });
+
+        canvas.addConnection(connection, parentShape);
+      }));
+
+
+      it('should remove with connection', inject(function(modeling) {
+
+        var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
+
+        // when
+        modeling.removeConnection(connection);
+
+        // then
+        expect(connectionLabel.parent).not.to.exist;
+        expect(connectionLabel.labelTarget).not.to.exist;
+
+        expect(connection.label).not.to.exist;
+      }));
+
+
+      it('should undo remove label', inject(function(modeling, commandStack) {
+
+        var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
+
+        // when
+        modeling.removeConnection(connection);
+        commandStack.undo();
+
+        // then
+        expect(connectionLabel.parent).to.equal(parentShape);
+        expect(connectionLabel.labelTarget).to.equal(connection);
+
+        expect(connection.label).to.equal(connectionLabel);
+      }));
+
+
+      it('should redo remove label', inject(function(modeling, commandStack) {
+
+        var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
+
+        // when
+        modeling.removeConnection(connection);
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(connectionLabel.parent).not.to.exist;
+        expect(connectionLabel.labelTarget).not.to.exist;
+
+        expect(connection.label).not.to.exist;
+      }));
+    });
+
+
+    describe('should remove with shape', function() {
+
+      it('execute', inject(function(modeling) {
+
+        // when
+        modeling.removeShape(childShape);
+
+        // then
+        expect(label.parent).not.to.exist;
+        expect(label.labelTarget).not.to.exist;
+
+        expect(childShape.label).not.to.exist;
+        expect(childShape.labels).to.be.empty;
+      }));
+
+
+      it('undo', inject(function(modeling, commandStack) {
+
+        // when
+        modeling.removeShape(childShape);
+        commandStack.undo();
+
+        // then
+        expect(label.parent).to.equal(parentShape);
+        expect(label.labelTarget).to.equal(childShape);
+
+        console.log(childShape.label.id, label.id);
+
+        expect(childShape.labels).to.eql([ label ]);
+        expect(childShape.label).to.equal(label);
+      }));
+
+
+      it('redo', inject(function(modeling, commandStack) {
+
+        // when
+        modeling.removeShape(childShape);
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(label.parent).not.to.exist;
+        expect(label.labelTarget).not.to.exist;
+
+        expect(childShape.label).not.to.exist;
+        expect(childShape.labels).to.be.empty;
+      }));
+
+    });
+
+  });
+
+
+  describe('moving', function() {
 
     it('should move', inject(function(modeling) {
       // when
@@ -143,12 +273,8 @@ describe('features/label-support - Label', function() {
       expect(label.y).to.eql(labelPosition.y);
     }));
 
-  });
 
-
-  describe('moving', function() {
-
-    describe('should move with labelTarget', function() {
+    describe('should drag move with labelTarget', function() {
 
       it('execute', inject(function(move, dragging) {
         // when

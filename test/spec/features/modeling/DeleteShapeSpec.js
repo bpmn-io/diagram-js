@@ -157,61 +157,6 @@ describe('features/modeling - #removeShape', function() {
       expect(childShape4.incoming.length).to.equal(1);
     }));
 
-
-    describe('should remove label', function() {
-
-      it('execute', inject(function(modeling) {
-
-        var label = modeling.createLabel(childShape, { x: 160, y: 145 });
-
-        // when
-        modeling.removeShape(childShape);
-
-        // then
-        expect(label.parent).not.to.exist;
-        expect(label.labelTarget).not.to.exist;
-
-        expect(childShape.label).not.to.exist;
-        expect(childShape.labels).to.be.empty;
-      }));
-
-
-      it('undo', inject(function(modeling, commandStack) {
-
-        var label = modeling.createLabel(childShape, { x: 160, y: 145 });
-
-        // when
-        modeling.removeShape(childShape);
-        commandStack.undo();
-
-        // then
-        expect(label.parent).to.equal(parentShape);
-        expect(label.labelTarget).to.eql(childShape);
-
-        expect(childShape.label).to.equal(label);
-        expect(childShape.labels).to.eql([ label ]);
-      }));
-
-
-      it('redo', inject(function(modeling, commandStack) {
-
-        var label = modeling.createLabel(childShape, { x: 160, y: 145 });
-
-        // when
-        modeling.removeShape(childShape);
-        commandStack.undo();
-        commandStack.redo();
-
-        // then
-        expect(label.parent).not.to.exist;
-        expect(label.labelTarget).not.to.exist;
-
-        expect(childShape.label).not.to.exist;
-        expect(childShape.labels).to.be.empty;
-      }));
-
-    });
-
   });
 
 
