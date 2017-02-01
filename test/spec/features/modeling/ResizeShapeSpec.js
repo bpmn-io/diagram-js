@@ -572,6 +572,40 @@ describe('features/modeling - resize shape', function() {
       expect(resize).to.throw('newBounds must have {x, y, width, height} properties');
     }));
 
+
+    describe('readOnly.changed', function() {
+
+      it('should throw Error while read-only', inject(function(modeling, eventBus) {
+
+        // given
+        modeling.readOnly(true);
+
+        // when
+        var action = function () {
+          return modeling.resizeShape(shape2, { x: 200, y: 100, width: 124, height: 202 });
+        };
+
+        // then
+        expect(action).to.throw(Error, 'model is read-only');
+      }));
+
+      it('should NOT throw Error when re-enabled', inject(function(modeling, eventBus) {
+
+        // given
+        modeling.readOnly(true);
+        modeling.readOnly(false);
+
+        // when
+        var action = function () {
+          return modeling.resizeShape(shape2, { x: 200, y: 100, width: 124, height: 202 });
+        };
+
+        // then
+        expect(action).not.to.throw();
+      }));
+
+    });
+
   });
 
 

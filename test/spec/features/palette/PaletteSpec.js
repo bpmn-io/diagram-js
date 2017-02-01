@@ -269,4 +269,28 @@ describe('features/palette', function() {
   });
 
 
+  describe('readOnly.changed', function () {
+
+    var getPaletteEntries;
+
+    beforeEach(bootstrapDiagram({ modules: [paletteModule ]}));
+
+    beforeEach(inject(function(palette) {
+      var provider = new Provider();
+      palette.registerProvider(provider);
+      getPaletteEntries = sinon.spy(provider, 'getPaletteEntries');
+    }));
+
+    it('should refresh palette entries when `readOnly.changed` is fired', inject(function (eventBus) {
+      // when
+      eventBus.fire('readOnly.changed', { readOnly: true });
+      eventBus.fire('readOnly.changed', { readOnly: false });
+
+      // then
+      expect(getPaletteEntries).to.have.been.calledTwice;
+    }));
+
+  });
+
+
 });
