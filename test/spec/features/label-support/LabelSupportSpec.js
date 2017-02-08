@@ -18,7 +18,7 @@ import {
 } from 'tiny-svg';
 
 
-describe('features/label-support - Label', function() {
+describe('features/label-support', function() {
 
   beforeEach(bootstrapDiagram({
     modules: [
@@ -35,7 +35,11 @@ describe('features/label-support - Label', function() {
   }));
 
 
-  var rootShape, parentShape, childShape, label, hostShape, attacherShape, attacherLabel;
+  var rootShape,
+      parentShape,
+      childShape,
+      label,
+      otherLabel;
 
   beforeEach(inject(function(elementFactory, canvas, modeling) {
 
@@ -68,330 +72,211 @@ describe('features/label-support - Label', function() {
 
     modeling.createLabel(childShape, { x: 200, y: 250 }, label, parentShape);
 
-    hostShape = elementFactory.createShape({
-      id: 'host',
-      x: 500, y: 100,
-      width: 100, height: 100
-    });
-
-    canvas.addShape(hostShape, rootShape);
-
-    attacherShape = elementFactory.createShape({
-      id: 'attacher',
-      x: 525, y: 175,
-      width: 50, height: 50,
-      parent: rootShape,
-      host: hostShape
-    });
-
-    canvas.addShape(attacherShape, hostShape);
-
-    attacherLabel = elementFactory.createLabel({
-      id: 'attacherLabel',
-      width: 80, height: 40,
-      type: 'label'
-    });
-
-    modeling.createLabel(attacherShape, { x: 550, y: 250 }, attacherLabel, rootShape);
-  }));
-
-
-  var multiParentShape, multiChildShape, label2, label3;
-
-  beforeEach(inject(function(elementFactory, modeling, canvas) {
-
-    // For multi label tests
-    multiParentShape = elementFactory.createShape({
-      id: 'multiParent',
-      x: 200, y: 200,
-      width: 300, height: 300
-    });
-
-    canvas.addShape(multiParentShape, rootShape);
-
-    multiChildShape = elementFactory.createShape({
-      id: 'multiChild',
-      x: 300, y: 350,
-      width: 100, height: 100
-    });
-
-    canvas.addShape(multiChildShape, multiParentShape);
-
-    label2 = elementFactory.createLabel({
-      id: 'label2',
+    otherLabel = elementFactory.createLabel({
+      id: 'otherLabel',
       width: 80, height: 40
     });
 
-    modeling.createLabel(multiChildShape, { x: 300, y: 350 }, label2, multiParentShape);
-
-    label3 = elementFactory.createLabel({
-      id: 'label3',
-      width: 80, height: 40
-    });
-
-    modeling.createLabel(multiChildShape, { x: 300, y: 400 }, label3, multiParentShape);
+    modeling.createLabel(childShape, { x: 200, y: 300 }, otherLabel, parentShape);
   }));
 
 
-  describe('deletion', function() {
+  describe('modeling', function() {
+
+    it('should move', inject(function(modeling) {
+      // when
+      modeling.moveElements([ label ], { x: 75, y: 0 }, parentShape);
+
+      // then
+      expect(label).to.have.position({ x: 235, y: 230 });
+    }));
+
+
+    it('should move multiple', inject(function(modeling) {
+      // when
+      modeling.moveElements([ label, otherLabel ], { x: 75, y: 0 });
+
+      // then
+      expect(label).to.have.position({ x: 235, y: 230 });
+      expect(otherLabel).to.have.position({ x: 235, y: 280 });
+    }));
+
+
+    it('should move with labelTarget', inject(function(modeling) {
+      // when
+      modeling.moveElements([ childShape ], { x: 75, y: 10 });
+
+      // then
+      expect(label).to.have.position({ x: 235, y: 240 });
+      expect(otherLabel).to.have.position({ x: 235, y: 290 });
+    }));
+
 
     describe('should remove with connection', function() {
 
-      var childShape2, connection;
+      var otherChildShape,
+          connection,
+          connectionLabel,
+          otherConnectionLabel;
 
       beforeEach(inject(function(elementFactory, canvas, modeling) {
 
-        childShape2 = elementFactory.createShape({
-          id: 'child2',
-          x: 200, y: 110, width: 100, height: 100
+        otherChildShape = elementFactory.createShape({
+          id: 'otherChildShape',
+          x: 200, y: 110,
+          width: 100, height: 100
         });
 
-        canvas.addShape(childShape2, parentShape);
+        canvas.addShape(otherChildShape, parentShape);
 
         connection = elementFactory.createConnection({
           id: 'connection',
-          waypoints: [ { x: 150, y: 150 }, { x: 150, y: 200 }, { x: 350, y: 150 } ],
+          waypoints: [
+            { x: 150, y: 150 },
+            { x: 150, y: 200 },
+            { x: 350, y: 150 }
+          ],
           source: childShape,
-          target: childShape2
+          target: otherChildShape
         });
 
         canvas.addConnection(connection, parentShape);
+
+        connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
+        otherConnectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
       }));
 
 
-      describe('single label', function() {
+      it('execute', inject(function(modeling) {
 
-        it('execute', inject(function(modeling) {
+        var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
 
-          var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
+        // when
+        modeling.removeConnection(connection);
 
-          // when
-          modeling.removeConnection(connection);
+        // then
+        expect(connectionLabel.parent).not.to.exist;
+        expect(connectionLabel.labelTarget).not.to.exist;
 
-          // then
-          expect(connectionLabel.parent).not.to.exist;
-          expect(connectionLabel.labelTarget).not.to.exist;
+        expect(otherConnectionLabel.parent).not.to.exist;
+        expect(otherConnectionLabel.labelTarget).not.to.exist;
 
-          expect(connection.label).not.to.exist;
-        }));
-
-
-        it('undo', inject(function(modeling, commandStack) {
-
-          var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
-
-          // when
-          modeling.removeConnection(connection);
-          commandStack.undo();
-
-          // then
-          expect(connectionLabel.parent).to.equal(parentShape);
-          expect(connectionLabel.labelTarget).to.equal(connection);
-
-          expect(connection.label).to.equal(connectionLabel);
-        }));
+        expect(connection.labels).to.be.empty;
+        expect(connection.label).not.to.exist;
+      }));
 
 
-        it('redo', inject(function(modeling, commandStack) {
+      it('undo', inject(function(modeling, commandStack) {
 
-          var connectionLabel = modeling.createLabel(connection, { x: 160, y: 145 });
+        // given
+        modeling.removeConnection(connection);
 
-          // when
-          modeling.removeConnection(connection);
-          commandStack.undo();
-          commandStack.redo();
+        // when
+        commandStack.undo();
 
-          // then
-          expect(connectionLabel.parent).not.to.exist;
-          expect(connectionLabel.labelTarget).not.to.exist;
+        // then
+        expect(connectionLabel.parent).to.equal(parentShape);
+        expect(connectionLabel.labelTarget).to.equal(connection);
+        expect(otherConnectionLabel.parent).to.equal(parentShape);
+        expect(otherConnectionLabel.labelTarget).to.equal(connection);
 
-          expect(connection.label).not.to.exist;
-        }));
+        expect(connection.labels).to.eql([
+          connectionLabel,
+          otherConnectionLabel
+        ]);
 
-      });
-
-
-      describe('multiple labels', function() {
-
-        it('execute', inject(function(modeling) {
-
-          var connectionLabel1 = modeling.createLabel(connection, { x: 160, y: 145 });
-          var connectionLabel2 = modeling.createLabel(connection, { x: 160, y: 185 });
-
-          // when
-          modeling.removeConnection(connection);
-
-          // then
-          expect(connectionLabel1.parent).not.to.exist;
-          expect(connectionLabel1.labelTarget).not.to.exist;
-          expect(connectionLabel2.parent).not.to.exist;
-          expect(connectionLabel2.labelTarget).not.to.exist;
-
-          expect(connection.labels).to.be.empty;
-        }));
+        expect(connection.label).to.equal(connectionLabel);
+      }));
 
 
-        it('undo', inject(function(modeling, commandStack) {
+      it('redo', inject(function(modeling, commandStack) {
 
-          var connectionLabel1 = modeling.createLabel(connection, { x: 160, y: 145 });
-          var connectionLabel2 = modeling.createLabel(connection, { x: 160, y: 185 });
+        // given
+        modeling.removeConnection(connection);
 
-          // when
-          modeling.removeConnection(connection);
-          commandStack.undo();
+        // when
+        commandStack.undo();
+        commandStack.redo();
 
-          // then
-          expect(connectionLabel1.parent).to.equal(parentShape);
-          expect(connectionLabel1.labelTarget).to.equal(connection);
-          expect(connectionLabel2.parent).to.equal(parentShape);
-          expect(connectionLabel2.labelTarget).to.equal(connection);
+        // then
+        expect(connectionLabel.parent).not.to.exist;
+        expect(connectionLabel.labelTarget).not.to.exist;
 
-          expect(connection.labels).to.eql([
-            connectionLabel1,
-            connectionLabel2
-          ]);
-        }));
+        expect(otherConnectionLabel.parent).not.to.exist;
+        expect(otherConnectionLabel.labelTarget).not.to.exist;
 
+        expect(connection.labels).to.be.empty;
 
-        it('redo', inject(function(modeling, commandStack) {
-
-          var connectionLabel1 = modeling.createLabel(connection, { x: 160, y: 145 });
-          var connectionLabel2 = modeling.createLabel(connection, { x: 160, y: 185 });
-
-          // when
-          modeling.removeConnection(connection);
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(connectionLabel1.parent).not.to.exist;
-          expect(connectionLabel1.labelTarget).not.to.exist;
-          expect(connectionLabel2.parent).not.to.exist;
-          expect(connectionLabel2.labelTarget).not.to.exist;
-
-          expect(connection.labels).to.be.empty;
-        }));
-
-      });
+        expect(connection.label).not.to.exist;
+      }));
 
     });
 
 
     describe('should remove with shape', function() {
 
-      describe('single label', function() {
+      it('execute', inject(function(modeling) {
 
-        it('execute', inject(function(modeling) {
+        // when
+        modeling.removeShape(childShape);
 
-          // when
-          modeling.removeShape(childShape);
+        // then
+        expect(label.parent).not.to.exist;
+        expect(label.labelTarget).not.to.exist;
 
-          // then
-          expect(label.parent).not.to.exist;
-          expect(label.labelTarget).not.to.exist;
+        expect(otherLabel.parent).not.to.exist;
+        expect(otherLabel.labelTarget).not.to.exist;
 
-          expect(childShape.label).not.to.exist;
-          expect(childShape.labels).to.be.empty;
-        }));
+        expect(childShape.labels).to.be.empty;
 
-
-        it('undo', inject(function(modeling, commandStack) {
-
-          // when
-          modeling.removeShape(childShape);
-          commandStack.undo();
-
-          // then
-          expect(label.parent).to.equal(parentShape);
-          expect(label.labelTarget).to.equal(childShape);
-
-          expect(childShape.labels).to.eql([ label ]);
-          expect(childShape.label).to.equal(label);
-        }));
+        expect(childShape.label).not.to.exist;
+      }));
 
 
-        it('redo', inject(function(modeling, commandStack) {
+      it('undo', inject(function(modeling, commandStack) {
 
-          // when
-          modeling.removeShape(childShape);
-          commandStack.undo();
-          commandStack.redo();
+        // given
+        modeling.removeShape(childShape);
 
-          // then
-          expect(label.parent).not.to.exist;
-          expect(label.labelTarget).not.to.exist;
+        // when
+        commandStack.undo();
 
-          expect(childShape.label).not.to.exist;
-          expect(childShape.labels).to.be.empty;
-        }));
+        // then
+        expect(label.parent).to.equal(parentShape);
+        expect(label.labelTarget).to.equal(childShape);
 
-      });
+        expect(otherLabel.parent).to.equal(parentShape);
+        expect(otherLabel.labelTarget).to.equal(childShape);
 
+        expect(childShape.labels).to.eql([
+          label,
+          otherLabel
+        ]);
 
-      describe('multiple labels', function() {
-
-        it('execute', inject(function(modeling) {
-
-          var label1 = modeling.createLabel(childShape, { x: 160, y: 145 });
-          var label2 = modeling.createLabel(childShape, { x: 160, y: 185 });
-
-          // when
-          modeling.removeShape(childShape);
-
-          // then
-          expect(label1.parent).not.to.exist;
-          expect(label1.labelTarget).not.to.exist;
-          expect(label2.parent).not.to.exist;
-          expect(label2.labelTarget).not.to.exist;
-
-          expect(childShape.labels).to.be.empty;
-        }));
+        expect(childShape.label).to.eql(label);
+      }));
 
 
-        it('undo', inject(function(modeling, commandStack) {
+      it('redo', inject(function(modeling, commandStack) {
 
-          var label1 = modeling.createLabel(childShape, { x: 160, y: 145 });
-          var label2 = modeling.createLabel(childShape, { x: 160, y: 185 });
+        // given
+        modeling.removeShape(childShape);
 
-          // when
-          modeling.removeShape(childShape);
-          commandStack.undo();
+        // when
+        commandStack.undo();
+        commandStack.redo();
 
-          // then
-          expect(label1.parent).to.equal(parentShape);
-          expect(label1.labelTarget).to.equal(childShape);
-          expect(label2.parent).to.equal(parentShape);
-          expect(label2.labelTarget).to.equal(childShape);
+        // then
+        expect(label.parent).not.to.exist;
+        expect(label.labelTarget).not.to.exist;
 
-          expect(childShape.labels).to.eql([
-            // pre-existing label
-            label,
-            label1,
-            label2
-          ]);
-        }));
+        expect(otherLabel.parent).not.to.exist;
+        expect(otherLabel.labelTarget).not.to.exist;
 
+        expect(childShape.labels).to.be.empty;
 
-        it('redo', inject(function(modeling, commandStack) {
-
-          var label1 = modeling.createLabel(childShape, { x: 160, y: 145 });
-          var label2 = modeling.createLabel(childShape, { x: 160, y: 185 });
-
-          // when
-          modeling.removeShape(childShape);
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(label1.parent).not.to.exist;
-          expect(label1.labelTarget).not.to.exist;
-          expect(label2.parent).not.to.exist;
-          expect(label2.labelTarget).not.to.exist;
-
-          expect(childShape.labels).to.be.empty;
-        }));
-
-      });
+        expect(childShape.label).not.to.exist;
+      }));
 
     });
 
@@ -410,18 +295,6 @@ describe('features/label-support - Label', function() {
     }));
 
 
-    it('should move multiple', inject(function(modeling) {
-      // when
-      modeling.moveElements([ label2, label3 ], { x: 75, y: 0 }, multiParentShape);
-
-      // then
-      expect(label2.x).to.eql(335);
-      expect(label2.y).to.eql(330);
-      expect(label3.x).to.eql(335);
-      expect(label3.y).to.eql(380);
-    }));
-
-
     it('should move with labelTarget', inject(function(modeling) {
       // when
       modeling.moveElements([ childShape ], { x: 75, y: 0 }, parentShape);
@@ -429,18 +302,6 @@ describe('features/label-support - Label', function() {
       // then
       expect(label.x).to.eql(235);
       expect(label.y).to.eql(230);
-    }));
-
-
-    it('should move multiple with labelTarget', inject(function(modeling) {
-      // when
-      modeling.moveElements([ multiChildShape ], { x: 75, y: 0 }, multiParentShape);
-
-      // then
-      expect(label2.x).to.eql(335);
-      expect(label2.y).to.eql(330);
-      expect(label3.x).to.eql(335);
-      expect(label3.y).to.eql(380);
     }));
 
 
@@ -477,153 +338,46 @@ describe('features/label-support - Label', function() {
         // when
         move.start(canvasEvent({ x: 225, y: 275 }), childShape);
 
-        dragging.move(canvasEvent({ x: 300, y: 275 }));
+        dragging.move(canvasEvent({ x: 300, y: 285 }));
         dragging.end();
 
         // then
-        expect(label.x).to.eql(235);
-        expect(label.y).to.eql(230);
+        expect(label).to.have.position({ x: 235, y: 240 });
+        expect(otherLabel).to.have.position({ x: 235, y: 290 });
       }));
 
 
       it('undo', inject(function(move, dragging, commandStack) {
+        // given
+        move.start(canvasEvent({ x: 225, y: 275 }), childShape);
+
+        dragging.move(canvasEvent({ x: 300, y: 285 }));
+        dragging.end();
+
         // when
+        commandStack.undo();
+
+        // then
+        expect(label).to.have.position({ x: 160, y: 230 });
+        expect(otherLabel).to.have.position({ x: 160, y: 280 });
+      }));
+
+
+      it('redo', inject(function(move, dragging, commandStack) {
+        // given
         move.start(canvasEvent({ x: 225, y: 275 }), childShape);
 
         dragging.move(canvasEvent({ x: 300, y: 275 }));
         dragging.end();
 
-        commandStack.undo();
-
-        // then
-        expect(label.x).to.eql(160);
-        expect(label.y).to.eql(230);
-      }));
-
-
-      it('redo', inject(function(move, dragging, commandStack) {
         // when
-        move.start(canvasEvent({ x: 225, y: 275 }), childShape);
-
-        dragging.move(canvasEvent({ x: 300, y: 275 }));
-        dragging.end();
-
         commandStack.undo();
-
         commandStack.redo();
 
         // then
-        expect(label.x).to.eql(235);
-        expect(label.y).to.eql(230);
+        expect(label).to.have.position({ x: 235, y: 230 });
+        expect(otherLabel).to.have.position({ x: 235, y: 280 });
       }));
-
-    });
-
-
-    describe('should drag move multiple with labelTarget', function() {
-
-      it('execute', inject(function(move, dragging) {
-        // when
-        move.start(canvasEvent({ x: 325, y: 375 }), multiChildShape);
-
-        dragging.move(canvasEvent({ x: 400, y: 375 }));
-        dragging.end();
-
-        // then
-        expect(label2.x).to.eql(335);
-        expect(label2.y).to.eql(330);
-        expect(label3.x).to.eql(335);
-        expect(label3.y).to.eql(380);
-      }));
-
-
-      it('undo', inject(function(move, dragging, commandStack) {
-        // when
-        move.start(canvasEvent({ x: 325, y: 375 }), multiChildShape);
-
-        dragging.move(canvasEvent({ x: 400, y: 375 }));
-        dragging.end();
-
-        commandStack.undo();
-
-        // then
-        expect(label2.x).to.eql(260);
-        expect(label2.y).to.eql(330);
-        expect(label3.x).to.eql(260);
-        expect(label3.y).to.eql(380);
-      }));
-
-
-      it('redo', inject(function(move, dragging, commandStack) {
-        // when
-        move.start(canvasEvent({ x: 325, y: 375 }), multiChildShape);
-
-        dragging.move(canvasEvent({ x: 400, y: 375 }));
-        dragging.end();
-
-        commandStack.undo();
-
-        commandStack.redo();
-
-        // then
-        expect(label2.x).to.eql(335);
-        expect(label2.y).to.eql(330);
-        expect(label3.x).to.eql(335);
-        expect(label3.y).to.eql(380);
-      }));
-
-    });
-
-
-    describe('space tool', function() {
-
-      var attacherLabelPos;
-
-      beforeEach(function() {
-        attacherLabelPos = {
-          x: attacherLabel.x,
-          y: attacherLabel.y
-        };
-      });
-
-      describe('should move label along with its target', function() {
-
-        beforeEach(inject(function(spaceTool, dragging) {
-          // when
-          spaceTool.activateMakeSpace(canvasEvent({ x: 250, y: 100 }));
-
-          dragging.move(canvasEvent({ x: 250, y: 200 }));
-          dragging.end();
-        }));
-
-        it('execute', inject(function(spaceTool, dragging) {
-
-          // then
-          expect(attacherLabel.x).to.eql(attacherLabelPos.x);
-          expect(attacherLabel.y).to.eql(attacherLabelPos.y + 100);
-        }));
-
-
-        it('undo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-
-          // then
-          expect(attacherLabel.x).to.eql(attacherLabelPos.x);
-          expect(attacherLabel.y).to.eql(attacherLabelPos.y);
-        }));
-
-
-        it('redo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(attacherLabel.x).to.eql(attacherLabelPos.x);
-          expect(attacherLabel.y).to.eql(attacherLabelPos.y + 100);
-        }));
-      });
 
     });
 
@@ -637,28 +391,12 @@ describe('features/label-support - Label', function() {
       dragging.end();
 
       var labelIdx = parentShape.children.indexOf(label),
+          otherLabelIdx = parentShape.children.indexOf(otherLabel),
           childShapeIdx = parentShape.children.indexOf(childShape);
 
       // then
       expect(labelIdx).to.be.above(childShapeIdx);
-    }));
-
-
-    it('should keep multiple on top of labelTarget', inject(function(move, dragging) {
-
-      // when
-      move.start(canvasEvent({ x: 325, y: 375 }), multiChildShape);
-
-      dragging.move(canvasEvent({ x: 325, y: 250 }));
-      dragging.end();
-
-      var label1Idx = multiParentShape.children.indexOf(label2),
-          label2Idx = multiParentShape.children.indexOf(label3),
-          multiChildShapeIdx = multiParentShape.children.indexOf(multiChildShape);
-
-      // then
-      expect(label1Idx).to.be.above(multiChildShapeIdx);
-      expect(label2Idx).to.be.above(multiChildShapeIdx);
+      expect(otherLabelIdx).to.be.above(childShapeIdx);
     }));
 
   });
@@ -667,7 +405,9 @@ describe('features/label-support - Label', function() {
   describe('visuals', function() {
 
     it('should add marker', inject(function(elementRegistry, move, dragging) {
-      var labelGfx = elementRegistry.getGraphics(label);
+      // given
+      var labelGfx = elementRegistry.getGraphics(label),
+          otherLabelGfx = elementRegistry.getGraphics(otherLabel);
 
       // when
       move.start(canvasEvent({ x: 225, y: 275 }), childShape);
@@ -676,10 +416,14 @@ describe('features/label-support - Label', function() {
 
       // then
       expect(svgClasses(labelGfx).has('djs-dragging')).to.be.true;
+      expect(svgClasses(otherLabelGfx).has('djs-dragging')).to.be.true;
     }));
 
 
     it('should remove marker', inject(function(elementRegistry, move, dragging) {
+      // given
+      var labelGfx = elementRegistry.getGraphics(label),
+          otherLabelGfx = elementRegistry.getGraphics(otherLabel);
 
       // when
       move.start(canvasEvent({ x: 225, y: 275 }), childShape);
@@ -687,9 +431,9 @@ describe('features/label-support - Label', function() {
       dragging.move(canvasEvent({ x: 225, y: 150 }));
       dragging.end();
 
-      var labelGfx = elementRegistry.getGraphics(label);
       // then
       expect(svgClasses(labelGfx).has('djs-dragging')).to.be.false;
+      expect(svgClasses(otherLabelGfx).has('djs-dragging')).to.be.false;
     }));
 
 
@@ -705,46 +449,93 @@ describe('features/label-support - Label', function() {
       var children = ctx.dragGroup.childNodes;
 
       // then
-      expect(children).to.have.lengthOf(2);
+      // two labels + shape
+      expect(children).to.have.lengthOf(3);
+    }));
+
+  });
+
+
+  describe('space tool integration', function() {
+
+    var hostShape,
+        attacherShape,
+        attacherLabel;
+
+    var attacherLabelPos;
+
+    beforeEach(inject(function(canvas, modeling, elementFactory) {
+
+      hostShape = elementFactory.createShape({
+        id: 'host',
+        x: 500, y: 100,
+        width: 100, height: 100
+      });
+
+      canvas.addShape(hostShape, rootShape);
+
+      attacherShape = elementFactory.createShape({
+        id: 'attacher',
+        x: 525, y: 175,
+        width: 50, height: 50,
+        parent: rootShape,
+        host: hostShape
+      });
+
+      canvas.addShape(attacherShape, hostShape);
+
+      attacherLabel = elementFactory.createLabel({
+        id: 'attacherLabel',
+        width: 80, height: 40,
+        type: 'label'
+      });
+
+      modeling.createLabel(attacherShape, { x: 550, y: 250 }, attacherLabel, rootShape);
+
+      attacherLabelPos = {
+        x: attacherLabel.x,
+        y: attacherLabel.y
+      };
     }));
 
 
-    describe('multiple labels', function() {
+    describe('should move label along with its target', function() {
 
-      it('should add marker', inject(
-        function(elementRegistry, move, dragging) {
-          var label1Gfx = elementRegistry.getGraphics(label2);
-          var label2Gfx = elementRegistry.getGraphics(label3);
+      beforeEach(inject(function(spaceTool, dragging) {
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 250, y: 100 }));
 
-          // when
-          move.start(canvasEvent({ x: 325, y: 375 }), multiChildShape);
+        dragging.move(canvasEvent({ x: 250, y: 200 }));
+        dragging.end();
+      }));
 
-          dragging.move(canvasEvent({ x: 325, y: 250 }));
+      it('execute', inject(function(spaceTool, dragging) {
 
-          // then
-          expect(svgClasses(label1Gfx).has('djs-dragging')).to.be.true;
-          expect(svgClasses(label2Gfx).has('djs-dragging')).to.be.true;
-        }
-      ));
+        // then
+        expect(attacherLabel.x).to.eql(attacherLabelPos.x);
+        expect(attacherLabel.y).to.eql(attacherLabelPos.y + 100);
+      }));
 
 
-      it('should remove marker', inject(
-        function(elementRegistry, move, dragging) {
+      it('undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
 
-          // when
-          move.start(canvasEvent({ x: 325, y: 375 }), multiChildShape);
+        // then
+        expect(attacherLabel.x).to.eql(attacherLabelPos.x);
+        expect(attacherLabel.y).to.eql(attacherLabelPos.y);
+      }));
 
-          dragging.move(canvasEvent({ x: 325, y: 250 }));
-          dragging.end();
 
-          var label1Gfx = elementRegistry.getGraphics(label2);
-          var label2Gfx = elementRegistry.getGraphics(label3);
-          // then
-          expect(svgClasses(label1Gfx).has('djs-dragging')).to.be.false;
-          expect(svgClasses(label2Gfx).has('djs-dragging')).to.be.false;
-        }
-      ));
+      it('redo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+        commandStack.redo();
 
+        // then
+        expect(attacherLabel.x).to.eql(attacherLabelPos.x);
+        expect(attacherLabel.y).to.eql(attacherLabelPos.y + 100);
+      }));
     });
 
   });
