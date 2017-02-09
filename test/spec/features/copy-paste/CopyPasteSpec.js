@@ -15,7 +15,12 @@ var copyPasteModule = require('../../../../lib/features/copy-paste'),
 describe('features/copy-paste', function() {
 
   beforeEach(bootstrapDiagram({
-    modules: [ rulesModule, modelingModule, copyPasteModule, selectionModule ]
+    modules: [
+      rulesModule,
+      modelingModule,
+      copyPasteModule,
+      selectionModule
+    ]
   }));
 
 
@@ -119,7 +124,7 @@ describe('features/copy-paste', function() {
 
     describe('events', function() {
 
-      it('should fire "elements.copy" when copying elements', inject(function(eventBus, clipboard, copyPaste) {
+      it('should fire <elements.copy> when copying elements', inject(function(eventBus, clipboard, copyPaste) {
 
         eventBus.on('elements.copy', function(event) {
           var context = event.context,
@@ -136,7 +141,7 @@ describe('features/copy-paste', function() {
       }));
 
 
-      it('should have an empty clipboard on "elements.copy" when no element was allowed to be copied',
+      it('should have an empty clipboard on <elements.copy> when no element was allowed to be copied',
         inject(function(eventBus, clipboard, copyPaste) {
 
           // given
@@ -255,7 +260,7 @@ describe('features/copy-paste', function() {
 
     describe('paste', function() {
 
-      it('should paste', inject(function(copyPaste, selection, elementFactory, canvas) {
+      it('should paste', inject(function(copyPaste) {
         // when
         copyPaste.copy([ host, childShape ]);
 
@@ -272,118 +277,131 @@ describe('features/copy-paste', function() {
       }));
 
 
-      it('should not paste connections based on rules', inject(function(copyPaste, clipboard) {
-        // given
-        copyPaste.copy([ childShape, childShape2 ]);
+      describe('rule integration', function() {
 
-        copyPaste.paste({
-          element: parentShape,
-          point: {
-            x: 900,
-            y: 350
-          }
-        });
+        it('should exclude element based on rule', inject(function(copyPaste) {
+          // given
+          copyPaste.copy([ childShape, childShape2 ]);
 
-        // then
-        expect(parentShape.children).to.have.length(2);
-      }));
+          copyPaste.paste({
+            element: parentShape,
+            point: {
+              x: 900,
+              y: 350
+            }
+          });
 
-
-      it('should reject overall paste of elements based on rules', inject(function(copyPaste, clipboard, eventBus) {
-        // given
-        var listener = sinon.spy();
-
-        eventBus.on('elements.paste.rejected', listener);
-
-        // when
-        copyPaste.copy([ childShape, childShape2 ]);
-
-        copyPaste.paste({
-          element: parentShape2,
-          point: {
-            x: 900,
-            y: 350
-          }
-        });
-
-        // then
-        expect(listener).to.have.been.called;
-      }));
+          // then
+          expect(parentShape.children).to.have.length(2);
+        }));
 
 
-      it('should select top level element', inject(function(copyPaste, clipboard, selection) {
-        var selectedElement;
+        it('should reject overall paste based on rule', inject(function(copyPaste, clipboard, eventBus) {
+          // given
+          var listener = sinon.spy();
 
-        // when
-        copyPaste.copy([ parentShape2 ]);
+          eventBus.on('elements.paste.rejected', listener);
 
-        copyPaste.paste({
-          element: parentShape,
-          point: {
-            x: 900,
-            y: 350
-          }
-        });
+          // when
+          copyPaste.copy([ childShape, childShape2 ]);
 
-        selectedElement = selection.get();
+          copyPaste.paste({
+            element: parentShape2,
+            point: {
+              x: 900,
+              y: 350
+            }
+          });
 
-        // then
-        expect(selectedElement).to.have.length(1);
-      }));
+          // then
+          expect(listener).to.have.been.called;
+        }));
 
-
-      it('should select a group of top level element', inject(function(copyPaste, clipboard, selection) {
-        var selectedElements;
-
-        // when
-        copyPaste.copy([ childShape, childShape2 ]);
-
-        copyPaste.paste({
-          element: parentShape,
-          point: {
-            x: 900,
-            y: 350
-          }
-        });
-
-        selectedElements = selection.get();
-
-        // then
-        expect(selectedElements).to.have.length(2);
-      }));
+      });
 
 
-      it('should create non-root elements with { root: false } hint', inject(function(copyPaste, eventBus) {
+      describe('post-paste selection', function() {
 
-        // given
-        var listener = sinon.spy(function(event) {
-          var context = event.context;
+        it('should select top-level element', inject(function(copyPaste, clipboard, selection) {
+          var selectedElement;
 
-          expect(context.hints).to.exist;
+          // when
+          copyPaste.copy([ parentShape2 ]);
 
-          if (context.parent === parentShape) {
-            expect(context.hints.root).not.to.exist;
-          } else {
-            expect(context.hints.root).to.be.false;
-          }
-        });
+          copyPaste.paste({
+            element: parentShape,
+            point: {
+              x: 900,
+              y: 350
+            }
+          });
 
-        // when
-        eventBus.on('commandStack.shape.create.preExecute', listener);
+          selectedElement = selection.get();
 
-        copyPaste.copy([ parentShape2, childShape2 ]);
+          // then
+          expect(selectedElement).to.have.length(1);
+        }));
 
-        copyPaste.paste({
-          element: parentShape,
-          point: {
-            x: 900,
-            y: 350
-          }
-        });
 
-        // then
-        expect(listener).to.have.been.called;
-      }));
+        it('should multiple top-level elements', inject(function(copyPaste, clipboard, selection) {
+          var selectedElements;
+
+          // when
+          copyPaste.copy([ childShape, childShape2 ]);
+
+          copyPaste.paste({
+            element: parentShape,
+            point: {
+              x: 900,
+              y: 350
+            }
+          });
+
+          selectedElements = selection.get();
+
+          // then
+          expect(selectedElements).to.have.length(2);
+        }));
+
+      });
+
+
+      describe('hints', function() {
+
+        it('should create non-root elements with { root: false } hint', inject(function(copyPaste, eventBus) {
+
+          // given
+          var listener = sinon.spy(function(event) {
+            var context = event.context;
+
+            expect(context.hints).to.exist;
+
+            if (context.parent === parentShape) {
+              expect(context.hints.root).not.to.exist;
+            } else {
+              expect(context.hints.root).to.be.false;
+            }
+          });
+
+          // when
+          eventBus.on('commandStack.shape.create.preExecute', listener);
+
+          copyPaste.copy([ parentShape2, childShape2 ]);
+
+          copyPaste.paste({
+            element: parentShape,
+            point: {
+              x: 900,
+              y: 350
+            }
+          });
+
+          // then
+          expect(listener).to.have.been.called;
+        }));
+
+      });
+
     });
 
   });

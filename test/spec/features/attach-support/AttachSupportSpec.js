@@ -923,6 +923,38 @@ describe('features/attach-support', function() {
     );
 
 
+    it('should move multi labels along with attachers when moving host',
+      inject(function(elementFactory, elementRegistry, modeling, move, dragging) {
+
+        // given
+        var label1 = elementFactory.createLabel({ width: 80, height: 40 });
+        var label2 = elementFactory.createLabel({ width: 80, height: 40 });
+
+        modeling.createLabel(attacher, { x: 600, y: 100 }, label1, rootShape);
+        modeling.createLabel(attacher, { x: 600, y: 100 }, label2, rootShape);
+
+        var rootGfx = elementRegistry.getGraphics(rootShape);
+
+        // when
+        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+
+        dragging.hover({
+          element: rootShape,
+          gfx: rootGfx
+        });
+
+        dragging.move(canvasEvent({ x: 600, y: 200 }));
+        dragging.end();
+
+        // then
+        expect(label1.x).to.equal(650);
+        expect(label1.y).to.equal(170);
+        expect(label2.x).to.equal(650);
+        expect(label2.y).to.equal(170);
+      })
+    );
+
+
     it('should move labels along with attachers when moving selection',
       inject(function(elementFactory, elementRegistry, modeling, move, dragging, selection) {
 
@@ -953,6 +985,40 @@ describe('features/attach-support', function() {
     );
     
     
+    it('should move multi labels along with attachers when moving selection',
+      inject(function(elementFactory, elementRegistry, modeling, move, dragging, selection) {
+
+        // given
+        var label1 = elementFactory.createLabel({ width: 80, height: 40 });
+        var label2 = elementFactory.createLabel({ width: 80, height: 40 });
+
+        modeling.createLabel(attacher, { x: 600, y: 100 }, label1, rootShape);
+        modeling.createLabel(attacher, { x: 600, y: 100 }, label2, rootShape);
+
+        var rootGfx = elementRegistry.getGraphics(rootShape);
+
+        // when
+        selection.select([ host, label1, label2 ]);
+
+        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+
+        dragging.hover({
+          element: rootShape,
+          gfx: rootGfx
+        });
+
+        dragging.move(canvasEvent({ x: 600, y: 200 }));
+        dragging.end();
+
+        // then
+        expect(label1.x).to.equal(650);
+        expect(label1.y).to.equal(170);
+        expect(label2.x).to.equal(650);
+        expect(label2.y).to.equal(170);
+      })
+    );
+
+
     it('should move multi labels along with attachers when moving selection',
       inject(function(elementFactory, elementRegistry, modeling, move, dragging, selection) {
 
