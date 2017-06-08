@@ -8,7 +8,6 @@ var modelingModule = require('../../../../lib/features/modeling');
 
 describe('features/modeling - remove connection', function() {
 
-
   beforeEach(bootstrapDiagram({ modules: [ modelingModule ] }));
 
 
@@ -61,48 +60,6 @@ describe('features/modeling - remove connection', function() {
 
     // then
     expect(connection.parent).to.be.null;
-  }));
-
-
-  it('should remove label', inject(function(modeling) {
-
-    var label = modeling.createLabel(connection, { x: 160, y: 145 });
-
-    // when
-    modeling.removeConnection(connection);
-
-    // then
-    expect(label.parent).to.be.null;
-    expect(connection.label).to.be.null;
-  }));
-
-
-  it('should undo remove label', inject(function(modeling, commandStack) {
-
-    var label = modeling.createLabel(connection, { x: 160, y: 145 });
-
-    // when
-    modeling.removeConnection(connection);
-    commandStack.undo();
-
-    // then
-    expect(label.parent).to.equal(parentShape);
-    expect(connection.label).to.equal(label);
-  }));
-
-
-  it('should redo remove label', inject(function(modeling, commandStack) {
-
-    var label = modeling.createLabel(connection, { x: 160, y: 145 });
-
-    // when
-    modeling.removeConnection(connection);
-    commandStack.undo();
-    commandStack.redo();
-
-    // then
-    expect(label.parent).to.be.null;
-    expect(connection.label).to.be.null;
   }));
 
 
@@ -167,4 +124,5 @@ describe('features/modeling - remove connection', function() {
       expect(childShape2.incoming).to.contain(connection);
     }));
   });
+
 });
