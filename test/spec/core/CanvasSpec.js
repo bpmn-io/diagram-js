@@ -12,6 +12,15 @@ var domQuery = require('min-dom/lib/query');
 var svgAttr = require('tiny-svg/lib/attr'),
     svgClasses = require('tiny-svg/lib/classes');
 
+function expectLayersOrder(layersParent, expected) {  
+  var layers = layersParent.childNodes;
+
+  for (var i = 0; i < layers.length; ++i) {
+    svgClasses(layers[i]).has(expected[i]);
+  }
+}
+
+
 describe('Canvas', function() {
 
   var container;
@@ -1615,6 +1624,111 @@ describe('Canvas', function() {
       }));
 
     });
+
+  });
+
+  describe('layers', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+    beforeEach(createDiagram({ canvas: { width: 300, height: 300 } }));
+
+
+    it('get default layer', inject(function(canvas) {
+
+      // when
+      canvas.getDefaultLayer();
+
+      // then
+      expectLayersOrder(canvas._viewport, [
+        'layer-base'
+      ]);
+    }));
+
+
+    it('layer with negative index is below default layer', inject(function(canvas) {
+      
+      // when
+      canvas.getDefaultLayer();
+      canvas.getLayer('foo', -10);
+
+      // then
+      expectLayersOrder(canvas._viewport, [
+        'foo',
+        'layer-base'
+      ]);
+    }));
+
+
+    it('layer with positive index is above default layer', inject(function(canvas) {
+      
+      // when
+      canvas.getDefaultLayer();
+      canvas.getLayer('foo', 10);
+
+      // then
+      expectLayersOrder(canvas._viewport, [
+        'layer-base',
+        'foo'
+      ]);
+    }));  
+
+
+    it('layer without specified index gets default index', inject(function(canvas) {
+
+      // when
+      canvas.getDefaultLayer();
+      canvas.getLayer('foo');
+
+      // then
+      expectLayersOrder(canvas._viewport, [
+        'layer-base',
+        'foo'
+      ]);
+    }));
+
+
+    it('layer with same index is above previously created layer', inject(function(canvas) {
+      
+      // when
+      canvas.getLayer('foo');
+      canvas.getLayer('bar');
+
+      // then
+      expectLayersOrder(canvas._viewport, [
+        'foo',
+        'bar'
+      ]);
+    }));
+
+
+    it('layer with higher index is above layer with lower index', inject(function(canvas) {
+      
+      // when
+      canvas.getLayer('foo', 10);
+      canvas.getLayer('bar', 20);
+
+      // then
+      expectLayersOrder(canvas._viewport, [
+        'foo',
+        'bar'
+      ]);
+    }));
+
+
+    it('layer with higher index is above layer with lower index', inject(function(canvas) {
+      
+      // when
+      canvas.getLayer('foo', 10);
+      canvas.getLayer('bar', 20);
+
+      // then
+      expectLayersOrder(canvas._viewport, [
+        'bar',
+        'foo'
+      ]);
+    }));
 
   });
 
