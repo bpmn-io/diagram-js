@@ -2,7 +2,7 @@
 
 require('../../../TestHelper');
 
-/* global bootstrapDiagram, inject */
+/* global bootstrapDiagram, inject, sinon */
 
 
 var zoomScrollModule = require('../../../../lib/navigation/zoomscroll');
@@ -30,6 +30,46 @@ describe('navigation/zoomscroll', function() {
 
       expect(zoomScroll).to.exist;
       expect(zoomScroll._enabled).to.be.true;
+    }));
+
+  });
+
+
+  describe('zoom', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [ zoomScrollModule ],
+      canvas: { deferUpdate: false }
+    }));
+
+
+    it('should zoom back to 1', inject(function(zoomScroll, canvas) {
+
+      // when
+
+      // should only zoom in 19 times
+      for (var i = 0; i < 20; i++) {
+        zoomScroll.zoom(0.1);
+      }
+
+      for (var j = 0; j < 19; j++) {
+        zoomScroll.zoom(-0.1);
+      }      
+
+      // then
+      expect(canvas.zoom()).to.equal(1);
+    }));
+
+    it('should only zoom in once threshold is reached', inject(function(zoomScroll, canvas) {
+      
+      var zoomSpy = sinon.spy(canvas, 'zoom');
+
+      // when
+      zoomScroll.zoom(0.06);
+      zoomScroll.zoom(0.06);
+
+      // then
+      expect(zoomSpy).to.have.been.called.once;
     }));
 
   });
