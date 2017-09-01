@@ -16,7 +16,9 @@ function expectLayersOrder(layersParent, expected) {
   var layers = layersParent.childNodes;
 
   for (var i = 0; i < layers.length; ++i) {
-    svgClasses(layers[i]).has(expected[i]);
+    var hasClass = svgClasses(layers[i]).has('layer-' + expected[i]);
+
+    expect(hasClass).to.be.true;
   }
 }
 
@@ -1642,7 +1644,7 @@ describe('Canvas', function() {
 
       // then
       expectLayersOrder(canvas._viewport, [
-        'layer-base'
+        'base'
       ]);
     }));
 
@@ -1656,7 +1658,7 @@ describe('Canvas', function() {
       // then
       expectLayersOrder(canvas._viewport, [
         'foo',
-        'layer-base'
+        'base'
       ]);
     }));
 
@@ -1669,7 +1671,7 @@ describe('Canvas', function() {
 
       // then
       expectLayersOrder(canvas._viewport, [
-        'layer-base',
+        'base',
         'foo'
       ]);
     }));
@@ -1683,7 +1685,7 @@ describe('Canvas', function() {
 
       // then
       expectLayersOrder(canvas._viewport, [
-        'layer-base',
+        'base',
         'foo'
       ]);
     }));
@@ -1717,11 +1719,11 @@ describe('Canvas', function() {
     }));
 
 
-    it('layer with higher index is above layer with lower index', inject(function(canvas) {
+    it('layer with lower index is below layer with higher index', inject(function(canvas) {
 
       // when
-      canvas.getLayer('foo', 10);
-      canvas.getLayer('bar', 20);
+      canvas.getLayer('foo', 20);
+      canvas.getLayer('bar', 10);
 
       // then
       expectLayersOrder(canvas._viewport, [
