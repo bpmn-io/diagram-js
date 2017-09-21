@@ -10,10 +10,11 @@ var forEach = require('lodash/collection/forEach'),
 
 var overlayModule = require('../../../../lib/features/overlays');
 
+var numRegex = /[+-]?\d*[.]?\d+(?=,|\))/g;
 
 function asMatrix(transformStr) {
   if (transformStr && transformStr !== 'none') {
-    var m = transformStr.match(/[+-]?\d*[.]?\d+(?=,|\))/g);
+    var m = transformStr.match(numRegex);
 
     return {
       a: parseFloat(m[0], 10),
@@ -22,6 +23,17 @@ function asMatrix(transformStr) {
       d: parseFloat(m[3], 10),
       e: parseFloat(m[4], 10),
       f: parseFloat(m[5], 10)
+    };
+  }
+}
+
+function asVector(scaleStr) {
+  if (scaleStr && scaleStr !== 'none') {
+    var m = scaleStr.match(numRegex);
+
+    return {
+      x: parseFloat(m[0], 10),
+      y: parseFloat(m[1], 10)
     };
   }
 }
@@ -774,7 +786,7 @@ describe('features/overlays', function() {
     }));
 
 
-    var shape, overlay;
+    var shape, overlay1, overlay2;
 
     beforeEach(inject(function(canvas, overlays) {
 
@@ -786,20 +798,35 @@ describe('features/overlays', function() {
         height: 100
       });
 
-      overlay = {
+      overlay1 = {
         html: createOverlay(),
         position: {
           left: 20,
           top: 20
-        }
+        },
+        scale: true
       };
 
-      overlay.id = overlays.add(shape, overlay);
+      overlay2 = {
+        html: createOverlay(),
+        position: {
+          left: 20,
+          top: 20
+        },
+        scale: false
+      };
+
+      overlay1.id = overlays.add(shape, overlay1);
+      overlay2.id = overlays.add(shape, overlay2);
     }));
 
 
     function transformMatrix(element) {
       return asMatrix(element.style.transform);
+    }
+
+    function scaleVector(element) {
+      return asVector(element.style.transform);
     }
 
     function isMatrixEql(original, test) {
@@ -867,6 +894,27 @@ describe('features/overlays', function() {
 
       // then
       expect(transformMatrix(overlays._overlayRoot)).to.eql({ a : 2, b : 0, c : 0, d : 2, e : -300, f : -300 });
+    }));
+
+    it('should correctly revert scale for non-scaling overlays', inject(function(overlays, canvas) {
+      var scalingOverlay = overlay1.html.parentNode;
+      var nonScalingOverlay = overlay2.html.parentNode;
+
+      // initial state
+      expect(scaleVector(scalingOverlay)).to.not.exist;
+      expect(scaleVector(nonScalingOverlay)).to.eql({ x: 1, y: 1 });
+      
+      var zoomValues = [1.5, 3.5, 0.5, 10];
+
+      forEach(zoomValues, function(zoom) {
+        // when
+        canvas.zoom(zoom);
+        // then
+        expect(scaleVector(scalingOverlay)).to.not.exist;
+        expect(scaleVector(nonScalingOverlay).x).to.be.closeTo(1 / zoom, 0.00001);
+        expect(scaleVector(nonScalingOverlay).y).to.be.closeTo(1 / zoom, 0.00001);
+      });
+
     }));
 
   });
