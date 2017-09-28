@@ -1,6 +1,5 @@
 'use strict';
 
-
 /* global bootstrapDiagram, inject */
 
 var forEach = require('lodash/collection/forEach'),
@@ -9,53 +8,6 @@ var forEach = require('lodash/collection/forEach'),
     domify = require('min-dom/lib/domify');
 
 var overlayModule = require('../../../../lib/features/overlays');
-
-var numRegex = /[+-]?\d*[.]?\d+(?=,|\))/g;
-
-function asMatrix(transformStr) {
-  if (transformStr && transformStr !== 'none') {
-    var m = transformStr.match(numRegex);
-
-    return {
-      a: parseFloat(m[0], 10),
-      b: parseFloat(m[1], 10),
-      c: parseFloat(m[2], 10),
-      d: parseFloat(m[3], 10),
-      e: parseFloat(m[4], 10),
-      f: parseFloat(m[5], 10)
-    };
-  }
-}
-
-function asVector(scaleStr) {
-  if (scaleStr && scaleStr !== 'none') {
-    var m = scaleStr.match(numRegex);
-
-    return {
-      x: parseFloat(m[0], 10),
-      y: parseFloat(m[1], 10)
-    };
-  }
-}
-
-function isVisible(element) {
-  return window.getComputedStyle(element).display !== 'none';
-}
-
-function highlight(element) {
-  assign(element.style, { background: 'fuchsia', minWidth: '10px', minHeight: '10px' });
-  return element;
-}
-
-function queryOverlay(id) {
-  return document.querySelector('[data-overlay-id=' + id + ']');
-}
-
-function createOverlay() {
-  var element = highlight(domify('<div>TEST<br/>TEST</div>'));
-  assign(element.style, { width: 40, height: 40 });
-  return element;
-}
 
 
 describe('features/overlays', function() {
@@ -605,7 +557,79 @@ describe('features/overlays', function() {
   });
 
 
-  describe('zoom behavior', function() {
+  describe('show behavior', function() {
+
+    describe('default', function() {
+
+      beforeEach(bootstrapDiagram({
+        modules: [ overlayModule ],
+        canvas: { deferUpdate: false }
+      }));
+
+
+      var shape;
+
+      beforeEach(inject(function(canvas) {
+
+        shape = canvas.addShape({
+          id: 'shape',
+          x: 100,
+          y: 100,
+          width: 100,
+          height: 100
+        });
+      }));
+
+
+      function isVisible(element) {
+        return element.parentNode.style.display !== 'none';
+      }
+
+
+      it('should conditionally hide overlay', inject(function(overlays, canvas) {
+
+        // given
+        var html = createOverlay();
+
+        overlays.add(shape, {
+          html: html,
+          position: { left: 20, bottom: 0 }
+        });
+
+        // when zoom in visibility range
+        canvas.zoom(0.7);
+
+        // then
+        expect(isVisible(html)).to.be.true;
+
+
+        // when zoom below visibility range
+        canvas.zoom(0.6);
+
+        // then
+        expect(isVisible(html)).to.be.false;
+
+
+        // when zoom in visibility range
+        canvas.zoom(3.0);
+
+        // then
+        expect(isVisible(html)).to.be.true;
+
+
+        // when zoom above visibility range
+        canvas.zoom(6.0);
+
+        // then
+        expect(isVisible(html)).to.be.false;
+      }));
+
+    });
+
+  });
+
+
+  describe('conditional hide behavior', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [ overlayModule ],
@@ -630,45 +654,6 @@ describe('features/overlays', function() {
     function isVisible(element) {
       return element.parentNode.style.display !== 'none';
     }
-
-
-    it('should respect default min/max show rules', inject(function(overlays, canvas) {
-
-      // given
-      var html = createOverlay();
-
-      overlays.add(shape, {
-        html: html,
-        position: { left: 20, bottom: 0 }
-      });
-
-      // when zoom in visibility range
-      canvas.zoom(0.7);
-
-      // then
-      expect(isVisible(html)).to.be.true;
-
-
-      // when zoom below visibility range
-      canvas.zoom(0.6);
-
-      // then
-      expect(isVisible(html)).to.be.false;
-
-
-      // when zoom in visibility range
-      canvas.zoom(3.0);
-
-      // then
-      expect(isVisible(html)).to.be.true;
-
-
-      // when zoom above visibility range
-      canvas.zoom(6.0);
-
-      // then
-      expect(isVisible(html)).to.be.false;
-    }));
 
 
     it('should respect min show rules when overlay is added', inject(function(overlays, canvas) {
@@ -786,7 +771,7 @@ describe('features/overlays', function() {
     }));
 
 
-    var shape, overlay1, overlay2;
+    var shape, overlay;
 
     beforeEach(inject(function(canvas, overlays) {
 
@@ -798,45 +783,17 @@ describe('features/overlays', function() {
         height: 100
       });
 
-      overlay1 = {
+      overlay = {
         html: createOverlay(),
         position: {
           left: 20,
           top: 20
-        },
-        scale: true
+        }
       };
 
-      overlay2 = {
-        html: createOverlay(),
-        position: {
-          left: 20,
-          top: 20
-        },
-        scale: false
-      };
-
-      overlay1.id = overlays.add(shape, overlay1);
-      overlay2.id = overlays.add(shape, overlay2);
+      overlays.add(shape, overlay);
     }));
 
-
-    function transformMatrix(element) {
-      return asMatrix(element.style.transform);
-    }
-
-    function scaleVector(element) {
-      return asVector(element.style.transform);
-    }
-
-    function isMatrixEql(original, test) {
-      return every(original, function(val, key) {
-        if (key === 'e') {
-          return val <= -500 || val > -520;
-        }
-        return val === test[key];
-      });
-    }
 
     it('should not be transformed initially', inject(function(overlays, canvas) {
       // given
@@ -896,26 +853,134 @@ describe('features/overlays', function() {
       expect(transformMatrix(overlays._overlayRoot)).to.eql({ a : 2, b : 0, c : 0, d : 2, e : -300, f : -300 });
     }));
 
-    it('should correctly revert scale for non-scaling overlays', inject(function(overlays, canvas) {
-      var scalingOverlay = overlay1.html.parentNode;
-      var nonScalingOverlay = overlay2.html.parentNode;
+  });
 
-      // initial state
-      expect(scaleVector(scalingOverlay)).to.not.exist;
-      expect(scaleVector(nonScalingOverlay)).to.eql({ x: 1, y: 1 });
-      
-      var zoomValues = [1.5, 3.5, 0.5, 10];
 
-      forEach(zoomValues, function(zoom) {
-        // when
-        canvas.zoom(zoom);
-        // then
-        expect(scaleVector(scalingOverlay)).to.not.exist;
-        expect(scaleVector(nonScalingOverlay).x).to.be.closeTo(1 / zoom, 0.00001);
-        expect(scaleVector(nonScalingOverlay).y).to.be.closeTo(1 / zoom, 0.00001);
+  describe('overlay scaling behavior', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [ overlayModule ],
+      canvas: { deferUpdate: false }
+    }));
+
+
+    function scaleVector(element) {
+      return asVector(element.style.transform);
+    }
+
+    function verifyScale(overlayConfig, expectedScales) {
+
+      var test = inject(function(canvas, overlays) {
+
+        // given
+        var shape = canvas.addShape({
+          id: 'shape',
+          x: 100,
+          y: 100,
+          width: 100,
+          height: 100
+        });
+
+        var overlay = assign({
+          html: createOverlay(),
+          position: {
+            left: 20,
+            top: 20
+          }
+        }, overlayConfig);
+
+        overlays.add(shape, overlay);
+
+        var overlayParent = overlay.html.parentNode;
+
+
+        // test multiple zoom steps
+        [ 1.0, 1.5, 3.5, 10, 0.5 ].forEach(function(zoom, idx) {
+
+          var expectedScale = expectedScales[idx];
+
+          // when
+          canvas.zoom(zoom);
+
+          var actualScale = scaleVector(overlayParent) || { x: 1, y: 1 };
+
+          var effectiveScale = zoom * actualScale.x;
+
+          // then
+          expect(actualScale.x).to.eql(actualScale.y);
+
+          expect(effectiveScale).to.be.closeTo(expectedScale, 0.00001);
+        });
+
       });
 
-    }));
+      test();
+    }
+
+
+    it('should scale per default', function() {
+
+      // given
+      var overlay = { };
+
+      var expectedScales = [
+        1.0, 1.5, 3.5, 10, 0.5
+      ];
+
+      // expect
+      verifyScale(overlay, expectedScales);
+    });
+
+
+    it('should scale with explicit scale = true', function() {
+
+      // given
+      var overlay = {
+        scale: true
+      };
+
+      var expectedScales = [
+        1.0, 1.5, 3.5, 10, 0.5
+      ];
+
+      // expect
+      verifyScale(overlay, expectedScales);
+    });
+
+
+    it('should not scale with scale = false', function() {
+
+      // given
+      var overlay = {
+        scale: false
+      };
+
+      var expectedScales = [
+        1.0, 1.0, 1.0, 1.0, 1.0
+      ];
+
+      // expect
+      verifyScale(overlay, expectedScales);
+    });
+
+
+    it('should configure scale with min / max', function() {
+
+      // given
+      var overlay = {
+        scale: {
+          min: 0.9,
+          max: 1.6
+        }
+      };
+
+      var expectedScales = [
+        1.0, 1.5, 1.6, 1.6, 0.9
+      ];
+
+      // expect
+      verifyScale(overlay, expectedScales);
+    });
 
   });
 
@@ -955,3 +1020,72 @@ describe('features/overlays', function() {
   });
 
 });
+
+
+
+
+//////////// helpers //////////////////////////////
+
+
+var NUM_REGEX = /[+-]?\d*[.]?\d+(?=,|\))/g;
+
+var overlaysCounter = 0;
+
+
+function asMatrix(transformStr) {
+  if (transformStr && transformStr !== 'none') {
+    var m = transformStr.match(NUM_REGEX);
+
+    return {
+      a: parseFloat(m[0], 10),
+      b: parseFloat(m[1], 10),
+      c: parseFloat(m[2], 10),
+      d: parseFloat(m[3], 10),
+      e: parseFloat(m[4], 10),
+      f: parseFloat(m[5], 10)
+    };
+  }
+}
+
+function asVector(scaleStr) {
+  if (scaleStr && scaleStr !== 'none') {
+    var m = scaleStr.match(NUM_REGEX);
+
+    return {
+      x: parseFloat(m[0], 10),
+      y: parseFloat(m[1], 10)
+    };
+  }
+}
+
+function isVisible(element) {
+  return window.getComputedStyle(element).display !== 'none';
+}
+
+function highlight(element) {
+  assign(element.style, { background: 'fuchsia', minWidth: '10px', minHeight: '10px' });
+  return element;
+}
+
+function queryOverlay(id) {
+  return document.querySelector('[data-overlay-id=' + id + ']');
+}
+
+function createOverlay() {
+  var element = highlight(domify('<div>OV<br/>#' + (overlaysCounter++) + '</div>'));
+  assign(element.style, { width: 40, height: 40 });
+  return element;
+}
+
+function transformMatrix(element) {
+  return asMatrix(element.style.transform);
+}
+
+function isMatrixEql(original, test) {
+  return every(original, function(val, key) {
+    if (key === 'e') {
+      return val <= -500 || val > -520;
+    }
+    return val === test[key];
+  });
+}
