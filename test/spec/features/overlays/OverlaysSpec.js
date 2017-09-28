@@ -586,7 +586,83 @@ describe('features/overlays', function() {
       }
 
 
-      it('should conditionally hide overlay', inject(function(overlays, canvas) {
+      it('should always show overlays', inject(function(overlays, canvas) {
+
+        // given
+        var html = createOverlay();
+
+        overlays.add(shape, {
+          html: html,
+          position: { left: 20, bottom: 0 }
+        });
+
+        // when zoom in visibility range
+        canvas.zoom(0.7);
+
+        // then
+        expect(isVisible(html)).to.be.true;
+
+
+        // when zoom below visibility range
+        canvas.zoom(0.6);
+
+        // then
+        expect(isVisible(html)).to.be.true;
+
+
+        // when zoom in visibility range
+        canvas.zoom(3.0);
+
+        // then
+        expect(isVisible(html)).to.be.true;
+
+
+        // when zoom above visibility range
+        canvas.zoom(6.0);
+
+        // then
+        expect(isVisible(html)).to.be.true;
+      }));
+
+    });
+
+
+    describe('overriding defaults', function() {
+
+      beforeEach(bootstrapDiagram({
+        modules: [ overlayModule ],
+        canvas: { deferUpdate: false },
+        overlays: {
+          defaults: {
+            show: {
+              minZoom: 0.7,
+              maxZoom: 5.0
+            }
+          }
+        }
+      }));
+
+
+      var shape;
+
+      beforeEach(inject(function(canvas) {
+
+        shape = canvas.addShape({
+          id: 'shape',
+          x: 100,
+          y: 100,
+          width: 100,
+          height: 100
+        });
+      }));
+
+
+      function isVisible(element) {
+        return element.parentNode.style.display !== 'none';
+      }
+
+
+      it('should conditionally hide overlays', inject(function(overlays, canvas) {
 
         // given
         var html = createOverlay();
@@ -633,7 +709,15 @@ describe('features/overlays', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [ overlayModule ],
-      canvas: { deferUpdate: false }
+      canvas: { deferUpdate: false },
+      overlays: {
+        defaults: {
+          show: {
+            minZoom: 0.7,
+            maxZoom: 5.0
+          }
+        }
+      }
     }));
 
 
