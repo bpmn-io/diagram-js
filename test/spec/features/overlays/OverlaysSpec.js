@@ -147,7 +147,7 @@ describe('features/overlays', function() {
 
       // then
       expect(overlays.get(id)).not.to.exist;
-      expect(overlays.get({ element: shape }).length).to.be.empty;
+      expect(overlays.get({ element: shape })).to.be.empty;
 
       expect(queryOverlay(id)).not.to.exist;
     }));

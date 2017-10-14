@@ -64,9 +64,9 @@ describe('features/modeling - #removeElements', function() {
       modeling.removeElements([ connection, childShape, parentShape ]);
 
       // then
-      expect(elementRegistry.get(connection.id)).to.not.be.defined;
-      expect(elementRegistry.get(childShape.id)).to.not.be.defined;
-      expect(elementRegistry.get(parentShape.id)).to.not.be.defined;
+      expect(elementRegistry.get(connection.id)).to.be.undefined;
+      expect(elementRegistry.get(childShape.id)).to.be.undefined;
+      expect(elementRegistry.get(parentShape.id)).to.be.undefined;
     }));
 
 
@@ -95,9 +95,9 @@ describe('features/modeling - #removeElements', function() {
       commandStack.redo();
 
       // then
-      expect(elementRegistry.get(connection.id)).to.not.be.defined;
-      expect(elementRegistry.get(childShape.id)).to.not.be.defined;
-      expect(elementRegistry.get(parentShape.id)).to.not.be.defined;
+      expect(elementRegistry.get(connection.id)).to.be.undefined;
+      expect(elementRegistry.get(childShape.id)).to.be.undefined;
+      expect(elementRegistry.get(parentShape.id)).to.be.undefined;
     }));
 
   });

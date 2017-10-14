@@ -239,7 +239,7 @@ describe('command/CommandStack', function() {
         // then
         expect(canExecute).to.be.false;
         expect(context.listenerCanExecute).to.be.false;
-        expect(context.commandCanExecute).to.not.be.defined;
+        expect(context.commandCanExecute).to.be.undefined;
       }));
 
 
@@ -264,7 +264,7 @@ describe('command/CommandStack', function() {
         // then
         expect(canExecute).to.be.true;
         expect(context.listenerCanExecute).to.be.true;
-        expect(context.commandCanExecute).to.not.be.defined;
+        expect(context.commandCanExecute).to.be.undefined;
       }));
 
 

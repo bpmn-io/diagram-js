@@ -51,7 +51,7 @@ describe('features/bendpoints - LineIntersection', function() {
     it('should fuzzy match inbetween point', function() {
       var intersection = getApproxIntersection(waypoints, { x: 24.5, y: 25.5 });
 
-      expect(intersection.bendpoint).to.not.be.defined;
+      expect(intersection.bendpoint).to.be.undefined;
       expect(intersection.index).to.equal(1);
       expect(intersection.point).to.eql({ x: 25, y: 25 });
     });

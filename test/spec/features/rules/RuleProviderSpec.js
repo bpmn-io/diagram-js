@@ -23,7 +23,7 @@ describe('features/rules - RuleProvider', function() {
     it('should work standalone', inject(function(injector, rules) {
 
       // assume
-      expect(injector.get('commandStack', false)).not.to.exists;
+      expect(injector.get('commandStack', false)).not.to.exist;
 
       // when
       var allowed = rules.allowed('foo', {});

@@ -227,7 +227,7 @@ describe('features/copy-paste', function() {
 
         // then
         expect(toObjectBranch(tree[0])).to.not.have.keys('connection');
-        expect(tree[1]).to.be.empty;
+        expect(tree[1]).not.to.exist;
 
         // when
         copyPaste.copy([ childShape, connection ]);
@@ -236,7 +236,7 @@ describe('features/copy-paste', function() {
 
         // then
         expect(toObjectBranch(tree[0])).to.not.have.keys('connection');
-        expect(tree[1]).to.be.empty;
+        expect(tree[1]).not.to.exist;
       }));
 
 

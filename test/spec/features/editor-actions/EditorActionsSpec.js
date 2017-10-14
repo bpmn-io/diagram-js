@@ -196,7 +196,7 @@ describe('features/editor-actions', function() {
       beforeEach(inject(function(selection, modeling) {
         selectedElements = [];
 
-        sinon.stub(selection, 'get', function() {
+        sinon.stub(selection, 'get').callsFake(function() {
           return selectedElements;
         });
 

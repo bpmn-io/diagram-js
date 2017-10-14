@@ -91,7 +91,7 @@ describe('features/modeling - #removeShape', function() {
       modeling.removeShape(childShape);
 
       // then
-      expect(elementRegistry.get(childShape.id)).to.not.be.defined;
+      expect(elementRegistry.get(childShape.id)).to.be.undefined;
 
       expect(childShape.parent).to.be.null;
       expect(parentShape.children).to.not.contain(childShape);

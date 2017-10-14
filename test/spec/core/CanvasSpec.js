@@ -453,7 +453,7 @@ describe('Canvas', function() {
 
       // then
       expect(connection.parent).to.be.null;
-      expect(elementRegistry.get('c1')).to.not.be.defined;
+      expect(elementRegistry.get('c1')).to.be.undefined;
 
       expect(listener).to.have.been.called;
     }));
@@ -1501,7 +1501,7 @@ describe('Canvas', function() {
 
       // then
       expect(gfx).to.exist;
-      expect(secondaryGfx).to.not.be.defined;
+      expect(secondaryGfx).to.be.undefined;
     }));
 
 

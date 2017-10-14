@@ -106,7 +106,7 @@ describe('features/modeling - append shape', function() {
 
       // then
       expect(newShape.parent).to.be.null;
-      expect(elementRegistry.getGraphics(newShape)).to.not.be.defined;
+      expect(elementRegistry.getGraphics(newShape)).to.be.undefined;
     }));
 
   });

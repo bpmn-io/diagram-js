@@ -69,8 +69,8 @@ describe('features/popup', function() {
       popupMenu.create('menu', {});
 
       // then
-      expect(popupMenu._current.provider.getHeaderEntries()).to.include({ id: 'entry1', label: 'foo' });
-      expect(popupMenu._current.provider.getEntries()).to.include({ id: 'entry2', label: 'foo' });
+      expect(popupMenu._current.provider.getHeaderEntries()).to.deep.include({ id: 'entry1', label: 'foo' });
+      expect(popupMenu._current.provider.getEntries()).to.deep.include({ id: 'entry2', label: 'foo' });
 
     }));
 

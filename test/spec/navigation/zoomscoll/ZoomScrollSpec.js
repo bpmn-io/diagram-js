@@ -54,14 +54,14 @@ describe('navigation/zoomscroll', function() {
 
       for (var j = 0; j < 19; j++) {
         zoomScroll.zoom(-0.1);
-      }      
+      }
 
       // then
       expect(canvas.zoom()).to.equal(1);
     }));
 
     it('should only zoom in once threshold is reached', inject(function(zoomScroll, canvas) {
-      
+
       var zoomSpy = sinon.spy(canvas, 'zoom');
 
       // when
@@ -69,7 +69,8 @@ describe('navigation/zoomscroll', function() {
       zoomScroll.zoom(0.06);
 
       // then
-      expect(zoomSpy).to.have.been.called.once;
+      // called as getter and setter
+      expect(zoomSpy).to.have.been.calledTwice;
     }));
 
   });

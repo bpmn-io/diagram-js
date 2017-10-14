@@ -113,7 +113,7 @@ describe('features/modeling - create label', function() {
       expect(newLabel.labelTarget).to.be.null;
       expect(childShape.label).to.not.exist;
 
-      expect(elementRegistry.getGraphics(newLabel)).to.not.be.defined;
+      expect(elementRegistry.getGraphics(newLabel)).to.be.undefined;
     }));
 
   });
@@ -174,7 +174,7 @@ describe('features/modeling - create label', function() {
       expect(newLabel.labelTarget).to.be.null;
       expect(connection.label).to.not.exist;
 
-      expect(elementRegistry.getGraphics(newLabel)).to.not.be.defined;
+      expect(elementRegistry.getGraphics(newLabel)).to.be.undefined;
     }));
 
   });
