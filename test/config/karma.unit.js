@@ -6,6 +6,15 @@ var basePath = '../../';
 
 var absoluteBasePath = path.resolve(path.join(__dirname, basePath));
 
+/* global process */
+
+// configures browsers to run test against
+// any of [ 'PhantomJS', 'Chrome', 'Firefox', 'IE']
+var browsers =
+  (process.env.TEST_BROWSERS || 'PhantomJS')
+    .replace(/^\s+|\s+$/, '')
+    .split(/\s*,\s*/g);
+
 
 module.exports = function(karma) {
   karma.set({
@@ -28,7 +37,7 @@ module.exports = function(karma) {
 
     reporters: [ 'spec' ],
 
-    browsers: [ 'PhantomJS' ],
+    browsers: browsers,
 
     browserNoActivityTimeout: 30000,
 
