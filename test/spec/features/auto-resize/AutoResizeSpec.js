@@ -211,6 +211,10 @@ describe('features/auto-resize', function() {
       })
     );
 
+
+    // TODO(nikku): create test case
+    it('should expand with connection');
+
   });
 
 
