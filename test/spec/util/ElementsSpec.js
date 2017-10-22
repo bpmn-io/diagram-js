@@ -58,6 +58,15 @@ describe('util/Elements', function() {
     ]
   };
 
+  var connection1 = {
+    id: 'connection1',
+    source: shapeE,
+    target: shapeB
+  };
+
+  shapeE.outgoing = [ connection1 ];
+  shapeB.incoming = [ connection1 ];
+
   function ids(array) {
     return array.map(function(e) {
       return e.id;
@@ -125,11 +134,14 @@ describe('util/Elements', function() {
   describe('getClosure', function() {
 
     it('should test getClosure', function() {
-      var closure = Elements.getClosure([ shapeE ]);
+      var closure = Elements.getClosure([ shapeB, shapeE ]);
 
-      expect(closure.allShapes).to.have.keys('e', 'c', 'c.0', 'c.1');
-      expect(closure.enclosedElements).to.have.keys('e', 'c', 'c.0', 'c.1');
-      expect(closure.topLevel).to.have.keys('e');
+      expect(closure.allShapes).to.have.keys('b', 'e', 'c', 'c.0', 'c.1');
+      expect(closure.allConnections).to.have.keys('connection1');
+      expect(closure.enclosedElements).to.have.keys('b', 'e', 'connection1', 'c', 'c.0', 'c.1');
+      expect(closure.topLevel).to.have.keys('e', 'b', 'connection1');
+
+      expect(closure.topLevel['connection1']).to.eql([ connection1 ]);
     });
 
   });
