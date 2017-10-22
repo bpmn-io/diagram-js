@@ -192,9 +192,25 @@ describe('features/snapping - Snapping', function() {
   });
 
 
+  // TODO(nikku): test this (!)
+  describe('snap lines', function() {
+
+    it('should show');
+
+    it('should hide async');
+
+  });
+
+
   describe('util', function() {
 
-    beforeEach(bootstrapDiagram({ modules: [ modelingModule, snappingModule, attachSupportModule ] }));
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        snappingModule,
+        attachSupportModule
+      ]
+    }));
 
     var rootElement, shape, sibling;
 
