@@ -330,7 +330,7 @@ svg.new-parent {
  * context-pad
  */
 .djs-overlay-context-pad {
-  width: 72px;
+  width: 100px;
 }
 
 .djs-context-pad {
@@ -340,20 +340,15 @@ svg.new-parent {
 }
 
 .djs-context-pad .entry {
-  width: 22px;
-  height: 22px;
+  width: 30px;
+  height: 20px;
   text-align: center;
   display: inline-block;
   font-size: 22px;
-  margin: 0 2px 2px 0;
-
   border-radius: 3px;
-
   cursor: default;
-
   background-color: #FEFEFE;
   box-shadow: 0 0 2px 1px #FEFEFE;
-
   pointer-events: all;
 }
 
