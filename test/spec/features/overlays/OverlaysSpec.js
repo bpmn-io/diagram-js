@@ -9,6 +9,8 @@ var forEach = require('lodash/collection/forEach'),
 
 var overlayModule = require('../../../../lib/features/overlays');
 
+var getDiagramJS = require('../../../TestHelper').getDiagramJS;
+
 
 describe('features/overlays', function() {
 
@@ -735,18 +737,29 @@ describe('features/overlays', function() {
     }));
 
 
+    function zoom(level) {
+      getDiagramJS().invoke(function(canvas) {
+        canvas.zoom(level);
+      });
+    }
+
     function isVisible(element) {
       return element.parentNode.style.display !== 'none';
     }
 
+    function expectVisible(el, visible) {
+      expect(isVisible(el)).to.equal(visible);
+    }
 
-    it('should respect min show rules when overlay is added', inject(function(overlays, canvas) {
+
+
+    it('should respect min show rules when overlay is added', inject(function(overlays) {
 
       // given
       var html = createOverlay();
 
       // when zoom below visibility range
-      canvas.zoom(0.6);
+      zoom(0.6);
 
       overlays.add(shape, {
         html: html,
@@ -754,13 +767,13 @@ describe('features/overlays', function() {
       });
 
       // then
-      expect(isVisible(html)).to.be.false;
+      expectVisible(html, false);
 
       // when zoom in visibility range
-      canvas.zoom(0.7);
+      zoom(0.7);
 
       // then
-      expect(isVisible(html)).to.be.true;
+      expectVisible(html, true);
     }));
 
 
@@ -770,7 +783,7 @@ describe('features/overlays', function() {
       var html = createOverlay();
 
       // when zoom above visibility range
-      canvas.zoom(6.0);
+      zoom(6.0);
 
       overlays.add(shape, {
         html: html,
@@ -778,13 +791,13 @@ describe('features/overlays', function() {
       });
 
       // then
-      expect(isVisible(html)).to.be.false;
+      expectVisible(html, false);
 
       // when zoom in visibility range
-      canvas.zoom(3.0);
+      zoom(3.0);
 
       // then
-      expect(isVisible(html)).to.be.true;
+      expectVisible(html, true);
     }));
 
 
@@ -797,51 +810,110 @@ describe('features/overlays', function() {
         html: html,
         position: { left: 20, bottom: 0 },
         show: {
-          minZoom: 0.3,
-          maxZoom: 4
+          minZoom: 0.7,
+          maxZoom: 1.3
         }
       });
 
 
-      // when zoom in visibility range
-      canvas.zoom(0.6);
+      // when
+      // zoom below configured minZoom
+      zoom(0.5);
 
       // then
-      expect(isVisible(html)).to.be.true;
+      expectVisible(html, false);
 
 
-      // when zoom on visibility range border
-      canvas.zoom(0.3);
-
-      // then
-      expect(isVisible(html)).to.be.true;
-
-
-      // when zoom below visibility range
-      canvas.zoom(0.2);
+      // when
+      // zoom on configured minZoom
+      zoom(0.7);
 
       // then
-      expect(isVisible(html)).to.be.false;
+      expectVisible(html, true);
 
 
-      // when zoom in visibility range
-      canvas.zoom(3);
-
-      // then
-      expect(isVisible(html)).to.be.true;
-
-
-      // when zoom on visibility range border
-      canvas.zoom(4.0);
+      // when
+      // zoom into visibility range
+      zoom(0.9);
 
       // then
-      expect(isVisible(html)).to.be.true;
+      expectVisible(html, true);
 
-      // when zoom above visibility range
-      canvas.zoom(4.1);
+
+      // when
+      // zoom on configured maxZoom
+      zoom(1.3);
 
       // then
-      expect(isVisible(html)).to.be.false;
+      expectVisible(html, true);
+
+
+      // when
+      // zoom above maxZoom
+      zoom(1.4);
+
+      // then
+      expectVisible(html, false);
+    }));
+
+
+    it('should respect overlay specific min rule', inject(function(overlays, canvas) {
+
+      // given
+      var html = createOverlay();
+
+      overlays.add(shape, {
+        html: html,
+        position: { left: 20, bottom: 0 },
+        show: {
+          minZoom: 0.7
+        }
+      });
+
+
+      // when
+      // zoom below configured minZoom
+      zoom(0.5);
+
+      // then
+      expectVisible(html, false);
+
+
+      // when zoom on configured minZoom
+      zoom(0.7);
+
+      // then
+      expectVisible(html, true);
+    }));
+
+
+    it('should respect overlay specific max rule', inject(function(overlays, canvas) {
+
+      // given
+      var html = createOverlay();
+
+      overlays.add(shape, {
+        html: html,
+        position: { left: 20, bottom: 0 },
+        show: {
+          maxZoom: 1.3
+        }
+      });
+
+      // when
+      // zoom on configured maxZoom
+      zoom(1.3);
+
+      // then
+      expectVisible(html, true);
+
+
+      // when
+      // zoom above maxZoom
+      zoom(1.4);
+
+      // then
+      expectVisible(html, false);
     }));
 
   });
