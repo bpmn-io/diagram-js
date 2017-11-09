@@ -149,16 +149,12 @@ describe('features/bendpoints - move', function() {
       // when
       bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
       dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
-      dragging.move(canvasEvent({ x: 550, y: 150 }));
       dragging.out();
       dragging.hover({ element: shape2, gfx: canvas.getGraphics(shape2) });
-      dragging.move(canvasEvent({ x: 530, y: 120 }));
       dragging.out();
       dragging.hover({ element: shape3, gfx: canvas.getGraphics(shape3) });
-      dragging.move(canvasEvent({ x: 530, y: 420 }));
       dragging.out();
       dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
-      dragging.move(canvasEvent({ x: 610, y: 310 }));
 
       // then
       var hoverNodes = domQuery.all('.connect-hover, .connect-ok, .connect-not-ok', canvas._svg);
