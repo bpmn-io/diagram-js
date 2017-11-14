@@ -6,14 +6,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    config: {
-      sources: 'lib',
-      tests: 'test',
-      dist: 'dist',
-      fonts: 'bower_components/font-awesome',
-      samples: 'example'
-    },
-
     release: {
       options: {
         tagName: 'v<%= version %>',
@@ -40,7 +32,7 @@ module.exports = function(grunt) {
 
     karma: {
       options: {
-        configFile: '<%= config.tests %>/config/karma.unit.js'
+        configFile: 'test/config/karma.unit.js'
       },
       single: {
         singleRun: true,
