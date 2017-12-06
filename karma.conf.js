@@ -2,9 +2,7 @@
 
 var path = require('path');
 
-var basePath = '../../';
-
-var absoluteBasePath = path.resolve(path.join(__dirname, basePath));
+var absoluteBasePath = path.resolve(__dirname);
 
 /* global process */
 
@@ -30,8 +28,6 @@ var browsers =
 
 module.exports = function(karma) {
   karma.set({
-
-    basePath: basePath,
 
     frameworks: [
       'browserify',
@@ -64,8 +60,8 @@ module.exports = function(karma) {
       }
     },
 
-    singleRun: false,
-    autoWatch: true,
+    autoWatch: false,
+    singleRun: true,
 
     // browserify configuration
     browserify: {
