@@ -762,7 +762,7 @@ describe('command/CommandStack', function() {
 
   describe('diagram life-cycle integration', function() {
 
-    function verifyClearOn(eventName) {
+    function verifyReset(eventName) {
 
       return function(eventBus, commandStack) {
 
@@ -772,7 +772,7 @@ describe('command/CommandStack', function() {
 
         var changedSpy = sinon.spy(function() {});
 
-        eventBus.on('commandStack.changed', changedSpy);
+        eventBus.on('commandStack.reset', changedSpy);
 
         // when
         eventBus.fire(eventName);
@@ -781,13 +781,13 @@ describe('command/CommandStack', function() {
         expect(commandStack._stack).to.be.empty;
         expect(commandStack._stackIdx).to.eql(-1);
 
-        expect(changedSpy).to.have.been.called;
+        expect(changedSpy).not.to.have.been.called;
       };
     }
 
-    it('should clear on diagram.destroy', inject(verifyClearOn('diagram.destroy')));
+    it('should clear on diagram.destroy', inject(verifyReset('diagram.destroy')));
 
-    it('should clear on diagram.clear', inject(verifyClearOn('diagram.clear')));
+    it('should clear on diagram.clear', inject(verifyReset('diagram.clear')));
 
   });
 
