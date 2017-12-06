@@ -66,7 +66,7 @@ describe('features/dragging - Dragging', function() {
     }
 
 
-    it('should cancel original event on init', inject(function(dragging) {
+    it('should stop original event propagation on init', inject(function(dragging) {
 
       // given
       var event = canvasEvent({ x: 10, y: 10 });
@@ -75,7 +75,7 @@ describe('features/dragging - Dragging', function() {
       dragging.init(event, 'foo');
 
       // then
-      expect(event.defaultPrevented).to.be.true;
+      expect(event.cancelBubble).to.be.true;
     }));
 
 
