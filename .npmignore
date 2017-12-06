@@ -1,0 +1,6 @@
+.github
+example
+.eslintrc
+.travis.yml
+CONTRIBUTING.md
+karma.conf.js
