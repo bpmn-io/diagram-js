@@ -98,6 +98,21 @@ describe('features/connect', function() {
     }));
 
 
+    it('should not connect with null target', inject(function(connect, rules, dragging) {
+
+      // when
+      connect.start(canvasEvent({ x: 0, y: 0 }), shape1);
+      dragging.move(canvasEvent({ x: 40, y: 30 }));
+      dragging.hover(canvasEvent({ x: 40, y: 30 }, { element: shape2 }));
+      dragging.out(canvasEvent({ x: 40, y: 30 }));
+      dragging.end();
+
+      // then
+      expect(shape1.outgoing.length).to.equal(0);
+      expect(shape2.incoming.length).to.equal(0);
+    }));
+
+
     it('should connect with start position', inject(function(connect, dragging, modeling) {
 
       // given
