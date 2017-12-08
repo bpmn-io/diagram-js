@@ -62,7 +62,7 @@ describe('features/dragging - Dragging', function() {
 
 
     function raw(e) {
-      return omit(e, [ 'originalEvent', 'previousSelection' ]);
+      return omit(e, [ 'originalEvent', 'previousSelection', 'isTouch' ]);
     }
 
 
@@ -93,7 +93,7 @@ describe('features/dragging - Dragging', function() {
       expect(events.length).to.equal(1);
 
       expect(events).to.eql([
-        { foo: 'BAR', type: 'foo.init' }
+        { foo: 'BAR', type: 'foo.init', isTouch: false }
       ]);
     }));
 
