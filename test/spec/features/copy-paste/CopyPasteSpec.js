@@ -400,9 +400,9 @@ describe('features/copy-paste', function() {
         sW = { id: 'w', parent: { id: 'z' }, x: 0, y: 0, width: 100, height: 100 };
 
     var cA = { id: 'connA', parent: sB, source: sC, target: sD,
-               waypoints: [ { x: 0, y: 0, original: { x: 50, y: 50 } } ] },
+          waypoints: [ { x: 0, y: 0, original: { x: 50, y: 50 } } ] },
         cB = { id: 'connB', parent: { id: 'p' }, source: sC, target: sW,
-               waypoints: [ { x: 0, y: 0 } ] };
+          waypoints: [ { x: 0, y: 0 } ] };
 
     var host = { id: 'host', parent: { id: 't' }, x: 0, y: 0, width: 100, height: 100 },
         attacher = { id: 'attacher', parent: { id: 't' }, x: 0, y: 0, width: 100, height: 100 };

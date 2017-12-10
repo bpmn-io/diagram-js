@@ -307,7 +307,7 @@ describe('features/attach-support', function() {
       // given
         var host2Gfx = elementRegistry.getGraphics(host2);
 
-      // when
+        // when
         move.start(canvasEvent({ x: 625, y: 125 }), attacher);
 
         dragging.hover({
@@ -320,7 +320,7 @@ describe('features/attach-support', function() {
 
         modeling.moveElements([ host2 ], { x: 300, y: 50 }, rootShape);
 
-      // then
+        // then
         expect(host2.parent).to.equal(rootShape);
         expect(attacher.parent).to.equal(rootShape);
 
@@ -339,7 +339,7 @@ describe('features/attach-support', function() {
 
         selection.select([ host, attacher, attacher2 ]);
 
-      // when
+        // when
         move.start(canvasEvent({ x: 550, y: 150 }), host);
 
         dragging.hover({
@@ -350,7 +350,7 @@ describe('features/attach-support', function() {
         dragging.move(canvasEvent({ x: 700, y: 300 }));
         dragging.end();
 
-      // then
+        // then
         expect(attacher.x).to.equal(725);
         expect(attacher.y).to.equal(225);
 
@@ -372,7 +372,7 @@ describe('features/attach-support', function() {
         var rootGfx = elementRegistry.getGraphics(rootShape);
         var host2Gfx = elementRegistry.getGraphics(host2);
 
-      // when
+        // when
         move.start(canvasEvent({ x: 625, y: 125 }), attacher);
 
         dragging.hover({
@@ -383,7 +383,7 @@ describe('features/attach-support', function() {
         dragging.move(canvasEvent({ x: 225, y: 275 }));
         dragging.end();
 
-      // when
+        // when
         move.start(canvasEvent({ x: 550, y: 150 }), parentShape);
 
         dragging.hover({
@@ -394,7 +394,7 @@ describe('features/attach-support', function() {
         dragging.move(canvasEvent({ x: 700, y: 300 }));
         dragging.end();
 
-      // then
+        // then
         expect(attacher.x).to.eql(325);
         expect(attacher.y).to.eql(375);
 
@@ -456,7 +456,7 @@ describe('features/attach-support', function() {
       // given
         var parentGfx = elementRegistry.getGraphics(parentShape);
 
-      // when
+        // when
         move.start(canvasEvent({ x: 625, y: 125 }), attacher);
 
         dragging.hover({
@@ -469,7 +469,7 @@ describe('features/attach-support', function() {
 
         commandStack.undo();
 
-      // then
+        // then
         expect(attacher.host).to.equal(host);
         expect(attacher.parent).to.equal(rootShape);
 
@@ -576,7 +576,7 @@ describe('features/attach-support', function() {
 
         selection.select([ attacher, label ]);
 
-      // when
+        // when
         move.start(canvasEvent({ x: 625, y: 125 }), attacher);
 
         dragging.hover({
@@ -587,7 +587,7 @@ describe('features/attach-support', function() {
         dragging.move(canvasEvent({ x: 225, y: 275 }));
         dragging.end();
 
-      // then
+        // then
         expect(attacher.host).to.equal(host2);
         expect(attacher.parent).to.equal(parentShape);
         expect(host2.attachers).to.include(attacher);
@@ -612,14 +612,14 @@ describe('features/attach-support', function() {
           source: attacher,
           target: element,
           waypoints: [
-          { x: 625, y: 100 },
-          { x: 700, y: 100 }
+            { x: 625, y: 100 },
+            { x: 700, y: 100 }
           ]
         });
 
         canvas.addConnection(connection, rootShape);
 
-      // when
+        // when
         move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
 
         dragging.hover({
@@ -630,7 +630,7 @@ describe('features/attach-support', function() {
         dragging.move(canvasEvent({ x: 250, y: 150 }));
         dragging.end();
 
-      // then
+        // then
         expect(attacher.outgoing).to.be.empty;
 
       }));
@@ -708,8 +708,8 @@ describe('features/attach-support', function() {
           source: element,
           target: attacher,
           waypoints: [
-          { x: 700, y: 100 },
-          { x: 625, y: 100 }
+            { x: 700, y: 100 },
+            { x: 625, y: 100 }
           ]
         });
 
@@ -805,8 +805,8 @@ describe('features/attach-support', function() {
           source: attacher,
           target: element,
           waypoints: [
-          { x: 625, y: 100 },
-          { x: 700, y: 100 }
+            { x: 625, y: 100 },
+            { x: 700, y: 100 }
           ]
         });
 
@@ -847,8 +847,8 @@ describe('features/attach-support', function() {
           source: element,
           target: attacher,
           waypoints: [
-          { x: 700, y: 100 },
-          { x: 625, y: 100 }
+            { x: 700, y: 100 },
+            { x: 625, y: 100 }
           ]
         });
 

@@ -237,31 +237,31 @@ describe('features/dragging - Dragging', function() {
 
     // Related to issue bpmn-io/bpmn-js#355
     it.skip('should keep shape at cursor when zooming while creating',
-    inject(function(elementFactory, zoomScroll, dragging, create) {
+      inject(function(elementFactory, zoomScroll, dragging, create) {
       // given
-      var shape = elementFactory.createShape({
-        id: 'shape',
-        x: 0, y: 0,
-        width: 50, height: 50
-      });
+        var shape = elementFactory.createShape({
+          id: 'shape',
+          x: 0, y: 0,
+          width: 50, height: 50
+        });
 
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), shape);
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), shape);
 
-      dragging.move(canvasEvent({ x: 100, y: 100 }));
+        dragging.move(canvasEvent({ x: 100, y: 100 }));
 
-      var elementBefore = dragging.context().data.context.visual.getBBox();
+        var elementBefore = dragging.context().data.context.visual.getBBox();
 
-      zoomScroll.stepZoom(-1.25);
+        zoomScroll.stepZoom(-1.25);
 
-      zoomScroll.stepZoom(0.25);
+        zoomScroll.stepZoom(0.25);
 
-      dragging.move(canvasEvent({ x: 100, y: 100 }));
+        dragging.move(canvasEvent({ x: 100, y: 100 }));
 
-      var elementAfter = dragging.context().data.context.visual.getBBox();
+        var elementAfter = dragging.context().data.context.visual.getBBox();
 
-      expect(elementBefore).to.eql(elementAfter);
-    }));
+        expect(elementBefore).to.eql(elementAfter);
+      }));
 
   });
 
