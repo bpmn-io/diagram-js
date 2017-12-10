@@ -4,6 +4,8 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
 /* global bootstrapDiagram, inject */
 
+var getDiagramJS = require('../../../TestHelper').getDiagramJS;
+
 var pick = require('lodash/object/pick');
 
 var attachSupportModule = require('../../../../lib/features/attach-support'),
@@ -48,7 +50,8 @@ describe('features/attach-support', function() {
   }));
 
 
-  var rootShape, parentShape;
+  var rootShape,
+      parentShape;
 
   beforeEach(inject(function(elementFactory, canvas) {
 
@@ -194,7 +197,7 @@ describe('features/attach-support', function() {
   });
 
 
-  describe('move', function () {
+  describe('move', function() {
 
     var host, host2, attacher, attacher2;
 
@@ -1705,8 +1708,8 @@ describe('features/attach-support', function() {
       modeling.createLabel(attacher, { x: 600, y: 100 }, label, parentShape);
 
       var oldLabelPosition = {
-        x: attacher.label.x,
-        y: attacher.label.y
+        x: label.x,
+        y: label.y
       };
 
       var oldBounds = {
@@ -1725,8 +1728,8 @@ describe('features/attach-support', function() {
       modeling.resizeShape(host, newBounds);
 
       var newLabelPosition = {
-        x: attacher.label.x,
-        y: attacher.label.y
+        x: label.x,
+        y: label.y
       };
 
       // then
@@ -1742,11 +1745,10 @@ describe('features/attach-support', function() {
 
   describe('space tool', function() {
 
-    var createAttacher;
+    function createAttacher(parentShape, position) {
 
-    beforeEach(inject(function(elementFactory, canvas, modeling, dragging) {
+      return getDiagramJS().invoke(function(elementFactory, modeling) {
 
-      createAttacher = function(position) {
         var attacher = elementFactory.createShape({
           id: 'attacher',
           x: position.x,
@@ -1758,145 +1760,163 @@ describe('features/attach-support', function() {
         modeling.createShape(attacher, position, parentShape, true);
 
         return attacher;
-      };
-
-    }));
-
-
-    it('should resize host and move attacher to the right', inject(function(spaceTool, dragging) {
-
-      // given
-      var attacher = createAttacher({ x: 400, y: 200 });
-
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 340, y: 100 }));
-
-      dragging.move(canvasEvent({ x: 440, y: 100 }));
-      dragging.end();
-
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 400, height: 300 });
-      expect(attacher).to.have.bounds({ x: 475, y: 175, width: 50, height: 50 });
-    }));
-
-
-    it('should resize host without moving attacher to the left', inject(function(spaceTool, dragging) {
-
-      // given
-      var attacher = createAttacher({ x: 100, y: 200 });
-
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 100 }));
-
-      dragging.move(canvasEvent({ x: 260, y: 100 }));
-      dragging.end();
-
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 260, height: 300 });
-      expect(attacher).to.have.bounds({ x: 75, y: 175, width: 50, height: 50 });
-    }));
-
-
-    it('should resize host and move attacher up', inject(function(spaceTool, dragging) {
-
-      // given
-      var attacher = createAttacher({ x: 250, y: 100 });
-
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 360, y: 200 }));
-
-      dragging.move(canvasEvent({ x: 360, y: 180 }));
-      dragging.end();
-
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 280 });
-      expect(attacher).to.have.bounds({ x: 225, y: 75, width: 50, height: 50 });
-    }));
-
-
-    it('should resize host and move attacher down', inject(function(spaceTool, dragging) {
-
-      // given
-      var attacher = createAttacher({ x: 250, y: 400 });
-
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 250, y: 200 }));
-
-      dragging.move(canvasEvent({ x: 250, y: 220 }));
-      dragging.end();
-
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 320 });
-      expect(attacher).to.have.bounds({ x: 225, y: 395, width: 50, height: 50 });
-    }));
-
-
-    it('should resize host when cursor is inside attacher´s bounds', inject(function(spaceTool, dragging) {
-
-      // given
-      var attacher = createAttacher({ x: 400, y: 250 });
-
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 390, y: 100 }));
-
-      dragging.move(canvasEvent({ x: 420, y: 100 }));
-      dragging.end();
-
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 330, height: 300 });
-      expect(attacher).to.have.bounds({ x: 405, y: 225, width: 50, height: 50 });
-    }));
-
-
-    it('should move attacher label up', inject(function(spaceTool, dragging, elementFactory, modeling) {
-
-      // given
-      var attacher = createAttacher({ x: 250, y: 100 }),
-          label = elementFactory.createLabel({ width: 80, height: 40 });
-
-      modeling.createLabel(attacher, {
-        x: attacher.x,
-        y: attacher.y
-      }, label, parentShape);
-
-      var labelPosition = {
-        x: attacher.label.x,
-        y: attacher.label.y
-      };
-
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 360, y: 200 }));
-
-      dragging.move(canvasEvent({ x: 360, y: 180 }, keyModifier));
-      dragging.end();
-
-      // then
-      expect({
-        x: attacher.label.x,
-        y: attacher.label.y
-      }).to.eql({
-        x: labelPosition.x,
-        y: labelPosition.y - 20
       });
+    }
+
+    function createLabel(element) {
+
+      return getDiagramJS().invoke(function(elementFactory, modeling) {
+
+        var label = elementFactory.createLabel({ width: 80, height: 40 });
+
+        return modeling.createLabel(element, {
+          x: element.x,
+          y: element.y
+        }, label, rootShape);
+      });
+    }
+
+    var childShape;
+
+    beforeEach(inject(function(elementFactory, canvas, modeling, dragging) {
+
+      childShape = elementFactory.createShape({
+        id: 'first-child',
+        x: 120,
+        y: 120,
+        width: 100,
+        height: 80,
+        resizable: false
+      });
+
+      canvas.addShape(childShape, parentShape);
     }));
 
 
     describe('resize host', function() {
 
-      it('should move attacher label to the right', inject(function(spaceTool, dragging, elementFactory, modeling) {
+      it('should resize host and move attacher to the right', inject(function(spaceTool, dragging) {
 
         // given
-        var attacher = createAttacher({ x: 400, y: 200 }),
-            label = elementFactory.createLabel({ width: 80, height: 40 });
+        var attacher = createAttacher(parentShape, { x: 400, y: 200 });
 
-        modeling.createLabel(attacher, {
-          x: attacher.x,
-          y: attacher.y
-        }, label, parentShape);
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 340, y: 100 }));
+
+        dragging.move(canvasEvent({ x: 440, y: 100 }));
+        dragging.end();
+
+        // then
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 400, height: 300 });
+        expect(attacher).to.have.bounds({ x: 475, y: 175, width: 50, height: 50 });
+      }));
+
+
+      it('should resize host without moving attacher to the left', inject(function(spaceTool, dragging) {
+
+        // given
+        var attacher = createAttacher(parentShape, { x: 100, y: 200 });
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 100 }));
+
+        dragging.move(canvasEvent({ x: 260, y: 100 }));
+        dragging.end();
+
+        // then
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 260, height: 300 });
+        expect(attacher).to.have.bounds({ x: 75, y: 175, width: 50, height: 50 });
+      }));
+
+
+      it('should resize host and move attacher up', inject(function(spaceTool, dragging) {
+
+        // given
+        var attacher = createAttacher(parentShape, { x: 250, y: 100 });
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 360, y: 200 }));
+
+        dragging.move(canvasEvent({ x: 360, y: 180 }));
+        dragging.end();
+
+        // then
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 280 });
+        expect(attacher).to.have.bounds({ x: 225, y: 75, width: 50, height: 50 });
+      }));
+
+
+      it('should resize host and move attacher down', inject(function(spaceTool, dragging) {
+
+        // given
+        var attacher = createAttacher(parentShape, { x: 250, y: 400 });
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 250, y: 200 }));
+
+        dragging.move(canvasEvent({ x: 250, y: 220 }));
+        dragging.end();
+
+        // then
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 320 });
+        expect(attacher).to.have.bounds({ x: 225, y: 395, width: 50, height: 50 });
+      }));
+
+
+      it('should resize host when cursor is inside attacher´s bounds', inject(function(spaceTool, dragging) {
+
+        // given
+        var attacher = createAttacher(parentShape, { x: 400, y: 250 });
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 390, y: 100 }));
+
+        dragging.move(canvasEvent({ x: 420, y: 100 }));
+        dragging.end();
+
+        // then
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 330, height: 300 });
+        expect(attacher).to.have.bounds({ x: 405, y: 225, width: 50, height: 50 });
+      }));
+
+
+      it('should move attacher label up', inject(function(spaceTool, dragging) {
+
+        // given
+        var attacher = createAttacher(parentShape, { x: 250, y: 100 }),
+            label = createLabel(attacher);
 
         var labelPosition = {
-          x: attacher.label.x,
-          y: attacher.label.y
+          x: label.x,
+          y: label.y
+        };
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 360, y: 200 }));
+
+        dragging.move(canvasEvent({ x: 360, y: 180 }, keyModifier));
+        dragging.end();
+
+        // then
+        expect({
+          x: label.x,
+          y: label.y
+        }).to.eql({
+          x: labelPosition.x,
+          y: labelPosition.y - 20
+        });
+      }));
+
+
+      it('should move attacher label to the right', inject(function(spaceTool, dragging) {
+
+        // given
+        var attacher = createAttacher(parentShape, { x: 400, y: 200 }),
+            label = createLabel(attacher);
+
+        var labelPosition = {
+          x: label.x,
+          y: label.y
         };
 
         // when
@@ -1907,8 +1927,8 @@ describe('features/attach-support', function() {
 
         // then
         expect({
-          x: attacher.label.x,
-          y: attacher.label.y
+          x: label.x,
+          y: label.y
         }).to.eql({
           x: labelPosition.x + 100,
           y: labelPosition.y
@@ -1916,20 +1936,15 @@ describe('features/attach-support', function() {
       }));
 
 
-      it('should move attacher label down', inject(function(spaceTool, dragging, elementFactory, modeling) {
+      it('should move attacher label down', inject(function(spaceTool, dragging) {
 
         // given
-        var attacher = createAttacher({ x: 250, y: 400 }),
-            label = elementFactory.createLabel({ width: 80, height: 40 });
-
-        modeling.createLabel(attacher, {
-          x: attacher.x,
-          y: attacher.y
-        }, label, parentShape);
+        var attacher = createAttacher(parentShape, { x: 250, y: 400 }),
+            label = createLabel(attacher);
 
         var labelPosition = {
-          x: attacher.label.x,
-          y: attacher.label.y
+          x: label.x,
+          y: label.y
         };
 
         // when
@@ -1940,8 +1955,8 @@ describe('features/attach-support', function() {
 
         // then
         expect({
-          x: attacher.label.x,
-          y: attacher.label.y
+          x: label.x,
+          y: label.y
         }).to.eql({
           x: labelPosition.x,
           y: labelPosition.y + 20
@@ -1949,20 +1964,15 @@ describe('features/attach-support', function() {
       }));
 
 
-      it('should move attacher label to the left', inject(function(spaceTool, dragging, elementFactory, modeling) {
+      it('should move attacher label to the left', inject(function(spaceTool, dragging) {
 
         // given
-        var attacher = createAttacher({ x: 100, y: 200 }),
-            label = elementFactory.createLabel({ width: 80, height: 40 });
-
-        modeling.createLabel(attacher, {
-          x: attacher.x,
-          y: attacher.y
-        }, label, parentShape);
+        var attacher = createAttacher(parentShape, { x: 100, y: 200 }),
+            label = createLabel(attacher);
 
         var labelPosition = {
-          x: attacher.label.x,
-          y: attacher.label.y
+          x: label.x,
+          y: label.y
         };
 
         // when
@@ -1973,8 +1983,8 @@ describe('features/attach-support', function() {
 
         // then
         expect({
-          x: attacher.label.x,
-          y: attacher.label.y
+          x: label.x,
+          y: label.y
         }).to.eql({
           x: labelPosition.x - 40,
           y: labelPosition.y
@@ -1983,11 +1993,11 @@ describe('features/attach-support', function() {
 
 
       it('should not move attacher when host has not been resized',
-        inject(function(spaceTool, dragging, elementFactory, modeling, canvas) {
+        inject(function(spaceTool, dragging, canvas) {
           // given
           parentShape.resizable = false;
 
-          var attacher = createAttacher({ x: 300, y: 400 }),
+          var attacher = createAttacher(parentShape, { x: 300, y: 400 }),
               attacherPosition = { x: attacher.x, y: attacher.y };
 
           // when
@@ -2005,108 +2015,136 @@ describe('features/attach-support', function() {
     });
 
 
+    describe('sticky host', function() {
+
+      it('should not move attacher, too', inject(function(spaceTool, dragging) {
+
+        // given
+        var attacher = createAttacher(childShape, { x: 210, y: 120 }),
+            label = createLabel(attacher);
+
+        var childShapeBounds = getBounds(childShape),
+            attacherBounds = getBounds(attacher),
+            labelBounds = getBounds(label);
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 130, y: 100 }));
+
+        dragging.move(canvasEvent({ x: 90, y: 100 }));
+        dragging.end();
+
+        // then
+        // all elements are unchanged in their positioning
+        expect(childShape).to.have.bounds(childShapeBounds);
+        expect(attacher).to.have.bounds(attacherBounds);
+        expect(label).to.have.bounds(labelBounds);
+      }));
+
+    });
+
+
     describe('move host', function() {
 
-      it('should move attacher label to the right', inject(function(spaceTool, dragging, elementFactory, modeling) {
+      it('should move attacher label to the right', inject(
+        function(spaceTool, dragging) {
 
-        // given
-        var attacher = createAttacher({ x: 400, y: 200 }),
-            label = elementFactory.createLabel({ width: 80, height: 40 });
+          // given
+          var attacher = createAttacher(parentShape, { x: 400, y: 200 }),
+              label = createLabel(attacher);
 
-        modeling.createLabel(attacher, {
-          x: attacher.x,
-          y: attacher.y
-        }, label, rootShape);
+          var labelPosition = {
+            x: label.x,
+            y: label.y
+          };
 
-        var labelPosition = {
-          x: attacher.label.x,
-          y: attacher.label.y
-        };
+          // when
+          spaceTool.activateMakeSpace(canvasEvent({ x: 50, y: 100 }));
 
-        // when
-        spaceTool.activateMakeSpace(canvasEvent({ x: 50, y: 100 }));
+          dragging.move(canvasEvent({ x: 150, y: 100 }));
+          dragging.end();
 
-        dragging.move(canvasEvent({ x: 150, y: 100 }));
-        dragging.end();
-
-        // then
-        expect({
-          x: attacher.label.x,
-          y: attacher.label.y
-        }).to.eql({
-          x: labelPosition.x + 100,
-          y: labelPosition.y
-        });
-      }));
+          // then
+          expect({
+            x: label.x,
+            y: label.y
+          }).to.eql({
+            x: labelPosition.x + 100,
+            y: labelPosition.y
+          });
+        })
+      );
 
 
-      it('should move attacher label down', inject(function(spaceTool, dragging, elementFactory, modeling) {
+      it('should move attacher label down', inject(
+        function(spaceTool, dragging) {
 
-        // given
-        var attacher = createAttacher({ x: 250, y: 425 }),
-            label = elementFactory.createLabel({ width: 80, height: 40 });
+          // given
+          var attacher = createAttacher(parentShape, { x: 250, y: 425 }),
+              label = createLabel(attacher);
 
-        modeling.createLabel(attacher, {
-          x: attacher.x,
-          y: attacher.y
-        }, label, rootShape);
+          var labelPosition = {
+            x: label.x,
+            y: label.y
+          };
 
-        var labelPosition = {
-          x: attacher.label.x,
-          y: attacher.label.y
-        };
+          // when
+          spaceTool.activateMakeSpace(canvasEvent({ x: 50, y: 50 }));
 
-        // when
-        spaceTool.activateMakeSpace(canvasEvent({ x: 50, y: 50 }));
+          dragging.move(canvasEvent({ x: 50, y: 100 }));
+          dragging.end();
 
-        dragging.move(canvasEvent({ x: 50, y: 100 }));
-        dragging.end();
-
-        // then
-        expect({
-          x: attacher.label.x,
-          y: attacher.label.y
-        }).to.eql({
-          x: labelPosition.x,
-          y: labelPosition.y + 50
-        });
-      }));
+          // then
+          expect({
+            x: label.x,
+            y: label.y
+          }).to.eql({
+            x: labelPosition.x,
+            y: labelPosition.y + 50
+          });
+        }
+      ));
 
 
-      it('should move attacher label to the left', inject(function(spaceTool, dragging, elementFactory, modeling) {
+      it('should move attacher label to the left', inject(
+        function(spaceTool, dragging) {
 
-        // given
-        var attacher = createAttacher({ x: 100, y: 200 }),
-            label = elementFactory.createLabel({ width: 80, height: 40 });
+          // given
+          var attacher = createAttacher(parentShape, { x: 100, y: 200 }),
+              label = createLabel(attacher);
 
-        modeling.createLabel(attacher, {
-          x: attacher.x,
-          y: attacher.y
-        }, label, rootShape);
+          var labelPosition = {
+            x: label.x,
+            y: label.y
+          };
 
-        var labelPosition = {
-          x: attacher.label.x,
-          y: attacher.label.y
-        };
+          // when
+          spaceTool.activateMakeSpace(canvasEvent({ x: 500, y: 100 }));
 
-        // when
-        spaceTool.activateMakeSpace(canvasEvent({ x: 500, y: 100 }));
+          dragging.move(canvasEvent({ x: 480, y: 100 }, keyModifier));
+          dragging.end();
 
-        dragging.move(canvasEvent({ x: 480, y: 100 }, keyModifier));
-        dragging.end();
-
-        // then
-        expect({
-          x: attacher.label.x,
-          y: attacher.label.y
-        }).to.eql({
-          x: labelPosition.x - 20,
-          y: labelPosition.y
-        });
-      }));
+          // then
+          expect({
+            x: label.x,
+            y: label.y
+          }).to.eql({
+            x: labelPosition.x - 20,
+            y: labelPosition.y
+          });
+        }
+      ));
 
     });
 
   });
 
 });
+
+
+
+
+//////////// helpers ///////////////////////////////////
+
+function getBounds(shape) {
+  return pick(shape, [ 'x', 'y', 'width', 'height' ]);
+}
