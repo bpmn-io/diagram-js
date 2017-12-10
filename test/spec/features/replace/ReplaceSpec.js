@@ -8,9 +8,14 @@ var modelingModule = require('../../../../lib/features/modeling'),
 var domQuery = require('min-dom/lib/query');
 
 
-describe('features/Replace', function() {
+describe('features/replace', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ modelingModule, replaceModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      modelingModule,
+      replaceModule
+    ]
+  }));
 
   var rootShape, parentShape, originalShape;
 
