@@ -42,7 +42,7 @@ describe('features/keyboard', function() {
 
     beforeEach(function() {
 
-      var testContainer = this.currentTest.__test_container_support__.testContentContainer;
+      var testContainer = TestContainer.get(this);
 
       testDiv = document.createElement('div');
       testDiv.setAttribute('class', 'testClass');
