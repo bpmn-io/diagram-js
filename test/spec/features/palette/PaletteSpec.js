@@ -56,6 +56,40 @@ describe('features/palette', function() {
   });
 
 
+  describe('create on bootstrap', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        paletteModule,
+        {
+          __init__: [
+            'paletteProvider',
+            'paletteCreateListener'
+          ],
+          paletteCreateListener: [ 'type', function(eventBus) {
+
+            var self = this;
+
+            eventBus.on('palette.create', function() {
+              self.createCalled = true;
+            });
+          } ],
+          paletteProvider: [ 'type', function(palette) {
+            palette.registerProvider(new Provider());
+          }]
+        }
+      ]
+    }));
+
+
+    it('should emit palette.create', inject(function(paletteCreateListener) {
+
+      expect(paletteCreateListener.createCalled).to.be.true;
+    }));
+
+  });
+
+
   describe('providers', function() {
 
     beforeEach(bootstrapDiagram({
