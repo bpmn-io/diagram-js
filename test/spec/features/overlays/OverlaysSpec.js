@@ -4,7 +4,6 @@
 
 var forEach = require('lodash/collection/forEach'),
     assign = require('lodash/object/assign'),
-    every = require('lodash/collection/every'),
     domify = require('min-dom/lib/domify');
 
 var overlayModule = require('../../../../lib/features/overlays');
@@ -968,8 +967,14 @@ describe('features/overlays', function() {
         dy: 50
       });
 
+      var mtrx = transformMatrix(overlays._overlayRoot);
+
       // then
-      expect(transformMatrix(overlays._overlayRoot)).to.eql({ a : 1, b : 0, c : 0, d : 1, e : 100, f : 50 });
+      expect(mtrx).to.eql({
+        a : 1, b : 0,
+        c : 0, d : 1,
+        e : 100, f : 50
+      });
     }));
 
 
@@ -978,12 +983,11 @@ describe('features/overlays', function() {
       // when
       canvas.zoom(2);
 
-      var containerTransform = asMatrix(overlays._overlayRoot.style.transform);
-
-      var result = { a : 2, b : 0, c : 0, d : 2, e: -501, f: -300 };
+      var mtrx = transformMatrix(overlays._overlayRoot);
 
       // then
-      expect(isMatrixEql(containerTransform, result)).to.be.true;
+      expect(mtrx.a).to.eql(2);
+      expect(mtrx.d).to.eql(2);
     }));
 
 
@@ -1006,7 +1010,11 @@ describe('features/overlays', function() {
       canvas.zoom(2, { x: 300, y: 300 });
 
       // then
-      expect(transformMatrix(overlays._overlayRoot)).to.eql({ a : 2, b : 0, c : 0, d : 2, e : -300, f : -300 });
+      expect(transformMatrix(overlays._overlayRoot)).to.eql({
+        a : 2, b : 0,
+        c : 0, d : 2,
+        e : -300, f : -300
+      });
     }));
 
   });
@@ -1235,13 +1243,4 @@ function createOverlay() {
 
 function transformMatrix(element) {
   return asMatrix(element.style.transform);
-}
-
-function isMatrixEql(original, test) {
-  return every(original, function(val, key) {
-    if (key === 'e') {
-      return val <= -500 || val > -520;
-    }
-    return val === test[key];
-  });
 }

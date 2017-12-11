@@ -5,46 +5,9 @@
 
 var forEach = require('lodash/collection/forEach'),
     assign = require('lodash/object/assign'),
-    every = require('lodash/collection/every'),
     domify = require('min-dom/lib/domify');
 
 var tooltipsModule = require('../../../../lib/features/tooltips');
-
-
-function asMatrix(transformStr) {
-  if (transformStr && transformStr !== 'none') {
-    var m = transformStr.match(/[+-]?\d*[.]?\d+(?=,|\))/g);
-
-    return {
-      a: parseFloat(m[0]),
-      b: parseFloat(m[1]),
-      c: parseFloat(m[2]),
-      d: parseFloat(m[3]),
-      e: parseFloat(m[4]),
-      f: parseFloat(m[5])
-    };
-  }
-}
-
-function isVisible(element) {
-  return window.getComputedStyle(element).display !== 'none';
-}
-
-function highlight(element) {
-  assign(element.style, { background: 'fuchsia', minWidth: '10px', minHeight: '10px' });
-  return element;
-}
-
-
-function createOverlay() {
-  var element = highlight(domify('<div>TEST<br/>TEST</div>'));
-  assign(element.style, { width: 40, height: 40 });
-  return element;
-}
-
-function queryTooltip(id) {
-  return document.querySelector('[data-tooltip-id=' + id + ']');
-}
 
 
 describe('features/tooltips', function() {
@@ -340,20 +303,6 @@ describe('features/tooltips', function() {
     }));
 
 
-    function transformMatrix(element) {
-      return asMatrix(element.style.transform);
-    }
-
-    function isMatrixEql(original, test) {
-      return every(original, function(val, key) {
-        if (key === 'e') {
-          return val <= -500 || val > -520;
-        }
-        return val === test[key];
-      });
-    }
-
-
     it('should not be transformed initially', inject(function(tooltips, canvas) {
       // given
       // diagram got newly created
@@ -372,7 +321,11 @@ describe('features/tooltips', function() {
       });
 
       // then
-      expect(transformMatrix(tooltips._tooltipRoot)).to.eql({ a : 1, b : 0, c : 0, d : 1, e : 100, f : 50 });
+      expect(transformMatrix(tooltips._tooltipRoot)).to.eql({
+        a : 1, b : 0,
+        c : 0, d : 1,
+        e : 100, f : 50
+      });
     }));
 
 
@@ -381,12 +334,11 @@ describe('features/tooltips', function() {
       // when
       canvas.zoom(2);
 
-      var containerTransform = asMatrix(tooltips._tooltipRoot.style.transform);
-
-      var result = { a : 2, b : 0, c : 0, d : 2, e : -501, f : -300 };
+      var mtrx = transformMatrix(tooltips._tooltipRoot);
 
       // then
-      expect(isMatrixEql(containerTransform, result)).to.be.true;
+      expect(mtrx.a).to.eql(2);
+      expect(mtrx.d).to.eql(2);
     }));
 
 
@@ -396,9 +348,56 @@ describe('features/tooltips', function() {
       canvas.zoom(2, { x: 300, y: 300 });
 
       // then
-      expect(transformMatrix(tooltips._tooltipRoot)).to.eql({ a : 2, b : 0, c : 0, d : 2, e : -300, f : -300 });
+      expect(transformMatrix(tooltips._tooltipRoot)).to.eql({
+        a : 2, b : 0,
+        c : 0, d : 2,
+        e : -300, f : -300
+      });
     }));
 
   });
 
 });
+
+
+
+/////////// helpers ////////////////////////////
+
+function asMatrix(transformStr) {
+  if (transformStr && transformStr !== 'none') {
+    var m = transformStr.match(/[+-]?\d*[.]?\d+(?=,|\))/g);
+
+    return {
+      a: parseFloat(m[0]),
+      b: parseFloat(m[1]),
+      c: parseFloat(m[2]),
+      d: parseFloat(m[3]),
+      e: parseFloat(m[4]),
+      f: parseFloat(m[5])
+    };
+  }
+}
+
+function transformMatrix(element) {
+  return asMatrix(element.style.transform);
+}
+
+function isVisible(element) {
+  return window.getComputedStyle(element).display !== 'none';
+}
+
+function highlight(element) {
+  assign(element.style, { background: 'fuchsia', minWidth: '10px', minHeight: '10px' });
+  return element;
+}
+
+
+function createOverlay() {
+  var element = highlight(domify('<div>TEST<br/>TEST</div>'));
+  assign(element.style, { width: 40, height: 40 });
+  return element;
+}
+
+function queryTooltip(id) {
+  return document.querySelector('[data-tooltip-id=' + id + ']');
+}
