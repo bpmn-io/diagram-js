@@ -112,6 +112,33 @@ describe('features/label-support - Label', function() {
       expect(label.y).to.eql(230);
     }));
 
+
+    it('should not move, if already moved', inject(function(eventBus, modeling) {
+
+      // given
+      var labelPosition = {
+        x: label.x,
+        y: label.y
+      };
+
+      eventBus.once('commandStack.shape.move.postExecute', function(e) {
+
+        var shape = e.context.shape;
+
+        var label = shape.label;
+
+        modeling.moveShape(label, { x: 30, y: 0 });
+      });
+
+      // when
+      modeling.moveElements([ childShape ], { x: 75, y: 0 }, parentShape);
+
+      // then
+      // label was not moved by LabelSupport
+      expect(label.x).to.eql(labelPosition.x + 30);
+      expect(label.y).to.eql(labelPosition.y);
+    }));
+
   });
 
 
