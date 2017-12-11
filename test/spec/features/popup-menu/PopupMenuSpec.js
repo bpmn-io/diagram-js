@@ -10,8 +10,7 @@ var domQuery = require('min-dom/lib/query'),
 var globalEvent = require('../../../util/MockEvents').createEvent;
 
 var popupMenuModule = require('../../../../lib/features/popup-menu'),
-    modelingModule = require('../../../../lib/features/modeling'),
-    commandStack = require('../../../../lib/command');
+    modelingModule = require('../../../../lib/features/modeling');
 
 
 function queryEntry(popupMenu, id) {
@@ -24,16 +23,27 @@ function queryPopup(popupMenu, selector) {
 
 var menuProvider = {
   getHeaderEntries: function() {
-    return [ { id: 'entry1', label: 'foo' } ];
+    return [
+      { id: 'entry1', label: 'foo' }
+    ];
   },
   getEntries: function() {
-    return [ { id: 'entry2', label: 'foo' }, { id: 'entry3', label: 'bar' } ];
+    return [
+      { id: 'entry2', label: 'foo' },
+      { id: 'entry3', label: 'bar' }
+    ];
   }
 };
 
+
 describe('features/popup', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ popupMenuModule, commandStack, modelingModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      popupMenuModule,
+      modelingModule
+    ]
+  }));
 
   describe('bootstrap', function() {
 
@@ -46,7 +56,8 @@ describe('features/popup', function() {
 
 
   describe('#registerProvider', function() {
-    it('should register provider', inject(function(popupMenu) {
+
+    it('should add provider', inject(function(popupMenu) {
 
       // given
       var provider = {};
@@ -58,9 +69,12 @@ describe('features/popup', function() {
       expect(popupMenu._providers.provider).to.exist;
 
     }));
+
   });
 
+
   describe('#create', function() {
+
     it('should create menu for specific element', inject(function(popupMenu) {
 
       // when
@@ -68,9 +82,18 @@ describe('features/popup', function() {
 
       popupMenu.create('menu', {});
 
+      var currentProvider = popupMenu._current.provider;
+
       // then
-      expect(popupMenu._current.provider.getHeaderEntries()).to.deep.include({ id: 'entry1', label: 'foo' });
-      expect(popupMenu._current.provider.getEntries()).to.deep.include({ id: 'entry2', label: 'foo' });
+      expect(currentProvider.getHeaderEntries()).to.deep.include({
+        id: 'entry1',
+        label: 'foo'
+      });
+
+      expect(currentProvider.getEntries()).to.deep.include({
+        id: 'entry2',
+        label: 'foo'
+      });
 
     }));
 
@@ -94,6 +117,7 @@ describe('features/popup', function() {
     }));
 
   });
+
 
   describe('#isEmpty', function() {
 
@@ -138,7 +162,9 @@ describe('features/popup', function() {
       // then
       expect(popupMenu.isEmpty()).to.be.false;
     }));
+
   });
+
 
   describe('#open', function() {
 
@@ -211,6 +237,7 @@ describe('features/popup', function() {
 
   });
 
+
   describe('#close', function() {
 
     beforeEach(inject(function(popupMenu) {
@@ -240,6 +267,7 @@ describe('features/popup', function() {
     }));
 
   });
+
 
   describe('#isOpen', function() {
 
@@ -320,6 +348,7 @@ describe('features/popup', function() {
     }));
 
   });
+
 
   describe('integration', function() {
 
@@ -536,7 +565,7 @@ describe('features/popup', function() {
       // when
       popupMenu.registerProvider('test-menu', {
         getEntries: function() {
-          return { label: 'foo' };
+          return [ { label: 'foo' } ];
         }
       });
 
@@ -638,11 +667,12 @@ describe('features/popup', function() {
     }));
 
 
-    it('should attach only the entries if no header entries is set', inject(function(popupMenu) {
+    it('should only render body if entries exist', inject(function(popupMenu) {
 
       // when
       var testMenuProvider = {
-        getEntries: function() { return []; }
+        getEntries: function() {
+          return [ ]; }
       };
 
       popupMenu.registerProvider('test-menu', testMenuProvider);
@@ -650,7 +680,7 @@ describe('features/popup', function() {
 
       // then
       expect(queryPopup(popupMenu, '.djs-popup-header')).not.to.exist;
-      expect(queryPopup(popupMenu, '.djs-popup-body')).to.exist;
+      expect(queryPopup(popupMenu, '.djs-popup-body')).not.to.exist;
     }));
 
 
