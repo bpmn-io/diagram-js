@@ -253,9 +253,11 @@ svg.new-parent {
 }
 
 .djs-palette .separator {
-  margin: 3px 5px 5px 5px;
+  margin: 0 5px;
+  padding-top: 5px;
+
   border: none;
-  border-top: solid 1px #DDD;
+  border-bottom: solid 1px #DDD;
 
   clear: both;
 }
