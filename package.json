@@ -54,6 +54,7 @@
     "lodash": "^3.0.1",
     "min-dom": "^0.2.0",
     "object-refs": "^0.1.1",
+    "path-intersection": "^1.0.2",
     "tiny-svg": "^0.1.3"
   }
 }
