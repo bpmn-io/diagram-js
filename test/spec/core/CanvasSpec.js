@@ -1,26 +1,19 @@
 'use strict';
 
-require('../../TestHelper');
-
 /* global bootstrapDiagram, inject, sinon */
 
 var merge = require('lodash/object/merge');
 var TestContainer = require('mocha-test-container-support');
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom/lib/query'),
+    domMatches = require('min-dom/lib/matches');
 
 var svgAttr = require('tiny-svg/lib/attr'),
     svgClasses = require('tiny-svg/lib/classes');
 
-function expectLayersOrder(layersParent, expected) {
-  var layers = layersParent.childNodes;
+var getDiagramJS = require('../../TestHelper').getDiagramJS;
 
-  for (var i = 0; i < layers.length; ++i) {
-    var hasClass = svgClasses(layers[i]).has('layer-' + expected[i]);
-
-    expect(hasClass).to.be.true;
-  }
-}
+var getChildrenGfx = require('../../../lib/util/GraphicsUtil').getChildren;
 
 
 describe('Canvas', function() {
@@ -292,8 +285,10 @@ describe('Canvas', function() {
       canvas.addShape(firstChildShape, parentShape, 0);
 
       // then
-      expect(parentShape.children).to.eql([ firstChildShape, childShape ]);
-      expect(firstChildShape.parent).to.equal(parentShape);
+      expectChildren(parentShape, [
+        firstChildShape,
+        childShape
+      ]);
     }));
 
   });
@@ -416,12 +411,20 @@ describe('Canvas', function() {
       var otherChildShape = canvas.addShape({ id: 's2', x: 100, y: 100, width: 30, height: 30 });
 
       // when
-      var connection = canvas.addConnection(
-        { id: 'c1', waypoints: [ { x: 25, y: 25 }, { x: 115, y: 115 } ] }, rootElement, 0);
+      var connection = canvas.addConnection({
+        id: 'c1',
+        waypoints: [
+          { x: 25, y: 25 },
+          { x: 115, y: 115 }
+        ]
+      }, rootElement, 1);
 
       // then
-      expect(rootElement.children).to.eql([ connection, childShape, otherChildShape ]);
-      expect(connection.parent).to.equal(rootElement);
+      expectChildren(rootElement, [
+        childShape,
+        connection,
+        otherChildShape
+      ]);
     }));
 
   });
@@ -1748,3 +1751,45 @@ describe('Canvas', function() {
   });
 
 });
+
+
+
+//////// helpers ////////////////////////////////////////////////
+
+function expectLayersOrder(layersParent, expected) {
+  var layers = layersParent.childNodes;
+
+  for (var i = 0; i < layers.length; ++i) {
+    var hasClass = svgClasses(layers[i]).has('layer-' + expected[i]);
+
+    expect(hasClass).to.be.true;
+  }
+}
+
+function expectChildren(parent, children) {
+
+  return getDiagramJS().invoke(function(elementRegistry) {
+
+    // verify model is consistent
+    expect(parent.children).to.eql(children);
+
+    // verify SVG is consistent
+    var parentGfx = elementRegistry.getGraphics(parent);
+
+    var expectedChildrenGfx = children.map(function(c) {
+      return elementRegistry.getGraphics(c);
+    });
+
+    var childrenContainerGfx =
+      domMatches(parentGfx, '[data-element-id="__implicitroot"]')
+        ? parentGfx
+        : getChildrenGfx(parentGfx);
+
+    var existingChildrenGfx = Array.prototype.map.call(childrenContainerGfx.childNodes, function(c) {
+      return c.querySelector('.djs-element');
+    });
+
+    expect(existingChildrenGfx).to.eql(expectedChildrenGfx);
+  });
+
+}
