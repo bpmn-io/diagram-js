@@ -245,6 +245,7 @@ svg.new-parent {
   left: 20px;
   top: 20px;
 
+  box-sizing: border-box;
   width: 48px;
 }
 
