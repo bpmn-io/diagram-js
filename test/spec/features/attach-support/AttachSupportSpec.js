@@ -1586,7 +1586,7 @@ describe('features/attach-support', function() {
   });
 
 
-  describe('attachers', function() {
+  describe('resize', function() {
 
     var rootShape, host, attacher;
 
