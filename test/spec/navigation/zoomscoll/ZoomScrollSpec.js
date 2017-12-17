@@ -1,9 +1,12 @@
 'use strict';
 
-require('../../../TestHelper');
+var getDiagramJS = require('../../../TestHelper').getDiagramJS;
 
 /* global bootstrapDiagram, inject, sinon */
 
+var assign = require('lodash/object/assign');
+
+var domify = require('min-dom/lib/domify');
 
 var zoomScrollModule = require('../../../../lib/navigation/zoomscroll');
 
@@ -59,6 +62,7 @@ describe('navigation/zoomscroll', function() {
       // then
       expect(canvas.zoom()).to.equal(1);
     }));
+
 
     it('should only zoom in once threshold is reached', inject(function(zoomScroll, canvas) {
 
@@ -227,4 +231,200 @@ describe('navigation/zoomscroll', function() {
 
   });
 
+
+  describe('handle wheel events', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [ zoomScrollModule ],
+      canvas: { deferUpdate: false }
+    }));
+
+
+    describe('should mute', function() {
+
+      it('on .djs-scrollable target', inject(function(zoomScroll) {
+
+        // given
+        var zoomSpy = sinon.spy(zoomScroll, 'zoom');
+        var scrollSpy = sinon.spy(zoomScroll, 'scroll');
+
+        var event = wheelEvent({
+          target: domify('<div class="djs-scrollable" />')
+        });
+
+        // when
+        zoomScroll._handleWheel(event);
+
+        // then
+        expect(zoomSpy).not.to.have.been.called;
+        expect(scrollSpy).not.to.have.been.called;
+      }));
+
+    });
+
+
+    describe('should scroll', function() {
+
+      it('two-dimensional', expectScroll({
+        expectedDelta: {
+          dx: -42.5,
+          dy: -17.5
+        },
+        onWheel: {
+          deltaMode: 0,
+          deltaX: 34,
+          deltaY: 14
+        }
+      }));
+
+
+      it('in line mode (Firefox)', expectScroll({
+        expectedDelta: {
+          dx: -18,
+          dy: 54
+        },
+        onWheel: {
+          deltaMode: 1,
+          deltaX: 1,
+          deltaY: -3
+        }
+      }));
+
+
+      it('axis inverted via shiftKey', expectScroll({
+        expectedDelta: {
+          dx: 17.5,
+          dy: 0
+        },
+        onWheel: {
+          deltaMode: 0,
+          deltaX: 34,
+          deltaY: 14,
+          shiftKey: true
+        }
+      }));
+
+    });
+
+
+    describe('should zoom', function() {
+
+      it('with scroll + ctrlKey', expectZoom({
+        expectedDelta: 1.3250000000000002,
+        expectedPosition: { x: 100, y: 70 },
+        onWheel: {
+          x: 100,
+          y: 70,
+          deltaMode: 0,
+          deltaX: -0,
+          deltaY: -53,
+          ctrlKey: true
+        }
+      }));
+
+
+      it('in line mode (Firefox)', expectZoom({
+        expectedDelta: -0.7905694150420949,
+        expectedPosition: { x: -100, y: -70 },
+        onWheel: {
+          x: -100,
+          y: -70,
+          deltaMode: 1,
+          deltaX: -3,
+          deltaY: 1,
+          ctrlKey: true
+        }
+      }));
+
+    });
+
+  });
+
 });
+
+
+/**
+ * Mock wheel event factory.
+ */
+function wheelEvent(opts) {
+
+  var x = opts.x || 50;
+  var y = opts.y || 50;
+
+  var target = opts.target || document.body;
+
+  var offset = getDiagramJS().invoke(function(canvas) {
+
+    var clientRect = canvas._container.getBoundingClientRect();
+
+    return {
+      left: clientRect.left,
+      top: clientRect.top
+    };
+  });
+
+  return assign({
+    deltaMode: 0,
+    shiftKey: false,
+    ctrlKey: false,
+    preventDefault: function() { },
+    stopPropagataion: function() { }
+  }, opts, {
+    clientX: offset.left + x,
+    clientY: offset.top + y,
+    target: target
+  });
+
+}
+
+
+function expectZoom(opts) {
+
+  return function() {
+    var expectedDelta = opts.expectedDelta,
+        expectedPosition = opts.expectedPosition,
+        event = opts.onWheel;
+
+    getDiagramJS().invoke(function(zoomScroll) {
+
+      // given
+      var zoomSpy = sinon.spy(zoomScroll, 'zoom');
+      var scrollSpy = sinon.spy(zoomScroll, 'scroll');
+
+      // when
+      zoomScroll._handleWheel(wheelEvent(event));
+
+      // then
+      expect(zoomSpy).to.have.been.calledWith(expectedDelta, expectedPosition);
+
+      expect(scrollSpy).not.to.have.been.called;
+    });
+  };
+
+}
+
+
+
+function expectScroll(opts) {
+
+  return function() {
+    var expectedDelta = opts.expectedDelta,
+        event = opts.onWheel;
+
+    getDiagramJS().invoke(function(zoomScroll) {
+
+      // given
+      var zoomSpy = sinon.spy(zoomScroll, 'zoom');
+      var scrollSpy = sinon.spy(zoomScroll, 'scroll');
+
+      // when
+      zoomScroll._handleWheel(wheelEvent(event));
+
+      // then
+      expect(scrollSpy).to.have.been.calledWith(expectedDelta);
+
+      expect(zoomSpy).not.to.have.been.called;
+    });
+  };
+
+}
