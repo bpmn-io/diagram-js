@@ -16,7 +16,11 @@ module.exports = CreateRules;
 
 
 CreateRules.prototype.init = function() {
-  this.addRule('shape.create', function(context) {
+
+  this.addRule([
+    'shape.create',
+    'shape.append'
+  ], function(context) {
 
     var target = context.target;
 

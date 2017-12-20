@@ -25,6 +25,9 @@ var domQuery = require('min-dom/lib/query');
 
 var svgClasses = require('tiny-svg/lib/classes');
 
+var ATTACH = { attach: true };
+var NO_ATTACH = { attach: false };
+
 
 describe('features/attach-support', function() {
 
@@ -90,7 +93,7 @@ describe('features/attach-support', function() {
         width: 50, height: 50
       });
 
-      modeling.createShape(attacher, { x: 400, y: 110 }, parentShape, true);
+      modeling.createShape(attacher, { x: 400, y: 110 }, parentShape, ATTACH);
 
 
       attacher2 = elementFactory.createShape({
@@ -106,7 +109,7 @@ describe('features/attach-support', function() {
     it('should attach', inject(function(modeling) {
 
       // when
-      modeling.moveElements([ attacher2 ], { x: -50, y: 0 }, parentShape, true);
+      modeling.moveElements([ attacher2 ], { x: -50, y: 0 }, parentShape, ATTACH);
 
       // then
       expect(attacher2.host).to.equal(parentShape);
@@ -117,7 +120,7 @@ describe('features/attach-support', function() {
     it('should detach from host', inject(function(modeling) {
 
       // when
-      modeling.moveElements([ attacher ], { x: 50, y: 50 }, rootShape, false);
+      modeling.moveElements([ attacher ], { x: 50, y: 50 }, rootShape, NO_ATTACH);
 
       // then
       expect(attacher.host).not.to.exist;
@@ -128,7 +131,7 @@ describe('features/attach-support', function() {
     it('should reattach to original host on undo', inject(function(modeling, commandStack) {
 
       // when
-      modeling.moveElements([ attacher ], { x: 50, y: 50 }, rootShape, false);
+      modeling.moveElements([ attacher ], { x: 50, y: 50 }, rootShape, NO_ATTACH);
 
       commandStack.undo();
 
@@ -141,7 +144,7 @@ describe('features/attach-support', function() {
     it('should detach on undo', inject(function(modeling, commandStack) {
 
       // when
-      modeling.moveElements([ attacher2 ], { x: -50, y: 0 }, parentShape, true);
+      modeling.moveElements([ attacher2 ], { x: -50, y: 0 }, parentShape, ATTACH);
 
       commandStack.undo();
 
@@ -154,9 +157,9 @@ describe('features/attach-support', function() {
     it('should reattach to initial host when detached', inject(function(modeling) {
 
       // when
-      modeling.moveElements([ attacher ], { x: 50, y: 50 }, rootShape, false);
+      modeling.moveElements([ attacher ], { x: 50, y: 50 }, rootShape, NO_ATTACH);
 
-      modeling.moveElements([ attacher ], { x: -50, y: -50 }, parentShape, true);
+      modeling.moveElements([ attacher ], { x: -50, y: -50 }, parentShape, ATTACH);
 
       // then
       expect(attacher.host).to.equal(parentShape);
@@ -167,7 +170,7 @@ describe('features/attach-support', function() {
     it('should reattach to another host', inject(function(modeling) {
 
       // when
-      modeling.moveElements([ attacher ], { x: 300, y: 0 }, host, true);
+      modeling.moveElements([ attacher ], { x: 300, y: 0 }, host, ATTACH);
 
       // then
       expect(attacher.host).to.equal(host);
@@ -178,9 +181,9 @@ describe('features/attach-support', function() {
     it('should detach on reattachment undo', inject(function(modeling, commandStack) {
 
       // when
-      modeling.moveElements([ attacher ], { x: 50, y: 50 }, rootShape, false);
+      modeling.moveElements([ attacher ], { x: 50, y: 50 }, rootShape, NO_ATTACH);
 
-      modeling.moveElements([ attacher ], { x: -50, y: -50 }, parentShape, true);
+      modeling.moveElements([ attacher ], { x: -50, y: -50 }, parentShape, ATTACH);
 
       commandStack.undo();
 
@@ -1505,7 +1508,7 @@ describe('features/attach-support', function() {
           x: 0, y: 0, width: 50, height: 50
         });
 
-        modeling.createShape(attachedShape, { x: 225, y: 225 }, hostShape, true);
+        modeling.createShape(attachedShape, { x: 225, y: 225 }, hostShape, ATTACH);
 
         // then
         expect(attachedShape.host).to.equal(hostShape);
@@ -1523,7 +1526,7 @@ describe('features/attach-support', function() {
           x: 0, y: 0, width: 50, height: 50
         });
 
-        modeling.createShape(attachedShape, { x: 225, y: 225 }, hostShape, true);
+        modeling.createShape(attachedShape, { x: 225, y: 225 }, hostShape, ATTACH);
 
         // when
         commandStack.undo();
@@ -1544,7 +1547,7 @@ describe('features/attach-support', function() {
           x: 0, y: 0, width: 50, height: 50
         });
 
-        modeling.createShape(attachedShape, { x: 225, y: 225 }, hostShape, true);
+        modeling.createShape(attachedShape, { x: 225, y: 225 }, hostShape, ATTACH);
 
         commandStack.undo();
 
@@ -1569,18 +1572,90 @@ describe('features/attach-support', function() {
         x: 0, y: 0, width: 50, height: 50
       });
 
-      modeling.createShape(attacherShape1, { x: 225, y: 225 }, hostShape, true);
+      modeling.createShape(attacherShape1, { x: 225, y: 225 }, hostShape, ATTACH);
 
       var attacherShape2 = elementFactory.createShape({
         id: 'attacherShape2',
         x: 0, y: 0, width: 50, height: 50
       });
 
-      modeling.createShape(attacherShape2, { x: 125, y: 225 }, hostShape, true);
+      modeling.createShape(attacherShape2, { x: 125, y: 225 }, hostShape, ATTACH);
 
       // then
       expect(hostShape.attachers.slice()).to.eql([ attacherShape1, attacherShape2 ]);
 
+    }));
+
+  });
+
+
+
+  describe('append', function() {
+
+    var hostShape,
+        sourceShape;
+
+    beforeEach(inject(function(canvas, elementFactory, modeling) {
+
+      sourceShape = elementFactory.createShape({
+        id: 'sourceShape',
+        width: 100, height: 100
+      });
+
+      modeling.createShape(sourceShape, { x: 150, y: 150 }, canvas.getRootElement());
+
+      hostShape = elementFactory.createShape({
+        id: 'hostShape',
+        width: 100, height: 100
+      });
+
+      modeling.createShape(hostShape, { x: 350, y: 150 }, canvas.getRootElement());
+    }));
+
+
+    it('should attach and connect', inject(function(modeling) {
+
+      // when
+      var newShape = modeling.appendShape(
+        sourceShape,
+        { id: 'appended', width: 50, height: 50 },
+        { x: 300, y: 150 },
+        hostShape,
+        { attach: true }
+      );
+
+      // then
+      expect(newShape.host).to.equal(hostShape);
+      expect(hostShape.attachers).to.eql([ newShape ]);
+
+      expect(newShape.outgoing).to.eql(sourceShape.incoming);
+
+      expect(newShape.parent).to.equal(hostShape.parent);
+    }));
+
+
+    it('should attach and connect with connection', inject(function(modeling) {
+
+      // when
+      var newShape = modeling.appendShape(
+        sourceShape,
+        { id: 'appended', width: 50, height: 50 },
+        { x: 300, y: 150 },
+        hostShape,
+        {
+          attach: true,
+          connectionParent: rootShape,
+          connection: {
+            id: 'FOO'
+          }
+        }
+      );
+
+      // then
+      var connection = newShape.incoming[0];
+
+      expect(connection.id).to.eql('FOO');
+      expect(connection.parent).to.eql(rootShape);
     }));
 
   });
@@ -1757,7 +1832,7 @@ describe('features/attach-support', function() {
           height: 50
         });
 
-        modeling.createShape(attacher, position, parentShape, true);
+        modeling.createShape(attacher, position, parentShape, ATTACH);
 
         return attacher;
       });

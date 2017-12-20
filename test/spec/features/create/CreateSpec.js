@@ -113,6 +113,29 @@ describe('features/create - Create', function() {
     }));
 
 
+    it('should append + attach', inject(function(create, elementRegistry, elementFactory, dragging) {
+
+      // given
+      var childShapeGfx = elementRegistry.getGraphics('childShape');
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape, parentShape);
+
+      dragging.move(canvasEvent({ x: 150, y: 350 }));
+      dragging.hover({ element: childShape, gfx: childShapeGfx });
+      dragging.move(canvasEvent({ x: 200, y: 350 }));
+
+      dragging.end();
+
+      // then
+      expect(newShape.host).to.equal(childShape);
+      expect(childShape.attachers).to.include(newShape);
+
+      // both source and new target are connected
+      expect(parentShape.outgoing).to.eql(newShape.incoming);
+    }));
+
+
     it('should attach', inject(function(create, elementRegistry, elementFactory, dragging) {
 
       // given

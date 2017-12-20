@@ -42,7 +42,11 @@ describe('features/modeling - append shape', function() {
     beforeEach(inject(function(modeling) {
 
       // add new shape
-      newShape = modeling.appendShape(childShape, { id: 'appended', width: 50, height: 50 }, { x: 200, y: 200 });
+      newShape = modeling.appendShape(
+        childShape,
+        { id: 'appended', width: 50, height: 50 },
+        { x: 200, y: 200 }
+      );
     }));
 
 
@@ -121,8 +125,18 @@ describe('features/modeling - append shape', function() {
         custom: true
       };
 
+      var shapeProps = {
+        id: 'appended',
+        width: 100,
+        height: 100
+      };
+
+      var hints = {
+        connection: connectionProperties
+      };
+
       // when
-      var newShape = modeling.appendShape(childShape, { id: 'appended', width: 100, height: 100 }, { x: 200, y: 200 }, null, connectionProperties);
+      var newShape = modeling.appendShape(childShape, shapeProps, { x: 200, y: 200 }, null, hints);
       var newConnection = newShape.incoming[0];
 
       // then
@@ -133,7 +147,6 @@ describe('features/modeling - append shape', function() {
 
 
   describe('connection create behavior', function() {
-
 
     it('should only create if not connected already', inject(function(modeling, eventBus) {
 
@@ -146,7 +159,11 @@ describe('features/modeling - append shape', function() {
       });
 
       // when
-      var newShape = modeling.appendShape(childShape, { id: 'appended', width: 100, height: 100 }, { x: 500, y: 200 });
+      var newShape = modeling.appendShape(
+        childShape,
+        { id: 'appended', width: 100, height: 100 },
+        { x: 500, y: 200 }
+      );
 
       var incomingConnections = newShape.incoming;
 
