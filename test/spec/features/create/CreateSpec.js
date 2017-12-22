@@ -224,6 +224,97 @@ describe('features/create - Create', function() {
 
   });
 
+  describe('display', function() {
+
+    it('should display connection preview', inject(function(create, elementRegistry, dragging) {
+
+      // given
+      var parentGfx = elementRegistry.getGraphics('parentShape');
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
+
+      dragging.move(canvasEvent({ x: 175, y: 175 }));
+      dragging.hover({ element: parentShape, gfx: parentGfx });
+      dragging.move(canvasEvent({ x: 400, y: 200 }));
+
+      var ctx = dragging.context();
+
+      // then
+      expect(ctx.data.context.connectVisual).to.exist;
+      expect(svgClasses(ctx.data.context.connectVisual).has('djs-dragger')).to.be.true;
+    }));
+
+
+    it('should not display preview if connection is disallowed',
+      inject(function(create, elementRegistry, dragging, createRules) {
+
+        // given
+        createRules.addRule('connection.create', 8000, function() {
+          return false;
+        });
+
+        var parentGfx = elementRegistry.getGraphics('parentShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
+
+        dragging.move(canvasEvent({ x: 175, y: 175 }));
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+        dragging.move(canvasEvent({ x: 400, y: 200 }));
+
+        var ctx = dragging.context();
+
+        // then
+        expect(ctx.data.context.connectVisual.childNodes).to.be.have.lengthOf(0);
+      })
+    );
+  });
+
+  describe('cleanup', function() {
+
+    it('should remove connection preview on dragging end', inject(function(create, elementRegistry, dragging) {
+
+      // given
+      var parentGfx = elementRegistry.getGraphics('parentShape');
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
+
+      dragging.move(canvasEvent({ x: 175, y: 175 }));
+      dragging.hover({ element: parentShape, gfx: parentGfx });
+      dragging.move(canvasEvent({ x: 400, y: 200 }));
+
+      var ctx = dragging.context();
+
+      dragging.end();
+
+      // then
+      expect(ctx.data.context.connectVisual.parentNode).not.to.exist;
+    }));
+
+
+    it('should remove connection preview on dragging cancel', inject(function(create, elementRegistry, dragging) {
+
+      // given
+      var parentGfx = elementRegistry.getGraphics('parentShape');
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
+
+      dragging.move(canvasEvent({ x: 175, y: 175 }));
+      dragging.hover({ element: parentShape, gfx: parentGfx });
+      dragging.move(canvasEvent({ x: 400, y: 200 }));
+
+      var ctx = dragging.context();
+
+      dragging.cancel();
+
+      // then
+      expect(ctx.data.context.connectVisual.parentNode).not.to.exist;
+    }));
+  });
+
 
   describe('rules', function() {
 
