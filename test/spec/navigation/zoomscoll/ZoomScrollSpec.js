@@ -267,8 +267,8 @@ describe('navigation/zoomscroll', function() {
 
       it('two-dimensional', expectScroll({
         expectedDelta: {
-          dx: -42.5,
-          dy: -17.5
+          dx: -25.5,
+          dy: -10.5
         },
         onWheel: {
           deltaMode: 0,
@@ -280,8 +280,8 @@ describe('navigation/zoomscroll', function() {
 
       it('in line mode (Firefox)', expectScroll({
         expectedDelta: {
-          dx: -18,
-          dy: 54
+          dx: -12,
+          dy: 36
         },
         onWheel: {
           deltaMode: 1,
@@ -293,7 +293,7 @@ describe('navigation/zoomscroll', function() {
 
       it('axis inverted via shiftKey', expectScroll({
         expectedDelta: {
-          dx: 17.5,
+          dx: -10.5,
           dy: 0
         },
         onWheel: {
@@ -310,7 +310,7 @@ describe('navigation/zoomscroll', function() {
     describe('should zoom', function() {
 
       it('with scroll + ctrlKey', expectZoom({
-        expectedDelta: 1.3250000000000002,
+        expectedDelta: 0.7949999999999999,
         expectedPosition: { x: 100, y: 70 },
         onWheel: {
           x: 100,
@@ -324,7 +324,7 @@ describe('navigation/zoomscroll', function() {
 
 
       it('in line mode (Firefox)', expectZoom({
-        expectedDelta: -0.7905694150420949,
+        expectedDelta: -0.7589466384404111,
         expectedPosition: { x: -100, y: -70 },
         onWheel: {
           x: -100,
@@ -337,6 +337,47 @@ describe('navigation/zoomscroll', function() {
       }));
 
     });
+
+  });
+
+
+
+  describe('handle wheel events / scale', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [ zoomScrollModule ],
+      canvas: { deferUpdate: false },
+      zoomScroll: {
+        scale: 0.5
+      }
+    }));
+
+
+    it('should adapt scroll', expectScroll({
+      expectedDelta: {
+        dx: -17,
+        dy: -7
+      },
+      onWheel: {
+        deltaMode: 0,
+        deltaX: 34,
+        deltaY: 14
+      }
+    }));
+
+
+    it('should adapt zoom', expectZoom({
+      expectedDelta: 0.53,
+      expectedPosition: { x: 100, y: 70 },
+      onWheel: {
+        x: 100,
+        y: 70,
+        deltaMode: 0,
+        deltaX: -0,
+        deltaY: -53,
+        ctrlKey: true
+      }
+    }));
 
   });
 
