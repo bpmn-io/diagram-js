@@ -139,12 +139,7 @@ svg.new-parent {
 /**
  * drag styles
  */
-.djs-dragger .djs-visual circle,
-.djs-dragger .djs-visual path,
-.djs-dragger .djs-visual polygon,
-.djs-dragger .djs-visual polyline,
-.djs-dragger .djs-visual rect,
-.djs-dragger .djs-visual text {
+.djs-dragger * {
   fill: none !important;
   stroke: rgb(255, 116, 0) !important;
 }
