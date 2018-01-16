@@ -64,12 +64,12 @@ describe('features/interaction-events', function() {
 
   describe('event emitting', function() {
 
-    it('should emit element.(click|hover|out|dblclick) events', inject(function(eventBus) {
+    it('should emit element.(click|hover|out|dblclick|contextmenu) events', inject(function(eventBus) {
 
       // TODO(nre): automate this test
       // we could mock raw dom events via custom events and ensure our correct synthetic events fire
 
-      [ 'hover', 'out', 'click', 'dblclick' ].forEach(function(type) {
+      [ 'hover', 'out', 'click', 'dblclick', 'contextmenu' ].forEach(function(type) {
         eventBus.on('element.' + type, function(event) {
           console.log(type, event);
         });
