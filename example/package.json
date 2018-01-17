@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "An example how to use diagram-js with CommonJS + npm + browserify",
   "main": "app/app.js",
+  "scripts": {
+    "dev": "grunt auto-build"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/bpmn-io/diagram-js"
@@ -32,7 +35,7 @@
     "load-grunt-tasks": "~3.5.0"
   },
   "dependencies": {
-    "diagram-js": "^0.20.0",
+    "diagram-js": "^0.27.2",
     "inherits": "^2.0.3"
   }
 }
