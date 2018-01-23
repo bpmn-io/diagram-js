@@ -256,7 +256,7 @@ describe('features/snapping - Snapping', function() {
       // when
       var siblings = snapping.getSiblings(shape, rootElement);
 
-      // then        
+      // then
       expect(siblings).to.have.length(2);
       expect(siblings).to.contain(sibling);
       expect(siblings).to.contain(connection);

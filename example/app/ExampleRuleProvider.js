@@ -16,15 +16,15 @@ module.exports = ExampleRuleProvider;
 
 ExampleRuleProvider.prototype.init = function() {
   this.addRule('shape.create', function(context) {
-    const target = context.target,
-          shape = context.shape;
+    var target = context.target,
+        shape = context.shape;
 
     return target.parent === shape.target;
   });
 
   this.addRule('connection.create', function(context) {
-    const source = context.source,
-          target = context.target;
+    var source = context.source,
+        target = context.target;
 
     return source.parent === target.parent;
   });
