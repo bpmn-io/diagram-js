@@ -1,6 +1,9 @@
 {
   "rules": {
-    "indent": [ 2, 2, { "VariableDeclarator": { "const": 3, "let": 2, "var": 2 } } ],
+    "indent": [ 2, 2, {
+      "VariableDeclarator": { "const": 3, "let": 2, "var": 2 },
+      "FunctionDeclaration": { "parameters": 2 }
+    } ],
     "keyword-spacing": [ 2 ],
     "mocha/no-exclusive-tests": 2,
     "no-console": 0,
