@@ -2,7 +2,7 @@
 
 /* global bootstrapDiagram, inject, sinon */
 
-var modelingModule = require('../../../../lib/features/modeling');
+var modelingModule = require('lib/features/modeling');
 
 
 describe('features/modeling - move shape', function() {

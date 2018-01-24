@@ -7,7 +7,7 @@ require('../../../TestHelper');
 
 var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
-var dragModule = require('../../../../lib/features/dragging');
+var dragModule = require('lib/features/dragging');
 
 
 describe('features/dragging - HoverFix', function() {

@@ -6,14 +6,14 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
 /* global bootstrapDiagram, inject, sinon */
 
-var bendpointsModule = require('../../../../lib/features/bendpoints'),
-    modelingModule = require('../../../../lib/features/modeling'),
-    selectModule = require('../../../../lib/features/selection');
+var bendpointsModule = require('lib/features/bendpoints'),
+    modelingModule = require('lib/features/modeling'),
+    selectModule = require('lib/features/selection');
 
 var layoutModule = {
   connectionDocking: [
     'type',
-    require('../../../../lib/layout/CroppingConnectionDocking')
+    require('lib/layout/CroppingConnectionDocking')
   ]
 };
 

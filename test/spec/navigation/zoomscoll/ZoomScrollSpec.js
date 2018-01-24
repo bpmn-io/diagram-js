@@ -8,7 +8,7 @@ var assign = require('lodash/object/assign');
 
 var domify = require('min-dom/lib/domify');
 
-var zoomScrollModule = require('../../../../lib/navigation/zoomscroll');
+var zoomScrollModule = require('lib/navigation/zoomscroll');
 
 
 describe('navigation/zoomscroll', function() {

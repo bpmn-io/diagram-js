@@ -4,8 +4,8 @@ var forEach = require('lodash/collection/forEach');
 
 /* global bootstrapDiagram, inject */
 
-var distributeElementsModule = require('../../../../lib/features/distribute-elements'),
-    modelingModule = require('../../../../lib/features/modeling');
+var distributeElementsModule = require('lib/features/distribute-elements'),
+    modelingModule = require('lib/features/modeling');
 
 
 function expectRanges(rangeGroups, expectedRanges) {

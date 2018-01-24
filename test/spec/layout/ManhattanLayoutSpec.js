@@ -1,6 +1,6 @@
 'use strict';
 
-var ManhattanLayout = require('../../../lib/layout/ManhattanLayout');
+var ManhattanLayout = require('lib/layout/ManhattanLayout');
 
 
 function point(x, y) {

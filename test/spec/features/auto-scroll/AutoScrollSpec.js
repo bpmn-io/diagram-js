@@ -7,8 +7,8 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 /* global bootstrapDiagram, inject, sinon */
 
 
-var dragModule = require('../../../../lib/features/dragging');
-var scrollModule = require('../../../../lib/features/auto-scroll');
+var dragModule = require('lib/features/dragging');
+var scrollModule = require('lib/features/auto-scroll');
 
 
 describe('features/auto-scroll - AutoScroll', function() {

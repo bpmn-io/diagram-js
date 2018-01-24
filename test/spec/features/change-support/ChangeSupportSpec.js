@@ -5,8 +5,8 @@ require('../../../TestHelper');
 /* global bootstrapDiagram, inject */
 
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    coreModule = require('../../../../lib/core');
+var modelingModule = require('lib/features/modeling'),
+    coreModule = require('lib/core');
 
 
 describe('features/change-support', function() {

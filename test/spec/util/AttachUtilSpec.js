@@ -1,6 +1,6 @@
 'use strict';
 
-var AttachUtil = require('../../../lib/util/AttachUtil');
+var AttachUtil = require('lib/util/AttachUtil');
 
 
 describe('AttachUtil', function() {

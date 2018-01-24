@@ -8,16 +8,16 @@ var getDiagramJS = require('../../../TestHelper').getDiagramJS;
 
 var pick = require('lodash/object/pick');
 
-var attachSupportModule = require('../../../../lib/features/attach-support'),
-    labelSupportModule = require('../../../../lib/features/label-support'),
-    modelingModule = require('../../../../lib/features/modeling'),
-    moveModule = require('../../../../lib/features/move'),
-    replaceModule = require('../../../../lib/features/replace'),
-    spaceToolModule = require('../../../../lib/features/space-tool'),
+var attachSupportModule = require('lib/features/attach-support'),
+    labelSupportModule = require('lib/features/label-support'),
+    modelingModule = require('lib/features/modeling'),
+    moveModule = require('lib/features/move'),
+    replaceModule = require('lib/features/replace'),
+    spaceToolModule = require('lib/features/space-tool'),
     rulesModule = require('./rules');
 
-var getNewAttachShapeDelta = require('../../../../lib/util/AttachUtil').getNewAttachShapeDelta,
-    isMac = require('../../../../lib/util/Mouse').isMac;
+var getNewAttachShapeDelta = require('lib/util/AttachUtil').getNewAttachShapeDelta,
+    isMac = require('lib/util/Mouse').isMac;
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 

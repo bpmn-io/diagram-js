@@ -2,7 +2,7 @@
 
 /* global bootstrapDiagram, inject */
 
-var selectionModule = require('../../../../lib/features/selection');
+var selectionModule = require('lib/features/selection');
 
 var domQuery = require('min-dom/lib/query');
 

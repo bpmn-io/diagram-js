@@ -2,7 +2,7 @@
 
 var inherits = require('inherits');
 
-var RuleProvider = require('../../../../../lib/features/rules/RuleProvider');
+var RuleProvider = require('lib/features/rules/RuleProvider');
 
 
 var HIGH_PRIORITY = 1500;

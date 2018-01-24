@@ -1,6 +1,6 @@
 'use strict';
 
-var Diagram = require('../../lib/Diagram');
+var Diagram = require('lib/Diagram');
 
 
 describe('diagram', function() {

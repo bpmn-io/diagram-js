@@ -10,14 +10,14 @@ var domClasses = require('min-dom/lib/classes'),
     domQuery = require('min-dom/lib/query'),
     $ = require('jquery');
 
-var overlayModule = require('../../../../lib/features/overlays'),
-    selectionModule = require('../../../../lib/features/selection'),
-    modelingModule = require('../../../../lib/features/modeling'),
-    resizeModule = require('../../../../lib/features/resize'),
-    moveModule = require('../../../../lib/features/move');
+var overlayModule = require('lib/features/overlays'),
+    selectionModule = require('lib/features/selection'),
+    modelingModule = require('lib/features/modeling'),
+    resizeModule = require('lib/features/resize'),
+    moveModule = require('lib/features/move');
 
 
-var resizeBounds = require('../../../../lib/features/resize/ResizeUtil').resizeBounds;
+var resizeBounds = require('lib/features/resize/ResizeUtil').resizeBounds;
 
 describe('features/overlay - integration', function() {
 

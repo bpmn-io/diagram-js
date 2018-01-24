@@ -9,8 +9,8 @@ var domQuery = require('min-dom/lib/query'),
 
 var globalEvent = require('../../../util/MockEvents').createEvent;
 
-var popupMenuModule = require('../../../../lib/features/popup-menu'),
-    modelingModule = require('../../../../lib/features/modeling');
+var popupMenuModule = require('lib/features/popup-menu'),
+    modelingModule = require('lib/features/modeling');
 
 
 function queryEntry(popupMenu, id) {

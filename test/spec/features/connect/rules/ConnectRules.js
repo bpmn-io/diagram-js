@@ -2,7 +2,7 @@
 
 var inherits = require('inherits');
 
-var RuleProvider = require('../../../../../lib/features/rules/RuleProvider');
+var RuleProvider = require('lib/features/rules/RuleProvider');
 
 function ConnectRules(eventBus) {
   RuleProvider.call(this, eventBus);

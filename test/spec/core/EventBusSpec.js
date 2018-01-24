@@ -1,6 +1,6 @@
 'use strict';
 
-var EventBus = require('../../../lib/core/EventBus');
+var EventBus = require('lib/core/EventBus');
 
 var EventBusEvent = EventBus.Event;
 

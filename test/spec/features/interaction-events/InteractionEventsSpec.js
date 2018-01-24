@@ -5,7 +5,7 @@ require('../../../TestHelper');
 /* global bootstrapDiagram, inject */
 
 
-var interactionEventsModule = require('../../../../lib/features/interaction-events');
+var interactionEventsModule = require('lib/features/interaction-events');
 
 
 describe('features/interaction-events', function() {

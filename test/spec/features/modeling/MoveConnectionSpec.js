@@ -4,7 +4,7 @@
 /* global bootstrapDiagram, inject */
 
 
-var modelingModule = require('../../../../lib/features/modeling');
+var modelingModule = require('lib/features/modeling');
 
 
 describe('features/modeling - move connection', function() {

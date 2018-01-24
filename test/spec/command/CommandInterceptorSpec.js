@@ -6,9 +6,9 @@ require('../../TestHelper');
 
 var inherits = require('inherits');
 
-var cmdModule = require('../../../lib/command');
+var cmdModule = require('lib/command');
 
-var CommandInterceptor = require('../../../lib/command/CommandInterceptor');
+var CommandInterceptor = require('lib/command/CommandInterceptor');
 
 
 // example commands

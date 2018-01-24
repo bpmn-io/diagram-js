@@ -13,7 +13,7 @@ var svgAttr = require('tiny-svg/lib/attr'),
 
 var getDiagramJS = require('../../TestHelper').getDiagramJS;
 
-var getChildrenGfx = require('../../../lib/util/GraphicsUtil').getChildren;
+var getChildrenGfx = require('lib/util/GraphicsUtil').getChildren;
 
 
 describe('Canvas', function() {

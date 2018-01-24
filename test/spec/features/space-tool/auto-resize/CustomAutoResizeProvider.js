@@ -2,7 +2,7 @@
 
 var inherits = require('inherits');
 
-var AutoResizeProvider = require('../../../../../lib/features/auto-resize/AutoResizeProvider');
+var AutoResizeProvider = require('lib/features/auto-resize/AutoResizeProvider');
 
 
 function CustomAutoResizeProvider(eventBus) {

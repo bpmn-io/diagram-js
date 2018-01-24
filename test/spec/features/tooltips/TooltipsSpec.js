@@ -7,7 +7,7 @@ var forEach = require('lodash/collection/forEach'),
     assign = require('lodash/object/assign'),
     domify = require('min-dom/lib/domify');
 
-var tooltipsModule = require('../../../../lib/features/tooltips');
+var tooltipsModule = require('lib/features/tooltips');
 
 
 describe('features/tooltips', function() {

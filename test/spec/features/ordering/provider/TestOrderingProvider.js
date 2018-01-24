@@ -2,7 +2,7 @@
 
 var inherits = require('inherits');
 
-var OrderingProvider = require('../../../../../lib/features/ordering/OrderingProvider');
+var OrderingProvider = require('lib/features/ordering/OrderingProvider');
 
 
 var findIndex = require('lodash/array/findIndex');

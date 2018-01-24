@@ -5,8 +5,8 @@ require('../../../TestHelper');
 /* global bootstrapDiagram, inject */
 
 
-var moveCanvasModule = require('../../../../lib/navigation/movecanvas'),
-    interactionEventsModule = require('../../../../lib/features/interaction-events');
+var moveCanvasModule = require('lib/navigation/movecanvas'),
+    interactionEventsModule = require('lib/features/interaction-events');
 
 
 describe('navigation/movecanvas', function() {

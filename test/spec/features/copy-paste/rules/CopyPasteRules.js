@@ -2,7 +2,7 @@
 
 var inherits = require('inherits');
 
-var RuleProvider = require('../../../../../lib/features/rules/RuleProvider');
+var RuleProvider = require('lib/features/rules/RuleProvider');
 
 
 function CopyPasteRules(eventBus) {

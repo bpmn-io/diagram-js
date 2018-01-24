@@ -4,10 +4,10 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
 /* global bootstrapDiagram, inject */
 
-var spaceTool = require('../../../../lib/features/space-tool'),
-    modelingModule = require('../../../../lib/features/modeling'),
-    autoResizeModule = require('../../../../lib/features/auto-resize'),
-    isMac = require('../../../../lib/util/Mouse').isMac,
+var spaceTool = require('lib/features/space-tool'),
+    modelingModule = require('lib/features/modeling'),
+    autoResizeModule = require('lib/features/auto-resize'),
+    isMac = require('lib/util/Mouse').isMac,
     rulesModule = require('./rules');
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };

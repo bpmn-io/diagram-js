@@ -4,9 +4,9 @@
 
 var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    moveModule = require('../../../../lib/features/move'),
-    attachSupportModule = require('../../../../lib/features/attach-support'),
+var modelingModule = require('lib/features/modeling'),
+    moveModule = require('lib/features/move'),
+    attachSupportModule = require('lib/features/attach-support'),
     rulesModule = require('./rules');
 
 var domQuery = require('min-dom/lib/query');

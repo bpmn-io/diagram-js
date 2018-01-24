@@ -1,6 +1,6 @@
 'use strict';
 
-var CopyPasteUtil = require('../../../lib/util/CopyPasteUtil');
+var CopyPasteUtil = require('lib/util/CopyPasteUtil');
 
 
 describe('util/CopyPasteUtil', function() {

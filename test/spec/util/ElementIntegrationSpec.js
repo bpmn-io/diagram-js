@@ -6,9 +6,9 @@ require('../../TestHelper');
 
 var keys = require('lodash/object/keys');
 
-var Elements = require('../../../lib/util/Elements');
+var Elements = require('lib/util/Elements');
 
-var modelingModule = require('../../../lib/features/modeling');
+var modelingModule = require('lib/features/modeling');
 
 
 describe('util/Elements', function() {

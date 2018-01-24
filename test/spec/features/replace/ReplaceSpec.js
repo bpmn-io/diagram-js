@@ -2,8 +2,8 @@
 
 /* global bootstrapDiagram, inject */
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    replaceModule = require('../../../../lib/features/replace');
+var modelingModule = require('lib/features/modeling'),
+    replaceModule = require('lib/features/replace');
 
 var domQuery = require('min-dom/lib/query');
 

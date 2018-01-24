@@ -1,6 +1,6 @@
 'use strict';
 
-var Model = require('../../lib/model');
+var Model = require('lib/model');
 
 
 describe('matchers/BoundsMatchers', function() {

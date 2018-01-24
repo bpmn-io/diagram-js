@@ -5,10 +5,10 @@ require('../../../TestHelper');
 /* global bootstrapDiagram, inject, sinon */
 
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    bendpointsModule = require('../../../../lib/features/bendpoints'),
+var modelingModule = require('lib/features/modeling'),
+    bendpointsModule = require('lib/features/bendpoints'),
     rulesModule = require('./rules'),
-    interactionModule = require('../../../../lib/features/interaction-events'),
+    interactionModule = require('lib/features/interaction-events'),
     canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
 var domQuery = require('min-dom/lib/query');

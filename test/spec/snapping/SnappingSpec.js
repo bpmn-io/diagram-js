@@ -4,17 +4,17 @@
 
 var assign = require('lodash/object/assign');
 
-var snappingModule = require('../../../lib/features/snapping'),
-    modelingModule = require('../../../lib/features/modeling'),
-    moveModule = require('../../../lib/features/move'),
-    createModule = require('../../../lib/features/create'),
-    attachSupportModule = require('../../../lib/features/attach-support');
+var snappingModule = require('lib/features/snapping'),
+    modelingModule = require('lib/features/modeling'),
+    moveModule = require('lib/features/move'),
+    createModule = require('lib/features/create'),
+    attachSupportModule = require('lib/features/attach-support');
 
 var canvasEvent = require('../../util/MockEvents').createCanvasEvent;
 
-var SnapContext = require('../../../lib/features/snapping/SnapContext');
+var SnapContext = require('lib/features/snapping/SnapContext');
 
-var Event = require('../../../lib/core/EventBus').Event;
+var Event = require('lib/core/EventBus').Event;
 
 
 describe('features/snapping - Snapping', function() {

@@ -1,6 +1,6 @@
 'use strict';
 
-var GeometryUtil = require('../../../lib/util/Geometry');
+var GeometryUtil = require('lib/util/Geometry');
 
 var pointsOnLine = GeometryUtil.pointsOnLine;
 

@@ -2,7 +2,7 @@
 
 /* global bootstrapDiagram, inject, sinon */
 
-var paletteModule = require('../../../../lib/features/palette');
+var paletteModule = require('lib/features/palette');
 
 var domQuery = require('min-dom/lib/query'),
     domClasses = require('min-dom/lib/classes');

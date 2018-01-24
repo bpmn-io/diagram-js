@@ -4,7 +4,7 @@ require('../../../TestHelper');
 
 /* global bootstrapDiagram, inject */
 
-var translateModule = require('../../../../lib/i18n/translate'),
+var translateModule = require('lib/i18n/translate'),
     customTranslateModule = require('./custom-translate');
 
 

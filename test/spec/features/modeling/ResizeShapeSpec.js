@@ -4,20 +4,20 @@
 
 var pick = require('lodash/object/pick');
 
-var resizeBounds = require('../../../../lib/features/resize/ResizeUtil').resizeBounds,
+var resizeBounds = require('lib/features/resize/ResizeUtil').resizeBounds,
     canvasEvent = require('../../../util/MockEvents').createCanvasEvent,
-    Elements = require('../../../../lib/util/Elements');
+    Elements = require('lib/util/Elements');
 
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    resizeModule = require('../../../../lib/features/resize'),
-    attachModule = require('../../../../lib/features/attach-support');
+var modelingModule = require('lib/features/modeling'),
+    resizeModule = require('lib/features/resize'),
+    attachModule = require('lib/features/attach-support');
 
 var layoutModule = {
-  connectionDocking: [ 'type', require('../../../../lib/layout/CroppingConnectionDocking') ]
+  connectionDocking: [ 'type', require('lib/layout/CroppingConnectionDocking') ]
 };
 
-var getNewAttachPoint = require('../../../../lib/util/AttachUtil').getNewAttachPoint;
+var getNewAttachPoint = require('lib/util/AttachUtil').getNewAttachPoint;
 
 function bounds(b) {
   return pick(b, [ 'x', 'y', 'width', 'height' ]);

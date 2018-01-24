@@ -1,6 +1,6 @@
 'use strict';
 
-var Elements = require('../../../lib/util/Elements');
+var Elements = require('lib/util/Elements');
 
 
 describe('util/Elements', function() {

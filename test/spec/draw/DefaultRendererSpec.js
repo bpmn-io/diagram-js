@@ -5,7 +5,7 @@ require('../../TestHelper');
 /* global bootstrapDiagram, inject */
 
 
-var drawModule = require('../../../lib/draw');
+var drawModule = require('lib/draw');
 
 
 describe('draw - DefaultRenderer', function() {

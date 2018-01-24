@@ -4,7 +4,7 @@ require('../../TestHelper');
 /* global bootstrapDiagram, inject, sinon */
 
 
-var cmdModule = require('../../../lib/command');
+var cmdModule = require('lib/command');
 
 // example commands
 

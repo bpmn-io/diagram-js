@@ -4,8 +4,8 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
 /* global bootstrapDiagram, inject, sinon */
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    globalConnectModule = require('../../../../lib/features/global-connect');
+var modelingModule = require('lib/features/modeling'),
+    globalConnectModule = require('lib/features/global-connect');
 
 
 function Provider(allow) {

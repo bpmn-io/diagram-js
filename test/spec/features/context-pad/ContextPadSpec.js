@@ -8,7 +8,7 @@ var globalEvent = require('../../../util/MockEvents').createEvent;
 var domQuery = require('min-dom/lib/query'),
     domClasses = require('min-dom/lib/classes');
 
-var contextPadModule = require('../../../../lib/features/context-pad');
+var contextPadModule = require('lib/features/context-pad');
 
 var providerModule = {
   __init__: [ 'contextPadProvider' ],

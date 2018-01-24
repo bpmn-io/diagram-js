@@ -38,7 +38,7 @@ function toFitBBox(actual, expected) {
   return !!pass;
 }
 
-var TextUtil = require('../../../lib/util/Text');
+var TextUtil = require('lib/util/Text');
 
 var TestContainer = require('mocha-test-container-support');
 

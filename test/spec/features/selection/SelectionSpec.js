@@ -3,11 +3,11 @@
 /* global bootstrapDiagram, inject, sinon */
 
 
-var coreModule = require('../../../../lib/core'),
-    draggingModule = require('../../../../lib/features/dragging'),
-    modelingModule = require('../../../../lib/features/modeling'),
-    moveModule = require('../../../../lib/features/move'),
-    selectionModule = require('../../../../lib/features/selection');
+var coreModule = require('lib/core'),
+    draggingModule = require('lib/features/dragging'),
+    modelingModule = require('lib/features/modeling'),
+    moveModule = require('lib/features/move'),
+    selectionModule = require('lib/features/selection');
 
 var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 

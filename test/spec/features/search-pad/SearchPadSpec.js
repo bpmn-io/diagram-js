@@ -2,8 +2,8 @@
 
 /* global bootstrapDiagram, inject, sinon */
 
-var searchPadModule = require('../../../../lib/features/search-pad');
-var SearchPad = require('../../../../lib/features/search-pad/SearchPad');
+var searchPadModule = require('lib/features/search-pad');
+var SearchPad = require('lib/features/search-pad/SearchPad');
 
 var domQuery = require('min-dom/lib/query'),
     domClasses = require('min-dom/lib/classes');

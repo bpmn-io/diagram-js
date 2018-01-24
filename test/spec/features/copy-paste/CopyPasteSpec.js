@@ -6,9 +6,9 @@ require('../../../TestHelper');
 
 var forEach = require('lodash/collection/forEach');
 
-var copyPasteModule = require('../../../../lib/features/copy-paste'),
-    selectionModule = require('../../../../lib/features/selection'),
-    modelingModule = require('../../../../lib/features/modeling'),
+var copyPasteModule = require('lib/features/copy-paste'),
+    selectionModule = require('lib/features/selection'),
+    modelingModule = require('lib/features/modeling'),
     rulesModule = require('./rules');
 
 

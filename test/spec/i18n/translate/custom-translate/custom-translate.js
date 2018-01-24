@@ -1,6 +1,6 @@
 'use strict';
 
-var translate = require('../../../../../lib/i18n/translate/translate');
+var translate = require('lib/i18n/translate/translate');
 
 module.exports = function customTranslate(template, replacements) {
   if (template === 'Remove') {

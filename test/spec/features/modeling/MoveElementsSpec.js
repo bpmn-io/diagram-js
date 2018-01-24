@@ -5,7 +5,7 @@
 
 var pick = require('lodash/object/pick');
 
-var modelingModule = require('../../../../lib/features/modeling');
+var modelingModule = require('lib/features/modeling');
 
 function containment(element) {
   return pick(element, [ 'x', 'y', 'parent' ]);

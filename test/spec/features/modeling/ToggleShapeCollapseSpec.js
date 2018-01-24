@@ -4,7 +4,7 @@ require('../../../TestHelper');
 
 /* global bootstrapDiagram, inject */
 
-var modelingModule = require('../../../../lib/features/modeling');
+var modelingModule = require('lib/features/modeling');
 
 
 describe('features/modeling - toggle collapsed', function() {

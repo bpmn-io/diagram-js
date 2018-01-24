@@ -7,8 +7,8 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 /* global bootstrapDiagram, inject */
 
 
-var handToolModule = require('../../../../lib/features/hand-tool'),
-    draggingModule = require('../../../../lib/features/dragging');
+var handToolModule = require('lib/features/hand-tool'),
+    draggingModule = require('lib/features/dragging');
 
 
 describe('features/hand-tool', function() {

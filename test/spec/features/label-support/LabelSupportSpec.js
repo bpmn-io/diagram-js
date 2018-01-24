@@ -5,11 +5,11 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 /* global bootstrapDiagram, inject */
 
 
-var labelSupportModule = require('../../../../lib/features/label-support'),
-    moveModule = require('../../../../lib/features/move'),
-    modelingModule = require('../../../../lib/features/modeling'),
+var labelSupportModule = require('lib/features/label-support'),
+    moveModule = require('lib/features/move'),
+    modelingModule = require('lib/features/modeling'),
     rulesModule = require('./rules'),
-    spaceToolModule = require('../../../../lib/features/space-tool');
+    spaceToolModule = require('lib/features/space-tool');
 
 var svgClasses = require('tiny-svg/lib/classes');
 

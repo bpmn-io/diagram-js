@@ -6,10 +6,10 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
 /* global bootstrapDiagram, inject, sinon */
 
-var bendpointsModule = require('../../../../lib/features/bendpoints'),
+var bendpointsModule = require('lib/features/bendpoints'),
     rulesModule = require('./rules'),
-    modelingModule = require('../../../../lib/features/modeling'),
-    selectModule = require('../../../../lib/features/selection');
+    modelingModule = require('lib/features/modeling'),
+    selectModule = require('lib/features/selection');
 
 var domQuery = require('min-dom/lib/query');
 

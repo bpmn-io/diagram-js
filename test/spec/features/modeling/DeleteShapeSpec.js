@@ -3,9 +3,9 @@
 /* global bootstrapDiagram, inject */
 
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    contextPadModule = require('../../../../lib/features/context-pad'),
-    selectionModule = require('../../../../lib/features/selection');
+var modelingModule = require('lib/features/modeling'),
+    contextPadModule = require('lib/features/context-pad'),
+    selectionModule = require('lib/features/selection');
 
 describe('features/modeling - #removeShape', function() {
 

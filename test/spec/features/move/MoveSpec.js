@@ -7,8 +7,8 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 var assign = require('lodash/object/assign'),
     pick = require('lodash/object/pick');
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    moveModule = require('../../../../lib/features/move');
+var modelingModule = require('lib/features/modeling'),
+    moveModule = require('lib/features/move');
 
 
 describe('features/move - Move', function() {

@@ -1,6 +1,6 @@
 'use strict';
 
-var getMid = require('../../../../../lib/layout/LayoutUtil').getMid;
+var getMid = require('lib/layout/LayoutUtil').getMid;
 
 
 /**

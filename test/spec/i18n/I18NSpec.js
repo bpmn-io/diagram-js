@@ -5,8 +5,8 @@ require('../../TestHelper');
 /* global bootstrapDiagram, inject, sinon */
 
 
-var paletteModule = require('../../../lib/features/palette'),
-    i18nModule = require('../../../lib/i18n');
+var paletteModule = require('lib/features/palette'),
+    i18nModule = require('lib/i18n');
 
 var spy = sinon.spy;
 

@@ -6,11 +6,11 @@ require('../../../TestHelper');
 
 var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    moveModule = require('../../../../lib/features/move'),
-    dragModule = require('../../../../lib/features/dragging'),
-    createModule = require('../../../../lib/features/create'),
-    attachSupportModule = require('../../../../lib/features/attach-support'),
+var modelingModule = require('lib/features/modeling'),
+    moveModule = require('lib/features/move'),
+    dragModule = require('lib/features/dragging'),
+    createModule = require('lib/features/create'),
+    attachSupportModule = require('lib/features/attach-support'),
     rulesModule = require('./rules');
 
 var svgClasses = require('tiny-svg/lib/classes');

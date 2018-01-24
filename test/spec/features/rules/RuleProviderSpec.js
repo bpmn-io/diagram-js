@@ -5,10 +5,10 @@
 var testRulesModule = require('./rules'),
     sayNoRulesModule = require('./say-no-rules'),
     priorityRulesModule = require('./priority-rules'),
-    rulesModule = require('../../../../lib/features/rules'),
-    modelingModule = require('../../../../lib/features/modeling');
+    rulesModule = require('lib/features/rules'),
+    modelingModule = require('lib/features/modeling');
 
-var RuleProvider = require('../../../../lib/features/rules/RuleProvider');
+var RuleProvider = require('lib/features/rules/RuleProvider');
 
 var inherits = require('inherits');
 

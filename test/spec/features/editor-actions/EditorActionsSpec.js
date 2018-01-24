@@ -5,8 +5,8 @@ require('../../../TestHelper');
 /* global bootstrapDiagram, inject, sinon */
 
 
-var editorActionsModule = require('../../../../lib/features/editor-actions'),
-    modelingModule = require('../../../../lib/features/modeling'),
+var editorActionsModule = require('lib/features/editor-actions'),
+    modelingModule = require('lib/features/modeling'),
     customRulesModule = require('./rules');
 
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var SnapContext = require('../../../lib/features/snapping/SnapContext');
+var SnapContext = require('lib/features/snapping/SnapContext');
 
 
 describe('snapping - SnapContext', function() {

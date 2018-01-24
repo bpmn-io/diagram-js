@@ -6,7 +6,7 @@ var forEach = require('lodash/collection/forEach'),
     assign = require('lodash/object/assign'),
     domify = require('min-dom/lib/domify');
 
-var overlayModule = require('../../../../lib/features/overlays');
+var overlayModule = require('lib/features/overlays');
 
 var getDiagramJS = require('../../../TestHelper').getDiagramJS;
 

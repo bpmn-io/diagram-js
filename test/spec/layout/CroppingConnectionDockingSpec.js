@@ -9,7 +9,7 @@ var svgAppend = require('tiny-svg/lib/append'),
     svgCreate = require('tiny-svg/lib/create');
 
 var layoutModule = {
-  connectionDocking: [ 'type', require('../../../lib/layout/CroppingConnectionDocking') ]
+  connectionDocking: [ 'type', require('lib/layout/CroppingConnectionDocking') ]
 };
 
 

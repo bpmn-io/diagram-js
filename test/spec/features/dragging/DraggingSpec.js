@@ -10,7 +10,7 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 var assign = require('lodash/object/assign'),
     omit = require('lodash/object/omit');
 
-var dragModule = require('../../../../lib/features/dragging');
+var dragModule = require('lib/features/dragging');
 
 var svgClasses = require('tiny-svg/lib/classes');
 

@@ -7,7 +7,7 @@ var unique = require('lodash/array/unique'),
 
 var TestContainer = require('mocha-test-container-support');
 
-var Diagram = require('../../lib/Diagram'),
+var Diagram = require('lib/Diagram'),
     domEvent = require('min-dom/lib/event');
 
 var OPTIONS, DIAGRAM_JS;

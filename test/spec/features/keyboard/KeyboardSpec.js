@@ -7,9 +7,9 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapDiagram, inject */
 
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    editorActionsModule = require('../../../../lib/features/editor-actions'),
-    keyboardModule = require('../../../../lib/features/keyboard');
+var modelingModule = require('lib/features/modeling'),
+    editorActionsModule = require('lib/features/editor-actions'),
+    keyboardModule = require('lib/features/keyboard');
 
 var createKeyEvent = require('../../../util/KeyEvents').createKeyEvent;
 

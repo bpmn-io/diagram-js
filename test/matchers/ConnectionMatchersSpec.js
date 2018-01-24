@@ -3,7 +3,7 @@
 
 describe('matchers/ConnectionMatchers', function() {
 
-  var Model = require('../../lib/model');
+  var Model = require('lib/model');
 
   var connectionWaypoints = [
     { x: 100, y: 100, original: { x: 120, y: 120 } },

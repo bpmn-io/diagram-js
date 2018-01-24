@@ -7,7 +7,7 @@ require('../../../TestHelper');
 
 var find = require('lodash/collection/find');
 
-var modelingModule = require('../../../../lib/features/modeling');
+var modelingModule = require('lib/features/modeling');
 
 
 describe('features/modeling - append shape', function() {

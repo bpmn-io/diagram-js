@@ -7,9 +7,9 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 /* global bootstrapDiagram, inject */
 
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    lassoToolModule = require('../../../../lib/features/lasso-tool'),
-    draggingModule = require('../../../../lib/features/dragging');
+var modelingModule = require('lib/features/modeling'),
+    lassoToolModule = require('lib/features/lasso-tool'),
+    draggingModule = require('lib/features/dragging');
 
 
 describe('features/lasso-tool', function() {

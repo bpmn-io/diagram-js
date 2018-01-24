@@ -1,7 +1,7 @@
 'use strict';
 
 
-var Styles = require('../../../lib/draw/Styles');
+var Styles = require('lib/draw/Styles');
 
 
 describe('draw/Styles', function() {

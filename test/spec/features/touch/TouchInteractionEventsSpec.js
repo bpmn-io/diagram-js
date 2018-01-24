@@ -5,7 +5,7 @@
 var forEach = require('lodash/collection/forEach');
 
 
-var touchInteractionModule = require('../../../../lib/features/touch');
+var touchInteractionModule = require('lib/features/touch');
 
 
 describe('features/touch', function() {

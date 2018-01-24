@@ -1,6 +1,6 @@
 'use strict';
 
-var LayoutUtil = require('../../../lib/layout/LayoutUtil');
+var LayoutUtil = require('lib/layout/LayoutUtil');
 
 
 function rect(x, y, width, height) {

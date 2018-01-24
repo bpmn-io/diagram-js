@@ -5,7 +5,7 @@ require('../../TestHelper');
 /* global bootstrapDiagram, inject */
 
 
-var EventBus = require('../../../lib/core/EventBus');
+var EventBus = require('lib/core/EventBus');
 
 
 describe('environment/Mocking', function() {

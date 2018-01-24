@@ -5,9 +5,9 @@ require('../../../TestHelper');
 /* global bootstrapDiagram, inject */
 
 
-var touchModule = require('../../../../lib/navigation/touch'),
-    contextPadModule = require('../../../../lib/features/context-pad'),
-    paletteModule = require('../../../../lib/features/palette');
+var touchModule = require('lib/navigation/touch'),
+    contextPadModule = require('lib/features/context-pad'),
+    paletteModule = require('lib/features/palette');
 
 
 describe('navigation/touch', function() {

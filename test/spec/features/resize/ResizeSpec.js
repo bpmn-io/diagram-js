@@ -9,10 +9,10 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
 var pick = require('lodash/object/pick');
 
-var resizeModule = require('../../../../lib/features/resize'),
-    modelingModule = require('../../../../lib/features/modeling'),
+var resizeModule = require('lib/features/resize'),
+    modelingModule = require('lib/features/modeling'),
     rulesModule = require('./rules'),
-    selectModule = require('../../../../lib/features/selection');
+    selectModule = require('lib/features/selection');
 
 var domQuery = require('min-dom/lib/query');
 

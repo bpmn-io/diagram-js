@@ -2,11 +2,11 @@
 
 /* global bootstrapDiagram, inject, sinon */
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    autoResizeModule = require('../../../../lib/features/auto-resize');
+var modelingModule = require('lib/features/modeling'),
+    autoResizeModule = require('lib/features/auto-resize');
 
-var AutoResizeProvider = require('../../../../lib/features/auto-resize/AutoResizeProvider'),
-    AutoResize = require('../../../../lib/features/auto-resize/AutoResize');
+var AutoResizeProvider = require('lib/features/auto-resize/AutoResizeProvider'),
+    AutoResize = require('lib/features/auto-resize/AutoResize');
 
 var spy = sinon.spy;
 

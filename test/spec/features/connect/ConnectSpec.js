@@ -7,9 +7,9 @@ require('../../../TestHelper');
 
 var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
-var modelingModule = require('../../../../lib/features/modeling'),
+var modelingModule = require('lib/features/modeling'),
     rulesModule = require('./rules'),
-    connectModule = require('../../../../lib/features/connect');
+    connectModule = require('lib/features/connect');
 
 
 describe('features/connect', function() {

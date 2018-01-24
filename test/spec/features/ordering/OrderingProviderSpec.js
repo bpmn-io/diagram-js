@@ -3,8 +3,8 @@
 /* global bootstrapDiagram, inject */
 
 
-var modelingModule = require('../../../../lib/features/modeling'),
-    moveModule = require('../../../../lib/features/move'),
+var modelingModule = require('lib/features/modeling'),
+    moveModule = require('lib/features/move'),
     orderingProviderModule = require('./provider');
 
 
