@@ -2,18 +2,36 @@
 
 require('../../../TestHelper');
 
-/* global bootstrapDiagram, inject */
+/* global bootstrapDiagram, inject, sinon */
 
 
 var interactionEventsModule = require('lib/features/interaction-events');
 
+var bindings = {
+  mouseover: 'element.hover',
+  mouseout: 'element.out',
+  click: 'element.click',
+  dblclick: 'element.dblclick',
+  mousedown: 'element.mousedown',
+  mouseup: 'element.mouseup',
+  contextmenu: 'element.contextmenu'
+};
+
 
 describe('features/interaction-events', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ interactionEventsModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      interactionEventsModule
+    ]
+  }));
 
 
-  var rootShape, parentShape, childShape, childShape2, connection;
+  var rootShape,
+      parentShape,
+      childShape,
+      childShape2,
+      connection;
 
   beforeEach(inject(function(elementFactory, canvas) {
 
@@ -62,21 +80,117 @@ describe('features/interaction-events', function() {
   });
 
 
-  describe('event emitting', function() {
+  describe('event handling', function() {
 
-    it('should emit element.(click|hover|out|dblclick|contextmenu) events', inject(function(eventBus) {
+    function verifyEvent(type, button) {
 
-      // TODO(nre): automate this test
-      // we could mock raw dom events via custom events and ensure our correct synthetic events fire
+      var description =
+        type +
+        (button ? ' with button=' + button : '');
 
-      [ 'hover', 'out', 'click', 'dblclick', 'contextmenu' ].forEach(function(type) {
-        eventBus.on('element.' + type, function(event) {
-          console.log(type, event);
+      it(description, inject(function(eventBus, elementRegistry) {
+
+        // given
+        var parentGfx = elementRegistry.getGraphics(parentShape);
+
+        var listenerFn = sinon.spy(function(e) {
+          expect(e.element).to.eql(parentShape);
+          expect(e.gfx).to.eql(parentGfx);
+
+          expect(e.type).to.eql(bindings[type]);
         });
+
+        // given
+        eventBus.on(bindings[type], listenerFn);
+
+        // when
+        triggerMouseEvent(parentGfx, type, button);
+
+        // then
+        expect(listenerFn).to.have.been.calledOnce;
+
+        expect(listenerFn).not.to.have.thrown();
+      }));
+    }
+
+    function verifyNoEvent(type, button) {
+
+      var description =
+        'should suppress ' + type +
+        (button ? ' with button=' + button : '');
+
+      it(description, inject(function(eventBus, elementRegistry) {
+
+        // given
+        var rootGfx = elementRegistry.getGraphics(rootShape);
+
+        var listenerFn = sinon.spy();
+
+        // given
+        eventBus.on(bindings[type], listenerFn);
+
+        // when
+        triggerMouseEvent(rootGfx, type, button);
+
+        // then
+        expect(listenerFn).not.to.have.been.called;
+      }));
+    }
+
+    describe('should handle', function() {
+
+      // left-clicks
+      Object.keys(bindings).forEach(function(event) {
+        verifyEvent(event);
       });
 
-    }));
+      // <contextmenu> right-click
+      verifyEvent('contextmenu', 2);
+
+    });
+
+
+    describe('should suppress', function() {
+
+      // right-clicks
+      [
+        'click',
+        'mousedown',
+        'mouseup',
+        'dblclick'
+      ].forEach(function(event) {
+        verifyNoEvent(event, 2);
+      });
+
+    });
 
   });
 
 });
+
+
+////////// helpers /////////////////////////
+
+function triggerMouseEvent(gfx, type, button) {
+  var event = mouseEvent(type, button);
+
+  return gfx.dispatchEvent(event);
+}
+
+function mouseEvent(type, button) {
+
+  if (!button) {
+    button = 0;
+  }
+
+  var event = document.createEvent('MouseEvent');
+
+  event.initMouseEvent(
+    type, true, true, window,
+    0, 0, 0, 80, 20,
+    false, false, false, false,
+    button, null
+  );
+
+  return event;
+}
