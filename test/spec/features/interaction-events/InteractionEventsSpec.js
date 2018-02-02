@@ -162,7 +162,80 @@ describe('features/interaction-events', function() {
         verifyNoEvent(event, 2);
       });
 
+      // may be registered temporarily
+      [
+        'mousemove'
+      ].forEach(function(event) {
+        verifyNoEvent(event);
+      });
+
     });
+
+  });
+
+
+  describe('register / unregister', function() {
+
+    it('should register', inject(
+      function(interactionEvents, eventBus, canvas) {
+
+        // given
+        var listenerFn = sinon.spy();
+
+        var node = canvas._svg;
+
+        eventBus.on('element.mousemove', listenerFn);
+
+        // when
+        interactionEvents.registerEvent(
+          node, 'mousemove', 'element.mousemove'
+        );
+
+        triggerMouseEvent(node, 'mousemove');
+
+        // then
+        expect(listenerFn).to.have.been.called;
+      }
+    ));
+
+
+    it('should unregister', inject(function(interactionEvents, eventBus) {
+
+      // given
+      var listenerFn = sinon.spy();
+
+      var node = document.body;
+
+      eventBus.on('element.mousemove', listenerFn);
+
+      // when
+      interactionEvents.registerEvent(
+        node, 'mousemove', 'element.mousemove'
+      );
+
+      interactionEvents.unregisterEvent(
+        node, 'mousemove', 'element.mousemove'
+      );
+
+      triggerMouseEvent(node, 'mousemove');
+
+      // then
+      expect(listenerFn).not.to.have.been.called;
+    }));
+
+
+    it('should not throw not de-registration', inject(
+      function(interactionEvents) {
+
+        var node = document.body;
+
+        expect(function() {
+          interactionEvents.unregisterEvent(
+            node, 'mousemove', 'element.mousemove'
+          );
+        }).not.to.throw;
+      }
+    ));
 
   });
 
