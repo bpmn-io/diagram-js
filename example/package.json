@@ -4,6 +4,7 @@
   "description": "An example how to use diagram-js with CommonJS + npm + browserify",
   "main": "app/app.js",
   "scripts": {
+    "build": "grunt",
     "dev": "grunt auto-build"
   },
   "repository": {
