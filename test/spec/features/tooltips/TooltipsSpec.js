@@ -361,7 +361,7 @@ describe('features/tooltips', function() {
 
 
 
-/////////// helpers ////////////////////////////
+// helpers //////////////////////
 
 function asMatrix(transformStr) {
   if (transformStr && transformStr !== 'none') {

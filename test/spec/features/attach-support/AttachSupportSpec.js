@@ -2217,8 +2217,7 @@ describe('features/attach-support', function() {
 
 
 
-
-//////////// helpers ///////////////////////////////////
+// helpers //////////////////////
 
 function getBounds(shape) {
   return pick(shape, [ 'x', 'y', 'width', 'height' ]);

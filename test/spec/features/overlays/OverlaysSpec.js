@@ -1188,8 +1188,7 @@ describe('features/overlays', function() {
 
 
 
-//////////// helpers //////////////////////////////
-
+// helpers //////////////////////
 
 var NUM_REGEX = /[+-]?\d*[.]?\d+(?=,|\))/g;
 

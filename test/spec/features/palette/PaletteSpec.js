@@ -415,7 +415,7 @@ describe('features/palette', function() {
 
 
 
-///////// helpers /////////////////////
+// helpers //////////////////////
 
 function Provider(entries) {
   this.getPaletteEntries = function() {

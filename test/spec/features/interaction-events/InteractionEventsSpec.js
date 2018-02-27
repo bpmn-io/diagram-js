@@ -242,7 +242,7 @@ describe('features/interaction-events', function() {
 });
 
 
-////////// helpers /////////////////////////
+// helpers //////////////////////
 
 function triggerMouseEvent(gfx, type, button) {
   var event = mouseEvent(type, button);

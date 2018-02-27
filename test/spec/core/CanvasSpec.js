@@ -1754,7 +1754,7 @@ describe('Canvas', function() {
 
 
 
-//////// helpers ////////////////////////////////////////////////
+// helpers //////////////////////
 
 function expectLayersOrder(layersParent, expected) {
   var layers = layersParent.childNodes;

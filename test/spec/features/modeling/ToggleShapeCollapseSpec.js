@@ -166,8 +166,7 @@ describe('features/modeling - toggle collapsed', function() {
 });
 
 
-/////////// helpers /////////////////////////////
-
+// helpers //////////////////////
 
 function allHidden() {
   return childrenHidden(true);
