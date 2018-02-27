@@ -171,7 +171,7 @@ describe('features/modeling - resize shape', function() {
       // when
       modeling.resizeShape(shape1, { x: 50, y: 100, width: 50, height: 100 });
 
-      //then
+      // then
       expect(connection.waypoints).to.deep.eql([
         { x: 100, y: 150, original: { x: 75, y: 150 } },
         { x: 200, y: 150, original: { x: 250, y: 150 } }
@@ -462,7 +462,7 @@ describe('features/modeling - resize shape', function() {
       expect(shape.height).to.equal(115);
       expect(shape.width).to.equal(105);
 
-      expect(shape.x).to.equal(95);  // move left
+      expect(shape.x).to.equal(95); // move left
       expect(shape.y).to.equal(100); // stay the same
     }));
 

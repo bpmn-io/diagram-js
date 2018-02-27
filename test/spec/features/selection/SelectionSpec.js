@@ -70,7 +70,7 @@ describe('features/selection/Selections', function() {
       // when
       selection.select(shape1);
 
-      //then
+      // then
       var selectedElements = selection.get();
       expect(selectedElements[0]).to.equal(shape1);
     }));
@@ -81,7 +81,7 @@ describe('features/selection/Selections', function() {
       // when
       selection.select(connection1);
 
-      //then
+      // then
       var selectedElements = selection.get();
       expect(selectedElements[0]).to.equal(connection1);
     }));
@@ -93,7 +93,7 @@ describe('features/selection/Selections', function() {
       selection.select(shape2);
       selection.select(connection1, true);
 
-      //then
+      // then
       var selectedElements = selection.get();
       expect(selectedElements[0]).to.equal(shape2);
       expect(selectedElements[1]).to.equal(connection1);

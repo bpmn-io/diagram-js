@@ -135,7 +135,7 @@ describe('features/palette', function() {
     it('should add palette entries', inject(function(canvas, palette) {
 
       // given
-      var entries  = {
+      var entries = {
         'entryA': {
           alt: 'A',
           className: 'FOO',
@@ -190,7 +190,7 @@ describe('features/palette', function() {
         return inject(function(palette) {
 
           // given
-          var entries  = {
+          var entries = {
             'entryA': {
               alt: 'A',
               className: set

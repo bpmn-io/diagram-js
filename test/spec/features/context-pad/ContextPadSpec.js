@@ -95,7 +95,7 @@ describe('features/context-pad', function() {
         return inject(function(contextPad, canvas) {
 
           // given
-          var entries  = {
+          var entries = {
             'entryA': {
               alt: 'A',
               className: set

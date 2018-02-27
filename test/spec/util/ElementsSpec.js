@@ -181,7 +181,7 @@ describe('util/Elements', function() {
 
     it('should return bbox for element', function() {
 
-      //given
+      // given
       var elements = shape2;
 
       var bbox = Elements.getBBox(elements);
@@ -196,7 +196,7 @@ describe('util/Elements', function() {
 
     it('should return bbox for connection', function() {
 
-      //given
+      // given
       var elements = connection1;
 
       var bbox = Elements.getBBox(elements);
@@ -211,7 +211,7 @@ describe('util/Elements', function() {
 
     it('should return bbox for elements', function() {
 
-      //given
+      // given
       var elements = [shape1, shape2, connection1];
 
       var bbox = Elements.getBBox(elements);
@@ -226,7 +226,7 @@ describe('util/Elements', function() {
 
     it('should return bbox for elements at negative x,y', function() {
 
-      //given
+      // given
       var elements = [shape1, shape2, shape3, connection1];
 
       var bbox = Elements.getBBox(elements);
@@ -241,7 +241,7 @@ describe('util/Elements', function() {
 
     it('should return bbox for elements with a connection at the bbox border', function() {
 
-      //given
+      // given
       var elements = [shape1, connection1];
 
       var bbox = Elements.getBBox(elements);

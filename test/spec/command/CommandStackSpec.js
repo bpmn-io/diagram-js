@@ -639,7 +639,7 @@ describe('command/CommandStack', function() {
         return context.s1;
       };
 
-      this.postExecute = function(context)  {
+      this.postExecute = function(context) {
         commandStack.execute('inner-command', context);
       };
     };

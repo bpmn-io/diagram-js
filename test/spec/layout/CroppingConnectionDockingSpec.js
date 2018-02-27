@@ -281,7 +281,7 @@ describe('features/layout/CroppingConnectionDocking', function() {
         // vertical connection
         expectCropping(topLeft_bottomLeftConnection, [
           { x: 150, y: 200, original: topLeft_bottomLeftConnection.waypoints[0] },
-          { x: 150, y: 400, original: topLeft_bottomLeftConnection.waypoints[1]  }
+          { x: 150, y: 400, original: topLeft_bottomLeftConnection.waypoints[1] }
         ]);
       }));
 

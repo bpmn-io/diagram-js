@@ -144,7 +144,7 @@ describe('features/space-tool', function() {
 
       it('should move the *y axis* when doing a perfect diagonal', inject(function(spaceTool, dragging, canvas) {
 
-        //given
+        // given
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 225 }));
 
         // when
@@ -498,7 +498,7 @@ describe('features/space-tool', function() {
 
       expect(connection).to.have.waypoints([
         { x: 250, y: 200 },
-        { x: 475, y: 300 }    // changes
+        { x: 475, y: 300 } // changes
       ]);
 
       expect(parentShape2.x).to.equal(925); // changes
@@ -513,8 +513,8 @@ describe('features/space-tool', function() {
       expect(childShape4.y).to.equal(290);
 
       expect(connection2).to.have.waypoints([
-        { x: 1140, y: 235 },  // changes
-        { x: 960, y: 315 }     // changes
+        { x: 1140, y: 235 }, // changes
+        { x: 960, y: 315 } // changes
       ]);
     }));
 
@@ -679,7 +679,7 @@ describe('features/space-tool', function() {
       // when
       commandStack.redo();
 
-      //then
+      // then
       expect(shape1.x).to.equal(50);
       expect(shape1.y).to.equal(100);
 

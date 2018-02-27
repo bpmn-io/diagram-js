@@ -438,7 +438,7 @@ describe('layout/ManhattanLayout', function() {
         // then
         expect(repaired).to.eql([
           { x: 150, y: 150 },
-          { x: 150, y: 350, original: { x: 150, y: 350 }  }
+          { x: 150, y: 350, original: { x: 150, y: 350 } }
         ]);
       });
 
