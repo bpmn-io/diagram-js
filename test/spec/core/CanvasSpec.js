@@ -2,7 +2,7 @@
 
 /* global bootstrapDiagram, inject, sinon */
 
-var merge = require('lodash/object/merge');
+var merge = require('min-dash').merge;
 var TestContainer = require('mocha-test-container-support');
 
 var domQuery = require('min-dom/lib/query'),

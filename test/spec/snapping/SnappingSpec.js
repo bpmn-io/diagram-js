@@ -2,7 +2,7 @@
 
 /* global bootstrapDiagram, inject */
 
-var assign = require('lodash/object/assign');
+var assign = require('min-dash').assign;
 
 var snappingModule = require('lib/features/snapping'),
     modelingModule = require('lib/features/modeling'),

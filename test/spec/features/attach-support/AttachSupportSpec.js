@@ -6,7 +6,7 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
 var getDiagramJS = require('../../../TestHelper').getDiagramJS;
 
-var pick = require('lodash/object/pick');
+var pick = require('min-dash').pick;
 
 var attachSupportModule = require('lib/features/attach-support'),
     labelSupportModule = require('lib/features/label-support'),

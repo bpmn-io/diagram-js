@@ -4,7 +4,7 @@ var getDiagramJS = require('../../../TestHelper').getDiagramJS;
 
 /* global bootstrapDiagram, inject, sinon */
 
-var assign = require('lodash/object/assign');
+var assign = require('min-dash').assign;
 
 var domify = require('min-dom/lib/domify');
 

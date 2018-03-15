@@ -4,7 +4,7 @@ var inherits = require('inherits');
 
 var RuleProvider = require('lib/features/rules/RuleProvider');
 
-var forEach = require('lodash/collection/forEach');
+var forEach = require('min-dash').forEach;
 
 function MoveRules(eventBus) {
   RuleProvider.call(this, eventBus);
