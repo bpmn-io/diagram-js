@@ -110,7 +110,10 @@ describe('features/modeling - replace shape', function() {
         id: 'connection',
         source: child1,
         target: child2,
-        waypoints: []
+        waypoints: [
+          { x: 360, y: 30 },
+          { x: 30, y: 30 }
+        ]
       });
 
       canvas.addShape(parent, root);

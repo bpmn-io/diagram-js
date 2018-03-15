@@ -3,7 +3,7 @@
 /* global bootstrapDiagram, inject */
 
 
-var pick = require('lodash/object/pick');
+var pick = require('min-dash').pick;
 
 var modelingModule = require('lib/features/modeling');
 

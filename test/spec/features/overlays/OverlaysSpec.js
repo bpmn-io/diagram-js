@@ -2,8 +2,8 @@
 
 /* global bootstrapDiagram, inject */
 
-var forEach = require('lodash/collection/forEach'),
-    assign = require('lodash/object/assign'),
+var forEach = require('min-dash').forEach,
+    assign = require('min-dash').assign,
     domify = require('min-dom/lib/domify');
 
 var overlayModule = require('lib/features/overlays');

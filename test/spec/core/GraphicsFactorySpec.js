@@ -2,7 +2,8 @@
 
 /* global bootstrapDiagram, inject */
 
-var merge = require('lodash/object/merge');
+var merge = require('min-dash').merge;
+
 
 describe('GraphicsFactory', function() {
 
@@ -15,18 +16,23 @@ describe('GraphicsFactory', function() {
       return merge({ canvas: { container: container } }, options);
     }, {});
   }
+
   beforeEach(createDiagram(this));
 
-  it('should not fail on update root shape', inject(function(canvas, graphicsFactory, elementRegistry) {
 
-    // given
-    var root = canvas.getRootElement();
-    var gfx = elementRegistry.getGraphics(root);
+  it('should not fail on update root shape', inject(
+    function(canvas, graphicsFactory, elementRegistry) {
 
-    // when
-    graphicsFactory.update('shape', root, gfx);
+      // given
+      var root = canvas.getRootElement();
+      var gfx = elementRegistry.getGraphics(root);
 
-    // then
-    // expect not to throw an exception
-  }));
+      // when
+      graphicsFactory.update('shape', root, gfx);
+
+      // then
+      // expect not to throw an exception
+    }
+  ));
+
 });
