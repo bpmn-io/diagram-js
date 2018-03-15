@@ -61,7 +61,11 @@ describe('features/dragging - Dragging', function() {
 
 
     function raw(e) {
-      return/* FIXME: omit not in min-dash -> */ omit(e, [ 'originalEvent', 'previousSelection', 'isTouch' ]);
+      var omitted = assign({}, e);
+      delete omitted.originalEvent;
+      delete omitted.previousSelection;
+      delete omitted.isTouch;
+      return omitted;
     }
 
 

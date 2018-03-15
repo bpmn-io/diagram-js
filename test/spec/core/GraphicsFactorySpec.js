@@ -2,7 +2,7 @@
 
 /* global bootstrapDiagram, inject */
 
-var merge = require('min-dash').merge;
+var merge = require('../../../lib/util/Merge');
 
 describe('GraphicsFactory', function() {
 
