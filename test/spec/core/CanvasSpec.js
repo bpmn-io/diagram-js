@@ -25,7 +25,12 @@ describe('Canvas', function() {
    */
   function createDiagram(options) {
     return bootstrapDiagram(function() {
-      return merge({ canvas: { container: container, deferUpdate: false } }, options);
+      return merge({
+        canvas: {
+          container: container,
+          deferUpdate: false
+        }
+      }, options);
     }, {});
   }
 
@@ -1233,6 +1238,66 @@ describe('Canvas', function() {
           outer: { width: 300, height: 300 }
         });
       }));
+
+
+      it('should remove cached viewbox on shape add', inject(function(canvas) {
+
+        // given
+        // enforce initial zoom
+        canvas.zoom('fit-viewport');
+
+        canvas.addShape({
+          id: 's0',
+          x: 50, y: 100,
+          width: 600, height: 200
+        });
+
+        // when
+        canvas.zoom('fit-viewport');
+
+        // then
+        expect(canvas.viewbox()).to.eql({
+          x: 50, y: 100,
+          width: 600, height: 600,
+          scale: 0.5,
+          inner: { width: 600, height: 200, x: 50, y: 100 },
+          outer: { width: 300, height: 300 }
+        });
+
+      }));
+
+
+      it('should remove cached viewbox on shape add', inject(
+        function(canvas, eventBus, graphicsFactory) {
+          var shape = canvas.addShape({
+            id: 's0',
+            x: 0, y: 100,
+            width: 600, height: 200
+          });
+
+          // given
+          // enforce initial zoom
+          canvas.zoom('fit-viewport');
+
+          // simultate element changed (move x+50)
+          shape.x = 50;
+          graphicsFactory.update('shape', shape, canvas.getGraphics(shape));
+          eventBus.fire('elements.changed', { elements: [ shape ] });
+
+          // when
+          canvas.zoom('fit-viewport');
+
+          // then
+          expect(canvas.viewbox()).to.eql({
+            x: 50, y: 100,
+            width: 600, height: 600,
+            scale: 0.5,
+            inner: { width: 600, height: 200, x: 50, y: 100 },
+            outer: { width: 300, height: 300 }
+          });
+
+        }
+      ));
 
 
       describe('reposition', function() {
