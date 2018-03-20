@@ -1,7 +1,6 @@
 'use strict';
 
-var uniqueBy = require('min-dash').uniqueBy,
-    isFunction = require('min-dash').isFunction,
+var isFunction = require('min-dash').isFunction,
     forEach = require('min-dash').forEach;
 
 var TestContainer = require('mocha-test-container-support');
@@ -89,7 +88,7 @@ function bootstrapDiagram(options, locals) {
       mockModule[k] = ['value', v];
     });
 
-    _options.modules = uniqueBy(function(e) { return e; }, [].concat(_options.modules || [], [ mockModule ]));
+    _options.modules = [].concat(_options.modules || [], [ mockModule ]);
 
     // remove previous instance
     cleanup();
