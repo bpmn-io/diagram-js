@@ -4,7 +4,7 @@ require('../../../TestHelper');
 
 /* global bootstrapDiagram, inject, sinon */
 
-var forEach = require('lodash/collection/forEach');
+var forEach = require('min-dash').forEach;
 
 var copyPasteModule = require('lib/features/copy-paste'),
     selectionModule = require('lib/features/selection'),

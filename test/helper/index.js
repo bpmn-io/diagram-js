@@ -1,11 +1,11 @@
 'use strict';
 
-var unique = require('lodash/array/unique'),
-    isFunction = require('lodash/lang/isFunction'),
-    merge = require('lodash/object/merge'),
-    forEach = require('lodash/collection/forEach');
+var isFunction = require('min-dash').isFunction,
+    forEach = require('min-dash').forEach;
 
 var TestContainer = require('mocha-test-container-support');
+
+var merge = require('../../lib/util/Merge');
 
 var Diagram = require('lib/Diagram'),
     domEvent = require('min-dom/lib/event');
@@ -88,7 +88,7 @@ function bootstrapDiagram(options, locals) {
       mockModule[k] = ['value', v];
     });
 
-    _options.modules = unique([].concat(_options.modules || [], [ mockModule ]));
+    _options.modules = [].concat(_options.modules || [], [ mockModule ]);
 
     // remove previous instance
     cleanup();

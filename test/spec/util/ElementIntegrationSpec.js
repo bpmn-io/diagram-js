@@ -4,7 +4,7 @@ require('../../TestHelper');
 
 /* global bootstrapDiagram, inject */
 
-var keys = require('lodash/object/keys');
+var keys = require('min-dash').keys;
 
 var Elements = require('lib/util/Elements');
 

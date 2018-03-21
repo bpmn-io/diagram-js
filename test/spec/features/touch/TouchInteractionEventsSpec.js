@@ -2,7 +2,7 @@
 
 /* global bootstrapDiagram, inject */
 
-var forEach = require('lodash/collection/forEach');
+var forEach = require('min-dash').forEach;
 
 
 var touchInteractionModule = require('lib/features/touch');

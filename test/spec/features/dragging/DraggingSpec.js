@@ -7,8 +7,7 @@ var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 /* global bootstrapDiagram, inject */
 
 
-var assign = require('lodash/object/assign'),
-    omit = require('lodash/object/omit');
+var assign = require('min-dash').assign;
 
 var dragModule = require('lib/features/dragging');
 
@@ -62,7 +61,11 @@ describe('features/dragging - Dragging', function() {
 
 
     function raw(e) {
-      return omit(e, [ 'originalEvent', 'previousSelection', 'isTouch' ]);
+      var omitted = assign({}, e);
+      delete omitted.originalEvent;
+      delete omitted.previousSelection;
+      delete omitted.isTouch;
+      return omitted;
     }
 
 
