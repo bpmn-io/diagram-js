@@ -11,7 +11,8 @@ var bendpointsModule = require('lib/features/bendpoints'),
     modelingModule = require('lib/features/modeling'),
     selectModule = require('lib/features/selection');
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll;
 
 
 describe('features/bendpoints - move', function() {
@@ -157,7 +158,7 @@ describe('features/bendpoints - move', function() {
       dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
 
       // then
-      var hoverNodes = domQuery.all('.connect-hover, .connect-ok, .connect-not-ok', canvas._svg);
+      var hoverNodes = domQueryAll('.connect-hover, .connect-ok, .connect-not-ok', canvas._svg);
 
       // connect-hover indicator
       expect(hoverNodes.length).to.equal(1);

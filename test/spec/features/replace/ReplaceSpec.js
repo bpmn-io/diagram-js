@@ -5,7 +5,7 @@
 var modelingModule = require('lib/features/modeling'),
     replaceModule = require('lib/features/replace');
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom').query;
 
 
 describe('features/replace', function() {

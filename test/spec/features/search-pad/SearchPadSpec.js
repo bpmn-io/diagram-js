@@ -5,8 +5,9 @@
 var searchPadModule = require('lib/features/search-pad');
 var SearchPad = require('lib/features/search-pad/SearchPad');
 
-var domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes');
+var domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
+    domClasses = require('min-dom').classes;
 
 var EVENTS = {
   closed: 'searchPad.closed',
@@ -205,7 +206,7 @@ describe('features/searchPad', function() {
 
       // then
       expect(find).callCount(3);
-      var result_nodes = domQuery.all(SearchPad.RESULT_SELECTOR, canvas.getContainer());
+      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
       expect(result_nodes).length(2);
     }));
 
@@ -215,7 +216,7 @@ describe('features/searchPad', function() {
       typeText(input_node, 'two');
 
       // then
-      var result_nodes = domQuery.all(SearchPad.RESULT_SELECTOR, canvas.getContainer());
+      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
       expect(domClasses(result_nodes[0]).has(SearchPad.RESULT_SELECTED_CLASS)).to.be.true;
       expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.preselected ]);
     }));
@@ -326,7 +327,7 @@ describe('features/searchPad', function() {
     it('should preselect next/previus results on arrow down/up', inject(function(canvas, eventBus, searchPad) {
       // given
       typeText(input_node, 'two');
-      var result_nodes = domQuery.all(SearchPad.RESULT_SELECTOR, canvas.getContainer());
+      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
 
       // when press 'down'
       triggerKeyEvent(input_node, 'keyup', 40);

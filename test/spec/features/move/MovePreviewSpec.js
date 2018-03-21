@@ -9,7 +9,7 @@ var modelingModule = require('lib/features/modeling'),
     attachSupportModule = require('lib/features/attach-support'),
     rulesModule = require('./rules');
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom').query;
 
 var svgClasses = require('tiny-svg/lib/classes');
 

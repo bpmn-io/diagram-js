@@ -6,8 +6,8 @@ var TestContainer = require('mocha-test-container-support');
 
 var merge = require('min-dash').merge;
 
-var domQuery = require('min-dom/lib/query'),
-    domMatches = require('min-dom/lib/matches');
+var domQueryAll = require('min-dom').queryAll,
+    domMatches = require('min-dom').matches;
 
 var svgAttr = require('tiny-svg/lib/attr'),
     svgClasses = require('tiny-svg/lib/classes');
@@ -123,7 +123,7 @@ describe('Canvas', function() {
       expect(canvas._rootElement).not.to.exist;
 
       // all elements got removed
-      expect(domQuery.all('*', baseLayer).length).to.equal(0);
+      expect(domQueryAll('*', baseLayer).length).to.equal(0);
 
       expect(elementRegistry.getAll()).to.be.empty;
 

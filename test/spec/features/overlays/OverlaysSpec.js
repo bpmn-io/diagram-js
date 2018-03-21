@@ -4,7 +4,7 @@
 
 var forEach = require('min-dash').forEach,
     assign = require('min-dash').assign,
-    domify = require('min-dom/lib/domify');
+    domify = require('min-dom').domify;
 
 var overlayModule = require('lib/features/overlays');
 

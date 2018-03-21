@@ -5,7 +5,7 @@
 
 var selectionModule = require('lib/features/selection');
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom').query;
 
 
 describe('features/selection/SelectionVisuals', function() {

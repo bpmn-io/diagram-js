@@ -6,8 +6,8 @@ require('../../../TestHelper');
 
 var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
-var domClasses = require('min-dom/lib/classes'),
-    domQuery = require('min-dom/lib/query'),
+var domClasses = require('min-dom').classes,
+    domQuery = require('min-dom').query,
     $ = require('jquery');
 
 var overlayModule = require('lib/features/overlays'),

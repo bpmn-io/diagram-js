@@ -11,7 +11,9 @@ var modelingModule = require('lib/features/modeling'),
     interactionModule = require('lib/features/interaction-events'),
     canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll;
+
 
 describe('features/bendpoints', function() {
 
@@ -96,8 +98,8 @@ describe('features/bendpoints', function() {
 
       // then
       // 3 visible + 1 invisible bendpoint are shown
-      expect(domQuery.all('.djs-bendpoint', layer).length).to.equal(4);
-      expect(domQuery.all('.djs-segment-dragger', layer).length).to.equal(2);
+      expect(domQueryAll('.djs-bendpoint', layer).length).to.equal(4);
+      expect(domQueryAll('.djs-segment-dragger', layer).length).to.equal(2);
     }));
 
 
@@ -111,8 +113,8 @@ describe('features/bendpoints', function() {
 
       // then
       // 3 visible + 1 invisible bendpoint are shown
-      expect(domQuery.all('.djs-bendpoint', layer).length).to.equal(4);
-      expect(domQuery.all('.djs-segment-dragger', layer).length).to.equal(2);
+      expect(domQueryAll('.djs-bendpoint', layer).length).to.equal(4);
+      expect(domQueryAll('.djs-segment-dragger', layer).length).to.equal(2);
     }));
 
 

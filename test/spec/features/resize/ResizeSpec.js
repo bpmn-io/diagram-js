@@ -14,7 +14,8 @@ var resizeModule = require('lib/features/resize'),
     rulesModule = require('./rules'),
     selectModule = require('lib/features/selection');
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll;
 
 var svgClasses = require('tiny-svg/lib/classes');
 
@@ -58,7 +59,7 @@ describe('features/resize - Resize', function() {
 
     function getResizeHandles() {
       return TestHelper.inject(function(resizeHandles) {
-        return domQuery.all('.djs-resizer', resizeHandles._getResizersParent());
+        return domQueryAll('.djs-resizer', resizeHandles._getResizersParent());
       })();
     }
 
@@ -212,7 +213,7 @@ describe('features/resize - Resize', function() {
       dragging.move(canvasEvent({ x: 20, y: 20 }));
 
       // then
-      var frames = domQuery.all('.djs-resize-overlay', canvas.getDefaultLayer());
+      var frames = domQueryAll('.djs-resize-overlay', canvas.getDefaultLayer());
 
       expect(frames.length).to.equal(1);
     }));
@@ -273,7 +274,7 @@ describe('features/resize - Resize', function() {
         selection.select(nonResizable);
 
         // then
-        var resizeAnchors = domQuery.all('.resize', gfx);
+        var resizeAnchors = domQueryAll('.resize', gfx);
 
         expect(resizeAnchors.length).to.equal(0);
       })

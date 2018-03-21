@@ -12,7 +12,7 @@ var spaceTool = require('lib/features/space-tool'),
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom').query;
 
 
 describe('features/space-tool', function() {

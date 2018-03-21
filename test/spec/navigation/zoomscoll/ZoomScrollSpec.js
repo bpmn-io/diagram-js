@@ -6,7 +6,7 @@ var getDiagramJS = require('../../../TestHelper').getDiagramJS;
 
 var assign = require('min-dash').assign;
 
-var domify = require('min-dom/lib/domify');
+var domify = require('min-dom').domify;
 
 var zoomScrollModule = require('lib/navigation/zoomscroll');
 

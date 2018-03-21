@@ -4,8 +4,8 @@
 
 var paletteModule = require('lib/features/palette');
 
-var domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes');
+var domQuery = require('min-dom').query,
+    domClasses = require('min-dom').classes;
 
 var getDiagramJS = require('../../../TestHelper').getDiagramJS;
 

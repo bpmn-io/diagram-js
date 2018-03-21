@@ -5,8 +5,9 @@ var globalEvent = require('../../../util/MockEvents').createEvent;
 
 /* global bootstrapDiagram, inject, sinon */
 
-var domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes');
+var domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
+    domClasses = require('min-dom').classes;
 
 var contextPadModule = require('lib/features/context-pad');
 
@@ -161,7 +162,7 @@ describe('features/context-pad', function() {
         expect(entry).not.to.be.null;
       });
 
-      expect(domQuery.all('.entry', html).length).to.equal(entries.length);
+      expect(domQueryAll('.entry', html).length).to.equal(entries.length);
     }
 
 

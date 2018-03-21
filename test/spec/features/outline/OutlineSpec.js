@@ -4,7 +4,7 @@
 
 var selectionModule = require('lib/features/selection');
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom').query;
 
 var svgClasses = require('tiny-svg/lib/classes');
 

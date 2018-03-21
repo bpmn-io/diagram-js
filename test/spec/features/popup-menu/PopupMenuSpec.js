@@ -4,8 +4,9 @@
 
 var fs = require('fs');
 
-var domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes');
+var domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
+    domClasses = require('min-dom').classes;
 
 var globalEvent = require('../../../util/MockEvents').createEvent;
 
@@ -411,7 +412,7 @@ describe('features/popup', function() {
       popupMenu.create('test-menu', {}).open({ x: 100, y: 100 });
 
       // then
-      var elements = domQuery.all('.entry', popupMenu._current.container);
+      var elements = domQueryAll('.entry', popupMenu._current.container);
 
       expect(elements.length).to.eql(2);
     }));
@@ -465,8 +466,8 @@ describe('features/popup', function() {
       var popupHeader = queryPopup(popupMenu, '.djs-popup-header');
 
       // then
-      expect(domQuery.all('.entry', popupBody).length).to.eql(2);
-      expect(domQuery.all('.entry', popupHeader).length).to.eql(1);
+      expect(domQueryAll('.entry', popupBody).length).to.eql(2);
+      expect(domQueryAll('.entry', popupHeader).length).to.eql(1);
     }));
 
 
