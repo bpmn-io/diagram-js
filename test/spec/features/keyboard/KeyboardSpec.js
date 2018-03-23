@@ -22,14 +22,41 @@ describe('features/keyboard', function() {
       keyboardModule,
       editorActionsModule
     ],
-    canvas: { deferUpdate: false },
-    keyboard: { speed: 5, invertY: false }
+    canvas: {
+      deferUpdate: false
+    },
+    keyboard: {
+      speed: 5,
+      invertY: false,
+      bindTo: document
+    }
   }));
 
 
   it('should bootstrap diagram with keyboard', inject(function(keyboard) {
     expect(keyboard).to.exist;
   }));
+
+
+  describe('keyboard binding', function() {
+
+    it('should integrate with <attach> + <detach> events', inject(
+      function(keyboard, eventBus) {
+
+        // assume
+        expect(keyboard._node).not.to.exist;
+
+        // when
+        eventBus.fire('attach');
+        expect(keyboard._node).to.eql(document);
+
+        // but when
+        eventBus.fire('detach');
+        expect(keyboard._node).not.to.exist;
+      }
+    ));
+
+  });
 
 
   describe('listener handling', function() {
