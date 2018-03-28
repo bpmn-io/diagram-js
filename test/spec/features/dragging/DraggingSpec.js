@@ -11,7 +11,7 @@ var assign = require('min-dash').assign;
 
 var dragModule = require('lib/features/dragging');
 
-var svgClasses = require('tiny-svg/lib/classes');
+var svgClasses = require('tiny-svg').classes;
 
 
 describe('features/dragging - Dragging', function() {

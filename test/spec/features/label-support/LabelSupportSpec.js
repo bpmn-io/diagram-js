@@ -11,7 +11,7 @@ var labelSupportModule = require('lib/features/label-support'),
     rulesModule = require('./rules'),
     spaceToolModule = require('lib/features/space-tool');
 
-var svgClasses = require('tiny-svg/lib/classes');
+var svgClasses = require('tiny-svg').classes;
 
 
 describe('features/label-support - Label', function() {

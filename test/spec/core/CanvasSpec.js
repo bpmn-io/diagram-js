@@ -9,8 +9,8 @@ var merge = require('min-dash').merge;
 var domQueryAll = require('min-dom').queryAll,
     domMatches = require('min-dom').matches;
 
-var svgAttr = require('tiny-svg/lib/attr'),
-    svgClasses = require('tiny-svg/lib/classes');
+var svgAttr = require('tiny-svg').attr,
+    svgClasses = require('tiny-svg').classes;
 
 var getDiagramJS = require('../../TestHelper').getDiagramJS;
 

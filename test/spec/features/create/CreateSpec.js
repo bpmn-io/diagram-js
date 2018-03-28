@@ -13,7 +13,7 @@ var modelingModule = require('lib/features/modeling'),
     attachSupportModule = require('lib/features/attach-support'),
     rulesModule = require('./rules');
 
-var svgClasses = require('tiny-svg/lib/classes');
+var svgClasses = require('tiny-svg').classes;
 
 
 describe('features/create - Create', function() {

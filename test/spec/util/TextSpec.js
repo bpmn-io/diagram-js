@@ -4,9 +4,9 @@ var assign = require('min-dash').assign;
 
 var pick = require('min-dash').pick;
 
-var svgAppend = require('tiny-svg/lib/append'),
-    svgAttr = require('tiny-svg/lib/attr'),
-    svgCreate = require('tiny-svg/lib/create');
+var svgAppend = require('tiny-svg').append,
+    svgAttr = require('tiny-svg').attr,
+    svgCreate = require('tiny-svg').create;
 
 
 function toFitBBox(actual, expected) {

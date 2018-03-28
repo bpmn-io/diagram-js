@@ -11,7 +11,7 @@ var modelingModule = require('lib/features/modeling'),
 
 var domQuery = require('min-dom').query;
 
-var svgClasses = require('tiny-svg/lib/classes');
+var svgClasses = require('tiny-svg').classes;
 
 
 describe('features/move - MovePreview', function() {

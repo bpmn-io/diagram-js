@@ -4,9 +4,9 @@
 
 var TestHelper = require('../../TestHelper');
 
-var svgAppend = require('tiny-svg/lib/append'),
-    svgAttr = require('tiny-svg/lib/attr'),
-    svgCreate = require('tiny-svg/lib/create');
+var svgAppend = require('tiny-svg').append,
+    svgAttr = require('tiny-svg').attr,
+    svgCreate = require('tiny-svg').create;
 
 var layoutModule = {
   connectionDocking: [ 'type', require('lib/layout/CroppingConnectionDocking') ]

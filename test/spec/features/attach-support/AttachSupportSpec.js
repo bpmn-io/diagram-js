@@ -23,7 +23,7 @@ var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 
 var domQuery = require('min-dom').query;
 
-var svgClasses = require('tiny-svg/lib/classes');
+var svgClasses = require('tiny-svg').classes;
 
 var ATTACH = { attach: true };
 var NO_ATTACH = { attach: false };

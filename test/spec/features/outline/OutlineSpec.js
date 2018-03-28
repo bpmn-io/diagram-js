@@ -6,7 +6,7 @@ var selectionModule = require('lib/features/selection');
 
 var domQuery = require('min-dom').query;
 
-var svgClasses = require('tiny-svg/lib/classes');
+var svgClasses = require('tiny-svg').classes;
 
 
 describe('features/outline/Outline', function() {

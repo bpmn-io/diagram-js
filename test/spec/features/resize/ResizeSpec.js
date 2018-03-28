@@ -17,7 +17,7 @@ var resizeModule = require('lib/features/resize'),
 var domQuery = require('min-dom').query,
     domQueryAll = require('min-dom').queryAll;
 
-var svgClasses = require('tiny-svg/lib/classes');
+var svgClasses = require('tiny-svg').classes;
 
 function bounds(b) {
   return pick(b, [ 'x', 'y', 'width', 'height' ]);
