@@ -21,6 +21,9 @@
   "author": "bpmn.io",
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
     "brfs": "^1.4.3",
     "browserify": "^14.4.0",
     "chai": "^4.1.2",

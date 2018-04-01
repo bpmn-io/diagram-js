@@ -67,7 +67,10 @@ module.exports = function(karma) {
     browserify: {
       debug: true,
       paths: [ absoluteBasePath ],
-      transform: [ 'brfs' ]
+      transform: [
+        'babelify',
+        'brfs'
+      ]
     }
   });
 };
