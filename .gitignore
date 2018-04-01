@@ -1,10 +1,8 @@
-bower_components/
 node_modules/
-docs/api/
 dist/
 .idea/
 .vscode/
-test/test_old
 .DS_Store
 .*.swp
 .*.swo
+package-lock.json
