@@ -48,13 +48,13 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "didi": "^3.0.0",
+    "didi": "^3.2.0",
     "hammerjs": "^2.0.1",
     "inherits": "^2.0.1",
-    "min-dash": "^2.2.0",
-    "min-dom": "^2.0.1",
+    "min-dash": "^2.4.0",
+    "min-dom": "^2.2.0",
     "object-refs": "^0.1.1",
     "path-intersection": "^1.0.2",
-    "tiny-svg": "^1.0.2"
+    "tiny-svg": "^1.1.0"
   }
 }
