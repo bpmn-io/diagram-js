@@ -6,7 +6,7 @@ var isFunction = require('min-dash').isFunction,
 
 var TestContainer = require('mocha-test-container-support');
 
-var Diagram = require('lib/Diagram'),
+var Diagram = require('../../lib/Diagram'),
     domEvent = require('min-dom').event;
 
 var OPTIONS, DIAGRAM_JS;
