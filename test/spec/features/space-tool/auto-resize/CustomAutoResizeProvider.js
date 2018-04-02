@@ -1,11 +1,11 @@
 'use strict';
 
-var inherits = require('inherits');
+import inherits from 'inherits';
 
-var AutoResizeProvider = require('lib/features/auto-resize/AutoResizeProvider');
+import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
 
 
-function CustomAutoResizeProvider(eventBus) {
+export default function CustomAutoResizeProvider(eventBus) {
   AutoResizeProvider.call(this, eventBus);
 
   this.canResize = function(elements, target) {
@@ -14,5 +14,3 @@ function CustomAutoResizeProvider(eventBus) {
 }
 
 inherits(CustomAutoResizeProvider, AutoResizeProvider);
-
-module.exports = CustomAutoResizeProvider;

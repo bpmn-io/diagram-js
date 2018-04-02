@@ -1,12 +1,14 @@
 'use strict';
 
-require('../../TestHelper');
+/* global sinon */
 
-/* global bootstrapDiagram, inject, sinon */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-
-var paletteModule = require('lib/features/palette'),
-    i18nModule = require('lib/i18n');
+import paletteModule from 'lib/features/palette';
+import i18nModule from 'lib/i18n';
 
 var spy = sinon.spy;
 

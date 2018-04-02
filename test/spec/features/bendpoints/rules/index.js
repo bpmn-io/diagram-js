@@ -1,4 +1,6 @@
-module.exports = {
+import BendpointRules from './BendpointRules';
+
+export default {
   __init__: [ 'bendpointRules' ],
-  bendpointRules: [ 'type', require('./BendpointRules') ]
+  bendpointRules: [ 'type', BendpointRules ]
 };

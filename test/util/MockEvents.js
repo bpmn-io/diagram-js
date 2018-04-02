@@ -1,8 +1,10 @@
 'use strict';
 
-var assign = require('min-dash').assign;
+import { assign } from 'min-dash';
 
-var TestHelper = require('../helper');
+import {
+  getDiagramJS
+} from 'test/TestHelper';
 
 
 /**
@@ -15,9 +17,9 @@ var TestHelper = require('../helper');
  *
  * @return {Event} event, scoped to the given canvas
  */
-function createCanvasEvent(position, data) {
+export function createCanvasEvent(position, data) {
 
-  return TestHelper.getDiagramJS().invoke(function(canvas) {
+  return getDiagramJS().invoke(function(canvas) {
 
     var target = canvas._svg;
 
@@ -32,12 +34,10 @@ function createCanvasEvent(position, data) {
   });
 }
 
-module.exports.createCanvasEvent = createCanvasEvent;
 
+export function createEvent(target, position, data) {
 
-function createEvent(target, position, data) {
-
-  return TestHelper.getDiagramJS().invoke(function(eventBus) {
+  return getDiagramJS().invoke(function(eventBus) {
     data = assign({
       target: target,
       clientX: position.x,
@@ -49,5 +49,3 @@ function createEvent(target, position, data) {
     return eventBus.createEvent(data);
   });
 }
-
-module.exports.createEvent = createEvent;

@@ -1,15 +1,18 @@
 'use strict';
 
-require('../../../TestHelper');
+/* global sinon */
 
-/* global bootstrapDiagram, inject, sinon */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var forEach = require('min-dash').forEach;
+import { forEach } from 'min-dash';
 
-var copyPasteModule = require('lib/features/copy-paste'),
-    selectionModule = require('lib/features/selection'),
-    modelingModule = require('lib/features/modeling'),
-    rulesModule = require('./rules');
+import copyPasteModule from 'lib/features/copy-paste';
+import selectionModule from 'lib/features/selection';
+import modelingModule from 'lib/features/modeling';
+import rulesModule from './rules';
 
 
 describe('features/copy-paste', function() {

@@ -1,12 +1,19 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var selectionModule = require('lib/features/selection');
+import selectionModule from 'lib/features/selection';
 
-var domQuery = require('min-dom').query;
+import {
+  query as domQuery
+} from 'min-dom';
 
-var svgClasses = require('tiny-svg').classes;
+import {
+  classes as svgClasses
+} from 'tiny-svg';
 
 
 describe('features/outline/Outline', function() {

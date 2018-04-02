@@ -1,11 +1,13 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-
-var modelingModule = require('lib/features/modeling'),
-    moveModule = require('lib/features/move'),
-    orderingProviderModule = require('./provider');
+import modelingModule from 'lib/features/modeling';
+import moveModule from 'lib/features/move';
+import orderingProviderModule from './provider';
 
 
 describe('features/ordering', function() {

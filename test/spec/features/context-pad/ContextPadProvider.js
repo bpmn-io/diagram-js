@@ -3,7 +3,7 @@
 var fs = require('fs');
 
 
-function ContextPadProvider(contextPad) {
+export default function ContextPadProvider(contextPad) {
   contextPad.registerProvider(this);
 }
 
@@ -54,5 +54,3 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
     };
   }
 };
-
-module.exports = ContextPadProvider;

@@ -1,16 +1,21 @@
 'use strict';
 
-/* global bootstrapDiagram, inject, sinon */
+/* global sinon */
 
-var modelingModule = require('lib/features/modeling'),
-    autoResizeModule = require('lib/features/auto-resize');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var AutoResizeProvider = require('lib/features/auto-resize/AutoResizeProvider'),
-    AutoResize = require('lib/features/auto-resize/AutoResize');
+import modelingModule from 'lib/features/modeling';
+import autoResizeModule from 'lib/features/auto-resize';
+
+import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
+import AutoResize from 'lib/features/auto-resize/AutoResize';
 
 var spy = sinon.spy;
 
-var inherits = require('inherits');
+import inherits from 'inherits';
 
 
 /**

@@ -1,8 +1,11 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var customModelingModule = require('./custom');
+import customModelingModule from './custom';
 
 
 describe('features/modeling - layout connection', function() {

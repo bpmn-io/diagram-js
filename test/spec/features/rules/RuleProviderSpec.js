@@ -1,16 +1,19 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var testRulesModule = require('./rules'),
-    sayNoRulesModule = require('./say-no-rules'),
-    priorityRulesModule = require('./priority-rules'),
-    rulesModule = require('lib/features/rules'),
-    modelingModule = require('lib/features/modeling');
+import testRulesModule from './rules';
+import sayNoRulesModule from './say-no-rules';
+import priorityRulesModule from './priority-rules';
+import rulesModule from 'lib/features/rules';
+import modelingModule from 'lib/features/modeling';
 
-var RuleProvider = require('lib/features/rules/RuleProvider');
+import RuleProvider from 'lib/features/rules/RuleProvider';
 
-var inherits = require('inherits');
+import inherits from 'inherits';
 
 
 describe('features/rules - RuleProvider', function() {

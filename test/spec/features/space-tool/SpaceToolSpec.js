@@ -1,18 +1,27 @@
 'use strict';
 
-var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents';
 
-var spaceTool = require('lib/features/space-tool'),
-    modelingModule = require('lib/features/modeling'),
-    autoResizeModule = require('lib/features/auto-resize'),
-    isMac = require('lib/util/Mouse').isMac,
-    rulesModule = require('./rules');
+import spaceToolModule from 'lib/features/space-tool';
+import modelingModule from 'lib/features/modeling';
+import autoResizeModule from 'lib/features/auto-resize';
+import rulesModule from './rules';
+import autoResizeProviderModule from './auto-resize';
+
+import { isMac } from 'lib/util/Platform';
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 
-var domQuery = require('min-dom').query;
+import {
+  query as domQuery
+} from 'min-dom';
 
 
 describe('features/space-tool', function() {
@@ -20,7 +29,11 @@ describe('features/space-tool', function() {
   describe('create/remove space', function() {
 
     beforeEach(bootstrapDiagram({
-      modules: [ spaceTool, modelingModule, rulesModule ]
+      modules: [
+        spaceToolModule,
+        modelingModule,
+        rulesModule
+      ]
     }));
 
     var childShape, childShape2, connection;
@@ -364,7 +377,11 @@ describe('features/space-tool', function() {
   describe('resize containers', function() {
 
     beforeEach(bootstrapDiagram({
-      modules: [ spaceTool, modelingModule, rulesModule ]
+      modules: [
+        spaceToolModule,
+        modelingModule,
+        rulesModule
+      ]
     }));
 
     beforeEach(inject(function(dragging) {
@@ -617,7 +634,11 @@ describe('features/space-tool', function() {
   describe('redo / undo integration', function() {
 
     beforeEach(bootstrapDiagram({
-      modules: [ spaceTool, modelingModule, rulesModule ]
+      modules: [
+        spaceToolModule,
+        modelingModule,
+        rulesModule
+      ]
     }));
 
     beforeEach(inject(function(dragging) {
@@ -695,10 +716,10 @@ describe('features/space-tool', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
-        spaceTool,
+        spaceToolModule,
         modelingModule,
         autoResizeModule,
-        require('./auto-resize')
+        autoResizeProviderModule
       ]
     }));
 

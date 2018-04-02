@@ -1,11 +1,12 @@
 'use strict';
 
-require('../../../TestHelper');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
-
-var translateModule = require('lib/i18n/translate'),
-    customTranslateModule = require('./custom-translate');
+import translateModule from 'lib/i18n/translate';
+import customTranslateModule from './custom-translate';
 
 
 describe('i18n - translate', function() {

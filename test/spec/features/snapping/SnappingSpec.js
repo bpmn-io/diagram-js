@@ -1,16 +1,25 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
 
-var modelingModule = require('lib/features/modeling'),
-    snappingModule = require('lib/features/snapping'),
-    moveModule = require('lib/features/move');
+import modelingModule from 'lib/features/modeling';
+import snappingModule from 'lib/features/snapping';
+import moveModule from 'lib/features/move';
 
 
 describe('features/snapping', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ modelingModule, snappingModule, moveModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      modelingModule,
+      snappingModule,
+      moveModule
+    ]
+  }));
 
 
   var rootShape, parentShape, childShape, childShape2, label, connection;

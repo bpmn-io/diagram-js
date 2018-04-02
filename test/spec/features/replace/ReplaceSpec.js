@@ -1,11 +1,16 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var modelingModule = require('lib/features/modeling'),
-    replaceModule = require('lib/features/replace');
+import modelingModule from 'lib/features/modeling';
+import replaceModule from 'lib/features/replace';
 
-var domQuery = require('min-dom').query;
+import {
+  query as domQuery
+} from 'min-dom';
 
 
 describe('features/replace', function() {

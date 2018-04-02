@@ -1,9 +1,11 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-
-var modelingModule = require('lib/features/modeling');
+import modelingModule from 'lib/features/modeling';
 
 
 describe('features/modeling - attach shape', function() {

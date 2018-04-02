@@ -1,13 +1,13 @@
 'use strict';
 
-require('../../../TestHelper');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
-
-
-var touchModule = require('lib/navigation/touch'),
-    contextPadModule = require('lib/features/context-pad'),
-    paletteModule = require('lib/features/palette');
+import touchModule from 'lib/navigation/touch';
+import contextPadModule from 'lib/features/context-pad';
+import paletteModule from 'lib/features/palette';
 
 
 describe('navigation/touch', function() {

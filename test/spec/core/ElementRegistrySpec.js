@@ -1,6 +1,9 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
 
 describe('ElementRegistry', function() {

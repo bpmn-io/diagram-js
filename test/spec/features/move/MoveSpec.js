@@ -1,14 +1,21 @@
 'use strict';
 
-var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents';
 
-var assign = require('min-dash').assign,
-    pick = require('min-dash').pick;
+import {
+  assign,
+  pick
+} from 'min-dash';
 
-var modelingModule = require('lib/features/modeling'),
-    moveModule = require('lib/features/move');
+import modelingModule from 'lib/features/modeling';
+import moveModule from 'lib/features/move';
 
 
 describe('features/move - Move', function() {

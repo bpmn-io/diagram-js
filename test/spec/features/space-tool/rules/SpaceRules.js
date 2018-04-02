@@ -1,18 +1,16 @@
 'use strict';
 
-var inherits = require('inherits');
+import inherits from 'inherits';
 
-var RuleProvider = require('lib/features/rules/RuleProvider');
+import RuleProvider from 'lib/features/rules/RuleProvider';
 
-function SpaceRules(eventBus) {
+export default function SpaceRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
 SpaceRules.$inject = [ 'eventBus' ];
 
 inherits(SpaceRules, RuleProvider);
-
-module.exports = SpaceRules;
 
 
 SpaceRules.prototype.init = function() {

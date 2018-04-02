@@ -1,11 +1,15 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
+import selectionModule from 'lib/features/selection';
 
-var selectionModule = require('lib/features/selection');
-
-var domQuery = require('min-dom').query;
+import {
+  query as domQuery
+} from 'min-dom';
 
 
 describe('features/selection/SelectionVisuals', function() {

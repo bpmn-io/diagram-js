@@ -1,14 +1,21 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper';
 
-var forEach = require('min-dash').forEach,
-    assign = require('min-dash').assign,
-    domify = require('min-dom').domify;
+import {
+  forEach,
+  assign
+} from 'min-dash';
 
-var overlayModule = require('lib/features/overlays');
+import {
+  domify
+} from 'min-dom';
 
-var getDiagramJS = require('../../../TestHelper').getDiagramJS;
+import overlayModule from 'lib/features/overlays';
 
 
 describe('features/overlays', function() {

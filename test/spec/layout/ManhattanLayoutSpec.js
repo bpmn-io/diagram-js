@@ -1,6 +1,10 @@
 'use strict';
 
-var ManhattanLayout = require('lib/layout/ManhattanLayout');
+import {
+  connectRectangles,
+  connectPoints,
+  repairConnection
+} from 'lib/layout/ManhattanLayout';
 
 
 function point(x, y) {
@@ -33,7 +37,7 @@ describe('layout/ManhattanLayout', function() {
     it('should create h:v manhattan connection', function() {
 
       // when
-      var connection = ManhattanLayout.connectPoints(a, b, 'h:v');
+      var connection = connectPoints(a, b, 'h:v');
 
       // expect
       expectConnection(connection, [ a, point(200, 100), b ]);
@@ -43,7 +47,7 @@ describe('layout/ManhattanLayout', function() {
     it('should create v:h manhattan connection', function() {
 
       // when
-      var connection = ManhattanLayout.connectPoints(a, b, 'v:h');
+      var connection = connectPoints(a, b, 'v:h');
 
       // expect
       expectConnection(connection, [ a, point(100, 200), b ]);
@@ -53,7 +57,7 @@ describe('layout/ManhattanLayout', function() {
     it('should create h:h manhattan connection', function() {
 
       // when
-      var connection = ManhattanLayout.connectPoints(a, b, 'h:h');
+      var connection = connectPoints(a, b, 'h:h');
 
       // expect
       expectConnection(connection, [ a, point(150, 100), point(150, 200), b ]);
@@ -63,7 +67,7 @@ describe('layout/ManhattanLayout', function() {
     it('should create v:v manhattan connection', function() {
 
       // when
-      var connection = ManhattanLayout.connectPoints(a, b, 'v:v');
+      var connection = connectPoints(a, b, 'v:v');
 
       // expect
       expectConnection(connection, [ a, point(100, 150), point(200, 150), b ]);
@@ -79,7 +83,7 @@ describe('layout/ManhattanLayout', function() {
             p1 = point(200, 100);
 
         // when
-        var connection = ManhattanLayout.connectPoints(p0, p1);
+        var connection = connectPoints(p0, p1);
 
         // then
         expectConnection(connection, [ p0, p1 ]);
@@ -93,7 +97,7 @@ describe('layout/ManhattanLayout', function() {
             p1 = point(200, 100);
 
         // when
-        var connection = ManhattanLayout.connectPoints(p0, p1);
+        var connection = connectPoints(p0, p1);
 
         // then
         expectConnection(connection, [ p0, p1 ]);
@@ -107,7 +111,7 @@ describe('layout/ManhattanLayout', function() {
             p1 = point(100, 100);
 
         // when
-        var connection = ManhattanLayout.connectPoints(p0, p1, 'v:v');
+        var connection = connectPoints(p0, p1, 'v:v');
 
         // then
         expectConnection(connection, [ p0, point(200, 150), point(100, 150), p1]);
@@ -121,7 +125,7 @@ describe('layout/ManhattanLayout', function() {
       it('should throw error on unknown directions', function() {
 
         expect(function() {
-          ManhattanLayout.connectPoints(a, b, 'x:y');
+          connectPoints(a, b, 'x:y');
         }).to.throw(/unknown directions: <x:y>/);
 
       });
@@ -142,7 +146,7 @@ describe('layout/ManhattanLayout', function() {
       var end = rect(100, 0, 50, 50);
 
       // when
-      var connection = ManhattanLayout.connectRectangles(start, end);
+      var connection = connectRectangles(start, end);
 
 
       // expect
@@ -161,7 +165,7 @@ describe('layout/ManhattanLayout', function() {
       var end = rect(250, 100, 50, 50);
 
       // when
-      var connection = ManhattanLayout.connectRectangles(start, end);
+      var connection = connectRectangles(start, end);
 
       // expect
       expectConnection(connection, [
@@ -179,7 +183,7 @@ describe('layout/ManhattanLayout', function() {
       var end = rect(0, 100, 50, 50);
 
       // when
-      var connection = ManhattanLayout.connectRectangles(start, end);
+      var connection = connectRectangles(start, end);
 
 
       // expect
@@ -198,7 +202,7 @@ describe('layout/ManhattanLayout', function() {
       var end = rect(100, 250, 50, 50);
 
       // when
-      var connection = ManhattanLayout.connectRectangles(start, end);
+      var connection = connectRectangles(start, end);
 
       // expect
       expectConnection(connection, [
@@ -218,7 +222,7 @@ describe('layout/ManhattanLayout', function() {
         var end = rect(210, 0, 50, 50);
 
         // when
-        var connection = ManhattanLayout.connectRectangles(start, end);
+        var connection = connectRectangles(start, end);
 
         // expect
         // still layouted v:v because h:h would look super ugly
@@ -237,7 +241,7 @@ describe('layout/ManhattanLayout', function() {
         var end = rect(230, 0, 50, 50);
 
         // when
-        var connection = ManhattanLayout.connectRectangles(start, end);
+        var connection = connectRectangles(start, end);
 
         // expect
         // layouted h:h
@@ -256,7 +260,7 @@ describe('layout/ManhattanLayout', function() {
         var end = rect(185, 0, 50, 50);
 
         // when
-        var connection = ManhattanLayout.connectRectangles(start, end, null, null, {
+        var connection = connectRectangles(start, end, null, null, {
           preferredLayouts: [ 'v:h' ]
         });
 
@@ -277,7 +281,7 @@ describe('layout/ManhattanLayout', function() {
         var end = rect(230, 0, 50, 50);
 
         // when
-        var connection = ManhattanLayout.connectRectangles(start, end, null, null, {
+        var connection = connectRectangles(start, end, null, null, {
           preferredLayouts: [ 'v:h' ]
         });
 
@@ -297,7 +301,7 @@ describe('layout/ManhattanLayout', function() {
         var end = rect(230, 0, 50, 50);
 
         // when
-        var connection = ManhattanLayout.connectRectangles(start, end, null, null, {
+        var connection = connectRectangles(start, end, null, null, {
           preferredLayouts: [ 'h:v' ]
         });
 
@@ -327,11 +331,11 @@ describe('layout/ManhattanLayout', function() {
     }
 
     function connect(start, end, a, b) {
-      return ManhattanLayout.connectRectangles(start, end, a, b);
+      return connectRectangles(start, end, a, b);
     }
 
     function repair(start, end, a, b, waypoints, hints) {
-      return ManhattanLayout.repairConnection(start, end, a, b, waypoints, hints);
+      return repairConnection(start, end, a, b, waypoints, hints);
     }
 
 

@@ -1,14 +1,14 @@
 'use strict';
 
-var inherits = require('inherits');
+import inherits from 'inherits';
 
-var RuleProvider = require('lib/features/rules/RuleProvider');
+import RuleProvider from 'lib/features/rules/RuleProvider';
 
 
 var HIGH_PRIORITY = 1500;
 
 
-function PriorityRules(eventBus) {
+export default function PriorityRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
@@ -16,7 +16,6 @@ PriorityRules.$inject = [ 'eventBus' ];
 
 inherits(PriorityRules, RuleProvider);
 
-module.exports = PriorityRules;
 
 PriorityRules.prototype.init = function() {
 

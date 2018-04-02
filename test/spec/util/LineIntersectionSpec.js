@@ -1,6 +1,8 @@
 'use strict';
 
-var getApproxIntersection = require('lib/util/LineIntersection').getApproxIntersection;
+import {
+  getApproxIntersection
+} from 'lib/util/LineIntersection';
 
 
 describe('features/bendpoints - LineIntersection', function() {

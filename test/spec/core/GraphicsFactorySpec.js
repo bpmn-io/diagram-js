@@ -1,8 +1,11 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var merge = require('min-dash').merge;
+import { merge } from 'min-dash';
 
 
 describe('GraphicsFactory', function() {

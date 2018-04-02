@@ -1,6 +1,6 @@
 'use strict';
 
-var getMid = require('lib/layout/LayoutUtil').getMid;
+import { getMid } from 'lib/layout/LayoutUtil';
 
 
 /**
@@ -8,9 +8,7 @@ var getMid = require('lib/layout/LayoutUtil').getMid;
  * that layouts the connection by directly connecting
  * mid(source) + mid(target).
  */
-function CustomLayouter() {}
-
-module.exports = CustomLayouter;
+export default function CustomLayouter() {}
 
 
 /**

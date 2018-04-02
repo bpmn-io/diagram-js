@@ -1,16 +1,21 @@
 'use strict';
 
+import {
+  create
+} from 'lib/model';
+
 
 describe('matchers/ConnectionMatchers', function() {
-
-  var Model = require('lib/model');
 
   var connectionWaypoints = [
     { x: 100, y: 100, original: { x: 120, y: 120 } },
     { x: 80, y: 80, original: { x: 50, y: 50 } }
   ];
 
-  var connection = Model.create('connection', { id: 'someConnection', waypoints: connectionWaypoints });
+  var connection = create('connection', {
+    id: 'someConnection',
+    waypoints: connectionWaypoints
+  });
 
 
   describe('waypoints', function() {

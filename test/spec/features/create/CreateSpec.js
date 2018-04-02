@@ -1,19 +1,24 @@
 'use strict';
 
-require('../../../TestHelper');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents';
 
-var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
+import modelingModule from 'lib/features/modeling';
+import moveModule from 'lib/features/move';
+import dragModule from 'lib/features/dragging';
+import createModule from 'lib/features/create';
+import attachSupportModule from 'lib/features/attach-support';
+import rulesModule from './rules';
 
-var modelingModule = require('lib/features/modeling'),
-    moveModule = require('lib/features/move'),
-    dragModule = require('lib/features/dragging'),
-    createModule = require('lib/features/create'),
-    attachSupportModule = require('lib/features/attach-support'),
-    rulesModule = require('./rules');
-
-var svgClasses = require('tiny-svg').classes;
+import {
+  classes as svgClasses
+} from 'tiny-svg';
 
 
 describe('features/create - Create', function() {

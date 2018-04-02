@@ -1,21 +1,19 @@
 'use strict';
 
-var inherits = require('inherits');
+import inherits from 'inherits';
 
-var RuleProvider = require('lib/features/rules/RuleProvider');
+import RuleProvider from 'lib/features/rules/RuleProvider';
 
-function MoveRules(eventBus) {
+export default function LabelSupportRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
-MoveRules.$inject = [ 'eventBus' ];
+LabelSupportRules.$inject = [ 'eventBus' ];
 
-inherits(MoveRules, RuleProvider);
-
-module.exports = MoveRules;
+inherits(LabelSupportRules, RuleProvider);
 
 
-MoveRules.prototype.init = function() {
+LabelSupportRules.prototype.init = function() {
 
   this.addRule('elements.move', function(context) {
     var target = context.target,

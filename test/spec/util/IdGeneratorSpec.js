@@ -1,6 +1,6 @@
 'use strict';
 
-var IdGenerator = require('lib/util/IdGenerator');
+import IdGenerator from 'lib/util/IdGenerator';
 
 
 describe('util/IdGenerator', function() {

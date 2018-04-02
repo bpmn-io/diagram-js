@@ -1,4 +1,6 @@
-module.exports = {
+import TestRules from './TestRules';
+
+export default {
   __init__: [ 'testRules' ],
-  testRules: [ 'type', require('./TestRules') ]
+  testRules: [ 'type', TestRules ]
 };

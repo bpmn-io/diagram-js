@@ -1,23 +1,31 @@
 'use strict';
 
-require('../../../TestHelper');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents';
 
-var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
+import {
+  classes as domClasses,
+  query as domQuery
+} from 'min-dom';
 
-var domClasses = require('min-dom').classes,
-    domQuery = require('min-dom').query,
-    $ = require('jquery');
+import $ from 'jquery';
 
-var overlayModule = require('lib/features/overlays'),
-    selectionModule = require('lib/features/selection'),
-    modelingModule = require('lib/features/modeling'),
-    resizeModule = require('lib/features/resize'),
-    moveModule = require('lib/features/move');
+import overlayModule from 'lib/features/overlays';
+import selectionModule from 'lib/features/selection';
+import modelingModule from 'lib/features/modeling';
+import resizeModule from 'lib/features/resize';
+import moveModule from 'lib/features/move';
 
+import {
+  resizeBounds
+} from 'lib/features/resize/ResizeUtil';
 
-var resizeBounds = require('lib/features/resize/ResizeUtil').resizeBounds;
 
 describe('features/overlay - integration', function() {
 

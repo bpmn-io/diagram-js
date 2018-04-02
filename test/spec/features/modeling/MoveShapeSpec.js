@@ -1,8 +1,13 @@
 'use strict';
 
-/* global bootstrapDiagram, inject, sinon */
+/* global sinon */
 
-var modelingModule = require('lib/features/modeling');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
+
+import modelingModule from 'lib/features/modeling';
 
 
 describe('features/modeling - move shape', function() {

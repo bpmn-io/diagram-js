@@ -1,14 +1,22 @@
 'use strict';
 
-var getDiagramJS = require('../../../TestHelper').getDiagramJS;
+/* global sinon */
 
-/* global bootstrapDiagram, inject, sinon */
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper';
 
-var assign = require('min-dash').assign;
+import {
+  assign
+} from 'min-dash';
 
-var domify = require('min-dom').domify;
+import {
+  domify
+} from 'min-dom';
 
-var zoomScrollModule = require('lib/navigation/zoomscroll');
+import zoomScrollModule from 'lib/navigation/zoomscroll';
 
 
 describe('navigation/zoomscroll', function() {

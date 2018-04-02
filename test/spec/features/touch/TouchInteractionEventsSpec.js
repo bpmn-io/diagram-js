@@ -1,11 +1,15 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var forEach = require('min-dash').forEach;
+import {
+  forEach
+} from 'min-dash';
 
-
-var touchInteractionModule = require('lib/features/touch');
+import touchInteractionModule from 'lib/features/touch';
 
 
 describe('features/touch', function() {

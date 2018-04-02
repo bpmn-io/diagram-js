@@ -1,19 +1,16 @@
 'use strict';
 
-var inherits = require('inherits');
+import inherits from 'inherits';
 
-var RuleProvider = require('lib/features/rules/RuleProvider');
+import RuleProvider from 'lib/features/rules/RuleProvider';
 
-function ConnectRules(eventBus) {
+export default function ConnectRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
 ConnectRules.$inject = ['eventBus'];
 
 inherits(ConnectRules, RuleProvider);
-
-module.exports = ConnectRules;
-
 
 
 ConnectRules.prototype.init = function() {

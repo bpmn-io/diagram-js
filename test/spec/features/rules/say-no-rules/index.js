@@ -1,4 +1,6 @@
-module.exports = {
+import SayNoRules from './SayNoRules';
+
+export default {
   __init__: [ 'sayNoRules' ],
-  sayNoRules: [ 'type', require('./SayNoRules') ]
+  sayNoRules: [ 'type', SayNoRules ]
 };

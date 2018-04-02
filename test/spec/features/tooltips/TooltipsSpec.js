@@ -1,13 +1,18 @@
 'use strict';
 
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
+import {
+  forEach,
+  assign
+} from 'min-dash';
 
-var forEach = require('min-dash').forEach,
-    assign = require('min-dash').assign,
-    domify = require('min-dom').domify;
+import { domify } from 'min-dom';
 
-var tooltipsModule = require('lib/features/tooltips');
+import tooltipsModule from 'lib/features/tooltips';
 
 
 describe('features/tooltips', function() {

@@ -1,17 +1,24 @@
 'use strict';
 
-/* global bootstrapDiagram, inject, sinon */
+/* global sinon */
+
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
 var fs = require('fs');
 
-var domQuery = require('min-dom').query,
-    domQueryAll = require('min-dom').queryAll,
-    domClasses = require('min-dom').classes;
+import {
+  query as domQuery,
+  queryAll as domQueryAll,
+  classes as domClasses
+} from 'min-dom';
 
-var globalEvent = require('../../../util/MockEvents').createEvent;
+import { createEvent as globalEvent } from '../../../util/MockEvents';
 
-var popupMenuModule = require('lib/features/popup-menu'),
-    modelingModule = require('lib/features/modeling');
+import popupMenuModule from 'lib/features/popup-menu';
+import modelingModule from 'lib/features/modeling';
 
 
 function queryEntry(popupMenu, id) {

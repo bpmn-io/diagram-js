@@ -1,13 +1,20 @@
 'use strict';
 
-/* global bootstrapDiagram, inject, sinon */
+/* global sinon */
 
-var searchPadModule = require('lib/features/search-pad');
-var SearchPad = require('lib/features/search-pad/SearchPad');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var domQuery = require('min-dom').query,
-    domQueryAll = require('min-dom').queryAll,
-    domClasses = require('min-dom').classes;
+import searchPadModule from 'lib/features/search-pad';
+import SearchPad from 'lib/features/search-pad/SearchPad';
+
+import {
+  query as domQuery,
+  queryAll as domQueryAll,
+  classes as domClasses
+} from 'min-dom';
 
 var EVENTS = {
   closed: 'searchPad.closed',

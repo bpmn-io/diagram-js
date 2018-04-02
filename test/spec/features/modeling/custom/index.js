@@ -1,11 +1,20 @@
+import CommandModule from 'lib/command';
+import ChangeSupportModule from 'lib/features/change-support';
+import SelectionModule from 'lib/features/selection';
+import RulesModule from 'lib/features/rules';
+
+import Modeling from 'lib/features/modeling/Modeling';
+import CustomLayouter from './CustomLayouter';
+
+
 module.exports = {
   __depends__: [
-    require('lib/command'),
-    require('lib/features/change-support'),
-    require('lib/features/selection'),
-    require('lib/features/rules')
+    CommandModule,
+    ChangeSupportModule,
+    SelectionModule,
+    RulesModule
   ],
   __init__: [ 'modeling' ],
-  modeling: [ 'type', require('lib/features/modeling/Modeling') ],
-  layouter: [ 'type', require('./CustomLayouter') ]
+  modeling: [ 'type', Modeling ],
+  layouter: [ 'type', CustomLayouter ]
 };

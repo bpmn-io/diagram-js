@@ -1,27 +1,36 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper';
 
-var assign = require('min-dash').assign;
+import { assign } from 'min-dash';
 
-var snappingModule = require('lib/features/snapping'),
-    modelingModule = require('lib/features/modeling'),
-    moveModule = require('lib/features/move'),
-    createModule = require('lib/features/create'),
-    attachSupportModule = require('lib/features/attach-support');
+import snappingModule from 'lib/features/snapping';
+import modelingModule from 'lib/features/modeling';
+import moveModule from 'lib/features/move';
+import createModule from 'lib/features/create';
+import attachSupportModule from 'lib/features/attach-support';
 
-var canvasEvent = require('../../util/MockEvents').createCanvasEvent;
+import {
+  createCanvasEvent as canvasEvent
+} from '../../util/MockEvents';
 
-var SnapContext = require('lib/features/snapping/SnapContext');
-
-var TestHelper = require('test/TestHelper');
+import SnapContext from 'lib/features/snapping/SnapContext';
 
 
 describe('features/snapping - Snapping', function() {
 
   describe('basics', function() {
 
-    beforeEach(bootstrapDiagram({ modules: [ modelingModule, snappingModule ] }));
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        snappingModule
+      ]
+    }));
 
 
     var rootElement, shape;
@@ -112,7 +121,7 @@ describe('features/snapping - Snapping', function() {
 
       function moveTo(startEvent, newPosition) {
 
-        return TestHelper.getDiagramJS().invoke(function(eventBus) {
+        return getDiagramJS().invoke(function(eventBus) {
 
           return eventBus.createEvent(assign(startEvent, {
             x: newPosition.x,

@@ -1,12 +1,15 @@
 'use strict';
 
-var assign = require('min-dash').assign;
+import {
+  assign,
+  pick
+} from 'min-dash';
 
-var pick = require('min-dash').pick;
-
-var svgAppend = require('tiny-svg').append,
-    svgAttr = require('tiny-svg').attr,
-    svgCreate = require('tiny-svg').create;
+import {
+  append as svgAppend,
+  attr as svgAttr,
+  create as svgCreate
+} from 'tiny-svg';
 
 
 function toFitBBox(actual, expected) {
@@ -38,9 +41,9 @@ function toFitBBox(actual, expected) {
   return !!pass;
 }
 
-var TextUtil = require('lib/util/Text');
+import TextUtil from 'lib/util/Text';
 
-var TestContainer = require('mocha-test-container-support');
+import TestContainer from 'mocha-test-container-support';
 
 
 describe('Text', function() {

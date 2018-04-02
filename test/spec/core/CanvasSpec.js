@@ -1,20 +1,28 @@
 'use strict';
 
-/* global bootstrapDiagram, inject, sinon */
+/* global sinon */
 
-var TestContainer = require('mocha-test-container-support');
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper';
 
-var merge = require('min-dash').merge;
+import TestContainer from 'mocha-test-container-support';
 
-var domQueryAll = require('min-dom').queryAll,
-    domMatches = require('min-dom').matches;
+import { merge } from 'min-dash';
 
-var svgAttr = require('tiny-svg').attr,
-    svgClasses = require('tiny-svg').classes;
+import {
+  queryAll as domQueryAll,
+  matches as domMatches
+} from 'min-dom';
 
-var getDiagramJS = require('../../TestHelper').getDiagramJS;
+import {
+  attr as svgAttr,
+  classes as svgClasses
+} from 'tiny-svg';
 
-var getChildrenGfx = require('lib/util/GraphicsUtil').getChildren;
+import { getChildren as getChildrenGfx } from 'lib/util/GraphicsUtil';
 
 
 describe('Canvas', function() {

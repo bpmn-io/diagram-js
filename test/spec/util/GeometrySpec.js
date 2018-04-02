@@ -1,8 +1,8 @@
 'use strict';
 
-var GeometryUtil = require('lib/util/Geometry');
-
-var pointsOnLine = GeometryUtil.pointsOnLine;
+import {
+  pointsOnLine
+} from 'lib/util/Geometry';
 
 
 describe('util/Geometry', function() {

@@ -1,13 +1,19 @@
 'use strict';
 
-/* global bootstrapDiagram, inject, sinon */
+/* global sinon */
 
-var paletteModule = require('lib/features/palette');
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper';
 
-var domQuery = require('min-dom').query,
-    domClasses = require('min-dom').classes;
+import paletteModule from 'lib/features/palette';
 
-var getDiagramJS = require('../../../TestHelper').getDiagramJS;
+import {
+  query as domQuery,
+  classes as domClasses
+} from 'min-dom';
 
 var spy = sinon.spy;
 

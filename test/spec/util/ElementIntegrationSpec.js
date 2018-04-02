@@ -1,14 +1,19 @@
 'use strict';
 
-require('../../TestHelper');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
+import {
+  keys
+} from 'min-dash';
 
-var keys = require('min-dash').keys;
+import {
+  getEnclosedElements
+} from 'lib/util/Elements';
 
-var Elements = require('lib/util/Elements');
-
-var modelingModule = require('lib/features/modeling');
+import modelingModule from 'lib/features/modeling';
 
 
 describe('util/Elements', function() {
@@ -113,7 +118,6 @@ describe('util/Elements', function() {
     }));
 
 
-
     it('should return elements east of x', inject(function() {
 
       // given
@@ -122,7 +126,7 @@ describe('util/Elements', function() {
       };
 
       // when
-      var filteredElements = Elements.getEnclosedElements(elements, bbox);
+      var filteredElements = getEnclosedElements(elements, bbox);
 
       // then
       var ids = keys(filteredElements);
@@ -137,12 +141,13 @@ describe('util/Elements', function() {
       };
 
       // when
-      var filteredElements = Elements.getEnclosedElements(elements, bbox);
+      var filteredElements = getEnclosedElements(elements, bbox);
 
       // then
       var ids = keys(filteredElements);
       expect(ids).to.eql([ 'shape3a', 'shape3b', 'connection2a', 'connection2b' ]);
     }));
+
 
     it('should return elements east of x and south of y', inject(function() {
 
@@ -153,12 +158,13 @@ describe('util/Elements', function() {
       };
 
       // when
-      var filteredElements = Elements.getEnclosedElements(elements, bbox);
+      var filteredElements = getEnclosedElements(elements, bbox);
 
       // then
       var ids = keys(filteredElements);
       expect(ids).to.eql([ 'shape3b', 'connection2b' ]);
     }));
+
 
     it('should return elements within the bbox', inject(function() {
 
@@ -171,7 +177,7 @@ describe('util/Elements', function() {
       };
 
       // when
-      var filteredElements = Elements.getEnclosedElements(elements, bbox);
+      var filteredElements = getEnclosedElements(elements, bbox);
 
       // then
       var ids = keys(filteredElements);
@@ -201,7 +207,7 @@ describe('util/Elements', function() {
         };
 
         // when
-        var filteredElements = Elements.getEnclosedElements(elements, bbox);
+        var filteredElements = getEnclosedElements(elements, bbox);
 
         // then
         var ids = keys(filteredElements);
@@ -216,6 +222,7 @@ describe('util/Elements', function() {
           'connection2b'
         ]);
       }));
+
 
       it('should return elements at negative positions', inject(function(elementRegistry, elementFactory, canvas) {
 
@@ -241,7 +248,7 @@ describe('util/Elements', function() {
         });
 
         // when
-        var filteredElements = Elements.getEnclosedElements(elements, bbox);
+        var filteredElements = getEnclosedElements(elements, bbox);
 
         // then
         var ids = keys(filteredElements);
@@ -250,6 +257,7 @@ describe('util/Elements', function() {
           'shape0'
         ]);
       }));
+
 
       it('should not return elements that cross bbox boundaries', inject(function() {
 
@@ -262,13 +270,15 @@ describe('util/Elements', function() {
         };
 
         // when
-        var filteredElements = Elements.getEnclosedElements(elements, bbox);
+        var filteredElements = getEnclosedElements(elements, bbox);
 
         // then
         var ids = keys(filteredElements);
         expect(ids).to.eql([ 'connection3' ]);
       }));
+
     });
+
   });
 
 });

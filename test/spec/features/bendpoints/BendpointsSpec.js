@@ -1,18 +1,25 @@
 'use strict';
 
-require('../../../TestHelper');
+/* global sinon */
 
-/* global bootstrapDiagram, inject, sinon */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
+import modelingModule from 'lib/features/modeling';
+import bendpointsModule from 'lib/features/bendpoints';
+import rulesModule from './rules';
+import interactionModule from 'lib/features/interaction-events';
 
-var modelingModule = require('lib/features/modeling'),
-    bendpointsModule = require('lib/features/bendpoints'),
-    rulesModule = require('./rules'),
-    interactionModule = require('lib/features/interaction-events'),
-    canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents';
 
-var domQuery = require('min-dom').query,
-    domQueryAll = require('min-dom').queryAll;
+import {
+  query as domQuery,
+  queryAll as domQueryAll
+} from 'min-dom';
 
 
 describe('features/bendpoints', function() {
@@ -93,7 +100,10 @@ describe('features/bendpoints', function() {
       var layer = canvas.getLayer('overlays');
 
       // when
-      eventBus.fire('element.hover', { element: connection, gfx: elementRegistry.getGraphics(connection) });
+      eventBus.fire('element.hover', {
+        element: connection,
+        gfx: elementRegistry.getGraphics(connection)
+      });
 
 
       // then
@@ -118,51 +128,61 @@ describe('features/bendpoints', function() {
     }));
 
 
-    it('should activate bendpoint move', inject(function(dragging, eventBus, elementRegistry, bendpoints) {
+    it('should activate bendpoint move', inject(
+      function(dragging, eventBus, elementRegistry, bendpoints) {
 
-      // when
-      eventBus.fire('element.hover', { element: connection, gfx: elementRegistry.getGraphics(connection) });
-      eventBus.fire('element.mousemove', {
-        element: connection,
-        originalEvent: canvasEvent({ x: 500, y: 250 })
-      });
-      eventBus.fire('element.mousedown', {
-        element: connection,
-        originalEvent: canvasEvent({ x: 500, y: 250 })
-      });
+        // when
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 500, y: 250 })
+        });
+        eventBus.fire('element.mousedown', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 500, y: 250 })
+        });
 
-      var draggingContext = dragging.context();
+        var draggingContext = dragging.context();
 
-      // then
-      expect(draggingContext).to.exist;
-      expect(draggingContext.prefix).to.eql('bendpoint.move');
-    }));
+        // then
+        expect(draggingContext).to.exist;
+        expect(draggingContext.prefix).to.eql('bendpoint.move');
+      }
+    ));
 
 
-    it('should activate parallel move', inject(function(dragging, eventBus, elementRegistry, bendpoints) {
+    it('should activate parallel move', inject(
+      function(dragging, eventBus, elementRegistry, bendpoints) {
 
-      // precondition
-      var intersectionStart = connection.waypoints[0].x,
-          intersectionEnd = connection.waypoints[1].x,
-          intersectionMid = intersectionEnd - (intersectionEnd - intersectionStart) / 2;
+        // precondition
+        var intersectionStart = connection.waypoints[0].x,
+            intersectionEnd = connection.waypoints[1].x,
+            intersectionMid = intersectionEnd - (intersectionEnd - intersectionStart) / 2;
 
-      // when
-      eventBus.fire('element.hover', { element: connection, gfx: elementRegistry.getGraphics(connection) });
-      eventBus.fire('element.mousemove', {
-        element: connection,
-        originalEvent: canvasEvent({ x: intersectionMid, y: 250 })
-      });
-      eventBus.fire('element.mousedown', {
-        element: connection,
-        originalEvent: canvasEvent({ x: intersectionMid, y: 250 })
-      });
+        // when
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: intersectionMid, y: 250 })
+        });
+        eventBus.fire('element.mousedown', {
+          element: connection,
+          originalEvent: canvasEvent({ x: intersectionMid, y: 250 })
+        });
 
-      var draggingContext = dragging.context();
+        var draggingContext = dragging.context();
 
-      // then
-      expect(draggingContext).to.exist;
-      expect(draggingContext.prefix).to.eql('connectionSegment.move');
-    }));
+        // then
+        expect(draggingContext).to.exist;
+        expect(draggingContext.prefix).to.eql('connectionSegment.move');
+      }
+    ));
 
 
     describe('should trigger interaction events', function() {
@@ -234,24 +254,28 @@ describe('features/bendpoints', function() {
 
   });
 
+
   describe('updating', function() {
 
-    it('should update on element updated ID', inject(function(selection, canvas, elementRegistry) {
+    it('should update on element updated ID', inject(
+      function(selection, canvas, elementRegistry) {
 
-      // given
-      var layer = canvas.getLayer('overlays');
+        // given
+        var layer = canvas.getLayer('overlays');
 
-      selection.select(connection);
+        selection.select(connection);
 
-      // when
-      elementRegistry.updateId(connection, 'foo');
+        // when
+        elementRegistry.updateId(connection, 'foo');
 
-      var bendpointContainer = domQuery('.djs-bendpoints', layer);
+        var bendpointContainer = domQuery('.djs-bendpoints', layer);
 
-      // then
-      // bendpoint container references element with updated ID
-      expect(bendpointContainer.dataset.elementId).to.equal('foo');
-    }));
+        // then
+        // bendpoint container references element with updated ID
+        expect(bendpointContainer.dataset.elementId).to.equal('foo');
+      }
+    ));
 
   });
+
 });

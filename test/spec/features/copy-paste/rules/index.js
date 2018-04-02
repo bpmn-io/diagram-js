@@ -1,4 +1,6 @@
-module.exports = {
+import CopyPasteRules from './CopyPasteRules';
+
+export default {
   __init__: [ 'copyPasteRules' ],
-  copyPasteRules: [ 'type', require('./CopyPasteRules') ]
+  copyPasteRules: [ 'type', CopyPasteRules ]
 };

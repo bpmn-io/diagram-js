@@ -1,23 +1,21 @@
 'use strict';
 
-var inherits = require('inherits');
+import inherits from 'inherits';
 
-var RuleProvider = require('lib/features/rules/RuleProvider');
+import RuleProvider from 'lib/features/rules/RuleProvider';
 
-var forEach = require('min-dash').forEach;
+import { forEach } from 'min-dash';
 
-function MoveRules(eventBus) {
+export default function AttachRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
-MoveRules.$inject = [ 'eventBus' ];
+AttachRules.$inject = [ 'eventBus' ];
 
-inherits(MoveRules, RuleProvider);
-
-module.exports = MoveRules;
+inherits(AttachRules, RuleProvider);
 
 
-MoveRules.prototype.init = function() {
+AttachRules.prototype.init = function() {
 
   this.addRule('elements.move', function(context) {
 

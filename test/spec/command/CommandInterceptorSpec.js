@@ -1,14 +1,15 @@
 'use strict';
 
-require('../../TestHelper');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
+import inherits from 'inherits';
 
-var inherits = require('inherits');
+import cmdModule from 'lib/command';
 
-var cmdModule = require('lib/command');
-
-var CommandInterceptor = require('lib/command/CommandInterceptor');
+import CommandInterceptor from 'lib/command/CommandInterceptor';
 
 
 // example commands

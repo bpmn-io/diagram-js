@@ -1,15 +1,17 @@
 'use strict';
 
-require('../../../TestHelper');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents';
 
-/* global bootstrapDiagram, inject */
-
-
-var modelingModule = require('lib/features/modeling'),
-    lassoToolModule = require('lib/features/lasso-tool'),
-    draggingModule = require('lib/features/dragging');
+import modelingModule from 'lib/features/modeling';
+import lassoToolModule from 'lib/features/lasso-tool';
+import draggingModule from 'lib/features/dragging';
 
 
 describe('features/lasso-tool', function() {

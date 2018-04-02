@@ -1,18 +1,16 @@
 'use strict';
 
-var inherits = require('inherits');
+import inherits from 'inherits';
 
-var RuleProvider = require('lib/features/rules/RuleProvider');
+import RuleProvider from 'lib/features/rules/RuleProvider';
 
-function SayNoRules(eventBus) {
+export default function SayNoRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
 SayNoRules.$inject = [ 'eventBus' ];
 
 inherits(SayNoRules, RuleProvider);
-
-module.exports = SayNoRules;
 
 
 SayNoRules.prototype.init = function() {

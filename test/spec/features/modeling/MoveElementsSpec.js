@@ -1,11 +1,15 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
+import {
+  pick
+} from 'min-dash';
 
-var pick = require('min-dash').pick;
-
-var modelingModule = require('lib/features/modeling');
+import modelingModule from 'lib/features/modeling';
 
 function containment(element) {
   return pick(element, [ 'x', 'y', 'parent' ]);

@@ -1,13 +1,15 @@
 'use strict';
 
-require('../../../TestHelper');
+/* global sinon */
 
-/* global bootstrapDiagram, inject, sinon */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-
-var editorActionsModule = require('lib/features/editor-actions'),
-    modelingModule = require('lib/features/modeling'),
-    customRulesModule = require('./rules');
+import editorActionsModule from 'lib/features/editor-actions';
+import modelingModule from 'lib/features/modeling';
+import customRulesModule from './rules';
 
 
 describe('features/editor-actions', function() {

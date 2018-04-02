@@ -1,12 +1,12 @@
 'use strict';
 
-require('../../../TestHelper');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
-
-
-var moveCanvasModule = require('lib/navigation/movecanvas'),
-    interactionEventsModule = require('lib/features/interaction-events');
+import moveCanvasModule from 'lib/navigation/movecanvas';
+import interactionEventsModule from 'lib/features/interaction-events';
 
 
 describe('navigation/movecanvas', function() {

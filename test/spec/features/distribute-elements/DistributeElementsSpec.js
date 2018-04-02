@@ -1,11 +1,14 @@
 'use strict';
 
-var forEach = require('min-dash').forEach;
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-/* global bootstrapDiagram, inject */
+import { forEach } from 'min-dash';
 
-var distributeElementsModule = require('lib/features/distribute-elements'),
-    modelingModule = require('lib/features/modeling');
+import distributeElementsModule from 'lib/features/distribute-elements';
+import modelingModule from 'lib/features/modeling';
 
 
 function expectRanges(rangeGroups, expectedRanges) {

@@ -1,15 +1,17 @@
 'use strict';
 
-require('../../../TestHelper');
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var canvasEvent = require('../../../util/MockEvents').createCanvasEvent;
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents';
 
-/* global bootstrapDiagram, inject */
-
-
-var toolManagerModule = require('lib/features/tool-manager'),
-    handToolModule = require('lib/features/hand-tool'),
-    draggingModule = require('lib/features/dragging');
+import toolManagerModule from 'lib/features/tool-manager';
+import handToolModule from 'lib/features/hand-tool';
+import draggingModule from 'lib/features/dragging';
 
 
 describe('features/tool-manager', function() {

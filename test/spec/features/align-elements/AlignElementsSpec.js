@@ -1,9 +1,13 @@
 'use strict';
 
-/* global bootstrapDiagram, inject */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-var alignElementsModule = require('lib/features/align-elements'),
-    modelingModule = require('lib/features/modeling');
+
+import alignElementsModule from 'lib/features/align-elements';
+import modelingModule from 'lib/features/modeling';
 
 
 describe('features/align-elements', function() {

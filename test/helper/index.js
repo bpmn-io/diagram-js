@@ -1,13 +1,15 @@
 'use strict';
 
-var isFunction = require('min-dash').isFunction,
-    forEach = require('min-dash').forEach,
-    merge = require('min-dash').merge;
+import {
+  isFunction,
+  forEach,
+  merge
+} from 'min-dash';
 
-var TestContainer = require('mocha-test-container-support');
+import TestContainer from 'mocha-test-container-support';
 
-var Diagram = require('lib/Diagram'),
-    domEvent = require('min-dom').event;
+import Diagram from 'lib/Diagram';
+import { event as domEvent } from 'min-dom';
 
 var OPTIONS, DIAGRAM_JS;
 
@@ -35,7 +37,7 @@ var OPTIONS, DIAGRAM_JS;
  * @param  {Object|Function} locals  the local overrides to be used by the diagram or a function that produces them
  * @return {Function}         a function to be passed to beforeEach
  */
-function bootstrapDiagram(options, locals) {
+export function bootstrapDiagram(options, locals) {
 
   return function() {
 
@@ -118,7 +120,7 @@ function bootstrapDiagram(options, locals) {
  * @param  {Function} fn the function to inject to
  * @return {Function} a function that can be passed to it to carry out the injection
  */
-function inject(fn) {
+export function inject(fn) {
   return function() {
 
     if (!DIAGRAM_JS) {
@@ -137,11 +139,8 @@ function cleanup() {
   DIAGRAM_JS.destroy();
 }
 
-module.exports.bootstrapDiagram = (window || global).bootstrapDiagram = bootstrapDiagram;
-module.exports.inject = (window || global).inject = inject;
 
-
-function insertCSS(name, css) {
+export function insertCSS(name, css) {
   if (document.querySelector('[data-css-file="' + name + '"]')) {
     return;
   }
@@ -160,11 +159,9 @@ function insertCSS(name, css) {
   head.appendChild(style);
 }
 
-module.exports.insertCSS = insertCSS;
-
-module.exports.getDiagramJS = function() {
+export function getDiagramJS() {
   return DIAGRAM_JS;
-};
+}
 
 function DomEventTracker() {
 
@@ -190,4 +187,5 @@ function DomEventTracker() {
   };
 }
 
-module.exports.DomMocking = new DomEventTracker();
+
+export var DomMocking = new DomEventTracker();

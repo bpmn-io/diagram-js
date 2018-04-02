@@ -1,11 +1,13 @@
 'use strict';
 
-require('../../../TestHelper');
+/* global sinon */
 
-/* global bootstrapDiagram, inject, sinon */
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper';
 
-
-var interactionEventsModule = require('lib/features/interaction-events');
+import interactionEventsModule from 'lib/features/interaction-events';
 
 var bindings = {
   mouseover: 'element.hover',

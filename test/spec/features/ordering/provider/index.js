@@ -1,4 +1,6 @@
-module.exports = {
+import TestOrderingProvider from './TestOrderingProvider';
+
+export default {
   __init__: [ 'testOrderingProvider' ],
-  testOrderingProvider: [ 'type', require('./TestOrderingProvider') ]
+  testOrderingProvider: [ 'type', TestOrderingProvider ]
 };

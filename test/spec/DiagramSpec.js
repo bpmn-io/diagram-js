@@ -1,6 +1,6 @@
 'use strict';
 
-var Diagram = require('lib/Diagram');
+import Diagram from 'lib/Diagram';
 
 
 describe('diagram', function() {

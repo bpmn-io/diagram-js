@@ -1,4 +1,6 @@
-module.exports = {
+import LabelSupportRules from './LabelSupportRules';
+
+export default {
   __init__: [ 'labelSupportRules' ],
-  labelSupportRules: [ 'type', require('./LabelSupportRules') ]
+  labelSupportRules: [ 'type', LabelSupportRules ]
 };
