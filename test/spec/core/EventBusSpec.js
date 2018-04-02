@@ -2,7 +2,6 @@
 
 var EventBus = require('lib/core/EventBus');
 
-var EventBusEvent = EventBus.Event;
 
 /* global sinon */
 
@@ -83,7 +82,7 @@ describe('core/EventBus', function() {
       it('should be undefined on event if no listeners', function() {
 
         // given
-        var event = new EventBusEvent();
+        var event = eventBus.createEvent();
 
         event.init({ type: 'foo' });
 

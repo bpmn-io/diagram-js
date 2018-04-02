@@ -14,7 +14,7 @@ var canvasEvent = require('../../util/MockEvents').createCanvasEvent;
 
 var SnapContext = require('lib/features/snapping/SnapContext');
 
-var Event = require('lib/core/EventBus').Event;
+var TestHelper = require('test/TestHelper');
 
 
 describe('features/snapping - Snapping', function() {
@@ -98,8 +98,8 @@ describe('features/snapping - Snapping', function() {
 
       var startEvent;
 
-      beforeEach(function() {
-        startEvent = assign(new Event(), {
+      beforeEach(inject(function(eventBus) {
+        startEvent = eventBus.createEvent({
           x: 150,
           y: 150,
           context: {
@@ -107,18 +107,22 @@ describe('features/snapping - Snapping', function() {
             target: rootElement
           }
         });
-      });
+      }));
 
 
       function moveTo(startEvent, newPosition) {
 
-        return assign(new Event(), startEvent, {
-          x: newPosition.x,
-          y: newPosition.y,
-          dx: newPosition.x - startEvent.x,
-          dy: newPosition.y - startEvent.y
+        return TestHelper.getDiagramJS().invoke(function(eventBus) {
+
+          return eventBus.createEvent(assign(startEvent, {
+            x: newPosition.x,
+            y: newPosition.y,
+            dx: newPosition.x - startEvent.x,
+            dy: newPosition.y - startEvent.y
+          }));
         });
       }
+
 
       it('should init on shape.move.start', inject(function(eventBus) {
 

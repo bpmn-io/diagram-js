@@ -2,8 +2,6 @@
 
 var assign = require('min-dash').assign;
 
-var EventBus = require('../../lib/core/EventBus');
-
 var TestHelper = require('../helper');
 
 
@@ -39,19 +37,17 @@ module.exports.createCanvasEvent = createCanvasEvent;
 
 function createEvent(target, position, data) {
 
-  data = assign({
-    target: target,
-    clientX: position.x,
-    clientY: position.y,
-    offsetX: position.x,
-    offsetY: position.y
-  }, data || {});
+  return TestHelper.getDiagramJS().invoke(function(eventBus) {
+    data = assign({
+      target: target,
+      clientX: position.x,
+      clientY: position.y,
+      offsetX: position.x,
+      offsetY: position.y
+    }, data || {});
 
-  var event = new EventBus.Event();
-
-  event.init(data);
-
-  return event;
+    return eventBus.createEvent(data);
+  });
 }
 
 module.exports.createEvent = createEvent;
