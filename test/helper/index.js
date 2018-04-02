@@ -8,7 +8,7 @@ import {
 
 import TestContainer from 'mocha-test-container-support';
 
-import Diagram from 'lib/Diagram';
+import Diagram from '../../lib/Diagram';
 import { event as domEvent } from 'min-dom';
 
 var OPTIONS, DIAGRAM_JS;
