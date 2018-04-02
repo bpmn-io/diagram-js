@@ -16,7 +16,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ### Breaking Changes
 
-* `FEAT`: removed `EventBus.Event` in favor of `EventBus#createEvent` API ([`91899cf6`](https://github.com/bpmn-io/diagram-js/commit/91899cf6d2e9100c712aa191cf0d3829335cfeb3))
+* `FEAT`: remove `EventBus.Event` in favor of `EventBus#createEvent` API ([`91899cf6`](https://github.com/bpmn-io/diagram-js/commit/91899cf6d2e9100c712aa191cf0d3829335cfeb3))
 
 ## 0.30.0
 
