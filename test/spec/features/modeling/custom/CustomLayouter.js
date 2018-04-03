@@ -1,5 +1,3 @@
-'use strict';
-
 import { getMid } from 'lib/layout/LayoutUtil';
 
 

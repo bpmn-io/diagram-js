@@ -1,5 +1,3 @@
-'use strict';
-
 import EventBus from 'lib/core/EventBus';
 
 

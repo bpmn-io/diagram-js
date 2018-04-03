@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   pointsOnLine
 } from 'lib/util/Geometry';

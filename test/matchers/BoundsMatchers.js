@@ -1,5 +1,3 @@
-'use strict';
-
 import { pick } from 'min-dash';
 
 var BOUNDS_ATTRS = [ 'x', 'y', 'width', 'height' ],

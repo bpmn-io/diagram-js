@@ -1,5 +1,3 @@
-'use strict';
-
 import IdGenerator from 'lib/util/IdGenerator';
 
 

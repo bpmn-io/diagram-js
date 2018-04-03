@@ -1,5 +1,3 @@
-'use strict';
-
 import translate from 'lib/i18n/translate/translate';
 
 module.exports = function customTranslate(template, replacements) {

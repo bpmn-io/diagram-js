@@ -1,5 +1,3 @@
-'use strict';
-
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 
 import {

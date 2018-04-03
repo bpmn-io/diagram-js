@@ -1,5 +1,3 @@
-'use strict';
-
 import Diagram from 'lib/Diagram';
 
 

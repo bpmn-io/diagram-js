@@ -1,5 +1,3 @@
-'use strict';
-
 import inherits from 'inherits';
 
 import RuleProvider from 'lib/features/rules/RuleProvider';

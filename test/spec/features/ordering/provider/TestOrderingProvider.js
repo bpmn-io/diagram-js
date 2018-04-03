@@ -1,5 +1,3 @@
-'use strict';
-
 import inherits from 'inherits';
 
 import OrderingProvider from 'lib/features/ordering/OrderingProvider';

@@ -1,5 +1,3 @@
-'use strict';
-
 import CopyPasteUtil from 'lib/util/CopyPasteUtil';
 
 

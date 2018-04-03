@@ -1,5 +1,3 @@
-'use strict';
-
 import inherits from 'inherits';
 
 import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';

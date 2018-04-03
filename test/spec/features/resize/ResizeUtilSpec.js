@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   addPadding,
   ensureConstraints,

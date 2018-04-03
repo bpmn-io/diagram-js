@@ -1,6 +1,3 @@
-'use strict';
-
-
 import Styles from 'lib/draw/Styles';
 
 

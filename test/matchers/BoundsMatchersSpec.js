@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   create
 } from 'lib/model';

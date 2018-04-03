@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   getApproxIntersection
 } from 'lib/util/LineIntersection';

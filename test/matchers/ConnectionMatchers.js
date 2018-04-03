@@ -1,5 +1,3 @@
-'use strict';
-
 import { pick } from 'min-dash';
 
 var POSITION_ATTRS = [ 'x', 'y' ];

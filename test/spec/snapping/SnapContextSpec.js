@@ -1,5 +1,3 @@
-'use strict';
-
 import SnapContext from 'lib/features/snapping/SnapContext';
 
 
