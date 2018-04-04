@@ -3,15 +3,13 @@ import inherits from 'inherits';
 import RuleProvider from 'lib/features/rules/RuleProvider';
 
 
-function CopyPasteRules(eventBus) {
+export default function CopyPasteRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
 CopyPasteRules.$inject = [ 'eventBus' ];
 
 inherits(CopyPasteRules, RuleProvider);
-
-module.exports = CopyPasteRules;
 
 
 CopyPasteRules.prototype.init = function() {

@@ -7,7 +7,7 @@ import Modeling from 'lib/features/modeling/Modeling';
 import CustomLayouter from './CustomLayouter';
 
 
-module.exports = {
+export default {
   __depends__: [
     CommandModule,
     ChangeSupportModule,

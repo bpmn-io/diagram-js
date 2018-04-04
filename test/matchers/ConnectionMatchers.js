@@ -7,7 +7,7 @@ function extractPoints(point) {
 }
 
 
-module.exports = function(chai, utils) {
+export default function(chai, utils) {
 
   var Assertion = chai.Assertion;
 
@@ -119,4 +119,4 @@ module.exports = function(chai, utils) {
     );
   });
 
-};
+}

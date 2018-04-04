@@ -1,6 +1,6 @@
 import translate from 'lib/i18n/translate/translate';
 
-module.exports = function customTranslate(template, replacements) {
+export default function customTranslate(template, replacements) {
   if (template === 'Remove') {
     template = 'Eliminar';
   }
@@ -10,4 +10,4 @@ module.exports = function customTranslate(template, replacements) {
   }
 
   return translate(template, replacements);
-};
+}

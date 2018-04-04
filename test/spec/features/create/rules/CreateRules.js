@@ -2,15 +2,13 @@ import inherits from 'inherits';
 
 import RuleProvider from 'lib/features/rules/RuleProvider';
 
-function CreateRules(eventBus) {
+export default function CreateRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
 CreateRules.$inject = [ 'eventBus' ];
 
 inherits(CreateRules, RuleProvider);
-
-module.exports = CreateRules;
 
 
 CreateRules.prototype.init = function() {
