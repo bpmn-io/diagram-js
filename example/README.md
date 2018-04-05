@@ -16,7 +16,7 @@ npm install
 To create the sample distribution in the `dist` folder run
 
 ```
-npm run build
+npm run all
 ```
 
 To bootstrap a development setup that spawns a small webserver and rebuilds your app on changes run

@@ -1,10 +1,7 @@
-'use strict';
-
-
 /**
  * A example palette provider.
  */
-function ExamplePaletteProvider(create, elementFactory, lassoTool, palette) {
+export default function ExamplePaletteProvider(create, elementFactory, lassoTool, palette) {
   this._create = create;
   this._elementFactory = elementFactory;
   this._lassoTool = lassoTool;
@@ -13,7 +10,13 @@ function ExamplePaletteProvider(create, elementFactory, lassoTool, palette) {
   palette.registerProvider(this);
 }
 
-ExamplePaletteProvider.$inject = [ 'create', 'elementFactory', 'lassoTool', 'palette' ];
+ExamplePaletteProvider.$inject = [
+  'create',
+  'elementFactory',
+  'lassoTool',
+  'palette'
+];
+
 
 ExamplePaletteProvider.prototype.getPaletteEntries = function() {
   var create = this._create,
@@ -52,5 +55,3 @@ ExamplePaletteProvider.prototype.getPaletteEntries = function() {
     }
   };
 };
-
-module.exports = ExamplePaletteProvider;

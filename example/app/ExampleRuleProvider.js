@@ -1,10 +1,9 @@
-'use strict';
+import inherits from 'inherits';
 
-var inherits = require('inherits');
+import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider';
 
-var RuleProvider = require('diagram-js/lib/features/rules/RuleProvider');
 
-function ExampleRuleProvider(eventBus) {
+export default function ExampleRuleProvider(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
@@ -12,7 +11,6 @@ ExampleRuleProvider.$inject = [ 'eventBus' ];
 
 inherits(ExampleRuleProvider, RuleProvider);
 
-module.exports = ExampleRuleProvider;
 
 ExampleRuleProvider.prototype.init = function() {
   this.addRule('shape.create', function(context) {

@@ -1,14 +1,19 @@
-'use strict';
-
 /**
  * A example context pad provider.
  */
-function ExampleContextPadProvider(connect, contextpad, modeling) {
+export default function ExampleContextPadProvider(connect, contextPad, modeling) {
   this._connect = connect;
   this._modeling = modeling;
 
-  contextpad.registerProvider(this);
+  contextPad.registerProvider(this);
 }
+
+ExampleContextPadProvider.$inject = [
+  'connect',
+  'contextPad',
+  'modeling'
+];
+
 
 ExampleContextPadProvider.prototype.getContextPadEntries = function(element) {
   var connect = this._connect,
@@ -43,7 +48,3 @@ ExampleContextPadProvider.prototype.getContextPadEntries = function(element) {
     }
   };
 };
-
-ExampleContextPadProvider.$inject = [ 'connect', 'contextPad', 'modeling' ];
-
-module.exports = ExampleContextPadProvider;

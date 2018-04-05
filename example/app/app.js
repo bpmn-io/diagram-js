@@ -1,30 +1,53 @@
-'use strict';
+import Diagram from 'diagram-js';
 
-var Diagram = require('diagram-js');
+import SelectionModule from 'diagram-js/lib/features/selection'; // select elements
+import ZoomScrollModule from 'diagram-js/lib/navigation/zoomscroll'; // zoom canvas
+import MoveCanvasModule from 'diagram-js/lib/navigation/movecanvas'; // scroll canvas
+import ModelingModule from 'diagram-js/lib/features/modeling'; // basic modeling (create/move/remove shapes/connections)
+import MoveModule from 'diagram-js/lib/features/move'; // move shapes
+import OutlineModule from 'diagram-js/lib/features/outline'; // show element outlines
+import LassoToolModule from 'diagram-js/lib/features/lasso-tool'; // lasso tool for element selection
+import PaletteModule from 'diagram-js/lib/features/palette'; // palette
+import CreateModule from 'diagram-js/lib/features/create'; // create elements
+import ContextPadModule from 'diagram-js/lib/features/context-pad'; // context pad for elements,
+import ConnectModule from 'diagram-js/lib/features/connect'; // connect elements
+import RulesModule from 'diagram-js/lib/features/rules'; // rules
 
-var container = document.getElementById('container');
+import ExampleContextPadProvider from './ExampleContextPadProvider';
+import ExamplePaletteProvider from './ExamplePaletteProvider';
+import ExampleRuleProvider from './ExampleRuleProvider';
+
+var ExampleModule = {
+  __init__: [
+    'exampleContextPadProvider',
+    'examplePaletteProvider',
+    'exampleRuleProvider'
+  ],
+  exampleContextPadProvider: [ 'type', ExampleContextPadProvider ],
+  examplePaletteProvider: [ 'type', ExamplePaletteProvider ],
+  exampleRuleProvider: [ 'type', ExampleRuleProvider ]
+};
+
+var container = document.querySelector('#container');
 
 var diagram = new Diagram({
-  canvas: { container: container },
+  canvas: {
+    container: container
+  },
   modules: [
-    require('diagram-js/lib/features/selection'), // select elements
-    require('diagram-js/lib/navigation/zoomscroll'), // zoom canvas
-    require('diagram-js/lib/navigation/movecanvas'), // scroll canvas
-    require('diagram-js/lib/features/modeling'), // basic modeling (create/move/remove shapes/connections)
-    require('diagram-js/lib/features/move'), // move shapes
-    require('diagram-js/lib/features/outline'), // show element outlines
-    require('diagram-js/lib/features/lasso-tool'), // lasso tool for element selection
-    require('diagram-js/lib/features/palette'), // palette
-    require('diagram-js/lib/features/create'), // create elements
-    require('diagram-js/lib/features/context-pad'), // context pad for elements,
-    require('diagram-js/lib/features/connect'), // connect elements
-    require('diagram-js/lib/features/rules'), // rules
-    {
-      __init__: [ 'exampleContextPadProvider', 'examplePaletteProvider', 'exampleRuleProvider' ],
-      exampleContextPadProvider: [ 'type', require('./ExampleContextPadProvider') ],
-      examplePaletteProvider: [ 'type', require('./ExamplePaletteProvider') ],
-      exampleRuleProvider: [ 'type', require('./ExampleRuleProvider') ]
-    }
+    SelectionModule,
+    ZoomScrollModule,
+    MoveCanvasModule,
+    ModelingModule,
+    MoveModule,
+    OutlineModule,
+    LassoToolModule,
+    PaletteModule,
+    CreateModule,
+    ContextPadModule,
+    ConnectModule,
+    RulesModule,
+    ExampleModule
   ]
 });
 

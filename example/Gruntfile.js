@@ -2,6 +2,19 @@
 
 var path = require('path');
 
+function resolvePath(p) {
+
+  var parts = p.split('/', 2);
+
+  return (
+    path.join(
+      require.resolve(parts[0]),
+      parts[1]
+    )
+  );
+}
+
+
 module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
@@ -9,50 +22,25 @@ module.exports = function(grunt) {
 
   // project configuration
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-
-    config: {
-      sources: 'app',
-      dist: 'dist',
-      diagram_js: path.dirname(require.resolve('diagram-js'))
-    },
-
-    jshint: {
-      src: [
-        ['<%=config.sources %>']
-      ],
-      options: {
-        jshintrc: true
-      }
-    },
-
     browserify: {
       options: {
-        browserifyOptions: {
-          // strip unnecessary built-ins
-          builtins: [ 'events' ],
-          insertGlobalVars: {
-            process: function() {
-              return 'undefined';
-            },
-            Buffer: function() {
-              return 'undefined';
-            }
-          }
-        },
-        transform: [ 'brfs' ]
+        transform: [
+          [ 'babelify', {
+            global: true
+          } ]
+        ]
       },
       watch: {
         options: {
           watch: true
         },
         files: {
-          '<%= config.dist %>/app.js': [ '<%= config.sources %>/**/*.js' ]
+          'dist/app.js': [ 'app/**/*.js' ]
         }
       },
       app: {
         files: {
-          '<%= config.dist %>/app.js': [ '<%= config.sources %>/**/*.js' ]
+          'dist/app.js': [ 'app/**/*.js' ]
         }
       }
     },
@@ -61,13 +49,13 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: '<%= config.sources %>/',
+            cwd: 'app/',
             src: ['**/*.*', '!**/*.js'],
-            dest: '<%= config.dist %>'
+            dest: 'dist'
           },
           {
-            src: '<%= config.diagram_js %>/assets/diagram-js.css',
-            dest: '<%= config.dist %>/css/diagram-js.css'
+            src: resolvePath('diagram-js/assets/diagram-js.css'),
+            dest: 'dist/css/diagram-js.css'
           }
         ]
       }
@@ -77,7 +65,7 @@ module.exports = function(grunt) {
         livereload: true
       },
       samples: {
-        files: [ '<%= config.sources %>/**/*.*' ],
+        files: [ 'app/**/*.*' ],
         tasks: [ 'copy:app' ]
       }
     },
@@ -89,7 +77,7 @@ module.exports = function(grunt) {
           hostname: 'localhost',
           open: true,
           base: [
-            '<%= config.dist %>'
+            'dist'
           ]
         }
       }
@@ -107,5 +95,5 @@ module.exports = function(grunt) {
     'watch'
   ]);
 
-  grunt.registerTask('default', [ 'jshint', 'build' ]);
+  grunt.registerTask('default', [ 'build' ]);
 };
