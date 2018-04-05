@@ -1,6 +1,6 @@
 {
   "name": "diagram-js",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A modeling framework for the web",
   "scripts": {
     "all": "run-s lint test",
