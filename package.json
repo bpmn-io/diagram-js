@@ -52,7 +52,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "cssesc": "^0.1.0",
+    "css.escape": "^1.5.1",
     "didi": "^4.0.0",
     "hammerjs": "^2.0.1",
     "inherits": "^2.0.1",
