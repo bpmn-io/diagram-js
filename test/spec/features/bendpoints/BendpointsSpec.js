@@ -47,7 +47,7 @@ describe('features/bendpoints', function() {
     canvas.setRootElement(rootShape);
 
     shape1 = elementFactory.createShape({
-      id: 'shape1',
+      id: 'shape.1',
       type: 'A',
       x: 100, y: 100, width: 300, height: 300
     });
@@ -71,7 +71,7 @@ describe('features/bendpoints', function() {
     canvas.addShape(shape3, rootShape);
 
     connection = elementFactory.createConnection({
-      id: 'connection',
+      id: 'connection.1',
       waypoints: [ { x: 250, y: 250 }, { x: 550, y: 250 }, { x: 550, y: 150 } ],
       source: shape1,
       target: shape2
