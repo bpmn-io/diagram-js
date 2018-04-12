@@ -106,6 +106,67 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
+    describe('trapClick', function() {
+
+      it('should prevent default action on drag end', inject(function(dragging) {
+
+        // given
+        dragging.setOptions({
+          manual: false
+        });
+
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo', { trapClick: true });
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+        // when
+        var realEvent = mouseDown(document, { x: 20, y: 20 });
+
+        // then
+        expect(realEvent.defaultPrevented).to.be.true;
+      }));
+
+
+      it('should NOT prevent default action if drag did not start', inject(function(dragging) {
+
+        // given
+        dragging.setOptions({
+          manual: false
+        });
+
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo', { trapClick: true });
+
+        // when
+        var realEvent = mouseDown(document, { x: 10, y: 10 });
+
+        // then
+        expect(realEvent.defaultPrevented).to.be.false;
+      }));
+
+
+      // helpers //////////////////
+
+      function mouseDown(element, canvasPosition) {
+
+        var mockEvent = canvasEvent(canvasPosition);
+
+        const event = document.createEvent('MouseEvent');
+
+        if (event.initMouseEvent) {
+          event.initMouseEvent(
+            'mousedown', true, true, window, 0, 0, 0,
+            mockEvent.x, mockEvent.y, false, false, false, false,
+            0, null
+          );
+        }
+
+        element.dispatchEvent(event);
+
+        return event;
+      }
+
+    });
+
+
     it('should fire life-cycle on successful drag', inject(function(dragging, canvas) {
 
       // given

@@ -7,6 +7,7 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: emit popup menu life-cycle events
+* `FIX`: prevent default click action on dragend, if `trapClick: true` is specified
 
 ## 1.2.1
 
