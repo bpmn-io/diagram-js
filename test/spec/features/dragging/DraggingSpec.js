@@ -8,13 +8,20 @@ import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 import { assign } from 'min-dash';
 
 import dragModule from 'lib/features/dragging';
+import zoomScrollModule from 'lib/navigation/zoomscroll';
+import createModule from 'lib/features/create';
+import modelingModule from 'lib/features/modeling';
 
 import { classes as svgClasses } from 'tiny-svg';
 
 
 describe('features/dragging - Dragging', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ dragModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      dragModule
+    ]
+  }));
 
   beforeEach(inject(function(canvas) {
     canvas.addShape({ id: 'shape', x: 10, y: 10, width: 50, height: 50 });
@@ -235,35 +242,53 @@ describe('features/dragging - Dragging', function() {
       ]);
     }));
 
-
-    // Related to issue bpmn-io/bpmn-js#355
-    it.skip('should keep shape at cursor when zooming while creating',
-      inject(function(elementFactory, zoomScroll, dragging, create) {
-      // given
-        var shape = elementFactory.createShape({
-          id: 'shape',
-          x: 0, y: 0,
-          width: 50, height: 50
-        });
-
-        // when
-        create.start(canvasEvent({ x: 0, y: 0 }), shape);
-
-        dragging.move(canvasEvent({ x: 100, y: 100 }));
-
-        var elementBefore = dragging.context().data.context.visual.getBBox();
-
-        zoomScroll.stepZoom(-1.25);
-
-        zoomScroll.stepZoom(0.25);
-
-        dragging.move(canvasEvent({ x: 100, y: 100 }));
-
-        var elementAfter = dragging.context().data.context.visual.getBBox();
-
-        expect(elementBefore).to.eql(elementAfter);
-      }));
-
   });
+
+});
+
+
+describe('features/dragging - Dragging - zoomScroll integration', function() {
+
+  beforeEach(bootstrapDiagram({
+    modules: [
+      createModule,
+      dragModule,
+      modelingModule,
+      zoomScrollModule
+    ]
+  }));
+
+  beforeEach(inject(function(dragging) {
+    dragging.setOptions({ manual: true });
+  }));
+
+
+  it('should keep shape at cursor when zooming while creating', inject(
+    function(elementFactory, zoomScroll, dragging, create) {
+
+      // given
+      var shape = elementFactory.createShape({
+        id: 'shape',
+        x: 0, y: 0,
+        width: 50, height: 50
+      });
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), shape);
+      dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+      var elementBefore = dragging.context().data.context.visual.getBBox();
+
+      zoomScroll.stepZoom(-1.25);
+      zoomScroll.stepZoom(0.25);
+
+      dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+      var elementAfter = dragging.context().data.context.visual.getBBox();
+
+      // then
+      expect(elementBefore).to.eql(elementAfter);
+    }
+  ));
 
 });
