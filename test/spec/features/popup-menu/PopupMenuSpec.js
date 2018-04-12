@@ -178,7 +178,13 @@ describe('features/popup', function() {
       popupMenu.registerProvider('menu', menuProvider);
     }));
 
-    it('should return popup instance', inject(function(popupMenu) {
+
+    it('should open', inject(function(popupMenu, eventBus) {
+
+      // given
+      var openSpy = sinon.spy();
+
+      eventBus.on('popupMenu.open', openSpy);
 
       // when
       var popup = popupMenu.create('menu', {}).open({ x: 100, y: 100 });
@@ -186,6 +192,8 @@ describe('features/popup', function() {
       // then
       expect(popup).to.exist;
       expect(popup._current).to.exist;
+
+      expect(openSpy).to.have.been.calledOnce;
     }));
 
 
@@ -251,7 +259,13 @@ describe('features/popup', function() {
       popupMenu.create('menu', {}).open({ x: 100, y: 100 });
     }));
 
-    it('should remove DOM', inject(function(popupMenu) {
+
+    it('should close', inject(function(popupMenu, eventBus) {
+
+      // given
+      var closeSpy = sinon.spy();
+
+      eventBus.on('popupMenu.close', closeSpy);
 
       // when
       popupMenu.close();
@@ -260,6 +274,8 @@ describe('features/popup', function() {
       var open = popupMenu.isOpen();
 
       expect(open).to.be.false;
+
+      expect(closeSpy).to.have.been.calledOnce;
     }));
 
 
