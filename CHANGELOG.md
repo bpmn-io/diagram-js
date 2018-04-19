@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.3.1
+
+* `FIX`: correct side-effects config to not include `*.css` files
+
 ## 1.3.0
 
 * `FEAT`: emit popup menu life-cycle events
