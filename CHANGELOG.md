@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.4.0
+
+* `CHORE`: bump object-refs version
+
 ## 1.3.1
 
 * `FIX`: correct side-effects config to not include `*.css` files
