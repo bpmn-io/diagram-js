@@ -5,8 +5,13 @@ import {
   inject
 } from 'test/TestHelper';
 
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents';
+
 import modelingModule from 'lib/features/modeling';
 import autoResizeModule from 'lib/features/auto-resize';
+import createModule from 'lib/features/create';
 
 import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
 import AutoResize from 'lib/features/auto-resize/AutoResize';
@@ -52,21 +57,24 @@ var customAutoResizeModule = {
 
 describe('features/auto-resize', function() {
 
+  var rootShape,
+      topLevelShape,
+      parentShape,
+      parentShapeGfx,
+      childShape1,
+      childShape2,
+      newShape;
+
   beforeEach(bootstrapDiagram({
     modules: [
       modelingModule,
       autoResizeModule,
-      customAutoResizeModule
+      customAutoResizeModule,
+      createModule
     ]
   }));
 
-
-  var rootShape,
-      parentShape,
-      childShape,
-      topLevelShape;
-
-  beforeEach(inject(function(elementFactory, canvas, modeling) {
+  beforeEach(inject(function(elementFactory, elementRegistry, canvas) {
 
     rootShape = elementFactory.createRoot({
       id: 'root'
@@ -88,154 +96,238 @@ describe('features/auto-resize', function() {
 
     canvas.addShape(parentShape, rootShape);
 
-    childShape = elementFactory.createShape({
-      id: 'child',
+    parentShapeGfx = elementRegistry.getGraphics('parentShape');
+
+    childShape1 = elementFactory.createShape({
+      id: 'child1',
       x: 110, y: 110, width: 100, height: 100
     });
 
-    canvas.addShape(childShape, parentShape);
+    canvas.addShape(childShape1, parentShape);
+
+    childShape2 = elementFactory.createShape({
+      id: 'child2',
+      x: 220, y: 160, width: 100, height: 100
+    });
+
+    canvas.addShape(childShape2, parentShape);
+
+    newShape = elementFactory.createShape({
+      id: 'newShape',
+      x: 0, y: 0, width: 100, height: 100
+    });
   }));
 
 
-  it('should only resize on actual size change', inject(function(modeling, autoResize) {
-    // given
-    var resizeSpy = spy(autoResize, 'resize');
+  describe('create', function() {
 
-    // when
-    modeling.moveElements([ topLevelShape ], { x: -300, y: 0 }, parentShape);
-
-    // then
-    expect(resizeSpy).not.to.have.been.called;
-  }));
-
-
-  it('should expand after moving non-child into parent', inject(function(modeling) {
-
-    // when
-    modeling.moveElements([ topLevelShape ], { x: -50, y: 0 }, parentShape);
-
-    // then
-    expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 370, height: 300 });
-  }));
-
-
-  describe('expand after moving child', function() {
-
-    it('should expand to the left', inject(function(modeling) {
+    it('should resize', inject(function(create, dragging) {
 
       // when
-      modeling.moveElements([ childShape ], { x: -20, y: 0 }, parentShape);
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+      dragging.hover({ element: parentShape, gfx: parentShapeGfx });
+      dragging.move(canvasEvent({ x: 110, y: 270 }));
+
+      dragging.end();
 
       // then
-      expect(parentShape).to.have.bounds({ x: 80, y: 100, width: 320, height: 300 });
+      expect(parentShape).to.have.bounds({ x: 50, y: 100, width: 350, height: 300 });
     }));
 
 
-    it('should expand to the right', inject(function(modeling) {
+    describe('hints', function() {
 
-      // when
-      modeling.moveElements([ childShape ], { x: 300, y: 0 }, parentShape);
+      it('should not resize on autoResize=false hint', inject(
+        function(create, dragging, eventBus) {
 
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 420, height: 300 });
-    }));
+          // given
+          eventBus.on('commandStack.shape.create.preExecute', function(event) {
+            event.context.hints = { autoResize: false };
+          });
 
+          // when
+          create.start(canvasEvent({ x: 0, y: 0 }), newShape);
 
-    it('should expand to the top', inject(function(modeling) {
+          dragging.hover({ element: parentShape, gfx: parentShapeGfx });
+          dragging.move(canvasEvent({ x: 110, y: 270 }));
 
-      // when
-      modeling.moveElements([ childShape ], { x: 0, y: -50 }, parentShape);
+          dragging.end();
 
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 50, width: 300, height: 350 });
-    }));
+          // then
+          // parent has original bounds
+          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
+        }
+      ));
 
-
-    it('should expand to the bottom', inject(function(modeling) {
-
-      // when
-      modeling.moveElements([ childShape ], { x: 0, y: 300 }, parentShape);
-
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 420 });
-    }));
-
-
-    it('should not expand if moved to root element', inject(function(modeling) {
-
-      // when
-      modeling.moveElements([ childShape ], { x: 0, y: 300 }, rootShape);
-
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
-    }));
+    });
 
   });
 
 
-  describe('expand after moving multiple elements', function() {
+  describe('move', function() {
 
-    it('should not expand, if elements keep their parents (different original parents)',
-      inject(function(modeling) {
+    it('should only resize on actual size change', inject(
+      function(modeling, autoResize) {
+
+        // given
+        var resizeSpy = spy(autoResize, 'resize');
 
         // when
-        modeling.moveElements([ childShape, topLevelShape ],
-          { x: 0, y: 100 }, rootShape, { primaryShape: topLevelShape });
+        modeling.moveElements([ topLevelShape ], { x: -300, y: 0 }, parentShape);
+
+        // then
+        expect(resizeSpy).not.to.have.been.called;
+      }
+    ));
+
+
+    it('should expand after moving non-child into parent', inject(function(modeling) {
+
+      // when
+      modeling.moveElements([ topLevelShape ], { x: -50, y: 0 }, parentShape);
+
+      // then
+      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 370, height: 300 });
+    }));
+
+
+    describe('expand after moving child', function() {
+
+      it('should expand to the left', inject(function(modeling) {
+
+        // when
+        modeling.moveElements([ childShape1 ], { x: -20, y: 0 }, parentShape);
+
+        // then
+        expect(parentShape).to.have.bounds({ x: 80, y: 100, width: 320, height: 300 });
+      }));
+
+
+      it('should expand to the right', inject(function(modeling) {
+
+        // when
+        modeling.moveElements([ childShape1 ], { x: 300, y: 0 }, parentShape);
+
+        // then
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 420, height: 300 });
+      }));
+
+
+      it('should expand to the top', inject(function(modeling) {
+
+        // when
+        modeling.moveElements([ childShape1 ], { x: 0, y: -50 }, parentShape);
+
+        // then
+        expect(parentShape).to.have.bounds({ x: 100, y: 50, width: 300, height: 350 });
+      }));
+
+
+      it('should expand to the bottom', inject(function(modeling) {
+
+        // when
+        modeling.moveElements([ childShape1 ], { x: 0, y: 300 }, parentShape);
+
+        // then
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 420 });
+      }));
+
+
+      it('should not expand if moved to root element', inject(function(modeling) {
+
+        // when
+        modeling.moveElements([ childShape1 ], { x: 0, y: 300 }, rootShape);
 
         // then
         expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
-      })
-    );
+      }));
+
+    });
 
 
-    it('should expand non-primary parents', inject(function(modeling) {
+    describe('expand after moving multiple elements', function() {
 
-      // when
-      modeling.moveElements([ childShape, topLevelShape ],
-        { x: 0, y: -80 }, rootShape, { primaryShape: topLevelShape });
+      it('should not expand, if elements keep their parents (different original parents)',
+        inject(function(modeling) {
 
-      // then
-      expect(parentShape).to.have.bounds({ x: 100, y: 20, width: 300, height: 380 });
-    }));
+          // when
+          modeling.moveElements([ childShape1, topLevelShape ],
+            { x: 0, y: 100 }, rootShape, { primaryShape: topLevelShape });
+
+          // then
+          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
+        })
+      );
 
 
-    it('should expand, if elements keep their parents (same original parent)',
-      inject(function(modeling) {
-
-        // given
-        modeling.moveElements([ topLevelShape ], { x: -50, y: 0 }, parentShape);
+      it('should expand non-primary parents', inject(function(modeling) {
 
         // when
-        modeling.moveElements([ childShape, topLevelShape ],
-          { x: 100, y: 0 }, parentShape, { primaryShape: childShape });
+        modeling.moveElements([ childShape1, topLevelShape ],
+          { x: 0, y: -80 }, rootShape, { primaryShape: topLevelShape });
 
         // then
-        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 470, height: 300 });
-      })
-    );
+        expect(parentShape).to.have.bounds({ x: 100, y: 20, width: 300, height: 380 });
+      }));
 
 
-    // TODO(nikku): create test case
-    it('should expand with connection');
+      it('should expand, if elements keep their parents (same original parent)',
+        inject(function(modeling) {
 
-  });
+          // given
+          modeling.moveElements([ topLevelShape ], { x: -50, y: 0 }, parentShape);
+
+          // when
+          modeling.moveElements([ childShape1, topLevelShape ],
+            { x: 100, y: 0 }, parentShape, { primaryShape: childShape1 });
+
+          // then
+          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 470, height: 300 });
+        })
+      );
 
 
-  describe('hints', function() {
+      // TODO(nikku): create test case
+      it('should expand with connection');
 
-    it('should not resize on autoResize=false hint', inject(function(modeling) {
+    });
 
-      // when
-      modeling.moveElements(
-        [ childShape ],
-        { x: -20, y: 0 },
-        parentShape,
-        { autoResize: false });
 
-      // then
-      // parent has original bounds
-      expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
-    }));
+    describe('hints', function() {
+
+      it('should not resize on autoResize=false hint', inject(function(modeling) {
+
+        // when
+        modeling.moveElements(
+          [ childShape1 ],
+          { x: -20, y: 0 },
+          parentShape,
+          { autoResize: false });
+
+        // then
+        // parent has original bounds
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
+      }));
+
+
+      it('should accept list of elements to to consider when resizing', inject(
+        function(modeling) {
+
+          // when
+          modeling.moveElements(
+            [ childShape1, childShape2 ],
+            { x: 0, y: 200 },
+            parentShape,
+            { autoResize: [ childShape1 ] });
+
+          // then
+          // parent has original bounds
+          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 320 });
+        }
+      ));
+
+    });
 
   });
 
@@ -247,7 +339,7 @@ describe('features/auto-resize', function() {
         getOffsetSpy = sinon.spy(autoResize, 'getOffset');
 
     // when
-    modeling.moveElements([ childShape ], { x: -50, y: 0 });
+    modeling.moveElements([ childShape1 ], { x: -50, y: 0 });
 
     // then
     expect(getPaddingSpy).to.have.been.calledWith(parentShape);
