@@ -311,7 +311,7 @@ describe('features/tooltips', function() {
       // diagram got newly created
 
       // then
-      expect(transformMatrix(tooltips._tooltipRoot)).to.not.exist;
+      expect(transformMatrix(tooltips._tooltipRoot)).not.to.exist;
     }));
 
 

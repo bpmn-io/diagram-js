@@ -292,7 +292,7 @@ describe('features/context-pad', function() {
       eventBus.fire('element.changed', { element: canvas.getRootElement() });
 
       // then
-      expect(open).to.not.have.been.called;
+      expect(open).not.to.have.been.called;
     }));
 
 

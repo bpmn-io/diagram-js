@@ -215,7 +215,7 @@ describe('features/editor-actions', function() {
         expect(removeElements).to.have.been.calledWith(selectedElements);
 
         // pass shalow copy of selection
-        expect(removeElements.getCall(0).args[0]).to.not.equal(selectedElements);
+        expect(removeElements.getCall(0).args[0]).not.to.equal(selectedElements);
       }));
 
 
@@ -226,7 +226,7 @@ describe('features/editor-actions', function() {
         editorActions.trigger('removeSelection');
 
         // then
-        expect(removeElements).to.not.have.been.called;
+        expect(removeElements).not.to.have.been.called;
       }));
 
 

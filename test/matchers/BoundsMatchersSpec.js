@@ -25,7 +25,7 @@ describe('matchers/BoundsMatchers', function() {
           expectedBounds = { x: 50, y: 100, width: 200, height: 200 };
 
       // then
-      expect(bounds).to.not.have.bounds(expectedBounds);
+      expect(bounds).not.to.have.bounds(expectedBounds);
     });
 
 
@@ -63,7 +63,7 @@ describe('matchers/BoundsMatchers', function() {
       };
 
       // then
-      expect(element).to.not.have.bounds(expectedBounds);
+      expect(element).not.to.have.bounds(expectedBounds);
     });
 
   });

@@ -227,7 +227,7 @@ describe('features/copy-paste', function() {
         tree = clipboard.get();
 
         // then
-        expect(toObjectBranch(tree[0])).to.not.have.keys('connection');
+        expect(toObjectBranch(tree[0])).not.to.have.keys('connection');
         expect(tree[1]).not.to.exist;
 
         // when
@@ -236,7 +236,7 @@ describe('features/copy-paste', function() {
         tree = clipboard.get();
 
         // then
-        expect(toObjectBranch(tree[0])).to.not.have.keys('connection');
+        expect(toObjectBranch(tree[0])).not.to.have.keys('connection');
         expect(tree[1]).not.to.exist;
       }));
 
@@ -248,7 +248,7 @@ describe('features/copy-paste', function() {
         var tree = clipboard.get();
 
         // then
-        expect(tree).to.not.exist;
+        expect(tree).not.to.exist;
       }));
 
     });
@@ -452,7 +452,7 @@ describe('features/copy-paste', function() {
       expect(branchOne).to.have.keys('c', 'd', 'f', 'connA');
       expect(branchTwo).to.have.keys('g');
 
-      expect(branchOne).to.not.have.keys('connB');
+      expect(branchOne).not.to.have.keys('connB');
 
       expect(branchOne.c.parent).to.equal('b');
 

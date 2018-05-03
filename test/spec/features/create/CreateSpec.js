@@ -209,7 +209,7 @@ describe('features/create - Create', function() {
       dragging.end();
 
       // then
-      expect(ctx.data.context.visual.parentNode).to.not.exist;
+      expect(ctx.data.context.visual.parentNode).not.to.exist;
     }));
 
   });
@@ -230,7 +230,7 @@ describe('features/create - Create', function() {
 
       dragging.end();
 
-      expect(elementRegistry.getGraphics('attacher')).to.not.exist;
+      expect(elementRegistry.getGraphics('attacher')).not.to.exist;
     }));
 
 
@@ -295,7 +295,7 @@ describe('features/create - Create', function() {
       dragging.end();
 
       expect(canvas.hasMarker(parentShape, 'new-parent')).to.be.false;
-      expect(canvas.hasMarker(parentShape, 'new-parent')).to.not.eql(hasMarker);
+      expect(canvas.hasMarker(parentShape, 'new-parent')).not.to.eql(hasMarker);
     }));
 
   });

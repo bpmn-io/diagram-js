@@ -61,7 +61,7 @@ describe('core/EventBus', function() {
 
       // then
       expect(listener1).to.have.been.called;
-      expect(listener2).to.not.have.been.called;
+      expect(listener2).not.to.have.been.called;
     });
 
 
@@ -73,7 +73,7 @@ describe('core/EventBus', function() {
         var returnValue = eventBus.fire('foo');
 
         // then
-        expect(returnValue).to.not.exist;
+        expect(returnValue).not.to.exist;
       });
 
 
@@ -101,7 +101,7 @@ describe('core/EventBus', function() {
         var returnValue = eventBus.fire('foo');
 
         // then
-        expect(returnValue).to.not.exist;
+        expect(returnValue).not.to.exist;
       });
 
 
@@ -131,7 +131,7 @@ describe('core/EventBus', function() {
         var returnValue = eventBus.fire('foo');
 
         // then
-        expect(returnValue).to.not.exist;
+        expect(returnValue).not.to.exist;
       });
 
     });
@@ -211,7 +211,7 @@ describe('core/EventBus', function() {
         // then
         expect(returnA).to.equal('BOO');
         expect(returnB).to.equal('FOO');
-        expect(returnC).to.not.exist;
+        expect(returnC).not.to.exist;
       });
 
 
@@ -319,7 +319,7 @@ describe('core/EventBus', function() {
         expect(returnValue).to.be.false;
 
         expect(listener1).to.have.been.called;
-        expect(listener2).to.not.have.been.called;
+        expect(listener2).not.to.have.been.called;
       });
 
     });
@@ -364,8 +364,8 @@ describe('core/EventBus', function() {
       eventBus.fire({ type: 'foo' });
 
       // then
-      expect(listener1).to.not.have.been.called;
-      expect(listener2).to.not.have.been.called;
+      expect(listener1).not.to.have.been.called;
+      expect(listener2).not.to.have.been.called;
     });
 
 
@@ -383,7 +383,7 @@ describe('core/EventBus', function() {
       eventBus.fire({ type: 'foo' });
 
       // then
-      expect(listener1).to.not.have.been.called;
+      expect(listener1).not.to.have.been.called;
       expect(listener2).to.have.been.called;
     });
 
@@ -402,7 +402,7 @@ describe('core/EventBus', function() {
       eventBus.fire({ type: 'foo' });
 
       // then
-      expect(listener1).to.not.have.been.called;
+      expect(listener1).not.to.have.been.called;
       expect(listener2).to.have.been.called;
     });
 
@@ -423,7 +423,7 @@ describe('core/EventBus', function() {
       eventBus.fire({ type: 'foo' });
 
       // then
-      expect(listener1).to.not.have.been.called;
+      expect(listener1).not.to.have.been.called;
       expect(listener2).to.have.been.called;
     });
 
@@ -444,7 +444,7 @@ describe('core/EventBus', function() {
       eventBus.fire({ type: 'foo' });
 
       // then
-      expect(listener1).to.not.have.been.called;
+      expect(listener1).not.to.have.been.called;
       expect(listener2).to.have.been.called;
     });
 
@@ -475,7 +475,7 @@ describe('core/EventBus', function() {
       // Should not be fired
       listener.reset(); // Reset the count
       eventBus.fire('onceEvent');
-      expect(listener).to.not.have.been.called;
+      expect(listener).not.to.have.been.called;
 
       // register again a listener
       eventBus.once('onceEvent', listener);
@@ -544,7 +544,7 @@ describe('core/EventBus', function() {
       // then
       expect(function() {
         eventBus.fire({ type: 'fail' });
-      }).to.not.throw();
+      }).not.to.throw();
     });
 
 

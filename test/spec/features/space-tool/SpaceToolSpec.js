@@ -108,9 +108,9 @@ describe('features/space-tool', function() {
         context = dragging.context();
 
         // then
-        expect(context).to.not.exist;
+        expect(context).not.to.exist;
 
-        expect(spaceTool.isActive()).to.not.exist;
+        expect(spaceTool.isActive()).not.to.exist;
       }));
 
     });

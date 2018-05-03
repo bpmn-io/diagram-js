@@ -960,7 +960,7 @@ describe('features/overlays', function() {
       // diagram got newly created
 
       // then
-      expect(transformMatrix(overlays._overlayRoot)).to.not.exist;
+      expect(transformMatrix(overlays._overlayRoot)).not.to.exist;
     }));
 
 

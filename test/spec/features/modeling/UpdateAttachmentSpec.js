@@ -110,7 +110,7 @@ describe('features/modeling - attach shape', function() {
 
       // then
       expect(attachedShape.host).not.to.exist;
-      expect(oldHostShape.attachers).to.not.include(attachedShape);
+      expect(oldHostShape.attachers).not.to.include(attachedShape);
     }));
 
   });
@@ -139,7 +139,7 @@ describe('features/modeling - attach shape', function() {
 
       // then
       expect(detachedShape.host).not.to.exist;
-      expect(hostShape.attachers).to.not.include(detachedShape);
+      expect(hostShape.attachers).not.to.include(detachedShape);
     }));
 
 
@@ -172,7 +172,7 @@ describe('features/modeling - attach shape', function() {
       expect(attachedShape.host).to.equal(hostShape);
 
       expect(hostShape.attachers).to.include(attachedShape);
-      expect(oldHostShape.attachers).to.not.include(attachedShape);
+      expect(oldHostShape.attachers).not.to.include(attachedShape);
     }));
 
 
@@ -188,7 +188,7 @@ describe('features/modeling - attach shape', function() {
       expect(attachedShape.host).to.equal(oldHostShape);
 
       expect(oldHostShape.attachers).to.include(attachedShape);
-      expect(hostShape.attachers).to.not.include(attachedShape);
+      expect(hostShape.attachers).not.to.include(attachedShape);
     }));
 
 
@@ -206,7 +206,7 @@ describe('features/modeling - attach shape', function() {
       expect(attachedShape.host).to.equal(hostShape);
 
       expect(hostShape.attachers).to.include(attachedShape);
-      expect(oldHostShape.attachers).to.not.include(attachedShape);
+      expect(oldHostShape.attachers).not.to.include(attachedShape);
     }));
 
   });

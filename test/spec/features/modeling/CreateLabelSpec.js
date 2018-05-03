@@ -109,7 +109,7 @@ describe('features/modeling - create label', function() {
       // then
       expect(newLabel.parent).to.be.null;
       expect(newLabel.labelTarget).to.be.null;
-      expect(childShape.label).to.not.exist;
+      expect(childShape.label).not.to.exist;
 
       expect(elementRegistry.getGraphics(newLabel)).to.be.undefined;
     }));
@@ -170,7 +170,7 @@ describe('features/modeling - create label', function() {
       // then
       expect(newLabel.parent).to.be.null;
       expect(newLabel.labelTarget).to.be.null;
-      expect(connection.label).to.not.exist;
+      expect(connection.label).not.to.exist;
 
       expect(elementRegistry.getGraphics(newLabel)).to.be.undefined;
     }));

@@ -50,7 +50,7 @@ describe('features/auto-scroll - AutoScroll', function() {
       }));
 
       // then
-      expect(scrollSpy).to.not.be.called;
+      expect(scrollSpy).not.to.be.called;
     }));
 
 
@@ -62,7 +62,7 @@ describe('features/auto-scroll - AutoScroll', function() {
       }));
 
       // then
-      expect(scrollSpy).to.not.be.called;
+      expect(scrollSpy).not.to.be.called;
     }));
 
 

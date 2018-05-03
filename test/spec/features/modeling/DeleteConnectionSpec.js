@@ -112,10 +112,10 @@ describe('features/modeling - remove connection', function() {
     modeling.removeConnection(connection);
 
     // then
-    expect(childShape.outgoing).to.not.contain(connection);
+    expect(childShape.outgoing).not.to.contain(connection);
     expect(connection.source).to.be.null;
 
-    expect(childShape2.incoming).to.not.contain(connection);
+    expect(childShape2.incoming).not.to.contain(connection);
     expect(connection.target).to.be.null;
   }));
 

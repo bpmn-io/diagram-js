@@ -74,7 +74,7 @@ describe('features/modeling - create shape', function() {
         var shape = elementRegistry.get('newShape');
 
         // then
-        expect(shape).to.not.exist;
+        expect(shape).not.to.exist;
         expect(newShape.parent).not.to.exist;
 
         expect(parentShape.children).not.to.contain(newShape);

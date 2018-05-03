@@ -40,7 +40,7 @@ describe('matchers/ConnectionMatchers', function() {
       ];
 
       // then
-      expect(connection).to.not.have.waypoints(expectedWaypoints);
+      expect(connection).not.to.have.waypoints(expectedWaypoints);
     });
 
   });
@@ -70,7 +70,7 @@ describe('matchers/ConnectionMatchers', function() {
       };
 
       // then
-      expect(connection).to.not.have.startDocking(expectedStartDocking);
+      expect(connection).not.to.have.startDocking(expectedStartDocking);
     });
 
   });
@@ -100,7 +100,7 @@ describe('matchers/ConnectionMatchers', function() {
       };
 
       // then
-      expect(connection).to.not.have.endDocking(expectedEndDocking);
+      expect(connection).not.to.have.endDocking(expectedEndDocking);
     });
 
   });

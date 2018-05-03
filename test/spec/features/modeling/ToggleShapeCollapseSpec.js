@@ -153,7 +153,7 @@ describe('features/modeling - toggle collapsed', function() {
           // then
           expect(shapeToCollapse.collapsed).to.eql(false);
           expect(shapeToCollapse.children).to.eql(originalChildren);
-          expect(shownChildShape.hidden).to.not.eql(true);
+          expect(shownChildShape.hidden).not.to.eql(true);
           expect(hiddenChildShape.hidden).to.eql(true);
         })
       );

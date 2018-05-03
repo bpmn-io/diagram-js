@@ -327,7 +327,7 @@ describe('Canvas', function() {
 
       // then
       expect(shape.parent).to.be.null;
-      expect(elementRegistry.get('a')).to.not.exist;
+      expect(elementRegistry.get('a')).not.to.exist;
 
       expect(listener).to.have.been.called;
     }));
@@ -342,7 +342,7 @@ describe('Canvas', function() {
       canvas.removeShape('a');
 
       // then
-      expect(elementRegistry.get('a')).to.not.exist;
+      expect(elementRegistry.get('a')).not.to.exist;
     }));
 
 

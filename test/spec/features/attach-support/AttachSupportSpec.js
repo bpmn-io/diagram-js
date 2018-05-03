@@ -189,7 +189,7 @@ describe('features/attach-support', function() {
       commandStack.undo();
 
       // then
-      expect(attacher.host).to.not.exist;
+      expect(attacher.host).not.to.exist;
       expect(parentShape.attachers).not.to.include(attacher);
     }));
 
@@ -445,13 +445,13 @@ describe('features/attach-support', function() {
       dragging.end();
 
       // then
-      expect(attacher.host).to.not.exist;
+      expect(attacher.host).not.to.exist;
       expect(attacher.parent).to.equal(parentShape);
 
       expect(parentShape.attachers).not.to.contain(attacher);
 
       expect(host.attachers).to.include(attacher2);
-      expect(host.attachers).to.not.include(attacher);
+      expect(host.attachers).not.to.include(attacher);
     }));
 
 
@@ -566,7 +566,7 @@ describe('features/attach-support', function() {
       expect(attacher.parent).to.equal(rootShape);
 
       expect(host.attachers).to.include(attacher);
-      expect(host2.attachers).to.not.include(attacher);
+      expect(host2.attachers).not.to.include(attacher);
     }));
 
 
@@ -1413,12 +1413,12 @@ describe('features/attach-support', function() {
         var attacher4 = elementRegistry.get('attachedShape4');
 
 
-        expect(parent).to.not.exist;
+        expect(parent).not.to.exist;
 
-        expect(attacher).to.not.exist;
-        expect(attacher2).to.not.exist;
-        expect(attacher3).to.not.exist;
-        expect(attacher4).to.not.exist;
+        expect(attacher).not.to.exist;
+        expect(attacher2).not.to.exist;
+        expect(attacher3).not.to.exist;
+        expect(attacher4).not.to.exist;
       }));
 
 
@@ -1471,12 +1471,12 @@ describe('features/attach-support', function() {
 
         var attacher4 = elementRegistry.get('attachedShape4');
 
-        expect(parent).to.not.exist;
+        expect(parent).not.to.exist;
 
-        expect(attacher).to.not.exist;
-        expect(attacher2).to.not.exist;
-        expect(attacher3).to.not.exist;
-        expect(attacher4).to.not.exist;
+        expect(attacher).not.to.exist;
+        expect(attacher2).not.to.exist;
+        expect(attacher3).not.to.exist;
+        expect(attacher4).not.to.exist;
       }));
 
     });
@@ -1534,7 +1534,7 @@ describe('features/attach-support', function() {
 
         // then
         expect(attachedShape.host).to.equal(undefined);
-        expect(hostShape.attachers).to.not.contain(attachedShape);
+        expect(hostShape.attachers).not.to.contain(attachedShape);
 
         expect(attachedShape.parent).not.to.exist;
       }));
