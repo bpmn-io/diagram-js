@@ -537,7 +537,7 @@ describe('features/popup', function() {
         getEntries: function() {
           return [
             { id: '1', label: 'Entry 1' },
-            { id: '2', label: 'Entry 2 - special', className: 'special-entry' }
+            { id: '2', label: 'Entry 2 - special', className: 'special-entry another-special-entry' }
           ];
         }
       };
@@ -549,6 +549,10 @@ describe('features/popup', function() {
 
       // then
       var element = queryPopup(popupMenu, '.special-entry');
+
+      expect(element.textContent).to.eql('Entry 2 - special');
+
+      element = queryPopup(popupMenu, '.another-special-entry');
 
       expect(element.textContent).to.eql('Entry 2 - special');
     }));
