@@ -6,11 +6,15 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
-## 1.5.0
+## 2.0.0
 
-BREAKING CHANGES
+### Breaking Changes
 
 * `FEAT`: refactor popup menu to allow multiple providers and simplify API ([`b1852e1d`](https://github.com/bpmn-io/diagram-js/pull/254/commits/b1852e1d71f67bd36ae1eb02748d2d0cbf124625))
+
+## 1.5.0
+
+_This release accidently introduced backwards incompatible changes. Unpublished; Use `v2.0.0` instead._
 
 ## 1.4.0
 
