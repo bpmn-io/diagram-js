@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: allow multiple classes to be passed to popup menu entries
+
 ## 2.0.0
 
 ### Breaking Changes
