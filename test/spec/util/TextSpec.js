@@ -44,7 +44,7 @@ import TextUtil from 'lib/util/Text';
 import TestContainer from 'mocha-test-container-support';
 
 
-describe('Text', function() {
+describe('util - Text', function() {
 
   var container;
 
@@ -134,7 +134,7 @@ describe('Text', function() {
       var text = createText(container, label, { box: { width: 150, height: 100 } });
 
       expect(text).to.exist;
-      expect(toFitBBox(text, { x: 33, y: 0, width: 84, height: 30 })).to.be.true;
+      expect(toFitBBox(text, { x: 33, y: -2, width: 84, height: 30 })).to.be.true;
     });
 
 
@@ -147,7 +147,7 @@ describe('Text', function() {
       var text = createText(container, label, { box: { width: 0, height: 0 } });
 
       expect(text).to.exist;
-      expect(toFitBBox(text, { x: -1, y: 3, width: 40, height: 320 })).to.be.true;
+      expect(toFitBBox(text, { x: -1, y: -2, width: 40, height: 320 })).to.be.true;
     });
 
 
@@ -160,7 +160,7 @@ describe('Text', function() {
       var text = createText(container, label, { box: { width: 25, height: 25 } });
 
       expect(text).to.exist;
-      expect(toFitBBox(text, { x: -1, y: 3, width: 40, height: 230 })).to.be.true;
+      expect(toFitBBox(text, { x: -1, y: -2, width: 40, height: 230 })).to.be.true;
     });
 
 
@@ -179,7 +179,7 @@ describe('Text', function() {
       svgAttr(container, 'display', '');
 
       expect(text).to.exist;
-      expect(toFitBBox(text, { x: 33, y: 0, width: 84, height: 30 })).to.be.true;
+      expect(toFitBBox(text, { x: 33, y: -2, width: 84, height: 30 })).to.be.true;
     });
 
 
@@ -208,7 +208,7 @@ describe('Text', function() {
         var text = createText(container, label, { box: { width: 150, height: 100 } });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: 0, width: 160, height: 70 })).to.be.true;
+        expect(toFitBBox(text, { x: 0, y: -2, width: 160, height: 70 })).to.be.true;
       });
 
 
@@ -221,7 +221,7 @@ describe('Text', function() {
         var text = createText(container, label, { box: { width: 150, height: 100 } });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: 0, width: 160, height: 70 })).to.be.true;
+        expect(toFitBBox(text, { x: 0, y: -2, width: 160, height: 70 })).to.be.true;
       });
 
 
@@ -234,7 +234,7 @@ describe('Text', function() {
         var text = createText(container, label, { box: { width: 150, height: 100 } });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: 0, width: 150, height: 100 })).to.be.true;
+        expect(toFitBBox(text, { x: 0, y: -2, width: 150, height: 100 })).to.be.true;
       });
 
 
@@ -268,7 +268,7 @@ describe('Text', function() {
         });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: 0, width: 100, height: 100 })).to.be.true;
+        expect(toFitBBox(text, { x: 0, y: -2, width: 100, height: 100 })).to.be.true;
       });
 
 
@@ -281,7 +281,7 @@ describe('Text', function() {
         var text = createText(container, label, { box: { width: 150, height: 100 } });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 2, y: 0, width: 150, height: 105 })).to.be.true;
+        expect(toFitBBox(text, { x: 2, y: -2, width: 150, height: 105 })).to.be.true;
       });
 
 
@@ -313,7 +313,7 @@ describe('Text', function() {
         });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: 0, width: 100, height: 100 })).to.be.true;
+        expect(toFitBBox(text, { x: 0, y: -2, width: 100, height: 100 })).to.be.true;
       });
 
 
@@ -382,7 +382,7 @@ describe('Text', function() {
         });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: 0, width: 150, height: 100 })).to.be.true;
+        expect(toFitBBox(text, { x: 0, y: -2, width: 150, height: 100 })).to.be.true;
       });
 
 
@@ -467,7 +467,7 @@ describe('Text', function() {
         });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: 0, width: 102, height: 100 })).to.be.true;
+        expect(toFitBBox(text, { x: 0, y: -2, width: 102, height: 100 })).to.be.true;
       });
 
 
@@ -479,7 +479,7 @@ describe('Text', function() {
           fill: 'fuchsia',
           fontWeight: 'bold',
           fontFamily: 'Arial',
-          fontSize: '20pt'
+          fontSize: '28px'
         };
 
         // when
@@ -490,7 +490,7 @@ describe('Text', function() {
         });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: 0, width: 100, height: 100 })).to.be.true;
+        expect(toFitBBox(text, { x: 0, y: -2, width: 100, height: 100 })).to.be.true;
       });
 
 
@@ -514,7 +514,31 @@ describe('Text', function() {
         });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 13, y: 38, width: 80, height: 90 })).to.be.true;
+        expect(toFitBBox(text, { x: 12, y: 20, width: 85, height: 95 })).to.be.true;
+      });
+
+
+      it('custom line-height / center-middle', function() {
+
+        // given
+        var label = 'I am a style';
+        var style = {
+          fill: 'fuchsia',
+          fontWeight: 'bold',
+          fontFamily: 'Arial',
+          fontSize: '20px',
+          lineHeight: 3
+        };
+
+        // when
+        var text = createText(container, label, {
+          box: { width: 100, height: 100 },
+          style: style,
+          align: 'center-middle'
+        });
+
+        expect(text).to.exist;
+        expect(toFitBBox(text, { x: 13, y: 10, width: 80, height: 90 })).to.be.true;
       });
 
     });
