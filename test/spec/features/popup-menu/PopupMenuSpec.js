@@ -317,8 +317,6 @@ describe('features/popup', function() {
         popupMenu.open({}, 'menu', { x: 100, y: 100 });
 
         // then
-        console.log(popupMenu._current);
-
         expect(popupMenu._current).to.exist;
         expect(popupMenu._current.headerEntries[0].id).to.eql('entry1');
         expect(popupMenu._current.entries[0].id).to.eql('entry2');
@@ -337,8 +335,6 @@ describe('features/popup', function() {
         popupMenu.open({}, 'better-menu', { x: 100, y: 100 });
 
         // then
-        console.log(popupMenu._current);
-
         expect(popupMenu._current).to.exist;
         expect(popupMenu._current.headerEntries[0].id).to.eql('entryA');
         expect(popupMenu._current.entries[0].id).to.eql('entryB');
