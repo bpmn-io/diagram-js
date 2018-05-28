@@ -51,7 +51,9 @@ describe('Text', function() {
   var options = {
     size: { width: 100 },
     padding: 0,
-    style: { fontSize: '14px' }
+    style: {
+      fontSize: '14px'
+    }
   };
 
   var textUtil = new TextUtil(options);
@@ -489,6 +491,30 @@ describe('Text', function() {
 
         expect(text).to.exist;
         expect(toFitBBox(text, { x: 0, y: 0, width: 100, height: 100 })).to.be.true;
+      });
+
+
+      it('custom line-height / center-top', function() {
+
+        // given
+        var label = 'I am a style';
+        var style = {
+          fill: 'fuchsia',
+          fontWeight: 'bold',
+          fontFamily: 'Arial',
+          fontSize: '20px',
+          lineHeight: 3
+        };
+
+        // when
+        var text = createText(container, label, {
+          box: { width: 100, height: 100 },
+          style: style,
+          align: 'center-top'
+        });
+
+        expect(text).to.exist;
+        expect(toFitBBox(text, { x: 13, y: 38, width: 80, height: 90 })).to.be.true;
       });
 
     });
