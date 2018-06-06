@@ -327,8 +327,7 @@ svg.new-parent {
 }
 
 .djs-palette.open .djs-palette-toggle {
-  width: 100%;
-  height: 10px;
+  display: none;
 }
 
 /**
