@@ -54,6 +54,7 @@ If possible, try to build [a test case](https://github.com/bpmn-io/diagram-js/tr
 
 Learn how to setup the project locally, make changes and contribute bug fixes and new features through pull requests.
 
+
 ### Setting up the Project
 
 If you don't have [NodeJS](https://nodejs.org/en/download/) setup, do it beforehand.
@@ -75,10 +76,19 @@ TEST_BROWSERS=(Chrome|Firefox|IE) npm run dev
 ```
 
 
-
 ### Discussing Code Changes
 
 Create a [pull request](#creating-a-pull-request) if you would like to have an in-depth discussion about some piece of code.
+
+
+### Code Style
+
+In addition to our automatically enforced [lint rules](https://github.com/bpmn-io/eslint-plugin-bpmn-io), please adhere to the following conventions:
+
+* Use modules (`import` / `export (default)`)
+* __Do NOT__ use ES language constructs (`class`, `const`, ...) in sources
+
+__Rationale:__ People should be able to consume parts of the library with an ES module aware bundler such as [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org) without the need to use a transpiler such as [Babel](https://babeljs.io/).
 
 
 ### Creating a Pull Request
@@ -91,8 +101,7 @@ Some things that make it easier for us to accept your pull requests
     * spaces instead of tabs
     * single-quotes
     * ...
-* The code is tested
-* The `npm run all` build passes (executes tests + linting)
+* The code is tested* The `npm run all` build passes (executes tests + linting)
 * The work is combined into a single commit
 * The commit messages adhere to our [guideline](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y)
 
