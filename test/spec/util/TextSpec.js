@@ -444,7 +444,7 @@ describe('util - Text', function() {
         });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: -3, width: 100, height: 106 })).to.be.true;
+        expect(toFitBBox(text, { x: 0, y: -8, width: 100, height: 106 })).to.be.true;
       });
 
 
