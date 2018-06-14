@@ -1,7 +1,5 @@
 'use strict';
 
-var path = require('path');
-
 function resolvePath(p) {
   return require.resolve(p);
 }
