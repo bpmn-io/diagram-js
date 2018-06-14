@@ -1,5 +1,6 @@
 .github
 example
+.eslintignore
 .eslintrc
 .travis.yml
 CONTRIBUTING.md
