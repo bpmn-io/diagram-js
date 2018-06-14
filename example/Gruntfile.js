@@ -3,15 +3,7 @@
 var path = require('path');
 
 function resolvePath(p) {
-
-  var parts = p.split('/', 2);
-
-  return (
-    path.join(
-      require.resolve(parts[0]),
-      parts[1]
-    )
-  );
+  return require.resolve(p);
 }
 
 
