@@ -55,7 +55,8 @@ var diagram = new Diagram({
 var canvas = diagram.get('canvas'),
     defaultRenderer = diagram.get('defaultRenderer'),
     elementFactory = diagram.get('elementFactory'),
-    styles = diagram.get('styles');
+    styles = diagram.get('styles'),
+    selection = diagram.get('selection');
 
 // override default stroke color
 defaultRenderer.CONNECTION_STYLE = styles.style([ 'no-fill' ], { strokeWidth: 5, stroke: '#000' });
@@ -68,7 +69,7 @@ canvas.setRootElement(root);
 
 // add shapes
 var shape1 = elementFactory.createShape({
-  x: 200,
+  x: 150,
   y: 100,
   width: 100,
   height: 80
@@ -77,10 +78,33 @@ var shape1 = elementFactory.createShape({
 canvas.addShape(shape1, root);
 
 var shape2 = elementFactory.createShape({
-  x: 300,
-  y: 200,
+  x: 290,
+  y: 220,
   width: 100,
   height: 80
 });
 
 canvas.addShape(shape2, root);
+
+
+var connection1 = elementFactory.createConnection({
+  waypoints: [
+    { x: 250, y: 180 },
+    { x: 290, y: 220 }
+  ]
+});
+
+canvas.addConnection(connection1, root);
+
+
+var shape3 = elementFactory.createShape({
+  x: 450,
+  y: 80,
+  width: 100,
+  height: 80
+});
+
+canvas.addShape(shape3, root);
+
+
+selection.select(shape3);
