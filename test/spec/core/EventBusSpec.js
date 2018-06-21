@@ -500,6 +500,23 @@ describe('core/EventBus', function() {
       expect(listener1).to.have.been.called;
     });
 
+
+    it('should remove multiple listeners', function() {
+
+      // given
+      var listener1 = sinon.spy();
+
+      eventBus.on([ 'foo', 'bar' ], listener1);
+      eventBus.off([ 'foo', 'bar' ], listener1);
+
+      // when
+      eventBus.fire({ type: 'foo' });
+      eventBus.fire({ type: 'bar' });
+
+      // then
+      expect(listener1).not.to.have.been.called;
+    });
+
   });
 
 
