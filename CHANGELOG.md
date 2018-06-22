@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 2.4.0
+
 * `FEAT`: add ability to remove multiple events via `EventBus#off`
 
 ## 2.3.0
