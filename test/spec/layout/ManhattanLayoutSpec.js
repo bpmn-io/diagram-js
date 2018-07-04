@@ -23,6 +23,14 @@ function expectConnection(connection, expected) {
   }
 }
 
+function expectConnectionWaypoints(a, b, directions, waypoints) {
+  return function() {
+    var connection = connectPoints(a, b, directions);
+
+    // expect
+    expectConnection(connection, waypoints);
+  };
+}
 
 describe('layout/ManhattanLayout', function() {
 
@@ -32,43 +40,155 @@ describe('layout/ManhattanLayout', function() {
         b = point(200, 200);
 
 
-    it('should create h:v manhattan connection', function() {
+    /**
+     * x----x
+     *      |
+     *      |
+     *      x
+     */
+    describe('manhattan connection with 3 waypoints', function() {
 
-      // when
-      var connection = connectPoints(a, b, 'h:v');
+      var waypoints = [ a, point(200, 100), b ];
 
-      // expect
-      expectConnection(connection, [ a, point(200, 100), b ]);
+
+      it('h:v', expectConnectionWaypoints(a, b, 'h:v', waypoints));
+      it('r:v', expectConnectionWaypoints(a, b, 'r:v', waypoints));
+      it('r:t', expectConnectionWaypoints(a, b, 'r:t', waypoints));
+      it('h:t', expectConnectionWaypoints(a, b, 'h:t', waypoints));
     });
 
 
-    it('should create v:h manhattan connection', function() {
+    /**
+     * x
+     * |
+     * |
+     * x----x
+     */
+    describe('manhattan connection with 3 waypoints', function() {
 
-      // when
-      var connection = connectPoints(a, b, 'v:h');
+      var waypoints = [ a, point(100, 200), b ];
 
-      // expect
-      expectConnection(connection, [ a, point(100, 200), b ]);
+
+      it('v:h', expectConnectionWaypoints(a, b, 'v:h', waypoints));
+      it('b:h', expectConnectionWaypoints(a, b, 'b:h', waypoints));
+      it('b:l', expectConnectionWaypoints(a, b, 'b:l', waypoints));
+      it('v:l', expectConnectionWaypoints(a, b, 'v:l', waypoints));
     });
 
 
-    it('should create h:h manhattan connection', function() {
+    /**
+     * x--x
+     *    |
+     *    |
+     *    x--x
+     */
+    describe('manhattan connection with 4 waypoints', function() {
 
-      // when
-      var connection = connectPoints(a, b, 'h:h');
+      var waypoints = [ a, point(150, 100), point(150, 200), b ];
 
-      // expect
-      expectConnection(connection, [ a, point(150, 100), point(150, 200), b ]);
+
+      it('h:h', expectConnectionWaypoints(a, b, 'h:h', waypoints));
+      it('r:h', expectConnectionWaypoints(a, b, 'r:h', waypoints));
+      it('r:l', expectConnectionWaypoints(a, b, 'r:l', waypoints));
+      it('h:l', expectConnectionWaypoints(a, b, 'h:l', waypoints));
     });
 
 
-    it('should create v:v manhattan connection', function() {
+    /**
+     * x----x
+     *      |
+     *      |
+     *    x-x
+     */
+    describe('manhattan connection with 4 waypoints', function() {
 
-      // when
-      var connection = connectPoints(a, b, 'v:v');
+      var waypoints = [ a, point(220, 100), point(220, 200), b ];
 
-      // expect
-      expectConnection(connection, [ a, point(100, 150), point(200, 150), b ]);
+
+      it('h:r', expectConnectionWaypoints(a, b, 'h:r', waypoints));
+      it('r:r', expectConnectionWaypoints(a, b, 'r:r', waypoints));
+    });
+
+
+    /**
+     * x-x
+     * |
+     * |
+     * x----x
+     */
+    describe('manhattan connection with 4 waypoints', function() {
+
+      var waypoints = [ a, point(80, 100), point(80, 200), b ];
+
+
+      it('l:h', expectConnectionWaypoints(a, b, 'l:h', waypoints));
+      it('l:l', expectConnectionWaypoints(a, b, 'l:l', waypoints));
+    });
+
+
+    /**
+     * x--x
+     * |  |
+     * x  |
+     *    |
+     *    x--x
+     */
+    describe('manhattan connection with 5 waypoints', function() {
+
+      var waypoints = [ a, point(100, 80), point(150, 80), point(150, 200), b ];
+
+
+      it('t:h', expectConnectionWaypoints(a, b, 't:h', waypoints));
+      it('t:l', expectConnectionWaypoints(a, b, 't:l', waypoints));
+    });
+
+
+    /**
+     * x--x
+     *    |
+     *    |  x
+     *    |  |
+     *    x--x
+     */
+    describe('manhattan connection with 5 waypoints', function() {
+
+      var waypoints = [ a, point(150, 100), point(150, 220), point(200, 220), b ];
+
+
+      it('h:b', expectConnectionWaypoints(a, b, 'h:b', waypoints));
+      it('r:b', expectConnectionWaypoints(a, b, 'r:b', waypoints));
+    });
+
+
+    /**
+     * x-x
+     * |
+     * x----x
+     *      |
+     *    x-x
+     */
+    describe('manhattan connection with 6 waypoints', function() {
+
+      var waypoints = [ a, point(80, 100), point(80, 150), point(220, 150), point(220, 200), b ];
+
+
+      it('l:r', expectConnectionWaypoints(a, b, 'l:r', waypoints));
+    });
+
+
+    /**
+     * x--x
+     * |  |
+     * x  |  x
+     *    |  |
+     *    x--x
+     */
+    describe('manhattan connection with 6 waypoints', function() {
+
+      var waypoints = [ a, point(100, 80), point(150, 80), point(150, 220), point(200, 220), b ];
+
+
+      it('t:b', expectConnectionWaypoints(a, b, 't:b', waypoints));
     });
 
 
@@ -273,7 +393,7 @@ describe('layout/ManhattanLayout', function() {
       });
 
 
-      it('should connect v:h outside tolerance (preferred v:h)', function() {
+      it('should connect v:h outside tolerance (preferred = v:h)', function() {
 
         // given
         var end = rect(230, 0, 50, 50);
@@ -284,16 +404,16 @@ describe('layout/ManhattanLayout', function() {
         });
 
         // expect
-        // layouted h:h
+        // layouted v:h
         expectConnection(connection, [
-          { x: 150, y: 150 },
+          { original: { x: 150, y: 150 }, x: 150, y: 100 },
           { x: 150, y: 25 },
-          { x: 255, y: 25 }
+          { original: { x: 255, y: 25 }, x: 230, y: 25 }
         ]);
       });
 
 
-      it('should connect h:v outside tolerance (preferred h:v)', function() {
+      it('should connect h:v outside tolerance (preferred = h:v)', function() {
 
         // given
         var end = rect(230, 0, 50, 50);
@@ -304,14 +424,73 @@ describe('layout/ManhattanLayout', function() {
         });
 
         // expect
-        // layouted h:h
+        // layouted h:v
         expectConnection(connection, [
-          { x: 150, y: 150 },
+          { original: { x: 150, y: 150 }, x: 200, y: 150 },
           { x: 255, y: 150 },
-          { x: 255, y: 25 }
+          { original: { x: 255, y: 25 }, x: 255, y: 50 }
         ]);
       });
 
+    });
+
+
+    it('should connect top (directions = t:t)', function() {
+
+      // given
+      var end = rect(200, 100, 50, 50);
+
+      // when
+      var connection = connectRectangles(start, end, null, null, {
+        preferredLayouts: [ 't:t' ]
+      });
+
+
+      // expect
+      expectConnection(connection, [
+        { original: { x: 150, y: 150 }, x: 150, y: 100 },
+        { x: 150, y: 80 },
+        { x: 225, y: 80 },
+        { original: { x: 225, y: 125 }, x: 225, y: 100 }
+      ]);
+    });
+
+
+    it('should connect top (directions = r:r)', function() {
+
+      // given
+      var end = rect(200, 100, 50, 50);
+
+      // when
+      var connection = connectRectangles(start, end, null, null, {
+        preferredLayouts: [ 'r:r' ]
+      });
+
+      // expect
+      expectConnection(connection, [
+        { original: { x: 150, y: 150 }, x: 200, y: 150 },
+        { x: 270, y: 150 },
+        { x: 270, y: 125 },
+        { original: { x: 225, y: 125 }, x: 250, y: 125 }
+      ]);
+    });
+
+
+    it('should connection t:t by default when intersecting', function() {
+
+      // given
+      var end = rect(150, 100, 100, 100);
+
+      // when
+      var connection = connectRectangles(start, end);
+
+      // expect
+      expectConnection(connection, [
+        { original: { x: 150, y: 150 }, x: 150, y: 100 },
+        { x: 150, y: 80 },
+        { x: 200, y: 80 },
+        { original: { x: 200, y: 150 }, x: 200, y: 100 }
+      ]);
     });
 
   });
