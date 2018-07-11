@@ -136,7 +136,7 @@ describe('util/Elements', function() {
 
   describe('getClosure', function() {
 
-    it('should test getClosure', function() {
+    it('should work', function() {
       var closure = getClosure([ shapeB, shapeE ]);
 
       expect(closure.allShapes).to.have.keys('b', 'e', 'c', 'c.0', 'c.1');
@@ -145,6 +145,20 @@ describe('util/Elements', function() {
       expect(closure.topLevel).to.have.keys('e', 'b', 'connection1');
 
       expect(closure.topLevel['connection1']).to.eql([ connection1 ]);
+    });
+
+
+    it('should be extensible', function() {
+      var closure = getClosure([ shapeB, shapeE ], false, {
+        topLevel: {
+          'foo': []
+        }
+      });
+
+      expect(closure.allShapes).to.have.keys('b', 'e', 'c', 'c.0', 'c.1');
+      expect(closure.allConnections).to.have.keys('connection1');
+      expect(closure.enclosedElements).to.have.keys('b', 'e', 'connection1', 'c', 'c.0', 'c.1');
+      expect(closure.topLevel).to.have.keys('foo');
     });
 
   });

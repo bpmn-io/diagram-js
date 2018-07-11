@@ -29,6 +29,9 @@ import { classes as svgClasses } from 'tiny-svg';
 var ATTACH = { attach: true };
 var NO_ATTACH = { attach: false };
 
+/* global sinon */
+var { spy } = sinon;
+
 
 describe('features/attach-support', function() {
 
@@ -81,7 +84,7 @@ describe('features/attach-support', function() {
     beforeEach(inject(function(canvas, elementFactory, modeling) {
 
       host = elementFactory.createShape({
-        id:'host',
+        id: 'host',
         x: 700, y: 100,
         width: 100, height: 100
       });
@@ -191,6 +194,33 @@ describe('features/attach-support', function() {
       // then
       expect(attacher.host).not.to.exist;
       expect(parentShape.attachers).not.to.include(attacher);
+    }));
+
+
+    it('should move with closure', inject(function(modeling, eventBus) {
+
+      // given
+      var listener = spy(function(event) {
+
+        var closure = event.context.closure;
+
+        // attacher is part of closure
+        expect(closure.allShapes).to.contain.key(attacher.id);
+
+        // attacher did move with closure
+        expect(attacher).to.have.position({
+          x: 400 - 25 - 50,
+          y: 110 - 25
+        });
+      });
+
+      eventBus.once('commandStack.elements.move.postExecuted', 5000, listener);
+
+      // when
+      modeling.moveElements([ parentShape ], { x: -50, y: 0 });
+
+      // then
+      expect(listener).to.have.been.called;
     }));
 
   });
@@ -1654,7 +1684,6 @@ describe('features/attach-support', function() {
     }));
 
   });
-
 
 
   describe('append', function() {

@@ -17,6 +17,9 @@ import {
   classes as svgClasses
 } from 'tiny-svg';
 
+/* global sinon */
+var { spy } = sinon;
+
 
 describe('features/label-support', function() {
 
@@ -280,6 +283,34 @@ describe('features/label-support', function() {
 
     });
 
+
+    it('should move with closure', inject(function(modeling, eventBus) {
+
+      // given
+      var listener = spy(function(event) {
+
+        var closure = event.context.closure;
+
+        // labels are part of closure
+        expect(closure.allShapes).to.contain.keys(
+          label.id,
+          otherLabel.id
+        );
+
+        // labels did move with closure
+        expect(label).to.have.position({ x: 235, y: 240 });
+        expect(otherLabel).to.have.position({ x: 235, y: 290 });
+      });
+
+      eventBus.once('commandStack.elements.move.postExecuted', 5000, listener);
+
+      // when
+      modeling.moveElements([ childShape ], { x: 75, y: 10 });
+
+      // then
+      expect(listener).to.have.been.called;
+    }));
+
   });
 
 
@@ -302,33 +333,6 @@ describe('features/label-support', function() {
       // then
       expect(label.x).to.eql(235);
       expect(label.y).to.eql(230);
-    }));
-
-
-    it('should not move, if already moved', inject(function(eventBus, modeling) {
-
-      // given
-      var labelPosition = {
-        x: label.x,
-        y: label.y
-      };
-
-      eventBus.once('commandStack.shape.move.postExecute', function(e) {
-
-        var shape = e.context.shape;
-
-        var label = shape.label;
-
-        modeling.moveShape(label, { x: 30, y: 0 });
-      });
-
-      // when
-      modeling.moveElements([ childShape ], { x: 75, y: 0 }, parentShape);
-
-      // then
-      // label was not moved by LabelSupport
-      expect(label.x).to.eql(labelPosition.x + 30);
-      expect(label.y).to.eql(labelPosition.y);
     }));
 
 
