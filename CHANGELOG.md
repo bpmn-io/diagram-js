@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 2.4.1
+
+* `FIX`: ensure all affected elements moved at once when moving elements
+
 ## 2.4.0
 
 * `FEAT`: add ability to remove multiple events via `EventBus#off`
