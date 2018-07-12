@@ -8,7 +8,8 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 2.4.1
 
-* `FIX`: ensure all affected elements moved at once when moving elements
+* `FIX`: ensure all labels / attachers are moved before triggering connection layout
+* `CHORE`: move attachers / labels along with move closure ([`16882649`](https://github.com/bpmn-io/diagram-js/commit/1688264959d272fb26d13214439d491c09a01f44))
 
 ## 2.4.0
 
