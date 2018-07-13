@@ -149,7 +149,7 @@ describe('features/dragging - Dragging', function() {
 
         var mockEvent = canvasEvent(canvasPosition);
 
-        const event = document.createEvent('MouseEvent');
+        var event = document.createEvent('MouseEvent');
 
         if (event.initMouseEvent) {
           event.initMouseEvent(

@@ -30,7 +30,6 @@ var ATTACH = { attach: true };
 var NO_ATTACH = { attach: false };
 
 /* global sinon */
-var { spy } = sinon;
 
 
 describe('features/attach-support', function() {
@@ -200,7 +199,7 @@ describe('features/attach-support', function() {
     it('should move with closure', inject(function(modeling, eventBus) {
 
       // given
-      var listener = spy(function(event) {
+      var listener = sinon.spy(function(event) {
 
         var closure = event.context.closure;
 

@@ -18,7 +18,6 @@ import {
 } from 'tiny-svg';
 
 /* global sinon */
-var { spy } = sinon;
 
 
 describe('features/label-support', function() {
@@ -287,7 +286,7 @@ describe('features/label-support', function() {
     it('should move with closure', inject(function(modeling, eventBus) {
 
       // given
-      var listener = spy(function(event) {
+      var listener = sinon.spy(function(event) {
 
         var closure = event.context.closure;
 
