@@ -5,7 +5,7 @@ import {
   inject
 } from 'test/TestHelper';
 
-var fs = require('fs');
+import testImage from './resources/a.png';
 
 import {
   query as domQuery,
@@ -737,8 +737,6 @@ describe('features/popup', function() {
     it('should add an image to the header section, if specified', inject(function(popupMenu) {
 
       // given
-      var testImage = 'data:image/png;base64,' + fs.readFileSync(__dirname + '/resources/a.png', 'base64');
-
       var testMenuProvider = {
         getHeaderEntries: function() {
           return [

@@ -4,9 +4,9 @@ import {
   insertCSS
 } from './helper';
 
-var fs = require('fs');
+import diagramCSS from '../assets/diagram-js.css';
 
-insertCSS('diagram-js.css', fs.readFileSync(__dirname + '/../assets/diagram-js.css', 'utf8'));
+insertCSS('diagram-js.css', diagramCSS);
 
 insertCSS('diagram-js-testing.css',
   '.test-container .test-content-container { height: 500px; max-height: 100%; }'
