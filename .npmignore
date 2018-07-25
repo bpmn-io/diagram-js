@@ -3,5 +3,4 @@ example
 .eslintignore
 .eslintrc
 .travis.yml
-CONTRIBUTING.md
 karma.conf.js
