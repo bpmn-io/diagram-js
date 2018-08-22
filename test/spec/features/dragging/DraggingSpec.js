@@ -303,6 +303,37 @@ describe('features/dragging - Dragging', function() {
       ]);
     }));
 
+
+    it('should normalize to full pixel coordinates', inject(
+      function(dragging, canvas) {
+
+        // given
+        canvas.zoom(0.37);
+
+        // assume viewbox has sub-pixel x coordinate
+        expect(canvas.viewbox().x).not.to.eql(Math.round(canvas.viewbox().x));
+        expect(canvas.viewbox().y).not.to.eql(Math.round(canvas.viewbox().y));
+
+        var events = recordEvents('foo');
+
+        // when
+        dragging.init(canvasEvent({ x: 0, y: 0 }), { x: 10.12321312, y: 9.9123821 }, 'foo');
+        dragging.move(canvasEvent({ x: 20, y: 10 }));
+
+        dragging.cancel();
+
+        // then
+        expect(events.map(raw)).to.eql([
+          { type: 'foo.init' },
+          { x: 10, y: 10, dx: 0, dy: 0, type: 'foo.start' },
+          { x: 64, y: 37, dx: 54, dy: 27, type: 'foo.move' },
+          { x: 64, y: 37, dx: 54, dy: 27, type: 'foo.cancel' },
+          { x: 64, y: 37, dx: 54, dy: 27, type: 'foo.cleanup' },
+          { x: 64, y: 37, dx: 54, dy: 27, type: 'foo.canceled' }
+        ]);
+      }
+    ));
+
   });
 
 });
