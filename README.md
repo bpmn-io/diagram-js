@@ -3,6 +3,8 @@
 # diagram-js
 
 [![Build Status](https://travis-ci.org/bpmn-io/diagram-js.svg?branch=master)](https://travis-ci.org/bpmn-io/diagram-js)
+[![Code Quality: Javascript](https://img.shields.io/lgtm/grade/javascript/g/bpmn-io/diagram-js.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/bpmn-io/diagram-js/context:javascript)
+[![Total Alerts](https://img.shields.io/lgtm/alerts/g/bpmn-io/diagram-js.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/bpmn-io/diagram-js/alerts)
 
 A toolbox for displaying and modifying diagrams on the web.
 
