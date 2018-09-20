@@ -317,6 +317,23 @@ describe('util - Text', function() {
       });
 
 
+      it('center-middle with padding (fixed box)', function() {
+
+        // given
+        var label = 'I am a long label that should break on spaces';
+
+        // when
+        var text = createText(container, label, {
+          box: { width: 100, height: 100 },
+          align: 'center-middle',
+          padding: 15
+        });
+
+        expect(text).to.exist;
+        expect(toFitBBox(text, { x: 15, y: -11, width: 73, height: 127 })).to.be.true;
+      });
+
+
       it('center-middle / preformated using line breaks (fixed box)', function() {
 
         // given
@@ -444,7 +461,7 @@ describe('util - Text', function() {
         });
 
         expect(text).to.exist;
-        expect(toFitBBox(text, { x: 0, y: -8, width: 100, height: 106 })).to.be.true;
+        expect(toFitBBox(text, { x: 5, y: -5, width: 96, height: 110 })).to.be.true;
       });
 
 
