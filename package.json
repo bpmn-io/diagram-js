@@ -18,7 +18,16 @@
     "canvas",
     "diagram-js"
   ],
-  "author": "bpmn.io",
+  "author": {
+    "name": "Nico Rehwaldt",
+    "url": "https://github.com/nikku"
+  },
+  "contributors": [
+    {
+      "name": "bpmn.io contributors",
+      "url": "https://github.com/bpmn-io"
+    }
+  ],
   "license": "MIT",
   "sideEffects": [
     "*.css"
