@@ -1,17 +1,11 @@
 <!--
 
-Thanks for filing a pull request!
+Thanks for creating this pull request!
 
-Make sure you've read through [our contributing guide](https://github.com/bpmn-io/diagram-js/blob/master/.github/CONTRIBUTING.md#creating-an-issue) before you continue.
+Please make sure you provide the relevant context.
 
 -->
 
+__Which issue does this PR address?_
 
-Fixes #
-
-
-### Proposed Changes
-
-*
-*
-*
+Closes #
