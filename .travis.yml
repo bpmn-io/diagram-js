@@ -2,4 +2,5 @@ language: node_js
 node_js: 'node'
 
 script:
-  - npm run all
+  - COVERAGE=1 npm run all
+  - codecov
