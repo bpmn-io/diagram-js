@@ -368,4 +368,56 @@ describe('features/context-pad', function() {
 
   });
 
+  describe('scaling', function() {
+    beforeEach(bootstrapDiagram({ modules: [ contextPadModule, providerModule ] }));
+
+    var NUM_REGEX = /[+-]?\d*[.]?\d+(?=,|\))/g;
+
+    function asVector(scaleStr) {
+      if (scaleStr && scaleStr !== 'none') {
+        var m = scaleStr.match(NUM_REGEX);
+
+        return {
+          x: parseFloat(m[0], 10),
+          y: parseFloat(m[1], 10)
+        };
+      }
+    }
+
+    function scaleVector(element) {
+      return asVector(element.style.transform);
+    }
+
+    it('should keep zoom level within the limits', inject(function(canvas, contextPad) {
+      // given
+      var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10, type: 'drag' });
+
+      contextPad.open(shape);
+
+      var pad = contextPad.getPad(shape);
+
+      var overlayParent = pad.html.parentNode;
+
+      var expectedScales = [
+        1.0, 1.2, 1.5, 1.5, 1.0
+      ];
+
+      // test multiple zoom steps
+      [ 1.0, 1.2, 3.5, 10, 0.5 ].forEach(function(zoom, idx) {
+
+        var expectedScale = expectedScales[idx];
+
+        // when
+        canvas.zoom(zoom);
+
+        var actualScale = scaleVector(overlayParent) || { x: 1, y: 1 };
+
+        var effectiveScale = zoom * actualScale.x;
+
+        // then
+        expect(actualScale.x).to.eql(actualScale.y);
+        expect(effectiveScale).to.be.closeTo(expectedScale, 0.00001);
+      });
+    }));
+  });
 });
