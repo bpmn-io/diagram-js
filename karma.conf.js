@@ -1,5 +1,7 @@
 'use strict';
 
+var coverage = process.env.COVERAGE;
+
 var path = require('path');
 
 var absoluteBasePath = path.resolve(__dirname);
@@ -25,6 +27,8 @@ var browsers =
       return browser;
     });
 
+var suite = coverage ? 'test/all.js' : 'test/suite.js';
+
 
 module.exports = function(karma) {
   karma.set({
@@ -35,14 +39,14 @@ module.exports = function(karma) {
     ],
 
     files: [
-      'test/suite.js'
+      suite
     ],
 
     preprocessors: {
-      'test/suite.js': [ 'webpack' ]
+      [suite]: [ 'webpack' ]
     },
 
-    reporters: [ 'spec' ],
+    reporters: [ 'spec' ].concat(coverage ? 'coverage' : []),
 
     browsers: browsers,
 
@@ -57,6 +61,12 @@ module.exports = function(karma) {
         ],
         debug: true
       }
+    },
+
+    coverageReporter: {
+      reporters: [
+        { type: 'lcov', subdir: '.' }
+      ]
     },
 
     autoWatch: false,
@@ -74,7 +84,17 @@ module.exports = function(karma) {
             test: /\.png$/,
             use: 'url-loader'
           }
-        ]
+        ].concat(
+          coverage ? {
+            test: /\.js$/,
+            use: {
+              loader: 'istanbul-instrumenter-loader',
+              options: { esModules: true }
+            },
+            include: /lib\.*/,
+            exclude: /node_modules/
+          } : []
+        )
       },
       resolve: {
         mainFields: [
