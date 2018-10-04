@@ -3,12 +3,13 @@
  */
 
 .djs-outline {
-  fill: none;
+  fill: #CCCCCC66;
   visibility: hidden;
 }
 
 .djs-element.hover .djs-outline,
-.djs-element.selected .djs-outline {
+.djs-element.selected .djs-outline,
+.djs-element.focussed .djs-outline {
   visibility: visible;
   shape-rendering: crispEdges;
   stroke-dasharray: 3,3;
@@ -22,6 +23,11 @@
 .djs-element.hover .djs-outline {
   stroke: #FF8888;
   stroke-width: 1px;
+}
+
+.djs-element.focussed .djs-outline {
+  stroke: #8888FF;
+  stroke-width: 2px;
 }
 
 .djs-shape.connect-ok .djs-visual > :nth-child(1) {
@@ -170,10 +176,12 @@ svg.new-parent {
  */
 .djs-shape .djs-hit {
   pointer-events: all;
+  outline: none;
 }
 
 .djs-connection .djs-hit {
   pointer-events: stroke;
+  outline: none;
 }
 
 /**
@@ -358,6 +366,10 @@ svg.new-parent {
   background-color: #FEFEFE;
   box-shadow: 0 0 2px 1px #FEFEFE;
   pointer-events: all;
+
+  border: none;
+  outline: none;
+  padding: 0;
 }
 
 .djs-context-pad .entry:before {
