@@ -349,7 +349,12 @@ describe('features/context-pad', function() {
     it('should handle drag event', inject(function(canvas, contextPad) {
 
       // given
-      var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10, type: 'drag' });
+      var shape = canvas.addShape({
+        id: 's1',
+        width: 100, height: 100,
+        x: 10, y: 10,
+        type: 'drag'
+      });
 
       contextPad.open(shape);
 
@@ -368,7 +373,9 @@ describe('features/context-pad', function() {
 
   });
 
+
   describe('scaling', function() {
+
     beforeEach(bootstrapDiagram({ modules: [ contextPadModule, providerModule ] }));
 
     var NUM_REGEX = /[+-]?\d*[.]?\d+(?=,|\))/g;
@@ -392,7 +399,12 @@ describe('features/context-pad', function() {
     function verifyScale(expectedScales) {
       return inject(function(canvas, contextPad) {
         // given
-        var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10, type: 'drag' });
+        var shape = canvas.addShape({
+          id: 's1',
+          width: 100, height: 100,
+          x: 10, y: 10,
+          type: 'drag'
+        });
 
         contextPad.open(shape);
 
@@ -419,6 +431,7 @@ describe('features/context-pad', function() {
       });
     }
 
+
     it('should scale within the limits of [ 1.0, 1.5 ] by default', function() {
       var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
 
@@ -428,6 +441,7 @@ describe('features/context-pad', function() {
 
       return verifyScale(expectedScales);
     });
+
 
     it('should scale within the limits set in config', function() {
       var config = {
@@ -446,6 +460,7 @@ describe('features/context-pad', function() {
       return verifyScale(expectedScales);
     });
 
+
     it('should scale with scale = true', function() {
       var config = {
         scale: false
@@ -460,6 +475,7 @@ describe('features/context-pad', function() {
       return verifyScale(expectedScales);
     });
 
+
     it('should not scale with scale = false', function() {
       var config = {
         scale: false
@@ -473,5 +489,7 @@ describe('features/context-pad', function() {
 
       return verifyScale(expectedScales);
     });
+
   });
+
 });
