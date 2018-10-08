@@ -372,6 +372,7 @@ describe('features/context-pad', function() {
     beforeEach(bootstrapDiagram({ modules: [ contextPadModule, providerModule ] }));
 
     var NUM_REGEX = /[+-]?\d*[.]?\d+(?=,|\))/g;
+    var zoomLevels = [ 1.0, 1.2, 3.5, 10, 0.5 ];
 
     function asVector(scaleStr) {
       if (scaleStr && scaleStr !== 'none') {
@@ -388,36 +389,89 @@ describe('features/context-pad', function() {
       return asVector(element.style.transform);
     }
 
-    it('should keep zoom level within the limits', inject(function(canvas, contextPad) {
-      // given
-      var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10, type: 'drag' });
+    function verifyScale(expectedScales) {
+      return inject(function(canvas, contextPad) {
+        // given
+        var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10, type: 'drag' });
 
-      contextPad.open(shape);
+        contextPad.open(shape);
 
-      var pad = contextPad.getPad(shape);
+        var pad = contextPad.getPad(shape);
 
-      var overlayParent = pad.html.parentNode;
+        var padParent = pad.html.parentNode;
 
-      var expectedScales = [
-        1.0, 1.2, 1.5, 1.5, 1.0
-      ];
+        // test multiple zoom steps
+        zoomLevels.forEach(function(zoom, idx) {
 
-      // test multiple zoom steps
-      [ 1.0, 1.2, 3.5, 10, 0.5 ].forEach(function(zoom, idx) {
+          var expectedScale = expectedScales[idx];
 
-        var expectedScale = expectedScales[idx];
+          // when
+          canvas.zoom(zoom);
 
-        // when
-        canvas.zoom(zoom);
+          var actualScale = scaleVector(padParent) || { x: 1, y: 1 };
 
-        var actualScale = scaleVector(overlayParent) || { x: 1, y: 1 };
+          var effectiveScale = zoom * actualScale.x;
 
-        var effectiveScale = zoom * actualScale.x;
-
-        // then
-        expect(actualScale.x).to.eql(actualScale.y);
-        expect(effectiveScale).to.be.closeTo(expectedScale, 0.00001);
+          // then
+          expect(actualScale.x).to.eql(actualScale.y);
+          expect(effectiveScale).to.be.closeTo(expectedScale, 0.00001);
+        });
       });
-    }));
+    }
+
+    it('should scale within the limits of [ 1.0, 1.5 ] by default', function() {
+      var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
+
+      bootstrapDiagram({
+        modules: [ contextPadModule, providerModule ]
+      });
+
+      return verifyScale(expectedScales);
+    });
+
+    it('should scale within the limits set in config', function() {
+      var config = {
+        scale: {
+          min: 1.0,
+          max: 1.2
+        }
+      };
+      var expectedScales = [ 1.0, 1.2, 1.2, 1.2, 1.0 ];
+
+      bootstrapDiagram({
+        modules: [ contextPadModule, providerModule ],
+        contextPad: config
+      });
+
+      return verifyScale(expectedScales);
+    });
+
+    it('should scale with scale = true', function() {
+      var config = {
+        scale: false
+      };
+      var expectedScales = [ 1.0, 1.2, 1.2, 1.2, 1.0 ];
+
+      bootstrapDiagram({
+        modules: [ contextPadModule, providerModule ],
+        contextPad: config
+      });
+
+      return verifyScale(expectedScales);
+    });
+
+    it('should not scale with scale = false', function() {
+      var config = {
+        scale: false
+      };
+      var expectedScales = [ 1.0, 1.2, 1.2, 1.2, 1.0 ];
+
+      bootstrapDiagram({
+        modules: [ contextPadModule, providerModule ],
+        contextPad: config
+      });
+
+      return verifyScale(expectedScales);
+    });
   });
 });
