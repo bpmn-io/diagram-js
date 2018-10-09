@@ -6,6 +6,7 @@ import {
 
 import {
   bootstrapDiagram,
+  getDiagramJS,
   inject
 } from 'test/TestHelper';
 
@@ -376,8 +377,6 @@ describe('features/context-pad', function() {
 
   describe('scaling', function() {
 
-    beforeEach(bootstrapDiagram({ modules: [ contextPadModule, providerModule ] }));
-
     var NUM_REGEX = /[+-]?\d*[.]?\d+(?=,|\))/g;
     var zoomLevels = [ 1.0, 1.2, 3.5, 10, 0.5 ];
 
@@ -396,8 +395,10 @@ describe('features/context-pad', function() {
       return asVector(element.style.transform);
     }
 
-    function verifyScale(expectedScales) {
-      return inject(function(canvas, contextPad) {
+    function verifyScales(expectedScales) {
+
+      return getDiagramJS().invoke(function(canvas, contextPad) {
+
         // given
         var shape = canvas.addShape({
           id: 's1',
@@ -433,61 +434,76 @@ describe('features/context-pad', function() {
 
 
     it('should scale within the limits of [ 1.0, 1.5 ] by default', function() {
+
+      // given
       var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
 
       bootstrapDiagram({
         modules: [ contextPadModule, providerModule ]
-      });
+      })();
 
-      return verifyScale(expectedScales);
+      // when
+      verifyScales(expectedScales);
     });
 
 
     it('should scale within the limits set in config', function() {
+
+      // given
+      var expectedScales = [ 1.0, 1.2, 1.2, 1.2, 1.0 ];
+
       var config = {
         scale: {
           min: 1.0,
           max: 1.2
         }
       };
-      var expectedScales = [ 1.0, 1.2, 1.2, 1.2, 1.0 ];
 
       bootstrapDiagram({
         modules: [ contextPadModule, providerModule ],
         contextPad: config
-      });
+      })();
 
-      return verifyScale(expectedScales);
+      // when
+      verifyScales(expectedScales);
     });
 
 
     it('should scale with scale = true', function() {
+
+      // given
+      var expectedScales = zoomLevels;
+
       var config = {
-        scale: false
+        scale: true
       };
-      var expectedScales = [ 1.0, 1.2, 1.2, 1.2, 1.0 ];
 
       bootstrapDiagram({
         modules: [ contextPadModule, providerModule ],
         contextPad: config
-      });
+      })();
 
-      return verifyScale(expectedScales);
+      // when
+      verifyScales(expectedScales);
     });
 
 
     it('should not scale with scale = false', function() {
+
+      // given
+      var expectedScales = [ 1.0, 1.0, 1.0, 1.0, 1.0 ];
+
       var config = {
         scale: false
       };
-      var expectedScales = [ 1.0, 1.2, 1.2, 1.2, 1.0 ];
 
       bootstrapDiagram({
         modules: [ contextPadModule, providerModule ],
         contextPad: config
-      });
+      })();
 
-      return verifyScale(expectedScales);
+      // when
+      verifyScales(expectedScales);
     });
 
   });
