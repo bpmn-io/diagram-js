@@ -2,6 +2,7 @@
 
 import {
   bootstrapDiagram,
+  getDiagramJS,
   inject
 } from 'test/TestHelper';
 
@@ -966,6 +967,138 @@ describe('features/popup', function() {
 
       expect(menu.offsetLeft).to.equal(2000 - menuDimensions.width);
     }));
+
+  });
+
+
+  describe('scaling', function() {
+
+    var NUM_REGEX = /[+-]?\d*[.]?\d+(?=,|\))/g;
+    var zoomLevels = [ 1.0, 1.2, 3.5, 10, 0.5 ];
+
+    function asVector(scaleStr) {
+      if (scaleStr && scaleStr !== 'none') {
+        var m = scaleStr.match(NUM_REGEX);
+
+        return {
+          x: parseFloat(m[0], 10),
+          y: parseFloat(m[1] || m[0], 10)
+        };
+      }
+    }
+
+    function scaleVector(element) {
+      return asVector(element.style.transform);
+    }
+
+    function verifyScales(expectedScales) {
+
+      getDiagramJS().invoke(function(canvas, popupMenu) {
+        // given
+        popupMenu.registerProvider('menu', menuProvider);
+
+        // test multiple zoom steps
+        zoomLevels.forEach(function(zoom, index) {
+
+          var expectedScale = expectedScales[index];
+
+          // when
+          canvas.zoom(zoom);
+
+          popupMenu.open({}, 'menu', { x: 100, y: 100 });
+
+          var menu = popupMenu._current.container;
+
+          var actualScale = scaleVector(menu) || { x: 1, y: 1 };
+
+          // then
+          expect(actualScale.x).to.eql(actualScale.y);
+          expect(actualScale.x).to.be.closeTo(expectedScale, 0.00001);
+        });
+      });
+    }
+
+
+    it('should scale within the limits of [ 1.0, 1.5 ] by default', function() {
+      // given
+      var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
+
+      bootstrapDiagram({
+        modules: [
+          popupMenuModule,
+          modelingModule
+        ]
+      })();
+
+      // when
+      verifyScales(expectedScales);
+    });
+
+
+    it('should scale within the limits set in config', function() {
+      // given
+      var config = {
+        scale: {
+          min: 1.0,
+          max: 1.2
+        }
+      };
+
+      var expectedScales = [ 1.0, 1.2, 1.2, 1.2, 1.0 ];
+
+      bootstrapDiagram({
+        modules: [
+          popupMenuModule,
+          modelingModule
+        ],
+        popupMenu: config
+      })();
+
+      // when
+      verifyScales(expectedScales);
+    });
+
+
+    it('should scale with scale = true', function() {
+      // given
+      var config = {
+        scale: true
+      };
+
+      var expectedScales = zoomLevels;
+
+      bootstrapDiagram({
+        modules: [
+          popupMenuModule,
+          modelingModule
+        ],
+        popupMenu: config
+      })();
+
+      // when
+      verifyScales(expectedScales);
+    });
+
+
+    it('should not scale with scale = false', function() {
+      // given
+      var config = {
+        scale: false
+      };
+
+      var expectedScales = [ 1.0, 1.0, 1.0, 1.0, 1.0 ];
+
+      bootstrapDiagram({
+        modules: [
+          popupMenuModule,
+          modelingModule
+        ],
+        popupMenu: config
+      })();
+
+      // when
+      verifyScales(expectedScales);
+    });
 
   });
 
