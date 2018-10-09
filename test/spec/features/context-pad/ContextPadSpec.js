@@ -433,13 +433,28 @@ describe('features/context-pad', function() {
     }
 
 
-    it('should scale within the limits of [ 1.0, 1.5 ] by default', function() {
+    it('should scale [ 1.0, 1.5 ] by default', function() {
 
       // given
       var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
 
       bootstrapDiagram({
         modules: [ contextPadModule, providerModule ]
+      })();
+
+      // when
+      verifyScales(expectedScales);
+    });
+
+
+    it('should scale [ 1.0, 1.5 ] without scale config', function() {
+
+      // given
+      var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
+
+      bootstrapDiagram({
+        modules: [ contextPadModule, providerModule ],
+        contextPad: {}
       })();
 
       // when
