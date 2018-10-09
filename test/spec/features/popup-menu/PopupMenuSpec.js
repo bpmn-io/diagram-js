@@ -1019,7 +1019,7 @@ describe('features/popup', function() {
     }
 
 
-    it('should scale within the limits of [ 1.0, 1.5 ] by default', function() {
+    it('should scale within [ 1.0, 1.5 ] by default', function() {
       // given
       var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
 
@@ -1028,6 +1028,23 @@ describe('features/popup', function() {
           popupMenuModule,
           modelingModule
         ]
+      })();
+
+      // when
+      verifyScales(expectedScales);
+    });
+
+
+    it('should scale within [ 1.0, 1.5 ] without scale config', function() {
+      // given
+      var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
+
+      bootstrapDiagram({
+        modules: [
+          popupMenuModule,
+          modelingModule
+        ],
+        popupMenu: {}
       })();
 
       // when
