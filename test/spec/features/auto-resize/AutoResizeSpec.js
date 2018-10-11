@@ -331,6 +331,118 @@ describe('features/auto-resize', function() {
 
   });
 
+  describe('collapsed shape', function() {
+
+    var collapsedShape, hiddenContainedChild;
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        autoResizeModule,
+        customAutoResizeModule,
+        createModule
+      ]
+    }));
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      rootShape = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(rootShape);
+
+      collapsedShape = elementFactory.createShape({
+        id: 'collapsedShape',
+        x: 110, y: 110, width: 200, height: 200,
+        collapsed: true
+      });
+
+      canvas.addShape(collapsedShape, rootShape);
+    }));
+
+    it('should resize element which is expanded',
+      inject(function(elementFactory, canvas, modeling, autoResize) {
+        // given
+        var autoResizeSpy = sinon.spy(autoResize, '_expand');
+
+        hiddenContainedChild = elementFactory.createShape({
+          id: 'hiddenContainedChild',
+          x: 120, y: 120, width: 400, height: 400,
+          hidden: true
+        });
+
+        canvas.addShape(hiddenContainedChild, collapsedShape);
+
+        // when
+        modeling.toggleCollapse(collapsedShape);
+
+        // then
+        expect(collapsedShape).to.have.bounds({ x: 110, y: 110, width: 420, height: 420 });
+        expect(hiddenContainedChild).to.have.bounds({ x: 120, y: 120, width: 400, height: 400 });
+        expect(autoResizeSpy).to.be.called;
+      })
+    );
+
+    it('should resize element which is expanded even if it has no children',
+      inject(function(modeling, autoResize) {
+        // given
+        var autoResizeSpy = sinon.spy(autoResize, '_expand');
+
+        // when
+        modeling.toggleCollapse(collapsedShape);
+
+        // then
+        expect(collapsedShape).to.have.bounds({ x: 110, y: 110, width: 200, height: 200 });
+        expect(autoResizeSpy).to.be.called;
+      })
+    );
+
+    it('should not resize an expanded element which is collapsed',
+      inject(function(elementFactory, canvas, modeling, autoResize) {
+        // given
+        var autoResizeSpy = sinon.spy(autoResize, '_expand');
+
+        var expandedShape = elementFactory.createShape({
+          id: 'hiddenContainedChild',
+          x: 120, y: 120, width: 400, height: 400,
+          collapsed: false
+        });
+
+        canvas.addShape(expandedShape, rootShape);
+
+        // when
+        modeling.toggleCollapse(expandedShape);
+
+        // then
+        expect(collapsedShape).to.have.bounds({ x: 110, y: 110, width: 200, height: 200 });
+        expect(autoResizeSpy).to.not.be.called;
+      })
+    );
+
+    describe('hints', function() {
+
+      it('should not resize on autoResize=false hint',
+        inject(function(eventBus, modeling, autoResize) {
+          // given
+          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+
+          eventBus.on('commandStack.shape.toggleCollapse.preExecute', function(event) {
+            event.context.hints = { autoResize: false };
+          });
+
+          // when
+          modeling.toggleCollapse(collapsedShape);
+
+          // then
+          expect(collapsedShape).to.have.bounds({ x: 110, y: 110, width: 200, height: 200 });
+          expect(autoResizeSpy).to.not.be.called;
+        })
+      );
+
+    });
+
+  });
+
 
   it('should provide extension points', inject(function(autoResize, modeling) {
 
