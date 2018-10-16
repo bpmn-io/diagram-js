@@ -12,6 +12,7 @@ import {
 import modelingModule from 'lib/features/modeling';
 import autoResizeModule from 'lib/features/auto-resize';
 import createModule from 'lib/features/create';
+import replaceModule from 'lib/features/replace';
 
 import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
 import AutoResize from 'lib/features/auto-resize/AutoResize';
@@ -508,6 +509,102 @@ describe('features/auto-resize', function() {
           // then
           expect(collapsedShape).to.have.bounds({ x: 110, y: 110, width: 200, height: 200 });
           expect(autoResizeSpy).to.not.be.called;
+        })
+      );
+
+    });
+
+  });
+
+
+  describe('replace', function() {
+
+    var rootShape,
+        parentShape,
+        replacedShape;
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        autoResizeModule,
+        customAutoResizeModule,
+        replaceModule
+      ]
+    }));
+
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      rootShape = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(rootShape);
+
+      parentShape = elementFactory.createShape({
+        id: 'parent',
+        x: 100, y: 100, width: 300, height: 300
+      });
+
+      canvas.addShape(parentShape, rootShape);
+
+      replacedShape = elementFactory.createShape({
+        id: 'replacedShape',
+        x: 110, y: 110, width: 200, height: 200
+      });
+
+      canvas.addShape(replacedShape, parentShape);
+    }));
+
+
+    describe('resize child', function() {
+
+      it('should resize parent', inject(
+        function(replace, autoResize) {
+
+          // given
+          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+
+          var replacement = {
+            id: 'replacement',
+            width: 300,
+            height: 300
+          };
+
+          // when
+          replace.replaceElement(replacedShape, replacement);
+
+          // then
+          expect(autoResizeSpy).to.be.called;
+          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 320, height: 320 });
+        })
+      );
+
+    });
+
+
+    describe('hints', function() {
+
+      it('should not resize on autoResize=false hint',
+        inject(function(eventBus, replace, autoResize) {
+          // given
+          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+
+          eventBus.on('commandStack.shape.replace.preExecute', function(event) {
+            event.context.hints = { autoResize: false };
+          });
+
+          var replacement = {
+            id: 'replacement',
+            width: 300,
+            height: 300
+          };
+
+          // when
+          replace.replaceElement(replacedShape, replacement);
+
+          // then
+          expect(autoResizeSpy).to.not.be.called;
+          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
         })
       );
 
