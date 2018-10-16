@@ -613,6 +613,104 @@ describe('features/auto-resize', function() {
   });
 
 
+  describe('resize child shape', function() {
+
+    var rootShape,
+        parentShape,
+        resizedShape;
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        autoResizeModule,
+        customAutoResizeModule,
+        replaceModule
+      ]
+    }));
+
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      rootShape = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(rootShape);
+
+      parentShape = elementFactory.createShape({
+        id: 'parent',
+        x: 100, y: 100, width: 300, height: 300
+      });
+
+      canvas.addShape(parentShape, rootShape);
+
+      resizedShape = elementFactory.createShape({
+        id: 'resizedShape',
+        x: 110, y: 110, width: 200, height: 200
+      });
+
+      canvas.addShape(resizedShape, parentShape);
+    }));
+
+
+    describe('resize child', function() {
+
+      it('should resize parent', inject(
+        function(modeling, autoResize) {
+
+          // given
+          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+
+          var newBounds = {
+            x: 110,
+            y: 110,
+            width: 300,
+            height: 300
+          };
+
+          // when
+          modeling.resizeShape(resizedShape, newBounds);
+
+          // then
+          expect(autoResizeSpy).to.be.called;
+          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 320, height: 320 });
+        })
+      );
+
+    });
+
+
+    describe('hints', function() {
+
+      it('should not resize parent on autoResize=false hint',
+        inject(function(eventBus, modeling, autoResize) {
+          // given
+          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+
+          eventBus.on('commandStack.shape.resize.preExecute', function(event) {
+            event.context.hints = { autoResize: false };
+          });
+
+          var newBounds = {
+            x: 110,
+            y: 110,
+            width: 300,
+            height: 300
+          };
+
+          // when
+          modeling.resizeShape(resizedShape, newBounds);
+
+          // then
+          expect(autoResizeSpy).to.not.be.called;
+          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
+        })
+      );
+
+    });
+
+  });
+
+
   it('should provide extension points', inject(function(autoResize, modeling) {
 
     // given
