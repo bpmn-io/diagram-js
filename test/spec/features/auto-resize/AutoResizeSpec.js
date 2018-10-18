@@ -347,7 +347,6 @@ describe('features/auto-resize', function() {
       ]
     }));
 
-
     beforeEach(inject(function(elementFactory, canvas) {
       rootShape = elementFactory.createRoot({
         id: 'root'
@@ -363,16 +362,20 @@ describe('features/auto-resize', function() {
 
         collapsedShape = elementFactory.createShape({
           id: 'collapsedShape',
-          x: 110, y: 110, width: 200, height: 200,
+          x: 110,
+          y: 110,
+          width: 200,
+          height: 200,
           collapsed: true
         });
 
         canvas.addShape(collapsedShape, rootShape);
-
       }));
+
 
       it('should resize element which is expanded',
         inject(function(elementFactory, canvas, modeling, autoResize) {
+
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
@@ -388,14 +391,28 @@ describe('features/auto-resize', function() {
           modeling.toggleCollapse(collapsedShape);
 
           // then
-          expect(collapsedShape).to.have.bounds({ x: 110, y: 110, width: 420, height: 420 });
-          expect(hiddenContainedChild).to.have.bounds({ x: 120, y: 120, width: 400, height: 400 });
+          expect(collapsedShape).to.have.bounds({
+            x: 110,
+            y: 110,
+            width: 420,
+            height: 420
+          });
+
+          expect(hiddenContainedChild).to.have.bounds({
+            x: 120,
+            y: 120,
+            width: 400,
+            height: 400
+          });
+
           expect(autoResizeSpy).to.be.called;
         })
       );
 
+
       it('should resize element which is expanded even if it has no children',
         inject(function(modeling, autoResize) {
+
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
@@ -403,13 +420,21 @@ describe('features/auto-resize', function() {
           modeling.toggleCollapse(collapsedShape);
 
           // then
-          expect(collapsedShape).to.have.bounds({ x: 110, y: 110, width: 200, height: 200 });
+          expect(collapsedShape).to.have.bounds({
+            x: 110,
+            y: 110,
+            width: 200,
+            height: 200
+          });
+
           expect(autoResizeSpy).to.be.called;
         })
       );
 
+
       it('should not resize an expanded element which is collapsed',
         inject(function(elementFactory, canvas, modeling, autoResize) {
+
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
@@ -425,12 +450,19 @@ describe('features/auto-resize', function() {
           modeling.toggleCollapse(expandedShape);
 
           // then
-          expect(collapsedShape).to.have.bounds({ x: 110, y: 110, width: 200, height: 200 });
+          expect(collapsedShape).to.have.bounds({
+            x: 110,
+            y: 110,
+            width: 200,
+            height: 200
+          });
+
           expect(autoResizeSpy).to.not.be.called;
         })
       );
 
     });
+
 
     describe('as a child of another element', function() {
 
@@ -438,7 +470,10 @@ describe('features/auto-resize', function() {
 
         parentShape = elementFactory.createShape({
           id: 'parentShape',
-          x: 110, y: 110, width: 200, height: 200
+          x: 110,
+          y: 110,
+          width: 200,
+          height: 200
         });
 
         canvas.addShape(parentShape, rootShape);
@@ -458,11 +493,12 @@ describe('features/auto-resize', function() {
         });
 
         canvas.addShape(hiddenContainedChild, collapsedShape);
-
       }));
+
 
       it('should resize also the parent element',
         inject(function(modeling, autoResize) {
+
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
@@ -470,8 +506,20 @@ describe('features/auto-resize', function() {
           modeling.toggleCollapse(collapsedShape);
 
           // then
-          expect(collapsedShape).to.have.bounds({ x: 120, y: 120, width: 420, height: 420 });
-          expect(parentShape).to.have.bounds({ x: 110, y: 110, width: 440, height: 440 });
+          expect(collapsedShape).to.have.bounds({
+            x: 120,
+            y: 120,
+            width: 420,
+            height: 420
+          });
+
+          expect(parentShape).to.have.bounds({
+            x: 110,
+            y: 110,
+            width: 440,
+            height: 440
+          });
+
           expect(autoResizeSpy).to.be.calledWith([ hiddenContainedChild ], collapsedShape);
           expect(autoResizeSpy).to.be.calledWith([ collapsedShape ], parentShape);
         })
@@ -486,16 +534,20 @@ describe('features/auto-resize', function() {
 
         collapsedShape = elementFactory.createShape({
           id: 'collapsedShape',
-          x: 110, y: 110, width: 200, height: 200,
+          x: 110,
+          y: 110,
+          width: 200,
+          height: 200,
           collapsed: true
         });
 
         canvas.addShape(collapsedShape, rootShape);
-
       }));
+
 
       it('should not resize on autoResize=false hint',
         inject(function(eventBus, modeling, autoResize) {
+
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
@@ -507,7 +559,13 @@ describe('features/auto-resize', function() {
           modeling.toggleCollapse(collapsedShape);
 
           // then
-          expect(collapsedShape).to.have.bounds({ x: 110, y: 110, width: 200, height: 200 });
+          expect(collapsedShape).to.have.bounds({
+            x: 110,
+            y: 110,
+            width: 200,
+            height: 200
+          });
+
           expect(autoResizeSpy).to.not.be.called;
         })
       );
