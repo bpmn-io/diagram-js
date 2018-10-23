@@ -1,9 +1,28 @@
-export function createKeyEvent(element, code, ctrlKey) {
-  var e = document.createEvent('Events') || new document.defaultView.CustomEvent('keyEvent');
+import {
+  assign,
+  isString
+} from 'min-dash';
 
-  e.keyCode = code;
-  e.which = code;
-  e.ctrlKey = ctrlKey;
+export function createKeyEvent(key, modifiers, target) {
 
-  return e;
+  var event = document.createEvent('Events') || new document.defaultView.CustomEvent('keyEvent');
+
+  var options = modifiers || {};
+
+  if (isString(key)) {
+    options.key = key;
+  }
+
+  options.keyCode = key;
+  options.which = key;
+  options.target = target || document;
+  options.preventDefault = preventDefault;
+
+  return assign({}, event, options);
+}
+
+// helpers //////
+
+function preventDefault() {
+  this.defaultPrevented = true;
 }

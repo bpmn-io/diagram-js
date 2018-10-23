@@ -1,33 +1,36 @@
+/* global sinon */
+
+import TestContainer from 'mocha-test-container-support';
+import {
+  assign
+} from 'min-dash';
+
+import modelingModule from 'lib/features/modeling';
+import keyboardModule from 'lib/features/keyboard';
+
 import {
   bootstrapDiagram,
   DomMocking,
   inject
 } from 'test/TestHelper';
-
-import TestContainer from 'mocha-test-container-support';
-
-import modelingModule from 'lib/features/modeling';
-import keyboardModule from 'lib/features/keyboard';
-
-import { createKeyEvent } from '../../../util/KeyEvents';
+import { createKeyEvent } from 'test/util/KeyEvents';
 
 
 describe('features/keyboard', function() {
 
-  beforeEach(bootstrapDiagram({
+  var TEST_KEY = 99;
+
+  var defaultDiagramConfig = {
     modules: [
       modelingModule,
       keyboardModule
     ],
     canvas: {
       deferUpdate: false
-    },
-    keyboard: {
-      speed: 5,
-      invertY: false,
-      bindTo: document
     }
-  }));
+  };
+
+  beforeEach(bootstrapDiagram(defaultDiagramConfig));
 
 
   it('should bootstrap diagram with keyboard', inject(function(keyboard) {
@@ -36,6 +39,15 @@ describe('features/keyboard', function() {
 
 
   describe('keyboard binding', function() {
+
+    var keyboardConfig = {
+      keyboard: {
+        bindTo: document
+      }
+    };
+
+    beforeEach(bootstrapDiagram(assign(defaultDiagramConfig, keyboardConfig)));
+
 
     it('should integrate with <attach> + <detach> events', inject(
       function(keyboard, eventBus) {
@@ -56,7 +68,7 @@ describe('features/keyboard', function() {
   });
 
 
-  describe('listener handling', function() {
+  describe('keydown event listener handling', function() {
 
     beforeEach(function() {
       DomMocking.install();
@@ -71,6 +83,10 @@ describe('features/keyboard', function() {
       testDiv = document.createElement('div');
       testDiv.setAttribute('class', 'testClass');
       testContainer.appendChild(testDiv);
+    });
+
+    afterEach(function() {
+      DomMocking.uninstall();
     });
 
 
@@ -107,263 +123,106 @@ describe('features/keyboard', function() {
     }));
 
 
-    afterEach(function() {
-      DomMocking.uninstall();
-    });
+    it('should not fire event if target is input field', inject(function(keyboard, eventBus) {
+
+      // given
+      var eventBusSpy = sinon.spy(eventBus, 'fire');
+
+      var inputField = document.createElement('input');
+      testDiv.appendChild(inputField);
+
+      var event = createKeyEvent(TEST_KEY, {}, inputField);
+
+      // when
+      keyboard._keyHandler(event);
+
+      // then
+      expect(eventBusSpy).to.not.be.called;
+
+    }));
 
   });
 
 
-  describe('default listeners', function() {
+  describe('add listener', function() {
 
-    var container;
+    it('should handle listeners by priority', inject(function(keyboard) {
 
-    beforeEach(function() {
-      container = TestContainer.get(this);
-    });
+      // given
+      var lowerPrioritySpy = sinon.spy();
+      var higherPrioritySpy = sinon.stub().returns(true);
 
-    describe('zoom in', function() {
+      keyboard.addListener(500, lowerPrioritySpy);
+      keyboard.addListener(1000, higherPrioritySpy);
 
-      it('should handle numpad plus', inject(function(canvas, keyboard) {
+      var event = createKeyEvent(TEST_KEY);
 
-        // given
-        var e = createKeyEvent(container, 107, true);
+      // when
+      keyboard._keyHandler(event);
 
-        // when
-        keyboard._keyHandler(e);
+      // then
+      expect(higherPrioritySpy).to.be.called;
+      expect(lowerPrioritySpy).to.not.be.called;
 
-        // then
-        expect(canvas.zoom()).to.be.above(1);
-      }));
+    }));
 
 
-      it('should handle regular plus', inject(function(canvas, keyboard) {
+    it('should invoke listener of lower priority if key was not handled', inject(function(keyboard) {
 
-        // given
-        var e = createKeyEvent(container, 187, true);
+      // given
+      var lowerPrioritySpy = sinon.spy();
+      var higherPrioritySpy = sinon.spy();
 
-        // when
-        keyboard._keyHandler(e);
+      keyboard.addListener(500, lowerPrioritySpy);
+      keyboard.addListener(1000, higherPrioritySpy);
 
-        // then
-        expect(canvas.zoom()).to.be.above(1);
-      }));
+      var event = createKeyEvent(TEST_KEY);
 
+      // when
+      keyboard._keyHandler(event);
 
-      it('should handle regular plus in Firefox (US layout)', inject(function(canvas, keyboard) {
+      // then
+      expect(higherPrioritySpy).to.be.called;
+      expect(lowerPrioritySpy).to.be.called;
 
-        // given
-        var e = createKeyEvent(container, 61, true);
+    }));
 
-        // when
-        keyboard._keyHandler(e);
 
-        // then
-        expect(canvas.zoom()).to.be.above(1);
-      }));
+    it('should allow to add event listener by passing bare function', inject(function(keyboard) {
 
+      // given
+      var keyboardEventSpy = sinon.spy();
 
-      it('should handle regular plus in Firefox (german layout)', inject(function(canvas, keyboard) {
+      keyboard.addListener(keyboardEventSpy);
 
-        // given
-        var e = createKeyEvent(container, 171, true);
+      var event = createKeyEvent(TEST_KEY);
 
-        // when
-        keyboard._keyHandler(e);
+      // when
+      keyboard._keyHandler(event);
 
-        // then
-        expect(canvas.zoom()).to.be.above(1);
-      }));
+      // then
+      expect(keyboardEventSpy).to.be.called;
 
-    });
+    }));
 
 
-    describe('zoom out', function() {
+    it('should prevent default if listener returned true', inject(function(keyboard) {
 
-      it('should handle numpad minus', inject(function(canvas, keyboard) {
+      // given
+      var keyboardEventStub = sinon.stub().returns(true);
 
-        // given
-        var e = createKeyEvent(container, 109, true);
+      keyboard.addListener(keyboardEventStub);
 
-        // when
-        keyboard._keyHandler(e);
+      var event = createKeyEvent(TEST_KEY);
 
-        // then
-        expect(canvas.zoom()).to.be.below(1);
-      }));
+      // when
+      keyboard._keyHandler(event);
 
+      // then
+      expect(keyboardEventStub).to.be.called;
+      expect(event.defaultPrevented).to.be.true;
 
-      it('should handle regular minus', inject(function(canvas, keyboard) {
-
-        // given
-        var e = createKeyEvent(container, 189, true);
-
-        // when
-        keyboard._keyHandler(e);
-
-        // then
-        expect(canvas.zoom()).to.be.below(1);
-      }));
-
-
-      it('should handle regular minus in Firefox', inject(function(canvas, keyboard) {
-
-        // given
-        var e = createKeyEvent(container, 173, true);
-
-        // when
-        keyboard._keyHandler(e);
-
-        // then
-        expect(canvas.zoom()).to.be.below(1);
-      }));
-
-    });
-
-
-    describe('default zoom level', function() {
-
-      it('should handle numpad zero', inject(function(canvas, keyboard) {
-
-        // given
-        canvas.zoom(2.345);
-        var e = createKeyEvent(container, 96, true);
-
-        // when
-        keyboard._keyHandler(e);
-
-        // then
-        expect(canvas.zoom()).to.equal(1);
-      }));
-
-
-      it('should handle regular zero', inject(function(canvas, keyboard) {
-
-        // given
-        canvas.zoom(2.345);
-        var e = createKeyEvent(container, 48, true);
-
-        // when
-        keyboard._keyHandler(e);
-
-        // then
-        expect(canvas.zoom()).to.equal(1);
-      }));
-
-    });
-
-
-    describe('arrow keys', function() {
-
-      it('should handle left arrow', inject(function(canvas, keyboard) {
-
-        // given
-        var e = createKeyEvent(container, 37, true);
-
-        // when
-        keyboard._keyHandler(e);
-
-        // then
-        expect(canvas.viewbox().x).to.eql(-5);
-        expect(canvas.viewbox().y).to.eql(0);
-      }));
-
-
-      it('should handle right arrow', inject(function(canvas, keyboard) {
-
-        // given
-        var e = createKeyEvent(container, 39, true);
-
-        // when
-        keyboard._keyHandler(e);
-
-        // then
-        expect(canvas.viewbox().x).to.eql(5);
-        expect(canvas.viewbox().y).to.eql(0);
-      }));
-
-
-      it('should handle up arrow', inject(function(canvas, keyboard) {
-
-        // given
-        var e = createKeyEvent(container, 38, true);
-
-        // when
-        keyboard._keyHandler(e);
-
-        // then
-        expect(canvas.viewbox().x).to.eql(0);
-        expect(canvas.viewbox().y).to.eql(-5);
-      }));
-
-
-      it('should handle down arrow', inject(function(canvas, keyboard) {
-
-        // given
-        var e = createKeyEvent(container, 40, true);
-
-        // when
-        keyboard._keyHandler(e);
-
-        // then
-        expect(canvas.viewbox().x).to.eql(0);
-        expect(canvas.viewbox().y).to.eql(5);
-      }));
-
-
-      describe('configurability', function() {
-
-        it('should configure speed',
-          inject(function(canvas, keyboard, injector) {
-
-            // given
-            var keyboardConfig = injector.get('config.keyboard');
-
-            var keyDownEvent = createKeyEvent(container, 38, true);
-
-            // when
-            keyboardConfig.speed = 23; // plenty of fuel needed
-            keyboard._keyHandler(keyDownEvent);
-
-            // then
-            expect(canvas.viewbox().x).to.eql(0);
-            expect(canvas.viewbox().y).to.eql(-23);
-          })
-        );
-
-
-        it('should configure natural scrolling',
-          inject(function(canvas, keyboard, injector) {
-
-            // given
-            var keyboardConfig = injector.get('config.keyboard');
-
-            var keyDownEvent = createKeyEvent(container, 38, true),
-                keyUpEvent = createKeyEvent(container, 40, true);
-
-            // when
-            keyboardConfig.invertY = true;
-            keyboard._keyHandler(keyDownEvent);
-
-            // then
-            expect(canvas.viewbox().x).to.eql(0);
-            expect(canvas.viewbox().y).to.eql(5);
-
-
-            // but does up work, too?
-
-            // when
-            keyboard._keyHandler(keyUpEvent);
-
-            // then
-            expect(canvas.viewbox().x).to.eql(0);
-            expect(canvas.viewbox().y).to.eql(0);
-          })
-        );
-
-      });
-
-    });
+    }));
 
   });
 
