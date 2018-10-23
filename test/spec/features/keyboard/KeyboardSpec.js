@@ -7,7 +7,6 @@ import {
 import TestContainer from 'mocha-test-container-support';
 
 import modelingModule from 'lib/features/modeling';
-import editorActionsModule from 'lib/features/editor-actions';
 import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from '../../../util/KeyEvents';
@@ -18,8 +17,7 @@ describe('features/keyboard', function() {
   beforeEach(bootstrapDiagram({
     modules: [
       modelingModule,
-      keyboardModule,
-      editorActionsModule
+      keyboardModule
     ],
     canvas: {
       deferUpdate: false
