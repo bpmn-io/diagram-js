@@ -16,10 +16,10 @@ import keyboardModule from 'lib/features/keyboard';
 import { createKeyEvent } from 'test/util/KeyEvents';
 
 var KEYS = {
-  LEFT: [ 37 ],
-  UP: [ 38 ],
-  RIGHT: [ 39 ],
-  DOWN: [ 40 ],
+  LEFT: [ 'ArrowLeft', 'Left' ],
+  UP: [ 'ArrowUp', 'Up' ],
+  RIGHT: [ 'ArrowRight', 'Right' ],
+  DOWN: [ 'ArrowDown', 'Down' ],
 };
 
 

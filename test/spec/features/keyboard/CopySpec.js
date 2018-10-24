@@ -15,7 +15,7 @@ import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-var KEYS = [ 67 ];
+var KEYS = [ 'c', 'C' ];
 
 describe('features/keyboard - copy', function() {
 

@@ -16,8 +16,8 @@ import keyboardModule from 'lib/features/keyboard';
 import { createKeyEvent } from 'test/util/KeyEvents';
 
 var KEYS = {
-  Z: [ 90 ],
-  Y: [ 89 ],
+  Z: [ 'z', 'Z' ],
+  Y: [ 'y', 'y' ],
 };
 
 describe('features/keyboard - redo', function() {
