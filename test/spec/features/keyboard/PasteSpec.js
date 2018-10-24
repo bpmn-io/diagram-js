@@ -15,7 +15,7 @@ import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-var KEYS = [ 86 ];
+var KEYS = [ 'v', 'V' ];
 
 describe('features/keyboard - paste', function() {
 

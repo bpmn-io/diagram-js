@@ -15,7 +15,7 @@ import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-var KEYS = [ 46 ];
+var KEYS = [ 'Delete' ];
 
 describe('features/keyboard - remove selection', function() {
 
