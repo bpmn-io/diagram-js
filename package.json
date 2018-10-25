@@ -38,7 +38,6 @@
     "eslint-plugin-bpmn-io": "^0.6.0",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jquery": "^3.3.1",
-    "jsondiffpatch": "^0.3.11",
     "karma": "^3.1.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
