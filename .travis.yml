@@ -3,4 +3,4 @@ node_js: 'node'
 
 script:
   - COVERAGE=1 npm run all
-  - codecov
+  - npx codecov
