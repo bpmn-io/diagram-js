@@ -19,6 +19,7 @@ var KEYS = {
   ZOOM_DEFAULT: [ '0' ],
 };
 
+
 describe('features/keyboard - zoom', function() {
 
   var defaultDiagramConfig = {
@@ -32,15 +33,28 @@ describe('features/keyboard - zoom', function() {
     }
   };
 
+  var decisionTable = [{
+    desc: 'zoom in',
+    keys: KEYS.ZOOM_IN,
+    ctrlKey: true,
+    defaultZoom: 3,
+    zoom: 4
+  }, {
+    desc: 'zoom out',
+    keys: KEYS.ZOOM_OUT,
+    ctrlKey: true,
+    defaultZoom: 3,
+    zoom: 2.456
+  }, {
+    desc: 'zoom default',
+    keys: KEYS.ZOOM_DEFAULT,
+    ctrlKey: true,
+    defaultZoom: 3,
+    zoom: 1
+  }];
+
   beforeEach(bootstrapDiagram(defaultDiagramConfig));
 
-  /* eslint-disable no-multi-spaces */
-  var decisionTable = [
-    { desc: 'zoom in',      keys: KEYS.ZOOM_IN,      ctrlKey: true, defaultZoom: 3, zoom: 4 },
-    { desc: 'zoom out',     keys: KEYS.ZOOM_OUT,     ctrlKey: true, defaultZoom: 3, zoom: 2.456 },
-    { desc: 'zoom default', keys: KEYS.ZOOM_DEFAULT, ctrlKey: true, defaultZoom: 3, zoom: 1 },
-  ];
-  /* eslint-enable */
 
   forEach(decisionTable, function(testCase) {
 
@@ -51,12 +65,9 @@ describe('features/keyboard - zoom', function() {
         // given
         canvas.zoom(testCase.defaultZoom);
 
-        var event = createKeyEvent(
-          key,
-          {
-            ctrlKey: testCase.ctrlKey
-          }
-        );
+        var event = createKeyEvent(key, {
+          ctrlKey: testCase.ctrlKey
+        });
 
         // when
         keyboard._keyHandler(event);
@@ -64,7 +75,6 @@ describe('features/keyboard - zoom', function() {
         // then
         expect(canvas.zoom()).to.be.equal(testCase.zoom);
         expect(event.defaultPrevented).to.be.true;
-
       }));
 
     });
