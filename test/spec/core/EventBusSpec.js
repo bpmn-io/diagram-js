@@ -470,19 +470,25 @@ describe('core/EventBus', function() {
       // when
       eventBus.once('onceEvent', listener);
       eventBus.fire('onceEvent', { value: 'a' });
-      expect(listener).to.have.been.called;
 
-      // Should not be fired
-      listener.reset(); // Reset the count
+      // then
+      expect(listener).to.have.been.calledOnce;
+
+      // but when...
       eventBus.fire('onceEvent');
-      expect(listener).not.to.have.been.called;
 
-      // register again a listener
+      // then
+      // still only called once
+      expect(listener).to.have.been.calledOnce;
+
+      // but when...
+      // emitting with re-registered listener
       eventBus.once('onceEvent', listener);
       eventBus.fire('onceEvent');
 
+      // then
       // should be fired again
-      expect(listener).to.have.been.called;
+      expect(listener).to.have.been.calledTwice;
     });
 
 
