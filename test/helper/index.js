@@ -7,7 +7,6 @@ import {
 import TestContainer from 'mocha-test-container-support';
 
 import Diagram from '../../lib/Diagram';
-import { event as domEvent } from 'min-dom';
 
 var OPTIONS, DIAGRAM_JS;
 
@@ -160,30 +159,3 @@ export function insertCSS(name, css) {
 export function getDiagramJS() {
   return DIAGRAM_JS;
 }
-
-function DomEventTracker() {
-
-  this.install = function() {
-
-    domEvent.__bind = domEvent.bind;
-    domEvent.__unbind = domEvent.__unbind || domEvent.unbind;
-
-    domEvent.bind = function(el, type, fn, capture) {
-      el.$$listenerCount = (el.$$listenerCount || 0) + 1;
-      return domEvent.__bind(el, type, fn, capture);
-    };
-
-    domEvent.unbind = function(el, type, fn, capture) {
-      el.$$listenerCount = (el.$$listenerCount || 0) -1;
-      return domEvent.__unbind(el, type, fn, capture);
-    };
-  };
-
-  this.uninstall = function() {
-    domEvent.bind = domEvent.__bind;
-    domEvent.unbind = domEvent.__unbind;
-  };
-}
-
-
-export var DomMocking = new DomEventTracker();

@@ -19,7 +19,7 @@ var KEYS = {
   LEFT: [ 'ArrowLeft', 'Left' ],
   UP: [ 'ArrowUp', 'Up' ],
   RIGHT: [ 'ArrowRight', 'Right' ],
-  DOWN: [ 'ArrowDown', 'Down' ],
+  DOWN: [ 'ArrowDown', 'Down' ]
 };
 
 
@@ -41,14 +41,31 @@ describe('features/keyboard - move canvas', function() {
 
   describe('with default config', function() {
 
-    /* eslint-disable no-multi-spaces */
-    var decisionTable = [
-      { desc: 'left arrow',            keys: KEYS.LEFT,  shiftKey: false, x: -50, y: 0 },
-      { desc: 'right arrow',           keys: KEYS.RIGHT, shiftKey: false, x: 50,  y: 0 },
-      { desc: 'up arrow',              keys: KEYS.UP,    shiftKey: false, x: 0,   y: -50 },
-      { desc: 'down arrow',            keys: KEYS.DOWN,  shiftKey: false, x: 0,   y: 50 }
-    ];
-    /* eslint-enable */
+    var decisionTable = [{
+      desc: 'left arrow',
+      keys: KEYS.LEFT,
+      shiftKey: false,
+      x: -50,
+      y: 0
+    }, {
+      desc: 'right arrow',
+      keys: KEYS.RIGHT,
+      shiftKey: false,
+      x: 50,
+      y: 0
+    }, {
+      desc: 'up arrow',
+      keys: KEYS.UP,
+      shiftKey: false,
+      x: 0,
+      y: -50
+    }, {
+      desc: 'down arrow',
+      keys: KEYS.DOWN,
+      shiftKey: false,
+      x: 0,
+      y: 50
+    }];
 
     forEach(decisionTable, function(testCase) {
 
@@ -97,7 +114,6 @@ describe('features/keyboard - move canvas', function() {
         // then
         expect(canvas.viewbox().x).to.eql(0);
         expect(canvas.viewbox().y).to.eql(23);
-
       });
     });
 
