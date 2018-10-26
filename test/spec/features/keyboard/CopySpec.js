@@ -10,9 +10,9 @@ import {
 } from 'min-dash';
 
 import copyPasteModule from 'lib/features/copy-paste';
-import editorActionsModule from 'lib/features/editor-actions';
-import keyboardModule from 'lib/features/keyboard';
 import modelingModule from 'lib/features/modeling';
+import keyboardModule from 'lib/features/keyboard';
+import editorActionsModule from 'lib/features/editor-actions';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
@@ -28,6 +28,7 @@ describe('features/keyboard - copy', function() {
       copyPasteModule,
       modelingModule,
       keyboardModule,
+      modelingModule,
       editorActionsModule
     ],
     canvas: {
@@ -35,17 +36,19 @@ describe('features/keyboard - copy', function() {
     }
   };
 
-  var decisionTable = [{
-    desc: 'should call copy',
-    keys: KEYS,
-    ctrlKey: true,
-    called: true
-  }, {
-    desc: 'should not call copy',
-    keys: KEYS,
-    ctrlKey: false,
-    called: false
-  }];
+  var decisionTable = [
+    {
+      desc: 'should call copy',
+      keys: KEYS,
+      ctrlKey: true,
+      called: true
+    }, {
+      desc: 'should not call copy',
+      keys: KEYS,
+      ctrlKey: false,
+      called: false
+    }
+  ];
 
   beforeEach(bootstrapDiagram(defaultDiagramConfig));
 

@@ -248,6 +248,7 @@ describe('features/keyboard', function() {
 
 });
 
+
 // helpers //////////
 
 function dispatchKeyboardEvent(target, type) {
