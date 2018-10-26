@@ -7,6 +7,7 @@ import {
 
 import editorActionsModule from 'lib/features/editor-actions';
 import keyboardMoveModule from 'lib/navigation/keyboard-move';
+import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
 import modelingModule from 'lib/features/modeling';
 import customRulesModule from './rules';
 
@@ -322,6 +323,33 @@ describe('features/editor-actions', function() {
 
 
 describe('feature/editor-actions - actions', function() {
+
+  describe('moveSelection', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        keyboardMoveSelectionModule,
+        modelingModule
+      ]
+    }));
+
+    it('should trigger action', inject(function(keyboardMoveSelection, editorActions) {
+
+      // given
+      var moveSpy = sinon.spy(keyboardMoveSelection, 'moveSelection');
+
+      // when
+      editorActions.trigger('moveSelection', {
+        direction: 'left',
+        accelerated: false
+      });
+
+      // then
+      expect(moveSpy).to.have.been.calledOnce;
+    }));
+
+  });
 
   describe('moveCanvas', function() {
 
