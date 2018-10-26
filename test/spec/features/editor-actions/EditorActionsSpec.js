@@ -6,13 +6,20 @@ import {
 } from 'test/TestHelper';
 
 import editorActionsModule from 'lib/features/editor-actions';
+import keyboardMoveModule from 'lib/navigation/keyboard-move';
 import modelingModule from 'lib/features/modeling';
 import customRulesModule from './rules';
 
 
 describe('features/editor-actions', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ editorActionsModule, modelingModule, customRulesModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      editorActionsModule,
+      modelingModule,
+      customRulesModule
+    ]
+  }));
 
 
   var rootShape, parentShape, childShape, childShape2, connection;
@@ -93,21 +100,21 @@ describe('features/editor-actions', function() {
   describe('register actions', function() {
 
     it('should register a list of actions', inject(function(editorActions) {
-      // given
-      var numOfActions = editorActions.length();
 
       // when
       editorActions.register({
-        'foo': function() {
+        foo: function() {
           return 'bar';
         },
-        'bar': function() {
+        bar: function() {
           return 'foo';
         }
       });
 
       // then
-      expect(editorActions.length()).to.equal(numOfActions + 2);
+      var actions = editorActions.getActions();
+
+      expect(actions).to.include.members([ 'foo', 'bar' ]);
     }));
 
 
@@ -164,16 +171,23 @@ describe('features/editor-actions', function() {
 
   describe('utilities', function() {
 
-    it('listActions', inject(function(editorActions) {
+    it('#getActions()', inject(function(editorActions) {
+
       // when
-      var actionsLength = editorActions.length();
+      var actions = editorActions.getActions();
 
       // then
-      expect(actionsLength).to.equal(8);
+      expect(actions).to.eql([
+        'undo',
+        'redo',
+        'zoom',
+        'removeSelection'
+      ]);
     }));
 
 
-    it('isRegistered -> true', inject(function(editorActions) {
+    it('#isRegistered(action)', inject(function(editorActions) {
+
       // when
       var undo = editorActions.isRegistered('undo'),
           foo = editorActions.isRegistered('foo');
@@ -301,6 +315,39 @@ describe('features/editor-actions', function() {
       });
 
     });
+
+  });
+
+});
+
+
+describe('feature/editor-actions - actions', function() {
+
+  describe('moveCanvas', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        keyboardMoveModule,
+        modelingModule
+      ]
+    }));
+
+
+    it('should trigger action', inject(function(keyboardMove, editorActions) {
+
+      // given
+      var moveSpy = sinon.spy(keyboardMove, 'moveCanvas');
+
+      // when
+      editorActions.trigger('moveCanvas', {
+        direction: 'left',
+        speed: 10
+      });
+
+      // then
+      expect(moveSpy).to.have.been.calledOnce;
+    }));
 
   });
 
