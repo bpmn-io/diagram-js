@@ -47,6 +47,7 @@ describe('navigation/keyboard-move', function() {
 
   });
 
+
   describe('arrow bindings', function() {
 
     var KEYS = {
