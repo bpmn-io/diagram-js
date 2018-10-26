@@ -10,9 +10,9 @@ import {
 } from 'min-dash';
 
 import copyPasteModule from 'lib/features/copy-paste';
-import editorActionsModule from 'lib/features/editor-actions';
-import keyboardModule from 'lib/features/keyboard';
 import modelingModule from 'lib/features/modeling';
+import keyboardModule from 'lib/features/keyboard';
+import editorActionsModule from 'lib/features/editor-actions';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
@@ -27,8 +27,9 @@ describe('features/keyboard - paste', function() {
     modules: [
       copyPasteModule,
       modelingModule,
+      editorActionsModule,
       keyboardModule,
-      editorActionsModule
+      modelingModule
     ],
     canvas: {
       deferUpdate: false

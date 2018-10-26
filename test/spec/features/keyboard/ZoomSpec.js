@@ -7,16 +7,15 @@ import {
   forEach
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
 import editorActionsModule from 'lib/features/editor-actions';
-import keyboardModule from 'lib/features/keyboard';
 import zoomScrollModule from 'lib/navigation/zoomscroll';
+import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
 var KEYS = {
-  ZOOM_IN: [ '+', 'Add', '=' ],
-  ZOOM_OUT: [ '-', 'Subtract', '_' ],
+  ZOOM_IN: [ '+', 'Add' ],
+  ZOOM_OUT: [ '-', 'Subtract' ],
   ZOOM_DEFAULT: [ '0' ],
 };
 
@@ -25,7 +24,6 @@ describe('features/keyboard - zoom', function() {
 
   var defaultDiagramConfig = {
     modules: [
-      modelingModule,
       keyboardModule,
       editorActionsModule,
       zoomScrollModule
