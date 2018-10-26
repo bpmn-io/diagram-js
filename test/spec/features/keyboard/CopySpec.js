@@ -9,9 +9,10 @@ import {
   forEach
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
+import copyPasteModule from 'lib/features/copy-paste';
 import editorActionsModule from 'lib/features/editor-actions';
 import keyboardModule from 'lib/features/keyboard';
+import modelingModule from 'lib/features/modeling';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
@@ -24,6 +25,7 @@ describe('features/keyboard - copy', function() {
 
   var defaultDiagramConfig = {
     modules: [
+      copyPasteModule,
       modelingModule,
       keyboardModule,
       editorActionsModule

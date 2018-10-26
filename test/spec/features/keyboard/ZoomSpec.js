@@ -10,6 +10,7 @@ import {
 import modelingModule from 'lib/features/modeling';
 import editorActionsModule from 'lib/features/editor-actions';
 import keyboardModule from 'lib/features/keyboard';
+import zoomScrollModule from 'lib/navigation/zoomscroll';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
@@ -26,7 +27,8 @@ describe('features/keyboard - zoom', function() {
     modules: [
       modelingModule,
       keyboardModule,
-      editorActionsModule
+      editorActionsModule,
+      zoomScrollModule
     ],
     canvas: {
       deferUpdate: false
