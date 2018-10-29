@@ -523,6 +523,31 @@ describe('core/EventBus', function() {
       expect(listener1).not.to.have.been.called;
     });
 
+    it('should call all listeners atleast once', function() {
+      // given
+      var listener = sinon.spy();
+      var listener2 = sinon.spy();
+
+      eventBus.once('foo', listener);
+      eventBus.on('foo', listener2);
+
+      // when
+      eventBus.fire('foo');
+
+      // then
+      expect(listener).to.have.been.calledOnce;
+      expect(listener2).to.have.been.calledOnce;
+
+      // but when...
+      eventBus.fire('foo');
+
+      // then
+      // still only called once
+      expect(listener).to.have.been.calledOnce;
+      // should be called again
+      expect(listener2).to.have.been.calledTwice;
+
+    });
   });
 
 
