@@ -6,7 +6,7 @@ import {
 import selectionModule from 'lib/features/selection';
 
 import {
-  query as domQuery
+  matches
 } from 'min-dom';
 
 
@@ -63,9 +63,9 @@ describe('features/selection/SelectionVisuals', function() {
 
       // then
       var gfx = canvas.getGraphics(connection),
-          outline = domQuery('.djs-outline', gfx);
+          hasOutline = matches(gfx, '.selected');
 
-      expect(outline).to.exist;
+      expect(hasOutline).to.be.true;
     }));
 
   });
