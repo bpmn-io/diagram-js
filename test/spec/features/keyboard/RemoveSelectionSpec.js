@@ -17,7 +17,10 @@ import { createKeyEvent } from 'test/util/KeyEvents';
 
 var spy = sinon.spy;
 
-var KEYS = [ 'Delete' ];
+var KEYS = [
+  'Delete',
+  'Del'
+];
 
 
 describe('features/keyboard - remove selection', function() {
@@ -38,19 +41,21 @@ describe('features/keyboard - remove selection', function() {
 
   forEach(KEYS, function(key) {
 
-    it('should call remove selection', inject(function(keyboard, editorActions) {
+    it('should call remove selection when ' + key + ' is pressed',
+      inject(function(keyboard, editorActions) {
 
-      // given
-      var removeSelectionSpy = spy(editorActions, 'trigger');
+        // given
+        var removeSelectionSpy = spy(editorActions, 'trigger');
 
-      var event = createKeyEvent(key);
+        var event = createKeyEvent(key);
 
-      // when
-      keyboard._keyHandler(event);
+        // when
+        keyboard._keyHandler(event);
 
-      // then
-      expect(removeSelectionSpy.calledWith('removeSelection')).to.be.true;
-    }));
+        // then
+        expect(removeSelectionSpy.calledWith('removeSelection')).to.be.true;
+      })
+    );
 
   });
 
