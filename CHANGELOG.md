@@ -8,22 +8,27 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 3.0.0
 
-* `FEAT`: add configurable minimum and maximum scale for `ContextPad` ([#719](https://github.com/bpmn-io/bpmn-js/issues/719))
-* `FEAT`: add ability to configure `PopupMenu` scaling ([#861](https://github.com/bpmn-io/bpmn-js/issues/861))
-* `FEAT`: add ability to override default `Keyboard` listeners with priority feature ([#226](https://github.com/bpmn-io/diagram-js/issues/226))
-* `FEAT`: move selected elements with keyboard arrows. Use `MoveSelection` feature for new behavior ([#376](https://github.com/bpmn-io/bpmn-js/issues/376), [9e62bdd](https://github.com/bpmn-io/diagram-js/commit/9e62bdd0823ee64ca6da2548cc10667b9a02dff0))
-* `FIX`: automatically resize parent elements when their children are expanded or replaced ([#786](https://github.com/bpmn-io/bpmn-js/issues/786), [#287](https://github.com/bpmn-io/diagram-js/issues/287))
-* `FIX`: drop implicit feature dependencies in `EditorActions` ([a9089ad](https://github.com/bpmn-io/diagram-js/commit/a9089ade487ff4185ece6fd8c68856b103345b3b))
-* `FEAT`: add a clear way to hook into editor actions (both for inspection and registration) via the `editorAction.init` event. This allows interested services to work with editor actions, independent from the actual module registration order ([a9089ad](https://github.com/bpmn-io/diagram-js/commit/a9089ade487ff4185ece6fd8c68856b103345b3b))
-* `FEAT`: ensure that `Keyboard` shortcuts are only bound if the required editor action exists. This makes it possible to use the keyboard independent from editor action or action implementing services ([aa308fd](https://github.com/bpmn-io/diagram-js/commit/aa308fd46f4b7958999bf44ca8bb3ab347723990))
-* `FEAT`: expose `MoveSelection` feature. This is important in environments where editor actions are triggered programmatically rather than via keyboard events ([b4cb648](https://github.com/bpmn-io/diagram-js/commit/b4cb648a72fa90ca23d5a9971d3e20aedf45aa53))
+* `FEAT`: make `ContextPad` accessible and scaling configurable ([#282](https://github.com/bpmn-io/diagram-js/pull/282))
+* `FEAT`: make `PopupMenu` accessible and scaling configurable ([#284](https://github.com/bpmn-io/diagram-js/pull/284))
+* `FEAT`: allow `Keyboard` listener overrides using priorities ([#226](https://github.com/bpmn-io/diagram-js/issues/226))
+* `FEAT`: add ability to move selected elements with keyboard arrows ([`9e62bdd`](https://github.com/bpmn-io/diagram-js/commit/9e62bdd0823ee64ca6da2548cc10667b9a02dff0))
+* `FEAT`: require `Ctrl/Cmd` modififer to move canvas via keyboard arrows ([`571efb9`](https://github.com/bpmn-io/diagram-js/commit/571efb914466ce00f357e308ba6238def1c7d8b6))
+* `FEAT`: make `KeyboardMove` and `KeyboardMoveSelection` speed configurable
+* `FEAT`: speed up moving elements / canvas using keyboard errors if `SHIFT` modifier is pressed
+* `FEAT`: add `editorAction.init` event to register editor actions ([`a9089ad`](https://github.com/bpmn-io/diagram-js/commit/a9089ade487ff4185ece6fd8c68856b103345b3b))
+* `FEAT`: only bind `Keyboard` shortcuts for existing editor actions ([`aa308fd`](https://github.com/bpmn-io/diagram-js/commit/aa308fd46f4b7958999bf44ca8bb3ab347723990))
+* `FEAT`: rely on rules during `GlobalConnect` start ([`1efb277`](https://github.com/bpmn-io/diagram-js/commit/1efb277536fa7ec8be574746326c15cb1bfa507a))
+* `FEAT`: expose `KeyboardEvent` to keyboard listeners instead of `(keyCode, event)` ([`94b5e26`](https://github.com/bpmn-io/diagram-js/commit/94b5e262d0db3ef3a8f250e3d39196cc6303a5cb))
+* `FEAT`: automatically resize parent elements when children are expanded or replaced ([#287](https://github.com/bpmn-io/diagram-js/issues/287))
+* `CHORE`: drop implicit feature dependencies in `EditorActions` ([`a9089ad`](https://github.com/bpmn-io/diagram-js/commit/a9089ade487ff4185ece6fd8c68856b103345b3b))
 
 ### Breaking Changes
 
-* `FEAT`: remove `GlobalConnect#registerProvider`. Create a rule for `connection.start` to control whether it is allowed to start connection with `GlobalConnect` ([1efb277](https://github.com/bpmn-io/diagram-js/commit/1efb277536fa7ec8be574746326c15cb1bfa507a))
-* `FEAT`: use `EventBus` to pass events to `Keyboard` listeners. Instead of `(keyCode, event)` the listeners will receive now an object with `{KeyboardEvent} keyEvent` as the only property ([94b5e26](https://github.com/bpmn-io/diagram-js/commit/94b5e262d0db3ef3a8f250e3d39196cc6303a5cb)).
-* `FEAT`: remove listeners property from `Keyboard` lifecycle events. Make sure to not use it anymore ([4d72e38](https://github.com/bpmn-io/diagram-js/commit/4d72e386e2b734edc0fb2d77907b0e3ab6efead6))
-* `FEAT`: use `KeyboardMove` to move canvas with arrows + `Ctrl/Cmd`. Use `config.keyboardMove.moveSpeed` and `config.keyboardMove.moveSpeedAccelerated` to configure speed without and with `Shift` pressed respectively ([571efb9](https://github.com/bpmn-io/diagram-js/commit/571efb914466ce00f357e308ba6238def1c7d8b6))
+* `GlobalConnect#registerProvider` got removed without replacement. Implement a `connection.start` rule to control whether it is allowed to start connection with `GlobalConnect` ([`1efb277`](https://github.com/bpmn-io/diagram-js/commit/1efb277536fa7ec8be574746326c15cb1bfa507a))
+* The `Keyboard` now passes the `KeyboardEvent` to listeners as the only argument rather than `(keyCode, event)` ([`94b5e26`](https://github.com/bpmn-io/diagram-js/commit/94b5e262d0db3ef3a8f250e3d39196cc6303a5cb))
+* Removed the `listeners` property from `Keyboard` lifecycle events ([`4d72e38`](https://github.com/bpmn-io/diagram-js/commit/4d72e386e2b734edc0fb2d77907b0e3ab6efead6))
+* Moving the canvas via arrow keys now requires `Ctrl/Cmd` modifiers to be pressed; without the modifiers selected elements will be moved, if the `KeyboardMoveSelection` feature is provided ([`571efb9`](https://github.com/bpmn-io/diagram-js/commit/571efb914466ce00f357e308ba6238def1c7d8b6))
+* `EditorActions` does not implicitly pull in feature dependencies anymore, ensure you include all desired features with your editor ([`a9089ad`](https://github.com/bpmn-io/diagram-js/commit/a9089ade487ff4185ece6fd8c68856b103345b3b))
 
 ## 2.6.1
 
@@ -71,9 +76,11 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 2.0.0
 
+* `FEAT`: refactor popup menu to allow multiple providers and simplify API ([`b1852e1d`](https://github.com/bpmn-io/diagram-js/pull/254/commits/b1852e1d71f67bd36ae1eb02748d2d0cbf124625))
+
 ### Breaking Changes
 
-* `FEAT`: refactor popup menu to allow multiple providers and simplify API ([`b1852e1d`](https://github.com/bpmn-io/diagram-js/pull/254/commits/b1852e1d71f67bd36ae1eb02748d2d0cbf124625))
+* The `PopupMenu` API got rewritten, cf. [`b1852e1d`](https://github.com/bpmn-io/diagram-js/pull/254/commits/b1852e1d71f67bd36ae1eb02748d2d0cbf124625)
 
 ## 1.5.0
 
@@ -106,15 +113,19 @@ _This release accidently introduced backwards incompatible changes. Unpublished;
 
 ## 1.0.0
 
+* `CHORE`: convert code base to ES modules ([`e26b034`](https://github.com/bpmn-io/diagram-js/commit/e26b034bb6d60a8e0e3a9669d111124cb189a9b3))
+
 ### Breaking Changes
 
-* `CHORE`: convert code base to ES modules. You must now configure a module transpiler such as Babel or Webpack to handle ES module imports and exports. ([`e26b034`](https://github.com/bpmn-io/diagram-js/commit/e26b034bb6d60a8e0e3a9669d111124cb189a9b3))
+* You must now configure a module transpiler such as Babel or Webpack to handle ES module imports and exports.
 
 ## 0.31.0
 
+* `FEAT`: remove `EventBus.Event` in favor of `EventBus#createEvent` API ([`91899cf6`](https://github.com/bpmn-io/diagram-js/commit/91899cf6d2e9100c712aa191cf0d3829335cfeb3))
+
 ### Breaking Changes
 
-* `FEAT`: remove `EventBus.Event` in favor of `EventBus#createEvent` API ([`91899cf6`](https://github.com/bpmn-io/diagram-js/commit/91899cf6d2e9100c712aa191cf0d3829335cfeb3))
+* Use `EventBus#createEvent` to instantiate events
 
 ## 0.30.0
 
