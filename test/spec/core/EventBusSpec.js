@@ -44,6 +44,21 @@ describe('core/EventBus', function() {
     });
 
 
+    it('should register multiple', function() {
+
+      // given
+      var listener = sinon.spy();
+
+      eventBus.on([ 'foo', 'foo' ], listener);
+
+      // when
+      eventBus.fire({ type: 'foo' });
+
+      // then
+      expect(listener).to.have.been.calledTwice;
+    });
+
+
     it('should stopPropagation', function() {
 
       // given
@@ -135,6 +150,7 @@ describe('core/EventBus', function() {
       });
 
     });
+
 
     describe('passing context', function() {
       function Dog() {}
@@ -521,6 +537,100 @@ describe('core/EventBus', function() {
 
       // then
       expect(listener1).not.to.have.been.called;
+    });
+
+
+    it('should call listeners after once listener', function() {
+
+      // given
+      var listenerBefore = sinon.spy();
+      var listenerOnce = sinon.spy();
+      var listenerAfter = sinon.spy();
+
+      eventBus.on('foo', listenerBefore);
+      eventBus.once('foo', listenerOnce);
+      eventBus.on('foo', listenerAfter);
+
+      // when
+      eventBus.fire('foo');
+
+      // then
+      expect(listenerBefore).to.have.been.calledOnce;
+      expect(listenerOnce).to.have.been.calledOnce;
+      expect(listenerAfter).to.have.been.calledOnce;
+
+      // but when...
+      eventBus.fire('foo');
+
+      // then
+      // still only called once
+      expect(listenerOnce).to.have.been.calledOnce;
+
+      // should be called again
+      expect(listenerBefore).to.have.been.calledTwice;
+      expect(listenerAfter).to.have.been.calledTwice;
+    });
+
+
+    describe('adding listener during <emit>', function() {
+
+      it('should call lower priority listener', function() {
+
+        // given
+        var listenerAdded = sinon.spy();
+
+        var listenerOnce = sinon.spy(function() {
+          eventBus.once('foo', 500, listenerAdded);
+        });
+
+        eventBus.once('foo', listenerOnce);
+
+        // when
+        eventBus.fire('foo');
+
+        // then
+        expect(listenerOnce).to.have.been.calledOnce;
+        expect(listenerAdded).to.have.been.calledOnce;
+
+        // but when...
+        eventBus.fire('foo');
+
+        // then
+        // still only called once
+        expect(listenerOnce).to.have.been.calledOnce;
+        expect(listenerAdded).to.have.been.calledOnce;
+      });
+
+
+      it('should NOT call higher priority listener', function() {
+
+        // given
+        var listenerAdded = sinon.spy();
+
+        var listenerOnce = sinon.spy(function() {
+          eventBus.once('foo', 5000, listenerAdded);
+        });
+
+        eventBus.once('foo', listenerOnce);
+
+        // when
+        eventBus.fire('foo');
+
+        // then
+        expect(listenerOnce).to.have.been.calledOnce;
+        expect(listenerAdded).not.to.have.been.called;
+
+        // but when...
+        eventBus.fire('foo');
+
+        // then
+        // still only called once
+        expect(listenerOnce).to.have.been.calledOnce;
+
+        // called once now, too
+        expect(listenerAdded).to.have.been.calledOnce;
+      });
+
     });
 
   });
