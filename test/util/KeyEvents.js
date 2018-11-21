@@ -3,26 +3,21 @@ import {
   isString
 } from 'min-dash';
 
-export function createKeyEvent(key, modifiers, target) {
-
+/**
+ * Create a fake key event for testing purposes.
+ *
+ * @param {String|Number} key the key or keyCode/charCode
+ * @param {Object} [attrs]
+ *
+ * @return {Event}
+ */
+export function createKeyEvent(key, attrs) {
   var event = document.createEvent('Events') || new document.defaultView.CustomEvent('keyEvent');
 
-  var options = modifiers || {};
+  // init and mark as bubbles / cancelable
+  event.initEvent('keydown', false, true);
 
-  if (isString(key)) {
-    options.key = key;
-  }
+  var keyAttrs = isString(key) ? { key: key } : { keyCode: key, which: key };
 
-  options.keyCode = key;
-  options.which = key;
-  options.target = target || document;
-  options.preventDefault = preventDefault;
-
-  return assign({}, event, options);
-}
-
-// helpers //////
-
-function preventDefault() {
-  this.defaultPrevented = true;
+  return assign(event, keyAttrs, attrs || {});
 }

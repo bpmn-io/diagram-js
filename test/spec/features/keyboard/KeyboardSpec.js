@@ -149,10 +149,8 @@ describe('features/keyboard', function() {
         var inputField = document.createElement('input');
         testDiv.appendChild(inputField);
 
-        var event = createKeyEvent(TEST_KEY, {}, inputField);
-
         // when
-        keyboard._keyHandler(event);
+        keyboard._keyHandler({ key: TEST_KEY, target: inputField });
 
         // then
         expect(eventBusSpy).to.not.be.called;
@@ -240,6 +238,7 @@ describe('features/keyboard', function() {
 
         // then
         expect(keyboardEventStub).to.be.called;
+
         expect(event.defaultPrevented).to.be.true;
       }
     ));
