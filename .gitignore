@@ -6,4 +6,3 @@ coverage/
 .DS_Store
 .*.swp
 .*.swo
-package-lock.json
