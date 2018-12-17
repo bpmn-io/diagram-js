@@ -277,6 +277,24 @@ describe('features/copy-paste', function() {
         expect(parentShape.children).to.have.length(2);
       }));
 
+      it('should paste with labels', inject(function(copyPaste, modeling) {
+        // given
+        modeling.createLabel(childShape, { x: 160, y: 145 });
+
+        // when
+        copyPaste.copy([ childShape ]);
+        copyPaste.paste({
+          element: parentShape,
+          point: {
+            x: 900,
+            y: 350
+          }
+        });
+
+        // then
+        // child shape + label
+        expect(parentShape.children).to.have.length(2);
+      }));
 
       describe('rule integration', function() {
 
