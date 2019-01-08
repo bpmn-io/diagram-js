@@ -46,7 +46,7 @@ module.exports = function(karma) {
       [suite]: [ 'webpack' ]
     },
 
-    reporters: [ 'spec' ].concat(coverage ? 'coverage' : []),
+    reporters: [ 'progress' ].concat(coverage ? 'coverage' : []),
 
     browsers: browsers,
 
