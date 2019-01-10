@@ -1,7 +1,7 @@
-import Diagram from 'lib/Diagram';
+import Diagram from '../..';
 
 
-describe('diagram', function() {
+describe('Diagram', function() {
 
   var container;
 

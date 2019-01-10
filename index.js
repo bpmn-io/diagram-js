@@ -1,1 +1,1 @@
-module.exports = require('./lib/Diagram');
+export { default } from './lib/Diagram';
