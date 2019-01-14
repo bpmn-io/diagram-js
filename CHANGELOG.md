@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.1.0
+
+* `FIX`: don't swallow event listeners on `EventBus#only` ([#293](https://github.com/bpmn-io/diagram-js/issues/293))
+* `CHORE`: rework `EventBus` internals, fixing various issues ([#308](https://github.com/bpmn-io/diagram-js/pull/308)
+
 ## 3.0.2
 
 * `FIX`: make main export an ES module
