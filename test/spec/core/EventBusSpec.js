@@ -583,6 +583,41 @@ describe('core/EventBus', function() {
       expect(listener2).to.have.been.called;
     });
 
+
+    it('should not call listener removed in previous listener\'s callback', function() {
+
+      // given
+      var eventName = 'foo';
+
+      var listener1,
+          listener2 = sinon.spy();
+
+      listener1 = sinon.spy(function() {
+        eventBus.off(eventName, listener2);
+        eventBus.off(eventName, listener1);
+      });
+
+      eventBus.on(eventName, listener1);
+      eventBus.on(eventName, listener2);
+
+      // when
+      eventBus.fire({ type: eventName });
+
+      // then
+      expect(listener1).to.be.calledOnce;
+      expect(listener2).to.have.not.been.called;
+
+      // when
+      listener1.resetHistory();
+      listener2.resetHistory();
+
+      eventBus.fire({ type: eventName });
+
+      // then
+      expect(listener1).to.have.not.been.called;
+      expect(listener2).to.have.not.been.called;
+    });
+
   });
 
 
