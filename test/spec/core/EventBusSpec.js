@@ -80,291 +80,410 @@ describe('core/EventBus', function() {
     });
 
 
-    describe('return value', function() {
+    it('should fire event by name', function() {
 
-      it('should be undefined if no listeners', function() {
+      // given
+      var listener = sinon.spy();
 
-        // when
-        var returnValue = eventBus.fire('foo');
+      // when
+      eventBus.on('foo', listener);
+      eventBus.fire('foo');
 
-        // then
-        expect(returnValue).not.to.exist;
-      });
+      expect(listener).to.have.been.called;
+    });
 
-
-      it('should be undefined on event if no listeners', function() {
-
-        // given
-        var event = eventBus.createEvent();
-
-        event.init({ type: 'foo' });
-
-        // when
-        eventBus.fire(event);
-
-        // then
-        expect(event).not.to.have.property('returnValue');
-      });
+  });
 
 
-      it('should be true with non-acting listener', function() {
+  describe('handle multiple events', function() {
 
-        // given
-        eventBus.on('foo', function(event) { });
+    it('should register to multiple events', function() {
 
-        // when
-        var returnValue = eventBus.fire('foo');
+      // given
+      var listener1 = sinon.spy();
 
-        // then
-        expect(returnValue).not.to.exist;
-      });
+      eventBus.on([ 'foo', 'bar' ], listener1);
 
+      // when
+      eventBus.fire({ type: 'foo' });
 
-      it('should be false with listener preventing event default', function() {
-
-        // given
-        eventBus.on('foo', function(event) {
-          event.preventDefault();
-        });
-
-        // when
-        var returnValue = eventBus.fire('foo');
-
-        // then
-        expect(returnValue).to.be.false;
-      });
-
-
-      it('should be undefined with listener stopping propagation', function() {
-
-        // given
-        eventBus.on('foo', function(event) {
-          event.stopPropagation();
-        });
-
-        // when
-        var returnValue = eventBus.fire('foo');
-
-        // then
-        expect(returnValue).not.to.exist;
-      });
-
+      // then
+      expect(listener1).to.have.been.called;
     });
 
 
-    describe('passing context', function() {
-      function Dog() {}
+    it('should remove multiple listeners', function() {
 
-      Dog.prototype.bark = function(msg) {
-        return msg || 'WOOF WOOF';
+      // given
+      var listener1 = sinon.spy();
+
+      eventBus.on([ 'foo', 'bar' ], listener1);
+      eventBus.off([ 'foo', 'bar' ], listener1);
+
+      // when
+      eventBus.fire({ type: 'foo' });
+      eventBus.fire({ type: 'bar' });
+
+      // then
+      expect(listener1).not.to.have.been.called;
+    });
+
+  });
+
+
+  describe('handle once listener', function() {
+
+    it('should call listeners after once listener', function() {
+
+      // given
+      var listenerBefore = sinon.spy();
+      var listenerOnce = sinon.spy();
+      var listenerAfter = sinon.spy();
+
+      eventBus.on('foo', listenerBefore);
+      eventBus.once('foo', listenerOnce);
+      eventBus.on('foo', listenerAfter);
+
+      // when
+      eventBus.fire('foo');
+
+      // then
+      expect(listenerBefore).to.have.been.calledOnce;
+      expect(listenerOnce).to.have.been.calledOnce;
+      expect(listenerAfter).to.have.been.calledOnce;
+
+      // but when...
+      eventBus.fire('foo');
+
+      // then
+      // still only called once
+      expect(listenerOnce).to.have.been.calledOnce;
+
+      // should be called again
+      expect(listenerBefore).to.have.been.calledTwice;
+      expect(listenerAfter).to.have.been.calledTwice;
+    });
+
+
+    it('should call once listener only once', function() {
+
+      // given
+      var listener = sinon.spy();
+
+      // when
+      eventBus.once('onceEvent', listener);
+      eventBus.fire('onceEvent', { value: 'a' });
+
+      // then
+      expect(listener).to.have.been.calledOnce;
+
+      // but when...
+      eventBus.fire('onceEvent');
+
+      // then
+      // still only called once
+      expect(listener).to.have.been.calledOnce;
+
+      // but when...
+      // emitting with re-registered listener
+      eventBus.once('onceEvent', listener);
+      eventBus.fire('onceEvent');
+
+      // then
+      // should be fired again
+      expect(listener).to.have.been.calledTwice;
+    });
+
+  });
+
+
+  describe('return value', function() {
+
+    it('should be undefined if no listeners', function() {
+
+      // when
+      var returnValue = eventBus.fire('foo');
+
+      // then
+      expect(returnValue).not.to.exist;
+    });
+
+
+    it('should be undefined on event if no listeners', function() {
+
+      // given
+      var event = eventBus.createEvent();
+
+      event.init({ type: 'foo' });
+
+      // when
+      eventBus.fire(event);
+
+      // then
+      expect(event).not.to.have.property('returnValue');
+    });
+
+
+    it('should be true with non-acting listener', function() {
+
+      // given
+      eventBus.on('foo', function(event) { });
+
+      // when
+      var returnValue = eventBus.fire('foo');
+
+      // then
+      expect(returnValue).not.to.exist;
+    });
+
+
+    it('should be false with listener preventing event default', function() {
+
+      // given
+      eventBus.on('foo', function(event) {
+        event.preventDefault();
+      });
+
+      // when
+      var returnValue = eventBus.fire('foo');
+
+      // then
+      expect(returnValue).to.be.false;
+    });
+
+
+    it('should be undefined with listener stopping propagation', function() {
+
+      // given
+      eventBus.on('foo', function(event) {
+        event.stopPropagation();
+      });
+
+      // when
+      var returnValue = eventBus.fire('foo');
+
+      // then
+      expect(returnValue).not.to.exist;
+    });
+
+  });
+
+
+  describe('passing context', function() {
+    function Dog() {}
+
+    Dog.prototype.bark = function(msg) {
+      return msg || 'WOOF WOOF';
+    };
+
+    it('should pass context to listener', function() {
+      // given
+      Dog.prototype.bindListener = function() {
+
+        eventBus.on('bark', function(event) {
+          return this.bark();
+        }, this);
       };
 
-      it('should pass context to listener', function() {
-        // given
-        Dog.prototype.bindListener = function() {
+      var bobby = new Dog();
 
-          eventBus.on('bark', function(event) {
-            return this.bark();
-          }, this);
-        };
+      bobby.bindListener();
 
-        var bobby = new Dog();
+      // when
+      var returnValue = eventBus.fire('bark');
 
-        bobby.bindListener();
-
-        // when
-        var returnValue = eventBus.fire('bark');
-
-        // then
-        expect(returnValue).to.equal('WOOF WOOF');
-      });
+      // then
+      expect(returnValue).to.equal('WOOF WOOF');
+    });
 
 
-      it('should pass context to listener and provide priority', function() {
-        // given
-        Dog.prototype.bindListener = function(priority, msg) {
-          eventBus.on('bark', priority, function(event) {
-            return this.bark(msg);
-          }, this);
-        };
+    it('should pass context to listener and provide priority', function() {
+      // given
+      Dog.prototype.bindListener = function(priority, msg) {
+        eventBus.on('bark', priority, function(event) {
+          return this.bark(msg);
+        }, this);
+      };
 
-        var bobby = new Dog();
-        var bull = new Dog();
+      var bobby = new Dog();
+      var bull = new Dog();
 
-        bobby.bindListener(1000);
-        bull.bindListener(1500, 'BOO');
+      bobby.bindListener(1000);
+      bull.bindListener(1500, 'BOO');
 
-        // when
-        var returnValue = eventBus.fire('bark');
+      // when
+      var returnValue = eventBus.fire('bark');
 
-        // then
-        expect(returnValue).to.equal('BOO');
-      });
+      // then
+      expect(returnValue).to.equal('BOO');
+    });
 
 
-      it('should pass context to listener and provide priority -> once', function() {
-        // given
-        Dog.prototype.bindListener = function(priority, msg) {
-          eventBus.once('bark', priority, function(event) {
-            return this.bark(msg);
-          }, this);
-        };
+    it('should pass context to listener and provide priority -> once', function() {
+      // given
+      Dog.prototype.bindListener = function(priority, msg) {
+        eventBus.once('bark', priority, function(event) {
+          return this.bark(msg);
+        }, this);
+      };
 
-        var bobby = new Dog();
-        var bull = new Dog();
+      var bobby = new Dog();
+      var bull = new Dog();
 
+      eventBus.once('bark', function(event) {
+        return this.bark('FOO');
+      }, bobby);
+
+      bull.bindListener(1500, 'BOO');
+
+      // when
+      var returnA = eventBus.fire('bark');
+      var returnB = eventBus.fire('bark');
+      var returnC = eventBus.fire('bark');
+
+      // then
+      expect(returnA).to.equal('BOO');
+      expect(returnB).to.equal('FOO');
+      expect(returnC).not.to.exist;
+    });
+
+
+    it('should fire only once', function() {
+      // given
+      Dog.prototype.barks = [];
+
+      Dog.prototype.bindListener = function() {
         eventBus.once('bark', function(event) {
-          return this.bark('FOO');
-        }, bobby);
+          this.barks.push('WOOF WOOF');
+        }, this);
+      };
 
-        bull.bindListener(1500, 'BOO');
+      var bobby = new Dog();
 
-        // when
-        var returnA = eventBus.fire('bark');
-        var returnB = eventBus.fire('bark');
-        var returnC = eventBus.fire('bark');
+      bobby.bindListener();
 
-        // then
-        expect(returnA).to.equal('BOO');
-        expect(returnB).to.equal('FOO');
-        expect(returnC).not.to.exist;
+      // when
+      eventBus.fire('bark'),
+      eventBus.fire('bark');
+
+      // then
+      expect(bobby.barks).to.have.length(1);
+    });
+
+  });
+
+
+  describe('returning custom value in listener', function() {
+
+    it('should pass through', function() {
+
+      // given
+      var result = {};
+
+      eventBus.on('foo', function(event) {
+        return result;
       });
 
+      // when
+      var returnValue = eventBus.fire('foo');
 
-      it('should fire only once', function() {
-        // given
-        Dog.prototype.barks = [];
-
-        Dog.prototype.bindListener = function() {
-          eventBus.once('bark', function(event) {
-            this.barks.push('WOOF WOOF');
-          }, this);
-        };
-
-        var bobby = new Dog();
-
-        bobby.bindListener();
-
-        // when
-        eventBus.fire('bark'),
-        eventBus.fire('bark');
-
-        // then
-        expect(bobby.barks).to.have.length(1);
-      });
-
+      // then
+      expect(returnValue).to.equal(result);
     });
 
 
-    describe('returning custom value in listener', function() {
+    it('should stop propagation', function() {
 
-      it('should pass through', function() {
+      // given
+      var result = {},
+          otherResult = {};
 
-        // given
-        var result = {};
-
-        eventBus.on('foo', function(event) {
-          return result;
-        });
-
-        // when
-        var returnValue = eventBus.fire('foo');
-
-        // then
-        expect(returnValue).to.equal(result);
+      eventBus.on('foo', function(event) {
+        return result;
       });
 
-
-      it('should stop propagation', function() {
-
-        // given
-        var result = {},
-            otherResult = {};
-
-        eventBus.on('foo', function(event) {
-          return result;
-        });
-
-        eventBus.on('foo', function(event) {
-          return otherResult;
-        });
-
-        // when
-        var returnValue = eventBus.fire('foo');
-
-        // then
-        expect(returnValue).to.equal(result);
+      eventBus.on('foo', function(event) {
+        return otherResult;
       });
 
+      // when
+      var returnValue = eventBus.fire('foo');
+
+      // then
+      expect(returnValue).to.equal(result);
+    });
+
+  });
+
+
+  describe('returning false in listener', function() {
+
+    it('should set return value to false', function() {
+
+      // given
+      eventBus.on('foo', function(event) {
+        return false;
+      });
+
+      // when
+      var returnValue = eventBus.fire('foo');
+
+      // then
+      expect(returnValue).to.be.false;
     });
 
 
-    describe('returning false in listener', function() {
+    it('should stop propagation to other listeners', function() {
 
-      it('should set return value to false', function() {
-
-        // given
-        eventBus.on('foo', function(event) {
-          return false;
-        });
-
-        // when
-        var returnValue = eventBus.fire('foo');
-
-        // then
-        expect(returnValue).to.be.false;
+      // given
+      var listener1 = sinon.spy(function(event) {
+        return false;
       });
 
+      var listener2 = sinon.spy();
 
-      it('should stop propagation to other listeners', function() {
+      eventBus.on('foo', listener1);
+      eventBus.on('foo', listener2);
 
-        // given
-        var listener1 = sinon.spy(function(event) {
-          return false;
-        });
+      // when
+      var returnValue = eventBus.fire('foo');
 
-        var listener2 = sinon.spy();
+      // then
+      expect(returnValue).to.be.false;
 
-        eventBus.on('foo', listener1);
-        eventBus.on('foo', listener2);
-
-        // when
-        var returnValue = eventBus.fire('foo');
-
-        // then
-        expect(returnValue).to.be.false;
-
-        expect(listener1).to.have.been.called;
-        expect(listener2).not.to.have.been.called;
-      });
-
+      expect(listener1).to.have.been.called;
+      expect(listener2).not.to.have.been.called;
     });
 
+  });
 
-    describe('custom arguments', function() {
 
-      it('should pass arguments', function() {
+  describe('custom arguments', function() {
 
-        var listenerArgs;
+    it('should pass arguments', function() {
 
-        function captureArgs() {
-          listenerArgs = arguments;
-        }
+      var listenerArgs;
 
-        eventBus.on('capture', captureArgs);
+      function captureArgs() {
+        listenerArgs = arguments;
+      }
 
-        // when
-        eventBus.fire('capture', 1, 2, 3);
+      eventBus.on('capture', captureArgs);
 
-        // then
-        expect(listenerArgs.length).to.eql(4);
-        expect(listenerArgs[1]).to.eql(1);
-        expect(listenerArgs[2]).to.eql(2);
-        expect(listenerArgs[3]).to.eql(3);
-      });
+      // when
+      eventBus.fire('capture', 1, 2, 3);
 
+      // then
+      expect(listenerArgs.length).to.eql(4);
+      expect(listenerArgs[1]).to.eql(1);
+      expect(listenerArgs[2]).to.eql(2);
+      expect(listenerArgs[3]).to.eql(3);
     });
 
+  });
+
+
+  describe('removing listeners', function() {
 
     it('should remove listeners by event type', function() {
 
@@ -464,100 +583,56 @@ describe('core/EventBus', function() {
       expect(listener2).to.have.been.called;
     });
 
-
-    it('should fire event by name', function() {
-
-      // given
-      var listener = sinon.spy();
-
-      // when
-      eventBus.on('foo', listener);
-      eventBus.fire('foo');
-
-      expect(listener).to.have.been.called;
-    });
+  });
 
 
-    it('once should only fire once', function() {
+  describe('adding listener during <emit>', function() {
+
+    it('should call lower priority listener', function() {
 
       // given
-      var listener = sinon.spy();
+      var listenerAdded = sinon.spy();
 
-      // when
-      eventBus.once('onceEvent', listener);
-      eventBus.fire('onceEvent', { value: 'a' });
+      var listenerOnce = sinon.spy(function() {
+        eventBus.once('foo', 500, listenerAdded);
+      });
 
-      // then
-      expect(listener).to.have.been.calledOnce;
-
-      // but when...
-      eventBus.fire('onceEvent');
-
-      // then
-      // still only called once
-      expect(listener).to.have.been.calledOnce;
-
-      // but when...
-      // emitting with re-registered listener
-      eventBus.once('onceEvent', listener);
-      eventBus.fire('onceEvent');
-
-      // then
-      // should be fired again
-      expect(listener).to.have.been.calledTwice;
-    });
-
-
-    it('should register to multiple events', function() {
-
-      // given
-      var listener1 = sinon.spy();
-
-      eventBus.on([ 'foo', 'bar' ], listener1);
-
-      // when
-      eventBus.fire({ type: 'foo' });
-
-      // then
-      expect(listener1).to.have.been.called;
-    });
-
-
-    it('should remove multiple listeners', function() {
-
-      // given
-      var listener1 = sinon.spy();
-
-      eventBus.on([ 'foo', 'bar' ], listener1);
-      eventBus.off([ 'foo', 'bar' ], listener1);
-
-      // when
-      eventBus.fire({ type: 'foo' });
-      eventBus.fire({ type: 'bar' });
-
-      // then
-      expect(listener1).not.to.have.been.called;
-    });
-
-
-    it('should call listeners after once listener', function() {
-
-      // given
-      var listenerBefore = sinon.spy();
-      var listenerOnce = sinon.spy();
-      var listenerAfter = sinon.spy();
-
-      eventBus.on('foo', listenerBefore);
       eventBus.once('foo', listenerOnce);
-      eventBus.on('foo', listenerAfter);
 
       // when
       eventBus.fire('foo');
 
       // then
-      expect(listenerBefore).to.have.been.calledOnce;
       expect(listenerOnce).to.have.been.calledOnce;
-      expect(listenerAfter).to.have.been.calledOnce;
+      expect(listenerAdded).to.have.been.calledOnce;
+
+      // but when...
+      eventBus.fire('foo');
+
+      // then
+      // still only called once
+      expect(listenerOnce).to.have.been.calledOnce;
+      expect(listenerAdded).to.have.been.calledOnce;
+    });
+
+
+    it('should NOT call higher priority listener', function() {
+
+      // given
+      var listenerAdded = sinon.spy();
+
+      var listenerOnce = sinon.spy(function() {
+        eventBus.once('foo', 5000, listenerAdded);
+      });
+
+      eventBus.once('foo', listenerOnce);
+
+      // when
+      eventBus.fire('foo');
+
+      // then
+      expect(listenerOnce).to.have.been.calledOnce;
+      expect(listenerAdded).not.to.have.been.called;
 
       // but when...
       eventBus.fire('foo');
@@ -566,71 +641,8 @@ describe('core/EventBus', function() {
       // still only called once
       expect(listenerOnce).to.have.been.calledOnce;
 
-      // should be called again
-      expect(listenerBefore).to.have.been.calledTwice;
-      expect(listenerAfter).to.have.been.calledTwice;
-    });
-
-
-    describe('adding listener during <emit>', function() {
-
-      it('should call lower priority listener', function() {
-
-        // given
-        var listenerAdded = sinon.spy();
-
-        var listenerOnce = sinon.spy(function() {
-          eventBus.once('foo', 500, listenerAdded);
-        });
-
-        eventBus.once('foo', listenerOnce);
-
-        // when
-        eventBus.fire('foo');
-
-        // then
-        expect(listenerOnce).to.have.been.calledOnce;
-        expect(listenerAdded).to.have.been.calledOnce;
-
-        // but when...
-        eventBus.fire('foo');
-
-        // then
-        // still only called once
-        expect(listenerOnce).to.have.been.calledOnce;
-        expect(listenerAdded).to.have.been.calledOnce;
-      });
-
-
-      it('should NOT call higher priority listener', function() {
-
-        // given
-        var listenerAdded = sinon.spy();
-
-        var listenerOnce = sinon.spy(function() {
-          eventBus.once('foo', 5000, listenerAdded);
-        });
-
-        eventBus.once('foo', listenerOnce);
-
-        // when
-        eventBus.fire('foo');
-
-        // then
-        expect(listenerOnce).to.have.been.calledOnce;
-        expect(listenerAdded).not.to.have.been.called;
-
-        // but when...
-        eventBus.fire('foo');
-
-        // then
-        // still only called once
-        expect(listenerOnce).to.have.been.calledOnce;
-
-        // called once now, too
-        expect(listenerAdded).to.have.been.calledOnce;
-      });
-
+      // called once now, too
+      expect(listenerAdded).to.have.been.calledOnce;
     });
 
   });
