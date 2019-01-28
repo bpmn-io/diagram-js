@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.1.1
+
+* `FIX`: use correct reference argument for DOM related insert operations ([`47ca05ca`](https://github.com/bpmn-io/diagram-js/commit/47ca05ca075fb384748f8ff59a1295a7e2a99c28))
+
 ## 3.1.0
 
 * `FIX`: don't swallow event listeners on `EventBus#only` ([#293](https://github.com/bpmn-io/diagram-js/issues/293))
