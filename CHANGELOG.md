@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.1.3
+
+* `FIX`: bumb `tiny-svg` dependency to workaround MS Edge translate bug ([`0c13a3cf`](https://github.com/bpmn-io/diagram-js/commit/0c13a3cfe16c6e1eb53dc73938ab066a62eaaf1d))
+
 ## 3.1.2
 
 _Reverts changes in `v3.1.1`, as they were unnecessary._
