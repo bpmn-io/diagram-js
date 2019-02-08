@@ -308,7 +308,7 @@ describe('features/dragging - Dragging', function() {
       function(dragging, canvas) {
 
         // given
-        canvas.zoom(0.37);
+        canvas.zoom(0.3713);
 
         // assume viewbox has sub-pixel x coordinate
         expect(canvas.viewbox().x).not.to.eql(Math.round(canvas.viewbox().x));
