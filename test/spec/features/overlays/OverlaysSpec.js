@@ -1195,7 +1195,7 @@ describe('features/overlays', function() {
 
 // helpers //////////////////////
 
-var NUM_REGEX = /[+-]?\d*[.]?\d+(?=,|\))/g;
+var NUM_REGEX = /([+-]?\d*[.]?\d+)(?=,|\))/g;
 
 var overlaysCounter = 0;
 
@@ -1219,9 +1219,12 @@ function asVector(scaleStr) {
   if (scaleStr && scaleStr !== 'none') {
     var m = scaleStr.match(NUM_REGEX);
 
+    var x = parseFloat(m[0], 10);
+    var y = m[1] ? parseFloat(m[1], 10) : x;
+
     return {
-      x: parseFloat(m[0], 10),
-      y: parseFloat(m[1], 10)
+      x: x,
+      y: y
     };
   }
 }

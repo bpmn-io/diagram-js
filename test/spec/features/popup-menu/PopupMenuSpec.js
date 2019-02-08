@@ -973,16 +973,19 @@ describe('features/popup', function() {
 
   describe('scaling', function() {
 
-    var NUM_REGEX = /[+-]?\d*[.]?\d+(?=,|\))/g;
+    var NUM_REGEX = /([+-]?\d*[.]?\d+)(?=,|\))/g;
     var zoomLevels = [ 1.0, 1.2, 3.5, 10, 0.5 ];
 
     function asVector(scaleStr) {
       if (scaleStr && scaleStr !== 'none') {
         var m = scaleStr.match(NUM_REGEX);
 
+        var x = parseFloat(m[0], 10);
+        var y = m[1] ? parseFloat(m[1], 10) : x;
+
         return {
-          x: parseFloat(m[0], 10),
-          y: parseFloat(m[1] || m[0], 10)
+          x: x,
+          y: y
         };
       }
     }
