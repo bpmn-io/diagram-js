@@ -3,6 +3,7 @@
 # diagram-js
 
 [![Build Status](https://travis-ci.org/bpmn-io/diagram-js.svg?branch=master)](https://travis-ci.org/bpmn-io/diagram-js)
+[![Code Coverage](https://img.shields.io/codecov/c/github/bpmn-io/diagram-js.svg)](https://codecov.io/github/bpmn-io/diagram-js)
 
 A toolbox for displaying and modifying diagrams on the web.
 
