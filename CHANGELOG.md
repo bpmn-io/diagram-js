@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.2.0
+
+* `FEAT`: trigger layout after connection reconnect ([#317](https://github.com/bpmn-io/diagram-js/pull/317))
+
 ## 3.1.3
 
 * `FIX`: bump `tiny-svg` dependency to workaround MS Edge translate bug ([`657da2c3`](https://github.com/bpmn-io/diagram-js/commit/657da2c3f5540decf7bdf49029ecdbf1009c910c))
