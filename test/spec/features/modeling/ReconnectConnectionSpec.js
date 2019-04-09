@@ -5,6 +5,7 @@ import {
 
 import modelingModule from 'lib/features/modeling';
 
+/* global sinon */
 
 describe('features/modeling - reconnect connection', function() {
 
@@ -49,6 +50,8 @@ describe('features/modeling - reconnect connection', function() {
     canvas.addConnection(connection, parentShape);
   }));
 
+  afterEach(sinon.restore);
+
 
   describe('reconnectStart', function() {
 
@@ -57,7 +60,7 @@ describe('features/modeling - reconnect connection', function() {
       it('should execute', inject(function(modeling) {
 
         // given
-        var newWaypoints = [ { x: 120, y: 120 }, { x: 150, y: 200 }, { x: 350, y: 150 } ];
+        var newWaypoints = [ { x: 120, y: 120 }, { x: 350, y: 150 } ];
 
         // when
         modeling.reconnectStart(connection, childShape, { x: 120, y: 120 });
@@ -79,6 +82,20 @@ describe('features/modeling - reconnect connection', function() {
 
         // then
         expect(connection.waypoints).to.eql(oldWaypoints);
+      }));
+
+
+      it('should layout connection', inject(function(modeling) {
+
+        // given
+        var layoutSpy = sinon.spy(modeling, 'layoutConnection');
+
+        // when
+        modeling.reconnectStart(connection, childShape, { x: 120, y: 120 });
+
+        // then
+        expect(layoutSpy).to.have.been.calledOnce;
+
       }));
 
     });
@@ -125,7 +142,7 @@ describe('features/modeling - reconnect connection', function() {
       it('should execute', inject(function(modeling) {
 
         // given
-        var newWaypoints = [ { x: 150, y: 150 }, { x: 150, y: 200 }, { x: 300, y: 100 } ];
+        var newWaypoints = [ { x: 150, y: 150 }, { x: 300, y: 100 } ];
 
         // when
         modeling.reconnectEnd(connection, childShape2, { x: 300, y: 100 });
@@ -147,6 +164,20 @@ describe('features/modeling - reconnect connection', function() {
 
         // then
         expect(connection.waypoints).to.eql(oldWaypoints);
+      }));
+
+
+      it('should layout connection', inject(function(modeling) {
+
+        // given
+        var layoutSpy = sinon.spy(modeling, 'layoutConnection');
+
+        // when
+        modeling.reconnectEnd(connection, childShape, { x: 120, y: 120 });
+
+        // then
+        expect(layoutSpy).to.have.been.calledOnce;
+
       }));
 
     });
