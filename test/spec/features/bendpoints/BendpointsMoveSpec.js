@@ -307,7 +307,9 @@ describe('features/bendpoints - move', function() {
       dragging.end();
 
       // then
-      expect(connection.waypoints[2]).to.eql({ x: 530, y: 120 });
+      var waypoints = connection.waypoints;
+
+      expect(waypoints[waypoints.length - 1]).to.eql({ x: 530, y: 120 });
     }));
 
 
