@@ -11,10 +11,15 @@ A toolbox for displaying and modifying diagrams on the web.
 
 Some libraries / applications built on top of diagram-js:
 
+#### Part of [bpmn.io](https://bpmn.io/)
+
 * [bpmn-js](https://github.com/bpmn-io/bpmn-js) - A BPMN 2.0 viewer / modeler ([Demo](https://demo.bpmn.io/bpmn))
 * [cmmn-js](https://github.com/bpmn-io/cmmn-js) - A CMMN 1.1 viewer / modeler ([Demo](https://demo.bpmn.io/cmmn))
 * [dmn-js](https://github.com/bpmn-io/dmn-js) - A DMN 1.1 viewer / modeler / table editor ([Demo](https://demo.bpmn.io/dmn))
 
+#### External
+
+* [Gitter](https://github.com/philippfromme/gitter) - A Node-Based Sequencer for the Web ([Demo](https://philippfromme.github.io/gitter-demo/))
 
 ## Resources
 
