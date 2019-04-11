@@ -72,7 +72,9 @@ describe('features/snapping', function() {
 
   describe('bootstrap', function() {
 
-    it('should bootstrap diagram with component', inject(function() {}));
+    it('should bootstrap diagram with component', inject(function(snapping) {
+      expect(snapping).to.exist;
+    }));
 
   });
 
