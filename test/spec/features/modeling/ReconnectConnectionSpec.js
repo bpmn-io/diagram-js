@@ -7,11 +7,16 @@ import modelingModule from 'lib/features/modeling';
 
 /* global sinon */
 
+
 describe('features/modeling - reconnect connection', function() {
 
-
   beforeEach(bootstrapDiagram({
-    modules: [ modelingModule ]
+    modules: [
+      modelingModule,
+      {
+        layouter: [ 'type', NoopLayouter ]
+      }
+    ]
   }));
 
 
@@ -50,8 +55,6 @@ describe('features/modeling - reconnect connection', function() {
     canvas.addConnection(connection, parentShape);
   }));
 
-  afterEach(sinon.restore);
-
 
   describe('reconnectStart', function() {
 
@@ -66,7 +69,7 @@ describe('features/modeling - reconnect connection', function() {
         modeling.reconnectStart(connection, childShape, { x: 120, y: 120 });
 
         // then
-        expect(connection.waypoints).to.eql(newWaypoints);
+        expect(connection).to.have.waypoints(newWaypoints);
       }));
 
 
@@ -81,20 +84,38 @@ describe('features/modeling - reconnect connection', function() {
         commandStack.undo();
 
         // then
-        expect(connection.waypoints).to.eql(oldWaypoints);
+        expect(connection).to.have.waypoints(oldWaypoints);
+      }));
+
+
+      it('should redo', inject(function(modeling, commandStack) {
+
+        // given
+        var newWaypoints = [ { x: 120, y: 120 }, { x: 350, y: 150 } ];
+
+        modeling.reconnectStart(connection, childShape, { x: 120, y: 120 });
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(connection).to.have.waypoints(newWaypoints);
       }));
 
 
       it('should layout connection', inject(function(modeling) {
 
         // given
-        var layoutSpy = sinon.spy(modeling, 'layoutConnection');
+        var layoutSpy = sinon.spy(modeling, 'layoutConnection'),
+            docking = { x: 120, y: 120 };
 
         // when
-        modeling.reconnectStart(connection, childShape, { x: 120, y: 120 });
+        modeling.reconnectStart(connection, childShape, docking);
 
         // then
         expect(layoutSpy).to.have.been.calledOnce;
+        expect(layoutSpy.getCall(0).args).to.eql([ connection, { connectionStart: docking }]);
 
       }));
 
@@ -106,13 +127,14 @@ describe('features/modeling - reconnect connection', function() {
 
       it('should execute', inject(function(modeling) {
 
+        // given
         var newWaypoints = [ { x: 110, y: 110 }, { x: 300, y: 300 } ];
 
         // when
         modeling.reconnectStart(connection, childShape, newWaypoints);
 
         // then
-        expect(connection.waypoints).to.eql(newWaypoints);
+        expect(connection).to.have.waypoints(newWaypoints);
       }));
 
 
@@ -127,7 +149,40 @@ describe('features/modeling - reconnect connection', function() {
         commandStack.undo();
 
         // then
-        expect(connection.waypoints).to.eql(oldWaypoints);
+        expect(connection).to.have.waypoints(oldWaypoints);
+      }));
+
+
+      it('should redo', inject(function(modeling, commandStack) {
+
+        // given
+        var newWaypoints = [ { x: 110, y: 110 }, { x: 300, y: 300 } ];
+
+        modeling.reconnectStart(connection, childShape, newWaypoints);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(connection).to.have.waypoints(newWaypoints);
+      }));
+
+
+      it('should layout connection', inject(function(modeling) {
+
+        // given
+        var newWaypoints = [ { x: 110, y: 110 }, { x: 300, y: 300 } ],
+            docking = newWaypoints[0],
+            layoutSpy = sinon.spy(modeling, 'layoutConnection');
+
+        // when
+        modeling.reconnectStart(connection, childShape, newWaypoints);
+
+        // then
+        expect(layoutSpy).to.have.been.calledOnce;
+        expect(layoutSpy.getCall(0).args).to.eql([ connection, { connectionStart: docking }]);
+
       }));
 
     });
@@ -148,7 +203,7 @@ describe('features/modeling - reconnect connection', function() {
         modeling.reconnectEnd(connection, childShape2, { x: 300, y: 100 });
 
         // then
-        expect(connection.waypoints).to.eql(newWaypoints);
+        expect(connection).to.have.waypoints(newWaypoints);
       }));
 
 
@@ -163,38 +218,57 @@ describe('features/modeling - reconnect connection', function() {
         commandStack.undo();
 
         // then
-        expect(connection.waypoints).to.eql(oldWaypoints);
+        expect(connection).to.have.waypoints(oldWaypoints);
+      }));
+
+
+      it('should redo', inject(function(modeling, commandStack) {
+
+        // given
+        var newWaypoints = [ { x: 150, y: 150 }, { x: 300, y: 100 } ];
+
+        // when
+        modeling.reconnectEnd(connection, childShape2, { x: 300, y: 100 });
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(connection).to.have.waypoints(newWaypoints);
       }));
 
 
       it('should layout connection', inject(function(modeling) {
 
         // given
-        var layoutSpy = sinon.spy(modeling, 'layoutConnection');
+        var layoutSpy = sinon.spy(modeling, 'layoutConnection'),
+            docking = { x: 120, y: 120 };
 
         // when
-        modeling.reconnectEnd(connection, childShape, { x: 120, y: 120 });
+        modeling.reconnectEnd(connection, childShape, docking);
 
         // then
         expect(layoutSpy).to.have.been.calledOnce;
+        expect(layoutSpy.getCall(0).args).to.eql([ connection, { connectionEnd: docking }]);
 
       }));
 
     });
 
 
-
     describe('passing waypoints', function() {
 
       it('should execute', inject(function(modeling) {
 
+        // given
         var newWaypoints = [ { x: 110, y: 110 }, { x: 300, y: 300 } ];
 
         // when
         modeling.reconnectEnd(connection, childShape2, newWaypoints);
 
         // then
-        expect(connection.waypoints).to.eql(newWaypoints);
+        expect(connection).to.have.waypoints(newWaypoints);
       }));
 
 
@@ -209,7 +283,40 @@ describe('features/modeling - reconnect connection', function() {
         commandStack.undo();
 
         // then
-        expect(connection.waypoints).to.eql(oldWaypoints);
+        expect(connection).to.have.waypoints(oldWaypoints);
+      }));
+
+
+      it('should redo', inject(function(modeling, commandStack) {
+
+        // given
+        var newWaypoints = [ { x: 110, y: 110 }, { x: 300, y: 300 } ];
+
+        modeling.reconnectEnd(connection, childShape2, newWaypoints);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(connection).to.have.waypoints(newWaypoints);
+      }));
+
+
+      it('should layout connection', inject(function(modeling) {
+
+        // given
+        var newWaypoints = [ { x: 110, y: 110 }, { x: 300, y: 300 } ],
+            docking = newWaypoints[1],
+            layoutSpy = sinon.spy(modeling, 'layoutConnection');
+
+        // when
+        modeling.reconnectEnd(connection, childShape, newWaypoints);
+
+        // then
+        expect(layoutSpy).to.have.been.calledOnce;
+        expect(layoutSpy.getCall(0).args).to.eql([ connection, { connectionEnd: docking }]);
+
       }));
 
     });
@@ -217,3 +324,24 @@ describe('features/modeling - reconnect connection', function() {
   });
 
 });
+
+
+// helpers /////////////////////
+
+
+/**
+ * The most simple of all layouters
+ */
+function NoopLayouter() {
+
+  this.layoutConnection = function(connection, hints) {
+
+    hints = hints || {};
+
+    return [
+      hints.connectionStart || connection.waypoints[0],
+      hints.connectionEnd || connection.waypoints[connection.waypoints.length - 1]
+    ];
+  };
+
+}
