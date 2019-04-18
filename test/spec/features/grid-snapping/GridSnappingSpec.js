@@ -24,6 +24,8 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents';
 
+import { isString } from 'min-dash';
+
 var LOW_PRIORITY = 500;
 
 
@@ -74,8 +76,8 @@ describe('features/grid-snapping', function() {
 
       beforeEach(bootstrapDiagram({
         modules: [
-          modelingModule,
           gridSnappingModule,
+          modelingModule,
           moveModule
         ]
       }));
@@ -129,6 +131,7 @@ describe('features/grid-snapping', function() {
         rootShapeGfx,
         shape1,
         shape2,
+        shape3,
         newShape,
         connection,
         connectionGfx;
@@ -170,17 +173,24 @@ describe('features/grid-snapping', function() {
 
       canvas.addShape(shape2, rootShape);
 
-      var shape3 = elementFactory.createShape({
+      shape3 = elementFactory.createShape({
         id: 'shape3',
-        x: 300, y: 100, width: 100, height: 100
+        x: 100, y: 250, width: 95, height: 95
       });
 
       canvas.addShape(shape3, rootShape);
 
+      var shape4 = elementFactory.createShape({
+        id: 'shape4',
+        x: 300, y: 100, width: 100, height: 100
+      });
+
+      canvas.addShape(shape4, rootShape);
+
       connection = elementFactory.createConnection({
         id: 'connection',
         source: shape1,
-        target: shape3,
+        target: shape4,
         waypoints: [
           { x: 150, y: 150 },
           { x: 350, y: 150 }
@@ -196,6 +206,7 @@ describe('features/grid-snapping', function() {
         x: 0, y: 0, width: 100, height: 100
       });
     }));
+
 
     describe('<move>', function() {
 
@@ -474,7 +485,6 @@ describe('features/grid-snapping', function() {
     });
 
 
-
     it('<bendpoint.move>', inject(function(bendpointMove, dragging, eventBus) {
 
       // given
@@ -550,6 +560,92 @@ describe('features/grid-snapping', function() {
         { x: 350, y: 200 }
       ]);
     }));
+
+
+    describe('snap offset', function() {
+
+      it('should snap with offset (top-left)', inject(function(dragging, eventBus, move) {
+
+        // given
+        var events = recordEvents(eventBus, [
+          'shape.move.move',
+          'shape.move.end'
+        ]);
+
+        move.start(canvasEvent({ x: 147.5, y: 297.5 }), shape3, {
+          gridSnappingContext: {
+            snapLocation: 'top-left'
+          }
+        });
+
+        dragging.hover({ element: rootShape, gfx: rootShapeGfx });
+
+        // when
+        dragging.move(canvasEvent({ x: 156, y: 262 }));
+        dragging.move(canvasEvent({ x: 162, y: 274 }));
+        dragging.move(canvasEvent({ x: 168, y: 286 }));
+        dragging.move(canvasEvent({ x: 174, y: 298 }));
+        dragging.move(canvasEvent({ x: 180, y: 310 }));
+
+        dragging.end();
+
+        // then
+        expect(events.map(position('top-left'))).to.eql([
+          { x: 110, y: 220 }, // move
+          { x: 120, y: 230 }, // move
+          { x: 120, y: 240 }, // move
+          { x: 130, y: 250 }, // move
+          { x: 130, y: 260 }, // move
+          { x: 130, y: 260 } // end
+        ]);
+
+        // expect snapped to top-left
+        expect(shape3.x).to.equal(130);
+        expect(shape3.y).to.equal(260);
+      }));
+
+
+      it('should snap with offset (bottom)', inject(function(dragging, eventBus, move) {
+
+        // given
+        var events = recordEvents(eventBus, [
+          'shape.move.move',
+          'shape.move.end'
+        ]);
+
+        move.start(canvasEvent({ x: 147.5, y: 297.5 }), shape3, {
+          gridSnappingContext: {
+            snapLocation: 'bottom'
+          }
+        });
+
+        dragging.hover({ element: rootShape, gfx: rootShapeGfx });
+
+        // when
+        dragging.move(canvasEvent({ x: 156, y: 312 }));
+        dragging.move(canvasEvent({ x: 162, y: 324 }));
+        dragging.move(canvasEvent({ x: 168, y: 336 }));
+        dragging.move(canvasEvent({ x: 174, y: 348 }));
+        dragging.move(canvasEvent({ x: 180, y: 360 }));
+
+        dragging.end();
+
+        // then
+        expect(events.map(position('bottom'))).to.eql([
+          { x: 160, y: 360 }, // move
+          { x: 160, y: 370 }, // move
+          { x: 170, y: 380 }, // move
+          { x: 180, y: 400 }, // move
+          { x: 180, y: 410 }, // move
+          { x: 180, y: 410 } // end
+        ]);
+
+        // expect snapped to bottom-center
+        expect(shape3.x + shape3.width / 2).to.equal(179.5);
+        expect(shape3.y + shape3.height).to.equal(410);
+      }));
+
+    });
 
   });
 
@@ -698,7 +794,49 @@ function recordEvents(eventBus, eventTypes) {
   return events;
 }
 
+/**
+ * Returns x and y of an event. If called with string that specifies orientation if will return
+ * x and y of specified orientation.
+ *
+ * @param {Object|string} event - Event or orientation <top|right|bottom|left>
+ *
+ * @returns {Object}
+ */
 function position(event) {
+  var orientation;
+
+  if (isString(event)) {
+    orientation = event;
+
+    return function(event) {
+      var shape = event.shape;
+
+      var x = event.x,
+          y = event.y;
+
+      if (/top/.test(orientation)) {
+        y -= shape.height / 2;
+      }
+
+      if (/right/.test(orientation)) {
+        x += shape.width / 2;
+      }
+
+      if (/bottom/.test(orientation)) {
+        y += shape.height / 2;
+      }
+
+      if (/left/.test(orientation)) {
+        x -= shape.width / 2;
+      }
+
+      return {
+        x: x,
+        y: y
+      };
+    };
+  }
+
   return {
     x: event.x,
     y: event.y

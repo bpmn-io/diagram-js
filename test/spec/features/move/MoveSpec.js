@@ -129,6 +129,21 @@ describe('features/move - Move', function() {
       expect(childShape.y).to.eql(210);
     }));
 
+
+    it('should accept context', inject(function(dragging, move) {
+
+      // given
+      var context = {
+        foo: 'foo'
+      };
+
+      // when
+      move.start(canvasEvent({ x: 0, y: 0 }), childShape, context);
+
+      // then
+      expect(dragging.context().data.context).to.include(context);
+    }));
+
   });
 
 });
