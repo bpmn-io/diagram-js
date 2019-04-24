@@ -19,7 +19,7 @@ Some libraries / applications built on top of diagram-js:
 
 #### External
 
-* [Gitter](https://github.com/philippfromme/gitter) - A Node-Based Sequencer for the Web ([Demo](https://philippfromme.github.io/gitter-demo/))
+* [Node Sequencer](https://github.com/philippfromme/node-sequencer) - A Node-Based Sequencer for the Web ([Demo](https://philippfromme.github.io/node-sequencer-demo/))
 
 ## Resources
 
