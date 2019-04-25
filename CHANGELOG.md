@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 3.3.0
+
+* `FEAT`: add basic grid snapping ([`f987bafe`](https://github.com/bpmn-io/diagram-js/commit/f987bafe215b75c9f47806bc8daaf16d2ba3a383))
+* `FEAT`: layout connections on start/end reconnection ([`f7cc7a8f`](https://github.com/bpmn-io/diagram-js/commit/f7cc7a8f29c9842b3c2ba1f29d491767579d5267))
+* `FIX`: use reference point when resizing ([`95bef2f6`](https://github.com/bpmn-io/diagram-js/commit/95bef2f6253a96ee20bb34384a071d0d28cfa29f))
+
 ## 3.2.0
 
 * `FEAT`: trigger layout after connection reconnect ([#317](https://github.com/bpmn-io/diagram-js/pull/317))
