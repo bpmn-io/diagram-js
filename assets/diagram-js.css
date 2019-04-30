@@ -176,6 +176,10 @@ svg.new-parent {
   pointer-events: stroke;
 }
 
+.djs-frame .djs-hit {
+  pointer-events: stroke;
+}
+
 /**
  * shape / connection basic styles
  */
