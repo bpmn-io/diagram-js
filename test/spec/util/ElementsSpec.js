@@ -88,6 +88,7 @@ describe('util/Elements', function() {
       // when
       var result = selfAndDirectChildren([shapeA]);
 
+      // then
       expect(result.length).to.equal(4);
       expect(result).to.eql([ a ].concat(a.children));
     });
@@ -98,6 +99,7 @@ describe('util/Elements', function() {
       // when
       var result = selfAndDirectChildren([shapeB]);
 
+      // then
       expect(result.length).to.equal(1);
       expect(result).to.eql([ shapeB ]);
     });
@@ -112,6 +114,7 @@ describe('util/Elements', function() {
       // when
       var result = selfAndDirectChildren([ a, child ]);
 
+      // then
       expect(result.length).to.equal(6);
       expect(ids(result)).to.eql(ids([ a ].concat(a.children).concat(child.children)));
     });
@@ -129,6 +132,7 @@ describe('util/Elements', function() {
       // when
       var result = selfAndAllChildren([ a, d ]);
 
+      // then
       expect(result.length).to.equal(14);
     });
 
@@ -138,8 +142,11 @@ describe('util/Elements', function() {
   describe('getClosure', function() {
 
     it('should work', function() {
+
+      // when
       var closure = getClosure([ shapeB, shapeE ]);
 
+      // then
       expect(closure.allShapes).to.have.keys('b', 'e', 'c', 'c.0', 'c.1');
       expect(closure.allConnections).to.have.keys('connection1');
       expect(closure.enclosedElements).to.have.keys('b', 'e', 'connection1', 'c', 'c.0', 'c.1');
@@ -150,12 +157,15 @@ describe('util/Elements', function() {
 
 
     it('should be extensible', function() {
+
+      // when
       var closure = getClosure([ shapeB, shapeE ], false, {
         topLevel: {
           'foo': []
         }
       });
 
+      // then
       expect(closure.allShapes).to.have.keys('b', 'e', 'c', 'c.0', 'c.1');
       expect(closure.allConnections).to.have.keys('connection1');
       expect(closure.enclosedElements).to.have.keys('b', 'e', 'connection1', 'c', 'c.0', 'c.1');
@@ -202,8 +212,10 @@ describe('util/Elements', function() {
       // given
       var elements = shape2;
 
+      // when
       var bbox = getBBox(elements);
 
+      // then
       expect(bbox).to.eql({
         x: 120,
         y: 100,
@@ -217,8 +229,10 @@ describe('util/Elements', function() {
       // given
       var elements = connection1;
 
+      // when
       var bbox = getBBox(elements);
 
+      // then
       expect(bbox).to.eql({
         x: 110,
         y: 105,
@@ -232,8 +246,10 @@ describe('util/Elements', function() {
       // given
       var elements = [shape1, shape2, connection1];
 
+      // when
       var bbox = getBBox(elements);
 
+      // then
       expect(bbox).to.eql({
         x: 100,
         y: 100,
@@ -247,8 +263,10 @@ describe('util/Elements', function() {
       // given
       var elements = [shape1, shape2, shape3, connection1];
 
+      // when
       var bbox = getBBox(elements);
 
+      // then
       expect(bbox).to.eql({
         x: -10,
         y: -10,
@@ -262,8 +280,10 @@ describe('util/Elements', function() {
       // given
       var elements = [shape1, connection1];
 
+      // when
       var bbox = getBBox(elements);
 
+      // then
       expect(bbox).to.eql({
         x: 100,
         y: 100,
