@@ -2,7 +2,8 @@ import {
   selfAndDirectChildren,
   selfAndAllChildren,
   getBBox,
-  getClosure
+  getClosure,
+  isFrameElement
 } from 'lib/util/Elements';
 
 
@@ -270,6 +271,41 @@ describe('util/Elements', function() {
         width:  20
       });
 
+    });
+
+  });
+
+
+  describe('#isFrameElement', function() {
+
+    it('should return true for frame element', function() {
+
+      // given
+      var shape = {
+        id: 'a',
+        isFrame: true
+      };
+
+      // when
+      var isFrame = isFrameElement(shape);
+
+      // then
+      expect(isFrame).to.be.true;
+    });
+
+
+    it('should return false for normal element', function() {
+
+      // given
+      var shape = {
+        id: 'a'
+      };
+
+      // when
+      var isFrame = isFrameElement(shape);
+
+      // then
+      expect(isFrame).to.be.false;
     });
 
   });
