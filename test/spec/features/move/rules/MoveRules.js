@@ -2,6 +2,10 @@ import inherits from 'inherits';
 
 import RuleProvider from 'lib/features/rules/RuleProvider';
 
+import {
+  isFrameElement
+} from 'lib/util/Elements';
+
 export default function MoveRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
@@ -16,6 +20,11 @@ MoveRules.prototype.init = function() {
   this.addRule('elements.move', function(context) {
     var target = context.target,
         shapes = context.shapes;
+
+    // not allowed to move on frame elements
+    if (isFrameElement(target)) {
+      return false;
+    }
 
     // check that we do not accidently try to drop elements
     // onto themselves or children of themselves

@@ -65,6 +65,11 @@ svg.new-parent {
   stroke: rgba(255, 116, 0, 0.7) !important;
 }
 
+.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {
+  stroke-width: 3px !important;
+  stroke: #E56283 /* light-red */ !important;
+  fill: none !important;
+}
 
 /**
 * Selection box style

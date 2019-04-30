@@ -270,6 +270,48 @@ describe('features/move - MovePreview', function() {
   });
 
 
+  describe('frame elements', function() {
+
+    var frameShape;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+
+      frameShape = elementFactory.createShape({
+        id: 'frameShape',
+        x: 450, y: 50, width: 400, height: 200,
+        isFrame: true
+      });
+
+      canvas.addShape(frameShape, rootShape);
+    }));
+
+    it('should indicate drop not allowed', inject(function(move, dragging, elementRegistry) {
+
+      // given
+      move.start(canvasEvent({ x: 10, y: 10 }), childShape);
+
+      var targetGfx = elementRegistry.getGraphics(frameShape);
+
+      // when
+      dragging.move(canvasEvent({ x: 300, y: 20 }));
+      dragging.hover(canvasEvent({ x: 300, y: 20 }, {
+        element: frameShape,
+        gfx: elementRegistry.getGraphics(childShape)
+      }));
+
+      dragging.move(canvasEvent({ x: 300, y: 22 }));
+
+      // then
+      var ctx = dragging.context();
+      expect(ctx.data.context.canExecute).to.equal(false);
+
+      expect(svgClasses(targetGfx).has('djs-frame')).to.equal(true);
+      expect(svgClasses(targetGfx).has('drop-not-ok')).to.equal(true);
+    }));
+
+  });
+
+
   describe('connections', function() {
 
     var host, attacher, parentShape2, shape, connectionA, connectionB;
