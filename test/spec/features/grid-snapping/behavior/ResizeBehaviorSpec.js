@@ -7,7 +7,6 @@ import autoResizeModule from 'lib/features/auto-resize';
 import gridSnappingModule from 'lib/features/grid-snapping';
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
-import spaceToolModule from 'lib/features/space-tool';
 
 import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
 import AutoResize from 'lib/features/auto-resize/AutoResize';
@@ -58,8 +57,7 @@ describe('features/grid-snapping - resize', function() {
       customAutoResizeModule,
       gridSnappingModule,
       modelingModule,
-      moveModule,
-      spaceToolModule
+      moveModule
     ]
   }));
 
