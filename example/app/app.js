@@ -1,17 +1,18 @@
 import Diagram from '../..';
 
-import SelectionModule from '../../lib/features/selection';
-import ZoomScrollModule from '../../lib/navigation/zoomscroll';
-import MoveCanvasModule from '../../lib/navigation/movecanvas';
+import ConnectModule from '../../lib/features/connect';
+import ContextPadModule from '../../lib/features/context-pad';
+import CreateModule from '../../lib/features/create';
+import LassoToolModule from '../../lib/features/lasso-tool';
 import ModelingModule from '../../lib/features/modeling';
+import MoveCanvasModule from '../../lib/navigation/movecanvas';
 import MoveModule from '../../lib/features/move';
 import OutlineModule from '../../lib/features/outline';
-import LassoToolModule from '../../lib/features/lasso-tool';
 import PaletteModule from '../../lib/features/palette';
-import CreateModule from '../../lib/features/create';
-import ContextPadModule from '../../lib/features/context-pad';
-import ConnectModule from '../../lib/features/connect';
+import ResizeModule from '../../lib/features/resize';
 import RulesModule from '../../lib/features/rules';
+import SelectionModule from '../../lib/features/selection';
+import ZoomScrollModule from '../../lib/navigation/zoomscroll';
 
 import ExampleContextPadProvider from './ExampleContextPadProvider';
 import ExamplePaletteProvider from './ExamplePaletteProvider';
@@ -35,19 +36,20 @@ var diagram = new Diagram({
     container: container
   },
   modules: [
-    SelectionModule,
-    ZoomScrollModule,
-    MoveCanvasModule,
+    ConnectModule,
+    ContextPadModule,
+    CreateModule,
+    ExampleModule,
+    LassoToolModule,
     ModelingModule,
+    MoveCanvasModule,
     MoveModule,
     OutlineModule,
-    LassoToolModule,
     PaletteModule,
-    CreateModule,
-    ContextPadModule,
-    ConnectModule,
+    ResizeModule,
     RulesModule,
-    ExampleModule
+    SelectionModule,
+    ZoomScrollModule
   ]
 });
 
@@ -59,6 +61,7 @@ var canvas = diagram.get('canvas'),
 // override default styles
 defaultRenderer.CONNECTION_STYLE = { fill: 'none', strokeWidth: 5, stroke: '#000' };
 defaultRenderer.SHAPE_STYLE = { fill: 'white', stroke: '#000', strokeWidth: 2 };
+defaultRenderer.FRAME_STYLE = { fill: 'none', stroke: '#000', strokeDasharray: 4, strokeWidth: 2 };
 
 // add root
 var root = elementFactory.createRoot();
@@ -105,6 +108,16 @@ var shape3 = elementFactory.createShape({
 });
 
 canvas.addShape(shape3, root);
+
+var shape4 = elementFactory.createShape({
+  x: 425,
+  y: 50,
+  width: 300,
+  height: 200,
+  isFrame: true
+});
+
+canvas.addShape(shape4, root);
 
 
 selection.select(shape3);

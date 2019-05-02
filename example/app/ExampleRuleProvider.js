@@ -2,6 +2,8 @@ import inherits from 'inherits';
 
 import RuleProvider from '../../lib/features/rules/RuleProvider';
 
+import { isFrameElement } from '../../lib/util/Elements';
+
 
 export default function ExampleRuleProvider(eventBus) {
   RuleProvider.call(this, eventBus);
@@ -25,5 +27,11 @@ ExampleRuleProvider.prototype.init = function() {
         target = context.target;
 
     return source.parent === target.parent;
+  });
+
+  this.addRule('shape.resize', function(context) {
+    var shape = context.shape;
+
+    return isFrameElement(shape);
   });
 };
