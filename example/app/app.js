@@ -91,7 +91,9 @@ var connection1 = elementFactory.createConnection({
   waypoints: [
     { x: 250, y: 180 },
     { x: 290, y: 220 }
-  ]
+  ],
+  source: shape1,
+  target: shape2
 });
 
 canvas.addConnection(connection1, root);
