@@ -106,5 +106,15 @@ var shape3 = elementFactory.createShape({
 
 canvas.addShape(shape3, root);
 
+var shape4 = elementFactory.createShape({
+  x: 500,
+  y: 200,
+  width: 300,
+  height: 150,
+  isFrame: true
+});
+
+canvas.addShape(shape4, root);
+
 
 selection.select(shape3);
