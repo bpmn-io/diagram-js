@@ -177,4 +177,56 @@ describe('features/connect', function() {
 
   });
 
+
+  describe('markers', function() {
+
+    it('should add connect-ok marker', inject(function(connect, dragging, canvas) {
+
+      // when
+      connect.start(canvasEvent({ x: 0, y: 0 }), shape1);
+
+      dragging.move(canvasEvent({ x: 40, y: 30 }));
+
+      dragging.hover(canvasEvent({ x: 10, y: 10 }, { element: shape2 }));
+
+      // then
+      expect(canvas.hasMarker(shape2, 'connect-ok')).to.be.true;
+    }));
+
+
+    it('should add "connect-not-ok" marker', inject(function(connect, dragging, canvas) {
+
+      // when
+      connect.start(canvasEvent({ x: 250, y: 250 }), shape1child);
+
+      dragging.move(canvasEvent({ x: 550, y: 150 }));
+
+      dragging.hover(canvasEvent({ x: 550, y: 150 }, { element: shape2 }));
+
+      // then
+      expect(canvas.hasMarker(shape2, 'connect-not-ok')).to.be.true;
+    }));
+
+
+    it('should remove markers', inject(
+      function(connect, dragging, canvas, elementRegistry) {
+
+        // when
+        connect.start(canvasEvent({ x: 0, y: 0 }), shape1);
+
+        dragging.move(canvasEvent({ x: 40, y: 30 }));
+
+        dragging.hover(canvasEvent({ x: 10, y: 10 }, { element: shape2 }));
+
+        var hasMarker = canvas.hasMarker(shape2, 'connect-ok');
+
+        dragging.end();
+
+        expect(canvas.hasMarker(shape2, 'connect-ok')).to.be.false;
+        expect(canvas.hasMarker(shape2, 'connect-ok')).not.to.eql(hasMarker);
+      }
+    ));
+
+  });
+
 });
