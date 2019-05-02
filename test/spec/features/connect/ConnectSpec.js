@@ -5,6 +5,10 @@ import {
   inject
 } from 'test/TestHelper';
 
+import {
+  classes as svgClasses
+} from 'tiny-svg';
+
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 
 import modelingModule from 'lib/features/modeling';
@@ -27,7 +31,7 @@ describe('features/connect', function() {
   }));
 
 
-  var rootShape, shape1, shape2, shape1child;
+  var rootShape, shape1, shape2, shape1child, shapeFrame;
 
   beforeEach(inject(function(elementFactory, canvas) {
 
@@ -58,6 +62,15 @@ describe('features/connect', function() {
     });
 
     canvas.addShape(shape1child, shape1);
+
+
+    shapeFrame = elementFactory.createShape({
+      id: 'frame',
+      x: 450, y: 300, width: 100, height: 100,
+      isFrame: true
+    });
+
+    canvas.addShape(shapeFrame, rootShape);
   }));
 
 
@@ -208,24 +221,41 @@ describe('features/connect', function() {
     }));
 
 
-    it('should remove markers', inject(
+    it('should add "connect-not-ok" marker to frame', inject(
       function(connect, dragging, canvas, elementRegistry) {
 
         // when
-        connect.start(canvasEvent({ x: 0, y: 0 }), shape1);
+        connect.start(canvasEvent({ x: 250, y: 250 }), shape1);
 
-        dragging.move(canvasEvent({ x: 40, y: 30 }));
+        dragging.move(canvasEvent({ x: 550, y: 150 }));
 
-        dragging.hover(canvasEvent({ x: 10, y: 10 }, { element: shape2 }));
+        dragging.hover(canvasEvent({ x: 550, y: 150 }, { element: shapeFrame }));
 
-        var hasMarker = canvas.hasMarker(shape2, 'connect-ok');
+        // then
+        var targetGfx = elementRegistry.getGraphics(shapeFrame);
 
-        dragging.end();
-
-        expect(canvas.hasMarker(shape2, 'connect-ok')).to.be.false;
-        expect(canvas.hasMarker(shape2, 'connect-ok')).not.to.eql(hasMarker);
+        expect(svgClasses(targetGfx).has('djs-frame')).to.equal(true);
+        expect(canvas.hasMarker(shapeFrame, 'connect-not-ok')).to.be.true;
       }
     ));
+
+
+    it('should remove markers', inject(function(connect, dragging, canvas) {
+
+      // when
+      connect.start(canvasEvent({ x: 0, y: 0 }), shape1);
+
+      dragging.move(canvasEvent({ x: 40, y: 30 }));
+
+      dragging.hover(canvasEvent({ x: 10, y: 10 }, { element: shape2 }));
+
+      var hasMarker = canvas.hasMarker(shape2, 'connect-ok');
+
+      dragging.end();
+
+      expect(canvas.hasMarker(shape2, 'connect-ok')).to.be.false;
+      expect(canvas.hasMarker(shape2, 'connect-ok')).not.to.eql(hasMarker);
+    }));
 
   });
 
