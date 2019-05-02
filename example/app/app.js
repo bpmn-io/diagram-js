@@ -1,17 +1,17 @@
-import Diagram from 'diagram-js';
+import Diagram from '../..';
 
-import SelectionModule from 'diagram-js/lib/features/selection'; // select elements
-import ZoomScrollModule from 'diagram-js/lib/navigation/zoomscroll'; // zoom canvas
-import MoveCanvasModule from 'diagram-js/lib/navigation/movecanvas'; // scroll canvas
-import ModelingModule from 'diagram-js/lib/features/modeling'; // basic modeling (create/move/remove shapes/connections)
-import MoveModule from 'diagram-js/lib/features/move'; // move shapes
-import OutlineModule from 'diagram-js/lib/features/outline'; // show element outlines
-import LassoToolModule from 'diagram-js/lib/features/lasso-tool'; // lasso tool for element selection
-import PaletteModule from 'diagram-js/lib/features/palette'; // palette
-import CreateModule from 'diagram-js/lib/features/create'; // create elements
-import ContextPadModule from 'diagram-js/lib/features/context-pad'; // context pad for elements,
-import ConnectModule from 'diagram-js/lib/features/connect'; // connect elements
-import RulesModule from 'diagram-js/lib/features/rules'; // rules
+import SelectionModule from '../../lib/features/selection';
+import ZoomScrollModule from '../../lib/navigation/zoomscroll';
+import MoveCanvasModule from '../../lib/navigation/movecanvas';
+import ModelingModule from '../../lib/features/modeling';
+import MoveModule from '../../lib/features/move';
+import OutlineModule from '../../lib/features/outline';
+import LassoToolModule from '../../lib/features/lasso-tool';
+import PaletteModule from '../../lib/features/palette';
+import CreateModule from '../../lib/features/create';
+import ContextPadModule from '../../lib/features/context-pad';
+import ConnectModule from '../../lib/features/connect';
+import RulesModule from '../../lib/features/rules';
 
 import ExampleContextPadProvider from './ExampleContextPadProvider';
 import ExamplePaletteProvider from './ExamplePaletteProvider';
@@ -51,16 +51,14 @@ var diagram = new Diagram({
   ]
 });
 
-// get instances from diagram
 var canvas = diagram.get('canvas'),
     defaultRenderer = diagram.get('defaultRenderer'),
     elementFactory = diagram.get('elementFactory'),
-    styles = diagram.get('styles'),
     selection = diagram.get('selection');
 
-// override default stroke color
-defaultRenderer.CONNECTION_STYLE = styles.style([ 'no-fill' ], { strokeWidth: 5, stroke: '#000' });
-defaultRenderer.SHAPE_STYLE = styles.style({ fill: 'white', stroke: '#000', strokeWidth: 2 });
+// override default styles
+defaultRenderer.CONNECTION_STYLE = { fill: 'none', strokeWidth: 5, stroke: '#000' };
+defaultRenderer.SHAPE_STYLE = { fill: 'white', stroke: '#000', strokeWidth: 2 };
 
 // add root
 var root = elementFactory.createRoot();
