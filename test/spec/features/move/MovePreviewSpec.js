@@ -32,7 +32,7 @@ describe('features/move - MovePreview', function() {
     ]
   }));
 
-  beforeEach(inject(function(canvas, dragging) {
+  beforeEach(inject(function(dragging) {
     dragging.setOptions({ manual: true });
   }));
 
@@ -367,7 +367,7 @@ describe('features/move - MovePreview', function() {
 
 
     it('should add connections to dragGroup',
-      inject(function(canvas, elementFactory, move, dragging, elementRegistry, selection, modeling) {
+      inject(function(move, dragging, elementRegistry, selection) {
 
         var rootGfx = elementRegistry.getGraphics(rootShape),
             dragGroup;
