@@ -259,4 +259,61 @@ describe('features/connect', function() {
 
   });
 
+
+  describe('connection preview', function() {
+
+    it('should display preview when hovering', inject(
+      function(connect, dragging) {
+
+        // when
+        connect.start(canvasEvent({ x: 0, y: 0 }), shape1);
+
+        dragging.move(canvasEvent({ x: 550, y: 150 }));
+
+        dragging.hover(canvasEvent({ x: 550, y: 150 }, { element: shape2 }));
+
+        dragging.move(canvasEvent({ x: 550, y: 150 }));
+
+        var ctx = dragging.context();
+
+        // then
+        expect(ctx.data.context.connectVisual.parentNode).to.exist;
+        expect(svgClasses(ctx.data.context.connectVisual).has('djs-dragger')).to.be.true;
+      })
+    );
+
+
+    it('should display preview without hover', inject(function(connect, dragging) {
+
+      // when
+      connect.start(canvasEvent({ x: 0, y: 0 }), shape1);
+
+      dragging.move(canvasEvent({ x: 50, y: 50 }));
+
+      var ctx = dragging.context();
+
+      // then
+      expect(ctx.data.context.connectVisual.parentNode).to.exist;
+      expect(svgClasses(ctx.data.context.connectVisual).has('djs-dragger')).to.be.true;
+    }));
+
+
+    it('should display preview if connection is disallowed', inject(function(connect, dragging) {
+
+      // when
+      connect.start(canvasEvent({ x: 250, y: 250 }), shape1child);
+
+      dragging.move(canvasEvent({ x: 550, y: 150 }));
+
+      dragging.hover(canvasEvent({ x: 550, y: 150 }, { element: shape2 }));
+
+      var ctx = dragging.context();
+
+      // then
+      expect(ctx.data.context.connectVisual.parentNode).to.exist;
+      expect(svgClasses(ctx.data.context.connectVisual).has('djs-dragger')).to.be.true;
+    }));
+
+  });
+
 });
