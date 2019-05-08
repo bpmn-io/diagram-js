@@ -798,7 +798,9 @@ describe('features/auto-resize', function() {
 
         // then
         expect(getResizeDirections(resizeSpy)).to.exist;
-        expect(getResizeDirections(resizeSpy)).to.eql('ne');
+        expect(getResizeDirections(resizeSpy)).to.eql({
+          autoResize: 'ne'
+        });
       }));
 
 
@@ -814,7 +816,9 @@ describe('features/auto-resize', function() {
 
         // then
         expect(getResizeDirections(resizeSpy)).to.exist;
-        expect(getResizeDirections(resizeSpy)).to.eql('nwse');
+        expect(getResizeDirections(resizeSpy)).to.eql({
+          autoResize: 'nwse'
+        });
       }));
 
     });
