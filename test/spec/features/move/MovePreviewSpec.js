@@ -276,6 +276,47 @@ describe('features/move - MovePreview', function() {
     });
 
 
+    describe('drag group', function() {
+
+      var shape;
+
+      beforeEach(inject(function(elementFactory, canvas) {
+
+        shape = elementFactory.createShape({
+          id: 'shape',
+          x: 500, y: 500, width: 100, height: 100
+        });
+
+        canvas.addShape(shape, rootShape);
+      }));
+
+
+      it('should create drag group on move', inject(function(canvas, move) {
+
+        // when
+        move.start(canvasEvent({ x: 550, y: 550 }), shape, true);
+
+        // then
+        expect(domQuery('.djs-drag-group', canvas.getContainer())).to.exist;
+      }));
+
+
+      it('should remove drag group after move', inject(function(canvas, dragging, move) {
+
+        // given
+        move.start(canvasEvent({ x: 550, y: 550 }), shape, true);
+
+        dragging.move(canvasEvent({ x: 600, y: 600 }));
+
+        // when
+        dragging.end();
+
+        // then
+        expect(domQuery('.djs-drag-group', canvas.getContainer())).not.to.exist;
+      }));
+
+    });
+
     describe('frame elements', function() {
 
       var frameShape;
