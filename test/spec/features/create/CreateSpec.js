@@ -241,8 +241,8 @@ describe('features/create - Create', function() {
       var ctx = dragging.context();
 
       // then
-      expect(ctx.data.context.connectVisual).to.exist;
-      expect(svgClasses(ctx.data.context.connectVisual).has('djs-dragger')).to.be.true;
+      expect(ctx.data.context.connectionPreviewGfx).to.exist;
+      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
 
 
@@ -266,7 +266,7 @@ describe('features/create - Create', function() {
         var ctx = dragging.context();
 
         // then
-        expect(ctx.data.context.connectVisual.childNodes).to.be.have.lengthOf(0);
+        expect(ctx.data.context.connectionPreviewGfx.childNodes).to.be.have.lengthOf(0);
       })
     );
   });
@@ -290,7 +290,7 @@ describe('features/create - Create', function() {
       dragging.end();
 
       // then
-      expect(ctx.data.context.connectVisual.parentNode).not.to.exist;
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).not.to.exist;
     }));
 
 
@@ -311,7 +311,7 @@ describe('features/create - Create', function() {
       dragging.cancel();
 
       // then
-      expect(ctx.data.context.connectVisual.parentNode).not.to.exist;
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).not.to.exist;
     }));
   });
 
