@@ -4,7 +4,7 @@
   "description": "An example how to use diagram-js with CommonJS + npm + browserify",
   "main": "app/app.js",
   "scripts": {
-    "all": "run-s lint build",
+    "all": "run-s build",
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --content-base=public --open",
     "start": "run-s dev"
