@@ -277,8 +277,8 @@ describe('features/connect', function() {
         var ctx = dragging.context();
 
         // then
-        expect(ctx.data.context.connectVisual.parentNode).to.exist;
-        expect(svgClasses(ctx.data.context.connectVisual).has('djs-dragger')).to.be.true;
+        expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+        expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
       })
     );
 
@@ -293,8 +293,8 @@ describe('features/connect', function() {
       var ctx = dragging.context();
 
       // then
-      expect(ctx.data.context.connectVisual.parentNode).to.exist;
-      expect(svgClasses(ctx.data.context.connectVisual).has('djs-dragger')).to.be.true;
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
 
 
@@ -310,8 +310,8 @@ describe('features/connect', function() {
       var ctx = dragging.context();
 
       // then
-      expect(ctx.data.context.connectVisual.parentNode).to.exist;
-      expect(svgClasses(ctx.data.context.connectVisual).has('djs-dragger')).to.be.true;
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
 
   });
