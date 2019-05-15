@@ -14,26 +14,25 @@ import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 import modelingModule from 'lib/features/modeling';
 import rulesModule from './rules';
 import connectModule from 'lib/features/connect';
+import connectionPreviewModule from 'lib/features/connection-preview';
+
+
+var testModules = [
+  modelingModule,
+  connectModule,
+  rulesModule
+];
 
 
 describe('features/connect', function() {
 
-  beforeEach(bootstrapDiagram({
-    modules: [
-      modelingModule,
-      connectModule,
-      rulesModule
-    ]
-  }));
-
-  beforeEach(inject(function(canvas, dragging) {
-    dragging.setOptions({ manual: true });
-  }));
-
-
   var rootShape, shape1, shape2, shape1child, shapeFrame;
 
-  beforeEach(inject(function(elementFactory, canvas) {
+  function setManualDragging(dragging) {
+    dragging.setOptions({ manual: true });
+  }
+
+  function setupDiagram(elementFactory, canvas) {
 
     rootShape = elementFactory.createRoot({
       id: 'root'
@@ -71,7 +70,16 @@ describe('features/connect', function() {
     });
 
     canvas.addShape(shapeFrame, rootShape);
+  }
+
+
+  beforeEach(bootstrapDiagram({
+    modules: testModules
   }));
+
+  beforeEach(inject(setManualDragging));
+
+  beforeEach(inject(setupDiagram));
 
 
   describe('behavior', function() {
@@ -261,6 +269,15 @@ describe('features/connect', function() {
 
 
   describe('connection preview', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: testModules.concat(connectionPreviewModule)
+    }));
+
+    beforeEach(inject(setManualDragging));
+
+    beforeEach(inject(setupDiagram));
+
 
     it('should display preview when hovering', inject(
       function(connect, dragging) {
