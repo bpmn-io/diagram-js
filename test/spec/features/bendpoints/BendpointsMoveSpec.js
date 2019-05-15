@@ -6,6 +6,10 @@ import {
 } from 'test/TestHelper';
 
 import {
+  classes as svgClasses
+} from 'tiny-svg';
+
+import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents';
 
@@ -13,6 +17,7 @@ import bendpointsModule from 'lib/features/bendpoints';
 import rulesModule from './rules';
 import modelingModule from 'lib/features/modeling';
 import selectModule from 'lib/features/selection';
+import connectionPreviewModule from 'lib/features/connection-preview';
 
 import {
   query as domQuery,
@@ -20,25 +25,23 @@ import {
 } from 'min-dom';
 
 
+var testModules = [
+  bendpointsModule,
+  rulesModule,
+  modelingModule,
+  selectModule
+];
+
+
 describe('features/bendpoints - move', function() {
 
-  beforeEach(bootstrapDiagram({
-    modules: [
-      bendpointsModule,
-      rulesModule,
-      modelingModule,
-      selectModule
-    ]
-  }));
-
-  beforeEach(inject(function(dragging) {
+  function setManualDragging(dragging) {
     dragging.setOptions({ manual: true });
-  }));
-
+  }
 
   var rootShape, shape1, shape2, shape3, connection, connection2, connection3;
 
-  beforeEach(inject(function(elementFactory, canvas) {
+  function setupDiagram(elementFactory, canvas) {
 
     rootShape = elementFactory.createRoot({
       id: 'root'
@@ -97,7 +100,16 @@ describe('features/bendpoints - move', function() {
 
     canvas.addConnection(connection3, rootShape);
 
+  }
+
+
+  beforeEach(bootstrapDiagram({
+    modules: testModules
   }));
+
+  beforeEach(inject(setManualDragging));
+
+  beforeEach(inject(setupDiagram));
 
 
   describe('dragger', function() {
@@ -345,6 +357,85 @@ describe('features/bendpoints - move', function() {
       ]);
     }));
 
+  });
+
+
+  describe('connection preview', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: testModules.concat(connectionPreviewModule)
+    }));
+
+    beforeEach(inject(setManualDragging));
+
+    beforeEach(inject(setupDiagram));
+
+
+    it('should display preview when bendpoint is added', inject(function(canvas, bendpointMove, dragging) {
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 550, y: 200 }), connection, 2, true);
+
+      // need hover for creating new bendpoint
+      dragging.hover({
+        element: connection,
+        gfx: canvas.getGraphics(connection)
+      });
+
+      dragging.move(canvasEvent({ x: 400, y: 100 }));
+
+      var ctx = dragging.context();
+
+      // then
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
+    }));
+
+
+    it('should display preview when bendpoint is moved', inject(function(canvas, bendpointMove, dragging) {
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 1);
+      dragging.move(canvasEvent({ x: 450, y: 430 }));
+      dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
+      dragging.move(canvasEvent({ x: 530, y: 420 }));
+
+      var ctx = dragging.context();
+
+      // then
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
+    }));
+
+
+    it('should display preview when end is moved', inject(function(canvas, bendpointMove, dragging) {
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
+      dragging.hover({ element: shape2, gfx: canvas.getGraphics(shape2) });
+      dragging.move(canvasEvent({ x: 530, y: 120 }));
+
+      var ctx = dragging.context();
+
+      // then
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
+    }));
+
+
+    it('should display preview when source is moved', inject(function(canvas, bendpointMove, dragging) {
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 0);
+      dragging.hover({ element: shape1, gfx: canvas.getGraphics(shape1) });
+      dragging.move(canvasEvent({ x: 230, y: 120 }));
+
+      var ctx = dragging.context();
+
+      // then
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
+    }));
   });
 
 });
