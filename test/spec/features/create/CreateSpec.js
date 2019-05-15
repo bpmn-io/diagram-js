@@ -12,6 +12,7 @@ import moveModule from 'lib/features/move';
 import dragModule from 'lib/features/dragging';
 import createModule from 'lib/features/create';
 import attachSupportModule from 'lib/features/attach-support';
+import connectionPreviewModule from 'lib/features/connection-preview';
 import rulesModule from './rules';
 
 import {
@@ -19,22 +20,17 @@ import {
 } from 'tiny-svg';
 
 
+var testModules = [
+  createModule,
+  rulesModule,
+  attachSupportModule,
+  modelingModule,
+  moveModule,
+  dragModule
+];
+
+
 describe('features/create - Create', function() {
-
-  beforeEach(bootstrapDiagram({
-    modules: [
-      createModule,
-      rulesModule,
-      attachSupportModule,
-      modelingModule,
-      moveModule,
-      dragModule
-    ]
-  }));
-
-  beforeEach(inject(function(dragging, elementRegistry) {
-    dragging.setOptions({ manual: true });
-  }));
 
   var rootShape,
       parentShape,
@@ -43,7 +39,11 @@ describe('features/create - Create', function() {
       frameShape,
       newShape;
 
-  beforeEach(inject(function(elementFactory, canvas) {
+  function setManualDragging(dragging) {
+    dragging.setOptions({ manual: true });
+  }
+
+  function setupDiagram(elementFactory, canvas) {
 
     rootShape = elementFactory.createRoot({
       id: 'root'
@@ -89,7 +89,16 @@ describe('features/create - Create', function() {
       id: 'newShape',
       x: 0, y: 0, width: 50, height: 50
     });
+  }
+
+
+  beforeEach(bootstrapDiagram({
+    modules: testModules
   }));
+
+  beforeEach(inject(setManualDragging));
+
+  beforeEach(inject(setupDiagram));
 
 
   describe('basics', function() {
@@ -224,97 +233,6 @@ describe('features/create - Create', function() {
 
   });
 
-  describe('display', function() {
-
-    it('should display connection preview', inject(function(create, elementRegistry, dragging) {
-
-      // given
-      var parentGfx = elementRegistry.getGraphics('parentShape');
-
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
-
-      dragging.move(canvasEvent({ x: 175, y: 175 }));
-      dragging.hover({ element: parentShape, gfx: parentGfx });
-      dragging.move(canvasEvent({ x: 400, y: 200 }));
-
-      var ctx = dragging.context();
-
-      // then
-      expect(ctx.data.context.connectionPreviewGfx).to.exist;
-      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
-    }));
-
-
-    it('should not display preview if connection is disallowed',
-      inject(function(create, elementRegistry, dragging, createRules) {
-
-        // given
-        createRules.addRule('connection.create', 8000, function() {
-          return false;
-        });
-
-        var parentGfx = elementRegistry.getGraphics('parentShape');
-
-        // when
-        create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
-
-        dragging.move(canvasEvent({ x: 175, y: 175 }));
-        dragging.hover({ element: parentShape, gfx: parentGfx });
-        dragging.move(canvasEvent({ x: 400, y: 200 }));
-
-        var ctx = dragging.context();
-
-        // then
-        expect(ctx.data.context.connectionPreviewGfx.childNodes).to.be.have.lengthOf(0);
-      })
-    );
-  });
-
-  describe('cleanup', function() {
-
-    it('should remove connection preview on dragging end', inject(function(create, elementRegistry, dragging) {
-
-      // given
-      var parentGfx = elementRegistry.getGraphics('parentShape');
-
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
-
-      dragging.move(canvasEvent({ x: 175, y: 175 }));
-      dragging.hover({ element: parentShape, gfx: parentGfx });
-      dragging.move(canvasEvent({ x: 400, y: 200 }));
-
-      var ctx = dragging.context();
-
-      dragging.end();
-
-      // then
-      expect(ctx.data.context.connectionPreviewGfx.parentNode).not.to.exist;
-    }));
-
-
-    it('should remove connection preview on dragging cancel', inject(function(create, elementRegistry, dragging) {
-
-      // given
-      var parentGfx = elementRegistry.getGraphics('parentShape');
-
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
-
-      dragging.move(canvasEvent({ x: 175, y: 175 }));
-      dragging.hover({ element: parentShape, gfx: parentGfx });
-      dragging.move(canvasEvent({ x: 400, y: 200 }));
-
-      var ctx = dragging.context();
-
-      dragging.cancel();
-
-      // then
-      expect(ctx.data.context.connectionPreviewGfx.parentNode).not.to.exist;
-    }));
-  });
-
 
   describe('rules', function() {
 
@@ -415,6 +333,104 @@ describe('features/create - Create', function() {
       expect(canvas.hasMarker(parentShape, 'new-parent')).not.to.eql(hasMarker);
     }));
 
+
+    describe('connection preview', function() {
+
+      beforeEach(bootstrapDiagram({
+        modules: testModules.concat(connectionPreviewModule)
+      }));
+
+      beforeEach(inject(setManualDragging));
+
+      beforeEach(inject(setupDiagram));
+
+
+      it('should display connection preview', inject(function(create, elementRegistry, dragging) {
+
+        // given
+        var parentGfx = elementRegistry.getGraphics('parentShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
+
+        dragging.move(canvasEvent({ x: 175, y: 175 }));
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+        dragging.move(canvasEvent({ x: 400, y: 200 }));
+
+        var ctx = dragging.context();
+
+        // then
+        expect(ctx.data.context.connectionPreviewGfx).to.exist;
+        expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
+      }));
+
+
+      it('should not display preview if connection is disallowed',
+        inject(function(create, elementRegistry, dragging, createRules) {
+
+          // given
+          createRules.addRule('connection.create', 8000, function() {
+            return false;
+          });
+
+          var parentGfx = elementRegistry.getGraphics('parentShape');
+
+          // when
+          create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
+
+          dragging.move(canvasEvent({ x: 175, y: 175 }));
+          dragging.hover({ element: parentShape, gfx: parentGfx });
+          dragging.move(canvasEvent({ x: 400, y: 200 }));
+
+          var ctx = dragging.context();
+
+          // then
+          expect(ctx.data.context.connectionPreviewGfx.childNodes).to.be.have.lengthOf(0);
+        })
+      );
+
+
+      it('should remove connection preview on dragging end', inject(function(create, elementRegistry, dragging) {
+
+        // given
+        var parentGfx = elementRegistry.getGraphics('parentShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
+
+        dragging.move(canvasEvent({ x: 175, y: 175 }));
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+        dragging.move(canvasEvent({ x: 400, y: 200 }));
+
+        var ctx = dragging.context();
+
+        dragging.end();
+
+        // then
+        expect(ctx.data.context.connectionPreviewGfx.parentNode).not.to.exist;
+      }));
+
+
+      it('should remove connection preview on dragging cancel', inject(function(create, elementRegistry, dragging) {
+
+        // given
+        var parentGfx = elementRegistry.getGraphics('parentShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
+
+        dragging.move(canvasEvent({ x: 175, y: 175 }));
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+        dragging.move(canvasEvent({ x: 400, y: 200 }));
+
+        var ctx = dragging.context();
+
+        dragging.cancel();
+
+        // then
+        expect(ctx.data.context.connectionPreviewGfx.parentNode).not.to.exist;
+      }));
+    });
   });
 
 });
