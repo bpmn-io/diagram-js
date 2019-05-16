@@ -360,6 +360,27 @@ describe('features/bendpoints - move', function() {
   });
 
 
+  describe('bendpoint snapping', function() {
+
+    it('should snap to the shape center', inject(function(canvas, bendpointMove, dragging) {
+
+      // given
+      bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
+      dragging.hover({ element: shape2, gfx: canvas.getGraphics(shape2) });
+      dragging.move(canvasEvent({ x: 543, y: 143 }));
+
+      // when
+      dragging.end();
+
+      // then
+      var waypoints = connection.waypoints;
+
+      expect(waypoints[waypoints.length - 1]).to.eql({ x: 550, y: 150 });
+    }));
+
+  });
+
+
   describe('connection preview', function() {
 
     beforeEach(bootstrapDiagram({
