@@ -3,6 +3,8 @@ import {
   inject
 } from 'test/TestHelper';
 
+import TestContainer from 'mocha-test-container-support';
+
 import modelingModule from 'lib/features/modeling';
 import connectionPreviewModule from 'lib/features/connection-preview';
 
@@ -66,6 +68,12 @@ describe('features/connection-preview', function() {
 
   beforeEach(inject(setupDiagram));
 
+  var testContainer;
+
+  beforeEach(function() {
+    testContainer = TestContainer.get(this);
+  });
+
 
   describe('basics', function() {
 
@@ -81,7 +89,7 @@ describe('features/connection-preview', function() {
       // when
       connectionPreview.drawPreview(context, true, hints);
 
-      var preview = domQuery('.djs-dragger');
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).to.exist;
@@ -101,7 +109,7 @@ describe('features/connection-preview', function() {
       // when
       connectionPreview.drawPreview(context, true, hints);
 
-      var preview = domQuery('.djs-dragger');
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).to.exist;
@@ -122,7 +130,7 @@ describe('features/connection-preview', function() {
       connectionPreview.drawPreview(context, true, hints);
       connectionPreview.cleanUp(context);
 
-      var preview = domQuery('.djs-dragger');
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).not.to.exist;
@@ -145,7 +153,7 @@ describe('features/connection-preview', function() {
       // when
       connectionPreview.drawPreview(context, false, hints);
 
-      var preview = domQuery('.djs-dragger');
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).to.exist;
@@ -166,7 +174,7 @@ describe('features/connection-preview', function() {
       // when
       connectionPreview.drawPreview(context, false, hints);
 
-      var preview = domQuery('.djs-dragger');
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).to.exist;
