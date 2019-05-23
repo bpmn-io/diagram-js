@@ -1,5 +1,6 @@
 import {
-  pointsOnLine
+  pointsOnLine,
+  pointsAligned
 } from 'lib/util/Geometry';
 
 
@@ -32,6 +33,107 @@ describe('util/Geometry', function() {
       expect(pointsOnLine(p, null, z)).to.be.false;
       expect(pointsOnLine(null, q, z)).to.be.false;
     });
+
+  });
+
+
+  describe('#pointsAligned', function() {
+
+    it('should return h for exact horizontal line', function() {
+
+      // given
+      var p0 = { x: 200, y: 200 },
+          p1 = { x: 400, y: 200 };
+
+      // then
+      expect(pointsAligned(p0, p1)).to.equal('h');
+    });
+
+
+    it('should return h for horizontal line in alignment threshold',
+      function() {
+
+        // given
+        var p0 = { x: 200, y: 200 },
+            p1 = { x: 400, y: 202 },
+            p2 = { x: 200, y: 200 },
+            p3 = { x: 400, y: 198 };
+
+        // then
+        expect(pointsAligned(p0, p1)).to.equal('h');
+        expect(pointsAligned(p2, p3)).to.equal('h');
+      }
+    );
+
+
+    it('should return v for exact vertical line', function() {
+
+      // given
+      var p0 = { x: 200, y: 200 },
+          p1 = { x: 200, y: 400 };
+
+      // then
+      expect(pointsAligned(p0, p1)).to.equal('v');
+    });
+
+
+    it('should return v for vertical line within alignment threshold',
+      function() {
+
+        // given
+        var p0 = { x: 200, y: 200 },
+            p1 = { x: 202, y: 400 },
+            p2 = { x: 200, y: 200 },
+            p3 = { x: 198, y: 400 };
+
+        // then
+        expect(pointsAligned(p0, p1)).to.equal('v');
+        expect(pointsAligned(p2, p3)).to.equal('v');
+      }
+    );
+
+
+    it('should return false for non-aligned line', function() {
+
+      // given
+      var p0 = { x: 200, y: 200 },
+          p1 = { x: 400, y: 400 };
+
+      // then
+      expect(pointsAligned(p0, p1)).to.be.false;
+    });
+
+
+    it('should return false for horizontal line outside alignment threshold',
+      function() {
+
+        // given
+        var p0 = { x: 200, y: 200 },
+            p1 = { x: 400, y: 203 },
+            p2 = { x: 200, y: 200 },
+            p3 = { x: 400, y: 197 };
+
+        // then
+        expect(pointsAligned(p0, p1)).to.be.false;
+        expect(pointsAligned(p2, p3)).to.be.false;
+      }
+    );
+
+
+    it('should return false for vertical line outside alignment threshold',
+      function() {
+
+        // given
+        var p0 = { x: 200, y: 200 },
+            p1 = { x: 203, y: 400 },
+            p2 = { x: 200, y: 200 },
+            p3 = { x: 197, y: 400 };
+
+        // then
+        expect(pointsAligned(p0, p1)).to.be.false;
+        expect(pointsAligned(p2, p3)).to.be.false;
+      }
+    );
 
   });
 
