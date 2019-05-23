@@ -1,3 +1,5 @@
+/* global sinon */
+
 import {
   bootstrapDiagram,
   inject
@@ -24,6 +26,8 @@ import { classes as svgClasses } from 'tiny-svg';
 function bounds(b) {
   return pick(b, [ 'x', 'y', 'width', 'height' ]);
 }
+
+var spy = sinon.spy;
 
 describe('features/resize - Resize', function() {
 
@@ -202,6 +206,45 @@ describe('features/resize - Resize', function() {
 
       expect(shapeBounds).to.eql({ x: 100, y: 100, width: 80, height: 110 });
     }));
+
+
+    it('should NOT resize if bounds have not changed', inject(
+      function(canvas, dragging, elementFactory, modeling, resize) {
+
+        // given
+        var resizeShapeSpy = spy(modeling, 'resizeShape');
+
+        var shape = elementFactory.createShape({
+          id: 'shapeA',
+          resizable: 'always',
+          x: 100,
+          y: 100,
+          width: 100,
+          height: 100
+        });
+
+        shape = canvas.addShape(shape);
+
+        // when
+        resize.activate(canvasEvent({ x: 200, y: 200 }), shape, 'se');
+
+        dragging.move(canvasEvent({ x: 205, y: 205 }));
+
+        dragging.move(canvasEvent({ x: 200, y: 200 }));
+
+        dragging.end();
+
+        // then
+        expect(resizeShapeSpy).not.to.have.been.called;
+
+        expect(shape).to.have.bounds({
+          x: 100,
+          y: 100,
+          width: 100,
+          height: 100
+        });
+      }
+    ));
 
   });
 
