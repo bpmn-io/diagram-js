@@ -1,3 +1,5 @@
+/* global sinon */
+
 import {
   bootstrapDiagram,
   inject
@@ -14,6 +16,8 @@ import {
 
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
+
+var spy = sinon.spy;
 
 
 describe('features/move - Move', function() {
@@ -106,6 +110,7 @@ describe('features/move - Move', function() {
 
   });
 
+
   describe('modeling', function() {
 
     it('should round movement to pixels', inject(function(move, dragging, elementRegistry) {
@@ -143,6 +148,35 @@ describe('features/move - Move', function() {
       // then
       expect(dragging.context().data.context).to.include(context);
     }));
+
+
+    it('should NOT move if no delta', inject(
+      function(dragging, elementRegistry, modeling, move) {
+
+        // given
+        var moveElementsSpy = spy(modeling, 'moveElements');
+
+        move.start(canvasEvent({ x: 0, y: 0 }), childShape);
+
+        // when
+        dragging.move(canvasEvent({ x: 20, y: 20 }));
+
+        dragging.hover({
+          element: parentShape,
+          gfx: elementRegistry.getGraphics(parentShape)
+        });
+
+        dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+        dragging.end();
+
+        // then
+        expect(moveElementsSpy).not.to.have.been.called;
+
+        expect(childShape.x).to.eql(110);
+        expect(childShape.y).to.eql(110);
+      }
+    ));
 
   });
 
