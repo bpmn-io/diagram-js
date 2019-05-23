@@ -1,372 +1,148 @@
+import TestContainer from 'mocha-test-container-support';
+
 import {
   bootstrapDiagram,
   getDiagramJS,
   inject
 } from 'test/TestHelper';
 
-import { assign } from 'min-dash';
-
-import snappingModule from 'lib/features/snapping';
 import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import createModule from 'lib/features/create';
-import attachSupportModule from 'lib/features/attach-support';
+import snappingModule from 'lib/features/snapping';
 
-import {
-  createCanvasEvent as canvasEvent
-} from '../../util/MockEvents';
+import SnapContext, { SnapPoints } from 'lib/features/snapping/SnapContext';
 
-import SnapContext from 'lib/features/snapping/SnapContext';
+import { SNAP_LINE_HIDE_DELAY } from 'lib/features/snapping/Snapping';
+
+import { queryAll as domQueryAll } from 'min-dom';
 
 
 describe('features/snapping - Snapping', function() {
 
-  describe('basics', function() {
+  beforeEach(bootstrapDiagram({
+    modules: [
+      modelingModule,
+      snappingModule
+    ]
+  }));
 
-    beforeEach(bootstrapDiagram({
-      modules: [
-        modelingModule,
-        snappingModule
-      ]
-    }));
+  var container;
+
+  beforeEach(function() {
+    container = TestContainer.get(this);
+  });
 
 
-    var rootElement, shape;
+  describe('snapping', function() {
 
-    beforeEach(inject(function(canvas, elementFactory) {
+    var snapContext, snapPoints;
 
-      rootElement = elementFactory.createRoot({
-        id: 'root'
+    beforeEach(function() {
+      snapContext = new SnapContext();
+
+      snapContext.setSnapOrigin('foo', {
+        x: 0,
+        y: 0
       });
 
-      canvas.setRootElement(rootElement);
+      snapPoints = new SnapPoints();
 
-      shape = canvas.addShape(elementFactory.createShape({
-        id: 'shape',
-        x: 100, y: 100, width: 100, height: 100
-      }));
+      snapPoints.add('foo', {
+        x: 150,
+        y: 150
+      });
+    });
 
+    it('should snap event', inject(function(snapping) {
 
-      // snap target
-      canvas.addShape(elementFactory.createShape({
-        id: 'snap-target',
-        x: 400, y: 150, width: 50, height: 50
-      }));
+      // given
+      var event = {
+        x: 145,
+        y: 155,
+        context: {
+          snapContext: snapContext
+        }
+      };
+
+      // when
+      snapping.snap(event, snapPoints);
+
+      // then
+      expect(event.x).to.equal(150);
+      expect(event.y).to.equal(150);
     }));
 
 
-    describe('#initSnap', function() {
+    it('should NOT snap event', inject(function(snapping) {
 
-      it('should init snapContext', inject(function(snapping) {
+      // given
+      var event = {
+        x: 140,
+        y: 160,
+        context: {
+          snapContext: snapContext
+        }
+      };
 
-        // given
-        var event = {
-          x: 100,
-          y: 100,
-          context: {
-            shape: shape
-          }
-        };
+      // when
+      snapping.snap(event, snapPoints);
 
-        // when
-        var snapContext = snapping.initSnap(event);
-
-        // then
-        expect(snapContext).to.exist;
-        expect(event.context.snapContext).to.equal(snapContext);
-      }));
-
-
-      it('should reuse existing snapContext', inject(function(snapping) {
-
-        // given
-        var originalSnapContext = new SnapContext();
-
-        var event = {
-          x: 100,
-          y: 100,
-          context: {
-            shape: shape,
-            snapContext: originalSnapContext
-          }
-        };
-
-        // when
-        var snapContext = snapping.initSnap(event);
-
-        // then
-        expect(snapContext).to.equal(originalSnapContext);
-      }));
-
-    });
-
-
-    describe('eventBus integration', function() {
-
-      var startEvent;
-
-      beforeEach(inject(function(eventBus) {
-        startEvent = eventBus.createEvent({
-          x: 150,
-          y: 150,
-          context: {
-            shape: shape,
-            target: rootElement
-          }
-        });
-      }));
-
-
-      function moveTo(startEvent, newPosition) {
-
-        return getDiagramJS().invoke(function(eventBus) {
-
-          return eventBus.createEvent(assign(startEvent, {
-            x: newPosition.x,
-            y: newPosition.y,
-            dx: newPosition.x - startEvent.x,
-            dy: newPosition.y - startEvent.y
-          }));
-        });
-      }
-
-
-      it('should init on shape.move.start', inject(function(eventBus) {
-
-        // when
-        eventBus.fire('shape.move.start', startEvent);
-
-        // then
-        expect(startEvent.context.snapContext).to.exist;
-      }));
-
-
-      it('should init on create.start', inject(function(eventBus) {
-
-        // when
-        eventBus.fire('create.start', startEvent);
-
-        // then
-        expect(startEvent.context.snapContext).to.exist;
-      }));
-
-
-      it('should snap on shape.move.move / horizontally', inject(function(eventBus) {
-
-        // given
-        eventBus.fire('shape.move.start', startEvent);
-
-        // when
-        var moveEvent = moveTo(startEvent, { x: 180, y: 170 });
-
-        eventBus.fire('shape.move.move', moveEvent);
-
-        // then
-        expect(moveEvent.x).to.eql(180);
-        expect(moveEvent.y).to.eql(175); // snap at (180,175)
-      }));
-
-
-      it('should snap on shape.move.move / vertically', inject(function(eventBus) {
-
-        // given
-        eventBus.fire('shape.move.start', startEvent);
-
-        // when
-        var moveEvent = moveTo(startEvent, { x: 420, y: 200 });
-
-        eventBus.fire('shape.move.move', moveEvent);
-
-        // then
-        expect(moveEvent.x).to.eql(425);
-        expect(moveEvent.y).to.eql(200); // snap at (425,200)
-      }));
-
-
-      it('should snap on shape.move.end', inject(function(eventBus) {
-
-        // given
-        eventBus.fire('shape.move.start', startEvent);
-
-        // when
-        var endEvent = moveTo(startEvent, { x: 180, y: 170 });
-
-        eventBus.fire('shape.move.end', endEvent);
-
-        // then
-        expect(endEvent.x).to.eql(180);
-        expect(endEvent.y).to.eql(175); // snap at (180,175)
-      }));
-
-    });
+      // then
+      expect(event.x).to.equal(140);
+      expect(event.y).to.equal(160);
+    }));
 
   });
 
 
-  // TODO(nikku): test this (!)
   describe('snap lines', function() {
 
-    it('should show');
-
-    it('should hide async');
-
-  });
-
-
-  describe('util', function() {
-
-    beforeEach(bootstrapDiagram({
-      modules: [
-        modelingModule,
-        snappingModule,
-        attachSupportModule
-      ]
-    }));
-
-    var rootElement, shape, sibling;
-
-    beforeEach(inject(function(canvas, elementFactory) {
-
-      rootElement = elementFactory.createRoot({
-        id: 'root'
-      });
-
-      canvas.setRootElement(rootElement);
-
-      shape = canvas.addShape(elementFactory.createShape({
-        id: 'shape1',
-        x: 100, y: 100, width: 100, height: 100
-      }));
-
-      sibling = canvas.addShape(elementFactory.createShape({
-        id: 'shape2',
-        x: 400, y: 150, width: 50, height: 50
-      }));
-    }));
-
-
-    it('getSiblings', inject(function(canvas, elementFactory, modeling, snapping) {
-
-      // given
-      var attacher = elementFactory.createShape({
-        id: 'attacher',
-        width: 50, height: 50
-      });
-
-      modeling.createShape(attacher, { x: 100, y: 100 }, shape, true);
-
-      var label = elementFactory.createLabel({
-        id: 'label',
-        width: 80, height: 40
-      });
-
-      modeling.createLabel(shape, { x: 150, y: 250 }, label, rootElement);
-
-      var connection = modeling.connect(shape, sibling);
+    it('should show', inject(function(snapping) {
 
       // when
-      var siblings = snapping.getSiblings(shape, rootElement);
+      snapping.showSnapLine('horizontal', 100);
 
       // then
-      expect(siblings).to.have.length(2);
-      expect(siblings).to.contain(sibling);
-      expect(siblings).to.contain(connection);
-    }));
-
-  });
-
-
-  describe('integration', function() {
-
-    beforeEach(bootstrapDiagram({
-      modules: [
-        createModule,
-        snappingModule,
-        modelingModule,
-        moveModule
-      ]
-    }));
-
-    beforeEach(inject(function(dragging, elementRegistry) {
-      dragging.setOptions({ manual: true });
-    }));
-
-    var rootElement;
-
-    beforeEach(inject(function(canvas, elementFactory) {
-
-      rootElement = elementFactory.createRoot({
-        id: 'root'
-      });
-
-      canvas.setRootElement(rootElement);
-
-      canvas.addShape(elementFactory.createShape({
-        id: 'snap-target',
-        x: 100, y: 100, width: 100, height: 100
-      }));
+      expect(domQueryAll('.djs-snap-line', container).length).to.equal(2);
     }));
 
 
-    it('should snap horizontal on create', inject(function(create, dragging, elementFactory, elementRegistry) {
+    it('should hide', inject(function(snapping) {
 
       // given
-      var newShape = elementFactory.createShape({
-        id: 'new-shape',
-        x: 0, y: 0,
-        width: 100, height: 100
-      });
+      snapping.showSnapLine('horizontal', 100);
 
       // when
-      create.start(canvasEvent({ x: 50, y: 50 }), newShape);
-
-      dragging.hover({ element: rootElement });
-      dragging.move(canvasEvent({ x: 100, y: 350 }));
-      dragging.move(canvasEvent({ x: 145, y: 350 }));
-
-      dragging.end();
-
-      var createdShape = elementRegistry.get('new-shape');
+      snapping.hide();
 
       // then
-      expect(createdShape).to.have.bounds({
-        x: 100, // snapped to mid(100, _)
-        y: 300,
-        width: 100,
-        height: 100
-      });
+      expect(isHidden(domQueryAll('.djs-snap-line', container)[0])).to.be.true; // horizontal
+      expect(isHidden(domQueryAll('.djs-snap-line', container)[1])).to.be.true; // vertical
     }));
 
 
-    it('should snap vertical on create', inject(function(create, dragging, elementFactory, elementRegistry) {
+    it('should hide async', function(done) {
+      getDiagramJS().invoke(function(snapping) {
 
-      // given
-      var newShape = elementFactory.createShape({
-        id: 'new-shape',
-        x: 0, y: 0,
-        width: 100, height: 100
+        // when
+        snapping.showSnapLine('horizontal', 100);
+
+        setTimeout(function() {
+
+          // then
+          expect(isHidden(domQueryAll('.djs-snap-line', container)[0])).to.be.true; // horizontal
+          expect(isHidden(domQueryAll('.djs-snap-line', container)[1])).to.be.true; // vertical
+
+          done();
+        }, SNAP_LINE_HIDE_DELAY);
       });
-
-      // when
-      create.start(canvasEvent({ x: 50, y: 50 }), newShape);
-
-      dragging.hover({ element: rootElement });
-      dragging.move(canvasEvent({ x: 100, y: 145 }));
-      dragging.move(canvasEvent({ x: 350, y: 145 }));
-
-      dragging.end();
-
-      var createdShape = elementRegistry.get('new-shape');
-
-      // then
-      expect(createdShape).to.have.bounds({
-        x: 300, // snapped to mid(100, _)
-        y: 100,
-        width: 100,
-        height: 100
-      });
-    }));
+    });
 
   });
 
 });
+
+// helpers //////////
+
+function isHidden(element) {
+  return element && element.style.display === 'none';
+}
