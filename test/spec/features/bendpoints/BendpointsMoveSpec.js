@@ -217,6 +217,18 @@ describe('features/bendpoints - move', function() {
       expect(hoverNode.getAttribute('data-element-id')).to.equal(shape3.id);
     }));
 
+
+    it('should set initial value correctly', inject(function(bendpointMove, dragging) {
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
+
+      var context = dragging.context();
+
+      // then
+      expect(context.data.context).to.have.property('allowed');
+    }));
+
   });
 
 
