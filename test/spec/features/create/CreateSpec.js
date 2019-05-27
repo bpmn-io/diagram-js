@@ -483,6 +483,34 @@ describe('features/create - Create', function() {
       }
     ));
 
+
+    it('should pass hints to commandStack.shape.create event context', inject(
+      function(create, eventBus, dragging) {
+
+        // given
+        var spy = sinon.spy(function(event) {
+          expect(event.context.hints.foo).to.exist;
+        });
+
+        eventBus.once('create.start', function(event) {
+          event.context.hints.foo = 'foo';
+        });
+
+        eventBus.once('commandStack.shape.create.execute', spy);
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        dragging.move(canvasEvent({ x: 50, y: 50 }));
+        dragging.hover({ element: parentShape });
+        dragging.move(canvasEvent({ x: 100, y: 100 }));
+        dragging.end();
+
+        // then
+        expect(spy).to.have.been.called;
+      }
+    ));
+
   });
 
 });
