@@ -1,3 +1,5 @@
+/* global sinon */
+
 import {
   bootstrapDiagram,
   inject
@@ -431,6 +433,56 @@ describe('features/create - Create', function() {
         expect(ctx.data.context.connectionPreviewGfx.parentNode).not.to.exist;
       }));
     });
+  });
+
+
+  describe('hints', function() {
+
+    afterEach(sinon.restore);
+
+
+    it('should provide hints object in create.start event handler', inject(
+      function(create, eventBus) {
+
+        // given
+        var spy = sinon.spy(function(event) {
+          expect(event.context.hints).to.exist;
+        });
+
+        eventBus.once('create.start', spy);
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        // then
+        expect(spy).to.have.been.called;
+      }
+    ));
+
+
+    it('should provide hints object in create.end event handler', inject(
+      function(create, eventBus, dragging) {
+
+        // given
+        var spy = sinon.spy(function(event) {
+          expect(event.context.hints).to.exist;
+        });
+
+        eventBus.once('create.end', spy);
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        dragging.move(canvasEvent({ x: 50, y: 50 }));
+        dragging.hover({ element: parentShape });
+        dragging.move(canvasEvent({ x: 100, y: 100 }));
+        dragging.end();
+
+        // then
+        expect(spy).to.have.been.called;
+      }
+    ));
+
   });
 
 });
