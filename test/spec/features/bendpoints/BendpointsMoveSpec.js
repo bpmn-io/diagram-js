@@ -229,6 +229,23 @@ describe('features/bendpoints - move', function() {
       expect(context.data.context).to.have.property('allowed');
     }));
 
+
+    it('should not init dragging if not allowed from start',
+      inject(function(eventBus, bendpointMove, dragging) {
+
+        // given
+        var rule = sinon.stub().returns(false);
+        eventBus.on('commandStack.connection.reconnectEnd.canExecute', Infinity, rule);
+
+        // when
+        bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
+
+        var context = dragging.context();
+
+        // then
+        expect(context).to.not.exist;
+      })
+    );
   });
 
 
