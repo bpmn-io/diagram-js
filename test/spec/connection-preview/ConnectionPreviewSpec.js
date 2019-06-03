@@ -16,6 +16,7 @@ import {
 } from 'min-dom';
 import { isDefined } from 'min-dash';
 
+import { getMid } from '../../../lib/layout/LayoutUtil';
 
 var testModules = [
   modelingModule,
@@ -235,6 +236,31 @@ describe('features/connection-preview', function() {
       // then
       expect(waypoints).to.have.lengthOf(2);
       expect(waypoints.every(isDefined)).to.be.true;
+    }));
+
+
+    it('should not crop if explicitly disallowed', inject(function(connectionPreview) {
+
+      // given
+      var context = {},
+          hints = {
+            source: shape1,
+            target: shape2,
+            noCropping: true
+          };
+
+      // when
+      connectionPreview.drawPreview(context, true, hints);
+
+      var connection = context.getConnection(true),
+          waypoints = connection.waypoints;
+
+      // then
+      expect(waypoints).to.have.lengthOf(2);
+      expect(waypoints).to.eql([
+        getMid(shape1),
+        getMid(shape2)
+      ]);
     }));
 
   });
