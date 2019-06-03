@@ -25,7 +25,7 @@ ConnectRules.prototype.init = function() {
   });
 
   this.addRule('connection.updateWaypoints', function(context) {
-    return null;
+    return true;
   });
 
   this.addRule('connection.reconnectEnd', function(context) {

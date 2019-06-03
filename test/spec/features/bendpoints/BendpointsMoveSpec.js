@@ -18,6 +18,7 @@ import rulesModule from './rules';
 import modelingModule from 'lib/features/modeling';
 import selectModule from 'lib/features/selection';
 import connectionPreviewModule from 'lib/features/connection-preview';
+import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
 
 import {
   query as domQuery,
@@ -413,7 +414,10 @@ describe('features/bendpoints - move', function() {
   describe('connection preview', function() {
 
     beforeEach(bootstrapDiagram({
-      modules: testModules.concat(connectionPreviewModule)
+      modules: testModules.concat(
+        connectionPreviewModule,
+        { connectionDocking: [ 'type', CroppingConnectionDocking ] }
+      )
     }));
 
     beforeEach(inject(setManualDragging));
@@ -486,6 +490,22 @@ describe('features/bendpoints - move', function() {
       expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
       expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
+
+
+    it('should filter out redundant waypoints from preview',
+      inject(function(bendpointMove, dragging) {
+
+        // when
+        bendpointMove.start(canvasEvent({ x: 500, y: 250 }), connection, 1);
+        dragging.move(canvasEvent({ x: 550, y: 250 }));
+
+        var ctx = dragging.context(),
+            preview = ctx.data.context.getConnection(true);
+
+        // then
+        expect(preview.waypoints).to.have.lengthOf(3);
+      })
+    );
   });
 
 });
