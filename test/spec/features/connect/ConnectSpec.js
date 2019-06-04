@@ -295,7 +295,6 @@ describe('features/connect', function() {
 
         // then
         expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
-        expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
       })
     );
 
@@ -311,7 +310,6 @@ describe('features/connect', function() {
 
       // then
       expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
-      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
 
 
@@ -328,7 +326,6 @@ describe('features/connect', function() {
 
       // then
       expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
-      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
 
   });
