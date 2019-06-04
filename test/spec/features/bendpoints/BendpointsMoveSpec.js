@@ -6,10 +6,6 @@ import {
 } from 'test/TestHelper';
 
 import {
-  classes as svgClasses
-} from 'tiny-svg';
-
-import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents';
 
@@ -442,7 +438,6 @@ describe('features/bendpoints - move', function() {
 
       // then
       expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
-      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
 
 
@@ -458,7 +453,6 @@ describe('features/bendpoints - move', function() {
 
       // then
       expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
-      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
 
 
@@ -473,7 +467,6 @@ describe('features/bendpoints - move', function() {
 
       // then
       expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
-      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
 
 
@@ -488,7 +481,6 @@ describe('features/bendpoints - move', function() {
 
       // then
       expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
-      expect(svgClasses(ctx.data.context.connectionPreviewGfx).has('djs-dragger')).to.be.true;
     }));
 
 
