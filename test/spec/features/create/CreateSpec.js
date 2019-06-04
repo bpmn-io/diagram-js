@@ -336,7 +336,7 @@ describe('features/create - Create', function() {
     }));
 
 
-    describe('connection preview', function() {
+    describe.skip('connection preview', function() {
 
       beforeEach(bootstrapDiagram({
         modules: testModules.concat(connectionPreviewModule)
