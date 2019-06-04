@@ -123,19 +123,36 @@ describe('features/modeling - replace shape', function() {
     }));
 
 
-    it('should relayout connection when replacing elements with different size', inject(function(elementFactory, modeling) {
+    it('should relayout connection when replacing elements with different size',
+      inject(function(modeling) {
 
-      // given
-      var newShapeData = { x: 130, y: 130, width: 200, height: 200 };
+        // given
+        var newShapeData = { x: 130, y: 130, width: 200, height: 200 };
 
-      // when
-      modeling.replaceShape(child2, newShapeData);
+        // when
+        modeling.replaceShape(child2, newShapeData);
 
-      // then
-      expect(connection.waypoints[0]).to.be.eql({ x: 385, y: 55 });
-      expect(connection.waypoints[1]).to.be.eql({ x: 130, y: 130 });
-    }));
+        // then
+        expect(connection.waypoints[0]).to.be.eql({ x: 385, y: 55 });
+        expect(connection.waypoints[1]).to.be.eql({ x: 130, y: 130 });
+      })
+    );
 
+
+    it('should NOT relayout connection when layoutConnection=false',
+      inject(function(modeling) {
+
+        // given
+        var newShapeData = { x: 130, y: 130, width: 200, height: 200 };
+
+        // when
+        modeling.replaceShape(child2, newShapeData, { layoutConnection: false });
+
+        // then
+        expect(connection.waypoints[0]).to.be.eql({ x: 385, y: 55 });
+        expect(connection.waypoints[1]).to.be.eql({ x: 80, y: 80 });
+      })
+    );
   });
 
 });
