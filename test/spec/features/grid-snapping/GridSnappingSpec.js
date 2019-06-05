@@ -286,41 +286,89 @@ describe('features/grid-snapping', function() {
     });
 
 
-    it('<create>', inject(function(create, dragging, eventBus) {
+    describe('<create>', function() {
 
-      // given
-      var events = recordEvents(eventBus, [
-        'create.move',
-        'create.end'
-      ]);
+      it('without constraints', inject(function(create, dragging, eventBus) {
 
-      create.start(canvasEvent({ x: 150, y: 250 }), newShape);
+        // given
+        var events = recordEvents(eventBus, [
+          'create.move',
+          'create.end'
+        ]);
 
-      // when
-      dragging.hover({ element: rootShape, gfx: rootShapeGfx });
+        create.start(canvasEvent({ x: 150, y: 250 }), newShape);
 
-      dragging.move(canvasEvent({ x: 156, y: 253 }));
-      dragging.move(canvasEvent({ x: 162, y: 256 }));
-      dragging.move(canvasEvent({ x: 168, y: 259 }));
-      dragging.move(canvasEvent({ x: 174, y: 262 }));
-      dragging.move(canvasEvent({ x: 180, y: 265 }));
+        // when
+        dragging.hover({ element: rootShape, gfx: rootShapeGfx });
 
-      dragging.end();
+        dragging.move(canvasEvent({ x: 156, y: 253 }));
+        dragging.move(canvasEvent({ x: 162, y: 256 }));
+        dragging.move(canvasEvent({ x: 168, y: 259 }));
+        dragging.move(canvasEvent({ x: 174, y: 262 }));
+        dragging.move(canvasEvent({ x: 180, y: 265 }));
 
-      // then
-      expect(events.map(position)).to.eql([
-        { x: 150, y: 250 }, // move (triggered on create.start thanks to autoActivate)
-        { x: 160, y: 250 }, // move
-        { x: 160, y: 260 }, // move
-        { x: 170, y: 260 }, // move
-        { x: 170, y: 260 }, // move
-        { x: 180, y: 270 }, // move
-        { x: 180, y: 270 } // end
-      ]);
+        dragging.end();
 
-      expect(newShape.x + newShape.width / 2).to.equal(180);
-      expect(newShape.y + newShape.height / 2).to.equal(270);
-    }));
+        // then
+        expect(events.map(position)).to.eql([
+          { x: 150, y: 250 }, // move (triggered on create.start thanks to autoActivate)
+          { x: 160, y: 250 }, // move
+          { x: 160, y: 260 }, // move
+          { x: 170, y: 260 }, // move
+          { x: 170, y: 260 }, // move
+          { x: 180, y: 270 }, // move
+          { x: 180, y: 270 } // end
+        ]);
+
+        expect(newShape.x + newShape.width / 2).to.equal(180);
+        expect(newShape.y + newShape.height / 2).to.equal(270);
+      }));
+
+
+      it('with constraints', inject(function(create, dragging, eventBus) {
+
+        // given
+        var events = recordEvents(eventBus, [
+          'create.move',
+          'create.end'
+        ]);
+
+        create.start(canvasEvent({ x: 150, y: 250 }), newShape, {
+          createConstraints: {
+            top: 250,
+            right: 170,
+            bottom: 260,
+            left: 150
+          }
+        });
+
+        // when
+        dragging.hover({ element: rootShape, gfx: rootShapeGfx });
+
+        dragging.move(canvasEvent({ x: 156, y: 253 }));
+        dragging.move(canvasEvent({ x: 162, y: 256 }));
+        dragging.move(canvasEvent({ x: 168, y: 259 }));
+        dragging.move(canvasEvent({ x: 174, y: 262 }));
+        dragging.move(canvasEvent({ x: 180, y: 265 }));
+
+        dragging.end();
+
+        // then
+        expect(events.map(position)).to.eql([
+          { x: 150, y: 250 }, // move (triggered on create.start thanks to autoActivate)
+          { x: 160, y: 250 }, // move
+          { x: 160, y: 260 }, // move
+          { x: 170, y: 260 }, // move
+          { x: 170, y: 260 }, // move
+          { x: 170, y: 260 }, // move
+          { x: 170, y: 260 } // end
+        ]);
+
+        expect(newShape.x + newShape.width / 2).to.equal(170);
+        expect(newShape.y + newShape.height / 2).to.equal(260);
+      }));
+
+    });
 
 
     it('<connect>', inject(function(connect, dragging, eventBus) {
