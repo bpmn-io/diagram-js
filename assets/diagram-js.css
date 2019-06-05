@@ -37,6 +37,10 @@
   fill: #F7F9FF !important;
 }
 
+.djs-frame.new-parent .djs-visual > :nth-child(1) {
+  fill: none !important;
+}
+
 svg.drop-not-ok {
   background: #f9dee5 /* light-red */ !important;
 }
