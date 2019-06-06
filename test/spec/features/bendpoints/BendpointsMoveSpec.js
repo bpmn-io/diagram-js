@@ -2,6 +2,7 @@
 
 import {
   bootstrapDiagram,
+  getDiagramJS,
   inject
 } from 'test/TestHelper';
 
@@ -16,11 +17,14 @@ import selectModule from 'lib/features/selection';
 import connectionPreviewModule from 'lib/features/connection-preview';
 import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
 
+import { getMid } from 'lib/layout/LayoutUtil';
+
 import {
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
 
+import { isSnapped } from 'lib/features/snapping/SnapUtil';
 
 var testModules = [
   bendpointsModule,
@@ -388,21 +392,34 @@ describe('features/bendpoints - move', function() {
 
   describe('bendpoint snapping', function() {
 
-    it('should snap to the shape center', inject(function(canvas, bendpointMove, dragging) {
+    it('should snap to the shape center', function(done) {
 
-      // given
-      bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
-      dragging.hover({ element: shape2, gfx: canvas.getGraphics(shape2) });
-      dragging.move(canvasEvent({ x: 543, y: 143 }));
+      getDiagramJS().invoke(function(bendpointMove, canvas, dragging, eventBus) {
 
-      // when
-      dragging.end();
+        // given
+        eventBus.once('bendpoint.move.move', function(event) {
 
-      // then
-      var waypoints = connection.waypoints;
+          // then
+          expect(isSnapped(event, 'x')).to.be.true;
+          expect(isSnapped(event, 'y')).to.be.true;
 
-      expect(waypoints[waypoints.length - 1]).to.eql({ x: 550, y: 150 });
-    }));
+          done();
+        });
+
+        var shapeMid = getMid(shape2);
+
+        bendpointMove.start(canvasEvent(shapeMid), connection, 2);
+
+        dragging.hover({ element: shape2, gfx: canvas.getGraphics(shape2) });
+
+        // when
+        dragging.move(canvasEvent({
+          x: shapeMid.x + 10,
+          y: shapeMid.y + 10
+        }));
+      });
+
+    });
 
   });
 

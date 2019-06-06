@@ -2,6 +2,7 @@
 
 import {
   bootstrapDiagram,
+  getDiagramJS,
   inject
 } from 'test/TestHelper';
 
@@ -12,6 +13,10 @@ import modelingModule from 'lib/features/modeling';
 import selectModule from 'lib/features/selection';
 
 import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+
+import { isSnapped } from 'lib/features/snapping/SnapUtil';
+
+import { getMid } from 'lib/layout/LayoutUtil';
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]
@@ -652,6 +657,7 @@ describe('features/bendpoints - segment move', function() {
 
   });
 
+
   describe('width docking (skewed segments, no filteredWaypoints)', function() {
 
     beforeEach(bootstrapDiagram({
@@ -971,6 +977,87 @@ describe('features/bendpoints - segment move', function() {
       ]);
     }));
 
+
+  });
+
+
+  describe('connection segment snapping', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        bendpointsModule,
+        modelingModule,
+        selectModule
+      ]
+    }));
+
+    beforeEach(inject(function(dragging) {
+      dragging.setOptions({ manual: true });
+    }));
+
+    var sourceShape, targetShape, connection;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+
+      sourceShape = elementFactory.createShape({
+        id: 'sourceShape', type: 'A',
+        x: 100, y: 100,
+        width: 100, height: 100
+      });
+
+      canvas.addShape(sourceShape);
+
+      targetShape = elementFactory.createShape({
+        id: 'targetShape', type: 'A',
+        x: 300, y: 100,
+        width: 100, height: 100
+      });
+
+      canvas.addShape(targetShape);
+
+      connection = elementFactory.createConnection({
+        id: 'connection',
+        waypoints: [
+          { x: 200, y: 150 },
+          { x: 300, y: 150 }
+        ],
+        source: sourceShape,
+        target: targetShape
+      });
+
+      canvas.addConnection(connection);
+    }));
+
+
+    it('should snap to the shape center', function(done) {
+
+      getDiagramJS().invoke(function(connectionSegmentMove, dragging, eventBus) {
+
+        // given
+        eventBus.once('connectionSegment.move.move', function(event) {
+
+          // then
+          expect(isSnapped(event, 'x')).not.to.exist;
+          expect(isSnapped(event, 'y')).to.be.true;
+
+          done();
+        });
+
+        var shapeMid = getMid(sourceShape);
+
+        connectionSegmentMove.start(canvasEvent({
+          x: 250,
+          y: shapeMid.y
+        }), connection, 1);
+
+        // when
+        dragging.move(canvasEvent({
+          x: 250,
+          y: shapeMid.y + 10
+        }));
+      });
+
+    });
 
   });
 
