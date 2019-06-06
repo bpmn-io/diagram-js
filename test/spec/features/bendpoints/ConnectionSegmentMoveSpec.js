@@ -1037,8 +1037,12 @@ describe('features/bendpoints - segment move', function() {
         eventBus.once('connectionSegment.move.move', function(event) {
 
           // then
-          expect(isSnapped(event, 'x')).not.to.exist;
-          expect(isSnapped(event, 'y')).to.be.true;
+          try {
+            expect(isSnapped(event, 'x')).not.to.exist;
+            expect(isSnapped(event, 'y')).to.be.true;
+          } catch (error) {
+            done(error);
+          }
 
           done();
         });

@@ -400,8 +400,12 @@ describe('features/bendpoints - move', function() {
         eventBus.once('bendpoint.move.move', function(event) {
 
           // then
-          expect(isSnapped(event, 'x')).to.be.true;
-          expect(isSnapped(event, 'y')).to.be.true;
+          try {
+            expect(isSnapped(event, 'x')).to.be.true;
+            expect(isSnapped(event, 'y')).to.be.true;
+          } catch (error) {
+            done(error);
+          }
 
           done();
         });
