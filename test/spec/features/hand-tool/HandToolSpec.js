@@ -1,3 +1,5 @@
+/* global sinon */
+
 import {
   bootstrapDiagram,
   inject
@@ -7,6 +9,10 @@ import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 
 import handToolModule from 'lib/features/hand-tool';
 import draggingModule from 'lib/features/dragging';
+
+import { createKeyEvent } from 'test/util/KeyEvents';
+
+var spy = sinon.spy;
 
 
 describe('features/hand-tool', function() {
@@ -36,7 +42,7 @@ describe('features/hand-tool', function() {
 
   describe('general', function() {
 
-    it('should not move element', inject(function(canvas, handTool, dragging) {
+    it('should not move element', inject(function(handTool, dragging) {
       // given
       var position = {
         x: childShape.x,
@@ -54,6 +60,77 @@ describe('features/hand-tool', function() {
       expect(childShape.x).to.equal(position.x);
       expect(childShape.y).to.equal(position.y);
     }));
+
+  });
+
+
+  describe('activate on space', function() {
+
+    var removeEventListenerSpy;
+
+    beforeEach(inject(function(eventBus) {
+      eventBus.fire('keyboard.keydown', {
+        keyEvent: createKeyEvent(' ')
+      });
+
+      removeEventListenerSpy = spy(window, 'removeEventListener');
+    }));
+
+    afterEach(function() {
+      removeEventListenerSpy.restore();
+    });
+
+
+    it('should activate on space key down', inject(function(handTool) {
+
+      // when
+      triggerMouseEvent('mousemove', window);
+
+      // then
+      expect(handTool.isActive()).to.be.true;
+    }));
+
+
+    it('should deactivate on space key up (mousemove)', inject(function(eventBus, handTool) {
+
+      // given
+      triggerMouseEvent('mousemove', window);
+
+      // when
+      eventBus.fire('keyboard.keyup', {
+        keyEvent: createKeyEvent(' ')
+      });
+
+      // then
+      expect(handTool.isActive()).to.be.false;
+
+      expect(removeEventListenerSpy).to.have.been.called;
+    }));
+
+
+    it('should deactivate on space key up (NO mousemove)', inject(function(eventBus, handTool) {
+
+      // when
+      eventBus.fire('keyboard.keyup', {
+        keyEvent: createKeyEvent(' ')
+      });
+
+      // then
+      expect(handTool.isActive()).to.be.false;
+
+      expect(removeEventListenerSpy).to.have.been.called;
+    }));
+
   });
 
 });
+
+// helpers //////////
+
+function triggerMouseEvent(type, node) {
+  var event = document.createEvent('MouseEvent');
+
+  event.initMouseEvent(type, true, true, window, 0, 0, 0, 100, 100, false, false, false, false, 0, null);
+
+  return node.dispatchEvent(event);
+}

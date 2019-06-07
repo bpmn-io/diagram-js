@@ -162,6 +162,40 @@ describe('features/keyboard', function() {
 
   describe('add listener', function() {
 
+    it('should add keydown listener by default', inject(function(keyboard) {
+
+      // given
+      var keydownSpy = spy();
+
+      // when
+      keyboard.addListener(keydownSpy);
+
+      var event = createKeyEvent(TEST_KEY);
+
+      keyboard._keydownHandler(event);
+
+      // then
+      expect(keydownSpy).to.have.been.called;
+    }));
+
+
+    it('should add keyup listener', inject(function(keyboard) {
+
+      // given
+      var keyupSpy = spy();
+
+      // when
+      keyboard.addListener(keyupSpy, 'keyboard.keyup');
+
+      var event = createKeyEvent(TEST_KEY, { type: 'keyup' });
+
+      keyboard._keyupHandler(event);
+
+      // then
+      expect(keyupSpy).to.have.been.called;
+    }));
+
+
     it('should handle listeners by priority', inject(function(keyboard) {
 
       // given
@@ -242,6 +276,49 @@ describe('features/keyboard', function() {
         expect(event.defaultPrevented).to.be.true;
       }
     ));
+
+  });
+
+
+  describe('remove listener', function() {
+
+    it('should remove keydown listener by default', inject(function(keyboard) {
+
+      // given
+      var keydownSpy = spy();
+
+      keyboard.addListener(keydownSpy);
+
+      // when
+      keyboard.removeListener(keydownSpy);
+
+      // then
+      var event = createKeyEvent(TEST_KEY);
+
+      keyboard._keydownHandler(event);
+
+      // then
+      expect(keydownSpy).not.to.have.been.called;
+    }));
+
+
+    it('should remove keyup listener', inject(function(keyboard) {
+
+      // given
+      var keyupSpy = spy();
+
+      keyboard.addListener(keyupSpy, 'keyboard.keyup');
+
+      // when
+      keyboard.removeListener(keyupSpy, 'keyboard.keyup');
+
+      var event = createKeyEvent(TEST_KEY, { type: 'keyup' });
+
+      keyboard._keyupHandler(event);
+
+      // then
+      expect(keyupSpy).not.to.have.been.called;
+    }));
 
   });
 
