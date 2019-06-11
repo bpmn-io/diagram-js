@@ -40,6 +40,7 @@ describe('features/create - Create', function() {
       hostShape,
       childShape,
       frameShape,
+      ignoreShape,
       newShape;
 
   function setManualDragging(dragging) {
@@ -86,6 +87,14 @@ describe('features/create - Create', function() {
     });
 
     canvas.addShape(frameShape, rootShape);
+
+
+    ignoreShape = elementFactory.createShape({
+      id: 'ignoreShape',
+      x: 600, y: 50, width: 100, height: 100
+    });
+
+    canvas.addShape(ignoreShape, rootShape);
 
 
     newShape = elementFactory.createShape({
@@ -252,6 +261,7 @@ describe('features/create - Create', function() {
 
       dragging.end();
 
+      // then
       expect(elementRegistry.getGraphics('attacher')).not.to.exist;
     }));
 
@@ -267,8 +277,30 @@ describe('features/create - Create', function() {
       dragging.hover({ element: parentShape, gfx: targetGfx });
       dragging.move(canvasEvent({ x: 200, y: 225 }));
 
+      // then
       expect(canvas.hasMarker(parentShape, 'new-parent')).to.be.true;
     }));
+
+
+    it('should ignore hovering', inject(
+      function(canvas, create, elementRegistry, dragging) {
+      // given
+        var targetGfx = elementRegistry.getGraphics('ignoreShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        dragging.move(canvasEvent({ x: 650, y: 50 }));
+        dragging.hover({ element: ignoreShape, gfx: targetGfx });
+        dragging.move(canvasEvent({ x: 650, y: 60 }));
+
+        // then
+        var ctx = dragging.context();
+        expect(ctx.data.context.canExecute).to.equal(null);
+
+        expect(canvas.hasMarker(ignoreShape, 'new-parent')).to.be.false;
+      })
+    );
 
 
     it('should add "drop-not-ok" marker', inject(function(canvas, create, elementRegistry, dragging) {
@@ -282,6 +314,7 @@ describe('features/create - Create', function() {
       dragging.hover({ element: childShape, gfx: targetGfx });
       dragging.move(canvasEvent({ x: 50, y: 50 }));
 
+      // then
       expect(canvas.hasMarker(childShape, 'drop-not-ok')).to.be.true;
     }));
 
@@ -297,6 +330,7 @@ describe('features/create - Create', function() {
       dragging.hover({ element: frameShape, gfx: targetGfx });
       dragging.move(canvasEvent({ x: 50, y: 50 }));
 
+      // then
       expect(svgClasses(targetGfx).has('djs-frame')).to.be.true;
       expect(canvas.hasMarker(frameShape, 'drop-not-ok')).to.be.true;
     }));
@@ -313,6 +347,7 @@ describe('features/create - Create', function() {
       dragging.hover({ element: hostShape, gfx: hostGfx });
       dragging.move(canvasEvent({ x: 200, y: 350 }));
 
+      // then
       expect(canvas.hasMarker(hostShape, 'attach-ok')).to.be.true;
     }));
 
@@ -332,6 +367,7 @@ describe('features/create - Create', function() {
 
       dragging.end();
 
+      // then
       expect(canvas.hasMarker(parentShape, 'new-parent')).to.be.false;
       expect(canvas.hasMarker(parentShape, 'new-parent')).not.to.eql(hasMarker);
     }));

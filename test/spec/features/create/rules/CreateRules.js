@@ -17,6 +17,10 @@ CreateRules.prototype.init = function() {
 
     var target = context.target;
 
+    if (target && /ignore/.test(target.id)) {
+      return null;
+    }
+
     // can attach to host
     if (/host/.test(target.id)) {
       return 'attach';
