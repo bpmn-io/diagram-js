@@ -21,6 +21,10 @@ MoveRules.prototype.init = function() {
     var target = context.target,
         shapes = context.shapes;
 
+    if (target && /ignore/.test(target.id)) {
+      return null;
+    }
+
     // not allowed to move on frame elements
     if (isFrameElement(target)) {
       return false;

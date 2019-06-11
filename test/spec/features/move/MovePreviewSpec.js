@@ -41,7 +41,7 @@ describe('features/move - MovePreview', function() {
     }));
 
 
-    var rootShape, parentShape, childShape, childShape2, connection;
+    var rootShape, parentShape, childShape, childShape2, connection, ignoreShape;
 
     beforeEach(inject(function(elementFactory, canvas) {
 
@@ -80,6 +80,14 @@ describe('features/move - MovePreview', function() {
       });
 
       canvas.addConnection(connection, parentShape);
+
+      ignoreShape = elementFactory.createShape({
+        id: 'ignore',
+        x: 450, y: 100, width: 300, height: 300
+      });
+
+      canvas.addShape(ignoreShape);
+
     }));
 
 
@@ -270,6 +278,33 @@ describe('features/move - MovePreview', function() {
           var childGfx = elementRegistry.getGraphics(childShape);
           expect(svgClasses(childGfx).has('drop-new-target')).to.equal(false);
           expect(svgClasses(childGfx).has('drop-not-ok')).to.equal(true);
+        })
+      );
+
+
+      it('should visually ignore new target, if canExecute reveals null',
+        inject(function(move, dragging, elementRegistry) {
+
+          // given
+          move.start(canvasEvent({ x: 10, y: 10 }), childShape);
+
+          var targetGfx = elementRegistry.getGraphics(ignoreShape);
+
+          // when
+          dragging.move(canvasEvent({ x: 450, y: 10 }));
+          dragging.hover(canvasEvent({ x: 450, y: 10 }, {
+            element: ignoreShape,
+            gfx: elementRegistry.getGraphics(childShape)
+          }));
+
+          dragging.move(canvasEvent({ x: 450, y: 12 }));
+
+          // then
+          var ctx = dragging.context();
+          expect(ctx.data.context.canExecute).to.equal(null);
+
+          expect(svgClasses(targetGfx).has('drop-new-target')).to.equal(false);
+
         })
       );
 
