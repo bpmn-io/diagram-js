@@ -12,7 +12,7 @@ import selectionModule from 'lib/features/selection';
 import { getBBox } from 'lib/util/Elements';
 import { getMid } from 'lib/layout/LayoutUtil';
 
-import { SPACING } from 'lib/features/grid-snapping/GridSnapping';
+import { SPACING } from 'lib/features/grid-snapping/GridUtil';
 
 
 describe('features/grid-snapping - paste', function() {
