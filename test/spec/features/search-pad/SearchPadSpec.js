@@ -96,6 +96,20 @@ describe('features/searchPad', function() {
           }];
         }
 
+        if (pattern === 'html') {
+          return [{
+            primaryTokens: [
+              { normal: '<html/>' }
+            ],
+            secondaryTokens: [
+              { normal: 'some_' },
+              { matched: '<html/>' },
+              { normal: '_123456_id' }
+            ],
+            element: elements.one.a
+          }];
+        }
+
         return [];
       };
     }
@@ -213,6 +227,18 @@ describe('features/searchPad', function() {
       expect(find).callCount(3);
       var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
       expect(result_nodes).length(2);
+    }));
+
+
+    it('should escape displayed results', inject(function(canvas, eventBus, searchPad) {
+      // when
+      typeText(input_node, 'html');
+
+      // then
+      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
+
+      expect(result_nodes).to.have.length(1);
+      expect(result_nodes[0].innerHTML).not.to.contain('<html/>');
     }));
 
 
