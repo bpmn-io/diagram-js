@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 2.6.2
+
+* `FIX`: prevent HTML injection in search component ([#362](https://github.com/bpmn-io/diagram-js/pull/362))
+
 ## 2.6.1
 
 * `FIX`: ignore vertical padding when layouting text with `middle` alignment
