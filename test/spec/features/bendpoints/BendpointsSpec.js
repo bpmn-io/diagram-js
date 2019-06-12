@@ -111,7 +111,7 @@ describe('features/bendpoints', function() {
     }));
 
 
-    it('should show on select', inject(function(selection, canvas, elementRegistry) {
+    it('should show on select', inject(function(selection, canvas) {
 
       // given
       var layer = canvas.getLayer('overlays');
@@ -126,61 +126,190 @@ describe('features/bendpoints', function() {
     }));
 
 
-    it('should activate bendpoint move', inject(
-      function(dragging, eventBus, elementRegistry, bendpoints) {
+    describe('horizontal', function() {
 
-        // when
-        eventBus.fire('element.hover', {
-          element: connection,
-          gfx: elementRegistry.getGraphics(connection)
-        });
-        eventBus.fire('element.mousemove', {
-          element: connection,
-          originalEvent: canvasEvent({ x: 500, y: 250 })
-        });
-        eventBus.fire('element.mousedown', {
-          element: connection,
-          originalEvent: canvasEvent({ x: 500, y: 250 })
-        });
+      it('should activate bendpoint move outside two-third-region', inject(
+        function(dragging, eventBus, elementRegistry) {
 
-        var draggingContext = dragging.context();
+          // when
+          eventBus.fire('element.hover', {
+            element: connection,
+            gfx: elementRegistry.getGraphics(connection)
+          });
+          eventBus.fire('element.mousemove', {
+            element: connection,
+            originalEvent: canvasEvent({ x: 525, y: 200 })
+          });
+          eventBus.fire('element.mousedown', {
+            element: connection,
+            originalEvent: canvasEvent({ x: 525, y: 250 })
+          });
 
-        // then
-        expect(draggingContext).to.exist;
-        expect(draggingContext.prefix).to.eql('bendpoint.move');
-      }
-    ));
+          var draggingContext = dragging.context();
+
+          // then
+          expect(draggingContext).to.exist;
+          expect(draggingContext.prefix).to.eql('bendpoint.move');
+        }
+      ));
 
 
-    it('should activate parallel move', inject(
-      function(dragging, eventBus, elementRegistry, bendpoints) {
+      it('should activate parallel move on segment center', inject(
+        function(dragging, eventBus, elementRegistry) {
 
-        // precondition
-        var intersectionStart = connection.waypoints[0].x,
-            intersectionEnd = connection.waypoints[1].x,
-            intersectionMid = intersectionEnd - (intersectionEnd - intersectionStart) / 2;
+          // precondition
+          var segmentStart = connection.waypoints[0].x,
+              segmentEnd = connection.waypoints[1].x,
+              segmentCenter = segmentEnd - (segmentEnd - segmentStart) / 2;
 
-        // when
-        eventBus.fire('element.hover', {
-          element: connection,
-          gfx: elementRegistry.getGraphics(connection)
-        });
-        eventBus.fire('element.mousemove', {
-          element: connection,
-          originalEvent: canvasEvent({ x: intersectionMid, y: 250 })
-        });
-        eventBus.fire('element.mousedown', {
-          element: connection,
-          originalEvent: canvasEvent({ x: intersectionMid, y: 250 })
-        });
+          // when
+          eventBus.fire('element.hover', {
+            element: connection,
+            gfx: elementRegistry.getGraphics(connection)
+          });
+          eventBus.fire('element.mousemove', {
+            element: connection,
+            originalEvent: canvasEvent({ x: segmentCenter, y: 250 })
+          });
+          eventBus.fire('element.mousedown', {
+            element: connection,
+            originalEvent: canvasEvent({ x: segmentCenter, y: 250 })
+          });
 
-        var draggingContext = dragging.context();
+          var draggingContext = dragging.context();
 
-        // then
-        expect(draggingContext).to.exist;
-        expect(draggingContext.prefix).to.eql('connectionSegment.move');
-      }
-    ));
+          // then
+          expect(draggingContext).to.exist;
+          expect(draggingContext.prefix).to.eql('connectionSegment.move');
+        }
+      ));
+
+
+      it('should activate parallel move in two-third-region', inject(
+        function(dragging, eventBus, elementRegistry) {
+
+          // precondition
+          var intersectionStart = connection.waypoints[0].x,
+              intersectionEnd = connection.waypoints[1].x,
+              segmentLength = intersectionEnd - intersectionStart,
+              twoThirdStart = intersectionStart + (segmentLength * 0.333) / 2;
+
+          // when
+          eventBus.fire('element.hover', {
+            element: connection,
+            gfx: elementRegistry.getGraphics(connection)
+          });
+          eventBus.fire('element.mousemove', {
+            element: connection,
+            originalEvent: canvasEvent({ x: twoThirdStart, y: 250 })
+          });
+          eventBus.fire('element.mousedown', {
+            element: connection,
+            originalEvent: canvasEvent({ x: twoThirdStart, y: 250 })
+          });
+
+          var draggingContext = dragging.context();
+
+          // then
+          expect(draggingContext).to.exist;
+          expect(draggingContext.prefix).to.eql('connectionSegment.move');
+        }
+      ));
+
+    });
+
+
+    describe('vertical', function() {
+
+      it('should activate bendpoint move outside two-third-region', inject(
+        function(dragging, eventBus, elementRegistry) {
+
+          // when
+          eventBus.fire('element.hover', {
+            element: connection,
+            gfx: elementRegistry.getGraphics(connection)
+          });
+          eventBus.fire('element.mousemove', {
+            element: connection,
+            originalEvent: canvasEvent({ x: 525, y: 250 })
+          });
+          eventBus.fire('element.mousedown', {
+            element: connection,
+            originalEvent: canvasEvent({ x: 525, y: 250 })
+          });
+
+          var draggingContext = dragging.context();
+
+          // then
+          expect(draggingContext).to.exist;
+          expect(draggingContext.prefix).to.eql('bendpoint.move');
+        }
+      ));
+
+
+      it('should activate parallel move on segment center', inject(
+        function(dragging, eventBus, elementRegistry) {
+
+          // precondition
+          var segmentStart = connection.waypoints[1].y,
+              segmentEnd = connection.waypoints[2].y,
+              segmentCenter = segmentEnd - (segmentEnd - segmentStart) / 2;
+
+          // when
+          eventBus.fire('element.hover', {
+            element: connection,
+            gfx: elementRegistry.getGraphics(connection)
+          });
+          eventBus.fire('element.mousemove', {
+            element: connection,
+            originalEvent: canvasEvent({ x: 555, y: segmentCenter })
+          });
+          eventBus.fire('element.mousedown', {
+            element: connection,
+            originalEvent: canvasEvent({ x: 555, y: segmentCenter })
+          });
+
+          var draggingContext = dragging.context();
+
+          // then
+          expect(draggingContext).to.exist;
+          expect(draggingContext.prefix).to.eql('connectionSegment.move');
+        }
+      ));
+
+
+      it('should activate parallel move in two-third-region', inject(
+        function(dragging, eventBus, elementRegistry) {
+
+          // precondition
+          var intersectionStart = connection.waypoints[1].y,
+              intersectionEnd = connection.waypoints[2].y,
+              segmentLength = intersectionEnd - intersectionStart,
+              twoThirdStart = intersectionStart + (segmentLength * 0.333) / 2;
+
+          // when
+          eventBus.fire('element.hover', {
+            element: connection,
+            gfx: elementRegistry.getGraphics(connection)
+          });
+          eventBus.fire('element.mousemove', {
+            element: connection,
+            originalEvent: canvasEvent({ x: 555, y: twoThirdStart })
+          });
+          eventBus.fire('element.mousedown', {
+            element: connection,
+            originalEvent: canvasEvent({ x: 555, y: twoThirdStart })
+          });
+
+          var draggingContext = dragging.context();
+
+          // then
+          expect(draggingContext).to.exist;
+          expect(draggingContext.prefix).to.eql('connectionSegment.move');
+        }
+      ));
+
+    });
 
 
     describe('should trigger interaction events', function() {
