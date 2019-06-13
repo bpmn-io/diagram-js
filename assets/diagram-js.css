@@ -275,7 +275,7 @@ marker.djs-dragger text {
 }
 
 .djs-palette .entry:before {
-  vertical-align: middle;
+  vertical-align: text-bottom;
 }
 
 .djs-palette .djs-palette-toggle {
