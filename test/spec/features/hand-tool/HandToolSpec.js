@@ -9,6 +9,7 @@ import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 
 import handToolModule from 'lib/features/hand-tool';
 import draggingModule from 'lib/features/dragging';
+import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
@@ -17,7 +18,13 @@ var spy = sinon.spy;
 
 describe('features/hand-tool', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ handToolModule, draggingModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      handToolModule,
+      draggingModule,
+      keyboardModule
+    ]
+  }));
 
   var rootShape, childShape;
 
