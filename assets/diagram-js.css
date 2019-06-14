@@ -194,16 +194,20 @@ marker.djs-dragger tspan {
 /**
  * all pointer events for hit shape
  */
-.djs-shape .djs-hit {
+.djs-element > .djs-hit-all {
   pointer-events: all;
 }
 
-.djs-connection .djs-hit {
+.djs-element > .djs-hit-stroke,
+.djs-element > .djs-hit-click-stroke {
   pointer-events: stroke;
 }
 
-.djs-frame .djs-hit {
-  pointer-events: stroke;
+/**
+ * all pointer events for hit shape
+ */
+.djs-drag-active .djs-element > .djs-hit-click-stroke {
+  pointer-events: all;
 }
 
 /**

@@ -17,6 +17,14 @@ var bindings = {
   contextmenu: 'element.contextmenu'
 };
 
+import {
+  queryAll as domQueryAll
+} from 'min-dom';
+
+import {
+  filter
+} from 'min-dash';
+
 
 describe('features/interaction-events', function() {
 
@@ -236,6 +244,112 @@ describe('features/interaction-events', function() {
         }).not.to.throw;
       }
     ));
+
+  });
+
+
+  describe('custom hit', function() {
+
+    it('should allow to create custom hit element', inject(function(elementFactory, canvas, eventBus) {
+
+      // given
+      var spy = sinon.spy(),
+          shape = elementFactory.createShape({
+            id: 'shape',
+            x: 0, y: 0, width: 100, height: 100
+          });
+
+      eventBus.on('interactionEvents.createHit', spy);
+
+      // when
+      canvas.addShape(shape, rootShape);
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+    }));
+
+
+    it('should allow to update custom element', inject(function(elementFactory, canvas, eventBus) {
+
+      // given
+      var spy = sinon.spy();
+
+      eventBus.on('interactionEvents.updateHit', spy);
+
+      // when
+      eventBus.fire('shape.changed', { element: childShape });
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+    }));
+
+  });
+
+
+  describe('api', function() {
+
+    function getHits(gfx) {
+      // TODO(nikku): remove filter when we drop PhantomJS
+      return filter(domQueryAll('.djs-hit', gfx), function(hit) { return typeof hit !== 'number'; });
+    }
+
+
+    it('should #removeHits', inject(
+      function(elementRegistry, interactionEvents) {
+
+        // given
+        var shape = childShape;
+        var shapeGfx = elementRegistry.getGraphics(shape);
+
+        // when
+        interactionEvents.removeHits(shapeGfx);
+
+        // then
+        expect(getHits(shapeGfx)).to.be.empty;
+      })
+    );
+
+
+    it('should #createDefaultHit', inject(
+      function(elementRegistry, interactionEvents) {
+
+        // given
+        var shape = childShape;
+        var shapeGfx = elementRegistry.getGraphics(shape);
+
+        var connectionGfx = elementRegistry.getGraphics(connection);
+
+        interactionEvents.removeHits(connectionGfx);
+        interactionEvents.removeHits(shapeGfx);
+
+        // when
+        interactionEvents.createDefaultHit(shape, shapeGfx);
+        interactionEvents.createDefaultHit(connection, connectionGfx);
+
+        // then
+        expect(getHits(shapeGfx)).to.have.length(1);
+        expect(getHits(connectionGfx)).to.have.length(1);
+      })
+    );
+
+
+    it('should #createBoxHit', inject(
+      function(elementRegistry, interactionEvents) {
+
+        // given
+        var shape = childShape;
+        var shapeGfx = elementRegistry.getGraphics(shape);
+
+        interactionEvents.removeHits(shapeGfx);
+
+        // when
+        interactionEvents.createBoxHit(shapeGfx, 'click-stroke', { width: 10, height: 10 });
+        interactionEvents.createBoxHit(shapeGfx, 'all', { x: 20, y: 30, width: 40, height: 40 });
+
+        // then
+        expect(getHits(shapeGfx)).to.have.length(2);
+      })
+    );
 
   });
 
