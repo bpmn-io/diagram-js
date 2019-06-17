@@ -38,17 +38,6 @@ describe('i18n - translate', function() {
       expect(translate('FOO {bar}!', {})).to.eql('FOO {bar}!');
     }));
 
-
-    it('should escape HTML per default', inject(function(translate) {
-      expect(translate('<b>Bold</b> statement', {})).to.eql('&lt;b&gt;Bold&lt;/b&gt; statement');
-    }));
-
-
-    it('should not escape HTML for safe=true', inject(function(translate) {
-      expect(translate('<b>Bold</b> statement', true)).to.eql('<b>Bold</b> statement');
-      expect(translate('<b>Bold</b> statement', {}, true)).to.eql('<b>Bold</b> statement');
-    }));
-
   });
 
 
