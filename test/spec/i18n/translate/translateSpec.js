@@ -34,6 +34,11 @@ describe('i18n - translate', function() {
     }));
 
 
+    it('should NOT escape', inject(function(translate) {
+      expect(translate('<div />')).to.eql('<div />');
+    }));
+
+
     it('should handle missing replacement', inject(function(translate) {
       expect(translate('FOO {bar}!', {})).to.eql('FOO {bar}!');
     }));
