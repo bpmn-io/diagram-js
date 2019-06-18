@@ -17,6 +17,7 @@ import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
 import { isSnapped } from 'lib/features/snapping/SnapUtil';
 
 import { getMid } from 'lib/layout/LayoutUtil';
+import { getConnectionIntersection } from '../../../../lib/features/bendpoints/BendpointUtil';
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]
@@ -236,6 +237,118 @@ describe('features/bendpoints - segment move', function() {
       }));
 
     });
+
+  });
+
+
+  describe('move start', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        bendpointsModule,
+        modelingModule,
+        selectModule
+      ]
+    }));
+
+    beforeEach(inject(function(dragging) {
+      dragging.setOptions({ manual: true });
+    }));
+
+    var sourceShape, targetShape, connection;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+
+      sourceShape = elementFactory.createShape({
+        id: 'sourceShape', type: 'A',
+        x: 100, y: 100,
+        width: 200, height: 100
+      });
+      canvas.addShape(sourceShape);
+
+      targetShape = elementFactory.createShape({
+        id: 'targetShape', type: 'A',
+        x: 600, y: 100,
+        width: 100, height: 200
+      });
+      canvas.addShape(targetShape);
+    }));
+
+
+    it('should start dragging on segment center', inject(
+      function(canvas, connectionSegmentMove, eventBus, elementFactory) {
+
+        // given
+        connection = elementFactory.createConnection({
+          id: 'connection',
+          waypoints: [
+            { x: 200, y: 150 },
+            { x: 200, y: 300 },
+            { x: 600, y: 300 },
+            { x: 600, y: 150 }
+          ],
+          source: sourceShape,
+          target: targetShape
+        });
+        canvas.addConnection(connection);
+
+        var event = canvasEvent({ x: 0, y: 0 });
+
+        var spy = sinon.spy(function(e) {
+          expect(e.context.dragPosition).to.exist;
+          expect(e.context.dragPosition).to.eql({
+            x: 200,
+            y: 225
+          });
+        });
+
+        eventBus.once('drag.init', spy);
+
+        // when
+        connectionSegmentMove.start(event, connection, 1);
+
+        // then
+        expect(spy).to.have.been.called;
+
+      }
+    ));
+
+
+    it('should start dragging on cursor position', inject(
+      function(canvas, connectionSegmentMove, eventBus, elementFactory) {
+
+        // given
+        connection = elementFactory.createConnection({
+          id: 'connection',
+          waypoints: [
+            { x: 200, y: 150 },
+            { x: 200, y: 300 },
+            { x: 600, y: 300 },
+            { x: 600, y: 150 }
+          ],
+          source: sourceShape,
+          target: targetShape
+        });
+        canvas.addConnection(connection);
+
+        var event = canvasEvent({ x: 200, y: 275 }),
+            intersection = getConnectionIntersection(canvas, connection.waypoints, event);
+
+        var spy = sinon.spy(function(e) {
+          expect(e.context.dragPosition).to.exist;
+          expect(e.context.dragPosition).to.eql(intersection.point);
+        });
+
+        eventBus.once('drag.init', spy);
+
+        // when
+        connectionSegmentMove.start(event, connection, 1);
+
+        // then
+        expect(spy).to.have.been.called;
+
+      }
+    ));
 
   });
 
