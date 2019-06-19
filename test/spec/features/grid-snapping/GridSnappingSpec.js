@@ -16,6 +16,8 @@ import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
 
 import { asTRBL } from 'lib/layout/LayoutUtil';
 
+import { SPACING } from 'lib/features/grid-snapping/GridUtil';
+
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]
 };
@@ -697,7 +699,24 @@ describe('features/grid-snapping', function() {
 
   });
 
+
+  describe('api', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        gridSnappingModule
+      ]
+    }));
+
+    it('should expose gridSpacing', inject(function(gridSnapping) {
+      expect(gridSnapping.getGridSpacing()).to.eql(SPACING);
+    }));
+
+  });
+
 });
+
 
 // helpers //////////
 
