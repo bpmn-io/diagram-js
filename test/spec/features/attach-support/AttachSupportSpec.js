@@ -1267,6 +1267,19 @@ describe('features/attach-support', function() {
     }));
 
 
+    it('should add attachment marker on start', inject(function(move, dragging, elementRegistry) {
+      // given
+      var hostGfx = elementRegistry.getGraphics(host);
+
+      // when
+      move.start(canvasEvent({ x: 800, y: 100 }), attacher);
+      dragging.move(canvasEvent({ x: 750, y: 100 }));
+
+      // then
+      expect(svgClasses(hostGfx).has('attach-ok')).to.be.true;
+    }));
+
+
     it('should remove attachment marker', inject(function(move, dragging, elementRegistry) {
       // given
       var hostGfx = elementRegistry.getGraphics(host);

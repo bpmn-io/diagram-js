@@ -176,6 +176,10 @@ marker.djs-dragger text {
   pointer-events: none;
 }
 
+.djs-element.attach-ok .djs-hit {
+  stroke-width: 60px !important;
+}
+
 /**
  * all pointer events for hit shape
  */
