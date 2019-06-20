@@ -19,6 +19,9 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
+import {
+  getVisual
+} from '../../../../lib/util/GraphicsUtil';
 
 describe('features/bendpoints', function() {
 
@@ -400,6 +403,100 @@ describe('features/bendpoints', function() {
         // then
         // bendpoint container references element with updated ID
         expect(bendpointContainer.dataset.elementId).to.equal('foo');
+      }
+    ));
+
+
+    it('should update floating bendpoint position on mousemove', inject(
+      function(selection, canvas, eventBus, elementRegistry) {
+
+        // given
+        var layer = canvas.getLayer('overlays');
+
+        selection.select(connection);
+
+        var bendpointContainer = domQuery('.djs-bendpoints', layer),
+            floatingBendpointGfx = domQuery('.floating', bendpointContainer),
+            oldBounds = floatingBendpointGfx.getBoundingClientRect();
+
+        // when
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 525, y: 250 })
+        });
+
+        var newBounds = floatingBendpointGfx.getBoundingClientRect();
+
+        // then
+        expect(newBounds).to.not.eql(oldBounds);
+        expect(newBounds.left).to.equal(525);
+      }
+    ));
+
+
+    it('should update segment dragger position on mousemove', inject(
+      function(selection, canvas, eventBus, elementRegistry, bendpoints) {
+
+        // given
+        var layer = canvas.getLayer('overlays');
+
+        selection.select(connection);
+
+        var bendpointContainer = domQuery('.djs-bendpoints', layer),
+            draggerGfx = bendpoints.getSegmentDragger(1, bendpointContainer),
+            draggerVisual = getVisual(draggerGfx),
+            oldBounds = draggerVisual.getBoundingClientRect();
+
+        // when
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 450, y: 250 })
+        });
+
+        var newBounds = draggerVisual.getBoundingClientRect();
+
+        // then
+        expect(newBounds).to.not.eql(oldBounds);
+        expect(newBounds.left).to.equal(453);
+      }
+    ));
+
+
+    it('should NOT update segment dragger position on bendpoint', inject(
+      function(selection, canvas, eventBus, elementRegistry, bendpoints) {
+
+        // given
+        var layer = canvas.getLayer('overlays');
+
+        selection.select(connection);
+
+        var bendpointContainer = domQuery('.djs-bendpoints', layer),
+            draggerGfx = bendpoints.getSegmentDragger(1, bendpointContainer),
+            draggerVisual = getVisual(draggerGfx),
+            oldBounds = draggerVisual.getBoundingClientRect();
+
+        // when
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 250, y: 250 })
+        });
+
+        var newBounds = draggerVisual.getBoundingClientRect();
+
+        // then
+        expect(newBounds).to.eql(oldBounds);
       }
     ));
 
