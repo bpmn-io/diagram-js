@@ -129,6 +129,84 @@ describe('features/bendpoints', function() {
     }));
 
 
+    it('should activate bendpoint move on starting waypoint', inject(
+      function(dragging, eventBus, elementRegistry) {
+
+        // when
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 250, y: 250 })
+        });
+        eventBus.fire('element.mousedown', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 250, y: 250 })
+        });
+
+        var draggingContext = dragging.context();
+
+        // then
+        expect(draggingContext).to.exist;
+        expect(draggingContext.prefix).to.eql('bendpoint.move');
+      }
+    ));
+
+
+    it('should activate bendpoint move on intermediate waypoint', inject(
+      function(dragging, eventBus, elementRegistry) {
+
+        // when
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 550, y: 250 })
+        });
+        eventBus.fire('element.mousedown', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 550, y: 250 })
+        });
+
+        var draggingContext = dragging.context();
+
+        // then
+        expect(draggingContext).to.exist;
+        expect(draggingContext.prefix).to.eql('bendpoint.move');
+      }
+    ));
+
+
+    it('should active bendpoint move on non-aligned segment', inject(
+      function(dragging, eventBus, elementRegistry) {
+
+        // when
+        eventBus.fire('element.hover', {
+          element: connection2,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection2,
+          originalEvent: canvasEvent({ x: 361, y: 351 })
+        });
+        eventBus.fire('element.mousedown', {
+          element: connection2,
+          originalEvent: canvasEvent({ x: 327, y: 300 })
+        });
+
+        var draggingContext = dragging.context();
+
+        // then
+        expect(draggingContext).to.exist;
+        expect(draggingContext.prefix).to.eql('bendpoint.move');
+      }
+    ));
+
+
     describe('horizontal', function() {
 
       it('should activate bendpoint move outside two-third-region', inject(
@@ -141,7 +219,7 @@ describe('features/bendpoints', function() {
           });
           eventBus.fire('element.mousemove', {
             element: connection,
-            originalEvent: canvasEvent({ x: 525, y: 200 })
+            originalEvent: canvasEvent({ x: 525, y: 250 })
           });
           eventBus.fire('element.mousedown', {
             element: connection,
