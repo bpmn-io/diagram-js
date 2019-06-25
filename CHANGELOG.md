@@ -6,6 +6,21 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: add grid snapping ([#319](https://github.com/bpmn-io/diagram-js/pull/319))
+* `FEAT`: add support for frame elements ([#321](https://github.com/bpmn-io/diagram-js/pull/321))
+* `FEAT`: show connection markers in drag preview ([#328](https://github.com/bpmn-io/diagram-js/pull/328))
+* `FEAT`: support connection previews ([#326](https://github.com/bpmn-io/diagram-js/pull/326))
+* `FEAT`: do not move if no delta ([`c0c2b4f3`](https://github.com/bpmn-io/diagram-js/commit/c0c2b4f3851208eb5fee156a9d7afcbd25cc296e))
+* `FEAT`: do not resize if bounds have not changed ([`e5cdb15a`](https://github.com/bpmn-io/diagram-js/commit/e5cdb15ad3a157bc8090f64f25c197a45adfd4be))
+* `FEAT`: snap during resize ([#344](https://github.com/bpmn-io/diagram-js/pull/344))
+* `FEAT`: activate hand tool on `SPACE` ([`e7217b95`](https://github.com/bpmn-io/diagram-js/commit/e7217b95c6ca2040dba09a9919eccc533862bc81))
+* `FEAT`: allow parallel move on larger connection areas ([#350](https://github.com/bpmn-io/diagram-js/pull/350))
+* `FEAT`: make hosts sticky for valid attachers ([#368](https://github.com/bpmn-io/diagram-js/pull/368))
+* `FEAT`: add ability to provide custom hit boxes ([#371](https://github.com/bpmn-io/diagram-js/pull/371))
+* `FEAT`: improve dragger text styles ([#374](https://github.com/bpmn-io/diagram-js/pull/374))
+* `CHORE`: add reusable escape util ([`0e520343`](https://github.com/bpmn-io/diagram-js/commit/0e520343a7ed100d9d9ab66884798742ff8732c0))
+* `FIX`: prevent HTML injection in search component ([#362](https://github.com/bpmn-io/diagram-js/pull/362))
+
 ## 3.3.1
 
 * `FIX`: prevent HTML injection in search component ([#362](https://github.com/bpmn-io/diagram-js/pull/362))
