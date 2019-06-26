@@ -144,14 +144,25 @@ svg.new-parent {
   stroke: rgb(255, 116, 0) !important;
 }
 
+.djs-dragger tspan,
+.djs-dragger text {
+  fill: rgb(255, 116, 0) !important;
+  stroke: none !important;
+}
+
 marker.djs-dragger circle,
 marker.djs-dragger path,
 marker.djs-dragger polygon,
 marker.djs-dragger polyline,
-marker.djs-dragger rect,
-marker.djs-dragger text {
+marker.djs-dragger rect {
   fill: rgb(255, 116, 0) !important;
   stroke: none !important;
+}
+
+marker.djs-dragger text,
+marker.djs-dragger tspan {
+  fill: none !important;
+  stroke: rgb(255, 116, 0) !important;
 }
 
 .djs-dragging {
