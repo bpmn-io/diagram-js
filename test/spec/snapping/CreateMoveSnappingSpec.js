@@ -195,26 +195,17 @@ describe('features/snapping - CreateMoveSnapping', function() {
         eventBus.fire('create.start', event);
 
         // then
-        expect(event.context.snapContext).to.exist;
+        var snapContext = event.context.snapContext;
+
+        expect(snapContext).to.exist;
+
+        expect(snapContext.getSnapOrigin('top-left')).to.exist;
+        expect(snapContext.getSnapOrigin('mid')).to.exist;
+        expect(snapContext.getSnapOrigin('bottom-right')).to.exist;
       }));
 
 
       describe('snap to shape', function() {
-
-        it('should snap top-left', inject(function(dragging) {
-
-          // when
-          dragging.move(canvasEventTopLeft({ x: 95, y: 495 }, shape3));
-
-          dragging.end();
-
-          // then
-          expect(topLeft(shape3)).to.have.eql({
-            x: 100, // 95 snapped to 100 (left of shape1)
-            y: 500 // 495 snapped to 500 (top of shape2)
-          });
-        }));
-
 
         it('should snap mid, mid', inject(function(dragging) {
 
@@ -227,21 +218,6 @@ describe('features/snapping - CreateMoveSnapping', function() {
           expect(mid(shape3)).to.have.eql({
             x: 150, // 145 snapped to 150 (mid of shape1)
             y: 550 // 545 snapped to 550 (mid of shape2)
-          });
-        }));
-
-
-        it('should snap bottom, right', inject(function(dragging) {
-
-          // when
-          dragging.move(canvasEventBottomRight({ x: 195, y: 595 }, shape3));
-
-          dragging.end();
-
-          // then
-          expect(bottomRight(shape3)).to.have.eql({
-            x: 200, // 195 snapped to 200 (right of shape1)
-            y: 600 // 595 snapped to 600 (bottom of shape2)
           });
         }));
 
@@ -334,7 +310,13 @@ describe('features/snapping - CreateMoveSnapping', function() {
         eventBus.fire('shape.move.start', event);
 
         // then
-        expect(event.context.snapContext).to.exist;
+        var snapContext = event.context.snapContext;
+
+        expect(snapContext).to.exist;
+
+        expect(snapContext.getSnapOrigin('top-left')).to.exist;
+        expect(snapContext.getSnapOrigin('mid')).to.exist;
+        expect(snapContext.getSnapOrigin('bottom-right')).to.exist;
       }));
 
 
@@ -382,21 +364,6 @@ describe('features/snapping - CreateMoveSnapping', function() {
 
         describe('snap to shape', function() {
 
-          it('should snap top-left', inject(function(dragging) {
-
-            // when
-            dragging.move(canvasEventTopLeft({ x: 95, y: 495 }, shape3));
-
-            dragging.end();
-
-            // then
-            expect(topLeft(shape3)).to.have.eql({
-              x: 100, // 95 snapped to 100 (left of shape1)
-              y: 500 // 495 snapped to 500 (top of shape2)
-            });
-          }));
-
-
           it('should snap mid, mid', inject(function(dragging) {
 
             // when
@@ -408,21 +375,6 @@ describe('features/snapping - CreateMoveSnapping', function() {
             expect(mid(shape3)).to.have.eql({
               x: 150, // 145 snapped to 150 (mid of shape1)
               y: 550 // 545 snapped to 550 (mid of shape2)
-            });
-          }));
-
-
-          it('should snap bottom, right', inject(function(dragging) {
-
-            // when
-            dragging.move(canvasEventBottomRight({ x: 195, y: 595 }, shape3));
-
-            dragging.end();
-
-            // then
-            expect(bottomRight(shape3)).to.have.eql({
-              x: 200, // 195 snapped to 200 (right of shape1)
-              y: 600 // 595 snapped to 600 (bottom of shape2)
             });
           }));
 
