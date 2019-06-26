@@ -21,6 +21,10 @@ ___Note:__ Yet to be released changes appear here._
 * `CHORE`: add reusable escape util ([`0e520343`](https://github.com/bpmn-io/diagram-js/commit/0e520343a7ed100d9d9ab66884798742ff8732c0))
 * `FIX`: prevent HTML injection in search component ([#362](https://github.com/bpmn-io/diagram-js/pull/362))
 
+### Breaking Changes
+
+* When displaying a connection preview, `Layouter` will receive connection without waypoints, source, target and with only `{ source, target }` hints. Make sure it handles such case ([#326](https://github.com/bpmn-io/diagram-js/pull/326)).
+
 ## 3.3.1
 
 * `FIX`: prevent HTML injection in search component ([#362](https://github.com/bpmn-io/diagram-js/pull/362))
