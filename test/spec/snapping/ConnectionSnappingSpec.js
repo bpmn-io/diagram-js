@@ -12,9 +12,6 @@ import {
   createCanvasEvent as canvasEvent
 } from 'test/util/MockEvents';
 
-import { getMid } from 'lib/layout/LayoutUtil';
-
-
 
 describe('features/snapping - ConnectionSnapping', function() {
 
@@ -115,7 +112,7 @@ describe('features/snapping - ConnectionSnapping', function() {
         // then
         var newConnection = shape3.outgoing[0];
 
-        expect(getFirstWaypoint(newConnection)).to.eql(getMid(shape3));
+        expect(getFirstWaypoint(newConnection)).to.eql({ x: 100, y: 300 });
       })
     );
   });
@@ -143,7 +140,7 @@ describe('features/snapping - ConnectionSnapping', function() {
         // then
         var newConnection = shape3.incoming[0];
 
-        expect(getLastWaypoint(newConnection)).to.eql(getMid(shape3));
+        expect(getLastWaypoint(newConnection)).to.eql({ x: 100, y: 300 });
       })
     );
   });
@@ -165,7 +162,7 @@ describe('features/snapping - ConnectionSnapping', function() {
         // then
         var newConnection = shape3.incoming[0];
 
-        expect(getLastWaypoint(newConnection)).to.eql(getMid(shape3));
+        expect(getLastWaypoint(newConnection)).to.eql({ x: 100, y: 300 });
       })
     );
   });
