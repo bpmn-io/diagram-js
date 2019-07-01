@@ -16,7 +16,6 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: activate hand tool on `SPACE` ([`e7217b95`](https://github.com/bpmn-io/diagram-js/commit/e7217b95c6ca2040dba09a9919eccc533862bc81))
 * `FEAT`: allow parallel move on larger connection areas ([#350](https://github.com/bpmn-io/diagram-js/pull/350))
 * `FEAT`: make hosts sticky for valid attachers ([#368](https://github.com/bpmn-io/diagram-js/pull/368))
-* `FEAT`: add ability to provide custom hit boxes ([#371](https://github.com/bpmn-io/diagram-js/pull/371))
 * `FEAT`: improve dragger text styles ([#374](https://github.com/bpmn-io/diagram-js/pull/374))
 * `FEAT`: allow custom snap implementations to snap an element top, right, bottom and left
 * `CHORE`: add reusable escape util ([`0e520343`](https://github.com/bpmn-io/diagram-js/commit/0e520343a7ed100d9d9ab66884798742ff8732c0))
