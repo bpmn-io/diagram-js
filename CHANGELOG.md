@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 4.0.0
+
 * `FEAT`: add grid snapping ([#319](https://github.com/bpmn-io/diagram-js/pull/319))
 * `FEAT`: add support for frame elements ([#321](https://github.com/bpmn-io/diagram-js/pull/321))
 * `FEAT`: show connection markers in drag preview ([#328](https://github.com/bpmn-io/diagram-js/pull/328))
