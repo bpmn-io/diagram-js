@@ -26,6 +26,7 @@ ___Note:__ Yet to be released changes appear here._
 ### Breaking Changes
 
 * When displaying a connection preview, `Layouter` will receive connection without waypoints, source, target and with only `{ source, target }` hints. Make sure it handles such case ([#326](https://github.com/bpmn-io/diagram-js/pull/326)).
+* Top-right-bottom-left snapping was removed in favor of fine-grained control in diagram-js-based applications.
 
 ## 3.3.1
 
