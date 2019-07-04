@@ -21,6 +21,8 @@ import {
   query as domQuery
 } from 'min-dom';
 
+import { attr as svgAttr } from 'tiny-svg';
+
 
 describe('features/space-tool', function() {
 
@@ -752,6 +754,101 @@ describe('features/space-tool', function() {
         x: 100, y: 50,
         width: 200, height: 200
       });
+    }));
+
+  });
+
+
+  describe('preview', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        spaceToolModule,
+        modelingModule,
+        rulesModule
+      ]
+    }));
+
+    beforeEach(inject(function(dragging) {
+      dragging.setOptions({ manual: true });
+    }));
+
+    var shape1,
+        shape2,
+        shape3;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+
+      shape1 = elementFactory.createShape({
+        id: 'shape1',
+        x: 100, y: 100,
+        width: 500, height: 200
+      });
+
+      canvas.addShape(shape1);
+
+      shape2 = elementFactory.createShape({
+        id: 'shape2',
+        x: 150, y: 150,
+        width: 100, height: 100
+      });
+
+      canvas.addShape(shape2, shape1);
+
+      shape3 = elementFactory.createShape({
+        id: 'shape3',
+        x: 450, y: 150,
+        width: 100, height: 100
+      });
+
+      canvas.addShape(shape3, shape1);
+    }));
+
+
+    it('should add previews', inject(function(dragging, spaceTool) {
+
+      // given
+      spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 100 }));
+
+      // when
+      dragging.move(canvasEvent({ x: 400, y: 100 }));
+
+      // then
+      var context = dragging.context().data.context,
+          dragGroup = context.dragGroup,
+          frameGroup = context.frameGroup;
+
+      expect(dragGroup.childNodes).to.have.length(1);
+      expect(frameGroup.childNodes).to.have.length(1);
+
+      expect(domQuery('[data-element-id="shape3"]', dragGroup)).to.exist;
+
+      expect(svgAttr(frameGroup.firstChild, 'width')).to.equal('600');
+    }));
+
+
+    it('should add previews (inverted)', inject(function(dragging, spaceTool) {
+
+      // given
+      spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 100 }));
+
+      // when
+      dragging.move(canvasEvent({ x: 400, y: 100 }, {
+        metaKey: true,
+        ctrlKey: true
+      }));
+
+      // then
+      var context = dragging.context().data.context,
+          dragGroup = context.dragGroup,
+          frameGroup = context.frameGroup;
+
+      expect(dragGroup.childNodes).to.have.length(1);
+      expect(frameGroup.childNodes).to.have.length(1);
+
+      expect(domQuery('[data-element-id="shape2"]', dragGroup)).to.exist;
+
+      expect(svgAttr(frameGroup.firstChild, 'width')).to.equal('400');
     }));
 
   });
