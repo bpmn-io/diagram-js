@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: add ability to provide custom hit boxes ([#371](https://github.com/bpmn-io/diagram-js/pull/371))
+
 ## 4.0.2
 
 * `FIX`: do not show connect feedback on bendpoint moving ([#382](https://github.com/bpmn-io/diagram-js/issues/382))
