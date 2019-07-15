@@ -163,24 +163,93 @@ describe('features/bendpoints - move', function() {
     }));
 
 
-    it('should connect-hover and out', inject(function(canvas, bendpointMove, dragging) {
+    describe('hover markers', function() {
 
-      // when
-      bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
-      dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
-      dragging.out();
-      dragging.hover({ element: shape2, gfx: canvas.getGraphics(shape2) });
-      dragging.out();
-      dragging.hover({ element: shape3, gfx: canvas.getGraphics(shape3) });
-      dragging.out();
-      dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
+      function getMarked(cls) {
 
-      // then
-      var hoverNodes = domQueryAll('.connect-hover, .connect-ok, .connect-not-ok', canvas._svg);
+        return getDiagramJS().invoke(function(canvas) {
+          return Array.prototype.slice.call(domQueryAll(cls, canvas._svg));
+        });
+      }
 
-      // connect-hover indicator
-      expect(hoverNodes.length).to.equal(1);
-    }));
+
+      it('should add connect-hover', inject(function(canvas, bendpointMove, dragging) {
+
+        // when
+        bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
+        dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
+
+        // then
+        var marked = getMarked('.connect-hover');
+        expect(marked).to.have.length(1);
+      }));
+
+
+      it('should remove connect-hover', inject(function(canvas, bendpointMove, dragging) {
+
+        // when
+        bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
+        dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
+        dragging.out();
+
+        // then
+        var marked = getMarked('.connect-hover');
+        expect(marked).to.be.empty;
+      }));
+
+
+      describe('reconnect start / end', function() {
+
+        it('should NOT add .connect-ok if disallowed', inject(
+          function(canvas, bendpointMove, dragging) {
+
+            // when
+            bendpointMove.start(canvasEvent({ x: 250, y: 250 }), connection, 0);
+            dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
+
+            // then
+            var marked = getMarked('.connect-ok');
+            expect(marked).to.be.empty;
+          }
+        ));
+
+
+        it('should add connect-ok if allowed', inject(
+          function(canvas, bendpointMove, dragging) {
+
+            // when
+            bendpointMove.start(canvasEvent({ x: 250, y: 250 }), connection, 0);
+            dragging.hover({ element: shape1, gfx: canvas.getGraphics(shape1) });
+
+            // then
+            var marked = getMarked('.connect-ok');
+            expect(marked).to.have.length(1);
+          }
+        ));
+
+      });
+
+
+      describe('bendpoint move', function() {
+
+        it('should NOT add connect-ok', inject(
+          function(canvas, bendpointMove, dragging) {
+
+            // when
+            bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 1);
+            dragging.move(canvasEvent({ x: 550, y: 550 }));
+
+            dragging.hover({ element: shape1, gfx: canvas.getGraphics(shape1) });
+
+            // then
+            var marked = getMarked('.connect-ok');
+            expect(marked).to.be.empty;
+          }
+        ));
+
+      });
+
+    });
 
   });
 
