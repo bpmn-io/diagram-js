@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 4.0.2
+
+* `FIX`: do not show connect feedback on bendpoint moving ([#382](https://github.com/bpmn-io/diagram-js/issues/382))
+* `FIX`: correct graphics update regression ([#385](https://github.com/bpmn-io/diagram-js/pull/385)
+
 ## 4.0.1
 
 * `FIX`: prevent unnecessary graphics updates ([`ff52b052`](https://github.com/bpmn-io/diagram-js/commit/ff52b05273068ba6c688eba4f3334eb4fd26a838))
