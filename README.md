@@ -20,6 +20,7 @@ Some libraries / applications built on top of diagram-js:
 #### External
 
 * [Node Sequencer](https://github.com/philippfromme/node-sequencer) - A Node-Based Sequencer for the Web ([Demo](https://philippfromme.github.io/node-sequencer-demo/))
+* [chor-js](https://github.com/bptlab/chor-js) - A BPMN 2.0 Choreography diagram viewer and editor
 
 ## Resources
 
