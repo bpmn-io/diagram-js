@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   inject
@@ -8,8 +6,6 @@ import {
 import {
   classes as svgClasses
 } from 'tiny-svg';
-
-var spy = sinon.spy;
 
 
 describe('GraphicsFactory', function() {
@@ -31,56 +27,6 @@ describe('GraphicsFactory', function() {
       // expect not to throw an exception
     }
   ));
-
-
-  describe('#updateContainments', function() {
-
-    var parent;
-
-    beforeEach(inject(function(canvas, elementFactory) {
-      var root = elementFactory.createRoot({
-        id: 'root'
-      });
-
-      canvas.setRootElement(root);
-
-      parent = elementFactory.createShape({
-        id: 'parent',
-        x: 100,
-        y: 100,
-        width: 100,
-        height: 100
-      });
-
-      canvas.addShape(parent, root);
-
-      var child = elementFactory.createShape({
-        id: 'child',
-        x: 125,
-        y: 125,
-        width: 50,
-        height: 50
-      });
-
-      canvas.addShape(child, parent);
-    }));
-
-
-    it('should NOT update containments if less than two children', inject(
-      function(elementRegistry, graphicsFactory) {
-
-        // given
-        var getGraphicsSpy = spy(elementRegistry, 'getGraphics');
-
-        // when
-        graphicsFactory.updateContainments([ parent ]);
-
-        // then
-        expect(getGraphicsSpy).not.to.have.been.called;
-      }
-    ));
-
-  });
 
 
   it('should add <djs-frame> class to frames', inject(
