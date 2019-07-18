@@ -526,7 +526,7 @@ describe('features/bendpoints', function() {
 
         var bendpointContainer = domQuery('.djs-bendpoints', layer),
             draggerGfx = bendpoints.getSegmentDragger(1, bendpointContainer),
-            draggerVisual = getVisual(draggerGfx),
+            draggerVisual = getVisual(draggerGfx.childNodes[0]),
             oldBounds = draggerVisual.getBoundingClientRect();
 
         // when
