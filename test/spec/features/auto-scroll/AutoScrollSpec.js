@@ -173,7 +173,7 @@ describe('features/auto-scroll - AutoScroll', function() {
     }));
 
 
-    it('right-down', inject(function(dragging, canvas, mouseTracking) {
+    it('right-down', inject(function(dragging, canvas) {
       // when
       dragging.move(canvasEvent({
         x: (clientRect.width - scrollThresholdIn) + 1,
@@ -185,7 +185,7 @@ describe('features/auto-scroll - AutoScroll', function() {
     }));
 
 
-    it('down', inject(function(dragging, canvas, mouseTracking) {
+    it('down', inject(function(dragging, canvas) {
       // when
       dragging.move(canvasEvent({
         x: scrollThresholdIn + 1,
