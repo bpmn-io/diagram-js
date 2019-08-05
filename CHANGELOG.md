@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 4.0.3
+
+* `FIX`: compensate for missing `element.out` event ([#391](https://github.com/bpmn-io/diagram-js/pull/391))
+
 ## 4.0.2
 
 * `FIX`: do not show connect feedback on bendpoint moving ([#382](https://github.com/bpmn-io/diagram-js/issues/382))
