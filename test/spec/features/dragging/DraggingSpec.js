@@ -369,14 +369,14 @@ describe('features/dragging - Dragging - zoomScroll integration', function() {
       create.start(canvasEvent({ x: 0, y: 0 }), shape);
       dragging.move(canvasEvent({ x: 100, y: 100 }));
 
-      var elementBefore = dragging.context().data.context.visual.getBBox();
+      var elementBefore = dragging.context().data.context.dragGroup.getBBox();
 
       zoomScroll.stepZoom(-1.25);
       zoomScroll.stepZoom(0.25);
 
       dragging.move(canvasEvent({ x: 100, y: 100 }));
 
-      var elementAfter = dragging.context().data.context.visual.getBBox();
+      var elementAfter = dragging.context().data.context.dragGroup.getBBox();
 
       // then
       expect(elementBefore).to.eql(elementAfter);

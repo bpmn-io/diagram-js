@@ -3,28 +3,36 @@ import {
   selfAndAllChildren,
   getBBox,
   getClosure,
+  getParents,
   isFrameElement
 } from 'lib/util/Elements';
 
 
 describe('util/Elements', function() {
 
-  var shapeA = {
-    id: 'a',
-    children: [
-      { id: 'a.0', children: [] },
-      { id: 'a.1', children: [
-        { id: 'a.1.0' },
-        { id: 'a.1.1' }
-      ] },
-      { id: 'a.2', children: [
-        { id: 'a.2.0' },
-        { id: 'a.2.1', children: [
-          { id: 'a.2.1.0' }
-        ] }
-      ] }
-    ]
-  };
+  var shapeA = { id: 'a' };
+
+  var shapeA0 = { id: 'a.0', parent: shapeA },
+      shapeA1 = { id: 'a.1', parent: shapeA },
+      shapeA2 = { id: 'a.2', parent: shapeA };
+
+  shapeA.children = [
+    shapeA0,
+    shapeA1,
+    shapeA2
+  ];
+
+  var shapeA10 = { id: 'a.1.0', parent: shapeA1 },
+      shapeA11 = { id: 'a.1.1', parent: shapeA1 },
+      shapeA20 = { id: 'a.2.0', parent: shapeA2 },
+      shapeA21 = { id: 'a.2.1', parent: shapeA2 };
+
+  shapeA1.children = [ shapeA10, shapeA11 ];
+  shapeA2.children = [ shapeA20, shapeA21 ];
+
+  var shapeA210 = { id: 'a.2.1.0', parent: shapeA21 };
+
+  shapeA21.children = [ shapeA210 ];
 
   var shapeB = {
     id: 'b'
@@ -329,5 +337,34 @@ describe('util/Elements', function() {
     });
 
   });
+
+
+  describe('#getParents', function() {
+
+    it('should get parents', function() {
+
+      // when
+      var parents = getParents([
+        shapeA,
+        shapeB,
+        shapeA0,
+        shapeA1,
+        shapeA2,
+        shapeA10,
+        shapeA11,
+        shapeA20,
+        shapeA21,
+        shapeA210
+      ]);
+
+      // then
+      expect(parents).to.eql([
+        shapeA,
+        shapeB
+      ]);
+    });
+
+  });
+
 
 });

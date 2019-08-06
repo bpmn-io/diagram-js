@@ -76,7 +76,6 @@ describe('features/auto-resize', function() {
   }));
 
   beforeEach(inject(function(elementFactory, elementRegistry, canvas) {
-
     rootShape = elementFactory.createRoot({
       id: 'root'
     });
@@ -139,27 +138,25 @@ describe('features/auto-resize', function() {
 
     describe('hints', function() {
 
-      it('should not resize on autoResize=false hint', inject(
-        function(create, dragging, eventBus) {
+      it('should NOT resize on autoResize=false hint', inject(function(create, dragging, eventBus) {
 
-          // given
-          eventBus.on('commandStack.shape.create.preExecute', function(event) {
-            event.context.hints = { autoResize: false };
-          });
+        // given
+        eventBus.on('commandStack.shape.create.preExecute', function(event) {
+          event.context.hints = { autoResize: false };
+        });
 
-          // when
-          create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
 
-          dragging.hover({ element: parentShape, gfx: parentShapeGfx });
-          dragging.move(canvasEvent({ x: 110, y: 270 }));
+        dragging.hover({ element: parentShape, gfx: parentShapeGfx });
+        dragging.move(canvasEvent({ x: 110, y: 270 }));
 
-          dragging.end();
+        dragging.end();
 
-          // then
-          // parent has original bounds
-          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
-        }
-      ));
+        // then
+        // parent has original bounds
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 300 });
+      }));
 
     });
 
@@ -168,19 +165,17 @@ describe('features/auto-resize', function() {
 
   describe('move', function() {
 
-    it('should only resize on actual size change', inject(
-      function(modeling, autoResize) {
+    it('should only resize on actual size change', inject(function(autoResize, modeling) {
 
-        // given
-        var resizeSpy = spy(autoResize, 'resize');
+      // given
+      var resizeSpy = spy(autoResize, 'resize');
 
-        // when
-        modeling.moveElements([ topLevelShape ], { x: -300, y: 0 }, parentShape);
+      // when
+      modeling.moveElements([ topLevelShape ], { x: -300, y: 0 }, parentShape);
 
-        // then
-        expect(resizeSpy).not.to.have.been.called;
-      }
-    ));
+      // then
+      expect(resizeSpy).not.to.have.been.called;
+    }));
 
 
     it('should expand after moving non-child into parent', inject(function(modeling) {
@@ -235,7 +230,7 @@ describe('features/auto-resize', function() {
       }));
 
 
-      it('should not expand if moved to root element', inject(function(modeling) {
+      it('should NOT expand if moved to root element', inject(function(modeling) {
 
         // when
         modeling.moveElements([ childShape1 ], { x: 0, y: 300 }, rootShape);
@@ -249,7 +244,7 @@ describe('features/auto-resize', function() {
 
     describe('expand after moving multiple elements', function() {
 
-      it('should not expand, if elements keep their parents (different original parents)',
+      it('should NOT expand, if elements keep their parents (different original parents)',
         inject(function(modeling) {
 
           // when
@@ -297,7 +292,23 @@ describe('features/auto-resize', function() {
 
     describe('hints', function() {
 
-      it('should not resize on autoResize=false hint', inject(function(modeling) {
+      it('on move <ne>', inject(function(autoResize, modeling) {
+
+        // given
+        var resizeSpy = spy(autoResize, 'resize');
+
+        // when
+        modeling.moveElements([ childShape1 ], { x: -100, y: -100 }, parentShape);
+
+        // then
+        expect(getResizeDirections(resizeSpy)).to.exist;
+        expect(getResizeDirections(resizeSpy)).to.eql({
+          autoResize: 'ne'
+        });
+      }));
+
+
+      it('should NOT resize on autoResize=false hint', inject(function(modeling) {
 
         // when
         modeling.moveElements(
@@ -312,21 +323,18 @@ describe('features/auto-resize', function() {
       }));
 
 
-      it('should accept list of elements to to consider when resizing', inject(
-        function(modeling) {
+      it('should accept list of elements to to consider when resizing', inject(function(modeling) {
 
-          // when
-          modeling.moveElements(
-            [ childShape1, childShape2 ],
-            { x: 0, y: 200 },
-            parentShape,
-            { autoResize: [ childShape1 ] });
+        // when
+        modeling.moveElements(
+          [ childShape1, childShape2 ],
+          { x: 0, y: 200 },
+          parentShape,
+          { autoResize: [ childShape1 ] });
 
-          // then
-          // parent has original bounds
-          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 320 });
-        }
-      ));
+        // then
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 300, height: 320 });
+      }));
 
     });
 
@@ -374,7 +382,7 @@ describe('features/auto-resize', function() {
 
 
       it('should resize element which is expanded',
-        inject(function(elementFactory, canvas, modeling, autoResize) {
+        inject(function(autoResize, canvas, elementFactory, modeling) {
 
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
@@ -411,7 +419,7 @@ describe('features/auto-resize', function() {
 
 
       it('should resize element which is expanded even if it has no children',
-        inject(function(modeling, autoResize) {
+        inject(function(autoResize, modeling) {
 
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
@@ -432,8 +440,8 @@ describe('features/auto-resize', function() {
       );
 
 
-      it('should not resize an expanded element which is collapsed',
-        inject(function(elementFactory, canvas, modeling, autoResize) {
+      it('should NOT resize an expanded element which is collapsed',
+        inject(function(autoResize, canvas, elementFactory, modeling) {
 
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
@@ -466,7 +474,7 @@ describe('features/auto-resize', function() {
 
     describe('as a child of another element', function() {
 
-      beforeEach(inject(function(elementFactory, canvas) {
+      beforeEach(inject(function(canvas, elementFactory) {
 
         parentShape = elementFactory.createShape({
           id: 'parentShape',
@@ -496,34 +504,32 @@ describe('features/auto-resize', function() {
       }));
 
 
-      it('should resize also the parent element',
-        inject(function(modeling, autoResize) {
+      it('should resize also the parent element', inject(function(autoResize, modeling) {
 
-          // given
-          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+        // given
+        var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
-          // when
-          modeling.toggleCollapse(collapsedShape);
+        // when
+        modeling.toggleCollapse(collapsedShape);
 
-          // then
-          expect(collapsedShape).to.have.bounds({
-            x: 120,
-            y: 120,
-            width: 420,
-            height: 420
-          });
+        // then
+        expect(collapsedShape).to.have.bounds({
+          x: 120,
+          y: 120,
+          width: 420,
+          height: 420
+        });
 
-          expect(parentShape).to.have.bounds({
-            x: 110,
-            y: 110,
-            width: 440,
-            height: 440
-          });
+        expect(parentShape).to.have.bounds({
+          x: 110,
+          y: 110,
+          width: 440,
+          height: 440
+        });
 
-          expect(autoResizeSpy).to.be.calledWith([ hiddenContainedChild ], collapsedShape);
-          expect(autoResizeSpy).to.be.calledWith([ collapsedShape ], parentShape);
-        })
-      );
+        expect(autoResizeSpy).to.be.calledWith([ hiddenContainedChild ], collapsedShape);
+        expect(autoResizeSpy).to.be.calledWith([ collapsedShape ], parentShape);
+      }));
 
     });
 
@@ -545,8 +551,8 @@ describe('features/auto-resize', function() {
       }));
 
 
-      it('should not resize on autoResize=false hint',
-        inject(function(eventBus, modeling, autoResize) {
+      it('should NOT resize on autoResize=false hint',
+        inject(function(autoResize, eventBus, modeling) {
 
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
@@ -616,34 +622,33 @@ describe('features/auto-resize', function() {
 
     describe('resize child', function() {
 
-      it('should resize parent', inject(
-        function(replace, autoResize) {
+      it('should resize parent', inject(function(autoResize, replace) {
 
-          // given
-          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+        // given
+        var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
-          var replacement = {
-            id: 'replacement',
-            width: 300,
-            height: 300
-          };
+        var replacement = {
+          id: 'replacement',
+          width: 300,
+          height: 300
+        };
 
-          // when
-          replace.replaceElement(replacedShape, replacement);
+        // when
+        replace.replaceElement(replacedShape, replacement);
 
-          // then
-          expect(autoResizeSpy).to.be.called;
-          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 320, height: 320 });
-        })
-      );
+        // then
+        expect(autoResizeSpy).to.be.called;
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 320, height: 320 });
+      }));
 
     });
 
 
     describe('hints', function() {
 
-      it('should not resize on autoResize=false hint',
-        inject(function(eventBus, replace, autoResize) {
+      it('should NOT resize on autoResize=false hint',
+        inject(function(autoResize, eventBus, replace) {
+
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
@@ -712,35 +717,52 @@ describe('features/auto-resize', function() {
 
     describe('resize child', function() {
 
-      it('should resize parent', inject(
-        function(modeling, autoResize) {
+      it('should resize parent', inject(function(autoResize, modeling) {
 
-          // given
-          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+        // given
+        var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
-          var newBounds = {
-            x: 110,
-            y: 110,
-            width: 300,
-            height: 300
-          };
+        var newBounds = {
+          x: 110,
+          y: 110,
+          width: 300,
+          height: 300
+        };
 
-          // when
-          modeling.resizeShape(resizedShape, newBounds);
+        // when
+        modeling.resizeShape(resizedShape, newBounds);
 
-          // then
-          expect(autoResizeSpy).to.be.called;
-          expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 320, height: 320 });
-        })
-      );
+        // then
+        expect(autoResizeSpy).to.be.called;
+        expect(parentShape).to.have.bounds({ x: 100, y: 100, width: 320, height: 320 });
+      }));
 
     });
 
 
     describe('hints', function() {
 
-      it('should not resize parent on autoResize=false hint',
-        inject(function(eventBus, modeling, autoResize) {
+      it('on resize child shape <nwse>', inject(function(autoResize, modeling) {
+
+        // given
+        var resizeSpy = spy(autoResize, 'resize');
+
+        var newBounds = { x: 0, y: 0, width: 500, height: 500 };
+
+        // when
+        modeling.resizeShape(resizedShape, newBounds);
+
+        // then
+        expect(getResizeDirections(resizeSpy)).to.exist;
+        expect(getResizeDirections(resizeSpy)).to.eql({
+          autoResize: 'nwse'
+        });
+      }));
+
+
+      it('should NOT resize parent on autoResize=false hint',
+        inject(function(autoResize, eventBus, modeling) {
+
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
 
@@ -782,48 +804,6 @@ describe('features/auto-resize', function() {
     expect(getPaddingSpy).to.have.been.calledWith(parentShape);
     expect(getOffsetSpy).to.have.been.calledWith(parentShape);
   }));
-
-
-  describe('hints', function() {
-
-    describe('autoResize', function() {
-
-      it('on move <ne>', inject(function(modeling, autoResize) {
-
-        // given
-        var resizeSpy = spy(autoResize, 'resize');
-
-        // when
-        modeling.moveElements([ childShape1 ], { x: -100, y: -100 }, parentShape);
-
-        // then
-        expect(getResizeDirections(resizeSpy)).to.exist;
-        expect(getResizeDirections(resizeSpy)).to.eql({
-          autoResize: 'ne'
-        });
-      }));
-
-
-      it('on resize child shape <nwse>', inject(function(modeling, autoResize) {
-
-        // given
-        var resizeSpy = spy(autoResize, 'resize');
-
-        var newBounds = { x: 0, y: 0, width: 500, height: 500 };
-
-        // when
-        modeling.resizeShape(childShape1, newBounds);
-
-        // then
-        expect(getResizeDirections(resizeSpy)).to.exist;
-        expect(getResizeDirections(resizeSpy)).to.eql({
-          autoResize: 'nwse'
-        });
-      }));
-
-    });
-
-  });
 
 });
 

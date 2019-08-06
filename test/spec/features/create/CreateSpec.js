@@ -32,6 +32,8 @@ var testModules = [
   dragModule
 ];
 
+var LOW_PRIORITY = 500;
+
 
 describe('features/create - Create', function() {
 
@@ -41,14 +43,15 @@ describe('features/create - Create', function() {
       childShape,
       frameShape,
       ignoreShape,
-      newShape;
+      newShape,
+      newShape2,
+      newElements;
 
   function setManualDragging(dragging) {
     dragging.setOptions({ manual: true });
   }
 
   function setupDiagram(elementFactory, canvas) {
-
     rootShape = elementFactory.createRoot({
       id: 'root'
     });
@@ -57,50 +60,85 @@ describe('features/create - Create', function() {
 
     parentShape = elementFactory.createShape({
       id: 'parent',
-      x: 100, y: 100, width: 200, height: 200
+      x: 100, y: 100, width: 300, height: 200
     });
 
     canvas.addShape(parentShape, rootShape);
 
-
     hostShape = elementFactory.createShape({
       id: 'hostShape',
-      x: 400, y: 200,
+      x: 450, y: 250,
       width: 100, height: 100
     });
 
     canvas.addShape(hostShape, rootShape);
 
-
     childShape = elementFactory.createShape({
       id: 'childShape',
-      x: 150, y: 350, width: 100, height: 100
+      x: 600, y: 250, width: 100, height: 100
     });
 
     canvas.addShape(childShape, rootShape);
 
-
     frameShape = elementFactory.createShape({
       id: 'frameShape',
-      x: 400, y: 50, width: 100, height: 100,
+      x: 450, y: 100, width: 100, height: 100,
       isFrame: true
     });
 
     canvas.addShape(frameShape, rootShape);
 
-
     ignoreShape = elementFactory.createShape({
       id: 'ignoreShape',
-      x: 600, y: 50, width: 100, height: 100
+      x: 600, y: 100, width: 100, height: 100
     });
 
     canvas.addShape(ignoreShape, rootShape);
 
-
     newShape = elementFactory.createShape({
       id: 'newShape',
-      x: 0, y: 0, width: 50, height: 50
+      width: 50,
+      height: 50
     });
+
+    newElements = [];
+
+    newShape2 = elementFactory.createShape({
+      id: 'newShape2',
+      width: 50,
+      height: 50
+    });
+
+    newElements.push(newShape2);
+
+    var newShape3 = elementFactory.createShape({
+      id: 'newShape3',
+      x: 100,
+      y: -25,
+      width: 100,
+      height: 100
+    });
+
+    newElements.push(newShape3);
+
+    newElements.push(elementFactory.createShape({
+      id: 'newShape3',
+      parent: newShape2,
+      x: 100,
+      y: -25,
+      width: 100,
+      height: 100
+    }));
+
+    newElements.push(elementFactory.createConnection({
+      id: 'newConnection',
+      source: newShape2,
+      target: newShape3,
+      waypoints: [
+        { x: 50, y: 25 },
+        { x: 100, y: 25 }
+      ]
+    }));
   }
 
 
@@ -115,7 +153,7 @@ describe('features/create - Create', function() {
 
   describe('basics', function() {
 
-    it('should create', inject(function(create, elementRegistry, dragging) {
+    it('should create', inject(function(create, dragging, elementRegistry) {
 
       // given
       var parentGfx = elementRegistry.getGraphics('parentShape');
@@ -123,48 +161,95 @@ describe('features/create - Create', function() {
       // when
       create.start(canvasEvent({ x: 0, y: 0 }), newShape);
 
-      dragging.move(canvasEvent({ x: 125, y: 125 }));
       dragging.hover({ element: parentShape, gfx: parentGfx });
-      dragging.move(canvasEvent({ x: 175, y: 175 }));
+
+      dragging.move(canvasEvent(getMid(parentShape)));
 
       dragging.end();
 
+      // then
       var createdShape = elementRegistry.get('newShape');
 
-      // then
       expect(createdShape).to.exist;
-      expect(createdShape).to.eql(newShape);
+      expect(createdShape).to.equal(newShape);
 
       expect(createdShape.parent).to.equal(parentShape);
     }));
 
 
-    it('should append', inject(function(create, elementRegistry, dragging) {
+    it('should update elements and shape after create', inject(
+      function(create, dragging, elementFactory, elementRegistry, eventBus) {
+
+        // given
+        var parentGfx = elementRegistry.getGraphics('parentShape');
+
+        var shape = elementFactory.createShape({
+          id: 'shape',
+          x: 100,
+          y: 100,
+          width: 100,
+          height: 100
+        });
+
+        eventBus.on('commandStack.shape.create.preExecute', function(event) {
+          var context = event.context;
+
+          context.shape = shape;
+        });
+
+        eventBus.on('create.end', LOW_PRIORITY, function(context) {
+
+          // then
+          expect(context.elements).to.have.length(1);
+          expect(context.elements[0]).to.equal(shape);
+
+          expect(context.shape).to.equal(shape);
+        });
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+
+        dragging.move(canvasEvent(getMid(parentShape)));
+
+        dragging.end();
+      }
+    ));
+
+
+    it('should append', inject(function(create, dragging, elementRegistry) {
 
       // given
-      var parentGfx = elementRegistry.getGraphics('parentShape');
+      var rootGfx = elementRegistry.getGraphics('rootShape');
 
       // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape, childShape);
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape, {
+        source: childShape
+      });
 
-      dragging.move(canvasEvent({ x: 175, y: 175 }));
-      dragging.hover({ element: parentShape, gfx: parentGfx });
-      dragging.move(canvasEvent({ x: 400, y: 200 }));
+      dragging.hover({ element: rootShape, gfx: rootGfx });
+
+      dragging.move(canvasEvent({ x: 500, y: 500 }));
 
       dragging.end();
 
+      // then
       var createdShape = elementRegistry.get('newShape');
 
-      // then
       expect(createdShape).to.exist;
-      expect(createdShape).to.eql(newShape);
+      expect(createdShape).to.equal(newShape);
 
+      expect(createdShape.parent).to.equal(rootShape);
       expect(createdShape.incoming).to.have.length(1);
-      expect(createdShape.incoming).to.eql(childShape.outgoing);
+      expect(createdShape.incoming[0].source).to.equal(childShape);
+
+      expect(childShape.outgoing).to.have.length(1);
+      expect(childShape.outgoing[0].target).to.equal(createdShape);
     }));
 
 
-    it('should attach', inject(function(create, elementRegistry, dragging) {
+    it('should attach', inject(function(create, dragging, elementRegistry) {
 
       // given
       var hostShapeGfx = elementRegistry.getGraphics('hostShape');
@@ -172,75 +257,70 @@ describe('features/create - Create', function() {
       // when
       create.start(canvasEvent({ x: 0, y: 0 }), newShape);
 
-      dragging.move(canvasEvent({ x: 150, y: 350 }));
       dragging.hover({ element: hostShape, gfx: hostShapeGfx });
-      dragging.move(canvasEvent({ x: 200, y: 350 }));
+
+      dragging.move(canvasEvent(getMid(hostShape)));
 
       dragging.end();
 
       // then
-      expect(newShape.host).to.equal(hostShape);
-      expect(hostShape.attachers).to.include(newShape);
+      var createdShape = elementRegistry.get('newShape');
+
+      expect(createdShape).to.exist;
+      expect(createdShape).to.equal(newShape);
+
+      expect(createdShape.parent).to.equal(rootShape);
+      expect(createdShape.host).to.equal(hostShape);
+
+      expect(hostShape.attachers).to.have.length;
+      expect(hostShape.attachers[0]).to.equal(createdShape);
     }));
 
 
-    it('should append + attach', inject(function(create, elementRegistry, dragging) {
+    it('should append AND attach', inject(function(create, dragging, elementRegistry) {
 
       // given
       var hostShapeGfx = elementRegistry.getGraphics('hostShape');
 
       // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape, parentShape);
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape, {
+        source: parentShape
+      });
 
-      dragging.move(canvasEvent({ x: 150, y: 350 }));
       dragging.hover({ element: hostShape, gfx: hostShapeGfx });
-      dragging.move(canvasEvent({ x: 200, y: 350 }));
+
+      dragging.move(canvasEvent(getMid(hostShape)));
 
       dragging.end();
 
       // then
-      expect(newShape.host).to.equal(hostShape);
-      expect(hostShape.attachers).to.include(newShape);
+      var createdShape = elementRegistry.get('newShape');
 
-      // both source and new target are connected
-      expect(newShape.incoming).to.eql(parentShape.outgoing);
-      expect(newShape.incoming).to.have.length(1);
-    }));
-  });
+      expect(createdShape).to.exist;
+      expect(createdShape).to.equal(newShape);
 
+      expect(createdShape.parent).to.equal(rootShape);
+      expect(createdShape.host).to.equal(hostShape);
+      expect(createdShape.incoming).to.have.length(1);
+      expect(createdShape.incoming[0].source).to.equal(parentShape);
 
-  describe('visuals', function() {
+      expect(hostShape.attachers).to.have.length;
+      expect(hostShape.attachers[0]).to.equal(createdShape);
 
-    it('should add visuals', inject(function(create, dragging) {
-
-      // when
-      create.start(canvasEvent({ x: 50, y: 50 }), newShape);
-
-      dragging.move(canvasEvent({ x: 50, y: 50 }));
-
-      var ctx = dragging.context();
-
-      // then
-      expect(svgClasses(ctx.data.context.visual).has('djs-drag-group')).to.be.true;
+      expect(parentShape.outgoing).to.have.length(1);
+      expect(parentShape.outgoing[0].target).to.equal(createdShape);
     }));
 
 
-    it('should remove visuals', inject(function(create, elementRegistry, dragging) {
-      var parentGfx = elementRegistry.getGraphics('parentShape');
+    it('should set first shape as primary shape', inject(function(create, dragging) {
 
       // when
-      create.start(canvasEvent({ x: 50, y: 50 }), newShape);
-
-      dragging.move(canvasEvent({ x: 100, y: 100 }));
-      dragging.hover({ element: parentShape, gfx: parentGfx });
-      dragging.move(canvasEvent({ x: 150, y: 150 }));
-
-      var ctx = dragging.context();
-
-      dragging.end();
+      create.start(canvasEvent({ x: 0, y: 0 }), newElements);
 
       // then
-      expect(ctx.data.context.visual.parentNode).not.to.exist;
+      var context = dragging.context().data.context;
+
+      expect(context.shape).to.equal(newShape2);
     }));
 
   });
@@ -248,129 +328,188 @@ describe('features/create - Create', function() {
 
   describe('rules', function() {
 
-    it('should not allow shape create', inject(function(create, elementRegistry, dragging) {
-      // given
-      var targetGfx = elementRegistry.getGraphics('rootShape');
+    describe('create shape', function() {
 
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+      it('should allow shape create', inject(function(create, dragging, elementRegistry) {
 
-      dragging.move(canvasEvent({ x: 50, y: 25 }));
-      dragging.hover({ element: rootShape, gfx: targetGfx });
-      dragging.move(canvasEvent({ x: 50, y: 50 }));
-
-      dragging.end();
-
-      // then
-      expect(elementRegistry.getGraphics('attacher')).not.to.exist;
-    }));
-
-
-    it('should add "new-parent" marker', inject(function(canvas, create, elementRegistry, dragging) {
-      // given
-      var targetGfx = elementRegistry.getGraphics('parentShape');
-
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
-
-      dragging.move(canvasEvent({ x: 200, y: 50 }));
-      dragging.hover({ element: parentShape, gfx: targetGfx });
-      dragging.move(canvasEvent({ x: 200, y: 225 }));
-
-      // then
-      expect(canvas.hasMarker(parentShape, 'new-parent')).to.be.true;
-    }));
-
-
-    it('should ignore hovering', inject(
-      function(canvas, create, elementRegistry, dragging) {
-      // given
-        var targetGfx = elementRegistry.getGraphics('ignoreShape');
+        // given
+        var parentGfx = elementRegistry.getGraphics('parentShape');
 
         // when
         create.start(canvasEvent({ x: 0, y: 0 }), newShape);
 
-        dragging.move(canvasEvent({ x: 650, y: 50 }));
-        dragging.hover({ element: ignoreShape, gfx: targetGfx });
-        dragging.move(canvasEvent({ x: 650, y: 60 }));
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+
+        dragging.move(canvasEvent(getMid(parentShape)));
 
         // then
-        var ctx = dragging.context();
-        expect(ctx.data.context.canExecute).to.equal(null);
+        var canExecute = dragging.context().data.context.canExecute;
 
-        expect(canvas.hasMarker(ignoreShape, 'new-parent')).to.be.false;
-      })
-    );
-
-
-    it('should add "drop-not-ok" marker', inject(function(canvas, create, elementRegistry, dragging) {
-      // given
-      var targetGfx = elementRegistry.getGraphics('childShape');
-
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
-
-      dragging.move(canvasEvent({ x: 50, y: 25 }));
-      dragging.hover({ element: childShape, gfx: targetGfx });
-      dragging.move(canvasEvent({ x: 50, y: 50 }));
-
-      // then
-      expect(canvas.hasMarker(childShape, 'drop-not-ok')).to.be.true;
-    }));
+        expect(canExecute).to.exist;
+        expect(canExecute.attach).to.be.false;
+        expect(canExecute.connect).to.be.false;
+      }));
 
 
-    it('should add "drop-not-ok" marker to frame', inject(function(canvas, create, elementRegistry, dragging) {
-      // given
-      var targetGfx = elementRegistry.getGraphics('frameShape');
+      it('should NOT allow shape create', inject(function(create, dragging, elementRegistry) {
 
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+        // given
+        var childGfx = elementRegistry.getGraphics('childShape');
 
-      dragging.move(canvasEvent({ x: 50, y: 25 }));
-      dragging.hover({ element: frameShape, gfx: targetGfx });
-      dragging.move(canvasEvent({ x: 50, y: 50 }));
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
 
-      // then
-      expect(svgClasses(targetGfx).has('djs-frame')).to.be.true;
-      expect(canvas.hasMarker(frameShape, 'drop-not-ok')).to.be.true;
-    }));
+        dragging.hover({ element: childShape, gfx: childGfx });
 
+        dragging.move(canvasEvent(getMid(childShape)));
 
-    it('should add "attach-ok" marker', inject(function(canvas, create, elementRegistry, dragging) {
-      // given
-      var hostGfx = elementRegistry.getGraphics('hostShape');
+        // then
+        var canExecute = dragging.context().data.context.canExecute;
 
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+        expect(canExecute).to.be.false;
+      }));
 
-      dragging.move(canvasEvent({ x: 150, y: 350 }));
-      dragging.hover({ element: hostShape, gfx: hostGfx });
-      dragging.move(canvasEvent({ x: 200, y: 350 }));
-
-      // then
-      expect(canvas.hasMarker(hostShape, 'attach-ok')).to.be.true;
-    }));
+    });
 
 
-    it('should remove markers', inject(function(canvas, create, elementRegistry, dragging) {
-      // given
-      var targetGfx = elementRegistry.getGraphics('parentShape');
+    describe('create elements', function() {
 
-      // when
-      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+      it('should allow create elements', inject(function(create, dragging, elementRegistry) {
 
-      dragging.move(canvasEvent({ x: 200, y: 50 }));
-      dragging.hover({ element: parentShape, gfx: targetGfx });
-      dragging.move(canvasEvent({ x: 200, y: 225 }));
+        // given
+        var parentGfx = elementRegistry.getGraphics('parentShape');
 
-      var hasMarker = canvas.hasMarker(parentShape, 'new-parent');
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newElements);
 
-      dragging.end();
+        dragging.hover({ element: parentShape, gfx: parentGfx });
 
-      // then
-      expect(canvas.hasMarker(parentShape, 'new-parent')).to.be.false;
-      expect(canvas.hasMarker(parentShape, 'new-parent')).not.to.eql(hasMarker);
-    }));
+        dragging.move(canvasEvent(getMid(parentShape)));
+
+        // then
+        var canExecute = dragging.context().data.context.canExecute;
+
+        expect(canExecute).to.exist;
+        expect(canExecute.attach).to.be.false;
+        expect(canExecute.connect).to.be.false;
+      }));
+
+
+      it('should NOT allow create elements', inject(function(create, dragging, elementRegistry) {
+
+        // given
+        var childGfx = elementRegistry.getGraphics('childShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newElements);
+
+        dragging.hover({ element: childShape, gfx: childGfx });
+
+        dragging.move(canvasEvent(getMid(childShape)));
+
+        // then
+        var canExecute = dragging.context().data.context.canExecute;
+
+        expect(canExecute).to.be.false;
+      }));
+
+    });
+
+
+    describe('attach shape', function() {
+
+      it('should allow shape attach', inject(function(create, dragging, elementRegistry) {
+
+        // given
+        var hostGfx = elementRegistry.getGraphics('hostShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        dragging.hover({ element: hostShape, gfx: hostGfx });
+
+        dragging.move(canvasEvent(getMid(hostShape)));
+
+        // then
+        var canExecute = dragging.context().data.context.canExecute;
+
+        expect(canExecute).to.exist;
+        expect(canExecute.attach).to.equal('attach');
+        expect(canExecute.connect).to.be.false;
+      }));
+
+
+      it('should NOT allow shape attach', inject(function(create, dragging, elementRegistry) {
+
+        // given
+        var parentGfx = elementRegistry.getGraphics('parentShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+
+        dragging.move(canvasEvent(getMid(parentShape)));
+
+        // then
+        var canExecute = dragging.context().data.context.canExecute;
+
+        expect(canExecute).to.exist;
+        expect(canExecute.attach).to.be.false;
+        expect(canExecute.connect).to.be.false;
+      }));
+
+    });
+
+
+    describe('connect shape', function() {
+
+      it('should allow shape connect', inject(function(create, dragging, elementRegistry) {
+
+        // given
+        var rootGfx = elementRegistry.getGraphics('rootShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape, {
+          source: childShape
+        });
+
+        dragging.hover({ element: rootShape, gfx: rootGfx });
+
+        dragging.move(canvasEvent({ x: 500, y: 500 }));
+
+        // then
+        var canExecute = dragging.context().data.context.canExecute;
+
+        expect(canExecute).to.exist;
+        expect(canExecute.attach).to.be.false;
+        expect(canExecute.connect).to.be.true;
+      }));
+
+
+      it('should NOT allow shape connect', inject(function(create, dragging, elementRegistry) {
+
+        // given
+        var rootGfx = elementRegistry.getGraphics('rootShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape, {
+          source: hostShape
+        });
+
+        dragging.hover({ element: rootShape, gfx: rootGfx });
+
+        dragging.move(canvasEvent({ x: 500, y: 500 }));
+
+        // then
+        var canExecute = dragging.context().data.context.canExecute;
+
+        expect(canExecute).to.exist;
+        expect(canExecute.attach).to.be.false;
+        expect(canExecute.connect).to.be.false;
+      }));
+
+    });
 
 
     describe.skip('connection preview', function() {
@@ -470,6 +609,109 @@ describe('features/create - Create', function() {
         expect(ctx.data.context.connectionPreviewGfx.parentNode).not.to.exist;
       }));
     });
+
+  });
+
+
+  describe('markers', function() {
+
+    it('should add "attach-ok" marker', inject(function(canvas, create, dragging, elementRegistry) {
+
+      // given
+      var hostGfx = elementRegistry.getGraphics('hostShape');
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+      dragging.hover({ element: hostShape, gfx: hostGfx });
+
+      dragging.move(canvasEvent(getMid(hostShape)));
+
+      // then
+      expect(canvas.hasMarker(hostShape, 'attach-ok')).to.be.true;
+    }));
+
+
+    it('should add "drop-not-ok" marker', inject(
+      function(canvas, create, dragging, elementRegistry) {
+
+        // given
+        var childGfx = elementRegistry.getGraphics('childShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        dragging.hover({ element: childShape, gfx: childGfx });
+
+        dragging.move(canvasEvent(getMid(childShape)));
+
+        // then
+        expect(canvas.hasMarker(childShape, 'drop-not-ok')).to.be.true;
+      }
+    ));
+
+
+    it('should add "new-parent" marker', inject(
+      function(canvas, create, dragging, elementRegistry) {
+
+        // given
+        var parentGfx = elementRegistry.getGraphics('parentShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+
+        dragging.move(canvasEvent(getMid(parentShape)));
+
+        // then
+        expect(canvas.hasMarker(parentShape, 'new-parent')).to.be.true;
+      }
+    ));
+
+
+    it('should ignore hovering', inject(
+      function(canvas, create, dragging, elementRegistry) {
+
+        // given
+        var ignoreGfx = elementRegistry.getGraphics('ignoreShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        dragging.hover({ element: ignoreShape, gfx: ignoreGfx });
+
+        dragging.move(canvasEvent(getMid(ignoreShape)));
+
+        // then
+        expect(canvas.hasMarker(ignoreShape, 'attach-okay')).to.be.false;
+        expect(canvas.hasMarker(ignoreShape, 'drop-not-okay')).to.be.false;
+        expect(canvas.hasMarker(ignoreShape, 'new-parent')).to.be.false;
+      })
+    );
+
+
+    it('should remove markers on cleanup', inject(function(canvas, create, elementRegistry, dragging) {
+
+      // given
+      var targetGfx = elementRegistry.getGraphics('parentShape');
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+      dragging.move(canvasEvent({ x: 200, y: 50 }));
+      dragging.hover({ element: parentShape, gfx: targetGfx });
+      dragging.move(canvasEvent({ x: 200, y: 225 }));
+
+      var hasMarker = canvas.hasMarker(parentShape, 'new-parent');
+
+      dragging.end();
+
+      // then
+      expect(canvas.hasMarker(parentShape, 'new-parent')).to.be.false;
+      expect(canvas.hasMarker(parentShape, 'new-parent')).not.to.eql(hasMarker);
+    }));
+
   });
 
 
@@ -478,29 +720,29 @@ describe('features/create - Create', function() {
     afterEach(sinon.restore);
 
 
-    it('should provide hints object in create.start event handler', inject(
-      function(create, eventBus) {
+    it('should fire create.start with hints', inject(function(create, eventBus) {
+
+      // given
+      var spy = sinon.spy(function(event) {
+        expect(event.context.hints).to.exist;
+      });
+
+      eventBus.once('create.start', spy);
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+      // then
+      expect(spy).to.have.been.called;
+    }));
+
+
+    it('should fire create.end with hints', inject(
+      function(create, dragging, elementRegistry, eventBus) {
 
         // given
-        var spy = sinon.spy(function(event) {
-          expect(event.context.hints).to.exist;
-        });
+        var parentGfx = elementRegistry.getGraphics(parentShape);
 
-        eventBus.once('create.start', spy);
-
-        // when
-        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
-
-        // then
-        expect(spy).to.have.been.called;
-      }
-    ));
-
-
-    it('should provide hints object in create.end event handler', inject(
-      function(create, eventBus, dragging) {
-
-        // given
         var spy = sinon.spy(function(event) {
           expect(event.context.hints).to.exist;
         });
@@ -510,37 +752,10 @@ describe('features/create - Create', function() {
         // when
         create.start(canvasEvent({ x: 0, y: 0 }), newShape);
 
-        dragging.move(canvasEvent({ x: 50, y: 50 }));
-        dragging.hover({ element: parentShape });
-        dragging.move(canvasEvent({ x: 100, y: 100 }));
-        dragging.end();
+        dragging.hover({ element: parentShape, gfx: parentGfx });
 
-        // then
-        expect(spy).to.have.been.called;
-      }
-    ));
+        dragging.move(canvasEvent(getMid(parentShape)));
 
-
-    it('should pass hints to commandStack.shape.create event context', inject(
-      function(create, eventBus, dragging) {
-
-        // given
-        var spy = sinon.spy(function(event) {
-          expect(event.context.hints.foo).to.exist;
-        });
-
-        eventBus.once('create.start', function(event) {
-          event.context.hints.foo = 'foo';
-        });
-
-        eventBus.once('commandStack.shape.create.execute', spy);
-
-        // when
-        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
-
-        dragging.move(canvasEvent({ x: 50, y: 50 }));
-        dragging.hover({ element: parentShape });
-        dragging.move(canvasEvent({ x: 100, y: 100 }));
         dragging.end();
 
         // then
@@ -554,6 +769,7 @@ describe('features/create - Create', function() {
   describe('constraints', function() {
 
     beforeEach(inject(function(create, dragging, elementRegistry) {
+
       // given
       var parentGfx = elementRegistry.getGraphics('parentShape');
 
