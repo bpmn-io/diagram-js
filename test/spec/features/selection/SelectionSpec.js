@@ -105,7 +105,7 @@ describe('features/selection/Selections', function() {
 
 
     it('should select moved element if previously not in selection',
-      inject(function(dragging, elementRegistry, modeling, move, selection) {
+      inject(function(dragging, elementRegistry, move, selection) {
 
         // given
         selection.select(shape1);
