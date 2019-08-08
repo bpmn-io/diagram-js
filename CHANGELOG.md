@@ -13,7 +13,7 @@ ___Note:__ Yet to be released changes appear here._
 ### Breaking Changes
 
 * `Create`: hints are not passed to CreateShapeHandler anymore
-* `Create#start`: third argument is context, if you want to specify `source` do `{ hints: { source: myElement } }`
+* `Create#start`: third argument is context, if you want to specify `source` do `{ source: source }`
 * `CopyPaste`: `elements.copied`, `element.copy`, `elements.copy`, `element.paste`, `elements.paste` removed in favor of `copyPaste.canCopyElements`, `copyPaste.copyElement`, `copyPaste.elementsCopied`, `copyPaste.pasteElement`, `copyPaste.pasteElements`
 * `Modeling#pasteElements` removed in favor of `Modeling#createElements`
 * `MouseTracking` removed in favor of `Mouse`
