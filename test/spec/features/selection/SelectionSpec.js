@@ -6,6 +6,7 @@ import {
 } from 'test/TestHelper';
 
 import coreModule from 'lib/core';
+import createModule from 'lib/features/create';
 import draggingModule from 'lib/features/dragging';
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
@@ -23,6 +24,7 @@ describe('features/selection/Selections', function() {
       coreModule,
       draggingModule,
       modelingModule,
+      createModule,
       moveModule,
       selectionModule
     ]
@@ -193,6 +195,114 @@ describe('features/selection/Selections', function() {
       expect(selection._selectedElements).to.be.empty;
 
       expect(changedSpy).to.have.been.called;
+    }));
+
+  });
+
+
+  describe('hints', function() {
+
+    var newElements,
+        shape1,
+        shape2,
+        rootShape,
+        rootGfx;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+
+      rootShape = canvas.getRootElement(),
+
+      rootGfx = canvas.getGraphics(rootShape);
+
+      newElements = [];
+
+      shape1 = elementFactory.createShape({
+        id: 'newShape1',
+        x: 0,
+        y: 0,
+        width: 100,
+        height: 100
+      });
+
+      newElements.push(shape1);
+
+      shape2 = elementFactory.createShape({
+        id: 'newShape2',
+        x: 200,
+        y: 0,
+        width: 100,
+        height: 100
+      });
+
+      newElements.push(shape2);
+    }));
+
+
+    it('should select all created elements', inject(function(create, dragging, selection) {
+
+      // given
+      create.start(canvasEvent({ x: 0, y: 0 }), newElements);
+
+      dragging.hover({ element: rootShape, gfx: rootGfx });
+
+      dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+      // when
+      dragging.end();
+
+      // then
+      var selected = selection.get();
+
+      expect(selected).to.exist;
+      expect(selected).to.eql(newElements);
+    }));
+
+
+    it('should NOT select all created elements', inject(function(create, dragging, selection) {
+
+      // given
+      create.start(canvasEvent({ x: 0, y: 0 }), newElements, {
+        hints: {
+          autoSelect: [ shape1 ]
+        }
+      });
+
+      dragging.hover({ element: rootShape, gfx: rootGfx });
+
+      dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+      // when
+      dragging.end();
+
+      // then
+      var selected = selection.get();
+
+      expect(selected).to.exist;
+      expect(selected).to.eql([ shape1 ]);
+    }));
+
+
+    it('should NOT select created elements', inject(function(create, dragging, selection) {
+
+      // given
+      create.start(canvasEvent({ x: 0, y: 0 }), newElements, {
+        hints: {
+          autoSelect: false
+        }
+      });
+
+      dragging.hover({ element: rootShape, gfx: rootGfx });
+
+      dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+      // when
+      dragging.end();
+
+      // then
+      var selected = selection.get();
+
+      expect(selected).to.exist;
+      expect(selected).to.be.empty;
     }));
 
   });
