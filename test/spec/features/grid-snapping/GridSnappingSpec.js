@@ -5,6 +5,7 @@ import {
 } from 'test/TestHelper';
 
 import modelingModule from 'lib/features/modeling';
+import gridModule from 'lib/features/grid-snapping/visuals';
 import gridSnappingModule from 'lib/features/grid-snapping';
 import bendpointsModule from 'lib/features/bendpoints';
 import connectModule from 'lib/features/connect';
@@ -27,6 +28,8 @@ import {
 } from '../../../util/MockEvents';
 
 import { isString } from 'min-dash';
+
+import { mid } from 'lib/features/snapping/SnapUtil';
 
 var LOW_PRIORITY = 500;
 
@@ -134,13 +137,13 @@ describe('features/grid-snapping', function() {
         shape1,
         shape2,
         shape3,
-        newShape,
         connection,
         connectionGfx;
 
     beforeEach(bootstrapDiagram({
       modules: [
         modelingModule,
+        gridModule,
         gridSnappingModule,
         bendpointsModule,
         connectModule,
@@ -202,11 +205,6 @@ describe('features/grid-snapping', function() {
       canvas.addConnection(connection, rootShape);
 
       connectionGfx = elementRegistry.getGraphics(connection);
-
-      newShape = elementFactory.createShape({
-        id: 'newShape',
-        x: 0, y: 0, width: 100, height: 100
-      });
     }));
 
 
@@ -288,7 +286,17 @@ describe('features/grid-snapping', function() {
     });
 
 
-    describe('<create>', function() {
+    describe('<create> shape', function() {
+
+      var newShape;
+
+      beforeEach(inject(function(elementFactory) {
+        newShape = elementFactory.createShape({
+          id: 'newShape',
+          x: 0, y: 0, width: 100, height: 100
+        });
+      }));
+
 
       it('without constraints', inject(function(create, dragging, eventBus) {
 
@@ -368,6 +376,119 @@ describe('features/grid-snapping', function() {
 
         expect(newShape.x + newShape.width / 2).to.equal(170);
         expect(newShape.y + newShape.height / 2).to.equal(260);
+      }));
+
+    });
+
+
+    describe('<create> elements', function() {
+
+      var newElements,
+          newShape1;
+
+      beforeEach(inject(function(elementFactory) {
+        newShape1 = elementFactory.createShape({
+          id: 'newShape1',
+          x: 0, y: 0, width: 100, height: 100
+        });
+
+        var newShape2 = elementFactory.createShape({
+          id: 'newShape2',
+          x: 110, y: 110, width: 100, height: 100
+        });
+
+        newElements = [ newShape1, newShape2 ];
+      }));
+
+
+      it('without constraints', inject(function(create, dragging, eventBus) {
+
+        // given
+        var events = recordEvents(eventBus, [
+          'create.move',
+          'create.end'
+        ]);
+
+        create.start(canvasEvent({ x: 150, y: 250 }), newElements);
+
+        // relative mid during create
+        var relativeMid = mid(newShape1);
+
+        // when
+        dragging.hover({ element: rootShape, gfx: rootShapeGfx });
+
+        dragging.move(canvasEvent({ x: 156, y: 253 }));
+        dragging.move(canvasEvent({ x: 162, y: 256 }));
+        dragging.move(canvasEvent({ x: 168, y: 259 }));
+        dragging.move(canvasEvent({ x: 174, y: 262 }));
+        dragging.move(canvasEvent({ x: 180, y: 265 }));
+
+        dragging.end();
+
+        // then
+        expect(events.map(position).map(addPosition(relativeMid))).to.eql([
+          { x: 100, y: 200 }, // move (triggered on create.start thanks to autoActivate)
+          { x: 100, y: 200 }, // move
+          { x: 110, y: 200 }, // move
+          { x: 110, y: 200 }, // move
+          { x: 120, y: 210 }, // move
+          { x: 130, y: 210 }, // move
+          { x: 130, y: 210 } // end
+        ]);
+
+        expect(mid(newShape1)).to.eql({
+          x: 130,
+          y: 210
+        });
+      }));
+
+
+      it('with constraints', inject(function(create, dragging, eventBus) {
+
+        // given
+        var events = recordEvents(eventBus, [
+          'create.move',
+          'create.end'
+        ]);
+
+        create.start(canvasEvent({ x: 150, y: 250 }), newElements, {
+          createConstraints: {
+            top: 250,
+            right: 170,
+            bottom: 260,
+            left: 150
+          }
+        });
+
+        // relative mid during create
+        var relativeMid = mid(newShape1);
+
+        // when
+        dragging.hover({ element: rootShape, gfx: rootShapeGfx });
+
+        dragging.move(canvasEvent({ x: 156, y: 253 }));
+        dragging.move(canvasEvent({ x: 162, y: 256 }));
+        dragging.move(canvasEvent({ x: 168, y: 259 }));
+        dragging.move(canvasEvent({ x: 174, y: 262 }));
+        dragging.move(canvasEvent({ x: 180, y: 265 }));
+
+        dragging.end();
+
+        // then
+        expect(events.map(position).map(addPosition(relativeMid))).to.eql([
+          { x: 100, y: 200 }, // move (triggered on create.start thanks to autoActivate)
+          { x: 100, y: 200 }, // move
+          { x: 110, y: 200 }, // move
+          { x: 110, y: 200 }, // move
+          { x: 110, y: 200 }, // move
+          { x: 110, y: 200 }, // move
+          { x: 110, y: 200 } // end
+        ]);
+
+        expect(mid(newShape1)).to.eql({
+          x: 110,
+          y: 200
+        });
       }));
 
     });
@@ -778,5 +899,14 @@ function position(event) {
   return {
     x: event.x,
     y: event.y
+  };
+}
+
+function addPosition(a) {
+  return function(b) {
+    return {
+      x: a.x + b.x,
+      y: a.y + b.y
+    };
   };
 }
