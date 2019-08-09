@@ -389,7 +389,7 @@ describe('features/grid-snapping', function() {
       beforeEach(inject(function(elementFactory) {
         newShape1 = elementFactory.createShape({
           id: 'newShape1',
-          x: 0, y: 0, width: 100, height: 100
+          x: 0, y: 0, width: 90, height: 90
         });
 
         var newShape2 = elementFactory.createShape({
@@ -427,17 +427,17 @@ describe('features/grid-snapping', function() {
 
         // then
         expect(events.map(position).map(addPosition(relativeMid))).to.eql([
-          { x: 100, y: 200 }, // move (triggered on create.start thanks to autoActivate)
+          { x: 90, y: 190 }, // move (triggered on create.start thanks to autoActivate)
+          { x: 100, y: 190 }, // move
           { x: 100, y: 200 }, // move
           { x: 110, y: 200 }, // move
           { x: 110, y: 200 }, // move
           { x: 120, y: 210 }, // move
-          { x: 130, y: 210 }, // move
-          { x: 130, y: 210 } // end
+          { x: 120, y: 210 } // end
         ]);
 
         expect(mid(newShape1)).to.eql({
-          x: 130,
+          x: 120,
           y: 210
         });
       }));
@@ -476,9 +476,9 @@ describe('features/grid-snapping', function() {
 
         // then
         expect(events.map(position).map(addPosition(relativeMid))).to.eql([
-          { x: 100, y: 200 }, // move (triggered on create.start thanks to autoActivate)
+          { x: 90, y: 190 }, // move (triggered on create.start thanks to autoActivate)
+          { x: 100, y: 190 }, // move
           { x: 100, y: 200 }, // move
-          { x: 110, y: 200 }, // move
           { x: 110, y: 200 }, // move
           { x: 110, y: 200 }, // move
           { x: 110, y: 200 }, // move
