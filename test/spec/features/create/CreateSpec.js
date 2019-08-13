@@ -59,7 +59,7 @@ describe('features/create - Create', function() {
     canvas.setRootElement(rootShape);
 
     parentShape = elementFactory.createShape({
-      id: 'parent',
+      id: 'parentShape',
       x: 100, y: 100, width: 300, height: 200
     });
 
