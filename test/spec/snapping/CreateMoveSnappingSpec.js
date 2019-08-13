@@ -224,6 +224,25 @@ describe('features/snapping - CreateMoveSnapping', function() {
       });
 
 
+      describe('snap to diagram origin', function() {
+
+        it('should NOT snap to (0, 0)', inject(function(dragging) {
+
+          // when
+          dragging.move(canvasEventMid({ x: 5, y: 5 }));
+
+          dragging.end();
+
+          // then
+          expect(mid(shape3)).to.have.eql({
+            x: 5, // NOT snapped
+            y: 5 // NOT snapped
+          });
+        }));
+
+      });
+
+
       describe('snap to connection', function() {
 
         it('should NOT snap mid, mid (1st waypoint)', inject(function(dragging) {
