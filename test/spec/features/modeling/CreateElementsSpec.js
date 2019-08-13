@@ -212,6 +212,27 @@ describe('features/modeling - create elements', function() {
       expect(elements[0]).to.equal(shape);
     }));
 
+
+    it('should not have fractional coordinates', inject(function(elementFactory, modeling) {
+
+      // given
+      var shape = elementFactory.createShape({
+        id: 'shape',
+        x: 110,
+        y: 110,
+        width: 105,
+        height: 105
+      });
+
+      var elements = modeling.createElements(shape, position, parentShape);
+
+      // then
+      expect(elements[0]).to.have.position({
+        x: 298,
+        y: 198
+      });
+    }));
+
   });
 
 
