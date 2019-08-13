@@ -6,14 +6,19 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.0.0
+
 * `FEAT`: add ability to create multiple elements ([`8d7d1d9c`](https://github.com/bpmn-io/diagram-js/pull/390/commits/8d7d1d9c69304ce8b99ed3de2f4d1ef1698c0958))
 * `FEAT`: add `createElementsBehavior` hint to prevent behavior on creating elements ([`1ef5b3499`](https://github.com/bpmn-io/diagram-js/pull/390/commits/1ef5b3499858f1dc7a2fb5a7d9a5b2b8c474964b))
 * `FEAT`: add ability to provide custom hit boxes ([#371](https://github.com/bpmn-io/diagram-js/pull/371))
 
 ### Breaking Changes
 
+Copy and paste as well as create got completely reworked:
+
 * `Create#start`: third argument is context, if you want to specify `source` do `{ source: source }`
 * `CopyPaste`: `elements.copied`, `element.copy`, `elements.copy`, `element.paste`, `elements.paste` removed in favor of `copyPaste.canCopyElements`, `copyPaste.copyElement`, `copyPaste.elementsCopied`, `copyPaste.pasteElement`, `copyPaste.pasteElements`
+* To prevent additional behavior on create after paste you should check for the `createElementsBehavior=false` hint
 * `Modeling#pasteElements` removed in favor of `Modeling#createElements`
 * `MouseTracking` removed in favor of `Mouse`
 
