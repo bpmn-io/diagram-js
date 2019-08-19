@@ -18,6 +18,7 @@ ResizeRules.prototype.init = function() {
     var shape = context.shape;
 
     if (!context.newBounds) {
+
       // check general resizability
       if (!shape.resizable) {
         return false;
@@ -26,6 +27,7 @@ ResizeRules.prototype.init = function() {
       if (shape.resizable === 'always') {
         return true;
       }
+
       // element must have minimum size of 50*50 points
       return context.newBounds.width > 50 && context.newBounds.height > 50;
     }

@@ -226,6 +226,7 @@ describe('features/attach-support', function() {
 
 
   describe('ordering', function() {
+
     // up to someone else to care about
   });
 
@@ -443,6 +444,7 @@ describe('features/attach-support', function() {
 
     it('should not move disallowed attacher', inject(
       function(move, dragging, elementRegistry) {
+
         // given
         var hostGfx = elementRegistry.getGraphics(host);
 
@@ -495,6 +497,7 @@ describe('features/attach-support', function() {
 
     it('should reattach to host -> detachment (undo)', inject(
       function(move, dragging, elementRegistry, eventBus, commandStack) {
+
         // given
         var parentGfx = elementRegistry.getGraphics(parentShape);
 
@@ -561,6 +564,7 @@ describe('features/attach-support', function() {
 
 
     it('should attach to another host', inject(function(elementRegistry, move, dragging) {
+
       // given
       var host2Gfx = elementRegistry.getGraphics(host2);
 
@@ -584,6 +588,7 @@ describe('features/attach-support', function() {
 
     it('should reattach to original host on undo', inject(
       function(elementRegistry, move, dragging, commandStack) {
+
         // given
         var host2Gfx = elementRegistry.getGraphics(host2);
 
@@ -613,6 +618,7 @@ describe('features/attach-support', function() {
 
     it('should attach to another host when moving with a label', inject(
       function(elementFactory, elementRegistry, modeling, move, dragging, selection) {
+
         // given
         var host2Gfx = elementRegistry.getGraphics(host2),
             label = elementFactory.createLabel({ width: 80, height: 40 });
@@ -1246,6 +1252,7 @@ describe('features/attach-support', function() {
 
 
     it('should add attachment marker', inject(function(move, dragging, elementRegistry) {
+
       // given
       var hostGfx = elementRegistry.getGraphics(host);
 
@@ -1268,6 +1275,7 @@ describe('features/attach-support', function() {
 
 
     it('should add attachment marker on start', inject(function(move, dragging, elementRegistry) {
+
       // given
       var hostGfx = elementRegistry.getGraphics(host);
 
@@ -1281,6 +1289,7 @@ describe('features/attach-support', function() {
 
 
     it('should remove attachment marker', inject(function(move, dragging, elementRegistry) {
+
       // given
       var hostGfx = elementRegistry.getGraphics(host);
 
@@ -1466,6 +1475,7 @@ describe('features/attach-support', function() {
     describe('should remove connections with attachers', function() {
 
       it('execute', inject(function(modeling) {
+
         // when
         modeling.removeShape(attachedShape2);
 
@@ -1475,6 +1485,7 @@ describe('features/attach-support', function() {
 
 
       it('undo', inject(function(commandStack, modeling) {
+
         // given
         modeling.removeShape(attachedShape2);
 
@@ -1501,6 +1512,7 @@ describe('features/attach-support', function() {
 
 
       it('undo', inject(function(commandStack, modeling) {
+
         // given
         modeling.removeShape(parentShape);
 
@@ -1808,6 +1820,7 @@ describe('features/attach-support', function() {
 
 
     it('should move attachers after resize', inject(function(modeling) {
+
       // given
       var oldPosition = pick(attacher, [ 'x', 'y' ]),
           newPosition,
@@ -1839,6 +1852,7 @@ describe('features/attach-support', function() {
 
 
     it('should move attachers after resize (undo)', inject(function(modeling, commandStack) {
+
       // given
       var oldPosition = pick(attacher, [ 'x', 'y' ]),
           newPosition;
@@ -1861,6 +1875,7 @@ describe('features/attach-support', function() {
 
 
     it('should move attachers after resize (undo -> redo)', inject(function(modeling, commandStack) {
+
       // given
       var oldPosition = pick(attacher, [ 'x', 'y' ]),
           newPosition,
@@ -2189,6 +2204,7 @@ describe('features/attach-support', function() {
 
       it('should not move attacher when host has not been resized',
         inject(function(spaceTool, dragging, canvas) {
+
           // given
           parentShape.resizable = false;
 

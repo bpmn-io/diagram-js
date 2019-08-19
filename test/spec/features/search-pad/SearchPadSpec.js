@@ -132,12 +132,14 @@ describe('features/searchPad', function() {
 
 
   it('should be closed by default', inject(function(canvas, eventBus, searchPad) {
+
     // then
     expect(searchPad.isOpen()).to.equal(false);
   }));
 
 
   it('should open', inject(function(canvas, eventBus, searchPad) {
+
     // when
     searchPad.open();
 
@@ -148,6 +150,7 @@ describe('features/searchPad', function() {
 
 
   it('should error on open when provider not registered', inject(function(canvas, eventBus, searchPad) {
+
     // given
     searchPad.registerProvider(undefined);
 
@@ -163,6 +166,7 @@ describe('features/searchPad', function() {
 
 
   it('should close', inject(function(canvas, eventBus, searchPad) {
+
     // given
     searchPad.open();
 
@@ -176,6 +180,7 @@ describe('features/searchPad', function() {
 
 
   it('should toggle open/close', inject(function(canvas, eventBus, searchPad) {
+
     // when
     searchPad.toggle();
     searchPad.toggle();
@@ -198,6 +203,7 @@ describe('features/searchPad', function() {
     var element;
 
     beforeEach(inject(function(searchPad, eventBus) {
+
       // given
       element = searchProvider.find('one')[0].element;
       searchPad.open();
@@ -205,6 +211,7 @@ describe('features/searchPad', function() {
 
 
     it('should not search on empty string', inject(function(canvas, eventBus, searchPad) {
+
       // given
       var find = sinon.spy(searchProvider, 'find');
 
@@ -217,6 +224,7 @@ describe('features/searchPad', function() {
 
 
     it('should display results', inject(function(canvas, eventBus, searchPad) {
+
       // given
       var find = sinon.spy(searchProvider, 'find');
 
@@ -231,6 +239,7 @@ describe('features/searchPad', function() {
 
 
     it('should escape displayed results', inject(function(canvas, eventBus, searchPad) {
+
       // when
       typeText(input_node, 'html');
 
@@ -243,6 +252,7 @@ describe('features/searchPad', function() {
 
 
     it('should preselect first result', inject(function(canvas, eventBus, searchPad) {
+
       // when
       typeText(input_node, 'two');
 
@@ -254,6 +264,7 @@ describe('features/searchPad', function() {
 
 
     it('should select result on enter', inject(function(canvas, eventBus, searchPad) {
+
       // given
       typeText(input_node, 'two');
 
@@ -271,6 +282,7 @@ describe('features/searchPad', function() {
 
 
     it('should set overlay on an highlighted element', inject(function(searchPad, overlays) {
+
       // when
       typeText(input_node, 'one');
 
@@ -281,6 +293,7 @@ describe('features/searchPad', function() {
 
 
     it('should remove overlay from an element on enter', inject(function(searchPad, overlays) {
+
       // given
       typeText(input_node, 'one');
 
@@ -294,6 +307,7 @@ describe('features/searchPad', function() {
 
 
     it('select should center viewbox on an element', inject(function(searchPad, canvas) {
+
       // given
       typeText(input_node, 'one');
 
@@ -319,6 +333,7 @@ describe('features/searchPad', function() {
 
 
     it('select should keep zoom level', inject(function(searchPad, canvas) {
+
       // given
       canvas.zoom(0.4);
 
@@ -334,6 +349,7 @@ describe('features/searchPad', function() {
 
 
     it('select should apply selection on an element', inject(function(searchPad, selection) {
+
       // given
       typeText(input_node, 'one');
 
@@ -346,6 +362,7 @@ describe('features/searchPad', function() {
 
 
     it('should close on escape', inject(function(canvas, eventBus, searchPad) {
+
       // when
       triggerKeyEvent(input_node, 'keyup', 27);
 
@@ -356,6 +373,7 @@ describe('features/searchPad', function() {
 
 
     it('should preselect next/previus results on arrow down/up', inject(function(canvas, eventBus, searchPad) {
+
       // given
       typeText(input_node, 'two');
       var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
@@ -384,6 +402,7 @@ describe('features/searchPad', function() {
 
 
     it('should not move input cursor on arrow down', inject(function(canvas, eventBus, searchPad) {
+
       // given
       typeText(input_node, 'two');
 
@@ -394,6 +413,7 @@ describe('features/searchPad', function() {
 
 
     it('should not move input cursor on arrow up', inject(function(canvas, eventBus, searchPad) {
+
       // given
       typeText(input_node, 'two');
 
@@ -404,6 +424,7 @@ describe('features/searchPad', function() {
 
 
     it('should not search while navigating text in input box left', inject(function(canvas, eventBus, searchPad) {
+
       // given
       var find = sinon.spy(searchProvider, 'find');
       typeText(input_node, 'two');
@@ -417,6 +438,7 @@ describe('features/searchPad', function() {
 
 
     it('should not search while navigating text in input box right', inject(function(canvas, eventBus, searchPad) {
+
       // given
       var find = sinon.spy(searchProvider, 'find');
       typeText(input_node, 'two');

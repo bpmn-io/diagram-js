@@ -70,6 +70,7 @@ describe('features/editor-actions', function() {
   describe('trigger', function() {
 
     it('should trigger an action', inject(function(modeling, editorActions) {
+
       // given
       modeling.moveElements([ childShape ], { x: 300, y: 0 }, rootShape);
 
@@ -83,6 +84,7 @@ describe('features/editor-actions', function() {
 
 
     it('should NOT trigger an action', inject(function(modeling, editorActions) {
+
       // given
       modeling.moveElements([ childShape ], { x: 300, y: 0 }, rootShape);
 
@@ -120,6 +122,7 @@ describe('features/editor-actions', function() {
 
 
     it('should register action', inject(function(editorActions) {
+
       // when
       editorActions.register('foo', function() {
         return 'bar';
@@ -134,6 +137,7 @@ describe('features/editor-actions', function() {
 
 
     it('should throw error on duplicate registration', inject(function(editorActions) {
+
       // when
       function register() {
         editorActions.register('undo', function() {
@@ -147,6 +151,7 @@ describe('features/editor-actions', function() {
 
 
     it('should unregister an action', inject(function(editorActions) {
+
       // when
       editorActions.unregister('undo');
 
@@ -158,6 +163,7 @@ describe('features/editor-actions', function() {
 
 
     it('should throw an error on deregisering unregistered', inject(function(editorActions) {
+
       // when
       function unregister() {
         editorActions.unregister('bar');

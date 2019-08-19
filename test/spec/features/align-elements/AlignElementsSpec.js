@@ -26,6 +26,7 @@ describe('features/align-elements', function() {
 
       function expectAlignmentPosition(type, result) {
         return function(alignElements) {
+
           // when
           var position = alignElements._alignmentPosition(type, elements);
 
@@ -97,6 +98,7 @@ describe('features/align-elements', function() {
     }));
 
     it('should align to the "left"', inject(function(alignElements) {
+
       // when
       alignElements.trigger(elements, 'left');
 
@@ -108,6 +110,7 @@ describe('features/align-elements', function() {
 
 
     it('should align to the "right"', inject(function(alignElements) {
+
       // when
       alignElements.trigger(elements, 'right');
 
@@ -119,6 +122,7 @@ describe('features/align-elements', function() {
 
 
     it('should align to the "center"', inject(function(alignElements) {
+
       // when
       alignElements.trigger(elements, 'center');
 
@@ -130,6 +134,7 @@ describe('features/align-elements', function() {
 
 
     it('should align to the "top"', inject(function(alignElements) {
+
       // when
       alignElements.trigger(elements, 'top');
 
@@ -141,6 +146,7 @@ describe('features/align-elements', function() {
 
 
     it('should align to the "bottom"', inject(function(alignElements) {
+
       // when
       alignElements.trigger(elements, 'bottom');
 
@@ -152,6 +158,7 @@ describe('features/align-elements', function() {
 
 
     it('should align to the "middle"', inject(function(alignElements) {
+
       // when
       alignElements.trigger(elements.concat(shape3), 'middle');
 

@@ -956,6 +956,7 @@ describe('features/overlays', function() {
 
 
     it('should not be transformed initially', inject(function(overlays, canvas) {
+
       // given
       // diagram got newly created
 
@@ -997,6 +998,7 @@ describe('features/overlays', function() {
 
 
     it('should add css prefixes to the overlay container on zoom', inject(function(overlays, canvas) {
+
       // given
       var containerStyle = overlays._overlayRoot.style;
 

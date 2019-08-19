@@ -16,6 +16,7 @@ describe('features/clipboard', function() {
 
 
   it('should set element to clipboard', inject(function(clipboard) {
+
     // when
     clipboard.set(contents);
 
@@ -28,6 +29,7 @@ describe('features/clipboard', function() {
 
 
   it('should clear the clipboard', inject(function(clipboard) {
+
     // when
     clipboard.set(contents);
 

@@ -268,6 +268,7 @@ describe('features/modeling - move elements', function() {
   describe('multiple selection', function() {
 
     it('should keep parent of secondary shape (scenario 1)', inject(function(modeling) {
+
       // scenario 1:
       // primary shape parent hover:    does not change
       // secondary shape parent hover:  does not change
@@ -287,6 +288,7 @@ describe('features/modeling - move elements', function() {
 
 
     it('should keep parent of secondary shape (scenario 2)', inject(function(modeling) {
+
       // scenario 2:
       // primary shape parent hover:    does not change
       // secondary shape parent hover:  does change
@@ -306,6 +308,7 @@ describe('features/modeling - move elements', function() {
 
 
     it('should set parent of sec. shape to parent of prim. shape (scenario 3)', inject(function(modeling) {
+
       // scenario 3:
       // primary shape parent hover:    does change
       // secondary shape parent hover:  does not change
@@ -329,6 +332,7 @@ describe('features/modeling - move elements', function() {
 
 
     it('should set parent of sec. shape to parent of prim. shape (scenario 4)', inject(function(modeling) {
+
       // scenario 4:
       // primary shape parent hover:    does change
       // secondary shape parent hover:  does change

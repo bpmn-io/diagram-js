@@ -8,6 +8,7 @@ describe('AttachUtil', function() {
   describe('#getNewAttachPoint', function() {
 
     it('should return new point\'s position delta for growing', function() {
+
       // given
       var point = {
         x: -2,
@@ -34,6 +35,7 @@ describe('AttachUtil', function() {
 
 
     it('should return new point\'s position delta for shrinking', function() {
+
       // given
       var point = {
         x: -4,
@@ -60,6 +62,7 @@ describe('AttachUtil', function() {
 
 
     it('should return new point\'s position delta', function() {
+
       // given
       var point = {
         x: 21,

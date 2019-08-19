@@ -178,6 +178,7 @@ describe('features/space-tool', function() {
 
 
       it('should make space to the right and resize parent', inject(function(spaceTool, dragging) {
+
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
 
@@ -199,6 +200,7 @@ describe('features/space-tool', function() {
 
 
       it('should round made space to pixel values', inject(function(spaceTool, dragging) {
+
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
 
@@ -287,6 +289,7 @@ describe('features/space-tool', function() {
 
 
       it('should remove space with objects to the right', inject(function(spaceTool, dragging) {
+
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
 
@@ -308,6 +311,7 @@ describe('features/space-tool', function() {
 
 
       it('should add space with objects to the left', inject(function(spaceTool, dragging) {
+
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 350, y: 150 }));
 
@@ -329,6 +333,7 @@ describe('features/space-tool', function() {
 
 
       it('should remove space with objects that are above', inject(function(spaceTool, dragging) {
+
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 350, y: 230 }));
 
@@ -350,6 +355,7 @@ describe('features/space-tool', function() {
 
 
       it('should add space with objects that are below', inject(function(spaceTool, dragging) {
+
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 350, y: 230 }));
 

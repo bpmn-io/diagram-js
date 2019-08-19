@@ -473,6 +473,7 @@ describe('command/CommandInterceptor', function() {
 
         // then
         expect(element.trace).to.eql([
+
           // local listeners are invoked first
           'simple-command-local-high',
           'simple-command-default',

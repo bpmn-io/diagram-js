@@ -277,6 +277,7 @@ describe('core/EventBus', function() {
     };
 
     it('should pass context to listener', function() {
+
       // given
       Dog.prototype.bindListener = function() {
 
@@ -298,6 +299,7 @@ describe('core/EventBus', function() {
 
 
     it('should pass context to listener and provide priority', function() {
+
       // given
       Dog.prototype.bindListener = function(priority, msg) {
         eventBus.on('bark', priority, function(event) {
@@ -320,6 +322,7 @@ describe('core/EventBus', function() {
 
 
     it('should pass context to listener and provide priority -> once', function() {
+
       // given
       Dog.prototype.bindListener = function(priority, msg) {
         eventBus.once('bark', priority, function(event) {
@@ -349,6 +352,7 @@ describe('core/EventBus', function() {
 
 
     it('should fire only once', function() {
+
       // given
       Dog.prototype.barks = [];
 

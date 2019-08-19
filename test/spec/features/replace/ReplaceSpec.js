@@ -145,6 +145,7 @@ describe('features/replace', function() {
 
 
     it('should retain position when setting odd height', inject(function(elementFactory, replace, elementRegistry) {
+
       // given
       var replacement = {
         id: 'replacement',
@@ -165,6 +166,7 @@ describe('features/replace', function() {
 
 
     it('should retain position when setting odd width', inject(function(elementFactory, replace, elementRegistry) {
+
       // given
       var replacement = {
         id: 'replacement',
@@ -185,6 +187,7 @@ describe('features/replace', function() {
 
 
     it('should retain position when setting odd width and height', inject(function(elementFactory, replace, elementRegistry) {
+
       // given
       var replacement = {
         id: 'replacement',
@@ -323,6 +326,7 @@ describe('features/replace', function() {
       };
 
       eventBus.on('commandStack.elements.move.postExecuted', function(event) {
+
         // then
         var shapes = event.context.shapes;
         expect(shapes).not.to.be.empty;

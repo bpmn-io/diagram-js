@@ -15,6 +15,7 @@ describe('layout/LayoutUtil', function() {
   describe('#getMid', function() {
 
     it('should return rectangle mid point', function() {
+
       // given
       var r = rect(100, 100, 100, 200);
 
@@ -24,6 +25,7 @@ describe('layout/LayoutUtil', function() {
 
 
     it('should return point mid point', function() {
+
       // given
       var point = { x: 100, y: 100 };
 

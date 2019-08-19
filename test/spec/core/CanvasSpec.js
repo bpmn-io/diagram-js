@@ -69,6 +69,7 @@ describe('Canvas', function() {
 
 
     it('should fire "canvas.resized" event', inject(function(eventBus, canvas) {
+
       // given
       var listener = sinon.spy();
       eventBus.on('canvas.resized', listener);
@@ -209,6 +210,7 @@ describe('Canvas', function() {
       var s = { id: 'FOO', x: 10, y: 10, width: 50, height: 50 };
 
       expect(function() {
+
         // when
         canvas.addShape(s);
         canvas.addShape(s);
@@ -225,6 +227,7 @@ describe('Canvas', function() {
       var s = { id: 'FOO', x: 10 };
 
       expect(function() {
+
         // when
         canvas.addShape(s);
 
@@ -405,6 +408,7 @@ describe('Canvas', function() {
       var c = { id: 'FOO' };
 
       expect(function() {
+
         // when
         canvas.addConnection(c);
 
@@ -485,6 +489,7 @@ describe('Canvas', function() {
 
 
     it('should always return root element', inject(function(canvas) {
+
       // when
       // accessing root element for the first time
       expect(canvas.getRootElement()).to.exist;
@@ -1815,6 +1820,7 @@ describe('Canvas', function() {
 
       // when
       expect(function() {
+
         // then
         canvas.getLayer('foo', 20);
       }).to.throw(/layer <.*> already created at index <.*>/);

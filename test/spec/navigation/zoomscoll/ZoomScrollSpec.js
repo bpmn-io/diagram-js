@@ -180,6 +180,7 @@ describe('navigation/zoomscroll', function() {
 
 
     it('should force enable', inject(function(zoomScroll) {
+
       // when
       var newEnabled = zoomScroll.toggle(true);
 
@@ -189,6 +190,7 @@ describe('navigation/zoomscroll', function() {
 
 
     it('should force disable', inject(function(zoomScroll) {
+
       // when
       var newEnabled = zoomScroll.toggle(false);
 
@@ -198,6 +200,7 @@ describe('navigation/zoomscroll', function() {
 
 
     it('should toggle on', inject(function(zoomScroll) {
+
       // assume
       expect(zoomScroll._enabled).to.be.false;
 

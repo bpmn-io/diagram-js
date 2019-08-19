@@ -361,6 +361,7 @@ describe('features/modeling - resize shape', function() {
     describe('should update connection dockings', function() {
 
       it('on incoming connections', inject(function(modeling) {
+
         // given
         var shapeOldBounds = bounds(parentShape),
             shapeNewBounds = { x: 400, y: 50, width: 350, height: 350 };
@@ -378,6 +379,7 @@ describe('features/modeling - resize shape', function() {
 
 
       it('on outgoing connections', inject(function(modeling) {
+
         // given
         var shapeOldBounds = bounds(parentShape),
             shapeNewBounds = { x: 300, y: 150, width: 350, height: 350 };
