@@ -693,6 +693,35 @@ describe('layout/ManhattanLayout', function() {
         ]);
       });
 
+
+      it('should relayout if points aligned', function() {
+
+        // given
+        var start = rect(100, 100, 100, 100);
+
+        var waypoints = [
+          { x: 200, y: 150, original: { x: 150, y: 150 } },
+          { x: 300, y: 150 },
+          { x: 300, y: 250 },
+          { x: 400, y: 250, original: { x: 450, y: 250 } }
+        ];
+
+        // when
+        var repaired = repair(start, start, waypoints, {
+          connectionEnd: { x: 150, y: 150 },
+          preferredLayouts: [ 'r:b' ]
+        });
+
+        // then
+        expect(repaired).to.eql([
+          { x: 200, y: 150, original: { x: 150, y: 150 } },
+          { x: 220, y: 150 },
+          { x: 220, y: 220 },
+          { x: 150, y: 220 },
+          { x: 150, y: 200, original: { x: 150, y: 150 } }
+        ]);
+      });
+
     });
 
 
@@ -853,7 +882,8 @@ describe('layout/ManhattanLayout', function() {
           var repaired = repair(newStart, end, waypoints, { connectionStart: true });
 
           // then
-          expect(repaired).to.eql([ { x: 250, y: 100 }, { x: 250, y: 300 } ].concat(waypoints.slice(2)));
+          expect(repaired).to.eql([ { x: 250, y: 150, original: { x: 250, y: 100 } } ]
+            .concat(waypoints[ waypoints.length - 1 ]));
         });
 
       });
