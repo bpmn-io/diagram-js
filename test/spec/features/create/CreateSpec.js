@@ -610,6 +610,29 @@ describe('features/create - Create', function() {
       }));
     });
 
+
+    it('should NOT allow create if no hover', inject(function(create, dragging, elementRegistry) {
+
+      // given
+      var rootGfx = elementRegistry.getGraphics('rootShape');
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+      dragging.hover({ element: rootShape, gfx: rootGfx });
+
+      dragging.out();
+
+      // no new hover
+      dragging.move(canvasEvent({ x: 500, y: 500 }));
+
+      // then
+      var canExecute = dragging.context().data.context;
+
+      expect(canExecute.canExecute).to.be.false;
+      expect(canExecute.target).to.be.null;
+    }));
+
   });
 
 
