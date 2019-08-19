@@ -86,6 +86,7 @@ describe('features/label-support', function() {
   describe('modeling', function() {
 
     it('should move', inject(function(modeling) {
+
       // when
       modeling.moveElements([ label ], { x: 75, y: 0 }, parentShape);
 
@@ -95,6 +96,7 @@ describe('features/label-support', function() {
 
 
     it('should move multiple', inject(function(modeling) {
+
       // when
       modeling.moveElements([ label, otherLabel ], { x: 75, y: 0 });
 
@@ -105,6 +107,7 @@ describe('features/label-support', function() {
 
 
     it('should move with labelTarget', inject(function(modeling) {
+
       // when
       modeling.moveElements([ childShape ], { x: 75, y: 10 });
 
@@ -316,6 +319,7 @@ describe('features/label-support', function() {
   describe('moving', function() {
 
     it('should move', inject(function(modeling) {
+
       // when
       modeling.moveElements([ label ], { x: 75, y: 0 }, parentShape);
 
@@ -326,6 +330,7 @@ describe('features/label-support', function() {
 
 
     it('should move with labelTarget', inject(function(modeling) {
+
       // when
       modeling.moveElements([ childShape ], { x: 75, y: 0 }, parentShape);
 
@@ -338,6 +343,7 @@ describe('features/label-support', function() {
     describe('should drag move with labelTarget', function() {
 
       it('execute', inject(function(move, dragging) {
+
         // when
         move.start(canvasEvent({ x: 225, y: 275 }), childShape);
 
@@ -351,6 +357,7 @@ describe('features/label-support', function() {
 
 
       it('undo', inject(function(move, dragging, commandStack) {
+
         // given
         move.start(canvasEvent({ x: 225, y: 275 }), childShape);
 
@@ -367,6 +374,7 @@ describe('features/label-support', function() {
 
 
       it('redo', inject(function(move, dragging, commandStack) {
+
         // given
         move.start(canvasEvent({ x: 225, y: 275 }), childShape);
 
@@ -408,6 +416,7 @@ describe('features/label-support', function() {
   describe('visuals', function() {
 
     it('should add marker', inject(function(elementRegistry, move, dragging) {
+
       // given
       var labelGfx = elementRegistry.getGraphics(label),
           otherLabelGfx = elementRegistry.getGraphics(otherLabel);
@@ -424,6 +433,7 @@ describe('features/label-support', function() {
 
 
     it('should remove marker', inject(function(elementRegistry, move, dragging) {
+
       // given
       var labelGfx = elementRegistry.getGraphics(label),
           otherLabelGfx = elementRegistry.getGraphics(otherLabel);
@@ -505,6 +515,7 @@ describe('features/label-support', function() {
     describe('should move label along with its target', function() {
 
       beforeEach(inject(function(spaceTool, dragging) {
+
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 250, y: 100 }));
 
@@ -521,6 +532,7 @@ describe('features/label-support', function() {
 
 
       it('undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -531,6 +543,7 @@ describe('features/label-support', function() {
 
 
       it('redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();

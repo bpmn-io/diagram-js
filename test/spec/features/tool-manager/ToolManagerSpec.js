@@ -23,6 +23,7 @@ describe('features/tool-manager', function() {
   describe('basics', function() {
 
     it('should register a tool', inject(function(toolManager) {
+
       // when
       toolManager.registerTool('lasso', {
         tool: 'lasso.selection',
@@ -35,6 +36,7 @@ describe('features/tool-manager', function() {
 
 
     it('should throw error when registering a tool without events', inject(function(toolManager) {
+
       // when
       function result() {
         toolManager.registerTool('hand');
@@ -46,6 +48,7 @@ describe('features/tool-manager', function() {
 
 
     it('should have hand-tool as active', inject(function(toolManager, handTool) {
+
       // when
       handTool.activateHand(canvasEvent({ x: 150, y: 150 }));
 
@@ -54,6 +57,7 @@ describe('features/tool-manager', function() {
 
 
     it('should have no active tool', inject(function(toolManager, handTool, dragging) {
+
       // when
       handTool.activateHand(canvasEvent({ x: 150, y: 150 }));
 

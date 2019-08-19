@@ -274,6 +274,7 @@ describe('command/CommandStack', function() {
 
         // given
         eventBus.on('commandStack.command.canExecute', function(event) {
+
           // do nothing, just chill
         });
 

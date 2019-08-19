@@ -28,8 +28,10 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     beforeEach(inject(function(dragging, autoScroll, canvas) {
+
       // given
       autoScroll.setOptions({
+
         // do not reapeat timeout
         scrollRepeatTimeout: 100000
       });
@@ -43,6 +45,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('not scrolled when inside the border', inject(function(dragging) {
+
       // when
       dragging.move(canvasEvent({
         x: scrollThresholdIn + 1,
@@ -55,6 +58,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('not scrolled when outside the border', inject(function(dragging) {
+
       // when
       dragging.move(canvasEvent({
         x: scrollThresholdOut - 1,
@@ -67,6 +71,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('stopped on cleanup', inject(function(dragging, autoScroll) {
+
       // given
       var stopScroll = sinon.spy(autoScroll, 'stopScroll');
 
@@ -84,6 +89,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('stopped on moving outside the border', inject(function(dragging, autoScroll) {
+
       // given
       var stopScroll = sinon.spy(autoScroll, 'stopScroll');
 
@@ -105,6 +111,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('left-down', inject(function(dragging, canvas) {
+
       // when
       dragging.move(canvasEvent({
         x: scrollThresholdIn - 1,
@@ -117,6 +124,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('left', inject(function(dragging) {
+
       // when
       dragging.move(canvasEvent({
         x: scrollThresholdIn - 1,
@@ -129,6 +137,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('left-up', inject(function(dragging) {
+
       // when
       dragging.move(canvasEvent({
         x: scrollThresholdIn - 1,
@@ -141,6 +150,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('up', inject(function(dragging) {
+
       // when
       dragging.move(canvasEvent({ x: scrollThresholdIn + 1, y: scrollThresholdIn - 1 }));
 
@@ -150,6 +160,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('right-up', inject(function(dragging, canvas) {
+
       // when
       dragging.move(canvasEvent({
         x: (clientRect.width - scrollThresholdIn) + 1,
@@ -162,6 +173,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('right', inject(function(dragging, canvas) {
+
       // when
       dragging.move(canvasEvent({
         x: (clientRect.width - scrollThresholdIn) + 1,
@@ -174,6 +186,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('right-down', inject(function(dragging, canvas) {
+
       // when
       dragging.move(canvasEvent({
         x: (clientRect.width - scrollThresholdIn) + 1,
@@ -186,6 +199,7 @@ describe('features/auto-scroll - AutoScroll', function() {
 
 
     it('down', inject(function(dragging, canvas) {
+
       // when
       dragging.move(canvasEvent({
         x: scrollThresholdIn + 1,

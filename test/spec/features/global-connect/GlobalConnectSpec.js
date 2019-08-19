@@ -77,6 +77,7 @@ describe('features/global-connect-tool', function() {
 
 
   it('should NOT start connect if rejected', inject(function(eventBus, globalConnect, dragging) {
+
     // given
     var shape = shapeUnableToStartConnection;
     var connectSpy = sinon.spy();

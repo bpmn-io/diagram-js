@@ -734,9 +734,11 @@ describe('layout/ManhattanLayout', function() {
         var waypoints = [
           { original: { x: 150, y: 150 }, x: 150, y: 200 },
           { x: 150, y: 300 },
+
           // <custom garbage bendpoints>
           { x: 250, y: 300 },
           { x: 150, y: 300 },
+
           // </custom garbage bendpoints>
           { x: 250, y: 300 },
           { original: { x: 250, y: 450 }, x: 250, y: 400 }
@@ -795,6 +797,7 @@ describe('layout/ManhattanLayout', function() {
           var waypoints = [
             { original: { x: 150, y: 150 }, x: 150, y: 200 },
             { x: 150, y: 300 },
+
             // diagonal connection
             { x: 250, y: 450 }
           ];

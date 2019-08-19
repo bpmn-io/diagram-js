@@ -58,6 +58,7 @@ describe('features/modeling - layout connection', function() {
 
 
     it('should execute, adding new original waypoints', inject(function(modeling) {
+
       // when
       modeling.layoutConnection(connection);
 
@@ -70,6 +71,7 @@ describe('features/modeling - layout connection', function() {
 
 
     it('should execute with custom connectionStart', inject(function(modeling) {
+
       // given
       var hints = {
         connectionStart: { x: 100, y: 100 }
@@ -87,6 +89,7 @@ describe('features/modeling - layout connection', function() {
 
 
     it('should execute with custom connectionEnd', inject(function(modeling) {
+
       // given
       var hints = {
         connectionEnd: { x: 400, y: 400 }

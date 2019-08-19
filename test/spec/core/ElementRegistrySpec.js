@@ -215,6 +215,7 @@ describe('ElementRegistry', function() {
 
       elementRegistry.forEach(function(element, gfx) {
         elements.push(element);
+
         // assume we get element and gfx as params
         expect(element).to.exist;
         expect(gfx).to.exist;

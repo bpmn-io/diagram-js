@@ -71,6 +71,7 @@ describe('features/distribute-elements', function() {
     describe('#createGroups', function() {
 
       it('should group elements horizontally', inject(function(distributeElements) {
+
         // given
         distributeElements._setOrientation('horizontal');
 
@@ -87,6 +88,7 @@ describe('features/distribute-elements', function() {
 
 
       it('should group elements vertically', inject(function(distributeElements) {
+
         // given
         distributeElements._setOrientation('vertical');
 
@@ -109,6 +111,7 @@ describe('features/distribute-elements', function() {
     describe('hasIntersection', function() {
 
       it('should return true for intersecting ranges', inject(function(distributeElements) {
+
         // when
         var result = distributeElements._hasIntersection({ min: 100, max: 200 }, { min: 150, max: 200 });
 
@@ -118,6 +121,7 @@ describe('features/distribute-elements', function() {
 
 
       it('should return false for NON intersecting ranges', inject(function(distributeElements) {
+
         // when
         var result = distributeElements._hasIntersection({ min: 100, max: 200 }, { min: 250, max: 300 });
 
@@ -127,6 +131,7 @@ describe('features/distribute-elements', function() {
 
 
       it('should return true for negative intersecting ranges', inject(function(distributeElements) {
+
         // when
         var result = distributeElements._hasIntersection({ min: -200, max: -100 }, { min: -150, max: -50 });
 
@@ -195,6 +200,7 @@ describe('features/distribute-elements', function() {
 
 
     it('should align shapes of same size horizontally', inject(function(distributeElements) {
+
       // given
       var elements = [ shape5, shape3, shape1, shape4, shape2, shapeBig ];
 
@@ -222,6 +228,7 @@ describe('features/distribute-elements', function() {
 
 
     it('should align shapes of same size vertically', inject(function(distributeElements) {
+
       // given
       var elements = [ shape5, shape3, shape1, shape4, shape2, shapeBig ];
 

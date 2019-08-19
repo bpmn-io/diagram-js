@@ -50,6 +50,7 @@ describe('features/hand-tool', function() {
   describe('general', function() {
 
     it('should not move element', inject(function(handTool, dragging) {
+
       // given
       var position = {
         x: childShape.x,

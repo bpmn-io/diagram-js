@@ -307,6 +307,7 @@ describe('features/tooltips', function() {
 
 
     it('should not be transformed initially', inject(function(tooltips, canvas) {
+
       // given
       // diagram got newly created
 

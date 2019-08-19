@@ -340,6 +340,7 @@ describe('features/palette', function() {
 
     it('should be single column if enough space for entries',
       inject(function(eventBus, canvas, palette) {
+
         // given
         var parent = canvas.getContainer();
 
@@ -365,6 +366,7 @@ describe('features/palette', function() {
 
     it('should collapse into two columns',
       inject(function(eventBus, canvas, palette) {
+
         // given
         var parent = canvas.getContainer();
 

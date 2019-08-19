@@ -329,6 +329,7 @@ describe('features/resize - Resize', function() {
     describe('live check, rejecting', function() {
 
       it('should indicate resize not allowed', inject(function(resize, canvas, dragging) {
+
         // when resize to small
         resize.activate(canvasEvent({ x: 0, y: 0 }), shape, 'se');
         dragging.move(canvasEvent({ x: -60, y: -60 }));

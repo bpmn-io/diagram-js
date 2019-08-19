@@ -522,6 +522,7 @@ describe('features/bendpoints - segment move', function() {
         connectionSegmentMove.start(canvasEvent({ x: 425, y: 150 }), connection, 3);
         dragging.move(canvasEvent({ x: 425, y: 210 }));
         dragging.end();
+
         // when: middle intersection is dragged to the left
         //       multiple steps are needed because it needs to pass the shape
         connectionSegmentMove.start(canvasEvent({ x: 400, y: 300 }), connection, 2);

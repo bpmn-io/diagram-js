@@ -114,6 +114,7 @@ describe('features/popup', function() {
   describe('#isEmpty', function() {
 
     it('should return true if empty', inject(function(popupMenu) {
+
       // when
       popupMenu.registerProvider('empty-menu', {
         getEntries: function() { return []; },
@@ -126,6 +127,7 @@ describe('features/popup', function() {
 
 
     it('should return false if entries', inject(function(popupMenu) {
+
       // when
       popupMenu.registerProvider('entry-menu', {
         getEntries: function() { return [ { id: 1 } ]; }
@@ -137,6 +139,7 @@ describe('features/popup', function() {
 
 
     it('should return false if header entries', inject(function(popupMenu) {
+
       // when
       popupMenu.registerProvider('header-entry-menu', {
         getEntries: function() { return [ { id: 1 } ]; }
@@ -149,6 +152,7 @@ describe('features/popup', function() {
 
     it('should throw error when provider id is missing', inject(
       function(popupMenu) {
+
         // when
         popupMenu.registerProvider('header-entry-menu', {
           getEntries: function() { return [ { id: 1 } ]; }
@@ -164,6 +168,7 @@ describe('features/popup', function() {
 
     it('should throw error when element is missing', inject(
       function(popupMenu) {
+
         // when
         popupMenu.registerProvider('header-entry-menu', {
           getEntries: function() { return [ { id: 1 } ]; }
@@ -907,6 +912,7 @@ describe('features/popup', function() {
 
 
     it('should open within bounds above', inject(function(popupMenu, canvas) {
+
       // given
       var clientRect = canvas._container.getBoundingClientRect();
 
@@ -950,6 +956,7 @@ describe('features/popup', function() {
 
 
     it('should open within bounds to the left', inject(function(popupMenu, canvas) {
+
       // given
       var clientRect = canvas._container.getBoundingClientRect();
 
@@ -997,6 +1004,7 @@ describe('features/popup', function() {
     function verifyScales(expectedScales) {
 
       getDiagramJS().invoke(function(canvas, popupMenu) {
+
         // given
         popupMenu.registerProvider('menu', menuProvider);
 
@@ -1023,6 +1031,7 @@ describe('features/popup', function() {
 
 
     it('should scale within [ 1.0, 1.5 ] by default', function() {
+
       // given
       var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
 
@@ -1039,6 +1048,7 @@ describe('features/popup', function() {
 
 
     it('should scale within [ 1.0, 1.5 ] without scale config', function() {
+
       // given
       var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
 
@@ -1056,6 +1066,7 @@ describe('features/popup', function() {
 
 
     it('should scale within the limits set in config', function() {
+
       // given
       var config = {
         scale: {
@@ -1080,6 +1091,7 @@ describe('features/popup', function() {
 
 
     it('should scale with scale = true', function() {
+
       // given
       var config = {
         scale: true
@@ -1101,6 +1113,7 @@ describe('features/popup', function() {
 
 
     it('should not scale with scale = false', function() {
+
       // given
       var config = {
         scale: false

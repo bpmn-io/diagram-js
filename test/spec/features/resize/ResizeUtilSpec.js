@@ -342,6 +342,7 @@ describe('resize/ResizeUtil', function() {
 
 
     it('should give min bounds for "nw"', function() {
+
       // when
       var newBounds = getMinResizeBounds('nw', currentBounds, minDimensions);
 
@@ -351,6 +352,7 @@ describe('resize/ResizeUtil', function() {
 
 
     it('should give min bounds for "sw"', function() {
+
       // when
       var newBounds = getMinResizeBounds('sw', currentBounds, minDimensions);
 
@@ -360,6 +362,7 @@ describe('resize/ResizeUtil', function() {
 
 
     it('should give min bounds for "ne"', function() {
+
       // when
       var newBounds = getMinResizeBounds('ne', currentBounds, minDimensions);
 
@@ -369,6 +372,7 @@ describe('resize/ResizeUtil', function() {
 
 
     it('should give min bounds for "se"', function() {
+
       // when
       var newBounds = getMinResizeBounds('se', currentBounds, minDimensions);
 
@@ -432,6 +436,7 @@ describe('resize/ResizeUtil', function() {
         top: 5,
         bottom: 0,
         left: -20
+
         // intentional no right
       };
 
