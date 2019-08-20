@@ -63,7 +63,6 @@ describe('features/dragging - HoverFix', function() {
       // when
       dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
       dragging.move(canvasEvent({ x: 30, y: 20 }));
-      dragging.move(canvasEvent({ x: 5, y: 10 }));
 
       // then
       expect(fixed).to.be.true;
