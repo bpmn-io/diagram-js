@@ -684,6 +684,26 @@ describe('core/EventBus', function() {
       expect(listenerAdded).to.have.been.calledOnce;
     });
 
+
+    it('should call same priority listener', function() {
+
+      // given
+      var listenerAdded = sinon.spy();
+
+      var listenerOnce = sinon.spy(function() {
+        eventBus.once('foo', listenerAdded);
+      });
+
+      eventBus.once('foo', listenerOnce);
+
+      // when
+      eventBus.fire('foo');
+
+      // then
+      expect(listenerOnce).to.have.been.calledOnce;
+      expect(listenerAdded).to.have.been.calledOnce;
+    });
+
   });
 
 
