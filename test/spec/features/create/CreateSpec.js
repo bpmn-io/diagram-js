@@ -840,4 +840,31 @@ describe('features/create - Create', function() {
 
   });
 
+
+  describe('integration', function() {
+
+    it('should create on hover after dragging is initialized', inject(
+      function(create, dragging, elementRegistry, hoverFix) {
+
+        // given
+        hoverFix.findTargetGfx = function(event) {
+          return elementRegistry.getGraphics(parentShape);
+        };
+
+        // when
+        create.start(canvasEvent(getMid(parentShape)), newShape);
+
+        dragging.end();
+
+        // then
+        var createdShape = elementRegistry.get('newShape');
+
+        expect(createdShape).to.exist;
+        expect(createdShape).to.equal(newShape);
+        expect(createdShape.parent).to.equal(parentShape);
+      }
+    ));
+
+  });
+
 });
