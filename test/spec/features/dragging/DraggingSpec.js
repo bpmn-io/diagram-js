@@ -73,6 +73,10 @@ describe('features/dragging - Dragging', function() {
       return omitted;
     }
 
+    function getType(event) {
+      return event && event.type;
+    }
+
 
     it('should stop original event propagation on init', inject(function(dragging) {
 
@@ -217,26 +221,78 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
-    it('should cancel running', inject(function(dragging) {
+    describe('cancel', function() {
 
-      // given
-      var events = recordEvents('foo');
+      it('should cancel before initializing new', inject(function(dragging) {
 
-      // a is active
-      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo', { data: { element: 'a' } });
+        // given
+        var events = recordEvents('foo');
 
-      // when
-      // activate b
-      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo', { data: { element: 'b' } });
+        // a is active
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo', { data: { element: 'a' } });
 
-      // then
-      expect(events.map(raw)).to.eql([
-        { element: 'a', type: 'foo.init' },
-        { element: 'a', type: 'foo.cleanup' },
-        { element: 'b', type: 'foo.init' }
-      ]);
+        // when
+        // activate b
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo', { data: { element: 'b' } });
 
-    }));
+        // then
+        expect(events.map(raw)).to.eql([
+          { element: 'a', type: 'foo.init' },
+          { element: 'a', type: 'foo.cleanup' },
+          { element: 'b', type: 'foo.init' }
+        ]);
+
+      }));
+
+
+      it('should NOT cancel on <elements.changed>', inject(function(dragging, eventBus) {
+
+        // given
+        eventBus.on('foo.end', function() {
+          eventBus.fire('elements.changed');
+        });
+
+        var events = recordEvents('foo');
+
+        dragging.init(canvasEvent({ x: 0, y: 0 }), 'foo', { autoActivate: true });
+
+        // when
+        dragging.end(canvasEvent({ x: 0, y: 0 }));
+
+        // then
+        expect(events.map(getType)).to.eql([
+          'foo.init',
+          'foo.start',
+          'foo.move',
+          'foo.end',
+          'foo.cleanup',
+          'foo.ended'
+        ]);
+      }));
+
+
+      it('should cancel on <elements.changed>', inject(function(dragging, eventBus) {
+
+        // given
+        var events = recordEvents('foo');
+
+        dragging.init(canvasEvent({ x: 0, y: 0 }), 'foo', { autoActivate: true });
+
+        // when
+        eventBus.fire('elements.changed');
+
+        // then
+        expect(events.map(getType)).to.eql([
+          'foo.init',
+          'foo.start',
+          'foo.move',
+          'foo.cancel',
+          'foo.cleanup',
+          'foo.canceled'
+        ]);
+      }));
+
+    });
 
 
     describe('djs-drag-active marker', function() {
