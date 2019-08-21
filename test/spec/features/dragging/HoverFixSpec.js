@@ -64,7 +64,7 @@ describe('features/dragging - HoverFix', function() {
 
         eventBus.on('drag.hover', listener);
 
-        hoverFix.findTargetGfx = function(event) {
+        hoverFix._findTargetGfx = function(event) {
           return gfx;
         };
 
