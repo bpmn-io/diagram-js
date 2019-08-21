@@ -77,6 +77,41 @@ describe('features/dragging - HoverFix', function() {
       }
     ));
 
+
+    it('should trigger hover and then move', inject(
+      function(eventBus, dragging, hoverFix, elementRegistry) {
+
+        // given
+        var gfx = elementRegistry.getGraphics(shape1);
+
+        var listener = sinon.spy();
+
+        eventBus.on('foo.hover', function() {
+          listener('hover');
+        });
+
+        eventBus.on('foo.move', function() {
+          listener('move');
+        });
+
+        hoverFix._findTargetGfx = function(event) {
+          return gfx;
+        };
+
+        // when
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+        // then
+        // first hover and then fake move
+        expect(listener).to.have.been.calledTwice;
+        expect(listener.args).to.eql([
+          [ 'hover' ],
+          [ 'move' ]
+        ]);
+      }
+    ));
+
   });
 
 
