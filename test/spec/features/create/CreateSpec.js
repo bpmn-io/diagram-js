@@ -59,7 +59,7 @@ describe('features/create - Create', function() {
     canvas.setRootElement(rootShape);
 
     parentShape = elementFactory.createShape({
-      id: 'parent',
+      id: 'parentShape',
       x: 100, y: 100, width: 300, height: 200
     });
 
@@ -860,6 +860,33 @@ describe('features/create - Create', function() {
       // then
       expect(getMid(createdShape)).to.eql({ x: 110, y: 110 });
     }));
+
+  });
+
+
+  describe('integration', function() {
+
+    it('should create on hover after dragging is initialized', inject(
+      function(create, dragging, elementRegistry, hoverFix) {
+
+        // given
+        hoverFix.findTargetGfx = function(event) {
+          return elementRegistry.getGraphics(parentShape);
+        };
+
+        // when
+        create.start(canvasEvent(getMid(parentShape)), newShape);
+
+        dragging.end();
+
+        // then
+        var createdShape = elementRegistry.get('newShape');
+
+        expect(createdShape).to.exist;
+        expect(createdShape).to.equal(newShape);
+        expect(createdShape.parent).to.equal(parentShape);
+      }
+    ));
 
   });
 

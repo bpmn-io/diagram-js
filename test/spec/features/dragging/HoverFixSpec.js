@@ -51,23 +51,31 @@ describe('features/dragging - HoverFix', function() {
     }));
 
 
-    it('should ensure hover', inject(function(dragging, hoverFix) {
+    it('should ensure hover', inject(
+      function(eventBus, dragging, hoverFix, elementRegistry) {
 
-      // given
-      var fixed = false;
+        // given
+        var gfx = elementRegistry.getGraphics(shape1);
 
-      hoverFix.ensureHover = function(event) {
-        fixed = true;
-      };
+        var listener = sinon.spy(function(event) {
+          expect(event.hover).to.eql(shape1);
+          expect(event.hoverGfx).to.eql(gfx);
+        });
 
-      // when
-      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
-      dragging.move(canvasEvent({ x: 30, y: 20 }));
-      dragging.move(canvasEvent({ x: 5, y: 10 }));
+        eventBus.on('drag.hover', listener);
 
-      // then
-      expect(fixed).to.be.true;
-    }));
+        hoverFix.findTargetGfx = function(event) {
+          return gfx;
+        };
+
+        // when
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+        // then
+        expect(listener).to.have.been.calledOnce;
+      }
+    ));
 
   });
 
