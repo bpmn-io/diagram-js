@@ -82,20 +82,19 @@ describe('features/dragging - HoverFix', function() {
       function(eventBus, dragging, hoverFix, elementRegistry) {
 
         // given
-        var gfx = elementRegistry.getGraphics(shape1);
+        var shape1_gfx = elementRegistry.getGraphics(shape1);
 
-        var listener = sinon.spy();
+        var recordedEvents = [];
 
-        eventBus.on('foo.hover', function() {
-          listener('hover');
-        });
-
-        eventBus.on('foo.move', function() {
-          listener('move');
+        eventBus.on([
+          'foo.hover',
+          'foo.move'
+        ], function(event) {
+          recordedEvents.push([ event.type, event.hover ]);
         });
 
         hoverFix._findTargetGfx = function(event) {
-          return gfx;
+          return shape1_gfx;
         };
 
         // when
@@ -104,10 +103,9 @@ describe('features/dragging - HoverFix', function() {
 
         // then
         // first hover and then fake move
-        expect(listener).to.have.been.calledTwice;
-        expect(listener.args).to.eql([
-          [ 'hover' ],
-          [ 'move' ]
+        expect(recordedEvents).to.eql([
+          [ 'foo.hover', shape1 ],
+          [ 'foo.move', shape1 ]
         ]);
       }
     ));
