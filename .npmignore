@@ -8,3 +8,4 @@ test/*
 !test/util
 !test/helper
 !test/matchers
+coverage
