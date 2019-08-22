@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.0.2
+
+_Republish of `v5.0.1`._
+
 ## 5.0.1
 
 * `FIX`: do no allow create if no hover available ([`679ef351`](https://github.com/bpmn-io/diagram-js/commit/679ef351ceb215de30230fea81983fc5f8b66ba0))
