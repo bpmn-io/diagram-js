@@ -64,7 +64,7 @@ describe('features/dragging - HoverFix', function() {
 
         eventBus.on('drag.hover', listener);
 
-        hoverFix.findTargetGfx = function(event) {
+        hoverFix._findTargetGfx = function(event) {
           return gfx;
         };
 
@@ -74,6 +74,39 @@ describe('features/dragging - HoverFix', function() {
 
         // then
         expect(listener).to.have.been.calledOnce;
+      }
+    ));
+
+
+    it('should trigger hover and then move', inject(
+      function(eventBus, dragging, hoverFix, elementRegistry) {
+
+        // given
+        var shape1_gfx = elementRegistry.getGraphics(shape1);
+
+        var recordedEvents = [];
+
+        eventBus.on([
+          'foo.hover',
+          'foo.move'
+        ], function(event) {
+          recordedEvents.push([ event.type, event.hover ]);
+        });
+
+        hoverFix._findTargetGfx = function(event) {
+          return shape1_gfx;
+        };
+
+        // when
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+        // then
+        // first hover and then fake move
+        expect(recordedEvents).to.eql([
+          [ 'foo.hover', shape1 ],
+          [ 'foo.move', shape1 ]
+        ]);
       }
     ));
 

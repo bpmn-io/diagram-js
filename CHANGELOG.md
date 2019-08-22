@@ -6,6 +6,13 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.0.1
+
+* `FIX`: do no allow create if no hover available ([`679ef351`](https://github.com/bpmn-io/diagram-js/commit/679ef351ceb215de30230fea81983fc5f8b66ba0))
+* `FIX`: relayout loops if necessary ([`3a63db0d`](https://github.com/bpmn-io/diagram-js/commit/3a63db0dded35167c55e0cf9d1f0a295c3d3216b))
+* `FIX`: set create target on hover events ([`d31bd00b`](https://github.com/bpmn-io/diagram-js/commit/d31bd00b2a96bcae3de1f91c8733a038f37c2d88))
+* `CHORE`: make it easier to override palette container ([`f765c81a`](https://github.com/bpmn-io/diagram-js/commit/f765c81a1d6d9e0983cb4b22a4de723b386df640))
+
 ## 5.0.0
 
 * `FEAT`: add ability to create multiple elements ([`8d7d1d9c`](https://github.com/bpmn-io/diagram-js/pull/390/commits/8d7d1d9c69304ce8b99ed3de2f4d1ef1698c0958))

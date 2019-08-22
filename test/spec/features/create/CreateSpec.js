@@ -870,7 +870,7 @@ describe('features/create - Create', function() {
       function(create, dragging, elementRegistry, hoverFix) {
 
         // given
-        hoverFix.findTargetGfx = function(event) {
+        hoverFix._findTargetGfx = function(event) {
           return elementRegistry.getGraphics(parentShape);
         };
 
