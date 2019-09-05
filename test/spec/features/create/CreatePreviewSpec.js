@@ -16,6 +16,8 @@ import rulesModule from './rules';
 
 import { queryAll as domQueryAll } from 'min-dom';
 
+import { attr as svgAttr } from 'tiny-svg';
+
 var testModules = [
   createModule,
   rulesModule,
@@ -133,6 +135,89 @@ describe('features/create - CreatePreviewSpec', function() {
       expect(dragGroup.parentNode).not.to.exist;
     }));
 
+
+    it('should update preview', inject(function(canvas, create, dragging) {
+
+      // given
+      var rootElement = canvas.getRootElement(),
+          rootElementGfx = canvas.getGraphics(rootElement);
+
+      create.start(canvasEvent({ x: 0, y: 0 }), newElements);
+
+      dragging.hover({ element: rootElement, gfx: rootElementGfx });
+
+      // when
+      dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+      var context = dragging.context(),
+          dragGroup = context.data.context.dragGroup;
+
+      expect(dragGroup.parentNode).to.exist;
+
+      expect(getPositionFromMatrix(svgAttr(dragGroup, 'transform'))).to.eql({
+        x: 100,
+        y: 100
+      });
+
+      // when
+      dragging.move(canvasEvent({ x: 200, y: 200 }));
+
+      expect(dragGroup.parentNode).to.exist;
+
+      expect(getPositionFromMatrix(svgAttr(dragGroup, 'transform'))).to.eql({
+        x: 200,
+        y: 200
+      });
+    }));
+
+
+    it('should NOT update preview if no hover', inject(function(canvas, create, dragging) {
+
+      // given
+      var rootElement = canvas.getRootElement(),
+          rootElementGfx = canvas.getGraphics(rootElement);
+
+      create.start(canvasEvent({ x: 0, y: 0 }), newElements);
+
+      dragging.hover({ element: rootElement, gfx: rootElementGfx });
+
+      // when
+      dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+      var context = dragging.context(),
+          dragGroup = context.data.context.dragGroup;
+
+      expect(dragGroup.parentNode).to.exist;
+
+      expect(getPositionFromMatrix(svgAttr(dragGroup, 'transform'))).to.eql({
+        x: 100,
+        y: 100
+      });
+
+      // when
+      dragging.out();
+
+      dragging.move(canvasEvent({ x: 200, y: 200 }));
+
+      expect(dragGroup.parentNode).not.to.exist;
+
+      expect(getPositionFromMatrix(svgAttr(dragGroup, 'transform'))).to.eql({
+        x: 100,
+        y: 100
+      });
+    }));
+
   });
 
 });
+
+// helpers //////////
+
+function getPositionFromMatrix(transformMatrix) {
+  var entries = transformMatrix.replace('matrix(', '').replace(')', '').split(' ');
+
+  return {
+    x: parseInt(entries[4]),
+    y: parseInt(entries[5])
+  };
+}
