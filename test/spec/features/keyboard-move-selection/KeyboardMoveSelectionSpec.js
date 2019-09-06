@@ -3,12 +3,13 @@ import {
   inject
 } from 'test/TestHelper';
 
-import {
-  forEach
-} from 'min-dash';
+import { forEach } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
 import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
+import modelingModule from 'lib/features/modeling';
+import rulesModule from './rules';
+
+import { getMid } from 'lib/layout/LayoutUtil';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
@@ -28,6 +29,13 @@ var shape1, shape2;
 
 describe('features/keyboard-move-selection', function() {
 
+  var testModules = [
+    keyboardMoveSelectionModule,
+    modelingModule,
+    rulesModule
+  ];
+
+
   describe('default config', function() {
 
     var BASE_SPEED = 1;
@@ -35,10 +43,7 @@ describe('features/keyboard-move-selection', function() {
 
 
     beforeEach(bootstrapDiagram({
-      modules: [
-        modelingModule,
-        keyboardMoveSelectionModule
-      ],
+      modules: testModules,
       canvas: {
         deferUpdate: false
       }
@@ -84,10 +89,7 @@ describe('features/keyboard-move-selection', function() {
 
 
     beforeEach(bootstrapDiagram({
-      modules: [
-        modelingModule,
-        keyboardMoveSelectionModule
-      ],
+      modules: testModules,
       canvas: {
         deferUpdate: false
       },
@@ -119,10 +121,7 @@ describe('features/keyboard-move-selection', function() {
   describe('api', function() {
 
     beforeEach(bootstrapDiagram({
-      modules: [
-        modelingModule,
-        keyboardMoveSelectionModule
-      ],
+      modules: testModules,
       canvas: {
         deferUpdate: false
       }
@@ -159,6 +158,62 @@ describe('features/keyboard-move-selection', function() {
         expect(shape2.y).to.eql(10 + 10);
       }
     ));
+
+  });
+
+
+  describe('rules', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: testModules,
+      canvas: {
+        deferUpdate: false
+      }
+    }));
+
+    beforeEach(inject(setupShapes));
+
+    var shapeDisallowed;
+
+    beforeEach(inject(function(canvas) {
+      shapeDisallowed = canvas.addShape({
+        id: 'shapeDisallowed',
+        x: 300,
+        y: 10,
+        width: 100,
+        height: 100
+      });
+    }));
+
+
+    it('should move', inject(function(keyboardMoveSelection, selection) {
+
+      // given
+      selection.select(shape1);
+
+      var mid = getMid(shape1);
+
+      // when
+      keyboardMoveSelection.moveSelection('right');
+
+      // then
+      expect(getMid(shape1)).not.to.eql(mid);
+    }));
+
+
+    it('should NOT move', inject(function(keyboardMoveSelection, selection) {
+
+      // given
+      selection.select(shapeDisallowed);
+
+      var mid = getMid(shapeDisallowed);
+
+      // when
+      keyboardMoveSelection.moveSelection('right');
+
+      // then
+      expect(getMid(shapeDisallowed)).to.eql(mid);
+    }));
 
   });
 
