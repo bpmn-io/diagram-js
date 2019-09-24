@@ -15,11 +15,6 @@ inherits(CopyPasteRules, RuleProvider);
 CopyPasteRules.prototype.init = function() {
 
   this.addRule('element.copy', function(context) {
-    var element = context.element;
-
-    if (element.host) {
-      return false;
-    }
 
     return true;
   });
