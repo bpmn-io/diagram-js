@@ -12,6 +12,7 @@ import {
   some
 } from 'min-dash';
 
+import attachSupportModule from 'lib/features/attach-support';
 import copyPasteModule from 'lib/features/copy-paste';
 import modelingModule from 'lib/features/modeling';
 import rulesModule from './rules';
@@ -24,6 +25,7 @@ describe('features/copy-paste', function() {
 
   beforeEach(bootstrapDiagram({
     modules: [
+      attachSupportModule,
       copyPasteModule,
       modelingModule,
       rulesModule,
@@ -332,13 +334,13 @@ describe('features/copy-paste', function() {
       }));
 
 
-      it('should NOT copy attacher without host', inject(function(copyPaste) {
+      it('should copy attacher without host', inject(function(copyPaste) {
 
         // when
         var tree = copyPaste.copy(attacher);
 
         // then
-        expect(tree).to.be.empty;
+        expect(findElementInTree(attacher, tree, 0)).to.be.ok;
       }));
 
     });
@@ -410,7 +412,48 @@ describe('features/copy-paste', function() {
         });
 
         // then
-        expect(parentShape.children).to.have.length(2);
+        expect(parentShape.children).to.have.length(3);
+      }));
+
+
+      it('should paste and attach', inject(function(copyPaste) {
+
+        // given
+        copyPaste.copy(attacher);
+
+        // when
+        var element = copyPaste.paste({
+          element: host,
+          point: {
+            x: host.x,
+            y: host.y
+          },
+          hints: {
+            attach: 'attach'
+          }
+        })[0];
+
+        // then
+        expect(element.host).to.eql(host);
+      }));
+
+
+      it('should paste and detach', inject(function(copyPaste) {
+
+        // given
+        copyPaste.copy(attacher);
+
+        // when
+        var element = copyPaste.paste({
+          element: parentShape,
+          point: {
+            x: 1000,
+            y: 1000
+          }
+        })[0];
+
+        // then
+        expect(element.host).not.to.exist;
       }));
 
     });
