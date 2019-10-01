@@ -277,6 +277,45 @@ describe('features/create - Create', function() {
     }));
 
 
+    it('should attach with label', inject(function(create, dragging, elementRegistry, elementFactory) {
+
+      // given
+      var hostShapeGfx = elementRegistry.getGraphics('hostShape');
+
+      var label = elementFactory.createLabel({
+        labelTarget: newShape,
+        x: 0,
+        y: 0,
+        width: 50,
+        height: 50
+      });
+
+      // when
+      create.start(canvasEvent({ x: 0, y: 0 }), [ newShape, label ]);
+
+      dragging.hover({ element: hostShape, gfx: hostShapeGfx });
+
+      dragging.move(canvasEvent(getMid(hostShape)));
+
+      dragging.end();
+
+      // then
+      var createdShape = elementRegistry.get('newShape');
+
+      expect(createdShape).to.exist;
+      expect(createdShape).to.equal(newShape);
+
+      expect(createdShape.parent).to.equal(rootShape);
+      expect(createdShape.host).to.equal(hostShape);
+
+      expect(hostShape.attachers).to.have.length;
+      expect(hostShape.attachers[0]).to.equal(createdShape);
+
+      expect(createdShape.labels).to.have.length(1);
+      expect(createdShape.labels[0]).to.equal(label);
+    }));
+
+
     it('should append AND attach', inject(function(create, dragging, elementRegistry) {
 
       // given
