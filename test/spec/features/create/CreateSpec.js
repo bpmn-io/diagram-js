@@ -277,12 +277,13 @@ describe('features/create - Create', function() {
     }));
 
 
-    it('should attach with label', inject(function(create, dragging, elementRegistry, elementFactory) {
+    it('should attach with label', inject(function(create, dragging, elementFactory, elementRegistry) {
 
       // given
       var hostShapeGfx = elementRegistry.getGraphics('hostShape');
 
-      var label = elementFactory.createLabel({
+      var newLabel = elementFactory.createLabel({
+        id: 'newLabel',
         labelTarget: newShape,
         x: 0,
         y: 0,
@@ -291,7 +292,7 @@ describe('features/create - Create', function() {
       });
 
       // when
-      create.start(canvasEvent({ x: 0, y: 0 }), [ newShape, label ]);
+      create.start(canvasEvent({ x: 0, y: 0 }), [ newShape, newLabel ]);
 
       dragging.hover({ element: hostShape, gfx: hostShapeGfx });
 
@@ -300,7 +301,8 @@ describe('features/create - Create', function() {
       dragging.end();
 
       // then
-      var createdShape = elementRegistry.get('newShape');
+      var createdShape = elementRegistry.get('newShape'),
+          createdLabel = elementRegistry.get('newLabel');
 
       expect(createdShape).to.exist;
       expect(createdShape).to.equal(newShape);
@@ -311,8 +313,13 @@ describe('features/create - Create', function() {
       expect(hostShape.attachers).to.have.length;
       expect(hostShape.attachers[0]).to.equal(createdShape);
 
+      expect(createdLabel).to.exist;
+      expect(createdLabel).to.equal(newLabel);
+
+      expect(createdShape.label).to.equal(newLabel);
+
       expect(createdShape.labels).to.have.length(1);
-      expect(createdShape.labels[0]).to.equal(label);
+      expect(createdShape.labels[0]).to.equal(newLabel);
     }));
 
 
