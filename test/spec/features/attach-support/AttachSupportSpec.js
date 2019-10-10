@@ -235,7 +235,7 @@ describe('features/attach-support', function() {
 
     var host, host2, attacher, attacher2;
 
-    beforeEach(inject(function(canvas, modeling, elementFactory, elementRegistry) {
+    beforeEach(inject(function(canvas, elementFactory) {
       host = elementFactory.createShape({
         id: 'host',
         x: 500, y: 100, width: 100, height: 100
@@ -404,7 +404,7 @@ describe('features/attach-support', function() {
 
 
     it('should move attachers along with parent', inject(
-      function(move, dragging, elementRegistry, selection) {
+      function(move, dragging, elementRegistry) {
 
         // given
         var rootGfx = elementRegistry.getGraphics(rootShape);
@@ -466,7 +466,7 @@ describe('features/attach-support', function() {
 
 
     it('should detach attacher from host', inject(
-      function(move, dragging, elementRegistry, eventBus) {
+      function(move, dragging, elementRegistry) {
 
         // given
         var parentGfx = elementRegistry.getGraphics(parentShape);
@@ -495,8 +495,41 @@ describe('features/attach-support', function() {
     ));
 
 
+    it('should detach multiple attachers from host', inject(
+      function(dragging, elementRegistry, move, selection) {
+
+        // given
+        var rootGfx = elementRegistry.getGraphics(rootShape);
+
+        selection.select([ attacher, attacher2 ]);
+
+        // when
+        move.start(canvasEvent({ x: 625, y: 125 }), attacher);
+
+        dragging.hover({
+          element: rootShape,
+          gfx: rootGfx
+        });
+
+        dragging.move(canvasEvent({ x: 725, y: 125 }));
+
+        dragging.end();
+
+        // then
+        expect(attacher.host).not.to.exist;
+        expect(attacher.parent).to.equal(rootShape);
+
+        expect(attacher2.host).not.to.exist;
+        expect(attacher2.parent).to.equal(rootShape);
+
+        expect(host.attachers).not.to.include(attacher);
+        expect(host.attachers).not.to.include(attacher2);
+      }
+    ));
+
+
     it('should reattach to host -> detachment (undo)', inject(
-      function(move, dragging, elementRegistry, eventBus, commandStack) {
+      function(move, dragging, elementRegistry, commandStack) {
 
         // given
         var parentGfx = elementRegistry.getGraphics(parentShape);
