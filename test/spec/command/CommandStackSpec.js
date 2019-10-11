@@ -660,7 +660,7 @@ describe('command/CommandStack', function() {
     };
 
 
-    it('should update dirty shapes after change', inject(function(commandStack, eventBus) {
+    it('should update dirty elements after change', inject(function(commandStack, eventBus) {
 
       // given
       commandStack.registerHandler('outer-command', OuterHandler);
@@ -681,6 +681,31 @@ describe('command/CommandStack', function() {
 
       // then
       expect(events).to.eql([ [ s1, s2 ] ]);
+    }));
+
+
+    it('should return latest dirty elements after change', inject(function(commandStack, eventBus) {
+
+      // given
+      commandStack.registerHandler('outer-command', OuterHandler);
+      commandStack.registerHandler('inner-command', InnerHandler);
+
+      var s1 = { id: 1 }, s2 = { id: 1 }, context = { s1: s1, s2: s2 };
+
+      var events = [];
+
+      function logEvent(e) {
+        events.push(e.elements);
+      }
+
+      eventBus.on('elements.changed', logEvent);
+
+      // when
+      commandStack.execute('outer-command', context);
+
+      // then
+      expect(events[0]).to.have.length(1);
+      expect(events[0][0]).to.equal(s2);
     }));
 
   });
