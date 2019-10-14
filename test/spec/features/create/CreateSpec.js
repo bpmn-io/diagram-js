@@ -323,6 +323,21 @@ describe('features/create - Create', function() {
       expect(context.shape).to.equal(newShape2);
     }));
 
+
+    it('should cancel on <elements.changed>', inject(
+      function(create, dragging, elementRegistry, eventBus) {
+
+        // given
+        create.start(canvasEvent({ x: 0, y: 0 }), newShape);
+
+        // when
+        eventBus.fire('elements.changed', { elements: [] });
+
+        // then
+        expect(dragging.context()).not.to.exist;
+      }
+    ));
+
   });
 
 
