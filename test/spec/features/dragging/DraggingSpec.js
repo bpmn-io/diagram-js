@@ -239,6 +239,95 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
+    describe('cleanup', function() {
+
+      var shape1, shape2;
+
+      beforeEach(inject(function(elementFactory, canvas) {
+        shape1 = elementFactory.createShape({
+          id: 'shape1',
+          x: 100, y: 0,
+          width: 50, height: 50
+        });
+
+        canvas.addShape(shape1);
+
+        shape2 = elementFactory.createShape({
+          id: 'shape2',
+          x: 200, y: 0,
+          width: 50, height: 50
+        });
+
+        canvas.addShape(shape2);
+      }));
+
+
+      it('should restore selection when dragging cancelled', inject(function(dragging, selection) {
+
+        // given
+        var preselected = [ shape1, shape2 ];
+        selection.select(preselected);
+
+        // when
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+        dragging.cancel();
+
+        // then
+        var selected = selection.get();
+
+        expect(selected).to.eql(preselected);
+      }));
+
+
+      it('should select again only the existing elements', inject(
+        function(canvas, dragging, selection) {
+
+          // given
+          var preselected = [ shape1, shape2 ];
+          selection.select(preselected);
+
+          // when
+          dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+          dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+          canvas.removeShape(shape1);
+
+          dragging.cancel();
+
+          // then
+          var selected = selection.get();
+
+          expect(selected).to.eql([ shape2 ]);
+        })
+      );
+
+
+      it('should not restore the selection if none of the elements exists', inject(
+        function(canvas, dragging, selection) {
+
+          // given
+          var preselected = [ shape1, shape2 ];
+          selection.select(preselected);
+
+          // when
+          dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+          dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+          canvas.removeShape(shape1);
+          canvas.removeShape(shape2);
+
+          dragging.cancel();
+
+          // then
+          var selected = selection.get();
+
+          expect(selected).to.eql([]);
+        })
+      );
+    });
+
+
     describe('djs-drag-active marker', function() {
 
       it('should not add to root on drag start', inject(function(dragging, canvas, elementRegistry) {
