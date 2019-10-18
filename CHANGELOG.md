@@ -6,15 +6,20 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
-## 5.1.0    
+## 5.1.1
 
-* `FEAT`: hide preview without hover ([`c52518d1`](https://github.com/bpmn-io/diagram-js/commit/c52518d1491ee541ef27f6c8aed4ded9ca48bf69))    
-* `FEAT`: be able to specify hints when copy pasting ([`09d13e9b`](https://github.com/bpmn-io/diagram-js/commit/09d13e9b9b467c601d21c0ab65ee683417807519))    
-* `FEAT`: allow attachment of shapes with labels on creation ([`a4ea3872`](https://github.com/bpmn-io/diagram-js/commit/a4ea387258e7d59c47ae6416468f36d1fd559d77))    
-* `FEAT`: allow detaching multiple shapes ([`e8b34195`](https://github.com/bpmn-io/diagram-js/commit/e8b34195bb50f1d126e49595ac9018685f9ffd6c))    
-* `FIX`: integrate rules for keyboard move selection ([`3a25679d`](https://github.com/bpmn-io/diagram-js/commit/3a25679d216aec1f8cd3b480d6b82c4796ff8839))    
-* `FIX`: return latest changed elements in <elements.changed> command ([`fd245921`](https://github.com/bpmn-io/diagram-js/commit/fd24592125b380599b1e399504d66b087808ce73))    
-* `FIX`: cancel create on <elements.changed> command ([`6ebd3a57`](https://github.com/bpmn-io/diagram-js/commit/6ebd3a571af1f1dccdb2a9d7d13fcd3941e4a702))    
+* `FIX`: re-select only existing elements when dragging is finished ([`401412d`](https://github.com/bpmn-io/diagram-js/commit/401412d8054bec277de54662663b0388f7a73365))
+* `FIX`: correctly hide nested children of a collapsed shape ([`9cb6e9b`](https://github.com/bpmn-io/diagram-js/pull/421/commits/9cb6e9b65cdb0923864908fafb1251a6aec8f27f))
+
+## 5.1.0
+
+* `FEAT`: hide preview without hover ([`c52518d1`](https://github.com/bpmn-io/diagram-js/commit/c52518d1491ee541ef27f6c8aed4ded9ca48bf69))
+* `FEAT`: be able to specify hints when copy pasting ([`09d13e9b`](https://github.com/bpmn-io/diagram-js/commit/09d13e9b9b467c601d21c0ab65ee683417807519))
+* `FEAT`: allow attachment of shapes with labels on creation ([`a4ea3872`](https://github.com/bpmn-io/diagram-js/commit/a4ea387258e7d59c47ae6416468f36d1fd559d77))
+* `FEAT`: allow detaching multiple shapes ([`e8b34195`](https://github.com/bpmn-io/diagram-js/commit/e8b34195bb50f1d126e49595ac9018685f9ffd6c))
+* `FIX`: integrate rules for keyboard move selection ([`3a25679d`](https://github.com/bpmn-io/diagram-js/commit/3a25679d216aec1f8cd3b480d6b82c4796ff8839))
+* `FIX`: return latest changed elements in <elements.changed> command ([`fd245921`](https://github.com/bpmn-io/diagram-js/commit/fd24592125b380599b1e399504d66b087808ce73))
+* `FIX`: cancel create on <elements.changed> command ([`6ebd3a57`](https://github.com/bpmn-io/diagram-js/commit/6ebd3a571af1f1dccdb2a9d7d13fcd3941e4a702))
 
 ## 5.0.2
 
