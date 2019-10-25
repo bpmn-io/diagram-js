@@ -730,3 +730,10 @@ marker.djs-dragger tspan {
 .djs-label-hidden .djs-label {
   display: none !important;
 }
+
+.djs-selection-outline {
+  shape-rendering: crispEdges;
+  stroke: #8888FF;
+  stroke-dasharray: 3,3;
+  stroke-width: 1px;
+}
