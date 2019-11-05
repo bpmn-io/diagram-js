@@ -13,6 +13,10 @@ import {
   classes as domClasses
 } from 'min-dom';
 
+import {
+  assign
+} from 'min-dash';
+
 var spy = sinon.spy;
 
 
@@ -182,6 +186,74 @@ describe('features/palette', function() {
       expect(entryB).to.exist;
       expect(domQuery('img', entryB)).to.exist;
     }));
+
+
+    describe('with updater', function() {
+
+      it('should allow to add entries', inject(function(palette) {
+
+        // given
+        function updater(entries) {
+          return assign(entries, { entryB: {} });
+        }
+
+        var plainProvider = new Provider({ entryA: { action: function() {} } }),
+            updatingProvider = new Provider(updater);
+
+        palette.registerProvider(plainProvider);
+        palette.registerProvider(updatingProvider);
+
+        // when
+        var entries = palette.getEntries();
+
+        // then
+        expect(entries.entryA).to.exist;
+        expect(entries.entryB).to.exist;
+      }));
+
+
+      it('should allow to update entries', inject(function(palette) {
+
+        // given
+        function updater(entries) {
+          return assign(entries, { entryA: { alt: 'text' } });
+        }
+
+        var plainProvider = new Provider({ entryA: { action: function() {} } }),
+            updatingProvider = new Provider(updater);
+
+        palette.registerProvider(plainProvider);
+        palette.registerProvider(updatingProvider);
+
+        // when
+        var entries = palette.getEntries();
+
+        // then
+        expect(entries.entryA).to.exist;
+        expect(entries.entryA).to.have.property('alt');
+      }));
+
+
+      it('should allow to remove entries', inject(function(palette) {
+
+        // given
+        function updater(entries) {
+          return {};
+        }
+
+        var plainProvider = new Provider({ entryA: { action: function() {} } }),
+            updatingProvider = new Provider(updater);
+
+        palette.registerProvider(plainProvider);
+        palette.registerProvider(updatingProvider);
+
+        // when
+        var entries = palette.getEntries();
+
+        // then
+        expect(entries.entryA).to.not.exist;
+      }));
+    });
 
 
     describe('entry className', function() {
@@ -423,9 +495,9 @@ describe('features/palette', function() {
 
 // helpers //////////////////////
 
-function Provider(entries) {
+function Provider(entriesOrUpdater) {
   this.getPaletteEntries = function() {
-    return entries || {};
+    return entriesOrUpdater || {};
   };
 }
 
