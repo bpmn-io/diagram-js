@@ -9,6 +9,11 @@ import {
 import testImage from './resources/a.png';
 
 import {
+  assign,
+  isFunction
+} from 'min-dash';
+
+import {
   query as domQuery,
   queryAll as domQueryAll,
   classes as domClasses
@@ -20,42 +25,6 @@ import popupMenuModule from 'lib/features/popup-menu';
 import modelingModule from 'lib/features/modeling';
 
 
-function queryEntry(popupMenu, id) {
-  return queryPopup(popupMenu, '[data-id="' + id + '"]');
-}
-
-function queryPopup(popupMenu, selector) {
-  return domQuery(selector, popupMenu._current.container);
-}
-
-var menuProvider = {
-  getHeaderEntries: function() {
-    return [
-      { id: 'entry1', label: 'foo' }
-    ];
-  },
-  getEntries: function() {
-    return [
-      { id: 'entry2', label: 'foo' },
-      { id: 'entry3', label: 'bar' }
-    ];
-  }
-};
-
-var betterMenuProvider = {
-  getHeaderEntries: function() {
-    return [
-      { id: 'entryA', label: 'A' }
-    ];
-  },
-  getEntries: function() {
-    return [
-      { id: 'entryB', label: 'B' }
-    ];
-  }
-};
-
-
 
 describe('features/popup', function() {
 
@@ -65,6 +34,21 @@ describe('features/popup', function() {
       modelingModule
     ]
   }));
+
+  var menuProvider = new Provider(
+    {
+      'entry2': { label: 'foo' },
+      'entry3': { label: 'bar' }
+    },
+    {
+      'entry1': { label: 'foo' }
+    }
+  );
+
+  var betterMenuProvider = new Provider(
+    { entryB: { label: 'B' } },
+    { entryA: { label: 'A' } }
+  );
 
   describe('bootstrap', function() {
 
@@ -81,31 +65,61 @@ describe('features/popup', function() {
     it('should add provider', inject(function(popupMenu) {
 
       // given
-      var provider = {};
+      var entriesSpy = sinon.spy(function() {
+        return {};
+      });
+
+      var provider = new Provider(entriesSpy);
 
       // when
       popupMenu.registerProvider('provider', provider);
+      popupMenu.open({}, 'provider', {});
 
       // then
-      expect(popupMenu._providers.provider).to.exist;
-
+      expect(entriesSpy).to.be.calledOnce;
     }));
 
 
     it('should add two providers', inject(function(popupMenu) {
 
       // given
-      var provider1 = {};
-      var provider2 = {};
+      var entriesSpy = sinon.spy(function() {
+        return {};
+      });
+
+      var provider1 = new Provider(entriesSpy),
+          provider2 = new Provider(entriesSpy);
 
       // when
       popupMenu.registerProvider('provider1', provider1);
       popupMenu.registerProvider('provider2', provider2);
 
-      // then
-      expect(popupMenu._providers.provider1).to.exist;
-      expect(popupMenu._providers.provider2).to.exist;
+      popupMenu.open({}, 'provider1', {});
+      popupMenu.open({}, 'provider2', {});
 
+      // then
+      expect(entriesSpy).to.be.calledTwice;
+    }));
+
+
+    it('should add multiple providers for the same id', inject(function(popupMenu) {
+
+      // given
+      var entriesSpy = sinon.spy(function() {
+        return {};
+      });
+
+      var provider1 = new Provider(entriesSpy),
+          provider2 = new Provider(entriesSpy);
+
+      // when
+      popupMenu.registerProvider('provider', provider1);
+      popupMenu.registerProvider('provider', provider2);
+
+      popupMenu.open({}, 'provider', {});
+
+      // then
+      expect(entriesSpy).to.be.calledTwice;
     }));
 
   });
@@ -116,10 +130,13 @@ describe('features/popup', function() {
     it('should return true if empty', inject(function(popupMenu) {
 
       // when
-      popupMenu.registerProvider('empty-menu', {
-        getEntries: function() { return []; },
-        getHeaderEntries: function() { return []; }
-      });
+      popupMenu.registerProvider('empty-menu', new Provider({}, {}));
+
+      // then
+      expect(popupMenu.isEmpty({}, 'empty-menu')).to.be.true;
+    }));
+
+    it('should return true if there are no providers', inject(function(popupMenu) {
 
       // then
       expect(popupMenu.isEmpty({}, 'empty-menu')).to.be.true;
@@ -129,21 +146,17 @@ describe('features/popup', function() {
     it('should return false if entries', inject(function(popupMenu) {
 
       // when
-      popupMenu.registerProvider('entry-menu', {
-        getEntries: function() { return [ { id: 1 } ]; }
-      });
+      popupMenu.registerProvider('entry-menu', new Provider({ singleEntry: {} }));
 
       // then
       expect(popupMenu.isEmpty({}, 'entry-menu')).to.be.false;
     }));
 
 
-    it('should return false if header entries', inject(function(popupMenu) {
+    it('should return false if there are only header entries', inject(function(popupMenu) {
 
       // when
-      popupMenu.registerProvider('header-entry-menu', {
-        getEntries: function() { return [ { id: 1 } ]; }
-      });
+      popupMenu.registerProvider('header-entry-menu', new Provider({}, { singleEntry: {} }));
 
       // then
       expect(popupMenu.isEmpty({}, 'header-entry-menu')).to.be.false;
@@ -152,11 +165,6 @@ describe('features/popup', function() {
 
     it('should throw error when provider id is missing', inject(
       function(popupMenu) {
-
-        // when
-        popupMenu.registerProvider('header-entry-menu', {
-          getEntries: function() { return [ { id: 1 } ]; }
-        });
 
         // then
         expect(function() {
@@ -168,11 +176,6 @@ describe('features/popup', function() {
 
     it('should throw error when element is missing', inject(
       function(popupMenu) {
-
-        // when
-        popupMenu.registerProvider('header-entry-menu', {
-          getEntries: function() { return [ { id: 1 } ]; }
-        });
 
         // then
         expect(function() {
@@ -260,29 +263,6 @@ describe('features/popup', function() {
     }));
 
 
-    it('should open menu for specific element', inject(function(popupMenu) {
-
-      // when
-      popupMenu.registerProvider('menu', menuProvider);
-
-      popupMenu.open({}, 'menu', { x: 100, y: 100 });
-
-      var currentProvider = popupMenu._current.provider;
-
-      // then
-      expect(currentProvider.getHeaderEntries()).to.deep.include({
-        id: 'entry1',
-        label: 'foo'
-      });
-
-      expect(currentProvider.getEntries()).to.deep.include({
-        id: 'entry2',
-        label: 'foo'
-      });
-
-    }));
-
-
     it('should throw error when no provider', inject(function(popupMenu) {
 
       // when not registering a provider
@@ -290,7 +270,7 @@ describe('features/popup', function() {
       // then
       expect(function() {
         popupMenu.open({}, 'foo', { x: 100, y: 100 });
-      }).to.throw('Provider is not registered: foo');
+      }).to.throw();
 
     }));
 
@@ -323,10 +303,10 @@ describe('features/popup', function() {
         popupMenu.open({}, 'menu', { x: 100, y: 100 });
 
         // then
-        expect(popupMenu._current).to.exist;
-        expect(popupMenu._current.headerEntries[0].id).to.eql('entry1');
-        expect(popupMenu._current.entries[0].id).to.eql('entry2');
 
+        expect(popupMenu._current).to.exist;
+        expect(popupMenu._current.headerEntries['entry1']).to.exist;
+        expect(popupMenu._current.entries['entry2']).to.exist;
       }));
 
 
@@ -342,8 +322,8 @@ describe('features/popup', function() {
 
         // then
         expect(popupMenu._current).to.exist;
-        expect(popupMenu._current.headerEntries[0].id).to.eql('entryA');
-        expect(popupMenu._current.entries[0].id).to.eql('entryB');
+        expect(popupMenu._current.headerEntries['entryA']).to.exist;
+        expect(popupMenu._current.entries['entryB']).to.exist;
       }));
     });
 
@@ -466,6 +446,99 @@ describe('features/popup', function() {
       expect(trigger).to.eql('Entry 2');
     }));
 
+  });
+
+
+  describe('with updater', function() {
+
+    it('should allow to add entries', inject(function(popupMenu) {
+
+      // given
+      var plainProvider = new Provider({ entryA: { className: 'plain' } }),
+          updatingProvider = new Provider(function() {
+            return function(entries) {
+              return assign(entries, { entryB: { className: 'updating' } });
+            };
+          });
+
+      popupMenu.registerProvider('menu', plainProvider);
+      popupMenu.registerProvider('menu', updatingProvider);
+
+      // when
+      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+
+      // then
+      var first = queryPopup(popupMenu, '.plain'),
+          second = queryPopup(popupMenu, '.updating');
+
+      expect(first).to.exist;
+      expect(second).to.exist;
+    }));
+
+
+    it('should allow to add header entries', inject(function(popupMenu) {
+
+      // given
+      var headerEntriesProvider = new Provider(null, function() {
+        return function(entries) {
+          return assign(entries, { entryB: { className: 'header' } });
+        };
+      });
+
+      popupMenu.registerProvider('menu', headerEntriesProvider);
+
+      // when
+      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+
+      // then
+      var element = queryPopup(popupMenu, '.header');
+
+      expect(element).to.exist;
+    }));
+
+
+    it('should allow to update entries', inject(function(popupMenu) {
+
+      // given
+      var plainProvider = new Provider({ entryA: { action: function() {} } }),
+          updatingProvider = new Provider(function() {
+            return function(entries) {
+              return assign(entries, { entryA: { className: 'special-entry' } });
+            };
+          });
+
+      popupMenu.registerProvider('menu', plainProvider);
+      popupMenu.registerProvider('menu', updatingProvider);
+
+      // when
+      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+
+      // then
+      var element = queryPopup(popupMenu, '.special-entry');
+
+      expect(element).to.exist;
+    }));
+
+
+    it('should allow to remove entries', inject(function(popupMenu) {
+
+      // given
+      var plainProvider = new Provider({ entryA: {} }),
+          updatingProvider = new Provider(function() {
+            return function(entries) {
+              return {};
+            };
+          });
+
+      popupMenu.registerProvider('menu', plainProvider);
+      popupMenu.registerProvider('menu', updatingProvider);
+
+      // when
+      var isEmpty = popupMenu.isEmpty({}, 'menu');
+
+      // then
+      expect(isEmpty).to.be.true;
+    }));
   });
 
 
@@ -594,17 +667,17 @@ describe('features/popup', function() {
     it('should name the css classes correctly', inject(function(popupMenu) {
 
       // given
-      var testMenuProvider = {
-        getEntries: function() {
-          return [
-            { id: '1', label: 'Entry 1' },
-            { id: '2', label: 'Entry 2' }
-          ];
+      var testMenuProvider = new Provider(
+        function() {
+          return {
+            '1': { label: 'Entry 1' },
+            '2': { label: 'Entry 2' }
+          };
         },
-        getHeaderEntries: function() {
-          return [{ id: 'A', label: 'Header Entry A' }];
+        function() {
+          return { 'A': { label: 'Header Entry A' } };
         }
-      };
+      );
 
       popupMenu.registerProvider('test-menu', testMenuProvider);
 
@@ -618,41 +691,6 @@ describe('features/popup', function() {
       expect(domQueryAll('.entry', popupBody).length).to.eql(2);
       expect(domQueryAll('.entry', popupHeader).length).to.eql(1);
     }));
-
-
-    it('should look awesome', inject(function(popupMenu) {
-
-      // given
-      var testMenuProvider = {
-        getEntries: function() {
-          return [
-            { id: '1', label: 'Entry 1' },
-            { id: '2', label: 'Entry 2', active: true },
-            { id: '3', label: 'Entry 3' },
-            { id: '4', label: 'Entry 4', disabled: true },
-            { id: '5', label: 'Entry 5' }
-          ];
-        },
-        getHeaderEntries: function() {
-          return [
-            { id: 'A', label: 'A' },
-            { id: 'B', label: 'B' },
-            { id: 'C', label: 'C', active: true },
-            { id: 'D', label: 'D', disabled: true },
-            { id: 'E', label: 'E', disabled: true }
-          ];
-        }
-      };
-
-      popupMenu.registerProvider('test-menu', testMenuProvider);
-
-      // when
-      popupMenu.open({}, 'test-menu' ,{ x: 100, y: 100 });
-
-      // then
-      // looks awesome?
-    }));
-
   });
 
 
@@ -1157,4 +1195,165 @@ describe('features/popup', function() {
 
   });
 
+
+  describe('legacy providers', function() {
+
+    function LegacyProvider(entries, headerEntries) {
+      this.getEntries = isFunction(entries) ? entries : function() {
+        return entries || [];
+      };
+
+      if (headerEntries) {
+        this.getHeaderEntries = isFunction(headerEntries) ? headerEntries : function() {
+          return headerEntries;
+        };
+      }
+    }
+
+
+    it('should add provider', inject(function(popupMenu) {
+
+      // given
+      var provider = new LegacyProvider();
+
+      // then
+      popupMenu.registerProvider('provider', provider);
+    }));
+
+
+    it('should return true for isEmpty if no entries', inject(function(popupMenu) {
+
+      // when
+      popupMenu.registerProvider('entry-menu', new LegacyProvider());
+
+      // then
+      expect(popupMenu.isEmpty({}, 'entry-menu')).to.be.true;
+    }));
+
+
+    it('should return false for isEmpty if entries', inject(function(popupMenu) {
+
+      // when
+      popupMenu.registerProvider('entry-menu', new LegacyProvider([{ id: 'singleEntry' }]));
+
+      // then
+      expect(popupMenu.isEmpty({}, 'entry-menu')).to.be.false;
+    }));
+
+
+    it('should open', inject(function(popupMenu) {
+
+      // when
+      popupMenu.registerProvider('menu', menuProvider);
+      popupMenu.open({}, 'menu' ,{ x: 100, y: 100 });
+
+      // then
+      expect(popupMenu.isOpen()).to.be.true;
+    }));
+    beforeEach(inject(function(popupMenu) {
+    }));
+
+
+    it('should close', inject(function(popupMenu, eventBus) {
+
+      // given
+      popupMenu.registerProvider('menu', new LegacyProvider());
+      popupMenu.open({}, 'menu' ,{ x: 100, y: 100 });
+
+      var closeSpy = sinon.spy();
+
+      eventBus.on('popupMenu.close', closeSpy);
+
+      // when
+      popupMenu.close();
+
+      // then
+      var open = popupMenu.isOpen();
+
+      expect(open).to.be.false;
+
+      expect(closeSpy).to.have.been.calledOnce;
+    }));
+
+
+    it('should trigger action handler', inject(function(popupMenu) {
+
+      // given
+      var entries = [
+        {
+          id: '1',
+          label: 'Entry 1',
+          className: 'Entry_1',
+          action: function() {
+            return 'Entry 1';
+          }
+        }
+      ];
+
+      popupMenu.registerProvider('test-menu', new LegacyProvider(entries));
+
+      popupMenu.open({}, 'test-menu' ,{ x: 100, y: 100 });
+
+      var entry = queryPopup(popupMenu, '.Entry_1');
+
+      // when
+      var trigger = popupMenu.trigger(globalEvent(entry, { x: 0, y: 0 }));
+
+      // then
+      expect(trigger).to.eql('Entry 1');
+    }));
+
+
+    it('should throw an error, if the id of a header entry is not set', inject(
+      function(popupMenu) {
+
+        // when
+        popupMenu.registerProvider('test-menu', new LegacyProvider([ { label: 'foo' } ]));
+
+        // then
+        expect(function() {
+          popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+        }).to.throw('every entry must have the id property set');
+      }
+    ));
+
+
+    it('should throw an error, if the id of an entry is not set', inject(
+      function(popupMenu) {
+
+        // when
+        popupMenu.registerProvider('test-menu', new LegacyProvider(null, [ { label: 'foo' } ]));
+
+        // then
+        expect(function() {
+          popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+        }).to.throw('every entry must have the id property set');
+      }
+    ));
+
+  });
+
 });
+
+
+
+// helper ////
+function Provider(entries, headerEntries) {
+  this.getPopupMenuEntries = isFunction(entries) ? entries : function() {
+    return entries || {};
+  };
+
+  if (headerEntries) {
+    this.getPopupMenuHeaderEntries = isFunction(headerEntries) ? headerEntries : function() {
+      return headerEntries;
+    };
+  }
+}
+
+function queryEntry(popupMenu, id) {
+  return queryPopup(popupMenu, '[data-id="' + id + '"]');
+}
+
+function queryPopup(popupMenu, selector) {
+  return domQuery(selector, popupMenu._current.container);
+}
