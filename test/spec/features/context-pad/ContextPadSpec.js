@@ -10,6 +10,8 @@ import {
   inject
 } from 'test/TestHelper';
 
+import { assign } from 'min-dash';
+
 import {
   query as domQuery,
   queryAll as domQueryAll,
@@ -55,9 +57,9 @@ describe('features/context-pad', function() {
     beforeEach(bootstrapDiagram({ modules: [ contextPadModule, initPadModule ] }));
 
 
-    function Provider(entries) {
+    function Provider(entriesOrUpdater) {
       this.getContextPadEntries = function(element) {
-        return entries || {};
+        return entriesOrUpdater || {};
       };
     }
 
@@ -93,6 +95,74 @@ describe('features/context-pad', function() {
       // pass over providers
       expect(provider.getContextPadEntries).to.have.been.calledWith('FOO');
     }));
+
+
+    describe('with updater', function() {
+
+      it('should allow to add entries', inject(function(contextPad) {
+
+        // given
+        function updater(entries) {
+          return assign(entries, { entryB: {} });
+        }
+
+        var plainProvider = new Provider({ entryA: { action: function() {} } }),
+            updatingProvider = new Provider(updater);
+
+        contextPad.registerProvider(plainProvider);
+        contextPad.registerProvider(updatingProvider);
+
+        // when
+        var entries = contextPad.getEntries();
+
+        // then
+        expect(entries.entryA).to.exist;
+        expect(entries.entryB).to.exist;
+      }));
+
+
+      it('should allow to update entries', inject(function(contextPad) {
+
+        // given
+        function updater(entries) {
+          return assign(entries, { entryA: { alt: 'text' } });
+        }
+
+        var plainProvider = new Provider({ entryA: { action: function() {} } }),
+            updatingProvider = new Provider(updater);
+
+        contextPad.registerProvider(plainProvider);
+        contextPad.registerProvider(updatingProvider);
+
+        // when
+        var entries = contextPad.getEntries();
+
+        // then
+        expect(entries.entryA).to.exist;
+        expect(entries.entryA).to.have.property('alt');
+      }));
+
+
+      it('should allow to remove entries', inject(function(contextPad) {
+
+        // given
+        function updater(entries) {
+          return {};
+        }
+
+        var plainProvider = new Provider({ entryA: { action: function() {} } }),
+            updatingProvider = new Provider(updater);
+
+        contextPad.registerProvider(plainProvider);
+        contextPad.registerProvider(updatingProvider);
+
+        // when
+        var entries = contextPad.getEntries();
+
+        // then
+        expect(entries.entryA).to.not.exist;
+      }));
+    });
 
 
     describe('entry className', function() {
