@@ -122,6 +122,47 @@ describe('features/popup', function() {
       expect(entriesSpy).to.be.calledTwice;
     }));
 
+
+    describe('ordering', function() {
+
+      function updater() {
+        return function() {
+          return {};
+        };
+      }
+
+      var plainProvider = new Provider({ entryA: { action: function() {} } }),
+          updatingProvider = new Provider(updater);
+
+
+      it('should call providers by registration order per default', inject(function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('menu', plainProvider);
+        popupMenu.registerProvider('menu', updatingProvider);
+
+        // when
+        var isEmpty = popupMenu.isEmpty({}, 'menu');
+
+        // then
+        expect(isEmpty).to.be.true;
+      }));
+
+
+      it('should call providers by priority', inject(function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('menu', plainProvider);
+        popupMenu.registerProvider('menu', 1200, updatingProvider);
+
+        // when
+        var isEmpty = popupMenu.isEmpty({}, 'menu');
+
+        // then
+        expect(isEmpty).to.be.false;
+      }));
+    });
+
   });
 
 
@@ -326,9 +367,7 @@ describe('features/popup', function() {
         expect(popupMenu._current.entries['entryB']).to.exist;
       }));
     });
-
   });
-
 
   describe('#close', function() {
 
