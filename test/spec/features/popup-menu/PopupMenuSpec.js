@@ -473,6 +473,8 @@ describe('features/popup', function() {
 
     describe('events', function() {
 
+      afterEach(sinon.restore);
+
       it('should close menu (contextPad.close)', inject(function(popupMenu, eventBus) {
 
         // given
@@ -505,6 +507,26 @@ describe('features/popup', function() {
 
         expect(open).to.be.false;
       }));
+
+
+      it('should correctly unsubscribe when closed via #close', inject(
+        function(popupMenu, eventBus) {
+
+          // given
+          popupMenu.registerProvider('menu', menuProvider);
+
+          popupMenu.open({}, 'menu' ,{ x: 100, y: 100 });
+          popupMenu.close();
+
+          var spy = sinon.spy(popupMenu, 'close');
+
+          // when
+          eventBus.fire('canvas.viewbox.changing');
+
+          // then
+          expect(spy).to.not.have.been.called;
+        }
+      ));
 
     });
 
