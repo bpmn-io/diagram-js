@@ -112,11 +112,10 @@ describe('features/palette', function() {
       // given
       var provider = new Provider();
 
-      // when
-      palette.registerProvider(provider);
-
       // then
-      expect(palette._providers).to.eql([ provider ]);
+      expect(function() {
+        palette.registerProvider(provider);
+      }).not.to.throw;
     }));
 
 
@@ -253,6 +252,46 @@ describe('features/palette', function() {
         // then
         expect(entries.entryA).to.not.exist;
       }));
+    });
+
+
+    describe('ordering', function() {
+
+      function updater(entries) {
+        return {};
+      }
+
+      var plainProvider = new Provider({ entryA: { action: function() {} } }),
+          updatingProvider = new Provider(updater);
+
+
+      it('should call providers by registration order per default', inject(function(palette) {
+
+        // given
+        palette.registerProvider(plainProvider);
+        palette.registerProvider(updatingProvider);
+
+        // when
+        var entries = palette.getEntries();
+
+        // then
+        expect(entries.entryA).to.not.exist;
+      }));
+
+
+      it('should call providers by priority', inject(function(palette) {
+
+        // given
+        palette.registerProvider(plainProvider);
+        palette.registerProvider(1200, updatingProvider);
+
+        // when
+        var entries = palette.getEntries();
+
+        // then
+        expect(entries.entryA).to.exist;
+      }));
+
     });
 
 
