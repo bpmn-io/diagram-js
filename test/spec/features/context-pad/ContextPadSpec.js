@@ -69,11 +69,10 @@ describe('features/context-pad', function() {
       // given
       var provider = new Provider();
 
-      // when
-      contextPad.registerProvider(provider);
-
       // then
-      expect(contextPad._providers).to.eql([ provider ]);
+      expect(function() {
+        contextPad.registerProvider(provider);
+      }).to.not.throw;
     }));
 
 
@@ -162,6 +161,46 @@ describe('features/context-pad', function() {
         // then
         expect(entries.entryA).to.not.exist;
       }));
+
+
+      describe('ordering', function() {
+
+        function updater(entries) {
+          return {};
+        }
+
+        var plainProvider = new Provider({ entryA: { action: function() {} } }),
+            updatingProvider = new Provider(updater);
+
+
+        it('should call providers by registration order per default', inject(function(contextPad) {
+
+          // given
+          contextPad.registerProvider(plainProvider);
+          contextPad.registerProvider(updatingProvider);
+
+          // when
+          var entries = contextPad.getEntries();
+
+          // then
+          expect(entries.entryA).to.not.exist;
+        }));
+
+
+        it('should call providers by priority', inject(function(contextPad) {
+
+          // given
+          contextPad.registerProvider(plainProvider);
+          contextPad.registerProvider(1200, updatingProvider);
+
+          // when
+          var entries = contextPad.getEntries();
+
+          // then
+          expect(entries.entryA).to.exist;
+        }));
+
+      });
     });
 
 
