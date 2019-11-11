@@ -346,8 +346,7 @@ describe('features/popup', function() {
         // then
 
         expect(popupMenu._current).to.exist;
-        expect(popupMenu._current.headerEntries['entry1']).to.exist;
-        expect(popupMenu._current.entries['entry2']).to.exist;
+        expect(popupMenu._current.entries).to.have.keys('entry1', 'entry2', 'entry3');
       }));
 
 
@@ -363,8 +362,7 @@ describe('features/popup', function() {
 
         // then
         expect(popupMenu._current).to.exist;
-        expect(popupMenu._current.headerEntries['entryA']).to.exist;
-        expect(popupMenu._current.entries['entryB']).to.exist;
+        expect(popupMenu._current.entries).to.have.keys('entryA', 'entryB');
       }));
     });
   });
