@@ -311,7 +311,7 @@ describe('features/popup', function() {
       // then
       expect(function() {
         popupMenu.open({}, 'foo', { x: 100, y: 100 });
-      }).to.throw();
+      }).to.throw('No registered providers for: foo');
 
     }));
 
