@@ -44,6 +44,30 @@ describe('core/EventBus', function() {
     });
 
 
+    it('should fire native event', function() {
+
+      // given
+      var event = eventBus.createEvent({
+        type: 'foo',
+        bar: [ 1 ]
+      });
+
+      var listener = sinon.spy(function(e) {
+        expect(e).to.equal(event);
+
+        expect(e.bar).to.eql([ 1 ]);
+      });
+
+      eventBus.on('foo', listener);
+
+      // when
+      eventBus.fire(event);
+
+      // then
+      expect(listener).to.have.been.called;
+    });
+
+
     it('should register multiple', function() {
 
       // given
