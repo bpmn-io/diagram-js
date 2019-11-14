@@ -55,8 +55,8 @@ describe('features/global-connect-tool', function() {
     var shape = shapeAbleToStartConnection;
     var connectSpy = sinon.spy(function(event) {
       expect(event.context).to.eql({
-        source: shape,
-        sourcePosition: { x: 150, y: 130 }
+        start: shape,
+        connectionStart: { x: 150, y: 130 }
       });
     });
 

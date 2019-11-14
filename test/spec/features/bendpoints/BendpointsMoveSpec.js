@@ -304,8 +304,11 @@ describe('features/bendpoints - move', function() {
       inject(function(eventBus, bendpointMove, dragging) {
 
         // given
-        var rule = sinon.stub().returns(false);
-        eventBus.on('commandStack.connection.reconnectEnd.canExecute', Infinity, rule);
+        function rule() {
+          return false;
+        }
+
+        eventBus.on('commandStack.connection.reconnect.canExecute', Infinity, rule);
 
         // when
         bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);

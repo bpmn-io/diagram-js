@@ -44,18 +44,22 @@ AttachRules.prototype.init = function() {
     }
   });
 
-  this.addRule('connection.reconnectEnd', function(context) {
-    if (context.target.host.parent.id === 'parent') {
-      return false;
-    }
-    return true;
-  });
+  this.addRule('connection.reconnect', function(context) {
 
-  this.addRule('connection.reconnectStart', function(context) {
-    if (context.source.host.parent.id === 'parent') {
-      return false;
+    // do not allow reconnection to element
+    // that is attached to #parent element
+
+    var source = context.source,
+        target = context.target;
+
+    function isChildOfElementWithIdParent(element) {
+      return element && element.parent.id === 'parent';
     }
-    return true;
+
+    return ![
+      source.host,
+      target.host
+    ].some(isChildOfElementWithIdParent);
   });
 
   // restrict resizing only for hosts (defaults to allow all)

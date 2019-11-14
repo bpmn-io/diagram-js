@@ -56,6 +56,49 @@ describe('features/modeling - reconnect connection', function() {
   }));
 
 
+  describe('reconnect', function() {
+
+    it('should execute', inject(function(modeling) {
+
+      // when
+      modeling.reconnect(connection, childShape, connection.target);
+
+      // then
+      expect(connection.source).to.equal(childShape);
+    }));
+
+
+    it('should undo', inject(function(modeling, commandStack) {
+
+      // given
+      var oldSource = connection.source;
+
+      modeling.reconnect(connection, childShape, connection.target);
+
+      // when
+      commandStack.undo();
+
+      // then
+      expect(connection.source).to.equal(oldSource);
+    }));
+
+
+    it('should redo', inject(function(modeling, commandStack) {
+
+      // given
+      modeling.reconnect(connection, childShape, connection.target);
+
+      // when
+      commandStack.undo();
+      commandStack.redo();
+
+      // then
+      expect(connection.source).to.equal(childShape);
+    }));
+
+  });
+
+
   describe('reconnectStart', function() {
 
     describe('passing position', function() {
@@ -120,7 +163,6 @@ describe('features/modeling - reconnect connection', function() {
       }));
 
     });
-
 
 
     describe('passing waypoints', function() {
