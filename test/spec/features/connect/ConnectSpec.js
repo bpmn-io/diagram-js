@@ -16,6 +16,8 @@ import rulesModule from './rules';
 import connectModule from 'lib/features/connect';
 import connectionPreviewModule from 'lib/features/connection-preview';
 
+import { getMid } from 'lib/layout/LayoutUtil';
+
 
 var testModules = [
   modelingModule,
@@ -26,13 +28,13 @@ var testModules = [
 
 describe('features/connect', function() {
 
-  var rootShape, shape1, shape2, shape1child, shapeFrame;
+  var rootShape, shape1, shape2, shape1Gfx, shape2Gfx, shape1child, shapeFrame;
 
   function setManualDragging(dragging) {
     dragging.setOptions({ manual: true });
   }
 
-  function setupDiagram(elementFactory, canvas) {
+  function setupDiagram(canvas, elementFactory) {
 
     rootShape = elementFactory.createRoot({
       id: 'root'
@@ -47,6 +49,8 @@ describe('features/connect', function() {
 
     canvas.addShape(shape1, rootShape);
 
+    shape1Gfx = canvas.getGraphics(shape1);
+
     shape2 = elementFactory.createShape({
       id: 's2',
       x: 500, y: 100, width: 100, height: 100
@@ -54,6 +58,7 @@ describe('features/connect', function() {
 
     canvas.addShape(shape2, rootShape);
 
+    shape2Gfx = canvas.getGraphics(shape2);
 
     shape1child = elementFactory.createShape({
       id: 's3',
@@ -87,22 +92,44 @@ describe('features/connect', function() {
     it('should connect if allowed', inject(function(connect, dragging) {
 
       // when
-      connect.start(canvasEvent({ x: 0, y: 0 }), shape1);
+      connect.start(canvasEvent(getMid(shape1)), shape1, true);
 
-      dragging.move(canvasEvent({ x: 40, y: 30 }));
+      dragging.move(canvasEvent(getMid(shape2)));
 
-      dragging.hover(canvasEvent({ x: 10, y: 10 }, { element: shape2 }));
+      dragging.hover({ element: shape2, gfx: shape2Gfx });
+
       dragging.end();
 
       var newConnection = shape1.outgoing[0];
 
       // then
       expect(newConnection).to.exist;
+      expect(newConnection.source).to.equal(shape1);
       expect(newConnection.target).to.equal(shape2);
     }));
 
 
-    it('should not connect if rejected', inject(function(connect, rules, dragging) {
+    it('should connect reverse if allowed', inject(function(connect, dragging) {
+
+      // when
+      connect.start(canvasEvent(getMid(shape2)), shape2, true);
+
+      dragging.move(canvasEvent(getMid(shape1)));
+
+      dragging.hover({ element: shape1, gfx: shape1Gfx });
+
+      dragging.end();
+
+      var newConnection = shape2.outgoing[0];
+
+      // then
+      expect(newConnection).to.exist;
+      expect(newConnection.source).to.equal(shape2);
+      expect(newConnection.target).to.equal(shape1);
+    }));
+
+
+    it('should NOT connect if not allowed', inject(function(connect, rules, dragging) {
 
       // assume
       var context = {
@@ -125,7 +152,7 @@ describe('features/connect', function() {
     }));
 
 
-    it('should not connect with null target', inject(function(connect, rules, dragging) {
+    it('should NOT connect if no target', inject(function(connect, rules, dragging) {
 
       // when
       connect.start(canvasEvent({ x: 0, y: 0 }), shape1);

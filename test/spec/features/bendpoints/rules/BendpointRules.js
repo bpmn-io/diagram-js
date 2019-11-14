@@ -13,22 +13,16 @@ inherits(ConnectRules, RuleProvider);
 
 ConnectRules.prototype.init = function() {
 
-  function isSameType(connection, newSource, newTarget) {
-    var source = newSource || connection.source,
-        target = newTarget || connection.target;
+  this.addRule('connection.reconnect', function(context) {
+
+    var source = context.source,
+        target = context.target;
 
     return source.type === target.type;
-  }
-
-  this.addRule('connection.reconnectStart', function(context) {
-    return isSameType(context.connection, context.hover);
   });
 
   this.addRule('connection.updateWaypoints', function(context) {
     return true;
   });
 
-  this.addRule('connection.reconnectEnd', function(context) {
-    return isSameType(context.connection, null, context.hover);
-  });
 };
