@@ -340,6 +340,7 @@ describe('features/auto-resize', function() {
 
   });
 
+
   describe('collapsed shape', function() {
 
     var rootShape,
@@ -647,14 +648,10 @@ describe('features/auto-resize', function() {
     describe('hints', function() {
 
       it('should NOT resize on autoResize=false hint',
-        inject(function(autoResize, eventBus, replace) {
+        inject(function(autoResize, replace) {
 
           // given
           var autoResizeSpy = sinon.spy(autoResize, '_expand');
-
-          eventBus.on('commandStack.shape.replace.preExecute', function(event) {
-            event.context.hints = { autoResize: false };
-          });
 
           var replacement = {
             id: 'replacement',
@@ -663,7 +660,7 @@ describe('features/auto-resize', function() {
           };
 
           // when
-          replace.replaceElement(replacedShape, replacement);
+          replace.replaceElement(replacedShape, replacement, { autoResize: false });
 
           // then
           expect(autoResizeSpy).to.not.be.called;
