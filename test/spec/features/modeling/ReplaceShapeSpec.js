@@ -1,9 +1,14 @@
+/* global sinon */
+
 import {
   bootstrapDiagram,
   inject
 } from 'test/TestHelper';
 
 import modelingModule from 'lib/features/modeling';
+
+var spy = sinon.spy;
+
 
 describe('features/modeling - replace shape', function() {
 
@@ -42,7 +47,7 @@ describe('features/modeling - replace shape', function() {
     }));
 
 
-    it('should move children per default', inject(function(elementFactory, modeling) {
+    it('should move children by default', inject(function(elementFactory, modeling) {
 
       // when
       var newShapeData = { x: 120, y: 120, width: 200, height: 200 };
@@ -77,82 +82,65 @@ describe('features/modeling - replace shape', function() {
 
   });
 
-  describe('different size', function() {
+  describe('hints', function() {
 
-    var root, parent, child1, child2, connection;
+    var root, parent, shape1, shape2, connection;
 
-    beforeEach(inject(function(elementFactory, canvas, modeling) {
-
+    beforeEach(inject(function(canvas, elementFactory) {
       root = elementFactory.createRoot({
         id: 'root'
       });
 
       canvas.setRootElement(root);
 
-      parent = elementFactory.createShape({
-        id: 'parent',
-        x: 20, y: 20, width: 400, height: 400
+      shape1 = elementFactory.createShape({
+        id: 'shape1',
+        x: 0, y: 0, width: 100, height: 100
       });
 
-      child1 = elementFactory.createShape({
-        id: 'child1',
-        x: 360, y: 30, width: 50, height: 50
+      canvas.addShape(shape1, root);
+
+      shape2 = elementFactory.createShape({
+        id: 'shape2',
+        x: 200, y: 0, width: 100, height: 100
       });
 
-      child2 = elementFactory.createShape({
-        id: 'child2',
-        x: 30, y: 30, width: 100, height: 100
-      });
+      canvas.addShape(shape2, root);
 
       connection = elementFactory.createConnection({
         id: 'connection',
-        source: child1,
-        target: child2,
+        source: shape1,
+        target: shape2,
         waypoints: [
-          { x: 360, y: 30 },
-          { x: 30, y: 30 }
+          { x: 100, y: 50 },
+          { x: 200, y: 50 }
         ]
       });
 
-      canvas.addShape(parent, root);
-      canvas.addShape(child1, parent);
-      canvas.addShape(child2, parent);
       canvas.addConnection(connection, parent);
-
-      modeling.layoutConnection(connection);
     }));
 
 
-    it('should relayout connection when replacing elements with different size',
-      inject(function(modeling) {
+    it('should pass hints', inject(function(modeling) {
 
-        // given
-        var newShapeData = { x: 130, y: 130, width: 200, height: 200 };
+      // given
+      var newShapeData = { x: 50, y: 50, width: 100, height: 100 },
+          hints = { foo: 'foo' };
 
-        // when
-        modeling.replaceShape(child2, newShapeData);
+      var moveElementsSpy = spy(modeling, 'moveElements'),
+          reconnectStartSpy = spy(modeling, 'reconnectStart');
 
-        // then
-        expect(connection.waypoints[0]).to.be.eql({ x: 385, y: 55 });
-        expect(connection.waypoints[1]).to.be.eql({ x: 130, y: 130 });
-      })
-    );
+      // when
+      modeling.replaceShape(shape1, newShapeData, hints);
 
+      // then
+      expect(moveElementsSpy).to.have.been.called;
+      expect(moveElementsSpy.firstCall.args[ 3 ]).to.eql(hints);
 
-    it('should NOT relayout connection when layoutConnection=false',
-      inject(function(modeling) {
+      expect(reconnectStartSpy).to.have.been.called;
+      expect(reconnectStartSpy.firstCall.args[ 3 ]).to.eql(hints);
+    }));
 
-        // given
-        var newShapeData = { x: 130, y: 130, width: 200, height: 200 };
-
-        // when
-        modeling.replaceShape(child2, newShapeData, { layoutConnection: false });
-
-        // then
-        expect(connection.waypoints[0]).to.be.eql({ x: 385, y: 55 });
-        expect(connection.waypoints[1]).to.be.eql({ x: 80, y: 80 });
-      })
-    );
   });
 
 });

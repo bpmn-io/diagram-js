@@ -1,9 +1,13 @@
+/* global sinon */
+
 import {
   bootstrapDiagram,
   inject
 } from 'test/TestHelper';
 
 import customModelingModule from './custom';
+
+var spy = sinon.spy;
 
 
 describe('features/modeling - layout connection', function() {
@@ -212,6 +216,101 @@ describe('features/modeling - layout connection', function() {
       }));
 
     });
+
+  });
+
+
+  describe('integration', function() {
+
+    var rootShape, sourceShape, targetShape, connection;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+
+      rootShape = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(rootShape);
+
+      sourceShape = elementFactory.createShape({
+        id: 'source',
+        x: 0, y: 0, width: 100, height: 100
+      });
+
+      canvas.addShape(sourceShape);
+
+      targetShape = elementFactory.createShape({
+        id: 'target',
+        x: 200, y: 0, width: 100, height: 100
+      });
+
+      canvas.addShape(targetShape);
+
+
+      connection = elementFactory.createConnection({
+        id: 'connection',
+        waypoints: [
+          { x: 100, y: 50 },
+          { x: 200, y: 50 }
+        ],
+        source: sourceShape,
+        target: targetShape
+      });
+
+      canvas.addConnection(connection);
+    }));
+
+
+    it('should lay out connection on source replace', inject(function(modeling) {
+
+      // given
+      var layoutConnectionSpy = spy(modeling, 'layoutConnection');
+
+      // when
+      modeling.replaceShape(sourceShape, { x: 0, y: 0, width: 100, height: 100 });
+
+      // then
+      expect(layoutConnectionSpy).to.have.been.called;
+    }));
+
+
+    it('should lay out connection on target replace', inject(function(modeling) {
+
+      // given
+      var layoutConnectionSpy = spy(modeling, 'layoutConnection');
+
+      // when
+      modeling.replaceShape(targetShape, { x: 200, y: 0, width: 100, height: 100 });
+
+      // then
+      expect(layoutConnectionSpy).to.have.been.called;
+    }));
+
+
+    it('should NOT lay out connection on source replace', inject(function(modeling) {
+
+      // given
+      var layoutConnectionSpy = spy(modeling, 'layoutConnection');
+
+      // when
+      modeling.replaceShape(sourceShape, { x: 0, y: 0, width: 100, height: 100 }, { layoutConnection: false });
+
+      // then
+      expect(layoutConnectionSpy).not.to.have.been.called;
+    }));
+
+
+    it('should NOT lay out connection on target replace', inject(function(modeling) {
+
+      // given
+      var layoutConnectionSpy = spy(modeling, 'layoutConnection');
+
+      // when
+      modeling.replaceShape(targetShape, { x: 200, y: 0, width: 100, height: 100 }, { layoutConnection: false });
+
+      // then
+      expect(layoutConnectionSpy).not.to.have.been.called;
+    }));
 
   });
 
