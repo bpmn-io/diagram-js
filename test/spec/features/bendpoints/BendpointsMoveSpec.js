@@ -493,6 +493,8 @@ describe('features/bendpoints - move', function() {
 
         dragging.hover({ element: source, gfx: canvas.getGraphics(source) });
 
+        dragging.move(canvasEvent({ x: 0, y: 0 }));
+
         dragging.move(canvasEvent(getMid(source)));
 
         dragging.end();
