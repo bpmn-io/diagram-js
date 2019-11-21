@@ -33,6 +33,8 @@ var testModules = [
   selectModule
 ];
 
+var spy = sinon.spy;
+
 
 describe('features/bendpoints - move', function() {
 
@@ -40,7 +42,7 @@ describe('features/bendpoints - move', function() {
     dragging.setOptions({ manual: true });
   }
 
-  var rootShape, shape1, shape2, shape3, connection, connection2, connection3;
+  var rootShape, shape1, shape2, shape3, shape4, shape5, connection, connection2, connection3;
 
   function setupDiagram(elementFactory, canvas) {
 
@@ -73,6 +75,22 @@ describe('features/bendpoints - move', function() {
     });
 
     canvas.addShape(shape3, rootShape);
+
+    shape4 = elementFactory.createShape({
+      id: 'shape4',
+      type: 'C',
+      x: 600, y: 250, width: 100, height: 100
+    });
+
+    canvas.addShape(shape4, rootShape);
+
+    shape5 = elementFactory.createShape({
+      id: 'shape5',
+      type: 'D',
+      x: 750, y: 250, width: 100, height: 100
+    });
+
+    canvas.addShape(shape5, rootShape);
 
     connection = elementFactory.createConnection({
       id: 'connection',
@@ -304,8 +322,11 @@ describe('features/bendpoints - move', function() {
       inject(function(eventBus, bendpointMove, dragging) {
 
         // given
-        var rule = sinon.stub().returns(false);
-        eventBus.on('commandStack.connection.reconnectEnd.canExecute', Infinity, rule);
+        function rule() {
+          return false;
+        }
+
+        eventBus.on('commandStack.connection.reconnect.canExecute', Infinity, rule);
 
         // when
         bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
@@ -411,7 +432,7 @@ describe('features/bendpoints - move', function() {
 
       // given
       bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
-      dragging.hover({ element: shape2, gfx: canvas.getGraphics(shape2) });
+      dragging.hover({ element: shape5, gfx: canvas.getGraphics(shape5) });
       dragging.move(canvasEvent({ x: 530, y: 120 }));
 
       // when
@@ -428,7 +449,7 @@ describe('features/bendpoints - move', function() {
 
       // given
       bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 0);
-      dragging.hover({ element: shape1, gfx: canvas.getGraphics(shape1) });
+      dragging.hover({ element: shape4, gfx: canvas.getGraphics(shape4) });
       dragging.move(canvasEvent({ x: 230, y: 120 }));
 
       // when
@@ -455,6 +476,33 @@ describe('features/bendpoints - move', function() {
         { x: 575, y: 175 }
       ]);
     }));
+
+
+    it('should NOT reconnect if source and target have not changed', inject(
+      function(bendpointMove, canvas, dragging, modeling) {
+
+        // given
+        var firstBendpointIndex = 0,
+            firstBendpoint = connection.waypoints[ firstBendpointIndex ],
+            source = connection.source;
+
+        var reconnectSpy = spy(modeling, 'reconnect');
+
+        // when
+        bendpointMove.start(canvasEvent(firstBendpoint), connection, firstBendpointIndex);
+
+        dragging.hover({ element: source, gfx: canvas.getGraphics(source) });
+
+        dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+        dragging.move(canvasEvent(getMid(source)));
+
+        dragging.end();
+
+        // then
+        expect(reconnectSpy).not.to.have.been.called;
+      }
+    ));
 
   });
 
@@ -499,6 +547,8 @@ describe('features/bendpoints - move', function() {
 
   describe('connection preview', function() {
 
+    var drawPreviewSpy;
+
     beforeEach(bootstrapDiagram({
       modules: testModules.concat(
         connectionPreviewModule,
@@ -509,6 +559,12 @@ describe('features/bendpoints - move', function() {
     beforeEach(inject(setManualDragging));
 
     beforeEach(inject(setupDiagram));
+
+    beforeEach(inject(function(connectionPreview) {
+      drawPreviewSpy = spy(connectionPreview, 'drawPreview');
+    }));
+
+    afterEach(sinon.restore);
 
 
     it('should display preview when bendpoint is added', inject(function(canvas, bendpointMove, dragging) {
@@ -546,6 +602,46 @@ describe('features/bendpoints - move', function() {
     }));
 
 
+    it('should display preview when start is moved', inject(function(canvas, bendpointMove, dragging) {
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 0);
+      dragging.hover({ element: shape1, gfx: canvas.getGraphics(shape1) });
+      dragging.move(canvasEvent({ x: 230, y: 120 }));
+
+      // then
+      expect(hasPreview(dragging)).to.be.true;
+    }));
+
+
+    it('should display preview when start is moved (reverse)', inject(
+      function(bendpointMove, canvas, dragging) {
+
+        // given
+        var firstBendpointIndex = 0,
+            firstBendpoint = connection.waypoints[ firstBendpointIndex ];
+
+        // when
+        bendpointMove.start(canvasEvent(firstBendpoint), connection, firstBendpointIndex);
+
+        dragging.hover({ element: shape5, gfx: canvas.getGraphics(shape5) });
+
+        dragging.move(canvasEvent(getMid(shape5)));
+
+        // then
+        expect(hasPreview(dragging)).to.be.true;
+
+        expect(drawPreviewSpy).to.have.been.calledOnce;
+
+        // expect reverse
+        expect(getHints(drawPreviewSpy)).to.include({
+          source: connection.target,
+          target: shape5
+        });
+      }
+    ));
+
+
     it('should display preview when end is moved', inject(function(canvas, bendpointMove, dragging) {
 
       // when
@@ -553,25 +649,37 @@ describe('features/bendpoints - move', function() {
       dragging.hover({ element: shape2, gfx: canvas.getGraphics(shape2) });
       dragging.move(canvasEvent({ x: 530, y: 120 }));
 
-      var ctx = dragging.context();
-
       // then
-      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+      expect(hasPreview(dragging)).to.be.true;
     }));
 
 
-    it('should display preview when source is moved', inject(function(canvas, bendpointMove, dragging) {
+    it('should display preview when end is moved (reverse)', inject(
+      function(bendpointMove, canvas, dragging) {
 
-      // when
-      bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 0);
-      dragging.hover({ element: shape1, gfx: canvas.getGraphics(shape1) });
-      dragging.move(canvasEvent({ x: 230, y: 120 }));
+        // given
+        var lastBendpointIndex = connection.waypoints.length - 1,
+            lastBendpoint = connection.waypoints[ lastBendpointIndex ];
 
-      var ctx = dragging.context();
+        // when
+        bendpointMove.start(canvasEvent(lastBendpoint), connection, lastBendpointIndex);
 
-      // then
-      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
-    }));
+        dragging.hover({ element: shape4, gfx: canvas.getGraphics(shape4) });
+
+        dragging.move(canvasEvent(getMid(shape4)));
+
+        // then
+        expect(hasPreview(dragging)).to.be.true;
+
+        expect(drawPreviewSpy).to.have.been.calledOnce;
+
+        // expect reverse
+        expect(getHints(drawPreviewSpy)).to.include({
+          source: shape4,
+          target: connection.source
+        });
+      }
+    ));
 
 
     it('should filter out redundant waypoints from preview',
@@ -588,6 +696,20 @@ describe('features/bendpoints - move', function() {
         expect(preview.waypoints).to.have.lengthOf(3);
       })
     );
+
   });
 
 });
+
+// helpers //////////
+
+function getHints(drawPreviewSpy) {
+  return drawPreviewSpy.firstCall.args[2];
+}
+
+function hasPreview(dragging) {
+  var context = dragging.context(),
+      connectionPreviewGfx = context.data.context.connectionPreviewGfx;
+
+  return !!connectionPreviewGfx.parentNode;
+}

@@ -6,6 +6,23 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: allow to remove _and_ update palette, context pad and popup menu entries from extensions ([#431](https://github.com/bpmn-io/diagram-js/pull/431))
+* `FEAT`: allow multiple popup menu providers ([#431](https://github.com/bpmn-io/diagram-js/pull/431))
+* `FEAT`: support element connections in reverse order ([#427](https://github.com/bpmn-io/diagram-js/pull/427))
+* `FIX`: correctly unsubscribe popup menu close handler ([`46f78ea0e`](https://github.com/bpmn-io/diagram-js/commit/46f78ea0eb1e8c54d25174f984d318bf1b59cc20))
+* `FIX`: allow event bus event to be passed as single argument to `EventBus#fire` ([`9633af767`](https://github.com/bpmn-io/diagram-js/commit/9633af767749c48c65c17cbd8acc50048abf4f43))
+* `FIX`: pass hints when moving children on replace ([`cda3686c`](https://github.com/bpmn-io/diagram-js/commit/cda3686cacd0b52d8b881c69be5fe794301389aa))
+
+### Breaking Changes
+
+Connecting and re-connecting shapes got reworked via [#427](https://github.com/bpmn-io/diagram-js/pull/427):
+
+* The rules `connection.reconnectStart` and `connection.reconnectEnd` got replaced with `connection.reconnect` rule
+* The data passed to and propagated via `Connect` changed from `{ source, sourcePosition }` to `{ start, connectionStart }`
+* `Modeling#reconnect` API is introduced for reconnecting both source and target
+* `Layouter#layoutConnection` receives a waypoints hint that needs to be taken into account to preview reverse connections
+* The commands `connection.reconnectStart` and `connection.reconnectEnd` got removed in favor of a `connection.reconnect` command
+
 ## 5.1.1
 
 * `FIX`: re-select only existing elements when dragging is finished ([`401412d`](https://github.com/bpmn-io/diagram-js/commit/401412d8054bec277de54662663b0388f7a73365))

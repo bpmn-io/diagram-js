@@ -225,12 +225,6 @@ describe('features/attach-support', function() {
   });
 
 
-  describe('ordering', function() {
-
-    // up to someone else to care about
-  });
-
-
   describe('move', function() {
 
     var host, host2, attacher, attacher2;
