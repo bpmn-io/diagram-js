@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.0.0
+
 * `FEAT`: allow to remove _and_ update palette, context pad and popup menu entries from extensions ([#431](https://github.com/bpmn-io/diagram-js/pull/431))
 * `FEAT`: allow multiple popup menu providers ([#431](https://github.com/bpmn-io/diagram-js/pull/431))
 * `FEAT`: support element connections in reverse order ([#427](https://github.com/bpmn-io/diagram-js/pull/427))
