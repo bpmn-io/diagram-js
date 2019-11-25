@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.0.2
+
+* `FIX`: revert a change that would disallow re-attaching a connection to the same source / target ([`fd6f76f6`](https://github.com/bpmn-io/diagram-js/commit/fd6f76f66e8a37933b85e08c2f271688c54725f0))
+
 ## 6.0.1
 
 _Republish of `v6.0.0`._
