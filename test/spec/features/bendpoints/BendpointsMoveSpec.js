@@ -432,7 +432,7 @@ describe('features/bendpoints - move', function() {
 
       // given
       bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 2);
-      dragging.hover({ element: shape5, gfx: canvas.getGraphics(shape5) });
+      dragging.hover({ element: shape2, gfx: canvas.getGraphics(shape2) });
       dragging.move(canvasEvent({ x: 530, y: 120 }));
 
       // when
@@ -449,7 +449,7 @@ describe('features/bendpoints - move', function() {
 
       // given
       bendpointMove.start(canvasEvent({ x: 500, y: 500 }), connection, 0);
-      dragging.hover({ element: shape4, gfx: canvas.getGraphics(shape4) });
+      dragging.hover({ element: shape1, gfx: canvas.getGraphics(shape1) });
       dragging.move(canvasEvent({ x: 230, y: 120 }));
 
       // when
@@ -476,33 +476,6 @@ describe('features/bendpoints - move', function() {
         { x: 575, y: 175 }
       ]);
     }));
-
-
-    it('should NOT reconnect if source and target have not changed', inject(
-      function(bendpointMove, canvas, dragging, modeling) {
-
-        // given
-        var firstBendpointIndex = 0,
-            firstBendpoint = connection.waypoints[ firstBendpointIndex ],
-            source = connection.source;
-
-        var reconnectSpy = spy(modeling, 'reconnect');
-
-        // when
-        bendpointMove.start(canvasEvent(firstBendpoint), connection, firstBendpointIndex);
-
-        dragging.hover({ element: source, gfx: canvas.getGraphics(source) });
-
-        dragging.move(canvasEvent({ x: 0, y: 0 }));
-
-        dragging.move(canvasEvent(getMid(source)));
-
-        dragging.end();
-
-        // then
-        expect(reconnectSpy).not.to.have.been.called;
-      }
-    ));
 
   });
 
