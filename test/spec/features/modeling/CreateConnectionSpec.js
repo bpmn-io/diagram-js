@@ -63,11 +63,13 @@ describe('features/modeling - create connection', function() {
       it('execute', inject(function(modeling, elementRegistry) {
 
         // when
-        modeling.connect(sourceShape, targetShape, newConnection);
+        var createdConnection = modeling.connect(sourceShape, targetShape, newConnection);
 
         var connection = elementRegistry.get('newConnection');
 
         // then
+        expect(createdConnection).to.eql(connection);
+
         expect(connection.id).to.eql('newConnection');
 
         expect(connection.waypoints).to.eql([
