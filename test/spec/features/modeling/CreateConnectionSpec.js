@@ -92,7 +92,48 @@ describe('features/modeling - create connection', function() {
         expect(elementRegistry.get('newConnection')).not.to.exist;
       }));
 
+
+      it('redo', inject(function(modeling, commandStack, elementRegistry) {
+
+        // given
+        modeling.connect(sourceShape, targetShape, newConnection);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var connection = elementRegistry.get('newConnection');
+
+        expect(connection.id).to.eql('newConnection');
+
+        expect(connection.waypoints).to.eql([
+          { x: 130, y: 130 },
+          { x: 230, y: 130 }
+        ]);
+      }));
+
     });
+
+
+    it('should mark as changed', inject(function(eventBus, modeling, commandStack) {
+
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.elements).to.have.length(1);
+      });
+
+      eventBus.on('elements.changed', changedSpy);
+
+      // when
+      modeling.connect(sourceShape, targetShape, newConnection);
+
+      commandStack.undo();
+      commandStack.redo();
+
+      // then
+      expect(changedSpy).to.have.been.calledThrice;
+    }));
 
 
     it('should have a parent', inject(function(modeling) {
