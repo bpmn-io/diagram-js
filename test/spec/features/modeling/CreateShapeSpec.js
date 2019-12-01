@@ -8,7 +8,6 @@ import modelingModule from 'lib/features/modeling';
 
 describe('features/modeling - create shape', function() {
 
-
   beforeEach(bootstrapDiagram({ modules: [ modelingModule ] }));
 
 
@@ -80,7 +79,48 @@ describe('features/modeling - create shape', function() {
         expect(parentShape.children).not.to.contain(newShape);
       }));
 
+
+      it('redo', inject(function(modeling, commandStack, elementRegistry) {
+
+        // given
+        modeling.createShape(newShape, position, parentShape);
+
+        commandStack.undo();
+
+        // when
+        commandStack.redo();
+
+        var shape = elementRegistry.get('newShape');
+
+        // then
+        expect(shape).to.include({
+          id: 'newShape',
+          x: 125, y: 125,
+          width: 100, height: 100
+        });
+      }));
+
     });
+
+
+    it('should mark as changed', inject(function(eventBus, modeling, commandStack) {
+
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.elements).to.have.length(1);
+      });
+
+      eventBus.on('elements.changed', changedSpy);
+
+      // when
+      modeling.createShape(newShape, position, parentShape);
+
+      commandStack.undo();
+      commandStack.redo();
+
+      // then
+      expect(changedSpy).to.have.been.calledThrice;
+    }));
 
 
     it('should have a parent', inject(function(modeling) {
