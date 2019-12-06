@@ -107,9 +107,24 @@ svg.new-parent {
 .djs-resizer-visual {
   fill: white;
   stroke-width: 1px;
-  stroke: black;
-  shape-rendering: crispEdges;
-  stroke-opacity: 0.2;
+  stroke: #BBB;
+  shape-rendering: geometricprecision;
+}
+
+.djs-resizer:hover .djs-resizer-visual {
+  stroke: #555;
+}
+
+.djs-cursor-resize-ns,
+.djs-resizer-n,
+.djs-resizer-s {
+  cursor: ns-resize;
+}
+
+.djs-cursor-resize-ew,
+.djs-resizer-e,
+.djs-resizer-w {
+  cursor: ew-resize;
 }
 
 .djs-cursor-resize-nwse,

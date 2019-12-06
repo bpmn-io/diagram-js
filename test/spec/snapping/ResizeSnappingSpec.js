@@ -1,3 +1,5 @@
+/* global sinon */
+
 import {
   bootstrapDiagram,
   inject
@@ -9,9 +11,15 @@ import snappingModule from 'lib/features/snapping';
 
 import SnapContext from 'lib/features/snapping/SnapContext';
 
+import { getReferencePoint } from 'lib/features/resize/Resize';
+
 import {
   createCanvasEvent as canvasEvent
 } from '../../util/MockEvents';
+
+var VERY_LOW_PRIORITY = 100;
+
+var spy = sinon.spy;
 
 
 describe('features/snapping - ResizeSnapping', function() {
@@ -95,7 +103,8 @@ describe('features/snapping - ResizeSnapping', function() {
         y: 100,
         shape: shape1,
         context: {
-          shape: shape1
+          shape: shape1,
+          direction: 'nw'
         }
       });
 
@@ -119,6 +128,7 @@ describe('features/snapping - ResizeSnapping', function() {
         shape: shape1,
         context: {
           shape: shape1,
+          direction: 'nw',
           snapContext: originalSnapContext
         }
       };
@@ -143,7 +153,8 @@ describe('features/snapping - ResizeSnapping', function() {
         y: 100,
         shape: shape1,
         context: {
-          shape: shape1
+          shape: shape1,
+          direction: 'nw'
         }
       });
 
@@ -192,6 +203,54 @@ describe('features/snapping - ResizeSnapping', function() {
           width: 200, // 205 snapped to 200 (left of shape2)
           height: 200 // 205 snapped to 200 (top of shape2)
         });
+      }));
+
+    });
+
+
+    describe('snap horizontally', function() {
+
+      it('should NOT snap y', inject(function(dragging, eventBus, resize) {
+
+        // given
+        var resizeSpy = spy(function(event) {
+          expect(event.x).to.equal(300);
+          expect(event.y).to.equal(305); // y has NOT been snapped
+        });
+
+        // when
+        resize.activate(canvasEvent(getReferencePoint(shape1, 'e')), shape1, 'e');
+
+        eventBus.on('resize.move', VERY_LOW_PRIORITY, resizeSpy);
+
+        dragging.move(canvasEvent({ x: 305, y: 305 }));
+
+        // then
+        expect(resizeSpy).to.have.been.called;
+      }));
+
+    });
+
+
+    describe('snap vertically', function() {
+
+      it('should NOT snap x', inject(function(dragging, eventBus, resize) {
+
+        // given
+        var resizeSpy = spy(function(event) {
+          expect(event.x).to.equal(305); // x has NOT been snapped
+          expect(event.y).to.equal(300);
+        });
+
+        // when
+        resize.activate(canvasEvent(getReferencePoint(shape1, 's')), shape1, 's');
+
+        eventBus.on('resize.move', VERY_LOW_PRIORITY, resizeSpy);
+
+        dragging.move(canvasEvent({ x: 305, y: 305 }));
+
+        // then
+        expect(resizeSpy).to.have.been.called;
       }));
 
     });

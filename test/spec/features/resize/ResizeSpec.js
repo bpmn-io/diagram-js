@@ -14,6 +14,8 @@ import modelingModule from 'lib/features/modeling';
 import rulesModule from './rules';
 import selectModule from 'lib/features/selection';
 
+import { getReferencePoint } from 'lib/features/resize/Resize';
+
 import {
   query as domQuery,
   queryAll as domQueryAll
@@ -74,7 +76,7 @@ describe('features/resize - Resize', function() {
       // then
       var resizeAnchors = getResizeHandles();
 
-      expect(resizeAnchors.length).to.equal(4);
+      expect(resizeAnchors.length).to.equal(8);
     }));
 
 
@@ -105,13 +107,165 @@ describe('features/resize - Resize', function() {
       // then
       var resizeAnchors = getResizeHandles();
 
-      expect(resizeAnchors.length).to.equal(4);
+      expect(resizeAnchors.length).to.equal(8);
     }));
 
   });
 
 
   describe('modeling', function() {
+
+    it('should resize nw', inject(function(dragging, resize) {
+
+      // when
+      resize.activate(canvasEvent(getReferencePoint(shape, 'nw')), shape, 'nw');
+
+      dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+      dragging.end();
+
+      // then
+      expect(shape).to.have.bounds({
+        x: 0,
+        y: 0,
+        width: 200,
+        height: 200
+      });
+    }));
+
+
+    it('should resize ne', inject(function(dragging, resize) {
+
+      // when
+      resize.activate(canvasEvent(getReferencePoint(shape, 'ne')), shape, 'ne');
+
+      dragging.move(canvasEvent({ x: 300, y: 0 }));
+
+      dragging.end();
+
+      // then
+      expect(shape).to.have.bounds({
+        x: 100,
+        y: 0,
+        width: 200,
+        height: 200
+      });
+    }));
+
+
+    it('should resize sw', inject(function(dragging, resize) {
+
+      // when
+      resize.activate(canvasEvent(getReferencePoint(shape, 'sw')), shape, 'sw');
+
+      dragging.move(canvasEvent({ x: 0, y: 300 }));
+
+      dragging.end();
+
+      // then
+      expect(shape).to.have.bounds({
+        x: 0,
+        y: 100,
+        width: 200,
+        height: 200
+      });
+    }));
+
+
+    it('should resize se', inject(function(dragging, resize) {
+
+      // when
+      resize.activate(canvasEvent(getReferencePoint(shape, 'se')), shape, 'se');
+
+      dragging.move(canvasEvent({ x: 300, y: 300 }));
+
+      dragging.end();
+
+      // then
+      expect(shape).to.have.bounds({
+        x: 100,
+        y: 100,
+        width: 200,
+        height: 200
+      });
+    }));
+
+
+    it('should resize n', inject(function(dragging, resize) {
+
+      // when
+      resize.activate(canvasEvent(getReferencePoint(shape, 'n')), shape, 'n');
+
+      dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+      dragging.end();
+
+      // then
+      expect(shape).to.have.bounds({
+        x: 100,
+        y: 0,
+        width: 100, // width has NOT changed
+        height: 200
+      });
+    }));
+
+
+    it('should resize w', inject(function(dragging, resize) {
+
+      // when
+      resize.activate(canvasEvent(getReferencePoint(shape, 'w')), shape, 'w');
+
+      dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+      dragging.end();
+
+      // then
+      expect(shape).to.have.bounds({
+        x: 0,
+        y: 100,
+        width: 200,
+        height: 100 // height has NOT changed
+      });
+    }));
+
+
+    it('should resize s', inject(function(dragging, resize) {
+
+      // when
+      resize.activate(canvasEvent(getReferencePoint(shape, 's')), shape, 's');
+
+      dragging.move(canvasEvent({ x: 0, y: 300 }));
+
+      dragging.end();
+
+      // then
+      expect(shape).to.have.bounds({
+        x: 100,
+        y: 100,
+        width: 100, // width has NOT changed
+        height: 200
+      });
+    }));
+
+
+    it('should resize e', inject(function(dragging, resize) {
+
+      // when
+      resize.activate(canvasEvent(getReferencePoint(shape, 'e')), shape, 'e');
+
+      dragging.move(canvasEvent({ x: 300, y: 0 }));
+
+      dragging.end();
+
+      // then
+      expect(shape).to.have.bounds({
+        x: 100,
+        y: 100,
+        width: 200,
+        height: 100 // height has NOT changed
+      });
+    }));
+
 
     it('should resize to minimum bounds', inject(function(canvas, resize, dragging, elementFactory) {
 
