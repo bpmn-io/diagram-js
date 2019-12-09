@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   createEvent as globalEvent
 } from '../../../util/MockEvents';

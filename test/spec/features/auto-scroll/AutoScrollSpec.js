@@ -1,7 +1,5 @@
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 
-/* global sinon */
-
 import {
   bootstrapDiagram,
   inject

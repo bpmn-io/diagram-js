@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   inject
@@ -7,8 +5,6 @@ import {
 
 import paletteModule from 'lib/features/palette';
 import i18nModule from 'lib/i18n';
-
-var spy = sinon.spy;
 
 
 describe('i18n', function() {
@@ -21,7 +17,7 @@ describe('i18n', function() {
     it('should emit i18n.changed event', inject(function(i18n, eventBus) {
 
       // given
-      var listener = spy(function() {});
+      var listener = sinon.spy();
 
       eventBus.on('i18n.changed', listener);
 
@@ -43,7 +39,7 @@ describe('i18n', function() {
     it('should update palette', inject(function(palette, i18n) {
 
       // given
-      var paletteUpdate = spy(palette, '_update');
+      var paletteUpdate = sinon.spy(palette, '_update');
       palette._init();
 
       // when

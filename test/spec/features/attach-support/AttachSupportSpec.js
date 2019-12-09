@@ -29,8 +29,6 @@ import { classes as svgClasses } from 'tiny-svg';
 var ATTACH = { attach: true };
 var NO_ATTACH = { attach: false };
 
-/* global sinon */
-
 
 describe('features/attach-support', function() {
 

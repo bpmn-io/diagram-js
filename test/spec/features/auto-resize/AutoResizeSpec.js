@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   inject
@@ -16,8 +14,6 @@ import replaceModule from 'lib/features/replace';
 
 import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
 import AutoResize from 'lib/features/auto-resize/AutoResize';
-
-var spy = sinon.spy;
 
 import inherits from 'inherits';
 
@@ -168,7 +164,7 @@ describe('features/auto-resize', function() {
     it('should only resize on actual size change', inject(function(autoResize, modeling) {
 
       // given
-      var resizeSpy = spy(autoResize, 'resize');
+      var resizeSpy = sinon.spy(autoResize, 'resize');
 
       // when
       modeling.moveElements([ topLevelShape ], { x: -300, y: 0 }, parentShape);
@@ -295,7 +291,7 @@ describe('features/auto-resize', function() {
       it('on move <ne>', inject(function(autoResize, modeling) {
 
         // given
-        var resizeSpy = spy(autoResize, 'resize');
+        var resizeSpy = sinon.spy(autoResize, 'resize');
 
         // when
         modeling.moveElements([ childShape1 ], { x: -100, y: -100 }, parentShape);
@@ -742,7 +738,7 @@ describe('features/auto-resize', function() {
       it('on resize child shape <nwse>', inject(function(autoResize, modeling) {
 
         // given
-        var resizeSpy = spy(autoResize, 'resize');
+        var resizeSpy = sinon.spy(autoResize, 'resize');
 
         var newBounds = { x: 0, y: 0, width: 500, height: 500 };
 

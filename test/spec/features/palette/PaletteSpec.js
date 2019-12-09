@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -16,8 +14,6 @@ import {
 import {
   assign
 } from 'min-dash';
-
-var spy = sinon.spy;
 
 
 describe('features/palette', function() {
@@ -44,7 +40,7 @@ describe('features/palette', function() {
     it('should create + attach with provider', inject(function(eventBus, canvas, palette) {
 
       // given
-      var createSpy = spy(function(event) {
+      var createSpy = sinon.spy(function(event) {
         expect(event.container).to.equal(palette._container);
       });
 
@@ -126,7 +122,7 @@ describe('features/palette', function() {
 
       palette.registerProvider(provider);
 
-      var getSpy = spy(provider, 'getPaletteEntries');
+      var getSpy = sinon.spy(provider, 'getPaletteEntries');
 
       // when
       var entries = palette.getEntries();
@@ -372,7 +368,7 @@ describe('features/palette', function() {
     it('should close', inject(function(eventBus, palette) {
 
       // given
-      var changedSpy = spy(function(event) {
+      var changedSpy = sinon.spy(function(event) {
         expect(event.open).to.be.false;
         expect(event.twoColumn).to.be.false;
       });
@@ -397,7 +393,7 @@ describe('features/palette', function() {
       // given
       palette.close();
 
-      var changedSpy = spy(function(event) {
+      var changedSpy = sinon.spy(function(event) {
         expect(event.open).to.be.true;
         expect(event.twoColumn).to.be.false;
       });
@@ -457,7 +453,7 @@ describe('features/palette', function() {
 
         parent.style.height = '300px';
 
-        var changedSpy = spy(function(event) {
+        var changedSpy = sinon.spy(function(event) {
           expect(event.open).to.be.true;
           expect(event.twoColumn).to.be.false;
         });
@@ -483,7 +479,7 @@ describe('features/palette', function() {
 
         parent.style.height = '270px';
 
-        var changedSpy = spy(function(event) {
+        var changedSpy = sinon.spy(function(event) {
           expect(event.open).to.be.true;
           expect(event.twoColumn).to.be.true;
         });
@@ -508,7 +504,7 @@ describe('features/palette', function() {
         parent.style.height = '270px';
         canvas.resized();
 
-        var changedSpy = spy(function(event) {
+        var changedSpy = sinon.spy(function(event) {
           expect(event.open).to.be.true;
           expect(event.twoColumn).to.be.false;
         });

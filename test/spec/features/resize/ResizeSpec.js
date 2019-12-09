@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   inject
@@ -27,7 +25,6 @@ function bounds(b) {
   return pick(b, [ 'x', 'y', 'width', 'height' ]);
 }
 
-var spy = sinon.spy;
 
 describe('features/resize - Resize', function() {
 
@@ -212,7 +209,7 @@ describe('features/resize - Resize', function() {
       function(canvas, dragging, elementFactory, modeling, resize) {
 
         // given
-        var resizeShapeSpy = spy(modeling, 'resizeShape');
+        var resizeShapeSpy = sinon.spy(modeling, 'resizeShape');
 
         var shape = elementFactory.createShape({
           id: 'shapeA',
