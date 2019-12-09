@@ -1,8 +1,6 @@
 import EventBus from 'lib/core/EventBus';
 
 
-/* global sinon */
-
 describe('core/EventBus', function() {
 
   var eventBus;

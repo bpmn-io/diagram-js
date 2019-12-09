@@ -17,8 +17,6 @@ import {
   classes as svgClasses
 } from 'tiny-svg';
 
-/* global sinon */
-
 
 describe('features/label-support', function() {
 

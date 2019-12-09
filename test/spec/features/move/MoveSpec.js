@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   inject
@@ -16,8 +14,6 @@ import {
 
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
-
-var spy = sinon.spy;
 
 
 describe('features/move - Move', function() {
@@ -154,7 +150,7 @@ describe('features/move - Move', function() {
       function(dragging, elementRegistry, modeling, move) {
 
         // given
-        var moveElementsSpy = spy(modeling, 'moveElements');
+        var moveElementsSpy = sinon.spy(modeling, 'moveElements');
 
         move.start(canvasEvent({ x: 0, y: 0 }), childShape);
 

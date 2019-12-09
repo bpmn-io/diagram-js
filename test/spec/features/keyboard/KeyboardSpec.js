@@ -1,5 +1,3 @@
-/* global sinon */
-
 import TestContainer from 'mocha-test-container-support';
 
 import {
@@ -15,9 +13,6 @@ import {
 } from 'test/TestHelper';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
-
-var spy = sinon.spy,
-    stub = sinon.stub;
 
 
 describe('features/keyboard', function() {
@@ -91,7 +86,7 @@ describe('features/keyboard', function() {
     it('should bind keyboard events to node', inject(function(keyboard) {
 
       // given
-      var keyHandlerSpy = spy(keyboard, '_keyHandler');
+      var keyHandlerSpy = sinon.spy(keyboard, '_keyHandler');
 
       // when
       keyboard.bind(testDiv);
@@ -106,7 +101,7 @@ describe('features/keyboard', function() {
     it('should unbind keyboard events to node', inject(function(keyboard) {
 
       // given
-      var keyHandlerSpy = spy(keyboard, '_keyHandler');
+      var keyHandlerSpy = sinon.spy(keyboard, '_keyHandler');
 
       keyboard.bind(testDiv);
 
@@ -144,7 +139,7 @@ describe('features/keyboard', function() {
       function(keyboard, eventBus) {
 
         // given
-        var eventBusSpy = spy(eventBus, 'fire');
+        var eventBusSpy = sinon.spy(eventBus, 'fire');
 
         var inputField = document.createElement('input');
         testDiv.appendChild(inputField);
@@ -165,7 +160,7 @@ describe('features/keyboard', function() {
     it('should add keydown listener by default', inject(function(keyboard) {
 
       // given
-      var keydownSpy = spy();
+      var keydownSpy = sinon.spy();
 
       // when
       keyboard.addListener(keydownSpy);
@@ -182,7 +177,7 @@ describe('features/keyboard', function() {
     it('should add keyup listener', inject(function(keyboard) {
 
       // given
-      var keyupSpy = spy();
+      var keyupSpy = sinon.spy();
 
       // when
       keyboard.addListener(keyupSpy, 'keyboard.keyup');
@@ -199,8 +194,8 @@ describe('features/keyboard', function() {
     it('should handle listeners by priority', inject(function(keyboard) {
 
       // given
-      var lowerPrioritySpy = spy();
-      var higherPrioritySpy = stub().returns(true);
+      var lowerPrioritySpy = sinon.spy();
+      var higherPrioritySpy = sinon.stub().returns(true);
 
       keyboard.addListener(500, lowerPrioritySpy);
       keyboard.addListener(1000, higherPrioritySpy);
@@ -220,8 +215,8 @@ describe('features/keyboard', function() {
       function(keyboard) {
 
         // given
-        var lowerPrioritySpy = spy();
-        var higherPrioritySpy = spy();
+        var lowerPrioritySpy = sinon.spy();
+        var higherPrioritySpy = sinon.spy();
 
         keyboard.addListener(500, lowerPrioritySpy);
         keyboard.addListener(1000, higherPrioritySpy);
@@ -242,7 +237,7 @@ describe('features/keyboard', function() {
       function(keyboard) {
 
         // given
-        var keyboardEventSpy = spy();
+        var keyboardEventSpy = sinon.spy();
 
         keyboard.addListener(keyboardEventSpy);
 
@@ -285,7 +280,7 @@ describe('features/keyboard', function() {
     it('should remove keydown listener by default', inject(function(keyboard) {
 
       // given
-      var keydownSpy = spy();
+      var keydownSpy = sinon.spy();
 
       keyboard.addListener(keydownSpy);
 
@@ -305,7 +300,7 @@ describe('features/keyboard', function() {
     it('should remove keyup listener', inject(function(keyboard) {
 
       // given
-      var keyupSpy = spy();
+      var keyupSpy = sinon.spy();
 
       keyboard.addListener(keyupSpy, 'keyboard.keyup');
 

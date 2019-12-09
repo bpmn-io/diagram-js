@@ -5,8 +5,6 @@ import {
 
 import modelingModule from 'lib/features/modeling';
 
-/* global sinon */
-
 
 describe('features/modeling - reconnect connection', function() {
 

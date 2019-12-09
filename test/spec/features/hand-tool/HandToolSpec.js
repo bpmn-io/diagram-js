@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   inject
@@ -12,8 +10,6 @@ import draggingModule from 'lib/features/dragging';
 import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
-
-var spy = sinon.spy;
 
 
 describe('features/hand-tool', function() {
@@ -81,7 +77,7 @@ describe('features/hand-tool', function() {
         keyEvent: createKeyEvent(' ')
       });
 
-      removeEventListenerSpy = spy(window, 'removeEventListener');
+      removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
     }));
 
     afterEach(function() {

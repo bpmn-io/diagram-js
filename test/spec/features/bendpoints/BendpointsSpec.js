@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   inject
@@ -21,7 +19,8 @@ import {
 
 import {
   getVisual
-} from '../../../../lib/util/GraphicsUtil';
+} from 'lib/util/GraphicsUtil';
+
 
 describe('features/bendpoints', function() {
 

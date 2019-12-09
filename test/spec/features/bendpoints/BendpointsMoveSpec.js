@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -32,8 +30,6 @@ var testModules = [
   modelingModule,
   selectModule
 ];
-
-var spy = sinon.spy;
 
 
 describe('features/bendpoints - move', function() {
@@ -534,7 +530,7 @@ describe('features/bendpoints - move', function() {
     beforeEach(inject(setupDiagram));
 
     beforeEach(inject(function(connectionPreview) {
-      drawPreviewSpy = spy(connectionPreview, 'drawPreview');
+      drawPreviewSpy = sinon.spy(connectionPreview, 'drawPreview');
     }));
 
     afterEach(sinon.restore);

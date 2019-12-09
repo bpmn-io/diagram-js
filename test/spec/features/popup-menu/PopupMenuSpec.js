@@ -1,5 +1,3 @@
-/* global sinon */
-
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -23,7 +21,6 @@ import { createEvent as globalEvent } from '../../../util/MockEvents';
 
 import popupMenuModule from 'lib/features/popup-menu';
 import modelingModule from 'lib/features/modeling';
-
 
 
 describe('features/popup', function() {
