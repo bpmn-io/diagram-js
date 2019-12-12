@@ -68,7 +68,7 @@
     "min-dash": "^3.5.0",
     "min-dom": "^3.0.0",
     "object-refs": "^0.3.0",
-    "path-intersection": "^1.0.2",
+    "path-intersection": "^2.1.0",
     "tiny-svg": "^2.2.1"
   }
 }
