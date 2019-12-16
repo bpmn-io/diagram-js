@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.2.0
+
+* `FIX`: correct a number of cropping issues
+* `CHORE`: bump to [`path-intersection@2.1`](https://github.com/bpmn-io/path-intersection)
+
 ## 6.1.0
 
 * `FEAT`: add horizontal / vertical resize handles ([#117](https://github.com/bpmn-io/diagram-js/issues/117))
