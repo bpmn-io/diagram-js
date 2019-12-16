@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.2.1
+
+_Republish of `v6.2.0`._
+
 ## 6.2.0
 
 * `FIX`: correct a number of cropping issues
