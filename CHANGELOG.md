@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.2.2
+
+* `FIX`: show line during make space again
+
 ## 6.2.1
 
 _Republish of `v6.2.0`._
