@@ -206,6 +206,30 @@ describe('features/replace', function() {
       expect(replacementShape.height).to.equal(201);
     }));
 
+
+    it('should replace with new bounds', inject(function(elementFactory, replace, elementRegistry) {
+
+      // given
+      var replacement = {
+        id: 'replacement',
+        width: 200,
+        height: 200,
+        x: 10,
+        y: 50
+      };
+
+      // shape replacement
+      var replacedShape = replace.replaceElement(originalShape, replacement);
+
+      // then
+      expect(replacedShape).to.have.bounds({
+        width: 200,
+        height: 200,
+        x: 10,
+        y: 50
+      });
+    }));
+
   });
 
 
@@ -234,20 +258,28 @@ describe('features/replace', function() {
       // canvas.addConnection(connection);
     }));
 
+
     it('should reconnect start', inject(function(elementFactory, replace, elementRegistry) {
 
       // given
       var replacement = {
         id: 'replacement',
         width: 120,
-        height: 120
+        height: 120,
+        x: 80,
+        y: 80
       };
 
       // when
       var replacedShape = replace.replaceElement(sourceShape, replacement);
 
       // then
-      expect(replacedShape.outgoing[0]).to.exist;
+      expect(replacedShape.outgoing[0]).to.eql(connection);
+
+      expect(connection).to.have.waypoints([
+        { x: 140, y: 140 },
+        { x: 340, y: 160 }
+      ]);
     }));
 
 
@@ -256,6 +288,8 @@ describe('features/replace', function() {
       // given
       var replacement = {
         id: 'replacement',
+        x: 280,
+        y: 120,
         width: 80,
         height: 80
       };
@@ -264,7 +298,12 @@ describe('features/replace', function() {
       var replacedShape = replace.replaceElement(targetShape, replacement);
 
       // then
-      expect(replacedShape.incoming[0]).to.exist;
+      expect(replacedShape.incoming[0]).to.eql(connection);
+
+      expect(connection).to.have.waypoints([
+        { x: 160, y: 160 },
+        { x: 320, y: 160 }
+      ]);
     }));
 
 
