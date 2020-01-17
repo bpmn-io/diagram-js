@@ -5,6 +5,7 @@
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
+    "lint:types": "tsc --pretty",
     "dev": "npm test -- --auto-watch --no-single-run",
     "test": "karma start"
   },
@@ -57,6 +58,7 @@
     "raw-loader": "^1.0.0",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.2.0",
+    "typescript": "^3.7.5",
     "url-loader": "^2.0.1",
     "webpack": "^4.35.3"
   },
