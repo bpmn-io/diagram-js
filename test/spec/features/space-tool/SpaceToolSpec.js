@@ -656,9 +656,9 @@ describe('features/space-tool', function() {
 
 
     describe('minimum dimensions', function() {
-  
+
       it('should consider minimum dimensions', inject(function(dragging, eventBus, spaceTool) {
-  
+
         // given
         eventBus.on('spaceTool.getMinDimensions', function() {
           return {
@@ -674,7 +674,7 @@ describe('features/space-tool', function() {
         dragging.move(canvasEvent({ x: 0, y: 0 }));
 
         dragging.end();
-  
+
         // then
         expect(grandParent).to.have.bounds({
           x: 125,

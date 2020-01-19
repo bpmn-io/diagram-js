@@ -2,7 +2,6 @@ import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 
 import {
   bootstrapDiagram,
-  getDiagramJS,
   inject
 } from 'test/TestHelper';
 
@@ -17,10 +16,6 @@ import spaceToolModule from 'lib/features/space-tool';
 import rulesModule from './rules';
 
 import { getNewAttachShapeDelta } from 'lib/util/AttachUtil';
-
-import { isMac } from 'lib/util/Platform';
-
-var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 
 import { query as domQuery } from 'min-dom';
 
@@ -1975,7 +1970,7 @@ describe('features/attach-support', function() {
 
     }));
 
-    
+
     it('should not move attachers after resize (attachSupport=false)', inject(function(modeling) {
 
       // given
