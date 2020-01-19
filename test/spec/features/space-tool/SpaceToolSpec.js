@@ -571,68 +571,72 @@ describe('features/space-tool', function() {
     }));
 
 
-    it('should not remove space beyond max bounds (x axis)', inject(function(spaceTool, dragging) {
+    describe('minimum bounds', function() {
+  
+      it('should not remove space beyond max bounds (x axis)', inject(function(spaceTool, dragging) {
+  
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
+  
+        dragging.move(canvasEvent({ x: 550, y: 155 }, keyModifier));
+        dragging.end();
+  
+        // then
+        expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
+        expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
+        expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
+        expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
+      }));
+  
+  
+      it('should not remove space beyond min bounds (x axis)', inject(function(spaceTool, dragging) {
+  
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
+  
+        dragging.move(canvasEvent({ x: 0, y: 155 }));
+        dragging.end();
+  
+        // then
+        expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
+        expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
+        expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
+        expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
+      }));
+  
+  
+      it('should not remove space beyond max bounds (y axis)', inject(function(spaceTool, dragging) {
+  
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
+  
+        dragging.move(canvasEvent({ x: 280, y: 800 }, keyModifier));
+        dragging.end();
+  
+        // then
+        expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
+        expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
+        expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
+        expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
+      }));
+  
+  
+      it('should not remove space beyond min bounds (y axis)', inject(function(spaceTool, dragging) {
+  
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
+  
+        dragging.move(canvasEvent({ x: 280, y: 0 }));
+        dragging.end();
+  
+        // then
+        expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
+        expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
+        expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
+        expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
+      }));
 
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
-
-      dragging.move(canvasEvent({ x: 550, y: 155 }, keyModifier));
-      dragging.end();
-
-      // then
-      expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
-      expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
-      expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
-      expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
-    }));
-
-
-    it('should not remove space beyond min bounds (x axis)', inject(function(spaceTool, dragging) {
-
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
-
-      dragging.move(canvasEvent({ x: 0, y: 155 }));
-      dragging.end();
-
-      // then
-      expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
-      expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
-      expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
-      expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
-    }));
-
-
-    it('should not remove space beyond max bounds (y axis)', inject(function(spaceTool, dragging) {
-
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
-
-      dragging.move(canvasEvent({ x: 280, y: 800 }, keyModifier));
-      dragging.end();
-
-      // then
-      expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
-      expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
-      expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
-      expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
-    }));
-
-
-    it('should not remove space beyond min bounds (y axis)', inject(function(spaceTool, dragging) {
-
-      // when
-      spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
-
-      dragging.move(canvasEvent({ x: 280, y: 0 }));
-      dragging.end();
-
-      // then
-      expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
-      expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
-      expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
-      expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
-    }));
+    });
 
   });
 
