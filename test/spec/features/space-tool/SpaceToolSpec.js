@@ -1,27 +1,27 @@
 import {
+  query as domQuery
+} from 'min-dom';
+
+import { attr as svgAttr } from 'tiny-svg';
+
+import {
   bootstrapDiagram,
   inject
 } from 'test/TestHelper';
+
+import autoResizeModule from 'lib/features/auto-resize';
+import autoResizeProviderModule from './auto-resize';
+import modelingModule from 'lib/features/modeling';
+import rulesModule from './rules';
+import spaceToolModule from 'lib/features/space-tool';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents';
 
-import spaceToolModule from 'lib/features/space-tool';
-import modelingModule from 'lib/features/modeling';
-import autoResizeModule from 'lib/features/auto-resize';
-import rulesModule from './rules';
-import autoResizeProviderModule from './auto-resize';
-
 import { isMac } from 'lib/util/Platform';
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
-
-import {
-  query as domQuery
-} from 'min-dom';
-
-import { attr as svgAttr } from 'tiny-svg';
 
 
 describe('features/space-tool', function() {
@@ -30,16 +30,17 @@ describe('features/space-tool', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
-        spaceToolModule,
         modelingModule,
-        rulesModule
+        rulesModule,
+        spaceToolModule
       ]
     }));
 
-    var childShape, childShape2, connection;
+    var childShape,
+        childShape2,
+        connection;
 
-    beforeEach(inject(function(elementFactory, canvas) {
-
+    beforeEach(inject(function(canvas, elementFactory) {
       childShape = elementFactory.createShape({
         id: 'child',
         x: 110, y: 110,
@@ -73,12 +74,13 @@ describe('features/space-tool', function() {
     describe('basics', function() {
 
       it('should expose spaceTool', inject(function(spaceTool) {
+
+        // then
         expect(spaceTool).to.exist;
       }));
 
 
-      it('should reactivate after usage', inject(function(canvas, spaceTool, dragging) {
-        var context;
+      it('should reactivate after usage', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateSelection(canvasEvent({ x: 100, y: 225 }));
@@ -86,9 +88,9 @@ describe('features/space-tool', function() {
         dragging.move(canvasEvent({ x: 100, y: 250 }, keyModifier));
         dragging.end();
 
-        context = dragging.context();
+        // then
+        var context = dragging.context();
 
-        // then space tool should still be active
         expect(context.prefix).to.eql('spaceTool');
         expect(context.active).to.be.true;
 
@@ -96,20 +98,20 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should not be active on cancel', inject(function(canvas, spaceTool, dragging) {
-        var context;
+      it('should not be active on cancel', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateSelection(canvasEvent({ x: 100, y: 225 }));
 
         dragging.move(canvasEvent({ x: 100, y: 250 }, keyModifier));
+
         dragging.end();
 
         dragging.cancel();
 
-        context = dragging.context();
-
         // then
+        var context = dragging.context();
+
         expect(context).not.to.exist;
 
         expect(spaceTool.isActive()).not.to.exist;
@@ -125,7 +127,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should show crosshair once activated', inject(function(spaceTool, dragging, canvas, eventBus) {
+      it('should show crosshair once activated', inject(function(canvas, dragging, spaceTool) {
 
         // given
         spaceTool.activateSelection(canvasEvent({ x: 30, y: 30 }));
@@ -135,54 +137,61 @@ describe('features/space-tool', function() {
 
         // then
         var spaceGroup = domQuery('.djs-crosshair-group', canvas.getLayer('space'));
+
         expect(spaceGroup).to.exist;
       }));
 
 
-      it('should remove crosshair once deactivated', inject(function(spaceTool, dragging, canvas) {
+      it('should remove crosshair once deactivated', inject(function(canvas, dragging, spaceTool) {
 
         // given
         spaceTool.activateSelection(canvasEvent({ x: 30, y: 30 }));
 
         // when
         dragging.move(canvasEvent({ x: 50, y: 50 }));
+
         dragging.end();
 
+        // then
         var spaceLayer = domQuery('.djs-crosshair-group', canvas.getLayer('space'));
 
-        // then
         expect(spaceLayer).to.be.null;
       }));
 
 
-      it('should move the *y axis* when doing a perfect diagonal', inject(function(spaceTool, dragging, canvas) {
+      it('should create space on y axis when doing a perfect diagonal', inject(
+        function(dragging, spaceTool) {
 
-        // given
-        spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 225 }));
+          // given
+          spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 225 }));
 
-        // when
-        dragging.move(canvasEvent({ x: 350, y: 275 }));
-        dragging.end();
+          // when
+          dragging.move(canvasEvent({ x: 350, y: 275 }));
 
-        expect(childShape.x).to.equal(110);
-        expect(childShape.y).to.equal(110);
+          dragging.end();
 
-        expect(childShape2.x).to.equal(400);
-        expect(childShape2.y).to.equal(300);
+          // then
+          expect(childShape.x).to.equal(110);
+          expect(childShape.y).to.equal(110);
 
-        expect(connection).to.have.waypoints([
-          { x: 160, y: 160 },
-          { x: 450, y: 350 }
-        ]);
-      }));
+          expect(childShape2.x).to.equal(400);
+          expect(childShape2.y).to.equal(300);
+
+          expect(connection).to.have.waypoints([
+            { x: 160, y: 160 },
+            { x: 450, y: 350 }
+          ]);
+        }
+      ));
 
 
-      it('should make space to the right and resize parent', inject(function(spaceTool, dragging) {
+      it('should make space to the right and resize parent', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
 
         dragging.move(canvasEvent({ x: 350, y: 150 }));
+
         dragging.end();
 
         // then
@@ -199,12 +208,13 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should round made space to pixel values', inject(function(spaceTool, dragging) {
+      it('should round to pixel values', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
 
-        dragging.move(canvasEvent({ x: 350.14, y: 149.8 }));
+        dragging.move(canvasEvent({ x: 350.25, y: 149.75 }));
+
         dragging.end();
 
         // then
@@ -222,7 +232,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should remove space from the left and resize parent', inject(function(spaceTool, dragging) {
+      it('should remove space from the left and resize parent', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 200, y: 150 }));
@@ -244,12 +254,13 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should remove space from the top and resize parent', inject(function(spaceTool, dragging) {
+      it('should remove space from the top and resize parent', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300,y: 150 }));
 
         dragging.move(canvasEvent({ x: 300, y: 120 }));
+
         dragging.end();
 
         // then
@@ -266,12 +277,13 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should make space at the bottom and resize parent', inject(function(spaceTool, dragging) {
+      it('should make space at the bottom and resize parent', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
 
         dragging.move(canvasEvent({ x: 300, y: 200 }));
+
         dragging.end();
 
         // then
@@ -310,12 +322,13 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should add space with objects to the left', inject(function(spaceTool, dragging) {
+      it('should add space with objects to the left', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 350, y: 150 }));
 
         dragging.move(canvasEvent({ x: 300, y: 150 }, keyModifier));
+
         dragging.end();
 
         // then
@@ -332,12 +345,13 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should remove space with objects that are above', inject(function(spaceTool, dragging) {
+      it('should remove space with objects that are above', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 350, y: 230 }));
 
         dragging.move(canvasEvent({ x: 350, y: 280 }, keyModifier));
+
         dragging.end();
 
         // then
@@ -354,12 +368,13 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should add space with objects that are below', inject(function(spaceTool, dragging) {
+      it('should add space with objects that are below', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 350, y: 230 }));
 
         dragging.move(canvasEvent({ x: 350, y: 180 }, keyModifier));
+
         dragging.end();
 
         // then
@@ -384,9 +399,9 @@ describe('features/space-tool', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
-        spaceToolModule,
         modelingModule,
-        rulesModule
+        rulesModule,
+        spaceToolModule
       ]
     }));
 
@@ -394,11 +409,18 @@ describe('features/space-tool', function() {
       dragging.setOptions({ manual: true });
     }));
 
-    var greatGrandParent, grandParent, parentShape, childShape, childShape2, connection,
-        parentShape2, childShape3, childShape4, connection2;
+    var childShape,
+        childShape2,
+        childShape3,
+        childShape4,
+        connection,
+        connection2,
+        grandParent,
+        greatGrandParent,
+        parentShape,
+        parentShape2;
 
-    beforeEach(inject(function(elementFactory, canvas) {
-
+    beforeEach(inject(function(canvas, elementFactory) {
       greatGrandParent = elementFactory.createShape({
         id: 'greatGrandParent',
         x: 100, y: 50,
@@ -489,12 +511,13 @@ describe('features/space-tool', function() {
     }));
 
 
-    it('should resize parents', inject(function(spaceTool, dragging) {
+    it('should resize parents', inject(function(dragging, spaceTool) {
 
       // when
       spaceTool.activateMakeSpace(canvasEvent({ x: 275, y: 155 }));
 
       dragging.move(canvasEvent({ x: 400, y: 155 })); // x =/= 125
+
       dragging.end();
 
       // then
@@ -542,12 +565,13 @@ describe('features/space-tool', function() {
     }));
 
 
-    it('should resize parents (inverted)', inject(function(spaceTool, dragging) {
+    it('should resize parents (inverted)', inject(function(dragging, spaceTool) {
 
       // when
       spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
 
       dragging.move(canvasEvent({ x: 330, y: 155 }, keyModifier)); // x =/= 50
+
       dragging.end();
 
       // then
@@ -571,69 +595,100 @@ describe('features/space-tool', function() {
     }));
 
 
-    describe('minimum bounds', function() {
-  
-      it('should not remove space beyond max bounds (x axis)', inject(function(spaceTool, dragging) {
-  
+    describe('children', function() {
+
+      it('should consider children when resizing shape', inject(function(dragging, spaceTool) {
+
         // when
-        spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
-  
-        dragging.move(canvasEvent({ x: 550, y: 155 }, keyModifier));
+        spaceTool.activateMakeSpace(canvasEvent({ x: 450, y: 0 }));
+
+        dragging.move(canvasEvent({ x: 0, y: 0 }));
+
         dragging.end();
-  
+
         // then
-        expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
-        expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
-        expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
-        expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
+        expect(grandParent).to.have.bounds({
+          x: 125,
+          y: 75,
+          width: 295,
+          height: 350
+        });
+
+        expect(greatGrandParent).to.have.bounds({
+          x: 100,
+          y: 50,
+          width: 345,
+          height: 400
+        });
       }));
-  
-  
-      it('should not remove space beyond min bounds (x axis)', inject(function(spaceTool, dragging) {
-  
+
+    });
+
+
+    describe('parents', function() {
+
+      it('should consider parent when moving shape', inject(function(dragging, spaceTool) {
+
         // when
-        spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
-  
-        dragging.move(canvasEvent({ x: 0, y: 155 }));
+        spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 0 }));
+
+        dragging.move(canvasEvent({ x: 0, y: 0 }));
+
         dragging.end();
-  
+
         // then
-        expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
-        expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
-        expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
-        expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
+        expect(grandParent).to.have.bounds({
+          x: 125,
+          y: 75,
+          width: 245,
+          height: 350
+        });
+
+        expect(greatGrandParent).to.have.bounds({
+          x: 100,
+          y: 50,
+          width: 295,
+          height: 400
+        });
       }));
+
+    });
+
+
+    describe('minimum dimensions', function() {
   
+      it('should consider minimum dimensions', inject(function(dragging, eventBus, spaceTool) {
   
-      it('should not remove space beyond max bounds (y axis)', inject(function(spaceTool, dragging) {
-  
+        // given
+        eventBus.on('spaceTool.getMinDimensions', function() {
+          return {
+            grandParent: {
+              width: 325
+            }
+          };
+        });
+
         // when
-        spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
-  
-        dragging.move(canvasEvent({ x: 280, y: 800 }, keyModifier));
+        spaceTool.activateMakeSpace(canvasEvent({ x: 450, y: 0 }));
+
+        dragging.move(canvasEvent({ x: 0, y: 0 }));
+
         dragging.end();
   
         // then
-        expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
-        expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
-        expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
-        expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
-      }));
-  
-  
-      it('should not remove space beyond min bounds (y axis)', inject(function(spaceTool, dragging) {
-  
-        // when
-        spaceTool.activateMakeSpace(canvasEvent({ x: 280, y: 155 }));
-  
-        dragging.move(canvasEvent({ x: 280, y: 0 }));
-        dragging.end();
-  
-        // then
-        expect(greatGrandParent).to.have.bounds({ x: 100, y: 50, width: 400, height: 400 });
-        expect(grandParent).to.have.bounds({ x: 125, y: 75, width: 350, height: 350 });
-        expect(parentShape).to.have.bounds({ x: 200, y: 150, width: 200, height: 200 });
-        expect(childShape).to.have.bounds({ x: 225, y: 175, width: 50, height: 50 });
+        expect(grandParent).to.have.bounds({
+          x: 125,
+          y: 75,
+          width: 325,
+          height: 350
+        });
+
+        expect(greatGrandParent).to.have.bounds({
+          x: 100,
+          y: 50,
+          width: 375,
+          height: 400
+        });
       }));
 
     });
@@ -641,13 +696,13 @@ describe('features/space-tool', function() {
   });
 
 
-  describe('redo / undo integration', function() {
+  describe('undo/redo integration', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
-        spaceToolModule,
         modelingModule,
-        rulesModule
+        rulesModule,
+        spaceToolModule
       ]
     }));
 
@@ -655,11 +710,10 @@ describe('features/space-tool', function() {
       dragging.setOptions({ manual: true });
     }));
 
+    var shape1,
+        shape2;
 
-    var shape1, shape2;
-
-    beforeEach(inject(function(elementFactory, canvas) {
-
+    beforeEach(inject(function(canvas, elementFactory) {
       shape1 = elementFactory.createShape({
         id: 'shape1',
         x: 50, y: 100,
@@ -677,12 +731,14 @@ describe('features/space-tool', function() {
       canvas.addShape(shape2);
     }));
 
-    it('should undo', inject(function(spaceTool, dragging, commandStack) {
+
+    it('should undo', inject(function(commandStack, dragging, spaceTool) {
 
       // given
       spaceTool.activateMakeSpace(canvasEvent({ x: 100, y: 225 }));
 
       dragging.move(canvasEvent({ x: 100, y: 250 }));
+
       dragging.end();
 
       // when
@@ -697,12 +753,13 @@ describe('features/space-tool', function() {
     }));
 
 
-    it('should redo', inject(function(spaceTool, dragging, commandStack) {
+    it('should redo', inject(function(commandStack, dragging, spaceTool) {
 
       // given
       spaceTool.activateMakeSpace(canvasEvent({ x: 100, y: 225 }));
 
       dragging.move(canvasEvent({ x: 100, y: 250 }));
+
       dragging.end();
 
       commandStack.undo();
@@ -718,7 +775,6 @@ describe('features/space-tool', function() {
       expect(shape2.y).to.equal(275);
     }));
 
-
   });
 
 
@@ -726,43 +782,48 @@ describe('features/space-tool', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
-        spaceToolModule,
-        modelingModule,
         autoResizeModule,
-        autoResizeProviderModule
+        autoResizeProviderModule,
+        modelingModule,
+        spaceToolModule
       ]
     }));
-
 
     beforeEach(inject(function(dragging) {
       dragging.setOptions({ manual: true });
     }));
 
 
-    it('should not auto-resize', inject(function(elementFactory, canvas, spaceTool) {
+    it('should not auto-resize', inject(function(canvas, elementFactory, spaceTool) {
 
       // given
       var parent = canvas.addShape(elementFactory.createShape({
         id: 'parent',
-        x: 100, y: 50,
-        width: 200, height: 200
+        x: 100,
+        y: 50,
+        width: 200,
+        height: 200
       }));
 
       var outsideChild = canvas.addShape(elementFactory.createShape({
         id: 'child',
-        x: 50, y: 50,
-        width: 50, height: 50
+        x: 50,
+        y: 50,
+        width: 50,
+        height: 50
       }), parent);
 
 
       // when
-      spaceTool.makeSpace([ outsideChild ], [ ], { x: 20, y: 0 }, 'e');
+      spaceTool.makeSpace([ outsideChild ], [], { x: 20, y: 0 }, 'e');
 
       // then
       // expect parent with original bounds
       expect(parent).to.have.bounds({
-        x: 100, y: 50,
-        width: 200, height: 200
+        x: 100,
+        y: 50,
+        width: 200,
+        height: 200
       });
     }));
 
@@ -773,9 +834,9 @@ describe('features/space-tool', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
-        spaceToolModule,
         modelingModule,
-        rulesModule
+        rulesModule,
+        spaceToolModule
       ]
     }));
 
@@ -788,7 +849,6 @@ describe('features/space-tool', function() {
         shape3;
 
     beforeEach(inject(function(elementFactory, canvas) {
-
       shape1 = elementFactory.createShape({
         id: 'shape1',
         x: 100, y: 100,
@@ -843,10 +903,7 @@ describe('features/space-tool', function() {
       spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 100 }));
 
       // when
-      dragging.move(canvasEvent({ x: 400, y: 100 }, {
-        metaKey: true,
-        ctrlKey: true
-      }));
+      dragging.move(canvasEvent({ x: 400, y: 100 }, keyModifier));
 
       // then
       var context = dragging.context().data.context,
