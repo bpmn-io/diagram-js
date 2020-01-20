@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.3.0
+
+* `FEAT`: improve connection cropping
+* `FEAT`: update incoming and outgoing connections on replace ([`ba5a5fb0`](https://github.com/bpmn-io/diagram-js/commit/ba5a5fb021a775147bcb1e02c93e105fe3cd47ce))
+* `FIX`: prevent double layout on replace ([`c0db3b4da`](https://github.com/bpmn-io/diagram-js/commit/c0db3b4da89a08198225cfdd1d332fd487b1ac14))
+
 ## 6.2.2
 
 * `FIX`: show line during make space again
