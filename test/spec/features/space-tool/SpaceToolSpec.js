@@ -657,7 +657,7 @@ describe('features/space-tool', function() {
 
     describe('minimum dimensions', function() {
 
-      it('should consider minimum dimensions', inject(function(dragging, eventBus, spaceTool) {
+      it('should consider minimum width', inject(function(dragging, eventBus, spaceTool) {
 
         // given
         eventBus.on('spaceTool.getMinDimensions', function() {
@@ -688,6 +688,41 @@ describe('features/space-tool', function() {
           y: 50,
           width: 375,
           height: 400
+        });
+      }));
+
+
+      it('should consider minimum height', inject(function(dragging, eventBus, spaceTool) {
+
+        // given
+        eventBus.on('spaceTool.getMinDimensions', function() {
+          return {
+            grandParent: {
+              height: 325
+            }
+          };
+        });
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 350 }));
+
+        dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+        dragging.end();
+
+        // then
+        expect(grandParent).to.have.bounds({
+          x: 125,
+          y: 75,
+          width: 350,
+          height: 325
+        });
+
+        expect(greatGrandParent).to.have.bounds({
+          x: 100,
+          y: 50,
+          width: 400,
+          height: 375
         });
       }));
 
