@@ -657,74 +657,152 @@ describe('features/space-tool', function() {
 
     describe('minimum dimensions', function() {
 
-      it('should consider minimum width', inject(function(dragging, eventBus, spaceTool) {
+      describe('should consider minimum width', function() {
 
-        // given
-        eventBus.on('spaceTool.getMinDimensions', function() {
-          return {
-            grandParent: {
-              width: 325
-            }
-          };
-        });
+        it('resize from right', inject(function(dragging, eventBus, spaceTool) {
 
-        // when
-        spaceTool.activateMakeSpace(canvasEvent({ x: 450, y: 0 }));
+          // given
+          eventBus.on('spaceTool.getMinDimensions', function() {
+            return {
+              grandParent: {
+                width: 325
+              }
+            };
+          });
 
-        dragging.move(canvasEvent({ x: 0, y: 0 }));
+          // when
+          spaceTool.activateMakeSpace(canvasEvent({ x: 450, y: 0 }));
 
-        dragging.end();
+          dragging.move(canvasEvent({ x: 0, y: 0 }));
 
-        // then
-        expect(grandParent).to.have.bounds({
-          x: 125,
-          y: 75,
-          width: 325,
-          height: 350
-        });
+          dragging.end();
 
-        expect(greatGrandParent).to.have.bounds({
-          x: 100,
-          y: 50,
-          width: 375,
-          height: 400
-        });
-      }));
+          // then
+          expect(grandParent).to.have.bounds({
+            x: 125,
+            y: 75,
+            width: 325,
+            height: 350
+          });
+
+          expect(greatGrandParent).to.have.bounds({
+            x: 100,
+            y: 50,
+            width: 375,
+            height: 400
+          });
+        }));
 
 
-      it('should consider minimum height', inject(function(dragging, eventBus, spaceTool) {
+        it('resize from left', inject(function(dragging, eventBus, spaceTool) {
 
-        // given
-        eventBus.on('spaceTool.getMinDimensions', function() {
-          return {
-            grandParent: {
-              height: 325
-            }
-          };
-        });
+          // given
+          eventBus.on('spaceTool.getMinDimensions', function() {
+            return {
+              grandParent: {
+                width: 325
+              }
+            };
+          });
 
-        // when
-        spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 350 }));
+          // when
+          spaceTool.activateMakeSpace(canvasEvent({ x: 150, y: 0 }));
 
-        dragging.move(canvasEvent({ x: 0, y: 0 }));
+          dragging.move(canvasEvent({ x: 450, y: 0 }, keyModifier));
 
-        dragging.end();
+          dragging.end();
 
-        // then
-        expect(grandParent).to.have.bounds({
-          x: 125,
-          y: 75,
-          width: 350,
-          height: 325
-        });
+          // then
+          expect(grandParent).to.have.bounds({
+            x: 150,
+            y: 75,
+            width: 325,
+            height: 350
+          });
 
-        expect(greatGrandParent).to.have.bounds({
-          x: 100,
-          y: 50,
-          width: 400,
-          height: 375
-        });
-      }));
+          expect(greatGrandParent).to.have.bounds({
+            x: 125,
+            y: 50,
+            width: 375,
+            height: 400
+          });
+        }));
+
+      });
+
+
+      describe('should consider minimum height', function() {
+
+        it('resize from bottom', inject(function(dragging, eventBus, spaceTool) {
+
+          // given
+          eventBus.on('spaceTool.getMinDimensions', function() {
+            return {
+              grandParent: {
+                height: 325
+              }
+            };
+          });
+
+          // when
+          spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 350 }));
+
+          dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+          dragging.end();
+
+          // then
+          expect(grandParent).to.have.bounds({
+            x: 125,
+            y: 75,
+            width: 350,
+            height: 325
+          });
+
+          expect(greatGrandParent).to.have.bounds({
+            x: 100,
+            y: 50,
+            width: 400,
+            height: 375
+          });
+        }));
+
+
+        it('resize from top', inject(function(dragging, eventBus, spaceTool) {
+
+          // given
+          eventBus.on('spaceTool.getMinDimensions', function() {
+            return {
+              grandParent: {
+                height: 325
+              }
+            };
+          });
+
+          // when
+          spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 150 }));
+
+          dragging.move(canvasEvent({ x: 0, y: 350 }, keyModifier));
+
+          dragging.end();
+
+          // then
+          expect(grandParent).to.have.bounds({
+            x: 125,
+            y: 100,
+            width: 350,
+            height: 325
+          });
+
+          expect(greatGrandParent).to.have.bounds({
+            x: 100,
+            y: 75,
+            width: 400,
+            height: 375
+          });
+        }));
+
+      });
 
     });
 
