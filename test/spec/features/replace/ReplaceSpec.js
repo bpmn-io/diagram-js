@@ -277,7 +277,7 @@ describe('features/replace', function() {
       expect(replacedShape.outgoing[0]).to.eql(connection);
 
       expect(connection).to.have.waypoints([
-        { x: 140, y: 140 },
+        { x: 200, y: 140 },
         { x: 340, y: 160 }
       ]);
     }));
@@ -302,7 +302,7 @@ describe('features/replace', function() {
 
       expect(connection).to.have.waypoints([
         { x: 160, y: 160 },
-        { x: 320, y: 160 }
+        { x: 280, y: 160 }
       ]);
     }));
 
