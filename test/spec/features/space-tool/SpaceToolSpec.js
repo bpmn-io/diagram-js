@@ -390,6 +390,38 @@ describe('features/space-tool', function() {
         ]);
       }));
 
+
+      it('should move waypoint origins', inject(function(dragging, spaceTool) {
+
+        // given
+        connection.waypoints[0].original = { x: 160, y: 160 };
+        connection.waypoints[1].original = { x: 450, y: 300 };
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
+
+        dragging.move(canvasEvent({ x: 350, y: 150 }));
+
+        dragging.end();
+
+        // then
+        expect(childShape.x).to.equal(110);
+        expect(childShape.y).to.equal(110);
+
+        expect(childShape2.x).to.equal(450);
+        expect(childShape2.y).to.equal(250);
+
+        expect(connection).to.have.waypoints([
+          { x: 160, y: 160 },
+          { x: 500, y: 300 }
+        ]);
+
+        expect(connection.waypoints[1].original).to.eql({
+          x: 500,
+          y: 300
+        });
+      }));
+
     });
 
   });
