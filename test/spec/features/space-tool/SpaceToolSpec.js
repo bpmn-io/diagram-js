@@ -23,6 +23,8 @@ import { isMac } from 'lib/util/Platform';
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 
+var spy = sinon.spy;
+
 
 describe('features/space-tool', function() {
 
@@ -939,37 +941,143 @@ describe('features/space-tool', function() {
     }));
 
 
-    it('should not auto-resize', inject(function(canvas, elementFactory, spaceTool) {
+    var child1,
+        child2,
+        connection,
+        parent;
 
-      // given
-      var parent = canvas.addShape(elementFactory.createShape({
+    beforeEach(inject(function(canvas, elementFactory) {
+      parent = elementFactory.createShape({
         id: 'parent',
-        x: 100,
-        y: 50,
-        width: 200,
+        x: 0,
+        y: 0,
+        width: 400,
         height: 200
-      }));
+      });
 
-      var outsideChild = canvas.addShape(elementFactory.createShape({
-        id: 'child',
+      canvas.addShape(parent);
+
+      child1 = elementFactory.createShape({
+        id: 'child1',
         x: 50,
         y: 50,
-        width: 50,
-        height: 50
-      }), parent);
+        width: 100,
+        height: 100
+      });
 
+      canvas.addShape(child1, parent);
+
+      child2 = elementFactory.createShape({
+        id: 'child2',
+        x: 250,
+        y: 50,
+        width: 100,
+        height: 100
+      });
+
+      canvas.addShape(child2, parent);
+
+      connection = elementFactory.createConnection({
+        id: 'connection',
+        source: child1,
+        target: child2,
+        waypoints: [
+          { x: 150, y: 150 },
+          { x: 250, y: 150 }
+        ]
+      });
+    }));
+
+
+    it('should not auto-resize', inject(function(spaceTool) {
 
       // when
-      spaceTool.makeSpace([ outsideChild ], [], { x: 20, y: 0 }, 'e');
+      spaceTool.makeSpace([ child2 ], [], { x: 100, y: 0 }, 'e', 200);
 
       // then
       // expect parent with original bounds
       expect(parent).to.have.bounds({
-        x: 100,
-        y: 50,
-        width: 200,
+        x: 0,
+        y: 0,
+        width: 400,
         height: 200
       });
+    }));
+
+
+    it('should provide move hints', inject(function(eventBus, spaceTool) {
+
+      // given
+      var moveShapeSpy = spy(function(event) {
+        var context = event.context,
+            hints = context.hints;
+
+        // then
+        expect(hints).to.eql({
+          autoResize: false,
+          layout: false,
+          recurse: false
+        });
+      });
+
+      eventBus.on('commandStack.shape.move.execute', moveShapeSpy);
+
+      // when
+      spaceTool.makeSpace([ child2 ], [], { x: 100, y: 0 }, 'e', 200);
+
+      // then
+      expect(moveShapeSpy).to.have.been.called;
+    }));
+
+
+    it('should provide resize hints', inject(function(eventBus, spaceTool) {
+
+      // given
+      var resizeShapeSpy = spy(function(event) {
+        var context = event.context,
+            hints = context.hints;
+
+        // then
+        expect(hints).to.eql({
+          attachSupport: false,
+          autoResize: false,
+          layout: false
+        });
+      });
+
+      eventBus.on('commandStack.shape.resize.execute', resizeShapeSpy);
+
+      // when
+      spaceTool.makeSpace([], [ parent ], { x: 100, y: 0 }, 'e', 200);
+
+      // then
+      expect(resizeShapeSpy).to.have.been.called;
+    }));
+
+
+    it('should provide updateWaypoints hints', inject(function(eventBus, spaceTool) {
+
+      // given
+      var updateWaypointsSpy = spy(function(event) {
+        var context = event.context,
+            hints = context.hints,
+            _connection = context.connection;
+
+        // then
+        expect(_connection).to.equal(connection);
+
+        expect(hints).to.eql({
+          labelBehavior: false
+        });
+      });
+
+      eventBus.on('commandStack.connection.updateWaypoints.execute', updateWaypointsSpy);
+
+      // when
+      spaceTool.makeSpace([ child2 ], [ parent ], { x: 100, y: 0 }, 'e', 200);
+
+      // then
+      expect(updateWaypointsSpy).to.have.been.called;
     }));
 
   });
