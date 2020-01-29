@@ -43,7 +43,12 @@ describe('features/copy-paste', function() {
         attacher,
         childShape,
         childShape2,
-        connection;
+        connection,
+        collapsedShape,
+        hiddenContainedChild,
+        collapsedShape2,
+        hiddenContainedParent,
+        hiddenContainedChild2;
 
 
     beforeEach(inject(function(elementFactory, canvas, modeling) {
@@ -115,6 +120,49 @@ describe('features/copy-paste', function() {
       });
 
       canvas.addConnection(connection, parentShape2);
+
+      collapsedShape = elementFactory.createShape({
+        id: 'collapsedShape',
+        x: 800, y: 800, width: 300, height: 300,
+        collapsed: true
+      });
+
+      canvas.addShape(collapsedShape, rootShape);
+
+      hiddenContainedChild = elementFactory.createShape({
+        id: 'hiddenContainedChild',
+        x: 850, y: 810, width: 100, height: 100,
+        hidden: true
+      });
+
+      canvas.addShape(hiddenContainedChild, collapsedShape);
+
+      collapsedShape2 = elementFactory.createShape({
+        id: 'collapsedShape2',
+        x: 1000, y: 1000, width: 30, height: 30,
+        collapsed: true
+      });
+
+      canvas.addShape(collapsedShape2, rootShape);
+
+      hiddenContainedParent = elementFactory.createShape({
+        id: 'hiddenContainedParent',
+        x: 1000, y: 1000, width: 20, height: 20,
+        hidden: true,
+        collapsed: true
+      });
+
+      canvas.addShape(hiddenContainedParent, collapsedShape2);
+
+      hiddenContainedChild2 = elementFactory.createShape({
+        id: 'hiddenContainedChild2',
+        x: 1000, y: 1000, width: 10, height: 10,
+        hidden: true,
+      });
+
+      canvas.addShape(hiddenContainedChild2, hiddenContainedParent);
+
+
     }));
 
     beforeEach(inject(function(dragging) {
@@ -455,6 +503,52 @@ describe('features/copy-paste', function() {
         // then
         expect(element.host).not.to.exist;
       }));
+
+      it('should keep hidden element hidden', inject(function(copyPaste) {
+
+        // given
+        copyPaste.copy(collapsedShape);
+
+        // when
+        var elements = copyPaste.paste({
+          element: rootShape,
+          point: {
+            x: 1500,
+            y: 1500
+          }
+        });
+
+        // then
+        expect(elements[0].children).to.to.have.members([elements[1]]);
+        expect(elements[0].collapsed).to.be.true;
+        expect(elements[1].hidden).to.be.true;
+
+      }));
+
+      it('should keep hidden elements inside hidden elements hidden', inject(function(copyPaste) {
+
+        // given
+        copyPaste.copy(collapsedShape2);
+
+        // when
+        var elements = copyPaste.paste({
+          element: rootShape,
+          point: {
+            x: 1500,
+            y: 1500
+          }
+        });
+
+        // then
+        expect(elements[0].children).to.to.have.members([elements[1]]);
+        expect(elements[0].collapsed).to.be.true;
+        expect(elements[1].hidden).to.be.true;
+        expect(elements[1].children).to.to.have.members([elements[2]]);
+        expect(elements[1].collapsed).to.be.true;
+        expect(elements[2].hidden).to.be.true;
+
+      }));
+
 
     });
 
