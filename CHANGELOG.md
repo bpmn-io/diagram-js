@@ -6,6 +6,14 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.4.0
+
+* `FEAT`: do not execute additional modeling behaviors when making space
+* `FIX`: copy `hidden` and `collapsed` properties ([#441](https://github.com/bpmn-io/diagram-js/pull/441))
+* `FIX`: do not select hidden elements after create
+* `FIX`: do not add preview for hidden elements
+* `CHORE`: rewrite space tool
+
 ## 6.3.0
 
 * `FEAT`: improve connection cropping
