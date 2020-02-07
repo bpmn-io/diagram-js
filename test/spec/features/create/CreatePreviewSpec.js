@@ -75,6 +75,16 @@ describe('features/create - CreatePreviewSpec', function() {
       height: 50
     }));
 
+    newElements.push(elementFactory.createShape({
+      id: 'newShape4',
+      parent: newShape2,
+      hidden: true,
+      x: 125,
+      y: 0,
+      width: 50,
+      height: 50
+    }));
+
     newElements.push(elementFactory.createConnection({
       id: 'newConnection',
       source: newShape,
