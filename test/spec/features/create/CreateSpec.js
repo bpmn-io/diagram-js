@@ -120,7 +120,7 @@ describe('features/create - Create', function() {
     newElements.push(newShape3);
 
     newElements.push(elementFactory.createShape({
-      id: 'newShape3',
+      id: 'newShape4',
       parent: newShape2,
       x: 100,
       y: -25,
@@ -691,6 +691,35 @@ describe('features/create - Create', function() {
       expect(canExecute.canExecute).to.be.false;
       expect(canExecute.target).to.be.null;
     }));
+
+  });
+
+
+  describe('selection', function() {
+
+    it('should not select hidden after create', inject(
+      function(create, dragging, elementRegistry, selection) {
+
+        // given
+        newShape2.hidden = true;
+
+        var parentGfx = elementRegistry.getGraphics('parentShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), newElements);
+
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+
+        dragging.move(canvasEvent(getMid(parentShape)));
+
+        dragging.end();
+
+        // then
+        var createdHiddenShape = elementRegistry.get(newShape2.id);
+
+        expect(selection.get()).not.to.contain(createdHiddenShape);
+      }
+    ));
 
   });
 
