@@ -143,6 +143,35 @@ describe('features/modeling - append shape', function() {
       expect(newConnection.custom).to.be.true;
     }));
 
+
+    it('should connect from new shape to source', inject(function(elementRegistry, modeling) {
+
+      // when
+      var newShape = modeling.appendShape(
+        childShape,
+        { id: 'appended', width: 50, height: 50 },
+        { x: 200, y: 200 },
+        diagramRoot,
+        {
+          connectionTarget: childShape
+        }
+      );
+
+      // then
+      var connection = find(newShape.outgoing, function(c) {
+        return c.target === childShape;
+      });
+
+      // then
+      expect(connection).to.exist;
+      expect(connection.parent).to.equal(newShape.parent);
+
+      expect(elementRegistry.getGraphics(connection)).to.exist;
+
+      expect(connection.source).to.equal(newShape);
+      expect(connection.target).to.equal(childShape);
+    }));
+
   });
 
 
