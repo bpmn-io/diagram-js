@@ -30,18 +30,14 @@ CreateRules.prototype.init = function() {
 
   this.addRule('connection.create', function(context) {
     var source = context.source,
-        target = context.target,
         hints = context.hints;
-
-    expect(source.parent).to.exist;
-    expect(target.parent).not.to.exist;
 
     expect(hints).to.have.keys([
       'targetParent',
       'targetAttach'
     ]);
 
-    return /parent|child/.test(source.id);
+    return /parent|child|newShape/.test(source.id);
   });
 
 
