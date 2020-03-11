@@ -691,6 +691,34 @@ describe('features/space-tool', function() {
 
     describe('minimum dimensions', function() {
 
+      it('should get minimum dimensions via event bus', inject(
+        function(dragging, eventBus, spaceTool) {
+
+          // given
+          var getMinimumDimensionsSpy = spy(function(context) {
+            expect(context.axis).to.equal('x');
+            expect(context.direction).to.equal('e');
+            expect(context.shapes).to.have.length(2);
+            expect(context.shapes[ 0 ]).to.equal(greatGrandParent);
+            expect(context.shapes[ 1 ]).to.equal(grandParent);
+            expect(context.start).to.equal(450);
+          });
+
+          eventBus.on('spaceTool.getMinDimensions', getMinimumDimensionsSpy);
+
+          // when
+          spaceTool.activateMakeSpace(canvasEvent({ x: 450, y: 0 }));
+
+          dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+          dragging.end();
+
+          // then
+          expect(getMinimumDimensionsSpy).to.have.been.called;
+        }
+      ));
+
+
       describe('should consider minimum width', function() {
 
         it('resize from right', inject(function(dragging, eventBus, spaceTool) {
