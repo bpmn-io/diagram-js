@@ -838,6 +838,46 @@ describe('features/space-tool', function() {
 
       });
 
+
+      it('should not fail on falsy values (spaceToolConstraints.left = 0)', inject(
+        function(canvas, dragging, elementFactory, eventBus, spaceTool) {
+
+          // given
+          var shape = elementFactory.createShape({
+            id: 'shape',
+            x: 0,
+            y: 0,
+            width: 50,
+            height: 50
+          });
+
+          canvas.addShape(shape);
+
+          eventBus.on('spaceTool.getMinDimensions', function() {
+            return {
+              shape: {
+                width: 25
+              }
+            };
+          });
+
+          // when
+          spaceTool.activateMakeSpace(canvasEvent({ x: 25, y: 0 }));
+
+          dragging.move(canvasEvent({ x: -25, y: 0 }));
+
+          dragging.end();
+
+          // then
+          expect(shape).to.have.bounds({
+            x: 0,
+            y: 0,
+            width: 25,
+            height: 50
+          });
+        }
+      ));
+
     });
 
   });
