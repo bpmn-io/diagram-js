@@ -1,6 +1,6 @@
 {
   "name": "diagram-js",
-  "version": "6.4.0",
+  "version": "6.4.1",
   "description": "A modeling framework for the web",
   "scripts": {
     "all": "run-s lint test",
@@ -66,7 +66,7 @@
     "hammerjs": "^2.0.1",
     "inherits": "^2.0.1",
     "min-dash": "^3.5.0",
-    "min-dom": "^3.0.0",
+    "min-dom": "^3.1.2",
     "object-refs": "^0.3.0",
     "path-intersection": "^2.2.0",
     "tiny-svg": "^2.2.1"
