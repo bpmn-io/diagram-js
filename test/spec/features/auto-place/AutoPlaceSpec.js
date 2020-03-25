@@ -11,7 +11,8 @@ import selectionModule from 'lib/features/selection';
 import { getMid } from 'lib/layout/LayoutUtil';
 
 import {
-  deconflictPosition,
+  findFreePosition,
+  generateGetNextPosition,
   getConnectedAtPosition,
   getConnectedDistance
 } from 'lib/features/auto-place/AutoPlaceUtil';
@@ -178,9 +179,9 @@ describe('features/auto-place', function() {
 
   describe('util', function() {
 
-    describe('#deconflictPosition', function() {
+    describe('#findFreePosition', function() {
 
-      it('should not have to deconflict', inject(function(modeling) {
+      it('should not have to find another position', inject(function(modeling) {
 
         // given
         var position = {
@@ -188,57 +189,159 @@ describe('features/auto-place', function() {
           y: 50
         };
 
-        var escapeDirection = {
+        var nextPositionDirection = {
           y: {
             margin: 50,
-            rowSize: 50
+            minDistance: 50
           }
         };
 
         // when
-        var deconflictedPosition = deconflictPosition(shape, newShape, position, escapeDirection);
+        var freePosition =
+          findFreePosition(shape, newShape, position, generateGetNextPosition(nextPositionDirection));
 
-        modeling.appendShape(shape, newShape, deconflictedPosition);
+        modeling.appendShape(shape, newShape, freePosition);
 
         // then
-        expect(deconflictedPosition).to.eql(position);
+        expect(freePosition).to.eql(position);
       }));
 
 
-      it('should deconflict once', inject(function(autoPlace, elementFactory, modeling) {
+      it('should find another position once (positive margin)', inject(
+        function(elementFactory, modeling) {
 
-        // given
-        var shape1 = elementFactory.createShape({
-          id: 'shape1',
-          width: 100,
-          height: 100
-        });
+          // given
+          var shape1 = elementFactory.createShape({
+            id: 'shape1',
+            width: 100,
+            height: 100
+          });
 
-        autoPlace.append(shape, shape1);
+          modeling.appendShape(shape, shape1, {
+            x: 200,
+            y: 50
+          });
 
-        var position = {
-          x: 200,
-          y: 50
-        };
+          var position = {
+            x: 200,
+            y: 50
+          };
 
-        var escapeDirection = {
-          y: {
-            margin: 50,
-            rowSize: 50
-          }
-        };
+          var nextPositionDirection = {
+            y: {
+              margin: 50,
+              minDistance: 50
+            }
+          };
 
-        // when
-        var deconflictedPosition = deconflictPosition(shape, newShape, position, escapeDirection);
+          // when
+          var freePosition =
+            findFreePosition(shape, newShape, position, generateGetNextPosition(nextPositionDirection));
 
-        modeling.appendShape(shape, newShape, deconflictedPosition);
+          modeling.appendShape(shape, newShape, freePosition);
 
-        // then
-        expect(deconflictedPosition).to.eql({
-          x: 200,
-          y: 200
-        });
-      }));
+          // then
+          expect(freePosition).to.eql({
+            x: 200,
+            y: 200
+          });
+        }
+      ));
+
+
+      it('should find another position twice (positive margin)', inject(
+        function(elementFactory, modeling) {
+
+          // given
+          var shape1 = elementFactory.createShape({
+            id: 'shape1',
+            width: 100,
+            height: 100
+          });
+
+          modeling.appendShape(shape, shape1, {
+            x: 200,
+            y: 50
+          });
+
+          var shape2 = elementFactory.createShape({
+            id: 'shape2',
+            width: 100,
+            height: 100
+          });
+
+          modeling.appendShape(shape, shape2, {
+            x: 200,
+            y: 200
+          });
+
+          var position = {
+            x: 200,
+            y: 50
+          };
+
+          var nextPositionDirection = {
+            y: {
+              margin: 50,
+              minDistance: 50
+            }
+          };
+
+          // when
+          var freePosition =
+            findFreePosition(shape, newShape, position, generateGetNextPosition(nextPositionDirection));
+
+          modeling.appendShape(shape, newShape, freePosition);
+
+          // then
+          expect(freePosition).to.eql({
+            x: 200,
+            y: 350
+          });
+        }
+      ));
+
+
+      it('should find another position once (negative margin)', inject(
+        function(elementFactory, modeling) {
+
+          // given
+          var shape1 = elementFactory.createShape({
+            id: 'shape1',
+            width: 100,
+            height: 100
+          });
+
+          modeling.appendShape(shape, shape1, {
+            x: 200,
+            y: 50
+          });
+
+          var position = {
+            x: 200,
+            y: 50
+          };
+
+          var nextPositionDirection = {
+            y: {
+              margin: -50,
+              minDistance: 50
+            }
+          };
+
+          // when
+          var freePosition =
+            findFreePosition(shape, newShape, position, generateGetNextPosition(nextPositionDirection));
+
+          modeling.appendShape(shape, newShape, freePosition);
+
+          // then
+          expect(freePosition).to.eql({
+            x: 200,
+            y: -100
+          });
+        }
+      ));
 
     });
 
