@@ -302,7 +302,7 @@ describe('features/replace', function() {
 
       expect(connection).to.have.waypoints([
         { x: 160, y: 160 },
-        { x: 280, y: 160 }
+        { x: 290, y: 160 }
       ]);
     }));
 

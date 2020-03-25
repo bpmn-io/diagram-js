@@ -182,9 +182,9 @@ describe('features/modeling - resize shape', function() {
       modeling.resizeShape(shape1, { x: 50, y: 100, width: 50, height: 100 });
 
       // then
-      expect(connection.waypoints).to.deep.eql([
-        { x: 100, y: 150, original: { x: 75, y: 150 } },
-        { x: 200, y: 150, original: { x: 250, y: 150 } }
+      expect(connection).to.have.waypoints([
+        { x: 100, y: 150 },
+        { x: 200, y: 150 }
       ]);
     }));
 
@@ -429,6 +429,20 @@ describe('features/modeling - resize shape', function() {
         expect(connectionB.waypoints).to.eql(layoutedWaypoints);
       }));
 
+
+      it('when connection cannot end within resized shape', inject(
+        function(modeling) {
+
+          // when
+          modeling.resizeShape(parentShape, { x: 400, y: 50, width: 350, height: 200 });
+
+          // then
+          expect(connectionA.waypoints).to.eql([
+            { x: 150, y: 150 },
+            { x: 419, y: 239 }
+          ]);
+        }
+      ));
     });
 
   });
