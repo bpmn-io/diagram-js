@@ -393,7 +393,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should move waypoint origins', inject(function(dragging, spaceTool) {
+      it('should re-layout connection end', inject(function(dragging, spaceTool) {
 
         // given
         connection.waypoints[0].original = { x: 160, y: 160 };
@@ -418,10 +418,7 @@ describe('features/space-tool', function() {
           { x: 500, y: 300 }
         ]);
 
-        expect(connection.waypoints[1].original).to.eql({
-          x: 500,
-          y: 300
-        });
+        expect(connection.waypoints[1].original).not.to.exist;
       }));
 
     });
@@ -1142,12 +1139,80 @@ describe('features/space-tool', function() {
       eventBus.on('commandStack.connection.updateWaypoints.execute', updateWaypointsSpy);
 
       // when
-      spaceTool.makeSpace([ child2 ], [ parent ], { x: 100, y: 0 }, 'e', 200);
+      spaceTool.makeSpace([ child1, child2 ], [ parent ], { x: 100, y: 0 }, 'e', 10);
 
       // then
       expect(updateWaypointsSpy).to.have.been.called;
     }));
 
+
+    it('should keep connection start if only source is moved', inject(
+      function(eventBus, spaceTool) {
+
+        // given
+        var updateWaypointsSpy = spy(),
+            originalWaypoints = connection.waypoints.slice();
+
+        eventBus.on('commandStack.connection.updateWaypoints.execute', updateWaypointsSpy);
+
+        // when
+        spaceTool.makeSpace([], [ child1, parent ], { x: 0, y: 100 }, 's', 200);
+
+        // then
+        expect(updateWaypointsSpy).not.to.have.been.called;
+        expect(connection.waypoints[ 0 ]).to.eql(originalWaypoints[ 0 ]);
+      }
+    ));
+
+
+    it('should keep connection end if only target is moved', inject(
+      function(eventBus, spaceTool) {
+
+        // given
+        var updateWaypointsSpy = spy(),
+            originalWaypoints = connection.waypoints.slice();
+
+        eventBus.on('commandStack.connection.updateWaypoints.execute', updateWaypointsSpy);
+
+        // when
+        spaceTool.makeSpace([], [ child2, parent ], { x: 0, y: 100 }, 's', 200);
+
+        // then
+        expect(updateWaypointsSpy).not.to.have.been.called;
+        expect(connection.waypoints[ 1 ]).to.eql(originalWaypoints[ 1 ]);
+      }
+    ));
+
+
+    it('should disable labelBehavior when reconnecting', inject(
+      function(eventBus, spaceTool) {
+
+        // given
+        var updateWaypointsSpy = spy(),
+            layoutSpy = spy(function(event) {
+              var context = event.context,
+                  hints = context.hints,
+                  _connection = context.connection;
+
+              // then
+              expect(_connection).to.equal(connection);
+
+              expect(hints).to.have.property('labelBehavior', false);
+            }),
+            originalWaypoints = connection.waypoints.slice();
+
+        eventBus.on('commandStack.connection.updateWaypoints.execute', updateWaypointsSpy);
+        eventBus.on('commandStack.connection.layout.execute', layoutSpy);
+
+        // when
+        spaceTool.makeSpace([], [ child2, parent ], { x: 0, y: 100 }, 's', 200);
+
+        // then
+        expect(updateWaypointsSpy).not.to.have.been.called;
+        expect(layoutSpy).to.have.been.called;
+        expect(connection.waypoints[ 1 ]).to.eql(originalWaypoints[ 1 ]);
+      }
+    ));
   });
 
 
