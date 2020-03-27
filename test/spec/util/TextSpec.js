@@ -317,6 +317,23 @@ describe('util - Text', function() {
       });
 
 
+      it('center-bottom (fixed box)', function() {
+
+        // given
+        var label = 'I am a long label that should break on spaces and will eventually float out of the box';
+
+        // when
+        var text = createText(container, label, {
+          box: { width: 100, height: 100 },
+          align: 'center-bottom',
+          padding: 5
+        });
+
+        expect(text).to.exist;
+        expect(toFitBBox(text, { x: 0, y: -60, width: 100, height: 160 })).to.be.true;
+      });
+
+
       it('center-middle with padding (fixed box)', function() {
 
         // given
@@ -395,6 +412,24 @@ describe('util - Text', function() {
           box: { width: 100, height: 100 },
           fitBox: true,
           align: 'center-middle',
+          padding: 5
+        });
+
+        expect(text).to.exist;
+        expect(toFitBBox(text, { x: 0, y: -2, width: 150, height: 100 })).to.be.true;
+      });
+
+
+      it('center-bottom (fit box)', function() {
+
+        // given
+        var label = 'I am tiny';
+
+        // when
+        var text = createText(container, label, {
+          box: { width: 100, height: 100 },
+          fitBox: true,
+          align: 'center-bottom',
           padding: 5
         });
 
