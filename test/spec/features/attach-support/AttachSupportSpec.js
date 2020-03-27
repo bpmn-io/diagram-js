@@ -1815,9 +1815,9 @@ describe('features/attach-support', function() {
 
   describe('resize', function() {
 
-    var rootShape, host, attacher;
+    var rootShape, host, attacher, cornerAttacher;
 
-    beforeEach(inject(function(elementFactory, canvas, elementRegistry, modeling) {
+    beforeEach(inject(function(elementFactory, canvas) {
 
       host = elementFactory.createShape({
         id: 'host',
@@ -1836,6 +1836,15 @@ describe('features/attach-support', function() {
       });
 
       canvas.addShape(attacher, rootShape);
+
+      cornerAttacher = elementFactory.createShape({
+        id: 'cornerAttacher',
+        host: host,
+        x: 575, y: 425,
+        width: 50, height: 50
+      });
+
+      canvas.addShape(cornerAttacher, rootShape);
     }));
 
 
@@ -1929,7 +1938,7 @@ describe('features/attach-support', function() {
     }));
 
 
-    it('should move attacher labels after resize', inject(function(elementFactory, elementRegistry, modeling) {
+    it('should move attacher labels after resize', inject(function(elementFactory, modeling) {
 
       // given
       var delta,
@@ -1991,6 +2000,133 @@ describe('features/attach-support', function() {
       expect(newPosition).to.eql(oldPosition);
     }));
 
+
+    it('should not move attachment if not necessary', inject(function(modeling) {
+
+      // given
+      var oldPosition = pick(attacher, [ 'x', 'y' ]),
+          newPosition;
+
+      var newBounds = {
+        x: 200, y: 50,
+        width: 350, height: 400
+      };
+
+      // when
+      modeling.resizeShape(host, newBounds, null);
+
+      newPosition = pick(attacher, [ 'x', 'y' ]);
+
+      // then
+      expect(newPosition).to.eql(oldPosition);
+    }));
+
+
+    it('should move attachment if relevant edge was moved', inject(function(modeling) {
+
+      // given
+      var oldPosition = pick(attacher, [ 'x', 'y' ]),
+          newPosition;
+
+      var newBounds = {
+        x: 200, y: 50,
+        width: 400, height: 200
+      };
+
+      // when
+      modeling.resizeShape(host, newBounds, null);
+
+      newPosition = pick(attacher, [ 'x', 'y' ]);
+
+      // then
+      expect(newPosition).to.eql({ x: oldPosition.x, y: oldPosition.y - 200 });
+    }));
+
+
+    it('should move attachment if it is moved into host', inject(function(modeling) {
+
+      // given
+      var oldPosition = pick(attacher, [ 'x', 'y' ]),
+          newPosition;
+
+      var newBounds = {
+        x: 200, y: 50,
+        width: 400, height: 450
+      };
+
+      // when
+      modeling.resizeShape(host, newBounds, null);
+
+      newPosition = pick(attacher, [ 'x', 'y' ]);
+
+      // then
+      expect(newPosition).to.eql({ x: oldPosition.x, y: oldPosition.y + 50 });
+    }));
+
+
+    it('should move attachment only on axis where it is necessary', inject(function(modeling) {
+
+      // given
+      var oldPosition = pick(attacher, [ 'x', 'y' ]),
+          newPosition;
+
+      var newBounds = {
+        x: 200, y: 50,
+        width: 450, height: 450
+      };
+
+      // when
+      modeling.resizeShape(host, newBounds, null);
+
+      newPosition = pick(attacher, [ 'x', 'y' ]);
+
+      // then
+      expect(newPosition).to.eql({ x: oldPosition.x, y: oldPosition.y + 50 });
+    }));
+
+
+    it('should not move attachment it is unnecessary', inject(function(modeling) {
+
+      // given
+      var oldPosition = pick(attacher, [ 'x', 'y' ]),
+          newPosition;
+
+      var newBounds = {
+        x: 200, y: 0,
+        width: 450, height: 450
+      };
+
+      // when
+      modeling.resizeShape(host, newBounds, null);
+
+      newPosition = pick(attacher, [ 'x', 'y' ]);
+
+      // then
+      expect(newPosition).to.eql({ x: oldPosition.x, y: oldPosition.y });
+    }));
+
+
+    it('should move shape attached to corner', inject(
+      function(modeling) {
+
+        // given
+        var oldPosition = pick(cornerAttacher, [ 'x', 'y' ]),
+            newPosition;
+
+        var newBounds = {
+          x: 200, y: 50,
+          width: 420, height: 420
+        };
+
+        // when
+        modeling.resizeShape(host, newBounds, null);
+
+        newPosition = pick(cornerAttacher, [ 'x', 'y' ]);
+
+        // then
+        expect(newPosition).to.eql({ x: oldPosition.x + 20, y: oldPosition.y + 20 });
+      }
+    ));
   });
 
 });
