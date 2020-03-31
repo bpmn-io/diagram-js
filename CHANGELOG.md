@@ -6,6 +6,9 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: support bottom alignment for text rendering
+* `FIX`: render popup menu image before label
+
 ## 6.4.1
 
 * `FIX`: do not interpret `0` as falsy value
