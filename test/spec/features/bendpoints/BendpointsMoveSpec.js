@@ -31,6 +31,8 @@ var testModules = [
   selectModule
 ];
 
+var HIGH_PRIORITY = 2000;
+
 
 describe('features/bendpoints - move', function() {
 
@@ -338,18 +340,22 @@ describe('features/bendpoints - move', function() {
 
   describe('hints', function() {
 
-    it('should provide hints object', inject(function(canvas, bendpointMove, dragging, eventBus) {
+    it('should pass hints (actual moved bendpoint)', inject(function(bendpointMove, canvas, dragging, eventBus) {
 
       // given
-      var spy = sinon.spy(function(e) {
-        expect(e.context.hints).to.have.property('bendpointMove');
-        expect(e.context.hints.bendpointMove).to.be.eql({
+      var executeSpy = sinon.spy(function(event) {
+        var context = event.context,
+            hints = context.hints;
+
+        expect(hints.bendpointMove).to.exist;
+
+        expect(hints.bendpointMove).to.eql({
           insert: true,
           bendpointIndex: 2
         });
       });
 
-      eventBus.once('commandStack.execute', spy);
+      eventBus.once('commandStack.execute', executeSpy);
 
       // when
       bendpointMove.start(canvasEvent({ x: 550, y: 200 }), connection, 2, true);
@@ -360,10 +366,97 @@ describe('features/bendpoints - move', function() {
       });
 
       dragging.move(canvasEvent({ x: 400, y: 100 }));
+
       dragging.end();
 
       // then
-      expect(spy).to.have.been.called;
+      expect(executeSpy).to.have.been.called;
+    }));
+
+
+    it('should pass hints (connection start)', inject(function(bendpointMove, canvas, dragging, eventBus) {
+
+      // given
+      var executeSpy = sinon.spy(function(event) {
+        var context = event.context,
+            hints = context.hints;
+
+        expect(hints.connectionStart).to.eql({
+          x: 0,
+          y: 0
+        });
+      });
+
+      eventBus.once('commandStack.execute', executeSpy);
+
+      eventBus.once('bendpoint.move.move', HIGH_PRIORITY, function(event) {
+        var context = event.context;
+
+        context.hints = {
+          connectionStart: {
+            x: 0,
+            y: 0
+          }
+        };
+      });
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 550, y: 200 }), connection, 2, true);
+
+      dragging.hover({
+        element: connection,
+        gfx: canvas.getGraphics(connection)
+      });
+
+      dragging.move(canvasEvent({ x: 400, y: 100 }));
+
+      dragging.end();
+
+      // then
+      expect(executeSpy).to.have.been.called;
+    }));
+
+
+    it('should pass hints (connection end)', inject(function(bendpointMove, canvas, dragging, eventBus) {
+
+      // given
+      var executeSpy = sinon.spy(function(event) {
+        var context = event.context,
+            hints = context.hints;
+
+        expect(hints.connectionEnd).to.eql({
+          x: 0,
+          y: 0
+        });
+      });
+
+      eventBus.once('commandStack.execute', executeSpy);
+
+      eventBus.once('bendpoint.move.move', function(event) {
+        var context = event.context;
+
+        context.hints = {
+          connectionEnd: {
+            x: 0,
+            y: 0
+          }
+        };
+      });
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 550, y: 200 }), connection, 2, true);
+
+      dragging.hover({
+        element: connection,
+        gfx: canvas.getGraphics(connection)
+      });
+
+      dragging.move(canvasEvent({ x: 400, y: 100 }));
+
+      dragging.end();
+
+      // then
+      expect(executeSpy).to.have.been.called;
     }));
 
   });
