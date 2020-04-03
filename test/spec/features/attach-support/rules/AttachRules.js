@@ -75,7 +75,7 @@ AttachRules.prototype.init = function() {
  * Returns 'attach' if all shape ids are contained in the attachmentIds array.
  * Returns false if at least one of the shapes is not contained.
  *
- * @param  {Array<String>} attachmentIds
+ * @param  {Array<string>} attachmentIds
  * @param  {Array<Object>} shapes
  */
 function retainmentAllowed(attachmentIds, shapes) {
