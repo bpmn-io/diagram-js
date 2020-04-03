@@ -247,7 +247,7 @@ describe('features/context-pad', function() {
       }
 
 
-      it('should recognize Array<String> as className', testClassName({
+      it('should recognize Array<string> as className', testClassName({
         set: [ 'FOO', 'BAAAR' ],
         expect: [ 'FOO', 'BAAAR' ]
       }));
