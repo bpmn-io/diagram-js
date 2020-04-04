@@ -6,6 +6,14 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.5.0
+
+* `FEAT`: on resize, keep attachments and connection docking intact if possible ([`e73bc8b`](e73bc8befdb05bd186b499d1e601b51f0f1c8963), [`ec80894`](ec80894dcaa55b12ca797006c70cca83544da06e))
+* `FIX`: correctly handle waypoints if space tool affects only one of connected shapes ([`393ac63`](393ac6305f8a34d5ab971fd0328af30e3a1ddefd))
+* `FIX`: select connect interaction target on connect ([#445](https://github.com/bpmn-io/diagram-js/issues/445))
+* `CHORE`: provide context when getting minimum dimensions for space-tool ([#444](https://github.com/bpmn-io/diagram-js/pull/444))
+* `CHORE`: bump dev dependencies ([`2eb50e5`](https://github.com/bpmn-io/diagram-js/commit/2eb50e5863e9fd3bec3f0cbed7861fb53845c289))
+
 ## 6.4.1
 
 * `FIX`: do not interpret `0` as falsy value
