@@ -119,6 +119,72 @@ describe('features/space-tool', function() {
         expect(spaceTool.isActive()).not.to.exist;
       }));
 
+
+      it('should get default affected shapes', inject(function(dragging, eventBus, spaceTool) {
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 0 }));
+
+        dragging.move(canvasEvent({ x: 100, y: 0 }));
+
+        // then
+        var context = dragging.context().data.context;
+
+        expect(context.movingShapes).to.have.length(2);
+        expect(context.movingShapes).to.include(childShape);
+        expect(context.movingShapes).to.include(childShape2);
+
+        expect(context.resizingShapes).to.have.length(0);
+      }));
+
+
+      it('should get affected shapes (moving shapes)', inject(function(dragging, eventBus, spaceTool) {
+
+        // given
+        eventBus.on('spaceTool.getAffectedShapes', function() {
+          return {
+            movingShapes: [ childShape ]
+          };
+        });
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 0 }));
+
+        dragging.move(canvasEvent({ x: 100, y: 0 }));
+
+        // then
+        var context = dragging.context().data.context;
+
+        expect(context.movingShapes).to.have.length(1);
+        expect(context.movingShapes).to.include(childShape);
+
+        expect(context.resizingShapes).to.have.length(0);
+      }));
+
+
+      it('should get affected shapes (resizing shapes)', inject(function(dragging, eventBus, spaceTool) {
+
+        // given
+        eventBus.on('spaceTool.getAffectedShapes', function() {
+          return {
+            resizingShapes: [ childShape ]
+          };
+        });
+
+        // when
+        spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 0 }));
+
+        dragging.move(canvasEvent({ x: 100, y: 0 }));
+
+        // then
+        var context = dragging.context().data.context;
+
+        expect(context.movingShapes).to.have.length(0);
+
+        expect(context.resizingShapes).to.have.length(1);
+        expect(context.resizingShapes).to.include(childShape);
+      }));
+
     });
 
 
