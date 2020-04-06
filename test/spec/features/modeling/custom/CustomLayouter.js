@@ -14,8 +14,8 @@ export default function CustomLayouter() {}
  *
  * @param {djs.model.Connection} connection
  * @param {Object} [hints]
- * @param {Boolean} [hints.connectionStart]
- * @param {Boolean} [hints.connectionEnd]
+ * @param {boolean} [hints.connectionStart]
+ * @param {boolean} [hints.connectionEnd]
  *
  * @return {Array<Point>} the layouted connection waypoints
  */
