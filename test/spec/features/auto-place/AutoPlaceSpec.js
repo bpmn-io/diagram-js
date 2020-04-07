@@ -16,6 +16,8 @@ import {
   getConnectedDistance
 } from 'lib/features/auto-place/AutoPlaceUtil';
 
+import { assign } from 'min-dash';
+
 import { DEFAULT_DISTANCE } from 'lib/features/auto-place/AutoPlaceUtil';
 
 
@@ -274,7 +276,7 @@ describe('features/auto-place', function() {
       it('should get default distance', function() {
 
         // when
-        var connectedDistance = getConnectedDistance(shape, 'x');
+        var connectedDistance = getConnectedDistance(shape);
 
         // then
         expect(connectedDistance).to.equal(DEFAULT_DISTANCE);
@@ -290,11 +292,133 @@ describe('features/auto-place', function() {
         });
 
         // when
-        var connectedDistance = getConnectedDistance(shape, 'x');
+        var connectedDistance = getConnectedDistance(shape);
 
         // then
         expect(connectedDistance).to.equal(100);
       }));
+
+
+      it('should ignore connected at distance greater than max distance', inject(
+        function(modeling) {
+
+          // given
+          modeling.appendShape(shape, newShape, {
+            x: 1000,
+            y: 50
+          });
+
+          // when
+          var connectedDistance = getConnectedDistance(shape);
+
+          // then
+          expect(connectedDistance).to.equal(DEFAULT_DISTANCE);
+        }
+      ));
+
+
+      describe('direction and reference hint', function() {
+
+        function expectConnectedDistance(position, hints, distance) {
+          return inject(function(modeling) {
+
+            // given
+            modeling.appendShape(shape, newShape, position);
+
+            // when
+            var connectedDistance = getConnectedDistance(shape, assign(hints, {
+              maxDistance: 1000
+            }));
+
+            // then
+            expect(connectedDistance).to.equal(distance);
+          });
+        }
+
+
+        it ('direction w, reference start', expectConnectedDistance(
+          { x: 250, y: 50 },
+          { direction: 'w', reference: 'start' },
+          100
+        ));
+
+
+        it('direction w, reference center', expectConnectedDistance(
+          { x: 250, y: 50 },
+          { direction: 'w', reference: 'center' },
+          150
+        ));
+
+
+        it ('direction w, reference end', expectConnectedDistance(
+          { x: 250, y: 50 },
+          { direction: 'w', reference: 'end' },
+          200
+        ));
+
+
+        it('direction s, reference start', expectConnectedDistance(
+          { x: 50, y: 250 },
+          { direction: 's', reference: 'start' },
+          100
+        ));
+
+
+        it('direction s, reference center', expectConnectedDistance(
+          { x: 50, y: 250 },
+          { direction: 's', reference: 'center' },
+          150
+        ));
+
+
+        it('direction s, reference end', expectConnectedDistance(
+          { x: 50, y: 250 },
+          { direction: 's', reference: 'end' },
+          200
+        ));
+
+
+        it('direction e, reference start', expectConnectedDistance(
+          { x: -250, y: 50 },
+          { direction: 'e', reference: 'start' },
+          200
+        ));
+
+
+        it('direction e, reference center', expectConnectedDistance(
+          { x: -250, y: 50 },
+          { direction: 'e', reference: 'center' },
+          250
+        ));
+
+
+        it('direction e, reference end', expectConnectedDistance(
+          { x: -250, y: 50 },
+          { direction: 'e', reference: 'end' },
+          300
+        ));
+
+        it('direction n, reference start', expectConnectedDistance(
+          { x: 50, y: -250 },
+          { direction: 'n', reference: 'start' },
+          200
+        ));
+
+
+        it('direction n, reference center', expectConnectedDistance(
+          { x: 50, y: -250 },
+          { direction: 'n', reference: 'center' },
+          250
+        ));
+
+
+        it('direction n, reference end', expectConnectedDistance(
+          { x: 50, y: -250 },
+          { direction: 'n', reference: 'end' },
+          300
+        ));
+
+      });
 
 
       it('should accept filter', inject(function(modeling) {
@@ -310,10 +434,24 @@ describe('features/auto-place', function() {
         }
 
         // when
-        var connectedDistance = getConnectedDistance(shape, 'x', filter);
+        var connectedDistance = getConnectedDistance(shape, {
+          filter: filter
+        });
 
         // then
         expect(connectedDistance).to.equal(DEFAULT_DISTANCE);
+      }));
+
+
+      it('should accept default distance hint', inject(function(modeling) {
+
+        // when
+        var connectedDistance = getConnectedDistance(shape, {
+          defaultDistance: 100
+        });
+
+        // then
+        expect(connectedDistance).to.equal(100);
       }));
 
 
@@ -326,7 +464,7 @@ describe('features/auto-place', function() {
         });
 
         // when
-        var connectedDistance = getConnectedDistance(shape, 'x', null, {
+        var connectedDistance = getConnectedDistance(shape, {
           maxDistance: 500
         });
 
@@ -363,7 +501,7 @@ describe('features/auto-place', function() {
         it('should weight targets higher than sources by default', function() {
 
           // when
-          var connectedDistance = getConnectedDistance(shape, 'x');
+          var connectedDistance = getConnectedDistance(shape);
 
           // then
           expect(connectedDistance).to.equal(100);
@@ -372,9 +510,14 @@ describe('features/auto-place', function() {
 
         it('should weight sources higher than targets', function() {
 
+          // given
+          function getWeight(connection) {
+            return connection.target === shape ? 5 : 1;
+          }
+
           // when
-          var connectedDistance = getConnectedDistance(shape, 'x', null, {
-            connectionTarget: shape
+          var connectedDistance = getConnectedDistance(shape, {
+            getWeight: getWeight
           });
 
           // then
