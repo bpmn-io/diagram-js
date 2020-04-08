@@ -714,6 +714,287 @@ describe('features/space-tool', function() {
     });
 
 
+    describe('attachers', function() {
+
+      var parentShape3;
+
+      beforeEach(inject(function(canvas, elementFactory) {
+        parentShape3 = elementFactory.createShape({
+          id: 'parent3',
+          x: 1100, y: 500,
+          width: 250, height: 150
+        });
+
+        canvas.addShape(parentShape3);
+      }));
+
+
+      describe('moving attachers', function() {
+
+        it('should consider attachers when resizing shape (n)', inject(
+          function(canvas, dragging, elementFactory, spaceTool) {
+
+            // given
+            var attacher = elementFactory.createShape({
+              id: 'attacher',
+              x: parentShape3.x - 25,
+              y: parentShape3.y + parentShape3.height - 75,
+              width: 50, height: 50,
+              host: parentShape3
+            });
+
+            canvas.addShape(attacher);
+
+            // when
+            spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 640 }));
+
+            dragging.move(canvasEvent({ x: 0, y: 1000 }, keyModifier));
+
+            dragging.end();
+
+            // then
+            expect(parentShape3).to.have.bounds({
+              x: 1100,
+              y: 550,
+              width: 250,
+              height: 100
+            });
+          }
+        ));
+
+
+        it('should consider attachers when resizing shape (w)', inject(
+          function(canvas, dragging, elementFactory, spaceTool) {
+
+            // given
+            var attacher = elementFactory.createShape({
+              id: 'attacher',
+              x: parentShape3.x + parentShape3.width - 75,
+              y: parentShape3.y - 25,
+              width: 50, height: 50,
+              host: parentShape3
+            });
+
+            canvas.addShape(attacher);
+
+            // when
+            spaceTool.activateMakeSpace(canvasEvent({ x: 1340, y: 0 }));
+
+            dragging.move(canvasEvent({ x: 2000, y: 0 }, keyModifier));
+
+            dragging.end();
+
+            // then
+            expect(parentShape3).to.have.bounds({
+              x: 1150,
+              y: 500,
+              width: 200,
+              height: 150
+            });
+          }
+        ));
+
+
+        it('should consider attachers when resizing shape (s)', inject(
+          function(canvas, dragging, elementFactory, spaceTool) {
+
+            // given
+            var attacher = elementFactory.createShape({
+              id: 'attacher',
+              x: parentShape3.x - 25,
+              y: parentShape3.y + 25,
+              width: 50, height: 50,
+              host: parentShape3
+            });
+
+            canvas.addShape(attacher);
+
+            // when
+            spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 510 }));
+
+            dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+            dragging.end();
+
+            // then
+            expect(parentShape3).to.have.bounds({
+              x: 1100,
+              y: 500,
+              width: 250,
+              height: 100
+            });
+          }
+        ));
+
+
+        it('should consider attachers when resizing shape (e)', inject(
+          function(canvas, dragging, elementFactory, spaceTool) {
+
+            // given
+            var attacher = elementFactory.createShape({
+              id: 'attacher',
+              x: parentShape3.x + 25,
+              y: parentShape3.y - 25,
+              width: 50, height: 50,
+              host: parentShape3
+            });
+
+            canvas.addShape(attacher);
+
+            // when
+            spaceTool.activateMakeSpace(canvasEvent({ x: 1110, y: 0 }));
+
+            dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+            dragging.end();
+
+            // then
+            expect(parentShape3).to.have.bounds({
+              x: 1100,
+              y: 500,
+              width: 200,
+              height: 150
+            });
+          }
+        ));
+
+      });
+
+
+      describe('non-moving attachers', function() {
+
+        it('should consider attachers when resizing shape (n)', inject(
+          function(canvas, dragging, elementFactory, spaceTool) {
+
+            // given
+            var attacher = elementFactory.createShape({
+              id: 'attacher',
+              x: parentShape3.x - 25,
+              y: parentShape3.y + parentShape3.height - 75,
+              width: 50, height: 50,
+              host: parentShape3
+            });
+
+            canvas.addShape(attacher);
+
+            // when
+            spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 510 }));
+
+            dragging.move(canvasEvent({ x: 0, y: 1000 }, keyModifier));
+
+            dragging.end();
+
+            // then
+            expect(parentShape3).to.have.bounds({
+              x: 1100,
+              y: 600,
+              width: 250,
+              height: 50
+            });
+          }
+        ));
+
+
+        it('should consider attachers when resizing shape (w)', inject(
+          function(canvas, dragging, elementFactory, spaceTool) {
+
+            // given
+            var attacher = elementFactory.createShape({
+              id: 'attacher',
+              x: parentShape3.x + parentShape3.width - 75,
+              y: parentShape3.y - 25,
+              width: 50, height: 50,
+              host: parentShape3
+            });
+
+            canvas.addShape(attacher);
+
+            // when
+            spaceTool.activateMakeSpace(canvasEvent({ x: 1110, y: 0 }));
+
+            dragging.move(canvasEvent({ x: 2000, y: 0 }, keyModifier));
+
+            dragging.end();
+
+            // then
+            expect(parentShape3).to.have.bounds({
+              x: 1300,
+              y: 500,
+              width: 50,
+              height: 150
+            });
+          }
+        ));
+
+
+        it('should consider attachers when resizing shape (s)', inject(
+          function(canvas, dragging, elementFactory, spaceTool) {
+
+            // given
+            var attacher = elementFactory.createShape({
+              id: 'attacher',
+              x: parentShape3.x - 25,
+              y: parentShape3.y + 25,
+              width: 50, height: 50,
+              host: parentShape3
+            });
+
+            canvas.addShape(attacher);
+
+            // when
+            spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 640 }));
+
+            dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+            dragging.end();
+
+            // then
+            expect(parentShape3).to.have.bounds({
+              x: 1100,
+              y: 500,
+              width: 250,
+              height: 50
+            });
+          }
+        ));
+
+
+        it('should consider attachers when resizing shape (e)', inject(
+          function(canvas, dragging, elementFactory, spaceTool) {
+
+            // given
+            var attacher = elementFactory.createShape({
+              id: 'attacher',
+              x: parentShape3.x + 25,
+              y: parentShape3.y - 25,
+              width: 50, height: 50,
+              host: parentShape3
+            });
+
+            canvas.addShape(attacher);
+
+            // when
+            spaceTool.activateMakeSpace(canvasEvent({ x: 1200, y: 0 }));
+
+            dragging.move(canvasEvent({ x: 0, y: 0 }));
+
+            dragging.end();
+
+            // then
+            expect(parentShape3).to.have.bounds({
+              x: 1100,
+              y: 500,
+              width: 50,
+              height: 150
+            });
+          }
+        ));
+
+      });
+
+    });
+
+
     describe('minimum dimensions', function() {
 
       it('should get minimum dimensions via event bus', inject(

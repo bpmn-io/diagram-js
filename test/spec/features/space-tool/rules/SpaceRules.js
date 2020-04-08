@@ -16,6 +16,8 @@ SpaceRules.prototype.init = function() {
   this.addRule('shape.resize', function(context) {
     var shape = context.shape;
 
-    return shape.children.length > 0 || shape.id === 'shape';
+    return shape.children.length > 0
+      || shape.attachers.length > 0
+      || shape.id === 'shape';
   });
 };
