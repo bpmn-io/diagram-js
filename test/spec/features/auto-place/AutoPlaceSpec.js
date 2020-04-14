@@ -422,104 +422,215 @@ describe('features/auto-place', function() {
 
       describe('direction and reference hint', function() {
 
-        function expectConnectedDistance(position, hints, distance) {
-          return inject(function(modeling) {
+        describe('distance to source', function() {
 
-            // given
-            modeling.appendShape(shape, newShape, position);
+          function expectConnectedSourceDistance(position, hints, distance) {
+            return inject(function(canvas, modeling) {
 
-            // when
-            var connectedDistance = getConnectedDistance(shape, assign(hints, {
-              maxDistance: 1000
-            }));
+              // given
+              modeling.appendShape(shape, newShape, position, canvas.getRootElement(), {
+                connectionTarget: shape
+              });
 
-            // then
-            expect(connectedDistance).to.equal(distance);
-          });
-        }
+              // when
+              var connectedDistance = getConnectedDistance(shape, assign(hints, {
+                maxDistance: 1000
+              }));
 
-
-        it ('direction w, reference start', expectConnectedDistance(
-          { x: 250, y: 50 },
-          { direction: 'w', reference: 'start' },
-          100
-        ));
+              // then
+              expect(connectedDistance).to.equal(distance);
+            });
+          }
 
 
-        it('direction w, reference center', expectConnectedDistance(
-          { x: 250, y: 50 },
-          { direction: 'w', reference: 'center' },
-          150
-        ));
+          it('direction w, reference start', expectConnectedSourceDistance(
+            { x: 250, y: 50 },
+            { direction: 'w', reference: 'start' },
+            100
+          ));
 
 
-        it ('direction w, reference end', expectConnectedDistance(
-          { x: 250, y: 50 },
-          { direction: 'w', reference: 'end' },
-          200
-        ));
+          it('direction w, reference center', expectConnectedSourceDistance(
+            { x: 250, y: 50 },
+            { direction: 'w', reference: 'center' },
+            150
+          ));
 
 
-        it('direction s, reference start', expectConnectedDistance(
-          { x: 50, y: 250 },
-          { direction: 's', reference: 'start' },
-          100
-        ));
+          it('direction w, reference end', expectConnectedSourceDistance(
+            { x: 250, y: 50 },
+            { direction: 'w', reference: 'end' },
+            200
+          ));
 
 
-        it('direction s, reference center', expectConnectedDistance(
-          { x: 50, y: 250 },
-          { direction: 's', reference: 'center' },
-          150
-        ));
+          it('direction s, reference start', expectConnectedSourceDistance(
+            { x: 50, y: -150 },
+            { direction: 's', reference: 'start' },
+            100
+          ));
 
 
-        it('direction s, reference end', expectConnectedDistance(
-          { x: 50, y: 250 },
-          { direction: 's', reference: 'end' },
-          200
-        ));
+          it('direction s, reference center', expectConnectedSourceDistance(
+            { x: 50, y: -150 },
+            { direction: 's', reference: 'center' },
+            150
+          ));
 
 
-        it('direction e, reference start', expectConnectedDistance(
-          { x: -250, y: 50 },
-          { direction: 'e', reference: 'start' },
-          200
-        ));
+          it('direction s, reference end', expectConnectedSourceDistance(
+            { x: 50, y: -150 },
+            { direction: 's', reference: 'end' },
+            200
+          ));
 
 
-        it('direction e, reference center', expectConnectedDistance(
-          { x: -250, y: 50 },
-          { direction: 'e', reference: 'center' },
-          250
-        ));
+          it('direction e, reference start', expectConnectedSourceDistance(
+            { x: -150, y: 50 },
+            { direction: 'e', reference: 'start' },
+            100
+          ));
 
 
-        it('direction e, reference end', expectConnectedDistance(
-          { x: -250, y: 50 },
-          { direction: 'e', reference: 'end' },
-          300
-        ));
-
-        it('direction n, reference start', expectConnectedDistance(
-          { x: 50, y: -250 },
-          { direction: 'n', reference: 'start' },
-          200
-        ));
+          it('direction e, reference center', expectConnectedSourceDistance(
+            { x: -150, y: 50 },
+            { direction: 'e', reference: 'center' },
+            150
+          ));
 
 
-        it('direction n, reference center', expectConnectedDistance(
-          { x: 50, y: -250 },
-          { direction: 'n', reference: 'center' },
-          250
-        ));
+          it('direction e, reference end', expectConnectedSourceDistance(
+            { x: -150, y: 50 },
+            { direction: 'e', reference: 'end' },
+            200
+          ));
 
 
-        it('direction n, reference end', expectConnectedDistance(
-          { x: 50, y: -250 },
-          { direction: 'n', reference: 'end' },
-          300
-        ));
+          it('direction n, reference start', expectConnectedSourceDistance(
+            { x: 50, y: 250 },
+            { direction: 'n', reference: 'start' },
+            100
+          ));
+
+
+          it('direction n, reference center', expectConnectedSourceDistance(
+            { x: 50, y: 250 },
+            { direction: 'n', reference: 'center' },
+            150
+          ));
+
+
+          it('direction n, reference end', expectConnectedSourceDistance(
+            { x: 50, y: 250 },
+            { direction: 'n', reference: 'end' },
+            200
+          ));
+
+        });
+
+
+        describe('distance to target', function() {
+
+          function expectConnectedTargetDistance(position, hints, distance) {
+            return inject(function(modeling) {
+
+              // given
+              modeling.appendShape(shape, newShape, position);
+
+              // when
+              var connectedDistance = getConnectedDistance(shape, assign(hints, {
+                maxDistance: 1000
+              }));
+
+              // then
+              expect(connectedDistance).to.equal(distance);
+            });
+          }
+
+
+          it('direction w, reference start', expectConnectedTargetDistance(
+            { x: -150, y: 50 },
+            { direction: 'w', reference: 'start' },
+            100
+          ));
+
+
+          it('direction w, reference center', expectConnectedTargetDistance(
+            { x: -150, y: 50 },
+            { direction: 'w', reference: 'center' },
+            150
+          ));
+
+
+          it('direction w, reference end', expectConnectedTargetDistance(
+            { x: -150, y: 50 },
+            { direction: 'w', reference: 'end' },
+            200
+          ));
+
+
+          it('direction s, reference start', expectConnectedTargetDistance(
+            { x: 50, y: 250 },
+            { direction: 's', reference: 'start' },
+            100
+          ));
+
+
+          it('direction s, reference center', expectConnectedTargetDistance(
+            { x: 50, y: 250 },
+            { direction: 's', reference: 'center' },
+            150
+          ));
+
+
+          it('direction s, reference end', expectConnectedTargetDistance(
+            { x: 50, y: 250 },
+            { direction: 's', reference: 'end' },
+            200
+          ));
+
+
+          it('direction e, reference start', expectConnectedTargetDistance(
+            { x: 250, y: 50 },
+            { direction: 'e', reference: 'start' },
+            100
+          ));
+
+
+          it('direction e, reference center', expectConnectedTargetDistance(
+            { x: 250, y: 50 },
+            { direction: 'e', reference: 'center' },
+            150
+          ));
+
+
+          it('direction e, reference end', expectConnectedTargetDistance(
+            { x: 250, y: 50 },
+            { direction: 'e', reference: 'end' },
+            200
+          ));
+
+          it('direction n, reference start', expectConnectedTargetDistance(
+            { x: 50, y: -150 },
+            { direction: 'n', reference: 'start' },
+            100
+          ));
+
+
+          it('direction n, reference center', expectConnectedTargetDistance(
+            { x: 50, y: -150 },
+            { direction: 'n', reference: 'center' },
+            150
+          ));
+
+
+          it('direction n, reference end', expectConnectedTargetDistance(
+            { x: 50, y: -150 },
+            { direction: 'n', reference: 'end' },
+            200
+          ));
+
+        });
 
       });
 
@@ -585,13 +696,15 @@ describe('features/auto-place', function() {
             height: 100
           });
 
+          // source
           modeling.createShape(shape1, {
-            x: 300,
-            y: 200
+            x: -250,
+            y: 50
           }, root);
 
           modeling.connect(shape1, shape);
 
+          // target
           modeling.createShape(newShape, {
             x: 250,
             y: 50
@@ -624,7 +737,7 @@ describe('features/auto-place', function() {
           });
 
           // then
-          expect(connectedDistance).to.equal(150);
+          expect(connectedDistance).to.equal(200);
         });
 
       });
