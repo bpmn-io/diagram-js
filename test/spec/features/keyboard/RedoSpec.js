@@ -13,9 +13,12 @@ import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
+var Z_KEY_CODE = 90;
+var Y_KEY_CODE = 89;
+
 var KEYS = {
-  Z: [ 'z', 'Z' ],
-  Y: [ 'y', 'y' ]
+  Z: [ 'z', 'Z', Z_KEY_CODE ],
+  Y: [ 'y', 'y', Y_KEY_CODE ]
 };
 
 

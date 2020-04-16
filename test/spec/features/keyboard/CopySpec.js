@@ -14,7 +14,8 @@ import editorActionsModule from 'lib/features/editor-actions';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-var KEYS = [ 'c', 'C' ];
+var C_KEY_CODE = 67;
+var KEYS = [ 'c', 'C', C_KEY_CODE ];
 
 
 describe('features/keyboard - copy', function() {
