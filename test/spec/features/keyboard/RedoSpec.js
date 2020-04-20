@@ -13,10 +13,10 @@ import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-var KEYS = {
-  Z: [ 'z', 'Z' ],
-  Y: [ 'y', 'y' ]
-};
+import {
+  KEYS_REDO,
+  KEYS_UNDO
+} from 'lib/features/keyboard/KeyboardBindings';
 
 
 describe('features/keyboard - redo', function() {
@@ -34,43 +34,43 @@ describe('features/keyboard - redo', function() {
 
   var decisionTable = [{
     desc: 'should call redo',
-    keys: KEYS.Z,
+    keys: KEYS_UNDO,
     ctrlKey: true,
     shiftKey: true,
     called: true
   }, {
     desc: 'should call redo',
-    keys: KEYS.Y,
+    keys: KEYS_REDO,
     ctrlKey: true,
     shiftKey: false,
     called: true
   }, {
     desc: 'should call redo',
-    keys: KEYS.Y,
+    keys: KEYS_REDO,
     ctrlKey: true,
     shiftKey: true,
     called: true
   }, {
     desc: 'should not call redo',
-    keys: KEYS.Z,
+    keys: KEYS_UNDO,
     ctrlKey: false,
     shiftKey: true,
     called: false
   }, {
     desc: 'should not call redo',
-    keys: KEYS.Z,
+    keys: KEYS_UNDO,
     ctrlKey: true,
     shiftKey: false,
     called: false
   }, {
     desc: 'should not call redo',
-    keys: KEYS.Y,
+    keys: KEYS_REDO,
     ctrlKey: false,
     shiftKey: false,
     called: false
   }, {
     desc: 'should not call redo',
-    keys: KEYS.Z,
+    keys: KEYS_UNDO,
     ctrlKey: false,
     shiftKey: false,
     called: false
