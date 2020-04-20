@@ -14,7 +14,7 @@ import editorActionsModule from 'lib/features/editor-actions';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-var KEYS = [ 'c', 'C' ];
+import { KEYS_COPY } from 'lib/features/keyboard/KeyboardBindings';
 
 
 describe('features/keyboard - copy', function() {
@@ -35,12 +35,12 @@ describe('features/keyboard - copy', function() {
   var decisionTable = [
     {
       desc: 'should call copy',
-      keys: KEYS,
+      keys: KEYS_COPY,
       ctrlKey: true,
       called: true
     }, {
       desc: 'should not call copy',
-      keys: KEYS,
+      keys: KEYS_COPY,
       ctrlKey: false,
       called: false
     }

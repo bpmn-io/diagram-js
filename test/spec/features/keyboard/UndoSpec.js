@@ -13,7 +13,7 @@ import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-var KEYS = [ 'z', 'Z' ];
+import { KEYS_UNDO } from 'lib/features/keyboard/KeyboardBindings';
 
 
 describe('features/keyboard - undo', function() {
@@ -31,25 +31,25 @@ describe('features/keyboard - undo', function() {
 
   var decisionTable = [{
     desc: 'should call undo',
-    keys: KEYS,
+    keys: KEYS_UNDO,
     ctrlKey: true,
     shiftKey: false,
     called: true
   }, {
     desc: 'should not call undo',
-    keys: KEYS,
+    keys: KEYS_UNDO,
     ctrlKey: true,
     shiftKey: true,
     called: false
   }, {
     desc: 'should not call undo',
-    keys: KEYS,
+    keys: KEYS_UNDO,
     ctrlKey: false,
     shiftKey: true,
     called: false
   }, {
     desc: 'should not call undo',
-    keys: KEYS,
+    keys: KEYS_UNDO,
     ctrlKey: false,
     shiftKey: false,
     called: false
