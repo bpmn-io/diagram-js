@@ -14,7 +14,7 @@ import editorActionsModule from 'lib/features/editor-actions';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-var KEYS = [ 'v', 'V' ];
+import { KEYS_PASTE } from 'lib/features/keyboard/KeyboardBindings';
 
 
 describe('features/keyboard - paste', function() {
@@ -34,12 +34,12 @@ describe('features/keyboard - paste', function() {
 
   var decisionTable = [{
     desc: 'should call paste',
-    keys: KEYS,
+    keys: KEYS_PASTE,
     ctrlKey: true,
     called: true
   }, {
     desc: 'should not call paste',
-    keys: KEYS,
+    keys: KEYS_PASTE,
     ctrlKey: false,
     called: false
   }];
