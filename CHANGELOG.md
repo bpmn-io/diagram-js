@@ -6,6 +6,21 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 7.0.0
+
+* `FEAT`: use `keyCode` as fallback for keyboard key resolution ([#456](https://github.com/bpmn-io/diagram-js/pull/456), [#460](https://github.com/bpmn-io/diagram-js/pull/460))
+* `FEAT`: enable top-down modeling ([#453](https://github.com/bpmn-io/diagram-js/pull/453))
+* `FEAT`: allow to specify connection start and end for preview ([`7dfa896`](https://github.com/bpmn-io/diagram-js/pull/453/commits/7dfa896e73a0402aaf1129c2c3619f9ce285b250))
+* `FEAT`: accept hints for bendpoint move preview ([`e2c9409`](https://github.com/bpmn-io/diagram-js/pull/453/commits/e2c94096fc4b13f81857f96740b185eca5107ca0))
+* `FEAT`: accept layout hints on reconnect ([`2c30e10`](https://github.com/bpmn-io/diagram-js/pull/453/commits/2c30e1010691ae70e179b6d0e11f1a83e7a41a69))
+
+### Breaking Changes
+
+Auto-place API changed in a breaking manner ([#453](https://github.com/bpmn-io/diagram-js/pull/453)):
+
+* `deconflictPosition` was replaced with `findFreePosition`
+* `getConnectedDistance` params were changed
+
 ## 6.5.0
 
 * `FEAT`: on resize, keep attachments and connection docking intact if possible ([`e73bc8b`](e73bc8befdb05bd186b499d1e601b51f0f1c8963), [`ec80894`](ec80894dcaa55b12ca797006c70cca83544da06e))
