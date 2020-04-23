@@ -698,8 +698,8 @@ describe('features/auto-place', function() {
 
           // source
           modeling.createShape(shape1, {
-            x: -250,
-            y: 50
+            x: 300,
+            y: 250
           }, root);
 
           modeling.connect(shape1, shape);
@@ -726,19 +726,98 @@ describe('features/auto-place', function() {
 
         it('should weight sources higher than targets', function() {
 
+          // when
+          var connectedDistance = getConnectedDistance(shape, {
+            getWeight: weighSourcesHigherThanTargets(shape)
+          });
+
+          // then
+          expect(connectedDistance).to.equal(150);
+        });
+
+      });
+
+
+      describe('distance dependent on weighting', function() {
+
+        it('weight >= 0, should get distance of source', inject(function(modeling) {
+
           // given
-          function getWeight(connection) {
-            return connection.target === shape ? 5 : 1;
-          }
+          // create source
+          modeling.createShape(newShape, {
+            x: 250,
+            y: 50
+          }, root);
+
+          modeling.connect(newShape, shape);
 
           // when
           var connectedDistance = getConnectedDistance(shape, {
-            getWeight: getWeight
+            getWeight: weighSourcesHigherThanTargets(shape)
+          });
+
+          // then
+          expect(connectedDistance).to.equal(100);
+        }));
+
+
+        it('weight >= 0, ignore elements before', inject(function(modeling) {
+
+          // given
+          modeling.createShape(newShape, {
+            x: -250,
+            y: 50
+          }, root);
+
+          modeling.connect(shape, newShape);
+
+          // when
+          var connectedDistance = getConnectedDistance(shape);
+
+          // then
+          expect(connectedDistance).to.equal(DEFAULT_DISTANCE);
+        }));
+
+
+        it('weight < 0, should get distance of target', inject(function(modeling) {
+
+          // given
+          // create target
+          modeling.createShape(newShape, {
+            x: -250,
+            y: 50
+          }, root);
+
+          modeling.connect(shape, newShape);
+
+          // when
+          var connectedDistance = getConnectedDistance(shape, {
+            getWeight: weighSourcesHigherThanTargets(shape)
           });
 
           // then
           expect(connectedDistance).to.equal(200);
-        });
+        }));
+
+
+        it('weight < 0, ignore elements after', inject(function(modeling) {
+
+          // given
+          modeling.createShape(newShape, {
+            x: 250,
+            y: 50
+          }, root);
+
+          modeling.connect(shape, newShape);
+
+          // when
+          var connectedDistance = getConnectedDistance(shape, {
+            getWeight: weighSourcesHigherThanTargets(shape)
+          });
+
+          // then
+          expect(connectedDistance).to.equal(DEFAULT_DISTANCE);
+        }));
 
       });
 
@@ -747,3 +826,10 @@ describe('features/auto-place', function() {
   });
 
 });
+
+// helpers //////////
+function weighSourcesHigherThanTargets(shape) {
+  return function getWeight(connection) {
+    return connection.target === shape ? 1 : -1;
+  };
+}
