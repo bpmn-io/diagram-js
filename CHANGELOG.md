@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.6.1
+
+* `FIX`: get connected distance based on weight in auto-place ([#464](https://github.com/bpmn-io/diagram-js/pull/464))
+
 ## 6.6.0
 
 * `FEAT`: allow connecting with appended shape as source ([`d1b1fb8`](https://github.com/bpmn-io/diagram-js/commit/d1b1fb8056cc8914f90ba3c42b6b254830d0451c))
