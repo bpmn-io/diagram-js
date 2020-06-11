@@ -17,13 +17,13 @@ inherits(PriorityRules, RuleProvider);
 
 PriorityRules.prototype.init = function() {
 
-  // a white+black list containing
+  // a allow+block list containing
   // element ids
-  var whiteList = [
+  var allowList = [
     'always-resizable'
   ];
 
-  var blackList = [
+  var blockList = [
     'never-resizable'
   ];
 
@@ -36,11 +36,11 @@ PriorityRules.prototype.init = function() {
   this.addRule('shape.resize', HIGH_PRIORITY, function(context) {
     var shape = context.shape;
 
-    if (whiteList.indexOf(shape.id) !== -1) {
+    if (allowList.indexOf(shape.id) !== -1) {
       return true;
     }
 
-    if (blackList.indexOf(shape.id) !== -1) {
+    if (blockList.indexOf(shape.id) !== -1) {
       return false;
     }
   });
