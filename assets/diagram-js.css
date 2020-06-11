@@ -8,7 +8,9 @@
 }
 
 .djs-element.hover .djs-outline,
-.djs-element.selected .djs-outline {
+.djs-element.selected .djs-outline,
+.djs-element.related-selected .djs-outline, 
+.djs-element.related-hover .djs-outline {
   visibility: visible;
   shape-rendering: crispEdges;
   stroke-dasharray: 3,3;
@@ -16,13 +18,28 @@
 
 .djs-element.selected .djs-outline {
   stroke: #8888FF;
+  opacity: 1;
   stroke-width: 1px;
 }
 
 .djs-element.hover .djs-outline {
-  stroke: #FF8888;
+  stroke: #FF8888 !important;
+  opacity: 1 !important;
   stroke-width: 1px;
 }
+
+.djs-element.related-selected .djs-outline {
+  stroke: #8888FF;
+  opacity: 0.5;
+  stroke-width: 1px;
+}
+
+.djs-element.related-hover .djs-outline {
+  stroke: #FF8888;
+  opacity: 0.5;
+  stroke-width: 1px;
+}
+
 
 .djs-shape.connect-ok .djs-visual > :nth-child(1) {
   fill: #DCFECC /* light-green */ !important;
