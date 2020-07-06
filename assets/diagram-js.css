@@ -1,4 +1,75 @@
 /**
+ * color definitions
+ */
+.djs-container {
+  --blue-base-65: #4D90FF;
+  --blue-darken-48: #005DF7;
+  --blue-darken-55: #1A70FF;
+  --blue-lighten-82: #A2C5FF;
+  --blue-base-65-transparent: rgba(77, 144, 255, 0.1);
+  --red-base-62: #FF3D3D;
+  --red-base-62-transparent: rgba(255, 61, 61, 0.1);
+  --black: #000000;
+  --black-opacity-0-05: rgba(0, 0, 0, 0.05);
+  --black-opacity-0-1: rgba(0, 0, 0, 0.1);
+  --orange-base-60: #FFA533;
+  --orange-base-60-half-opacity: rgba(255, 165, 51, 0.5);
+  --orange-base-60-opacity-3: rgba(255, 165, 51, 0.3);
+  --orange-lighten-85: #FFDDB3;
+  --very-light-gray: #FEFEFE;
+  --very-light-gray-2: #F6F6F6;
+  --medium-light-gray: #AAA;
+  --medium-dark-gray: #666;
+  --dark-gray: #333;
+  --gainsboro: #DDD;
+  --gray-98: #FAFAFA;
+  --gray-80: #CCC;
+  --silver-darken-80: #CDCDCD;
+
+  --selected-element-outline-color: var(--blue-base-65);
+  --element-hover-color: var(--blue-darken-48);
+  --shape-can-connect-color: var(--black-opacity-0-05);
+  --placement-allowed-color: var(--black-opacity-0-05);
+  --placement-not-allowed-color: var(--red-base-62-transparent);
+  --attach-allowed-color: var(--blue-base-65);
+  --lasso-background-color: var(--black-opacity-0-05);
+  --lasso-store-color: var(--black);
+  --resize-preview-color: var(--blue-base-65);
+  --resizer-fill-color: var(--orange-base-60-opacity-3);
+  --resizer-stroke-color: var(--orange-base-60);
+  --drag-color: var(--blue-base-65);
+  --snapping-line-color: var(--orange-base-60-half-opacity);
+  --crosshair-color: var(--orange-base-60-half-opacity);
+  --palette-separator-color: var(--medium-light-gray);
+  --palette-entry-color: var(--dark-gray);
+  --palette-toggle-hover-background-color: var(--medium-dark-gray);
+  --palette-entry-hover-color: var(--blue-darken-48);
+  --palette-highlighted-entry-color: var(--blue-base-65);
+  --popup-highlighted-entry-color: var(--blue-base-65);
+  --context-pad-element-background-color: var(--very-light-gray);
+  --context-pad-element-hover-background-color: var(--black-opacity-0-1);
+  --popup-active-entry-background-color: var(--very-light-gray-2);
+  --popup-body-background-color: var(--very-light-gray);
+  --popup-header-separator-color: var(--gainsboro);
+  --popup-palette-background-color: var(--gray-98);
+  --popup-palette-border-color: var(--gray-80);
+  --bendpoint-stroke-color: var(--orange-base-60);
+  --bendpoint-fill-color: var(--orange-base-60-opacity-3);
+  --bendpoint-dragger-fill-color: var(--orange-lighten-85);
+  --tooltip-error-background: var(--red-base-62-transparent);
+  --tooltip-error-text-color: var(--red-base-62);
+  --tooltip-error-left-border-color: var(--red-base-62);
+  --search-container-background-color: var(--gray-98);
+  --search-container-border-color: var(--blue-darken-55);
+  --search-container-shadow-color: var(--blue-lighten-82);
+  --search-container-shadow-inset-color: var(--silver-darken-80);
+  --search-input-border-color: var(--gray-80);
+  --search-result-border-bottom-color: var(--medium-light-gray);
+  --search-result-highlight-text-color: var(--black);
+  --search-result-selection-color: var(--blue-base-65-transparent);
+}
+
+/**
  * outline styles
  */
 
@@ -15,44 +86,44 @@
 }
 
 .djs-element.selected .djs-outline {
-  stroke: #8888FF;
+  stroke: var(--selected-element-outline-color);
   stroke-width: 1px;
 }
 
 .djs-element.hover .djs-outline {
-  stroke: #FF8888;
+  stroke: var(--element-hover-color);
   stroke-width: 1px;
 }
 
 .djs-shape.connect-ok .djs-visual > :nth-child(1) {
-  fill: #DCFECC /* light-green */ !important;
+  fill: var(--shape-can-connect-color) !important;
 }
 
 .djs-shape.connect-not-ok .djs-visual > :nth-child(1),
 .djs-shape.drop-not-ok .djs-visual > :nth-child(1) {
-  fill: #f9dee5 /* light-red */ !important;
+  fill: var(--placement-not-allowed-color) !important;
 }
 
 .djs-shape.new-parent .djs-visual > :nth-child(1) {
-  fill: #F7F9FF !important;
+  fill: var(--placement-allowed-color) !important;
 }
 
 svg.drop-not-ok {
-  background: #f9dee5 /* light-red */ !important;
+  background: var(--placement-not-allowed-color) !important;
 }
 
 svg.new-parent {
-  background: #F7F9FF /* light-blue */ !important;
+  background: var(--placement-allowed-color) !important;
 }
 
 .djs-connection.connect-ok .djs-visual > :nth-child(1),
 .djs-connection.drop-ok .djs-visual > :nth-child(1) {
-  stroke: #90DD5F /* light-green */ !important;
+  stroke: var(--placement-allowed-color) !important;
 }
 
 .djs-connection.connect-not-ok .djs-visual > :nth-child(1),
 .djs-connection.drop-not-ok .djs-visual > :nth-child(1) {
-  stroke: #E56283 /* light-red */ !important;
+  stroke: var(--placement-not-allowed-color) !important;
 }
 
 .drop-not-ok,
@@ -62,13 +133,13 @@ svg.new-parent {
 
 .djs-element.attach-ok .djs-visual > :nth-child(1) {
   stroke-width: 5px !important;
-  stroke: rgba(255, 116, 0, 0.7) !important;
+  stroke: var(--attach-allowed-color) !important;
 }
 
 .djs-frame.connect-not-ok .djs-visual > :nth-child(1),
 .djs-frame.drop-not-ok .djs-visual > :nth-child(1) {
   stroke-width: 3px !important;
-  stroke: #E56283 /* light-red */ !important;
+  stroke: var(--placement-not-allowed-color) !important;
   fill: none !important;
 }
 
@@ -77,11 +148,10 @@ svg.new-parent {
 *
 */
 .djs-lasso-overlay {
-  fill: rgb(255, 116, 0);
-  fill-opacity: 0.1;
+  fill: var(--lasso-background-color);
 
   stroke-dasharray: 5 1 3 1;
-  stroke: rgb(255, 116, 0);
+  stroke: var(--lasso-store-color);
 
   shape-rendering: crispEdges;
   pointer-events: none;
@@ -94,7 +164,7 @@ svg.new-parent {
   fill: none;
 
   stroke-dasharray: 5 1 3 1;
-  stroke: rgb(255, 116, 0);
+  stroke: var(--resize-preview-color);
 
   pointer-events: none;
 }
@@ -105,14 +175,14 @@ svg.new-parent {
 }
 
 .djs-resizer-visual {
-  fill: white;
+  fill: var(--resizer-fill-color);;
   stroke-width: 1px;
-  stroke: #BBB;
+  stroke: var(--resizer-stroke-color);
   shape-rendering: geometricprecision;
 }
 
 .djs-resizer:hover .djs-resizer-visual {
-  stroke: #555;
+  stroke: var(--resizer-stroke-color);
 }
 
 .djs-cursor-resize-ns,
@@ -156,12 +226,12 @@ svg.new-parent {
  */
 .djs-dragger * {
   fill: none !important;
-  stroke: rgb(255, 116, 0) !important;
+  stroke: var(--drag-color) !important;
 }
 
 .djs-dragger tspan,
 .djs-dragger text {
-  fill: rgb(255, 116, 0) !important;
+  fill: var(--drag-color) !important;
   stroke: none !important;
 }
 
@@ -170,14 +240,14 @@ marker.djs-dragger path,
 marker.djs-dragger polygon,
 marker.djs-dragger polyline,
 marker.djs-dragger rect {
-  fill: rgb(255, 116, 0) !important;
+  fill: var(--drag-color) !important;
   stroke: none !important;
 }
 
 marker.djs-dragger text,
 marker.djs-dragger tspan {
   fill: none !important;
-  stroke: rgb(255, 116, 0) !important;
+  stroke: var(--drag-color) !important;
 }
 
 .djs-dragging {
@@ -266,8 +336,7 @@ marker.djs-dragger tspan {
  * snapping
  */
 .djs-snap-line {
-  stroke: rgb(255, 195, 66);
-  stroke: rgba(255, 195, 66, 0.50);
+  stroke: var(--snapping-line-color);
   stroke-linecap: round;
   stroke-width: 2px;
   pointer-events: none;
@@ -277,7 +346,7 @@ marker.djs-dragger tspan {
  * snapping
  */
 .djs-crosshair {
-  stroke: #555;
+  stroke: var(--crosshair-color);
   stroke-linecap: round;
   stroke-width: 1px;
   pointer-events: none;
@@ -303,7 +372,7 @@ marker.djs-dragger tspan {
   padding-top: 5px;
 
   border: none;
-  border-bottom: solid 1px #DDD;
+  border-bottom: solid 1px var(--palette-separator-color);
 
   clear: both;
 }
@@ -318,7 +387,7 @@ marker.djs-dragger tspan {
 
 .djs-palette .entry,
 .djs-palette .djs-palette-toggle {
-  color: #333;
+  color: var(--palette-entry-color);
   font-size: 30px;
 
   text-align: center;
@@ -339,15 +408,15 @@ marker.djs-dragger tspan {
 }
 
 .djs-palette .djs-palette-toggle:hover {
-  background: #666;
+  background: var(--palette-toggle-hover-background-color);
 }
 
 .djs-palette .entry:hover {
-  color: rgb(255, 116, 0);
+  color: var(--palette-entry-hover-color);
 }
 
 .djs-palette .highlighted-entry {
-  color: rgb(255, 116, 0) !important;
+  color: var(--palette-highlighted-entry-color) !important;
 }
 
 .djs-palette .entry,
@@ -404,8 +473,8 @@ marker.djs-dragger tspan {
 
   cursor: default;
 
-  background-color: #FEFEFE;
-  box-shadow: 0 0 2px 1px #FEFEFE;
+  background-color: var(--context-pad-element-background-color);
+  box-shadow: 0 0 2px 1px var(--context-pad-element-background-color);
   pointer-events: all;
 }
 
@@ -414,7 +483,7 @@ marker.djs-dragger tspan {
 }
 
 .djs-context-pad .entry:hover {
-  background: rgb(255, 252, 176);
+  background: var(--context-pad-element-hover-background-color);
 }
 
 .djs-context-pad.open {
@@ -443,7 +512,7 @@ marker.djs-dragger tspan {
 
 .djs-popup .entry:hover,
 .djs-popup .entry.active:hover {
-  background: rgb(255, 252, 176);
+  background: var(--context-pad-element-hover-background-color);
 }
 
 .djs-popup .entry.disabled {
@@ -459,9 +528,9 @@ marker.djs-dragger tspan {
 }
 
 .djs-popup .djs-popup-header .entry.active {
-  color: rgb(255, 116, 0);
-  border: solid 1px rgb(255, 116, 0);
-  background-color: #F6F6F6;
+  color: var(--popup-highlighted-entry-color);
+  border: solid 1px var(--popup-highlighted-entry-color);
+  background-color: var(--popup-active-entry-background-color);
 }
 
 .djs-popup-body .entry {
@@ -473,11 +542,11 @@ marker.djs-dragger tspan {
 }
 
 .djs-popup-body {
-  background-color: #FEFEFE;
+  background-color: var(--popup-body-background-color);
 }
 
 .djs-popup-header {
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid var(--popup-header-separator-color);
 }
 
 .djs-popup-header .entry {
@@ -493,8 +562,8 @@ marker.djs-dragger tspan {
  * popup / palette styles
  */
 .djs-popup, .djs-palette {
-  background: #FAFAFA;
-  border: solid 1px #CCC;
+  background: var(--popup-palette-background-color);
+  border: solid 1px var(--popup-palette-border-color);
   border-radius: 2px;
 }
 
@@ -516,17 +585,17 @@ marker.djs-dragger tspan {
  * bendpoints
  */
 .djs-segment-dragger .djs-visual {
-  fill: rgba(255, 255, 121, 0.2);
+  fill: var(--bendpoint-dragger-fill-color);
   stroke-width: 1px;
   stroke-opacity: 1;
-  stroke: rgba(255, 255, 121, 0.3);
+  stroke: var(--bendpoint-stroke-color);
 }
 
 .djs-bendpoint .djs-visual {
-  fill: rgba(255, 255, 121, 0.8);
+  fill: var(--bendpoint-fill-color);
   stroke-width: 1px;
   stroke-opacity: 0.5;
-  stroke: black;
+  stroke: var(--bendpoint-stroke-color);
 }
 
 .djs-segment-dragger:hover,
@@ -550,9 +619,9 @@ marker.djs-dragger tspan {
 .djs-segment-dragger.djs-dragging .djs-visual,
 .djs-bendpoint:hover .djs-visual,
 .djs-bendpoint.floating .djs-visual {
-  fill: yellow;
+  fill: var(--bendpoint-fill-color);
   stroke-opacity: 0.5;
-  stroke: black;
+  stroke: var(--bendpoint-stroke-color);
 }
 
 .djs-bendpoint.floating .djs-hit {
@@ -600,7 +669,8 @@ marker.djs-dragger tspan {
 
 .djs-segment-dragger.djs-dragging .djs-visual,
 .djs-bendpoint.djs-dragging .djs-visual {
-  fill: yellow;
+  fill: var(--bendpoint-dragger-fill-color);
+  stroke: var(--bendpoint-stoke-color);
   stroke-opacity: 0.5;
 }
 
@@ -621,11 +691,11 @@ marker.djs-dragger tspan {
 .djs-tooltip-error > * {
   width: 160px;
 
-  background: rgb(252, 236, 240);
-  color: rgb(158, 76, 76);
+  background: var(--tooltip-error-background);
+  color: var(--tooltip-error-text-color);
   padding: 3px 7px;
   border-radius: 5px;
-  border-left: solid 5px rgb(174, 73, 73);
+  border-left: solid 5px var(--tooltip-error-left-border-color);
 }
 
 .djs-tooltip-error:hover {
@@ -651,9 +721,10 @@ marker.djs-dragger tspan {
 
   font-size: 1.05em;
   opacity: 0.9;
-  background: #FAFAFA;
-  border: solid 1px #CCC;
+  background: var(--search-container-background-color);
+  border: solid 1px var(--search-container-border-color);
   border-radius: 2px;
+  box-shadow: 0 0 0 2px var(--search-container-shadow-color), 0 0 0 1px var(--search-container-shadow-inset-color) inset;
 }
 
 .djs-search-container:not(.open) {
@@ -664,12 +735,12 @@ marker.djs-dragger tspan {
   font-size: 1.05em;
   width: 100%;
   padding: 6px 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--search-input-border-color);
 }
 
 .djs-search-input input:focus {
   outline: none;
-  border-color: #52B415;
+  border-color: var(--search-input-border-color);
 }
 
 .djs-search-results {
@@ -679,7 +750,6 @@ marker.djs-dragger tspan {
 }
 
 .djs-search-results:hover {
-  /*background: #fffdd7;*/
   cursor: pointer;
 }
 
@@ -687,12 +757,12 @@ marker.djs-dragger tspan {
   width: 100%;
   padding: 6px 10px;
   background: white;
-  border-bottom: solid 1px #AAA;
+  border-bottom: solid 1px var(--search-result-border-bottom-color);
   border-radius: 1px;
 }
 
 .djs-search-highlight {
-  color: black;
+  color: var(--search-result-highlight-text-color);
 }
 
 .djs-search-result-primary {
@@ -705,20 +775,19 @@ marker.djs-dragger tspan {
 }
 
 .djs-search-result:hover {
-  background: #fdffd6;
+  background: var(--search-result-selection-color);
 }
 
 .djs-search-result-selected {
-  background: #fffcb0;
+  background: var(--search-result-selection-color);
 }
 
 .djs-search-result-selected:hover {
-  background: #f7f388;
+  background: var(--search-result-selection-color);
 }
 
 .djs-search-overlay {
-  background: yellow;
-  opacity: 0.3;
+  background: var(--search-result-selection-color);
 }
 
 /**
