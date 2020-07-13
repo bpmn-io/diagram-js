@@ -35,7 +35,7 @@
   --lasso-background-color: var(--black-opacity-0-05);
   --lasso-store-color: var(--black);
   --resize-preview-color: var(--blue-base-65);
-  --resizer-fill-color: var(--orange-base-60-opacity-3);
+  --resizer-fill-color: var(--orange-base-60-half-opacity);
   --resizer-stroke-color: var(--orange-base-60);
   --drag-color: var(--blue-base-65);
   --snapping-line-color: var(--orange-base-60-half-opacity);
@@ -54,8 +54,8 @@
   --popup-palette-background-color: var(--gray-98);
   --popup-palette-border-color: var(--gray-80);
   --bendpoint-stroke-color: var(--orange-base-60);
-  --bendpoint-fill-color: var(--orange-base-60-opacity-3);
-  --bendpoint-dragger-fill-color: var(--orange-lighten-85);
+  --bendpoint-fill-color: var(--orange-base-60-half-opacity);
+  --bendpoint-dragger-fill-color: var(--orange-base-60-half-opacity);
   --tooltip-error-background: var(--red-base-62-transparent);
   --tooltip-error-text-color: var(--red-base-62);
   --tooltip-error-left-border-color: var(--red-base-62);
@@ -177,12 +177,14 @@ svg.new-parent {
 .djs-resizer-visual {
   fill: var(--resizer-fill-color);;
   stroke-width: 1px;
+  stroke-opacity: 0.5;
   stroke: var(--resizer-stroke-color);
   shape-rendering: geometricprecision;
 }
 
 .djs-resizer:hover .djs-resizer-visual {
   stroke: var(--resizer-stroke-color);
+  stroke-opacity: 1;
 }
 
 .djs-cursor-resize-ns,
@@ -585,17 +587,23 @@ marker.djs-dragger tspan {
  * bendpoints
  */
 .djs-segment-dragger .djs-visual {
+  display: none;
+
   fill: var(--bendpoint-dragger-fill-color);
+  stroke: var(--bendpoint-stroke-color);
   stroke-width: 1px;
   stroke-opacity: 1;
-  stroke: var(--bendpoint-stroke-color);
+}
+
+.djs-segment-dragger:hover .djs-visual {
+  display: block;
 }
 
 .djs-bendpoint .djs-visual {
   fill: var(--bendpoint-fill-color);
+  stroke: var(--bendpoint-stroke-color);
   stroke-width: 1px;
   stroke-opacity: 0.5;
-  stroke: var(--bendpoint-stroke-color);
 }
 
 .djs-segment-dragger:hover,
@@ -620,8 +628,8 @@ marker.djs-dragger tspan {
 .djs-bendpoint:hover .djs-visual,
 .djs-bendpoint.floating .djs-visual {
   fill: var(--bendpoint-fill-color);
-  stroke-opacity: 0.5;
   stroke: var(--bendpoint-stroke-color);
+  stroke-opacity: 1;
 }
 
 .djs-bendpoint.floating .djs-hit {
@@ -630,8 +638,8 @@ marker.djs-dragger tspan {
 
 .djs-segment-dragger .djs-hit,
 .djs-bendpoint .djs-hit {
-  pointer-events: all;
   fill: none;
+  pointer-events: all;
 }
 
 .djs-segment-dragger.horizontal .djs-hit {
@@ -665,13 +673,6 @@ marker.djs-dragger tspan {
 .djs-bendpoint.djs-dragging {
   display: block;
   opacity: 1.0;
-}
-
-.djs-segment-dragger.djs-dragging .djs-visual,
-.djs-bendpoint.djs-dragging .djs-visual {
-  fill: var(--bendpoint-dragger-fill-color);
-  stroke: var(--bendpoint-stoke-color);
-  stroke-opacity: 0.5;
 }
 
 
