@@ -39,7 +39,7 @@
   --resizer-stroke-color: var(--orange-base-60);
   --drag-color: var(--blue-base-65);
   --snapping-line-color: var(--orange-base-60-half-opacity);
-  --crosshair-color: var(--orange-base-60-half-opacity);
+  --crosshair-color: var(--black);
   --palette-separator-color: var(--medium-light-gray);
   --palette-entry-color: var(--dark-gray);
   --palette-toggle-hover-background-color: var(--medium-dark-gray);
