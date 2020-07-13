@@ -36,8 +36,8 @@
   --lasso-background-color: var(--black-opacity-0-05);
   --lasso-store-color: var(--black);
   --resize-preview-color: var(--blue-base-65);
-  --resizer-fill-color: var(--orange-base-60-half-opacity);
-  --resizer-stroke-color: var(--orange-base-60);
+  --resizer-fill-color: var(--blue-base-65-transparent);
+  --resizer-stroke-color: var(--blue-base-65);
   --drag-color: var(--blue-base-65);
   --snapping-line-color: var(--orange-base-60-half-opacity);
   --crosshair-color: var(--black);
@@ -54,9 +54,9 @@
   --popup-header-separator-color: var(--gainsboro);
   --popup-palette-background-color: var(--gray-98);
   --popup-palette-border-color: var(--gray-80);
-  --bendpoint-stroke-color: var(--orange-base-60);
-  --bendpoint-fill-color: var(--orange-base-60-half-opacity);
-  --bendpoint-dragger-fill-color: var(--orange-base-60-half-opacity);
+  --bendpoint-stroke-color: var(--blue-base-65);
+  --bendpoint-fill-color: var(--blue-base-65-transparent);
+  --bendpoint-dragger-fill-color: var(--blue-base-65-transparent);
   --tooltip-error-background: var(--red-base-62-transparent);
   --tooltip-error-text-color: var(--red-base-62);
   --tooltip-error-left-border-color: var(--red-base-62);
