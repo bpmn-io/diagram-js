@@ -25,6 +25,7 @@
   --gray-98: #FAFAFA;
   --gray-80: #CCC;
   --silver-darken-80: #CDCDCD;
+  --white: #FFFFFF;
 
   --selected-element-outline-color: var(--blue-base-65);
   --element-hover-color: var(--blue-darken-48);
@@ -454,7 +455,7 @@ marker.djs-dragger tspan {
  * context-pad
  */
 .djs-overlay-context-pad {
-  width: 72px;
+  width: 84px;
 }
 
 .djs-context-pad {
@@ -464,19 +465,16 @@ marker.djs-dragger tspan {
 }
 
 .djs-context-pad .entry {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
+  box-sizing: border-box;
   text-align: center;
   display: inline-block;
   font-size: 22px;
-  margin: 0 2px 2px 0;
-
-  border-radius: 3px;
-
+  padding: 3px;
   cursor: default;
-
-  background-color: var(--context-pad-element-background-color);
-  box-shadow: 0 0 2px 1px var(--context-pad-element-background-color);
+  background-color: var(--white);
+  box-shadow: 0 0px 0px 1px var(--white);
   pointer-events: all;
 }
 
@@ -485,7 +483,7 @@ marker.djs-dragger tspan {
 }
 
 .djs-context-pad .entry:hover {
-  background: var(--context-pad-element-hover-background-color);
+  color: var(--blue-darken-48);
 }
 
 .djs-context-pad.open {
@@ -497,6 +495,7 @@ marker.djs-dragger tspan {
  */
 .djs-popup .entry {
   line-height: 20px;
+  color: var(--dark-gray);
   white-space: nowrap;
   cursor: default;
 }
@@ -513,8 +512,10 @@ marker.djs-dragger tspan {
 }
 
 .djs-popup .entry:hover,
-.djs-popup .entry.active:hover {
-  background: var(--context-pad-element-hover-background-color);
+.djs-popup .entry.active:hover,
+.djs-popup .djs-popup-header .entry:hover,
+.djs-popup .djs-popup-header .entry.active:hover {
+  color: var(--blue-darken-48);
 }
 
 .djs-popup .entry.disabled {
@@ -522,6 +523,7 @@ marker.djs-dragger tspan {
 }
 
 .djs-popup .djs-popup-header .entry {
+  color: var(--dark-gray);
   display: inline-block;
   padding: 2px 3px 2px 3px;
 
