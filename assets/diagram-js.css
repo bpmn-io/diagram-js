@@ -6,7 +6,7 @@
   --blue-darken-48: #005DF7;
   --blue-darken-55: #1A70FF;
   --blue-lighten-82: #A2C5FF;
-  --blue-base-65-transparent: rgba(77, 144, 255, 0.1);
+  --blue-base-65-transparent: rgba(77, 144, 255, 0.3);
   --red-base-62: #FF3D3D;
   --red-base-62-transparent: rgba(255, 61, 61, 0.1);
   --black: #000000;
@@ -39,7 +39,7 @@
   --resizer-fill-color: var(--blue-base-65-transparent);
   --resizer-stroke-color: var(--blue-base-65);
   --drag-color: var(--blue-base-65);
-  --snapping-line-color: var(--orange-base-60-half-opacity);
+  --snapping-line-color: var(--blue-base-65-transparent);
   --crosshair-color: var(--black);
   --palette-separator-color: var(--medium-light-gray);
   --palette-entry-color: var(--dark-gray);
