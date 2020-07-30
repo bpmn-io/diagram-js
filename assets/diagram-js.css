@@ -2,71 +2,89 @@
  * color definitions
  */
 .djs-container {
-  --blue-base-65: #4D90FF;
-  --blue-darken-48: #005DF7;
-  --blue-darken-55: #1A70FF;
-  --blue-lighten-82: #A2C5FF;
-  --blue-base-65-transparent: rgba(77, 144, 255, 0.1);
-  --red-base-62: #FF3D3D;
-  --red-base-62-transparent: rgba(255, 61, 61, 0.1);
-  --black: #000000;
-  --black-opacity-0-05: rgba(0, 0, 0, 0.05);
-  --black-opacity-0-1: rgba(0, 0, 0, 0.1);
-  --orange-base-60: #FFA533;
-  --orange-base-60-half-opacity: rgba(255, 165, 51, 0.5);
-  --orange-base-60-opacity-3: rgba(255, 165, 51, 0.3);
-  --orange-lighten-85: #FFDDB3;
-  --very-light-gray: #FEFEFE;
-  --very-light-gray-2: #F6F6F6;
-  --medium-light-gray: #AAA;
-  --medium-dark-gray: #666;
-  --dark-gray: #333;
-  --gainsboro: #DDD;
-  --gray-98: #FAFAFA;
-  --gray-80: #CCC;
-  --silver-darken-80: #CDCDCD;
+  --blue-base-65: #4d90ff;
+  --blue-base-65-opacity-30: rgba(77, 144, 255, 0.3);
+  --blue-darken-48: #005df7;
+  --blue-darken-55: #1a70ff;
+  --blue-lighten-82: #a2c5ff;
 
-  --selected-element-outline-color: var(--blue-base-65);
-  --element-hover-color: var(--blue-darken-48);
-  --shape-can-connect-color: var(--black-opacity-0-05);
-  --placement-allowed-color: var(--black-opacity-0-05);
-  --placement-not-allowed-color: var(--red-base-62-transparent);
-  --attach-allowed-color: var(--blue-base-65);
-  --lasso-background-color: var(--black-opacity-0-05);
-  --lasso-store-color: var(--black);
-  --resize-preview-color: var(--blue-base-65);
-  --resizer-fill-color: var(--orange-base-60-opacity-3);
-  --resizer-stroke-color: var(--orange-base-60);
-  --drag-color: var(--blue-base-65);
-  --snapping-line-color: var(--orange-base-60-half-opacity);
-  --crosshair-color: var(--orange-base-60-half-opacity);
-  --palette-separator-color: var(--medium-light-gray);
-  --palette-entry-color: var(--dark-gray);
-  --palette-toggle-hover-background-color: var(--medium-dark-gray);
+  --orange-base-60: #ffa533;
+  --orange-base-60-opacity-30: rgba(255, 165, 51, 0.3);
+  --orange-base-60-opacity-50: rgba(255, 165, 51, 0.5);
+  --orange-lighten-85: #ffddb3;
+
+  --red-base-62: #ff3d3d;
+  --red-base-62-opacity-10: rgba(255, 61, 61, 0.1);
+
+  --silver-darken-94: #efefef;
+
+  --color-000000: #000000;
+  --color-000000-opacity-05: rgba(0, 0, 0, 0.05);
+  --color-000000-opacity-10: rgba(0, 0, 0, 0.1);
+  --color-333333: #333333;
+  --color-666666: #666666;
+  --color-aaaaaa: #aaaaaa;
+  --color-cccccc: #cccccc;
+  --color-cdcdcd: #cdcdcd;
+  --color-dddddd: #dddddd;
+  --color-f6f6f6: #f6f6f6;
+  --color-fafafa: #fafafa;
+  --color-fefefe: #fefefe;
+  --color-ffffff: #ffffff;
+
+  --bendpoint-fill-color: var(--blue-base-65-opacity-30);
+  --bendpoint-stroke-color: var(--blue-base-65);
+
+  --context-pad-entry-background-color: var(--color-fefefe);
+  --context-pad-entry-hover-background-color: var(--silver-darken-94);
+ 
+  --element-dragger-color: var(--blue-base-65);
+  --element-hover-outline-fill-color: var(--blue-darken-48);
+  --element-selected-outline-stroke-color: var(--blue-base-65);
+
+  --lasso-fill-color: var(--color-000000-opacity-05);
+  --lasso-stroke-color: var(--color-000000);
+
+  --palette-entry-color: var(--color-333333);
   --palette-entry-hover-color: var(--blue-darken-48);
-  --palette-highlighted-entry-color: var(--blue-base-65);
-  --popup-highlighted-entry-color: var(--blue-base-65);
-  --context-pad-element-background-color: var(--very-light-gray);
-  --context-pad-element-hover-background-color: var(--black-opacity-0-1);
-  --popup-active-entry-background-color: var(--very-light-gray-2);
-  --popup-body-background-color: var(--very-light-gray);
-  --popup-header-separator-color: var(--gainsboro);
-  --popup-palette-background-color: var(--gray-98);
-  --popup-palette-border-color: var(--gray-80);
-  --bendpoint-stroke-color: var(--orange-base-60);
-  --bendpoint-fill-color: var(--orange-base-60-opacity-3);
-  --bendpoint-dragger-fill-color: var(--orange-lighten-85);
-  --tooltip-error-background: var(--red-base-62-transparent);
-  --tooltip-error-text-color: var(--red-base-62);
-  --tooltip-error-left-border-color: var(--red-base-62);
-  --search-container-background-color: var(--gray-98);
+  --palette-entry-selected-color: var(--blue-base-65);
+  --palette-separator-color: var(--color-aaaaaa);
+  --palette-toggle-hover-background-color: var(--color-666666);
+  --palette-background-color: var(--color-fafafa);
+  --palette-border-color: var(--color-cccccc);
+
+  --popup-body-background-color: var(--color-fefefe);
+  --popup-header-entry-selected-color: var(--blue-base-65);
+  --popup-header-entry-selected-background-color: var(--color-000000-opacity-10);
+  --popup-header-separator-color: var(--color-dddddd);
+  --popup-background-color: var(--color-fafafa);
+  --popup-border-color: var(--color-cccccc);
+ 
+  --resizer-fill-color: var(--blue-base-65-opacity-30);
+  --resizer-stroke-color: var(--blue-base-65);
+
+  --search-container-background-color: var(--color-fafafa);
   --search-container-border-color: var(--blue-darken-55);
-  --search-container-shadow-color: var(--blue-lighten-82);
-  --search-container-shadow-inset-color: var(--silver-darken-80);
-  --search-input-border-color: var(--gray-80);
-  --search-result-border-bottom-color: var(--medium-light-gray);
-  --search-result-highlight-text-color: var(--black);
-  --search-result-selection-color: var(--blue-base-65-transparent);
+  --search-container-box-shadow-color: var(--blue-lighten-82);
+  --search-container-box-shadow-inset-color: var(--color-cdcdcd);
+  --search-input-border-color: var(--color-cccccc);
+  --search-result-border-color: var(--color-aaaaaa);
+  --search-result-highlight-color: var(--color-000000);
+  --search-result-selected-color: var(--blue-base-65-opacity-30);
+
+  --shape-attach-allowed-stroke-color: var(--blue-base-65);
+  --shape-connect-allowed-fill-color: var(--color-000000-opacity-05);
+  --shape-drop-allowed-fill-color: var(--color-000000-opacity-05);
+  --shape-drop-not-allowed-fill-color: var(--red-base-62-opacity-10);
+  --shape-resize-preview-stroke-color: var(--blue-base-65);
+
+  --snap-line-stroke-color: var(--blue-base-65-opacity-30);
+
+  --space-tool-crosshair-stroke-color: var(--color-000000);
+ 
+  --tooltip-error-background-color: var(--red-base-62-opacity-10);
+  --tooltip-error-border-color: var(--red-base-62);
+  --tooltip-error-color: var(--red-base-62);
 }
 
 /**
@@ -81,65 +99,65 @@
 .djs-element.hover .djs-outline,
 .djs-element.selected .djs-outline {
   visibility: visible;
-  shape-rendering: crispEdges;
+  shape-rendering: geometricPrecision;
   stroke-dasharray: 3,3;
 }
 
 .djs-element.selected .djs-outline {
-  stroke: var(--selected-element-outline-color);
+  stroke: var(--element-selected-outline-stroke-color);
   stroke-width: 1px;
 }
 
 .djs-element.hover .djs-outline {
-  stroke: var(--element-hover-color);
+  stroke: var(--element-hover-outline-fill-color);
   stroke-width: 1px;
 }
 
 .djs-shape.connect-ok .djs-visual > :nth-child(1) {
-  fill: var(--shape-can-connect-color) !important;
+  fill: var(--shape-connect-allowed-fill-color) !important;
 }
 
 .djs-shape.connect-not-ok .djs-visual > :nth-child(1),
 .djs-shape.drop-not-ok .djs-visual > :nth-child(1) {
-  fill: var(--placement-not-allowed-color) !important;
+  fill: var(--shape-drop-not-allowed-fill-color) !important;
 }
 
 .djs-shape.new-parent .djs-visual > :nth-child(1) {
-  fill: var(--placement-allowed-color) !important;
+  fill: var(--shape-drop-allowed-fill-color) !important;
 }
 
 svg.drop-not-ok {
-  background: var(--placement-not-allowed-color) !important;
+  background: var(--shape-drop-not-allowed-fill-color) !important;
 }
 
 svg.new-parent {
-  background: var(--placement-allowed-color) !important;
+  background: var(--shape-drop-allowed-fill-color) !important;
 }
 
 .djs-connection.connect-ok .djs-visual > :nth-child(1),
 .djs-connection.drop-ok .djs-visual > :nth-child(1) {
-  stroke: var(--placement-allowed-color) !important;
+  stroke: var(--shape-drop-allowed-fill-color) !important;
 }
 
 .djs-connection.connect-not-ok .djs-visual > :nth-child(1),
 .djs-connection.drop-not-ok .djs-visual > :nth-child(1) {
-  stroke: var(--placement-not-allowed-color) !important;
+  stroke: var(--shape-drop-not-allowed-fill-color) !important;
 }
 
 .drop-not-ok,
 .connect-not-ok {
+  stroke: var(--shape-attach-allowed-stroke-color) !important;
   cursor: not-allowed;
 }
 
 .djs-element.attach-ok .djs-visual > :nth-child(1) {
   stroke-width: 5px !important;
-  stroke: var(--attach-allowed-color) !important;
 }
 
 .djs-frame.connect-not-ok .djs-visual > :nth-child(1),
 .djs-frame.drop-not-ok .djs-visual > :nth-child(1) {
   stroke-width: 3px !important;
-  stroke: var(--placement-not-allowed-color) !important;
+  stroke: var(--shape-drop-not-allowed-fill-color) !important;
   fill: none !important;
 }
 
@@ -148,12 +166,12 @@ svg.new-parent {
 *
 */
 .djs-lasso-overlay {
-  fill: var(--lasso-background-color);
+  fill: var(--lasso-fill-color);
 
   stroke-dasharray: 5 1 3 1;
-  stroke: var(--lasso-store-color);
+  stroke: var(--lasso-stroke-color);
 
-  shape-rendering: crispEdges;
+  shape-rendering: geometricPrecision;
   pointer-events: none;
 }
 
@@ -164,7 +182,7 @@ svg.new-parent {
   fill: none;
 
   stroke-dasharray: 5 1 3 1;
-  stroke: var(--resize-preview-color);
+  stroke: var(--shape-resize-preview-stroke-color);
 
   pointer-events: none;
 }
@@ -177,12 +195,14 @@ svg.new-parent {
 .djs-resizer-visual {
   fill: var(--resizer-fill-color);;
   stroke-width: 1px;
+  stroke-opacity: 0.5;
   stroke: var(--resizer-stroke-color);
   shape-rendering: geometricprecision;
 }
 
 .djs-resizer:hover .djs-resizer-visual {
   stroke: var(--resizer-stroke-color);
+  stroke-opacity: 1;
 }
 
 .djs-cursor-resize-ns,
@@ -226,12 +246,12 @@ svg.new-parent {
  */
 .djs-dragger * {
   fill: none !important;
-  stroke: var(--drag-color) !important;
+  stroke: var(--element-dragger-color) !important;
 }
 
 .djs-dragger tspan,
 .djs-dragger text {
-  fill: var(--drag-color) !important;
+  fill: var(--element-dragger-color) !important;
   stroke: none !important;
 }
 
@@ -240,14 +260,14 @@ marker.djs-dragger path,
 marker.djs-dragger polygon,
 marker.djs-dragger polyline,
 marker.djs-dragger rect {
-  fill: var(--drag-color) !important;
+  fill: var(--element-dragger-color) !important;
   stroke: none !important;
 }
 
 marker.djs-dragger text,
 marker.djs-dragger tspan {
   fill: none !important;
-  stroke: var(--drag-color) !important;
+  stroke: var(--element-dragger-color) !important;
 }
 
 .djs-dragging {
@@ -336,7 +356,7 @@ marker.djs-dragger tspan {
  * snapping
  */
 .djs-snap-line {
-  stroke: var(--snapping-line-color);
+  stroke: var(--snap-line-stroke-color);
   stroke-linecap: round;
   stroke-width: 2px;
   pointer-events: none;
@@ -346,7 +366,7 @@ marker.djs-dragger tspan {
  * snapping
  */
 .djs-crosshair {
-  stroke: var(--crosshair-color);
+  stroke: var(--space-tool-crosshair-stroke-color);
   stroke-linecap: round;
   stroke-width: 1px;
   pointer-events: none;
@@ -416,7 +436,7 @@ marker.djs-dragger tspan {
 }
 
 .djs-palette .highlighted-entry {
-  color: var(--palette-highlighted-entry-color) !important;
+  color: var(--palette-entry-selected-color) !important;
 }
 
 .djs-palette .entry,
@@ -473,8 +493,8 @@ marker.djs-dragger tspan {
 
   cursor: default;
 
-  background-color: var(--context-pad-element-background-color);
-  box-shadow: 0 0 2px 1px var(--context-pad-element-background-color);
+  background-color: var(--context-pad-entry-background-color);
+  box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);
   pointer-events: all;
 }
 
@@ -483,7 +503,7 @@ marker.djs-dragger tspan {
 }
 
 .djs-context-pad .entry:hover {
-  background: var(--context-pad-element-hover-background-color);
+  background: var(--context-pad-entry-hover-background-color);
 }
 
 .djs-context-pad.open {
@@ -512,7 +532,7 @@ marker.djs-dragger tspan {
 
 .djs-popup .entry:hover,
 .djs-popup .entry.active:hover {
-  background: var(--context-pad-element-hover-background-color);
+  background: var(--popup-header-entry-selected-background-color);
 }
 
 .djs-popup .entry.disabled {
@@ -528,9 +548,9 @@ marker.djs-dragger tspan {
 }
 
 .djs-popup .djs-popup-header .entry.active {
-  color: var(--popup-highlighted-entry-color);
-  border: solid 1px var(--popup-highlighted-entry-color);
-  background-color: var(--popup-active-entry-background-color);
+  color: var(--popup-header-entry-selected-color);
+  border: solid 1px var(--popup-header-entry-selected-color);
+  background-color: var(--popup-header-entry-selected-background-color);
 }
 
 .djs-popup-body .entry {
@@ -561,9 +581,15 @@ marker.djs-dragger tspan {
 /**
  * popup / palette styles
  */
-.djs-popup, .djs-palette {
-  background: var(--popup-palette-background-color);
-  border: solid 1px var(--popup-palette-border-color);
+.djs-palette {
+  background: var(--palette-background-color);
+  border: solid 1px var(--palette-border-color);
+  border-radius: 2px;
+}
+
+.djs-popup {
+  background: var(--popup-background-color);
+  border: solid 1px var(--popup-border-color);
   border-radius: 2px;
 }
 
@@ -585,17 +611,23 @@ marker.djs-dragger tspan {
  * bendpoints
  */
 .djs-segment-dragger .djs-visual {
-  fill: var(--bendpoint-dragger-fill-color);
+  display: none;
+
+  fill: var(--bendpoint-fill-color);
+  stroke: var(--bendpoint-stroke-color);
   stroke-width: 1px;
   stroke-opacity: 1;
-  stroke: var(--bendpoint-stroke-color);
+}
+
+.djs-segment-dragger:hover .djs-visual {
+  display: block;
 }
 
 .djs-bendpoint .djs-visual {
   fill: var(--bendpoint-fill-color);
+  stroke: var(--bendpoint-stroke-color);
   stroke-width: 1px;
   stroke-opacity: 0.5;
-  stroke: var(--bendpoint-stroke-color);
 }
 
 .djs-segment-dragger:hover,
@@ -620,8 +652,8 @@ marker.djs-dragger tspan {
 .djs-bendpoint:hover .djs-visual,
 .djs-bendpoint.floating .djs-visual {
   fill: var(--bendpoint-fill-color);
-  stroke-opacity: 0.5;
   stroke: var(--bendpoint-stroke-color);
+  stroke-opacity: 1;
 }
 
 .djs-bendpoint.floating .djs-hit {
@@ -630,8 +662,8 @@ marker.djs-dragger tspan {
 
 .djs-segment-dragger .djs-hit,
 .djs-bendpoint .djs-hit {
-  pointer-events: all;
   fill: none;
+  pointer-events: all;
 }
 
 .djs-segment-dragger.horizontal .djs-hit {
@@ -667,35 +699,22 @@ marker.djs-dragger tspan {
   opacity: 1.0;
 }
 
-.djs-segment-dragger.djs-dragging .djs-visual,
-.djs-bendpoint.djs-dragging .djs-visual {
-  fill: var(--bendpoint-dragger-fill-color);
-  stroke: var(--bendpoint-stoke-color);
-  stroke-opacity: 0.5;
-}
-
 
 /**
  * tooltips
  */
 .djs-tooltip-error {
-  font-size: 11px;
-  line-height: 18px;
-  text-align: left;
-
-  padding: 5px;
-
-  opacity: 0.7;
-}
-
-.djs-tooltip-error > * {
   width: 160px;
+  padding: 6px;
 
-  background: var(--tooltip-error-background);
-  color: var(--tooltip-error-text-color);
-  padding: 3px 7px;
-  border-radius: 5px;
-  border-left: solid 5px var(--tooltip-error-left-border-color);
+  background: var(--tooltip-error-background-color);
+  border: solid 1px var(--tooltip-error-border-color);
+  border-radius: 2px;
+  color: var(--tooltip-error-color);
+  font-size: 12px;
+  line-height: 16px;
+  
+  opacity: 0.75;
 }
 
 .djs-tooltip-error:hover {
@@ -724,7 +743,7 @@ marker.djs-dragger tspan {
   background: var(--search-container-background-color);
   border: solid 1px var(--search-container-border-color);
   border-radius: 2px;
-  box-shadow: 0 0 0 2px var(--search-container-shadow-color), 0 0 0 1px var(--search-container-shadow-inset-color) inset;
+  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;
 }
 
 .djs-search-container:not(.open) {
@@ -757,12 +776,12 @@ marker.djs-dragger tspan {
   width: 100%;
   padding: 6px 10px;
   background: white;
-  border-bottom: solid 1px var(--search-result-border-bottom-color);
+  border-bottom: solid 1px var(--search-result-border-color);
   border-radius: 1px;
 }
 
 .djs-search-highlight {
-  color: var(--search-result-highlight-text-color);
+  color: var(--search-result-highlight-color);
 }
 
 .djs-search-result-primary {
@@ -775,19 +794,19 @@ marker.djs-dragger tspan {
 }
 
 .djs-search-result:hover {
-  background: var(--search-result-selection-color);
+  background: var(--search-result-selected-color);
 }
 
 .djs-search-result-selected {
-  background: var(--search-result-selection-color);
+  background: var(--search-result-selected-color);
 }
 
 .djs-search-result-selected:hover {
-  background: var(--search-result-selection-color);
+  background: var(--search-result-selected-color);
 }
 
 .djs-search-overlay {
-  background: var(--search-result-selection-color);
+  background: var(--search-result-selected-color);
 }
 
 /**
