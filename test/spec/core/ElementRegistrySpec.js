@@ -206,6 +206,79 @@ describe('ElementRegistry', function() {
 
   });
 
+
+  describe('find', function() {
+
+    it('should find by id', inject(function(elementRegistry) {
+
+      // when
+      var element = elementRegistry.find(function(element) {
+
+        // assume we get element as params
+        expect(element).to.exist;
+
+        return element.id === '2';
+      });
+
+      // then
+      expect(element).to.exist;
+      expect(element.id).to.equal('2');
+    }));
+
+
+    it('should find by type', inject(function(elementRegistry) {
+
+      // when
+      var element = elementRegistry.find(function(element) {
+
+        // assume we get element as params
+        expect(element).to.exist;
+
+        return element.type === 'FOOO';
+      });
+
+      // then
+      expect(element).to.exist;
+      expect(element.id).to.equal('1');
+    }));
+
+
+    it('should find by graphics', inject(function(elementRegistry) {
+
+      // when
+      var element = elementRegistry.find(function(element, gfx) {
+
+        // assume we get element and gfx as params
+        expect(element).to.exist;
+        expect(gfx).to.exist;
+
+        return gfx === elementRegistry.getGraphics('2');
+      });
+
+      // then
+      expect(element).to.exist;
+      expect(element.id).to.equal('2');
+    }));
+
+
+    it('should not find if not presented', inject(function(elementRegistry) {
+
+      // when
+      var element = elementRegistry.find(function(element) {
+
+        // assume we get element
+        expect(element).to.exist;
+
+        return element.id === '3';
+      });
+
+      // then
+      expect(element).to.not.exist;
+    }));
+
+  });
+
+
   describe('forEach', function() {
 
     it('should iterate over all', inject(function(elementRegistry) {
