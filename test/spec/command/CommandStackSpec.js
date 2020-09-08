@@ -5,6 +5,7 @@ import {
 
 
 import cmdModule from 'lib/command';
+import { expect } from 'chai';
 
 // example commands
 
@@ -870,6 +871,101 @@ describe('command/CommandStack', function() {
 
         // then
         expect(invokeNested).to.have.been.called;
+      }));
+
+    });
+
+  });
+
+  describe('change-event', function() {
+
+    var testSetup = function(eventBus, commandStack) {
+      var eventData = {};
+
+      commandStack.registerHandler('complex-command', ComplexCommand);
+      commandStack.registerHandler('pre-command', PreCommand);
+      commandStack.registerHandler('post-command', PostCommand);
+      eventBus.on('commandStack.changed', function(event) {
+        eventData.changeEvent = event.method;
+        eventData.actions = event.actions.map(function(action) {return action.command;});
+      });
+
+      return eventData;
+    };
+
+    describe('should indicate details about a change', function() {
+
+      it('with method <execute>', inject(function(eventBus, commandStack) {
+
+        // given
+        var eventData = testSetup(eventBus, commandStack);
+
+        // when
+        commandStack.execute('complex-command', { element: { trace: [] } });
+
+        // then
+        var changeEvent = eventData.changeEvent,
+            actions = eventData.actions;
+
+        expect(changeEvent).to.equal('execute');
+        expect(actions).to.eql(['pre-command', 'complex-command', 'post-command']);
+
+      }));
+
+      it('with method <undo>', inject(function(eventBus, commandStack) {
+
+        // given
+        var eventData = testSetup(eventBus, commandStack);
+
+        // when
+        commandStack.execute('complex-command', { element: { trace: [] } });
+        commandStack.undo();
+
+        // then
+        var changeEvent = eventData.changeEvent,
+            actions = eventData.actions;
+
+        expect(changeEvent).to.equal('undo');
+        expect(actions).to.eql(['post-command', 'complex-command', 'pre-command']);
+
+      }));
+
+      it.skip('with method <redo>', inject(function(eventBus, commandStack) {
+
+        // given
+        var eventData = testSetup(eventBus, commandStack);
+
+        // when
+        commandStack.execute('complex-command', { element: { trace: [] } });
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var changeEvent = eventData.changeEvent,
+            actions = eventData.actions;
+
+        expect(changeEvent).to.equal('redo');
+
+        // Need to figure out a way to indicate the executed actions
+        expect(actions).to.eql(['pre-command', 'complex-command', 'post-command']);
+
+      }));
+
+      it('with method <clear>', inject(function(eventBus, commandStack) {
+
+        // given
+        var eventData = testSetup(eventBus, commandStack);
+
+        // when
+        commandStack.clear();
+
+        // then
+        var changeEvent = eventData.changeEvent,
+            actions = eventData.actions;
+
+        expect(changeEvent).to.equal('clear');
+        expect(actions).to.eql([]);
+
       }));
 
     });
