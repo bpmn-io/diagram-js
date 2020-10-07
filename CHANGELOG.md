@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.7.1
+
+* `FIX`: touch handling for iOS devices ([#492](https://github.com/bpmn-io/diagram-js/pull/492))
+
 ## 6.7.0
 
 * `FEAT`: align colors with Camunda Modeler ([#477](https://github.com/bpmn-io/diagram-js/pull/477))
