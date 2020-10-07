@@ -598,18 +598,18 @@ describe('features/move - MovePreview', function() {
 
       var connection1Polyline = domQuery('[data-element-id="connection1"] polyline', dragGroup);
 
-      expect(connection1Polyline.style.markerStart).to.eql(idToReference(markerStartClone.id));
-      expect(connection1Polyline.style.markerEnd).to.eql(idToReference(markerEndClone.id));
+      expect(idToReferenceFormatOptions(markerStartClone.id)).to.deep.include(connection1Polyline.style.markerStart);
+      expect(idToReferenceFormatOptions(markerEndClone.id)).to.deep.include(connection1Polyline.style.markerEnd);
 
       var connection2Polyline = domQuery('[data-element-id="connection2"] polyline', dragGroup);
 
-      expect(connection2Polyline.style.markerStart).to.eql(idToReference(markerStartClone.id));
-      expect(connection2Polyline.style.markerMid).to.eql(idToReference(markerMidClone.id));
+      expect(idToReferenceFormatOptions(markerStartClone.id)).to.deep.include(connection2Polyline.style.markerStart);
+      expect(idToReferenceFormatOptions(markerMidClone.id)).to.deep.include(connection2Polyline.style.markerMid);
 
       var connection3Polyline = domQuery('[data-element-id="connection3"] polyline', dragGroup);
 
-      expect(connection3Polyline.style.markerMid).to.eql(idToReference(markerMidClone.id));
-      expect(connection3Polyline.style.markerEnd).to.eql(idToReference(markerEndClone.id));
+      expect(idToReferenceFormatOptions(markerMidClone.id)).to.deep.include(connection3Polyline.style.markerMid);
+      expect(idToReferenceFormatOptions(markerEndClone.id)).to.deep.include(connection3Polyline.style.markerEnd);
     }));
 
 
@@ -640,9 +640,27 @@ describe('features/move - MovePreview', function() {
  * Get functional IRI reference for given ID of fragment within current document.
  *
  * @param {string} id
+ * @param {string} [quoteSymbol='']
  *
  * @returns {string}
  */
-function idToReference(id) {
-  return 'url(#' + id + ')';
+function idToReference(id, quoteSymbol) {
+  quoteSymbol = quoteSymbol ? quoteSymbol : '';
+  return 'url(' + quoteSymbol + '#' + id + quoteSymbol + ')';
+}
+
+/**
+ * Get functional IRI reference in all syntactical valid options according to W3C.
+ * (See https://www.w3.org/TR/CSS2/syndata.html#uri). This will include one
+ * unquoted and two quoted (<'> and <">) variants and allows for testing on
+ * different browser environments.
+ *
+ * @param {string} id
+ *
+ * @returns {string[]}
+ */
+function idToReferenceFormatOptions(id) {
+  return ['', '\'', '"'].map(function(quoteSymbol) {
+    return idToReference(id, quoteSymbol);
+  });
 }
