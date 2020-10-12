@@ -136,6 +136,30 @@ describe('features/selection/Selections', function() {
         expect(selectedElements.length).to.equal(1);
       })
     );
+
+
+    it('should add element to selection with SHIFT + click',
+      inject(function(eventBus, selection) {
+
+        // given
+        selection.select(shape1);
+
+        // when
+        eventBus.fire(eventBus.createEvent({
+          type: 'element.click',
+          element: shape2,
+          shiftKey: true ,
+        }));
+
+        // then
+        var selectedElements = selection.get();
+
+        expect(selectedElements[0]).to.equal(shape1);
+        expect(selectedElements[1]).to.equal(shape2);
+        expect(selectedElements.length).to.equal(2);
+      })
+    );
+
   });
 
 
@@ -175,6 +199,28 @@ describe('features/selection/Selections', function() {
       // then
       expect(selectedElements.length).to.equal(0);
     }));
+
+
+    it('should remove selected element from selection with SHIFT + click',
+      inject(function(eventBus, selection) {
+
+        // given
+        selection.select([shape1, shape2]);
+
+        // when
+        eventBus.fire(eventBus.createEvent({
+          type: 'element.click',
+          element: shape1,
+          shiftKey: true ,
+        }));
+
+        // then
+        var selectedElements = selection.get();
+
+        expect(selectedElements[0]).to.equal(shape2);
+        expect(selectedElements.length).to.equal(1);
+      })
+    );
 
   });
 
