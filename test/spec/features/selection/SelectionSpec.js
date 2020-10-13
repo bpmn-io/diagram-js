@@ -12,12 +12,8 @@ import connectModule from 'lib/features/connect';
 import rulesModule from './rules';
 import selectionModule from 'lib/features/selection';
 
-import {
-  createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
 
-
-describe('features/selection/Selections', function() {
+describe('features/selection/Selection', function() {
 
   beforeEach(bootstrapDiagram({
     modules: [
@@ -71,6 +67,23 @@ describe('features/selection/Selections', function() {
   });
 
 
+  describe('#isSelected', function() {
+
+    it('should get selected elements', inject(function(selection) {
+
+      // given
+      selection.select(shape1);
+
+      // when
+      var isSelected = selection.isSelected(shape1);
+
+      // then
+      expect(isSelected).to.be.true;
+    }));
+
+  });
+
+
   describe('#select', function() {
 
     it('should add shape to selection', inject(function(selection) {
@@ -80,6 +93,7 @@ describe('features/selection/Selections', function() {
 
       // then
       var selectedElements = selection.get();
+
       expect(selectedElements[0]).to.equal(shape1);
     }));
 
@@ -91,6 +105,7 @@ describe('features/selection/Selections', function() {
 
       // then
       var selectedElements = selection.get();
+
       expect(selectedElements[0]).to.equal(connection1);
     }));
 
@@ -103,62 +118,38 @@ describe('features/selection/Selections', function() {
 
       // then
       var selectedElements = selection.get();
+
       expect(selectedElements[0]).to.equal(shape2);
       expect(selectedElements[1]).to.equal(connection1);
     }));
 
 
-    it('should select moved element if previously not in selection',
-      inject(function(dragging, elementRegistry, move, selection) {
+    it('should remove all elements from selection', inject(function(selection) {
 
-        // given
-        selection.select(shape1);
+      // given
+      selection.select(shape2);
+      selection.select(connection1, true);
 
-        // when
-        move.start(canvasEvent({
-          x: shape2.x + 10 + shape2.width / 2,
-          y: shape2.y + 30 + shape2.height/2
-        }), shape2);
+      // when
+      selection.select();
 
-        dragging.hover({
-          element: shape2,
-          gfx: elementRegistry.getGraphics(shape2)
-        });
+      // then
+      var selectedElements = selection.get();
 
-        dragging.move(canvasEvent({ x: 300, y: 300 }));
-
-        dragging.end();
-
-        // then
-        var selectedElements = selection.get();
-
-        expect(selectedElements[0]).to.equal(shape2);
-        expect(selectedElements.length).to.equal(1);
-      })
-    );
+      expect(selectedElements.length).to.equal(0);
+    }));
 
 
-    it('should add element to selection with SHIFT + click',
-      inject(function(eventBus, selection) {
+    it('should not fail on empty selection', inject(function(selection) {
 
-        // given
-        selection.select(shape1);
+      // when
+      selection.select();
 
-        // when
-        eventBus.fire(eventBus.createEvent({
-          type: 'element.click',
-          element: shape2,
-          shiftKey: true ,
-        }));
+      // then
+      var selectedElements = selection.get();
 
-        // then
-        var selectedElements = selection.get();
-
-        expect(selectedElements[0]).to.equal(shape1);
-        expect(selectedElements[1]).to.equal(shape2);
-        expect(selectedElements.length).to.equal(2);
-      })
-    );
+      expect(selectedElements.length).to.equal(0);
+    }));
 
   });
 
@@ -166,9 +157,12 @@ describe('features/selection/Selections', function() {
   describe('#deselect', function() {
 
     it('should remove shape from selection', inject(function(selection) {
+
+      // given
       selection.select(shape2);
       selection.select(connection1, true);
 
+      // when
       selection.deselect(shape2);
 
       // then
@@ -178,288 +172,75 @@ describe('features/selection/Selections', function() {
       expect(selectedElements.length).to.equal(1);
     }));
 
-
-    it('should remove all elements from selection', inject(function(selection) {
-      selection.select(shape2);
-      selection.select(connection1, true);
-
-      selection.select();
-
-      // then
-      var selectedElements = selection.get();
-      expect(selectedElements.length).to.equal(0);
-    }));
-
-
-    it('should not fail on empty selection', inject(function(selection) {
-      selection.select();
-
-      var selectedElements = selection.get();
-
-      // then
-      expect(selectedElements.length).to.equal(0);
-    }));
-
-
-    it('should remove selected element from selection with SHIFT + click',
-      inject(function(eventBus, selection) {
-
-        // given
-        selection.select([shape1, shape2]);
-
-        // when
-        eventBus.fire(eventBus.createEvent({
-          type: 'element.click',
-          element: shape1,
-          shiftKey: true ,
-        }));
-
-        // then
-        var selectedElements = selection.get();
-
-        expect(selectedElements[0]).to.equal(shape2);
-        expect(selectedElements.length).to.equal(1);
-      })
-    );
-
-  });
-
-
-  describe('clear', function() {
-
-    it('should remove selection', inject(function(selection, eventBus) {
-
-      // given
-      selection.select(shape1);
-
-      var changedSpy = sinon.spy(function() {});
-
-      eventBus.on('selection.changed', changedSpy);
-
-      // when
-      eventBus.fire('diagram.clear');
-
-      // then
-      expect(selection._selectedElements).to.be.empty;
-
-      expect(changedSpy).to.have.been.called;
-    }));
-
   });
 
 
   describe('integration', function() {
 
-    describe('create', function() {
+    describe('delete shape/connection', function() {
 
-      var newElements,
-          shape1,
-          shape2,
-          rootShape,
-          rootGfx;
-
-      beforeEach(inject(function(elementFactory, canvas) {
-
-        rootShape = canvas.getRootElement(),
-
-        rootGfx = canvas.getGraphics(rootShape);
-
-        newElements = [];
-
-        shape1 = elementFactory.createShape({
-          id: 'newShape1',
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 100
-        });
-
-        newElements.push(shape1);
-
-        shape2 = elementFactory.createShape({
-          id: 'newShape2',
-          x: 200,
-          y: 0,
-          width: 100,
-          height: 100
-        });
-
-        newElements.push(shape2);
-      }));
-
-
-      it('should select all created elements', inject(function(create, dragging, selection) {
+      it('should remove deleted shape from selection', inject(function(eventBus, modeling, selection) {
 
         // given
-        create.start(canvasEvent({ x: 0, y: 0 }), newElements);
+        selection.select(shape1);
 
-        dragging.hover({ element: rootShape, gfx: rootGfx });
+        var changedSpy = sinon.spy();
 
-        dragging.move(canvasEvent({ x: 100, y: 100 }));
+        eventBus.on('selection.changed', changedSpy);
 
         // when
-        dragging.end();
+        modeling.removeShape(shape1);
 
         // then
-        var selected = selection.get();
+        expect(selection.get()).to.be.empty;
 
-        expect(selected).to.exist;
-        expect(selected).to.eql(newElements);
+        expect(changedSpy).to.have.been.called;
       }));
 
 
-      it('should NOT select all created elements', inject(function(create, dragging, selection) {
+      it('should remove deleted connection from selection', inject(function(eventBus, modeling, selection) {
 
         // given
-        create.start(canvasEvent({ x: 0, y: 0 }), newElements, {
-          hints: {
-            autoSelect: [ shape1 ]
-          }
-        });
+        selection.select(connection1);
 
-        dragging.hover({ element: rootShape, gfx: rootGfx });
+        var changedSpy = sinon.spy();
 
-        dragging.move(canvasEvent({ x: 100, y: 100 }));
+        eventBus.on('selection.changed', changedSpy);
 
         // when
-        dragging.end();
+        modeling.removeShape(connection1);
 
         // then
-        var selected = selection.get();
+        expect(selection.get()).to.be.empty;
 
-        expect(selected).to.exist;
-        expect(selected).to.eql([ shape1 ]);
+        expect(changedSpy).to.have.been.called;
       }));
 
-
-      it('should NOT select created elements', inject(function(create, dragging, selection) {
-
-        // given
-        create.start(canvasEvent({ x: 0, y: 0 }), newElements, {
-          hints: {
-            autoSelect: false
-          }
-        });
-
-        dragging.hover({ element: rootShape, gfx: rootGfx });
-
-        dragging.move(canvasEvent({ x: 100, y: 100 }));
-
-        // when
-        dragging.end();
-
-        // then
-        var selected = selection.get();
-
-        expect(selected).to.exist;
-        expect(selected).to.be.empty;
-      }));
     });
 
 
-    describe('connect', function() {
+    describe('clear', function() {
 
-      var shape, targetOnly, notConnectable;
-
-
-      beforeEach(inject(function(canvas) {
+      it('should remove selection', inject(function(selection, eventBus) {
 
         // given
-        shape = canvas.addShape({
-          id: 'shape',
-          x: 10,
-          y: 220,
-          width: 100,
-          height: 100
-        });
+        selection.select(shape1);
 
-        targetOnly = canvas.addShape({
-          id: 'targetOnly',
-          x: 150,
-          y: 220,
-          width: 100,
-          height: 100,
-          targetOnly: true
-        });
+        var changedSpy = sinon.spy(function() {});
 
-        notConnectable = canvas.addShape({
-          id: 'notConnectable',
-          x: 10,
-          y: 330,
-          width: 100,
-          height: 100,
-          notConnectable: true
-        });
+        eventBus.on('selection.changed', changedSpy);
+
+        // when
+        eventBus.fire('diagram.clear');
+
+        // then
+        expect(selection.get()).to.be.empty;
+
+        expect(changedSpy).to.have.been.called;
       }));
 
-
-      it('should select target of connect interaction', inject(
-        function(connect, dragging, selection) {
-
-          // given
-          connect.start(canvasEvent({ x: 200, y: 60 }), shape);
-
-          dragging.hover({ element: targetOnly });
-
-          dragging.move(canvasEvent({ x: 50, y: 20 }));
-
-          // when
-          dragging.end();
-
-          // then
-          var selected = selection.get();
-
-          expect(selected).to.exist;
-          expect(selected).to.eql([ targetOnly ]);
-        }
-      ));
-
-
-      it('should select target of connect interaction - reversed connection', inject(
-        function(connect, dragging, selection) {
-
-          // given
-          connect.start(canvasEvent({ x: 200, y: 60 }), targetOnly);
-
-          dragging.hover({ element: shape });
-
-          dragging.move(canvasEvent({ x: 50, y: 20 }));
-
-          // when
-          dragging.end();
-
-          // then
-          var selected = selection.get();
-
-          expect(selected).to.exist;
-          expect(selected).to.eql([ shape ]);
-        }
-      ));
-
-
-      it('should NOT select if connection is not created', inject(
-        function(connect, dragging, selection) {
-
-          // given
-          connect.start(canvasEvent({ x: 200, y: 60 }), targetOnly);
-
-          dragging.hover({ element: notConnectable });
-
-          dragging.move(canvasEvent({ x: 50, y: 20 }));
-
-          // when
-          dragging.end();
-
-          // then
-          var selected = selection.get();
-
-          expect(selected).to.exist;
-          expect(selected).to.eql([]);
-        }
-      ));
     });
+
   });
-
-
 
 });
