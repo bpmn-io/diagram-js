@@ -2,7 +2,7 @@
 
 # diagram-js
 
-[![Build Status](https://travis-ci.org/bpmn-io/diagram-js.svg?branch=develop)](https://travis-ci.org/bpmn-io/diagram-js)
+[![Build Status](https://travis-ci.org/bpmn-io/diagram-js.svg?branch=develop)](https://travis-ci.org/bpmn-io/diagram-js) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/bpmn-io/diagram-js/blob/develop/LICENSE)
 
 A toolbox for displaying and modifying diagrams on the web.
 
@@ -34,7 +34,7 @@ Some libraries / applications built on top of diagram-js:
 ## Hacking the Project
 
 To get the development setup make sure to have [NodeJS](https://nodejs.org/en/download/) installed.
-If your set up, clone the project and execute
+If you are set up, clone the project and execute
 
 ```
 npm install
@@ -58,4 +58,4 @@ __Note:__ We do not generate any build artifacts. Required parts of the library 
 
 ## License
 
-MIT
+**diagram-js** is licensed under [MIT](https://github.com/bpmn-io/diagram-js/blob/develop/LICENSE).
