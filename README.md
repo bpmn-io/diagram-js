@@ -34,7 +34,7 @@ Some libraries / applications built on top of diagram-js:
 ## Hacking the Project
 
 To get the development setup make sure to have [NodeJS](https://nodejs.org/en/download/) installed.
-If your set up, clone the project and execute
+As soon as you are set up, clone the project and execute
 
 ```
 npm install
