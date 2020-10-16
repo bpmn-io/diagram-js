@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.8.0
+
+* `FEAT`: support `Backspace` key for element removal
+* `FEAT`: support `SHIFT` click for adding elements to selection
+* `FEAT`: add `ElementRegistry#find` method
+
 ## 6.7.1
 
 * `FIX`: touch handling for iOS devices ([#492](https://github.com/bpmn-io/diagram-js/pull/492))
