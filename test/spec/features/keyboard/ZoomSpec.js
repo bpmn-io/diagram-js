@@ -14,7 +14,7 @@ import keyboardModule from 'lib/features/keyboard';
 import { createKeyEvent } from 'test/util/KeyEvents';
 
 var KEYS = {
-  ZOOM_IN: [ '+', 'Add' ],
+  ZOOM_IN: [ '+', 'Add', '=' ],
   ZOOM_OUT: [ '-', 'Subtract' ],
   ZOOM_DEFAULT: [ '0' ],
 };
