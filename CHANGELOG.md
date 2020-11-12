@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 6.8.1
+
+* `FIX`: correct keyboard zoom in binding on international keyboard layouts ([#498](https://github.com/bpmn-io/diagram-js/pull/498))
+
 ## 6.8.0
 
 * `FEAT`: support `Backspace` key for element removal
