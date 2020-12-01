@@ -1,5 +1,3 @@
-/* global process */
-
 var path = require('path');
 
 var coverage = process.env.COVERAGE;

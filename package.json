@@ -34,9 +34,9 @@
   ],
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-bpmn-io": "^0.10.0",
-    "eslint-plugin-import": "^2.18.0",
+    "eslint": "^7.14.0",
+    "eslint-plugin-bpmn-io": "^0.11.0",
+    "eslint-plugin-import": "^2.22.1",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jquery": "^3.5.1",
     "karma": "^5.2.3",
