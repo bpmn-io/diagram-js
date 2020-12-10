@@ -124,7 +124,6 @@ describe('util - Text', function() {
 
   describe('#createText', function() {
 
-
     it('should create simple label', function() {
 
       // given
@@ -252,6 +251,63 @@ describe('util - Text', function() {
 
         expect(text).to.exist;
         expect(toFitBBox(text, { x: 0, y: -40, width: 100, height: 190 })).to.be.true;
+      });
+
+
+      it('preformated / soft breaks', function() {
+
+        // given
+        // string contains invisible "soft break characters" => |
+        // Fight Hippopoto­|monstro­|sesquippe­|daliophobia
+        var label = 'Fight Hippopoto­monstro­sesquippe­daliophobia';
+
+        // when
+        var text = createText(container, label, {
+          box: { width: 100, height: 100 },
+          align: 'center-middle',
+          padding: 5
+        });
+
+        expect(text).to.exist;
+        expect(toFitBBox(text, { x: 0, y: 0, width: 100, height: 100 })).to.be.true;
+      });
+
+
+      it('preformated / soft breaks / no break', function() {
+
+        // given
+        // string contains invisible "soft break characters" => |
+        // Fight A|B|C
+        var label = 'Fight A­B­C';
+
+        // when
+        var text = createText(container, label, {
+          box: { width: 100, height: 100 },
+          align: 'center-middle',
+          padding: 5
+        });
+
+        expect(text).to.exist;
+        expect(toFitBBox(text, { x: 0, y: 35, width: 100, height: 30 })).to.be.true;
+      });
+
+
+      it('preformated / soft breaks / some breaks', function() {
+
+        // given
+        // string contains invisible "soft break characters" => |
+        // Fight A|B|C|D|E|F|G|H|I|J|K
+        var label = 'Fight A­B­C­D­E­FG­H­I­J­K';
+
+        // when
+        var text = createText(container, label, {
+          box: { width: 100, height: 100 },
+          align: 'center-middle',
+          padding: 5
+        });
+
+        expect(text).to.exist;
+        expect(toFitBBox(text, { x: 0, y: 25, width: 100, height: 50 })).to.be.true;
       });
 
 
