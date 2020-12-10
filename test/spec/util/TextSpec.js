@@ -114,9 +114,16 @@ describe('util - Text', function() {
     var element = textAndBoundingBox.element,
         dimensions = textAndBoundingBox.dimensions;
 
-    drawRect(dimensions, { strokeWidth: '1px', stroke: 'fuchsia' });
-
     svgAppend(container, element);
+
+    var bbox = element.getBBox();
+
+    drawRect({
+      x: bbox.x,
+      y: bbox.y,
+      width: dimensions.width,
+      height: dimensions.height
+    }, { strokeWidth: '1px', stroke: 'fuchsia' });
 
     return element;
   }
