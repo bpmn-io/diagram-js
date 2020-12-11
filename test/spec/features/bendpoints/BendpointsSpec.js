@@ -128,6 +128,31 @@ describe('features/bendpoints', function() {
     }));
 
 
+    it('should NOT activate on AUXILIARY mouse button', inject(
+      function(dragging, eventBus, elementRegistry) {
+
+        // when
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 250, y: 250 })
+        });
+        eventBus.fire('element.mousedown', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 250, y: 250 }, { button: 1 })
+        });
+
+        var draggingContext = dragging.context();
+
+        // then
+        expect(draggingContext).not.to.exist;
+      }
+    ));
+
+
     it('should activate bendpoint move on starting waypoint', inject(
       function(dragging, eventBus, elementRegistry) {
 
