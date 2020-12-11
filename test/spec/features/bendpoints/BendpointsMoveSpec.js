@@ -745,10 +745,14 @@ describe('features/bendpoints - move', function() {
 
 
     it('should filter out redundant waypoints from preview',
-      inject(function(bendpointMove, dragging) {
+      inject(function(bendpointMove, dragging, canvas) {
 
         // when
         bendpointMove.start(canvasEvent({ x: 500, y: 250 }), connection, 1);
+        dragging.hover({
+          element: shape2,
+          gfx: canvas.getGraphics(shape2)
+        });
         dragging.move(canvasEvent({ x: 550, y: 250 }));
 
         var ctx = dragging.context(),
