@@ -105,6 +105,16 @@ describe('features/hand-tool', function() {
       expect(handTool.isActive()).to.be.true;
     }));
 
+
+    it('should NOT start on AUXILIARY mousedown', inject(function(handTool, eventBus) {
+
+      // when
+      eventBus.fire(mouseDownEvent(rootShape, { button: 1, ctrlKey: false }));
+
+      // then
+      expect(handTool.isActive()).to.be.false;
+    }));
+
   });
 
 

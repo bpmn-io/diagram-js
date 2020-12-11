@@ -305,7 +305,7 @@ describe('features/selection/Selection', function() {
 
   describe('element.click', function() {
 
-    it('should select element on click', inject(function(eventBus, selection) {
+    it('should select element on PRIMARY click', inject(function(eventBus, selection) {
 
       // when
       eventBus.fire(clickEvent(shape1));
@@ -313,6 +313,16 @@ describe('features/selection/Selection', function() {
       // then
       expect(selection.get()).to.have.length(1);
       expect(selection.isSelected(shape1)).to.be.true;
+    }));
+
+
+    it('should NOT select element on AUXILIARY click', inject(function(eventBus, selection) {
+
+      // when
+      eventBus.fire(clickEvent(shape1, { button: 1 }));
+
+      // then
+      expect(selection.get()).to.be.empty;
     }));
 
 

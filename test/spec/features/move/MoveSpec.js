@@ -1,5 +1,6 @@
 import {
   bootstrapDiagram,
+  getDiagramJS,
   inject
 } from 'test/TestHelper';
 
@@ -18,7 +19,12 @@ import moveModule from 'lib/features/move';
 
 describe('features/move - Move', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ moveModule, modelingModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      moveModule,
+      modelingModule
+    ]
+  }));
 
   beforeEach(inject(function(canvas, dragging) {
     dragging.setOptions({ manual: true });
@@ -176,4 +182,44 @@ describe('features/move - Move', function() {
 
   });
 
+
+  describe('activate on mouse', function() {
+
+    it('should start on PRIMARY mousedown', inject(function(dragging, eventBus) {
+
+      // when
+      eventBus.fire(mouseDownEvent(parentShape));
+
+      // then
+      var context = dragging.context();
+
+      expect(context && context.prefix).to.match(/^shape.move/);
+    }));
+
+
+    it('should NOT start on AUXILIARY mousedown', inject(function(dragging, eventBus) {
+
+      // when
+      eventBus.fire(mouseDownEvent(parentShape, { button: 1 }));
+
+      // then
+      expect(dragging.context()).not.to.exist;
+    }));
+
+  });
+
 });
+
+
+// helpers ////////////////
+
+function mouseDownEvent(element, data) {
+
+  return getDiagramJS().invoke(function(eventBus) {
+    return eventBus.createEvent({
+      type: 'element.mousedown',
+      element: element,
+      originalEvent: assign({ button: 0 }, data || {})
+    });
+  });
+}
