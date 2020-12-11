@@ -1,7 +1,12 @@
 import {
   bootstrapDiagram,
+  getDiagramJS,
   inject
 } from 'test/TestHelper';
+
+import {
+  assign
+} from 'min-dash';
 
 import coreModule from 'lib/core';
 import createModule from 'lib/features/create';
@@ -303,10 +308,7 @@ describe('features/selection/Selection', function() {
     it('should select element on click', inject(function(eventBus, selection) {
 
       // when
-      eventBus.fire(eventBus.createEvent({
-        type: 'element.click',
-        element: shape1
-      }));
+      eventBus.fire(clickEvent(shape1));
 
       // then
       expect(selection.get()).to.have.length(1);
@@ -320,10 +322,7 @@ describe('features/selection/Selection', function() {
       selection.select(shape1);
 
       // when
-      eventBus.fire(eventBus.createEvent({
-        type: 'element.click',
-        element: shape1
-      }));
+      eventBus.fire(clickEvent(shape1));
 
       // then
       expect(selection.get()).to.have.length(0);
@@ -337,10 +336,7 @@ describe('features/selection/Selection', function() {
       selection.select(shape1);
 
       // when
-      eventBus.fire(eventBus.createEvent({
-        type: 'element.click',
-        element: shape2
-      }));
+      eventBus.fire(clickEvent(shape2));
 
       // then
       expect(selection.get()).to.have.length(1);
@@ -356,11 +352,7 @@ describe('features/selection/Selection', function() {
         selection.select(shape1);
 
         // when
-        eventBus.fire(eventBus.createEvent({
-          type: 'element.click',
-          element: shape2,
-          ctrlKey: true
-        }));
+        eventBus.fire(clickEvent(shape2, { ctrlKey: true }));
 
         // then
         expect(selection.get()).to.have.length(2);
@@ -377,11 +369,7 @@ describe('features/selection/Selection', function() {
         selection.select(shape1);
 
         // when
-        eventBus.fire(eventBus.createEvent({
-          type: 'element.click',
-          element: shape2,
-          shiftKey: true
-        }));
+        eventBus.fire(clickEvent(shape2, { shiftKey: true }));
 
         // then
         expect(selection.get()).to.have.length(2);
@@ -398,11 +386,7 @@ describe('features/selection/Selection', function() {
         selection.select([ shape1, shape2 ]);
 
         // when
-        eventBus.fire(eventBus.createEvent({
-          type: 'element.click',
-          element: shape1,
-          ctrlKey: true
-        }));
+        eventBus.fire(clickEvent(shape1, { ctrlKey: true }));
 
         // then
         expect(selection.get()).to.have.length(1);
@@ -419,11 +403,7 @@ describe('features/selection/Selection', function() {
         selection.select([ shape1, shape2 ]);
 
         // when
-        eventBus.fire(eventBus.createEvent({
-          type: 'element.click',
-          element: shape1,
-          shiftKey: true
-        }));
+        eventBus.fire(clickEvent(shape1, { shiftKey: true }));
 
         // then
         expect(selection.get()).to.have.length(1);
@@ -435,3 +415,17 @@ describe('features/selection/Selection', function() {
   });
 
 });
+
+
+// helpers ////////////////
+
+function clickEvent(element, data) {
+
+  return getDiagramJS().invoke(function(eventBus) {
+    return eventBus.createEvent({
+      type: 'element.click',
+      element: element,
+      originalEvent: assign({ button: 0 }, data || {})
+    });
+  });
+}
