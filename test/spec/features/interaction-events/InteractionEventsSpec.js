@@ -5,6 +5,15 @@ import {
 
 import interactionEventsModule from 'lib/features/interaction-events';
 
+import {
+  queryAll as domQueryAll
+} from 'min-dom';
+
+import {
+  filter
+} from 'min-dash';
+
+
 var bindings = {
   mouseover: 'element.hover',
   mouseout: 'element.out',
@@ -15,13 +24,12 @@ var bindings = {
   contextmenu: 'element.contextmenu'
 };
 
-import {
-  queryAll as domQueryAll
-} from 'min-dom';
-
-import {
-  filter
-} from 'min-dash';
+var auxiliaryBindings = {
+  click: 'element.click',
+  dblclick: 'element.dblclick',
+  mousedown: 'element.mousedown',
+  mouseup: 'element.mouseup'
+};
 
 
 describe('features/interaction-events', function() {
@@ -150,6 +158,11 @@ describe('features/interaction-events', function() {
         verifyEvent(event);
       });
 
+      // auxiliary-clicks
+      Object.keys(auxiliaryBindings).forEach(function(event) {
+        verifyEvent(event, 1);
+      });
+
       // <contextmenu> right-click
       verifyEvent('contextmenu', 2);
 
@@ -159,12 +172,7 @@ describe('features/interaction-events', function() {
     describe('should suppress', function() {
 
       // right-clicks
-      [
-        'click',
-        'mousedown',
-        'mouseup',
-        'dblclick'
-      ].forEach(function(event) {
+      Object.keys(auxiliaryBindings).forEach(function(event) {
         verifyNoEvent(event, 2);
       });
 
