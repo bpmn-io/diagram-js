@@ -49,7 +49,27 @@ describe('features/hand-tool', function() {
   }));
 
 
-  describe('general', function() {
+  describe('#toggle', function() {
+
+    it('should activate and deactivate', inject(function(handTool) {
+
+      // given
+      handTool.toggle();
+
+      // assume
+      expect(handTool.isActive()).to.be.true;
+
+      // when
+      handTool.toggle();
+
+      // then
+      expect(handTool.isActive()).to.be.falsy;
+    }));
+
+  });
+
+
+  describe('behavior', function() {
 
     it('should not move element', inject(function(handTool, dragging) {
 
