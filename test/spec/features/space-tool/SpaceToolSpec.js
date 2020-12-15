@@ -28,6 +28,34 @@ var spy = sinon.spy;
 
 describe('features/space-tool', function() {
 
+  describe('#toggle', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        spaceToolModule
+      ]
+    }));
+
+
+    it('should activate and deactivate', inject(function(spaceTool) {
+
+      // given
+      spaceTool.toggle();
+
+      // assume
+      expect(spaceTool.isActive()).to.be.true;
+
+      // when
+      spaceTool.toggle();
+
+      // then
+      expect(spaceTool.isActive()).to.be.falsy;
+    }));
+
+  });
+
+
   describe('create/remove space', function() {
 
     beforeEach(bootstrapDiagram({

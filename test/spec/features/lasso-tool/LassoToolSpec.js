@@ -58,6 +58,26 @@ describe('features/lasso-tool', function() {
   }));
 
 
+  describe('#toggle', function() {
+
+    it('should activate and deactivate', inject(function(lassoTool) {
+
+      // given
+      lassoTool.toggle();
+
+      // assume
+      expect(lassoTool.isActive()).to.be.true;
+
+      // when
+      lassoTool.toggle();
+
+      // then
+      expect(lassoTool.isActive()).to.be.falsy;
+    }));
+
+  });
+
+
   describe('#select', function() {
 
     it('should select elements in bbox', inject(function(lassoTool, selection) {

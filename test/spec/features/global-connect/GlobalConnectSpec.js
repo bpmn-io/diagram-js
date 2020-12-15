@@ -47,50 +47,74 @@ describe('features/global-connect-tool', function() {
   }));
 
 
-  it('should start connect if allowed', inject(function(eventBus, globalConnect, dragging) {
+  describe('#toggle', function() {
 
-    // given
-    var shape = shapeAbleToStartConnection;
-    var connectSpy = sinon.spy(function(event) {
-      expect(event.context).to.eql({
-        start: shape,
-        connectionStart: { x: 150, y: 130 }
+    it('should activate and deactivate', inject(function(globalConnect) {
+
+      // given
+      globalConnect.toggle();
+
+      // assume
+      expect(globalConnect.isActive()).to.be.true;
+
+      // when
+      globalConnect.toggle();
+
+      // then
+      expect(globalConnect.isActive()).to.be.falsy;
+    }));
+
+  });
+
+
+  describe('behavior', function() {
+
+    it('should start connect if allowed', inject(function(eventBus, globalConnect, dragging) {
+
+      // given
+      var shape = shapeAbleToStartConnection;
+      var connectSpy = sinon.spy(function(event) {
+        expect(event.context).to.eql({
+          start: shape,
+          connectionStart: { x: 150, y: 130 }
+        });
       });
-    });
 
-    eventBus.once('connect.init', connectSpy);
+      eventBus.once('connect.init', connectSpy);
 
-    // when
-    globalConnect.start(canvasEvent({ x: 0, y: 0 }));
+      // when
+      globalConnect.start(canvasEvent({ x: 0, y: 0 }));
 
-    dragging.move(canvasEvent({ x: 150, y: 130 }));
-    dragging.hover(canvasEvent({ x: 150, y: 130 }, { element: shape }));
-    dragging.end(canvasEvent({ x: 0, y: 0 }));
+      dragging.move(canvasEvent({ x: 150, y: 130 }));
+      dragging.hover(canvasEvent({ x: 150, y: 130 }, { element: shape }));
+      dragging.end(canvasEvent({ x: 0, y: 0 }));
 
-    eventBus.fire('element.out', canvasEvent({ x: 99, y: 99 }, { element: shape }));
+      eventBus.fire('element.out', canvasEvent({ x: 99, y: 99 }, { element: shape }));
 
-    // then
-    expect(connectSpy).to.have.been.called;
-  }));
+      // then
+      expect(connectSpy).to.have.been.called;
+    }));
 
 
-  it('should NOT start connect if rejected', inject(function(eventBus, globalConnect, dragging) {
+    it('should NOT start connect if rejected', inject(function(eventBus, globalConnect, dragging) {
 
-    // given
-    var shape = shapeUnableToStartConnection;
-    var connectSpy = sinon.spy();
+      // given
+      var shape = shapeUnableToStartConnection;
+      var connectSpy = sinon.spy();
 
-    eventBus.once('connect.init', connectSpy);
+      eventBus.once('connect.init', connectSpy);
 
-    // when
-    globalConnect.start(canvasEvent({ x: 0, y: 0 }));
-    dragging.hover(canvasEvent({ x: 150, y: 150 }, { element: shape }));
-    dragging.end(canvasEvent({ x: 0, y: 0 }));
+      // when
+      globalConnect.start(canvasEvent({ x: 0, y: 0 }));
+      dragging.hover(canvasEvent({ x: 150, y: 150 }, { element: shape }));
+      dragging.end(canvasEvent({ x: 0, y: 0 }));
 
-    eventBus.fire('element.out', canvasEvent({ x: 99, y: 99 }, { element: shape }));
+      eventBus.fire('element.out', canvasEvent({ x: 99, y: 99 }, { element: shape }));
 
-    // then
-    expect(connectSpy).to.not.have.been.called;
-  }));
+      // then
+      expect(connectSpy).to.not.have.been.called;
+    }));
+
+  });
 
 });
