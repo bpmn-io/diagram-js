@@ -15,7 +15,7 @@ Some libraries / applications built on top of diagram-js:
 
 * [bpmn-js](https://github.com/bpmn-io/bpmn-js) - A BPMN 2.0 viewer / modeler ([Demo](https://demo.bpmn.io/bpmn))
 * [cmmn-js](https://github.com/bpmn-io/cmmn-js) - A CMMN 1.1 viewer / modeler ([Demo](https://demo.bpmn.io/cmmn))
-* [dmn-js](https://github.com/bpmn-io/dmn-js) - A DMN 1.1 viewer / modeler / table editor ([Demo](https://demo.bpmn.io/dmn))
+* [dmn-js](https://github.com/bpmn-io/dmn-js) - A DMN 1.3 viewer / modeler / table editor ([Demo](https://demo.bpmn.io/dmn))
 
 #### External
 
