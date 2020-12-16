@@ -54,33 +54,71 @@ describe('navigation/movecanvas', function() {
     }));
 
 
-    it('should start on PRIMARY mousedown', inject(function(eventBus) {
+    it('should start on PRIMARY mousedown', inject(function(eventBus, moveCanvas) {
 
       // when
-      var started = eventBus.fire(mouseDownEvent(rootElement));
+      eventBus.fire(mouseDownEvent(rootElement));
 
       // then
-      expect(started).to.be.true;
+      expect(moveCanvas.isActive()).to.be.true;
     }));
 
 
-    it('should start on AUXILIARY mousedown', inject(function(eventBus) {
+    it('should start on AUXILIARY mousedown', inject(function(eventBus, moveCanvas) {
 
       // when
-      var started = eventBus.fire(mouseDownEvent(rootElement, { button: 1 }));
+      eventBus.fire(mouseDownEvent(rootElement, { button: 1 }));
 
       // then
-      expect(started).to.be.true;
+      expect(moveCanvas.isActive()).to.be.true;
     }));
 
 
-    it('should NOT start on mousedown with modifier key', inject(function(eventBus) {
+    it('should NOT start on mousedown with modifier key', inject(function(eventBus, moveCanvas) {
 
       // when
-      var started = eventBus.fire(mouseDownEvent(rootElement, { ctrlKey: true }));
+      eventBus.fire(mouseDownEvent(rootElement, { ctrlKey: true }));
 
       // then
-      expect(started).to.be.undefined;
+      expect(moveCanvas.isActive()).to.be.false;
+    }));
+
+  });
+
+
+  describe('behavior', function() {
+
+    var rootElement;
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        moveCanvasModule
+      ]
+    }));
+
+    beforeEach(inject(function(canvas) {
+      rootElement = canvas.getRootElement();
+    }));
+
+
+    it('should move', inject(function(eventBus, canvas, moveCanvas) {
+
+      // given
+      var viewbox = canvas.viewbox();
+
+      eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+
+      // when
+      document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mouseup'));
+
+      // then
+      var updatedViewbox = canvas.viewbox();
+
+      expect(moveCanvas.isActive()).to.be.false;
+
+      expect(viewbox.x - updatedViewbox.x).to.eql(200);
+      expect(viewbox.y - updatedViewbox.y).to.eql(100);
     }));
 
   });
@@ -132,4 +170,36 @@ function mouseDownEvent(element, data) {
       }, data || {})
     });
   });
+}
+
+
+function createMouseEvent(x, y, type) {
+  var event = document.createEvent('MouseEvent');
+
+  var screenX = x,
+      screenY = y,
+      clientX = x,
+      clientY = y;
+
+  if (event.initMouseEvent) {
+    event.initMouseEvent(
+      type,
+      true,
+      true,
+      window,
+      0,
+      screenX,
+      screenY,
+      clientX,
+      clientY,
+      false,
+      false,
+      false,
+      false,
+      0,
+      null
+    );
+  }
+
+  return event;
 }
