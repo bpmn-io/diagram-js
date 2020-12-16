@@ -6,6 +6,19 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 7.0.0
+
+* `FEAT`: support soft breaks in labels ([`e3927166`](https://github.com/bpmn-io/diagram-js/commit/e3927166d0125674a9e7e937c5a4cbf68d69c21a))
+* `FEAT`: automatically activate tools with last mouse position when activated via keyboard or editor action ([#511](https://github.com/bpmn-io/diagram-js/pull/511))
+* `FEAT`: immediately activate handtool on `SPACE` down ([#511](https://github.com/bpmn-io/diagram-js/pull/511))
+* `FEAT`: allow components to react to auxiliary mouse events ([`1063f7c18`](https://github.com/bpmn-io/diagram-js/commit/1063f7c18474096d3d7c9e400ce82a1bf762a157))
+* `FEAT`: move canvas on auxiliary button mouse down ([`138161d6`](https://github.com/bpmn-io/diagram-js/commit/138161d6908edb578317d0d988accee20fca0187))
+* `CHORE`: make tool manager palette click detection fail-safe ([`5a1454e9`](https://github.com/bpmn-io/diagram-js/commit/5a1454e930484764122605b12268e5bafc1af675))
+
+### Breaking Changes
+
+* Auxiliary mouse button events will now be passed as `element.*` mouse events to components. You must filter your event listeners to prevent reactions to these events ([`1063f7c18`](https://github.com/bpmn-io/diagram-js/commit/1063f7c18474096d3d7c9e400ce82a1bf762a157)).
+
 ## 6.8.2
 
 * `CHORE`: generalize hover fix ([#503](https://github.com/bpmn-io/diagram-js/pull/503))
