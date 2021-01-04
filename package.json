@@ -1,7 +1,7 @@
 {
   "name": "diagram-js",
   "version": "7.0.0",
-  "description": "A modeling framework for the web",
+  "description": "A toolbox for displaying and modifying diagrams on the web",
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
