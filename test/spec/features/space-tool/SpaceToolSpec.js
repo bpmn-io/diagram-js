@@ -330,7 +330,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should remove space with objects to the right', inject(function(spaceTool, dragging) {
+      it('should remove space with elements to the right', inject(function(spaceTool, dragging) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
@@ -352,7 +352,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should add space with objects to the left', inject(function(dragging, spaceTool) {
+      it('should add space with elements to the left', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 350, y: 150 }));
@@ -375,7 +375,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should remove space with objects that are above', inject(function(dragging, spaceTool) {
+      it('should remove space with elements that are above', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 350, y: 230 }));
@@ -398,7 +398,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should add space with objects that are below', inject(function(dragging, spaceTool) {
+      it('should add space with elements that are below', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 350, y: 230 }));
@@ -450,6 +450,86 @@ describe('features/space-tool', function() {
       }));
 
     });
+
+  });
+
+
+  describe('labels', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        rulesModule,
+        spaceToolModule
+      ]
+    }));
+
+    var childShape,
+        childShape2,
+        connection,
+        label,
+        label1;
+
+    beforeEach(inject(function(canvas, elementFactory, modeling) {
+      childShape = elementFactory.createShape({
+        id: 'child',
+        x: 100, y: 100,
+        width: 100, height: 100
+      });
+
+      canvas.addShape(childShape);
+
+      childShape2 = elementFactory.createShape({
+        id: 'child2',
+        x: 400, y: 100,
+        width: 100, height: 100
+      });
+
+      canvas.addShape(childShape2);
+
+      connection = elementFactory.createConnection({
+        id: 'connection',
+        waypoints: [
+          { x: 150, y: 150 },
+          { x: 450, y: 150 }
+        ],
+        source: childShape,
+        target: childShape2
+      });
+
+      canvas.addConnection(connection);
+
+      label = elementFactory.createLabel({
+        id: 'label',
+        width: 80, height: 40
+      });
+  
+      modeling.createLabel(childShape, { x: 150, y: 250 }, label);
+
+      label1 = elementFactory.createLabel({
+        id: 'label1',
+        width: 80, height: 40
+      });
+  
+      modeling.createLabel(connection, { x: 300, y: 200 }, label1);
+    }));
+
+
+    it('should move external labels', inject(function(dragging, spaceTool) {
+
+      // when
+      spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 0 }));
+
+      dragging.move(canvasEvent({ x: 500, y: 0 }));
+      dragging.end();
+
+      // then
+      expect(label.x).to.equal(610);
+      expect(label.y).to.equal(230);
+
+      expect(label1.x).to.equal(760);
+      expect(label1.y).to.equal(180);
+    }));
 
   });
 
@@ -1492,36 +1572,6 @@ describe('features/space-tool', function() {
       }
     ));
 
-
-    it('should disable labelBehavior when reconnecting', inject(
-      function(eventBus, spaceTool) {
-
-        // given
-        var updateWaypointsSpy = spy(),
-            layoutSpy = spy(function(event) {
-              var context = event.context,
-                  hints = context.hints,
-                  _connection = context.connection;
-
-              // then
-              expect(_connection).to.equal(connection);
-
-              expect(hints).to.have.property('labelBehavior', false);
-            }),
-            originalWaypoints = connection.waypoints.slice();
-
-        eventBus.on('commandStack.connection.updateWaypoints.execute', updateWaypointsSpy);
-        eventBus.on('commandStack.connection.layout.execute', layoutSpy);
-
-        // when
-        spaceTool.makeSpace([], [ child2, parent ], { x: 0, y: 100 }, 's', 200);
-
-        // then
-        expect(updateWaypointsSpy).not.to.have.been.called;
-        expect(layoutSpy).to.have.been.called;
-        expect(connection.waypoints[ 1 ]).to.eql(originalWaypoints[ 1 ]);
-      }
-    ));
   });
 
 
