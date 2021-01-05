@@ -503,14 +503,14 @@ describe('features/space-tool', function() {
         id: 'label',
         width: 80, height: 40
       });
-  
+
       modeling.createLabel(childShape, { x: 150, y: 250 }, label);
 
       label1 = elementFactory.createLabel({
         id: 'label1',
         width: 80, height: 40
       });
-  
+
       modeling.createLabel(connection, { x: 300, y: 200 }, label1);
     }));
 
@@ -529,6 +529,50 @@ describe('features/space-tool', function() {
 
       expect(label1.x).to.equal(760);
       expect(label1.y).to.equal(180);
+    }));
+
+
+    it('should disallow label behavior', inject(function(dragging, eventBus, spaceTool) {
+
+      // when
+      spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 0 }));
+
+      var layoutConnectionSpy = sinon.spy(function(event) {
+        var context = event.context,
+            hints = context.hints;
+
+        expect(hints.labelBehavior).to.be.false;
+      });
+
+      eventBus.on('commandStack.connection.updateWaypoints.execute', layoutConnectionSpy);
+
+      dragging.move(canvasEvent({ x: 500, y: 0 }));
+      dragging.end();
+
+      // then
+      expect(layoutConnectionSpy).to.have.been.called;
+    }));
+
+
+    it('should allow label behavior', inject(function(dragging, eventBus, spaceTool) {
+
+      // when
+      spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 0 }));
+
+      var layoutConnectionSpy = sinon.spy(function(event) {
+        var context = event.context,
+            hints = context.hints;
+
+        expect(hints.labelBehavior).to.not.be.false;
+      });
+
+      eventBus.on('commandStack.connection.layout.execute', layoutConnectionSpy);
+
+      dragging.move(canvasEvent({ x: 800, y: 0 }));
+      dragging.end();
+
+      // then
+      expect(layoutConnectionSpy).to.have.been.called;
     }));
 
   });
