@@ -83,7 +83,7 @@ describe('features/lasso-tool', function() {
       lassoTool.toggle();
 
       // then
-      expect(lassoTool.isActive()).to.be.falsy;
+      expect(lassoTool.isActive()).not.to.be.ok;
     }));
 
   });
@@ -166,7 +166,7 @@ describe('features/lasso-tool', function() {
       eventBus.fire(mouseDownEvent(rootShape, { button: 1, shiftKey: true }));
 
       // then
-      expect(lassoTool.isActive()).to.be.falsy;
+      expect(lassoTool.isActive()).not.to.be.ok;
     }));
 
   });

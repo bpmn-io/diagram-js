@@ -61,7 +61,7 @@ describe('features/global-connect-tool', function() {
       globalConnect.toggle();
 
       // then
-      expect(globalConnect.isActive()).to.be.falsy;
+      expect(globalConnect.isActive()).not.to.be.ok;
     }));
 
   });

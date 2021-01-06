@@ -63,7 +63,7 @@ describe('features/hand-tool', function() {
       handTool.toggle();
 
       // then
-      expect(handTool.isActive()).to.be.falsy;
+      expect(handTool.isActive()).not.to.be.ok;
     }));
 
   });
@@ -140,7 +140,7 @@ describe('features/hand-tool', function() {
       });
 
       // then
-      expect(handTool.isActive()).to.be.falsy;
+      expect(handTool.isActive()).not.to.be.ok;
     }));
 
 
@@ -157,7 +157,7 @@ describe('features/hand-tool', function() {
       });
 
       // then
-      expect(handTool.isActive()).to.be.falsy;
+      expect(handTool.isActive()).not.to.be.ok;
     }));
 
 
