@@ -524,6 +524,67 @@ describe('features/palette', function() {
 
   });
 
+
+  describe('tools highlighting', function() {
+
+    var entries = {
+      'entryA': {
+        group: 'tools',
+        action: function() {}
+      },
+      'entryB': {
+        group: 'tools',
+        action: function() {}
+      },
+      'entryC': {
+        action: function() {}
+      }
+    };
+
+    beforeEach(bootstrapDiagram({
+      modules: [ paletteModule ]
+    }));
+
+    beforeEach(inject(function(palette) {
+
+      palette.registerProvider(new Provider(entries));
+    }));
+
+
+    it('should update tool highlight', inject(function(eventBus, palette) {
+
+      // given
+      var toolName = 'entryA';
+
+      // when
+      eventBus.fire('tool-manager.update', { tool: toolName });
+
+      var entryNode = getEntryNode(toolName, palette._container);
+
+      // then
+      expect(is(entryNode, 'highlighted-entry')).to.be.true;
+
+    }));
+
+
+    it('should unset tool highlight', inject(function(eventBus, palette) {
+
+      // given
+      var toolName = 'entryA';
+
+      // when
+      eventBus.fire('tool-manager.update', { tool: toolName });
+      eventBus.fire('tool-manager.update', { tool: 'other' });
+
+      var entryNode = getEntryNode(toolName, palette._container);
+
+      // then
+      expect(is(entryNode, 'highlighted-entry')).to.be.false;
+
+    }));
+
+  });
+
 });
 
 
@@ -547,4 +608,8 @@ function expectPaletteCls(marker, expectedActive) {
 
     expect(isActive).to.eql(expectedActive);
   });
+}
+
+function getEntryNode(action, container) {
+  return domQuery('.entry[data-action="' + action + '"]', container);
 }
