@@ -50,7 +50,7 @@ describe('features/space-tool', function() {
       spaceTool.toggle();
 
       // then
-      expect(spaceTool.isActive()).to.be.falsy;
+      expect(spaceTool.isActive()).not.to.be.ok;
     }));
 
   });
