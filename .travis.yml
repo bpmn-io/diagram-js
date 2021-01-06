@@ -2,5 +2,5 @@ language: node_js
 node_js: '10'
 
 script:
-  - COVERAGE=1 npm run all
+  - TEST_BROWSERS=ChromeHeadless,PhantomJS COVERAGE=1 npm run all
   - npx codecov
