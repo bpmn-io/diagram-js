@@ -40,7 +40,6 @@ export function bootstrapDiagram(options, locals) {
 
     var testContainer;
 
-
     // Make sure the test container is an optional dependency and we fall back
     // to an empty <div> if it does not exist.
     //
@@ -50,11 +49,10 @@ export function bootstrapDiagram(options, locals) {
       testContainer = TestContainer.get(this);
     } catch (e) {
       testContainer = document.createElement('div');
+      testContainer.classList.add('test-content-container');
+
       document.body.appendChild(testContainer);
     }
-
-    testContainer.classList.add('test-container');
-
 
     var _options = options,
         _locals = locals;

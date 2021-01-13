@@ -9,7 +9,8 @@ import diagramCSS from '../assets/diagram-js.css';
 insertCSS('diagram-js.css', diagramCSS);
 
 insertCSS('diagram-js-testing.css',
-  '.test-container .test-content-container { height: 500px; max-height: 100%; }'
+  'body .test-container { height: auto }' +
+  'body .test-content-container { height: 90vh; }'
 );
 
 
