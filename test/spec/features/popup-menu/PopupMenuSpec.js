@@ -1066,7 +1066,7 @@ describe('features/popup', function() {
         height: menu.scrollHeight
       };
 
-      expect(menu.offsetLeft).to.equal(2000 - menuDimensions.width);
+      expect(menu.offsetLeft).to.be.closeTo(2000 - menuDimensions.width, 2);
     }));
 
   });
