@@ -942,8 +942,8 @@ describe('Canvas', function() {
         var newScroll = canvas.scroll();
 
         // then
-        expect(newScroll.x).to.equal(viewbox.x + 50);
-        expect(newScroll.y).to.equal(viewbox.y + 100);
+        expect(newScroll.x).to.be.closeTo(viewbox.x + 50, .001);
+        expect(newScroll.y).to.be.closeTo(viewbox.y + 100, .001);
 
       }));
 

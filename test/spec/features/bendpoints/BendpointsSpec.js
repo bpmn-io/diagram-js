@@ -535,7 +535,7 @@ describe('features/bendpoints', function() {
 
         // then
         expect(newBounds).to.not.eql(oldBounds);
-        expect(newBounds.left).to.equal(525);
+        expect(newBounds.left).to.be.closeTo(525, 2);
       }
     ));
 
@@ -571,7 +571,7 @@ describe('features/bendpoints', function() {
 
         // then
         expect(newBounds).to.not.eql(oldBounds);
-        expect(newBounds.left).to.equal(453);
+        expect(newBounds.left).to.be.closeTo(453, 2);
       }
     ));
 
