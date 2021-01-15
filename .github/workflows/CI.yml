@@ -1,7 +1,7 @@
-name: ci
+name: CI
 on: [ push, pull_request ]
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,6 +23,6 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Build
-      run: COVERAGE=1 npm run all
+      run: TEST_BROWSERS=ChromeHeadless,PhantomJS COVERAGE=1 npm run all
     - name: Upload coverage
       run: npx codecov
