@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 7.1.0
+
+* `TEST`: simplify markup created by built-in test helpers
+
 ## 7.0.0
 
 * `FEAT`: support soft breaks in labels ([`e3927166`](https://github.com/bpmn-io/diagram-js/commit/e3927166d0125674a9e7e937c5a4cbf68d69c21a))
