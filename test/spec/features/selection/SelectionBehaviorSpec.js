@@ -21,6 +21,10 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents';
 
+import { isMac } from 'lib/util/Platform';
+
+var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
+
 
 describe('features/selection/Selection', function() {
 
@@ -362,7 +366,7 @@ describe('features/selection/Selection', function() {
         selection.select(shape1);
 
         // when
-        eventBus.fire(clickEvent(shape2, { ctrlKey: true }));
+        eventBus.fire(clickEvent(shape2, keyModifier));
 
         // then
         expect(selection.get()).to.have.length(2);
@@ -396,7 +400,7 @@ describe('features/selection/Selection', function() {
         selection.select([ shape1, shape2 ]);
 
         // when
-        eventBus.fire(clickEvent(shape1, { ctrlKey: true }));
+        eventBus.fire(clickEvent(shape1, keyModifier));
 
         // then
         expect(selection.get()).to.have.length(1);

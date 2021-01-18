@@ -16,6 +16,10 @@ import {
   assign
 } from 'min-dash';
 
+import { isMac } from 'lib/util/Platform';
+
+var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
+
 
 describe('features/hand-tool', function() {
 
@@ -99,7 +103,7 @@ describe('features/hand-tool', function() {
     it('should start on PRIMARY mousedown', inject(function(handTool, eventBus) {
 
       // when
-      eventBus.fire(mouseDownEvent(rootShape, { ctrlKey: true }));
+      eventBus.fire(mouseDownEvent(rootShape, keyModifier));
 
       // then
       expect(handTool.isActive()).to.be.true;
