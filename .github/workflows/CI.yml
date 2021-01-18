@@ -29,6 +29,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Build
-      run: TEST_BROWSERS=ChromeHeadless,PhantomJS COVERAGE=1 npm run all
+      env: 
+        TEST_BROWSERS: ChromeHeadless,PhantomJS
+        COVERAGE: 1
+      run: npm run all
     - name: Upload coverage
       run: npx codecov
