@@ -2,7 +2,13 @@ name: CI
 on: [ push, pull_request ]
 jobs:
   Build:
-    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        node-version: [ 10.x ]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Checkout
@@ -10,7 +16,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: '10.x'
+        node-version: ${{ matrix.node-version }}
     - name: Cache Node.js modules
       uses: actions/cache@v2
       with:
