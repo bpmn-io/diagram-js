@@ -146,12 +146,12 @@ svg.new-parent {
 
 .drop-not-ok,
 .connect-not-ok {
-  stroke: var(--shape-attach-allowed-stroke-color) !important;
   cursor: not-allowed;
 }
 
 .djs-element.attach-ok .djs-visual > :nth-child(1) {
   stroke-width: 5px !important;
+  stroke: var(--shape-attach-allowed-stroke-color) !important;
 }
 
 .djs-frame.connect-not-ok .djs-visual > :nth-child(1),
