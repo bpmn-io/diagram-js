@@ -876,4 +876,88 @@ describe('command/CommandStack', function() {
 
   });
 
+  describe('change-event', function() {
+
+    var testSetup = function(eventBus, commandStack) {
+      var eventData = {};
+
+      commandStack.registerHandler('complex-command', ComplexCommand);
+      commandStack.registerHandler('pre-command', PreCommand);
+      commandStack.registerHandler('post-command', PostCommand);
+      eventBus.on('commandStack.changed', function(event) {
+        eventData.changeEvent = event.trigger;
+      });
+
+      return eventData;
+    };
+
+    describe('should indicate details about a change', function() {
+
+      it('with trigger <execute>', inject(function(eventBus, commandStack) {
+
+        // given
+        var eventData = testSetup(eventBus, commandStack);
+
+        // when
+        commandStack.execute('complex-command', { element: { trace: [] } });
+
+        // then
+        var changeEvent = eventData.changeEvent;
+
+        expect(changeEvent).to.equal('execute');
+
+      }));
+
+      it('with trigger <undo>', inject(function(eventBus, commandStack) {
+
+        // given
+        var eventData = testSetup(eventBus, commandStack);
+
+        // when
+        commandStack.execute('complex-command', { element: { trace: [] } });
+        commandStack.undo();
+
+        // then
+        var changeEvent = eventData.changeEvent;
+
+        expect(changeEvent).to.equal('undo');
+
+      }));
+
+      it('with trigger <redo>', inject(function(eventBus, commandStack) {
+
+        // given
+        var eventData = testSetup(eventBus, commandStack);
+
+        // when
+        commandStack.execute('complex-command', { element: { trace: [] } });
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var changeEvent = eventData.changeEvent;
+
+        expect(changeEvent).to.equal('redo');
+
+      }));
+
+      it('with trigger <clear>', inject(function(eventBus, commandStack) {
+
+        // given
+        var eventData = testSetup(eventBus, commandStack);
+
+        // when
+        commandStack.clear();
+
+        // then
+        var changeEvent = eventData.changeEvent;
+
+        expect(changeEvent).to.equal('clear');
+
+      }));
+
+    });
+
+  });
+
 });
