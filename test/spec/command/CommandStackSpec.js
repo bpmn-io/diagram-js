@@ -876,87 +876,86 @@ describe('command/CommandStack', function() {
 
   });
 
-  describe('change-event', function() {
 
-    var testSetup = function(eventBus, commandStack) {
-      var eventData = {};
+  describe('trigger', function() {
 
+    beforeEach(inject(function(commandStack) {
       commandStack.registerHandler('complex-command', ComplexCommand);
       commandStack.registerHandler('pre-command', PreCommand);
       commandStack.registerHandler('post-command', PostCommand);
-      eventBus.on('commandStack.changed', function(event) {
-        eventData.changeEvent = event.trigger;
+    }));
+
+
+    it('should indicate <execute>', inject(function(eventBus, commandStack) {
+
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.trigger).to.eql('execute');
       });
 
-      return eventData;
-    };
+      // when
+      eventBus.on('commandStack.changed', changedSpy);
 
-    describe('should indicate details about a change', function() {
+      commandStack.execute('complex-command', { element: { trace: [] } });
 
-      it('with trigger <execute>', inject(function(eventBus, commandStack) {
+      // then
+      expect(changedSpy).to.have.been.calledOnce;
+    }));
 
-        // given
-        var eventData = testSetup(eventBus, commandStack);
 
-        // when
-        commandStack.execute('complex-command', { element: { trace: [] } });
+    it('with trigger <undo>', inject(function(eventBus, commandStack) {
 
-        // then
-        var changeEvent = eventData.changeEvent;
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.trigger).to.eql('undo');
+      });
 
-        expect(changeEvent).to.equal('execute');
+      commandStack.execute('complex-command', { element: { trace: [] } });
 
-      }));
+      // when
+      eventBus.on('commandStack.changed', changedSpy);
 
-      it('with trigger <undo>', inject(function(eventBus, commandStack) {
+      commandStack.undo();
 
-        // given
-        var eventData = testSetup(eventBus, commandStack);
+      // then
+      expect(changedSpy).to.have.been.calledOnce;
+    }));
 
-        // when
-        commandStack.execute('complex-command', { element: { trace: [] } });
-        commandStack.undo();
 
-        // then
-        var changeEvent = eventData.changeEvent;
+    it('with trigger <redo>', inject(function(eventBus, commandStack) {
 
-        expect(changeEvent).to.equal('undo');
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.trigger).to.eql('redo');
+      });
 
-      }));
+      commandStack.execute('complex-command', { element: { trace: [] } });
+      commandStack.undo();
 
-      it('with trigger <redo>', inject(function(eventBus, commandStack) {
+      // when
+      eventBus.on('commandStack.changed', changedSpy);
+      commandStack.redo();
 
-        // given
-        var eventData = testSetup(eventBus, commandStack);
+      // then
+      expect(changedSpy).to.have.been.calledOnce;
+    }));
 
-        // when
-        commandStack.execute('complex-command', { element: { trace: [] } });
-        commandStack.undo();
-        commandStack.redo();
 
-        // then
-        var changeEvent = eventData.changeEvent;
+    it('with trigger <clear>', inject(function(eventBus, commandStack) {
 
-        expect(changeEvent).to.equal('redo');
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.trigger).to.eql('clear');
+      });
 
-      }));
+      // when
+      eventBus.on('commandStack.changed', changedSpy);
 
-      it('with trigger <clear>', inject(function(eventBus, commandStack) {
+      commandStack.clear();
 
-        // given
-        var eventData = testSetup(eventBus, commandStack);
-
-        // when
-        commandStack.clear();
-
-        // then
-        var changeEvent = eventData.changeEvent;
-
-        expect(changeEvent).to.equal('clear');
-
-      }));
-
-    });
+      // then
+      expect(changedSpy).to.have.been.calledOnce;
+    }));
 
   });
 
