@@ -117,7 +117,7 @@ describe('core/EventBus', function() {
   });
 
 
-  describe('handle multiple events', function() {
+  describe('multiple events', function() {
 
     it('should register to multiple events', function() {
 
@@ -153,9 +153,39 @@ describe('core/EventBus', function() {
   });
 
 
-  describe('handle once listener', function() {
+  describe('once listeners', function() {
 
-    it('should call listeners after once listener', function() {
+    it('should call only once', function() {
+
+      // given
+      var listener = sinon.spy();
+
+      // when
+      eventBus.once('onceEvent', listener);
+      eventBus.fire('onceEvent', { value: 'a' });
+
+      // then
+      expect(listener).to.have.been.calledOnce;
+
+      // but when...
+      eventBus.fire('onceEvent');
+
+      // then
+      // still only called once
+      expect(listener).to.have.been.calledOnce;
+
+      // but when...
+      // emitting with re-registered listener
+      eventBus.once('onceEvent', listener);
+      eventBus.fire('onceEvent');
+
+      // then
+      // should be fired again
+      expect(listener).to.have.been.calledTwice;
+    });
+
+
+    it('should call next after once listener', function() {
 
       // given
       var listenerBefore = sinon.spy();
@@ -187,37 +217,7 @@ describe('core/EventBus', function() {
     });
 
 
-    it('should call once listener only once', function() {
-
-      // given
-      var listener = sinon.spy();
-
-      // when
-      eventBus.once('onceEvent', listener);
-      eventBus.fire('onceEvent', { value: 'a' });
-
-      // then
-      expect(listener).to.have.been.calledOnce;
-
-      // but when...
-      eventBus.fire('onceEvent');
-
-      // then
-      // still only called once
-      expect(listener).to.have.been.calledOnce;
-
-      // but when...
-      // emitting with re-registered listener
-      eventBus.once('onceEvent', listener);
-      eventBus.fire('onceEvent');
-
-      // then
-      // should be fired again
-      expect(listener).to.have.been.calledTwice;
-    });
-
-
-    it('should unregister <once> listener before call', function() {
+    it('should ignore once listener in loop', function() {
 
       // given
       var listener = sinon.spy(function() {
