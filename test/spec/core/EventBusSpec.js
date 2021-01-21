@@ -216,6 +216,23 @@ describe('core/EventBus', function() {
       expect(listener).to.have.been.calledTwice;
     });
 
+
+    it('should unregister <once> listener before call', function() {
+
+      // given
+      var listener = sinon.spy(function() {
+        eventBus.fire('onceEvent');
+      });
+
+      eventBus.once('onceEvent', listener);
+
+      // when
+      eventBus.fire('onceEvent');
+
+      // then
+      expect(listener).to.have.been.calledOnce;
+    });
+
   });
 
 
