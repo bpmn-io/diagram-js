@@ -876,4 +876,87 @@ describe('command/CommandStack', function() {
 
   });
 
+
+  describe('trigger', function() {
+
+    beforeEach(inject(function(commandStack) {
+      commandStack.registerHandler('complex-command', ComplexCommand);
+      commandStack.registerHandler('pre-command', PreCommand);
+      commandStack.registerHandler('post-command', PostCommand);
+    }));
+
+
+    it('should indicate <execute>', inject(function(eventBus, commandStack) {
+
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.trigger).to.eql('execute');
+      });
+
+      // when
+      eventBus.on('commandStack.changed', changedSpy);
+
+      commandStack.execute('complex-command', { element: { trace: [] } });
+
+      // then
+      expect(changedSpy).to.have.been.calledOnce;
+    }));
+
+
+    it('with trigger <undo>', inject(function(eventBus, commandStack) {
+
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.trigger).to.eql('undo');
+      });
+
+      commandStack.execute('complex-command', { element: { trace: [] } });
+
+      // when
+      eventBus.on('commandStack.changed', changedSpy);
+
+      commandStack.undo();
+
+      // then
+      expect(changedSpy).to.have.been.calledOnce;
+    }));
+
+
+    it('with trigger <redo>', inject(function(eventBus, commandStack) {
+
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.trigger).to.eql('redo');
+      });
+
+      commandStack.execute('complex-command', { element: { trace: [] } });
+      commandStack.undo();
+
+      // when
+      eventBus.on('commandStack.changed', changedSpy);
+      commandStack.redo();
+
+      // then
+      expect(changedSpy).to.have.been.calledOnce;
+    }));
+
+
+    it('with trigger <clear>', inject(function(eventBus, commandStack) {
+
+      // given
+      var changedSpy = sinon.spy(function(event) {
+        expect(event.trigger).to.eql('clear');
+      });
+
+      // when
+      eventBus.on('commandStack.changed', changedSpy);
+
+      commandStack.clear();
+
+      // then
+      expect(changedSpy).to.have.been.calledOnce;
+    }));
+
+  });
+
 });
