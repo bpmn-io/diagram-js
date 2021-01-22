@@ -215,7 +215,7 @@ describe('features/space-tool', function() {
       ));
 
 
-      it('should make space to the right and resize parent', inject(function(dragging, spaceTool) {
+      it('should make space to the right', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
@@ -262,7 +262,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should remove space from the left and resize parent', inject(function(dragging, spaceTool) {
+      it('should remove space from the left', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 200, y: 150 }));
@@ -284,7 +284,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should remove space from the top and resize parent', inject(function(dragging, spaceTool) {
+      it('should remove space from the top', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300,y: 150 }));
@@ -307,7 +307,7 @@ describe('features/space-tool', function() {
       }));
 
 
-      it('should make space at the bottom and resize parent', inject(function(dragging, spaceTool) {
+      it('should make space at the bottom', inject(function(dragging, spaceTool) {
 
         // when
         spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 150 }));
@@ -605,7 +605,7 @@ describe('features/space-tool', function() {
 
     beforeEach(inject(function(canvas, elementFactory) {
       greatGrandParent = elementFactory.createShape({
-        id: 'greatGrandParent',
+        id: 'greatGrandParent-resizable',
         x: 100, y: 50,
         width: 400, height: 400
       });
@@ -613,7 +613,7 @@ describe('features/space-tool', function() {
       canvas.addShape(greatGrandParent);
 
       grandParent = elementFactory.createShape({
-        id: 'grandParent',
+        id: 'grandParent-resizable',
         x: 125, y: 75,
         width: 350, height: 350
       });
@@ -621,7 +621,7 @@ describe('features/space-tool', function() {
       canvas.addShape(grandParent, greatGrandParent);
 
       parentShape = elementFactory.createShape({
-        id: 'parent1',
+        id: 'parent1-resizable',
         x: 200, y: 150,
         width: 200, height: 200
       });
@@ -657,7 +657,7 @@ describe('features/space-tool', function() {
       canvas.addConnection(connection);
 
       parentShape2 = elementFactory.createShape({
-        id: 'parent2',
+        id: 'parent2-resizable',
         x: 800, y: 200,
         width: 250, height: 150
       });
@@ -844,7 +844,7 @@ describe('features/space-tool', function() {
 
       beforeEach(inject(function(canvas, elementFactory) {
         parentShape3 = elementFactory.createShape({
-          id: 'parent3',
+          id: 'parent3-resizable',
           x: 1100, y: 500,
           width: 250, height: 150
         });
@@ -1156,7 +1156,7 @@ describe('features/space-tool', function() {
           // given
           eventBus.on('spaceTool.getMinDimensions', function() {
             return {
-              grandParent: {
+              'grandParent-resizable': {
                 width: 325
               }
             };
@@ -1191,7 +1191,7 @@ describe('features/space-tool', function() {
           // given
           eventBus.on('spaceTool.getMinDimensions', function() {
             return {
-              grandParent: {
+              'grandParent-resizable': {
                 width: 325
               }
             };
@@ -1230,7 +1230,7 @@ describe('features/space-tool', function() {
           // given
           eventBus.on('spaceTool.getMinDimensions', function() {
             return {
-              grandParent: {
+              'grandParent-resizable': {
                 height: 325
               }
             };
@@ -1265,7 +1265,7 @@ describe('features/space-tool', function() {
           // given
           eventBus.on('spaceTool.getMinDimensions', function() {
             return {
-              grandParent: {
+              'grandParent-resizable': {
                 height: 325
               }
             };
@@ -1302,7 +1302,7 @@ describe('features/space-tool', function() {
 
           // given
           var shape = elementFactory.createShape({
-            id: 'shape',
+            id: 'shape-resizable',
             x: 0,
             y: 0,
             width: 50,
@@ -1313,7 +1313,7 @@ describe('features/space-tool', function() {
 
           eventBus.on('spaceTool.getMinDimensions', function() {
             return {
-              shape: {
+              'shape-resizable': {
                 width: 25
               }
             };
@@ -1639,7 +1639,7 @@ describe('features/space-tool', function() {
 
     beforeEach(inject(function(elementFactory, canvas) {
       shape1 = elementFactory.createShape({
-        id: 'shape1',
+        id: 'shape1-resizable',
         x: 100, y: 100,
         width: 500, height: 200
       });
