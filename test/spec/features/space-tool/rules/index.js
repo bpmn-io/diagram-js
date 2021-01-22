@@ -1,6 +1,6 @@
-import SpaceRules from './SpaceRules';
+import SpaceToolRules from './SpaceToolRules';
 
 export default {
-  __init__: [ 'spaceRules' ],
-  spaceRules: [ 'type', SpaceRules ]
+  __init__: [ 'spaceToolRules' ],
+  spaceToolRules: [ 'type', SpaceToolRules ]
 };
