@@ -56,6 +56,158 @@ describe('features/space-tool', function() {
   });
 
 
+  describe('#calculateAdjustments', function(spaceTool) {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        rulesModule,
+        spaceToolModule
+      ]
+    }));
+
+    beforeEach(inject(function(dragging) {
+      dragging.setOptions({ manual: true });
+    }));
+
+    var childAttacher,
+        childAttacherLabel,
+        childShape,
+        childShape2,
+        childShape2Label,
+        connection,
+        grandParent,
+        greatGrandParent,
+        parentAttacher,
+        parentShape;
+
+    beforeEach(inject(function(canvas, elementFactory, modeling) {
+      greatGrandParent = elementFactory.createShape({
+        id: 'greatGrandParent-resizable',
+        x: 100, y: 50,
+        width: 400, height: 400
+      });
+
+      canvas.addShape(greatGrandParent);
+
+      grandParent = elementFactory.createShape({
+        id: 'grandParent-resizable',
+        x: 125, y: 75,
+        width: 350, height: 350
+      });
+
+      canvas.addShape(grandParent, greatGrandParent);
+
+      parentShape = elementFactory.createShape({
+        id: 'parent1-resizable',
+        x: 200, y: 150,
+        width: 200, height: 200
+      });
+
+      canvas.addShape(parentShape, grandParent);
+
+      childShape = elementFactory.createShape({
+        id: 'child',
+        x: 225, y: 175,
+        width: 50, height: 50
+      });
+
+      canvas.addShape(childShape, parentShape);
+
+      childShape2 = elementFactory.createShape({
+        id: 'child2',
+        x: 325, y: 275,
+        width: 50, height: 50
+      });
+
+      canvas.addShape(childShape2, parentShape);
+
+      childShape2Label = elementFactory.createLabel({
+        id: 'childShape2Label',
+        width: 80, height: 40
+      });
+
+      modeling.createLabel(childShape2, { x: 350, y: 350 }, childShape2Label);
+
+      connection = elementFactory.createConnection({
+        id: 'connection',
+        waypoints: [
+          { x: 250, y: 200 },
+          { x: 350, y: 300 }
+        ],
+        source: childShape,
+        target: childShape2
+      });
+
+      canvas.addConnection(connection);
+
+      childAttacher = elementFactory.createShape({
+        id: 'childAttacher',
+        x: 200,
+        y: 200,
+        width: 50, height: 50,
+        host: childShape
+      });
+
+      canvas.addShape(childAttacher);
+
+      childAttacherLabel = elementFactory.createLabel({
+        id: 'childLabel',
+        width: 80, height: 40
+      });
+
+      modeling.createLabel(childAttacher, { x: 225, y: 275 }, childAttacherLabel);
+
+      parentAttacher = elementFactory.createShape({
+        id: 'parentAttacher',
+        x: 375,
+        y: 125,
+        width: 50, height: 50,
+        host: parentShape
+      });
+
+      canvas.addShape(parentAttacher);
+    }));
+
+
+    it('should not contain moving shapes and resizing shapes', inject(function(elementRegistry, spaceTool) {
+
+      // given
+      var elements = elementRegistry.filter(function(element) {
+        return element.id !== '__implicitroot' && !element.waypoints;
+      });
+
+      var resizableElements = elements.filter(function(element) {
+        return element.id.includes('resizable');
+      });
+
+      // when
+      var adjustments = spaceTool.calculateAdjustments(elementRegistry.getAll(), 'x', 100, 220);
+
+      // then
+      expect(adjustments.movingShapes).to.have.length(elements.length - resizableElements.length);
+      expect(adjustments.resizingShapes).to.have.length(resizableElements.length);
+    }));
+
+
+    it('should not contain duplicates (moving shapes)', inject(function(elementRegistry, spaceTool) {
+
+      // given
+      var elements = elementRegistry.filter(function(element) {
+        return element.id !== '__implicitroot' && !element.waypoints;
+      });
+
+      // when
+      var adjustments = spaceTool.calculateAdjustments(elementRegistry.getAll(), 'x', 100, 0);
+
+      // then
+      expect(adjustments.movingShapes).to.have.length(elements.length);
+      expect(adjustments.resizingShapes).to.have.length(0);
+    }));
+
+  });
+
+
   describe('create/remove space', function() {
 
     beforeEach(bootstrapDiagram({
@@ -573,6 +725,150 @@ describe('features/space-tool', function() {
 
       // then
       expect(layoutConnectionSpy).to.have.been.called;
+    }));
+
+  });
+
+
+  describe('attachers', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        rulesModule,
+        spaceToolModule
+      ]
+    }));
+
+    beforeEach(inject(function(dragging) {
+      dragging.setOptions({ manual: true });
+    }));
+
+    var child,
+        childAttacher,
+        childAttacherLabel,
+        parent,
+        parentAttacher;
+
+    beforeEach(inject(function(canvas, elementFactory, modeling) {
+      parent = elementFactory.createShape({
+        id: 'parent-resizable',
+        x: 100, y: 100,
+        width: 300, height: 200
+      });
+
+      canvas.addShape(parent);
+
+      child = elementFactory.createShape({
+        id: 'child',
+        x: 150, y: 150,
+        width: 200, height: 100
+      });
+
+      canvas.addShape(child, parent);
+
+      parentAttacher = elementFactory.createShape({
+        id: 'parentAttacher',
+        x: 325,
+        y: 275,
+        width: 50, height: 50,
+        host: parent
+      });
+
+      canvas.addShape(parentAttacher);
+
+      childAttacher = elementFactory.createShape({
+        id: 'childAttacher',
+        x: 325,
+        y: 175,
+        width: 50, height: 50,
+        host: child
+      });
+
+      canvas.addShape(childAttacher);
+
+      childAttacherLabel = elementFactory.createLabel({
+        id: 'childLabel',
+        width: 80, height: 40
+      });
+
+      modeling.createLabel(childAttacher, { x: 350, y: 250 }, childAttacherLabel);
+    }));
+
+
+    it('should move attacher of moving host', inject(function(dragging, spaceTool) {
+
+      // when
+      spaceTool.activateMakeSpace(canvasEvent({ x: 360, y: 0 }));
+
+      dragging.move(canvasEvent({ x: 260, y: 0 }, keyModifier));
+
+      dragging.end();
+
+      // then
+      expect(childAttacher).to.have.bounds({
+        x: 225,
+        y: 175,
+        width: 50,
+        height: 50
+      });
+    }));
+
+
+    it('should move external label of moving attacher', inject(function(dragging, spaceTool) {
+
+      // when
+      spaceTool.activateMakeSpace(canvasEvent({ x: 360, y: 0 }));
+
+      dragging.move(canvasEvent({ x: 260, y: 0 }, keyModifier));
+
+      dragging.end();
+
+      // then
+      expect(childAttacherLabel).to.have.bounds({
+        x: 210,
+        y: 230,
+        width: 80,
+        height: 40
+      });
+    }));
+
+
+    it('should move attacher of resizing host', inject(function(dragging, spaceTool) {
+
+      // when
+      spaceTool.activateMakeSpace(canvasEvent({ x: 250, y: 0 }));
+
+      dragging.move(canvasEvent({ x: 350, y: 0 }));
+
+      dragging.end();
+
+      // then
+      expect(parentAttacher).to.have.bounds({
+        x: 425,
+        y: 275,
+        width: 50,
+        height: 50
+      });
+    }));
+
+
+    it('should not move attacher', inject(function(dragging, spaceTool) {
+
+      // when
+      spaceTool.activateMakeSpace(canvasEvent({ x: 250, y: 0 }));
+
+      dragging.move(canvasEvent({ x: 350, y: 0 }));
+
+      dragging.end();
+
+      // then
+      expect(childAttacher).to.have.bounds({
+        x: 325,
+        y: 175,
+        width: 50,
+        height: 50
+      });
     }));
 
   });
