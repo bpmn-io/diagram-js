@@ -9,7 +9,7 @@
   --blue-lighten-82: #a2c5ff;
 
   --red-base-62: #ff3d3d;
-  --red-base-62-opacity-10: rgba(255, 61, 61, 0.1);
+  --red-base-62-lighten-90: rgb(255, 235, 235);
 
   --silver-darken-94: #efefef;
 
@@ -68,16 +68,16 @@
   --search-result-selected-color: var(--blue-base-65-opacity-30);
 
   --shape-attach-allowed-stroke-color: var(--blue-base-65);
-  --shape-connect-allowed-fill-color: var(--color-000000-opacity-05);
-  --shape-drop-allowed-fill-color: var(--color-000000-opacity-05);
-  --shape-drop-not-allowed-fill-color: var(--red-base-62-opacity-10);
+  --shape-connect-allowed-fill-color: var(--color-f6f6f6);
+  --shape-drop-allowed-fill-color: var(--color-f6f6f6);
+  --shape-drop-not-allowed-fill-color: var(--red-base-62-lighten-90);
   --shape-resize-preview-stroke-color: var(--blue-base-65);
 
   --snap-line-stroke-color: var(--blue-base-65-opacity-30);
 
   --space-tool-crosshair-stroke-color: var(--color-000000);
 
-  --tooltip-error-background-color: var(--red-base-62-opacity-10);
+  --tooltip-error-background-color: var(--red-base-62-lighten-90);
   --tooltip-error-border-color: var(--red-base-62);
   --tooltip-error-color: var(--red-base-62);
 }
