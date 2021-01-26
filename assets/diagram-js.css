@@ -188,7 +188,7 @@ svg.new-parent {
 }
 
 .djs-resizer-visual {
-  fill: var(--resizer-fill-color);;
+  fill: var(--resizer-fill-color);
   stroke-width: 1px;
   stroke-opacity: 0.5;
   stroke: var(--resizer-stroke-color);
