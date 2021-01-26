@@ -2,7 +2,7 @@
 
 # diagram-js
 
-[![Build Status](https://img.shields.io/github/workflow/status/bpmn-io/diagram-js/CI)](https://github.com/bpmn-io/diagram-js/actions?query=workflow%3ACI)
+[![CI](https://github.com/bpmn-io/diagram-js/workflows/CI/badge.svg)](https://github.com/bpmn-io/diagram-js/actions?query=workflow%3ACI)
 
 A toolbox for displaying and modifying diagrams on the web.
 
