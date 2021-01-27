@@ -8,11 +8,6 @@
   --blue-darken-55: #1a70ff;
   --blue-lighten-82: #a2c5ff;
 
-  --orange-base-60: #ffa533;
-  --orange-base-60-opacity-30: rgba(255, 165, 51, 0.3);
-  --orange-base-60-opacity-50: rgba(255, 165, 51, 0.5);
-  --orange-lighten-85: #ffddb3;
-
   --red-base-62: #ff3d3d;
   --red-base-62-opacity-10: rgba(255, 61, 61, 0.1);
 
@@ -37,7 +32,7 @@
 
   --context-pad-entry-background-color: var(--color-fefefe);
   --context-pad-entry-hover-background-color: var(--silver-darken-94);
- 
+
   --element-dragger-color: var(--blue-base-65);
   --element-hover-outline-fill-color: var(--blue-darken-48);
   --element-selected-outline-stroke-color: var(--blue-base-65);
@@ -59,7 +54,7 @@
   --popup-header-separator-color: var(--color-dddddd);
   --popup-background-color: var(--color-fafafa);
   --popup-border-color: var(--color-cccccc);
- 
+
   --resizer-fill-color: var(--blue-base-65-opacity-30);
   --resizer-stroke-color: var(--blue-base-65);
 
@@ -81,7 +76,7 @@
   --snap-line-stroke-color: var(--blue-base-65-opacity-30);
 
   --space-tool-crosshair-stroke-color: var(--color-000000);
- 
+
   --tooltip-error-background-color: var(--red-base-62-opacity-10);
   --tooltip-error-border-color: var(--red-base-62);
   --tooltip-error-color: var(--red-base-62);
@@ -713,7 +708,7 @@ marker.djs-dragger tspan {
   color: var(--tooltip-error-color);
   font-size: 12px;
   line-height: 16px;
-  
+
   opacity: 0.75;
 }
 
