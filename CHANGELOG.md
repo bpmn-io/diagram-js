@@ -6,6 +6,13 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 7.2.0
+
+* `FEAT`: expose trigger in `commandStack.changed` event ([`9a41cbc9`](https://github.com/bpmn-io/diagram-js/commit/9a41cbc92e4e8d0484d0178f01f43b4477da2c19))
+* `FIX`: correct attach allowed stroke colors ([`f9ffb44b`](https://github.com/bpmn-io/diagram-js/commit/f9ffb44b6891d5081ae3c305461e6872a8b63c63))
+* `FIX`: correct drop fill colors ([`8a0ef203`](https://github.com/bpmn-io/diagram-js/commit/8a0ef203a4cf83054be3ace8eca6e1718160ac29))
+* `FIX`: allow recursive `EventBus#once` invocations ([`2e7c4178`](https://github.com/bpmn-io/diagram-js/commit/2e7c4178fca25f4f03d1de086a65fb49548feec2))
+
 ## 7.1.0
 
 * `TEST`: simplify markup created by built-in test helpers
