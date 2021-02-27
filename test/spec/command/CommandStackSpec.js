@@ -362,6 +362,49 @@ describe('command/CommandStack', function() {
   });
 
 
+  describe('#execute compact', function() {
+
+    it('should undo in single step', inject(function(commandStack) {
+
+      // given
+      commandStack.registerHandler('simple-command', SimpleCommand);
+
+      var context = { element: { trace: [] } };
+
+      commandStack.execute('simple-command', context, true);
+      commandStack.execute('simple-command', context, true);
+
+      // when
+      commandStack.undo();
+
+      // then
+      expect(commandStack._stack.length).to.equal(2);
+      expect(commandStack._stackIdx).to.equal(-1);
+    }));
+
+
+    it('should redo in single step', inject(function(commandStack) {
+
+      // given
+      commandStack.registerHandler('simple-command', SimpleCommand);
+
+      var context = { element: { trace: [] } };
+
+      commandStack.execute('simple-command', context, true);
+      commandStack.execute('simple-command', context, true);
+
+      // when
+      commandStack.undo();
+      commandStack.redo();
+
+      // then
+      expect(commandStack._stack.length).to.equal(2);
+      expect(commandStack._stackIdx).to.equal(1);
+    }));
+
+  });
+
+
   describe('command context', function() {
 
     it('should pass command context to handler', inject(function(commandStack) {
