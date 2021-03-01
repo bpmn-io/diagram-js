@@ -566,6 +566,26 @@ describe('features/bendpoints - move', function() {
       ]);
     }));
 
+
+    it('should allow moving bendpoint without hover', inject(function(canvas, bendpointMove, dragging) {
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 0, y: 0 }), connection, 1);
+
+      dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+      dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
+
+      dragging.out();
+
+      dragging.move(canvasEvent({ x: 200, y: 200 }));
+
+      dragging.end();
+
+      // then
+      expect(connection.waypoints[ 1 ]).to.eql({ x: 200, y: 200 });
+    }));
+
   });
 
 
@@ -758,6 +778,26 @@ describe('features/bendpoints - move', function() {
         expect(preview.waypoints).to.have.lengthOf(3);
       })
     );
+
+
+    it('should display preview without hover', inject(function(canvas, bendpointMove, dragging) {
+
+      // when
+      bendpointMove.start(canvasEvent({ x: 0, y: 0 }), connection, 1);
+
+      dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+      dragging.hover({ element: rootShape, gfx: canvas.getGraphics(rootShape) });
+
+      dragging.out();
+
+      dragging.move(canvasEvent({ x: 200, y: 200 }));
+
+      // then
+      var ctx = dragging.context();
+
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+    }));
 
   });
 
