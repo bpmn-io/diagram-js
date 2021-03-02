@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 7.2.1
+
+* `FIX`: do not fail moving bendpoint over non diagram element
+
 ## 7.2.0
 
 * `FEAT`: expose trigger in `commandStack.changed` event ([`9a41cbc9`](https://github.com/bpmn-io/diagram-js/commit/9a41cbc92e4e8d0484d0178f01f43b4477da2c19))
