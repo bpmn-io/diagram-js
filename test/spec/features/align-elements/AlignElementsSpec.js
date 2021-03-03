@@ -14,6 +14,7 @@ describe('features/align-elements', function() {
     modules: [ alignElementsModule, modelingModule ]
   }));
 
+
   describe('methods', function() {
 
     var elements = [
@@ -21,6 +22,7 @@ describe('features/align-elements', function() {
       { x: 200, y: 250, width: 100, height: 100 },
       { x: 400, y: 450, width: 300, height: 300 }
     ];
+
 
     describe('#_alignmentPosition', function() {
 
@@ -55,7 +57,9 @@ describe('features/align-elements', function() {
 
   });
 
+
   describe('integration', function() {
+
     var rootShape, shape1, shape2, shape3, shapeBig, elements;
 
     beforeEach(inject(function(elementFactory, canvas) {
@@ -96,6 +100,7 @@ describe('features/align-elements', function() {
 
       elements = [ shape1, shape2, shapeBig ];
     }));
+
 
     it('should align to the "left"', inject(function(alignElements) {
 
@@ -168,6 +173,23 @@ describe('features/align-elements', function() {
       expect(shape3.y).to.equal(550);
       expect(shapeBig.y).to.equal(450);
     }));
+
+
+    it('should not align if less than two elements', inject(
+      function(alignElements, eventBus) {
+
+        // given
+        var changedSpy = sinon.spy();
+
+        eventBus.once('commandStack.changed', changedSpy);
+
+        // when
+        alignElements.trigger([ shape1 ], 'left');
+
+        // then
+        expect(changedSpy).not.to.have.been.called;
+      }
+    ));
 
   });
 
