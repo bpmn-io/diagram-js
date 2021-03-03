@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 7.2.2
+
+* `FIX`: skip element alignment if less than two elements
+
 ## 7.2.1
 
 * `FIX`: do not fail moving bendpoint over non diagram element
