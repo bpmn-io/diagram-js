@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 7.2.3
+
+* `FIX`: correct intersections not being reported in some cases
+* `DEPS`: bump `path-intersection` dependency
+
 ## 7.2.2
 
 * `FIX`: skip element alignment if less than two elements
