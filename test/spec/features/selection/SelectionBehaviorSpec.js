@@ -8,12 +8,13 @@ import {
   assign
 } from 'min-dash';
 
+import connectModule from 'lib/features/connect';
 import coreModule from 'lib/core';
 import createModule from 'lib/features/create';
 import draggingModule from 'lib/features/dragging';
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
-import connectModule from 'lib/features/connect';
+import replaceModule from 'lib/features/replace';
 import rulesModule from './rules';
 import selectionModule from 'lib/features/selection';
 
@@ -30,12 +31,13 @@ describe('features/selection/Selection', function() {
 
   beforeEach(bootstrapDiagram({
     modules: [
+      connectModule,
       coreModule,
+      createModule,
       draggingModule,
       modelingModule,
-      createModule,
       moveModule,
-      connectModule,
+      replaceModule,
       rulesModule,
       selectionModule
     ]
@@ -43,13 +45,15 @@ describe('features/selection/Selection', function() {
 
   var shape1, shape2;
 
-  beforeEach(inject(function(canvas) {
+  beforeEach(inject(function(canvas, elementFactory) {
     shape1 = canvas.addShape({
       id: 'shape1',
       x: 10,
       y: 10,
       width: 100,
-      height: 100
+      height: 100,
+      incoming: [],
+      outgoing: []
     });
 
     shape2 = canvas.addShape({
@@ -57,7 +61,9 @@ describe('features/selection/Selection', function() {
       x: 150,
       y: 10,
       width: 100,
-      height: 100
+      height: 100,
+      incoming: [],
+      outgoing: []
     });
   }));
 
@@ -292,7 +298,7 @@ describe('features/selection/Selection', function() {
           gfx: elementRegistry.getGraphics(shape2)
         });
 
-        dragging.move(canvasEvent({ x: 300, y: 300 }));
+        dragging.move(canvasEvent({ x: 600, y: 600 }));
 
         dragging.end();
 
@@ -423,6 +429,32 @@ describe('features/selection/Selection', function() {
         expect(selection.get()).to.have.length(1);
         expect(selection.isSelected(shape1)).to.be.false;
         expect(selection.isSelected(shape2)).to.be.true;
+      })
+    );
+
+  });
+
+
+  describe('shape.replaced', function() {
+
+    it('should select replaced shape',
+      inject(function(selection, replace) {
+
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
+
+        // when
+        var newShape = replace.replaceElement(shape1, replacement, { moveChildren: false });
+
+        // then
+        var selectedElements = selection.get();
+
+        expect(selectedElements.length).to.equal(1);
+        expect(selectedElements[0]).to.equal(newShape);
       })
     );
 

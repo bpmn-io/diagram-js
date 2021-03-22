@@ -48,187 +48,428 @@ describe('features/replace', function() {
 
   describe('#replaceElement', function() {
 
-    it('should add new shape', inject(function(elementRegistry, replace) {
+    describe('shapes', function() {
 
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 200
-      };
+      it('should add new shape', inject(function(elementRegistry, replace) {
 
-      // when
-      var newShape = replace.replaceElement(originalShape, replacement);
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
 
-      // then
-      expect(newShape).to.exist;
+        // when
+        var newShape = replace.replaceElement(originalShape, replacement);
 
-      // expect added
-      expect(elementRegistry.get('replacement')).to.equal(newShape);
-    }));
+        // then
+        expect(newShape).to.exist;
 
-
-    it('should define custom attributes on new shape', inject(function(replace) {
-
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 200,
-        customArray: ['FOO', 'BAR'],
-        customString: 'foobar'
-      };
-
-      // when
-      var newShape = replace.replaceElement(originalShape, replacement);
-
-      // then
-      expect(newShape.customArray).to.equal(replacement.customArray);
-      expect(newShape.customString).to.equal(replacement.customString);
-    }));
+        // expect added
+        expect(elementRegistry.get('replacement')).to.equal(newShape);
+      }));
 
 
-    it('should delete old shape', inject(function(elementFactory, replace, elementRegistry) {
+      it('should define custom attributes on new shape', inject(function(replace) {
 
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 200
-      };
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200,
+          customArray: ['FOO', 'BAR'],
+          customString: 'foobar'
+        };
 
-      // shape replacement
-      replace.replaceElement(originalShape, replacement);
+        // when
+        var newShape = replace.replaceElement(originalShape, replacement);
 
-      // then
-      expect(originalShape.parent).to.be.null;
-    }));
-
-
-    it('should return new shape', inject(function(elementRegistry, replace) {
-
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 200
-      };
-
-      // shape replacement
-      var newShape = replace.replaceElement(originalShape, replacement);
-
-      // then
-      expect(newShape).to.exist;
-      expect(newShape.id).to.equal('replacement');
-    }));
+        // then
+        expect(newShape.customArray).to.equal(replacement.customArray);
+        expect(newShape.customString).to.equal(replacement.customString);
+      }));
 
 
-    it('should add correct attributes to new shape', inject(function(elementFactory, replace, elementRegistry) {
+      it('should delete old shape', inject(function(replace) {
 
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 200
-      };
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
 
-      // shape replacement
-      replace.replaceElement(originalShape, replacement);
+        // shape replacement
+        replace.replaceElement(originalShape, replacement);
 
-      // then
-      var replacementShape = elementRegistry.get('replacement');
-      expect(replacementShape.x).to.equal(110);
-      expect(replacementShape.y).to.equal(110);
-      expect(replacementShape.width).to.equal(200);
-      expect(replacementShape.height).to.equal(200);
-    }));
+        // then
+        expect(originalShape.parent).to.be.null;
+      }));
 
 
-    it('should retain position when setting odd height', inject(function(elementFactory, replace, elementRegistry) {
+      it('should return new shape', inject(function(replace) {
 
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 201
-      };
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
 
-      // shape replacement
-      replace.replaceElement(originalShape, replacement);
+        // shape replacement
+        var newShape = replace.replaceElement(originalShape, replacement);
 
-      // then
-      var replacementShape = elementRegistry.get('replacement');
-      expect(replacementShape.x).to.equal(110);
-      expect(replacementShape.y).to.equal(110);
-      expect(replacementShape.width).to.equal(200);
-      expect(replacementShape.height).to.equal(201);
-    }));
+        // then
+        expect(newShape).to.exist;
+        expect(newShape.id).to.equal('replacement');
+      }));
 
 
-    it('should retain position when setting odd width', inject(function(elementFactory, replace, elementRegistry) {
+      it('should add correct attributes to new shape', inject(function(replace, elementRegistry) {
 
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 201,
-        height: 200
-      };
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
 
-      // shape replacement
-      replace.replaceElement(originalShape, replacement);
+        // shape replacement
+        replace.replaceElement(originalShape, replacement);
 
-      // then
-      var replacementShape = elementRegistry.get('replacement');
-      expect(replacementShape.x).to.equal(110);
-      expect(replacementShape.y).to.equal(110);
-      expect(replacementShape.width).to.equal(201);
-      expect(replacementShape.height).to.equal(200);
-    }));
-
-
-    it('should retain position when setting odd width and height', inject(function(elementFactory, replace, elementRegistry) {
-
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 201,
-        height: 201
-      };
-
-      // shape replacement
-      replace.replaceElement(originalShape, replacement);
-
-      // then
-      var replacementShape = elementRegistry.get('replacement');
-      expect(replacementShape.x).to.equal(110);
-      expect(replacementShape.y).to.equal(110);
-      expect(replacementShape.width).to.equal(201);
-      expect(replacementShape.height).to.equal(201);
-    }));
+        // then
+        var replacementShape = elementRegistry.get('replacement');
+        expect(replacementShape.x).to.equal(110);
+        expect(replacementShape.y).to.equal(110);
+        expect(replacementShape.width).to.equal(200);
+        expect(replacementShape.height).to.equal(200);
+      }));
 
 
-    it('should replace with new bounds', inject(function(elementFactory, replace, elementRegistry) {
+      it('should retain position when setting odd height', inject(function(replace, elementRegistry) {
 
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 200,
-        x: 10,
-        y: 50
-      };
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 201
+        };
 
-      // shape replacement
-      var replacedShape = replace.replaceElement(originalShape, replacement);
+        // shape replacement
+        replace.replaceElement(originalShape, replacement);
 
-      // then
-      expect(replacedShape).to.have.bounds({
-        width: 200,
-        height: 200,
-        x: 10,
-        y: 50
-      });
-    }));
+        // then
+        var replacementShape = elementRegistry.get('replacement');
+        expect(replacementShape.x).to.equal(110);
+        expect(replacementShape.y).to.equal(110);
+        expect(replacementShape.width).to.equal(200);
+        expect(replacementShape.height).to.equal(201);
+      }));
+
+
+      it('should retain position when setting odd width', inject(function(replace, elementRegistry) {
+
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 201,
+          height: 200
+        };
+
+        // shape replacement
+        replace.replaceElement(originalShape, replacement);
+
+        // then
+        var replacementShape = elementRegistry.get('replacement');
+        expect(replacementShape.x).to.equal(110);
+        expect(replacementShape.y).to.equal(110);
+        expect(replacementShape.width).to.equal(201);
+        expect(replacementShape.height).to.equal(200);
+      }));
+
+
+      it('should retain position when setting odd width and height', inject(function(replace, elementRegistry) {
+
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 201,
+          height: 201
+        };
+
+        // shape replacement
+        replace.replaceElement(originalShape, replacement);
+
+        // then
+        var replacementShape = elementRegistry.get('replacement');
+        expect(replacementShape.x).to.equal(110);
+        expect(replacementShape.y).to.equal(110);
+        expect(replacementShape.width).to.equal(201);
+        expect(replacementShape.height).to.equal(201);
+      }));
+
+
+      it('should replace with new bounds', inject(function(replace) {
+
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200,
+          x: 10,
+          y: 50
+        };
+
+        // shape replacement
+        var replacedShape = replace.replaceElement(originalShape, replacement);
+
+        // then
+        expect(replacedShape).to.have.bounds({
+          width: 200,
+          height: 200,
+          x: 10,
+          y: 50
+        });
+      }));
+
+
+      it('should fire <shape.replaced> event', inject(function(eventBus, replace) {
+
+        // given
+        var listener = sinon.spy();
+        eventBus.on('shape.replaced', listener);
+
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
+
+        // when
+        replace.replaceElement(originalShape, replacement);
+
+        // then
+        expect(listener).to.have.been.calledOnce;
+      }));
+
+
+      it('should provide newShape and oldShape firing <shape.replaced> event', inject(function(eventBus, replace) {
+
+        // given
+        var context;
+
+        eventBus.on('shape.replaced', function(event) {
+          context = event;
+        });
+
+
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
+
+        // when
+        var newShape = replace.replaceElement(originalShape, replacement);
+
+        // then
+        expect(context.newShape).to.exist;
+        expect(context.newShape).to.eql(newShape);
+
+        expect(context.oldShape).to.exist;
+        expect(context.oldShape).to.eql(originalShape);
+      }));
+
+
+      it('should not fire <root.replaced> event', inject(function(eventBus, replace) {
+
+        // given
+        var listener = sinon.spy();
+        eventBus.on('root.replaced', listener);
+
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
+
+        // when
+        replace.replaceElement(originalShape, replacement);
+
+        // then
+        expect(listener).to.not.have.been.called;
+      }));
+
+    });
+
+
+    describe('root element', function() {
+
+      it('should add new root', inject(function(elementRegistry, replace) {
+
+        // given
+        var replacement = {
+          id: 'rootNew'
+        };
+
+        // when
+        var newRoot = replace.replaceElement(rootShape, replacement);
+
+        // then
+        expect(newRoot).to.exist;
+
+        // expect added
+        expect(elementRegistry.get('rootNew')).to.equal(newRoot);
+      }));
+
+
+      it('should return new root', inject(function(replace) {
+
+        // given
+        var replacement = {
+          id: 'rootNew'
+        };
+
+        // shape replacement
+        var newShape = replace.replaceElement(rootShape, replacement);
+
+        // then
+        expect(newShape).to.exist;
+        expect(newShape.id).to.equal('rootNew');
+      }));
+
+
+      it('should delete old root', inject(function(elementRegistry, replace) {
+
+        // given
+        var replacement = {
+          id: 'rootNew'
+        };
+
+        // shape replacement
+        replace.replaceElement(rootShape, replacement);
+
+        // then
+        expect(elementRegistry.get('root')).to.be.undefined;
+      }));
+
+
+      it('should define custom attributes on new root', inject(function(replace) {
+
+        // given
+        var replacement = {
+          id: 'rootNew',
+          customArray: ['FOO', 'BAR'],
+          customString: 'foobar'
+        };
+
+        // when
+        var newRoot = replace.replaceElement(rootShape, replacement);
+
+        // then
+        expect(newRoot.customArray).to.equal(replacement.customArray);
+        expect(newRoot.customString).to.equal(replacement.customString);
+      }));
+
+
+      it('should remove children from old root', inject(function(replace) {
+
+        // given
+        var replacement = {
+          id: 'rootNew'
+        };
+
+        // shape replacement
+        replace.replaceElement(rootShape, replacement);
+
+        // then
+        expect(rootShape.children).to.be.empty;
+      }));
+
+
+      it('should move children to new root', inject(function(replace) {
+
+        // given
+        var replacement = {
+          id: 'rootNew'
+        };
+
+        var children = rootShape.children.slice();
+
+        // assume
+        expect(rootShape.children).to.have.length(1);
+
+        // shape replacement
+        var newRoot = replace.replaceElement(rootShape, replacement);
+
+        // then
+        expect(newRoot.children).to.have.length(1);
+        expect(newRoot.children).to.eql(children);
+      }));
+
+
+      it('should fire <root.replaced> event', inject(function(eventBus, replace) {
+
+        // given
+        var listener = sinon.spy();
+        eventBus.on('root.replaced', listener);
+
+        var replacement = {
+          id: 'rootNew'
+        };
+
+        // when
+        replace.replaceElement(rootShape, replacement);
+
+        // then
+        expect(listener).to.have.been.calledOnce;
+      }));
+
+
+      it('should provide newRoot and oldRoot firing <root.replaced> event', inject(function(eventBus, replace) {
+
+        // given
+        var context;
+
+        eventBus.on('root.replaced', function(event) {
+          context = event;
+        });
+
+
+        var replacement = {
+          id: 'rootNew'
+        };
+
+        // when
+        var newRoot = replace.replaceElement(rootShape, replacement);
+
+        // then
+        expect(context.newRoot).to.exist;
+        expect(context.newRoot).to.eql(newRoot);
+
+        expect(context.oldRoot).to.exist;
+        expect(context.oldRoot).to.eql(rootShape);
+      }));
+
+
+      it('should not fire <shape.replaced> event', inject(function(eventBus, replace) {
+
+        // given
+        var listener = sinon.spy();
+        eventBus.on('shape.replaced', listener);
+
+        var replacement = {
+          id: 'rootNew'
+        };
+
+        // when
+        replace.replaceElement(rootShape, replacement);
+
+        // then
+        expect(listener).to.not.have.been.called;
+      }));
+
+    });
 
   });
 
@@ -259,7 +500,7 @@ describe('features/replace', function() {
     }));
 
 
-    it('should reconnect start', inject(function(elementFactory, replace, elementRegistry) {
+    it('should reconnect start', inject(function(replace) {
 
       // given
       var replacement = {
@@ -283,7 +524,7 @@ describe('features/replace', function() {
     }));
 
 
-    it('should reconnect end', inject(function(elementFactory, replace, elementRegistry) {
+    it('should reconnect end', inject(function(replace) {
 
       // given
       var replacement = {
@@ -307,7 +548,7 @@ describe('features/replace', function() {
     }));
 
 
-    it('should adopt children', inject(function(elementFactory, replace, elementRegistry, eventBus) {
+    it('should adopt children', inject(function(replace) {
 
       // given
       var replacement = {
@@ -334,7 +575,7 @@ describe('features/replace', function() {
 
 
     it('should adopt children and show them in the DOM',
-      inject(function(canvas, elementFactory, replace, elementRegistry) {
+      inject(function(canvas, replace) {
 
         // given
         var replacement = {
@@ -381,54 +622,101 @@ describe('features/replace', function() {
 
   describe('undo/redo support', function() {
 
-    it('should undo replace', inject(function(elementFactory, replace, elementRegistry, commandStack) {
+    describe('shapes', function() {
 
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 200
-      };
-      replace.replaceElement(originalShape, replacement);
+      it('should undo replace', inject(function(replace, elementRegistry, commandStack) {
 
-      // when
-      commandStack.undo();
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
+        replace.replaceElement(originalShape, replacement);
 
-      // then
-      var shape = elementRegistry.get('originalShape');
-      expect(shape.width).to.equal(100);
-    }));
+        // when
+        commandStack.undo();
+
+        // then
+        var shape = elementRegistry.get('originalShape');
+        expect(shape.width).to.equal(100);
+      }));
 
 
-    it('should redo', inject(function(elementFactory, replace, elementRegistry, commandStack) {
+      it('should redo', inject(function(replace, elementRegistry, commandStack) {
 
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 200
-      };
-      replace.replaceElement(originalShape, replacement);
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
+        replace.replaceElement(originalShape, replacement);
 
-      var replacementShape = elementRegistry.get('replacement');
-      var replacement2 = {
-        id: 'replacement2',
-        width: 280,
-        height: 280
-      };
-      replace.replaceElement(replacementShape, replacement2);
+        var replacementShape = elementRegistry.get('replacement');
+        var replacement2 = {
+          id: 'replacement2',
+          width: 280,
+          height: 280
+        };
+        replace.replaceElement(replacementShape, replacement2);
 
-      // when
-      commandStack.undo();
-      commandStack.undo();
+        // when
+        commandStack.undo();
+        commandStack.undo();
 
-      commandStack.redo();
-      commandStack.redo();
+        commandStack.redo();
+        commandStack.redo();
 
-      // then
-      var redoShape = elementRegistry.get('replacement2');
-      expect(redoShape.width).to.equal(280);
-    }));
+        // then
+        var redoShape = elementRegistry.get('replacement2');
+        expect(redoShape.width).to.equal(280);
+      }));
+
+    });
+
+
+    describe('root element', function() {
+
+      it('should undo replace', inject(function(canvas, replace, commandStack) {
+
+        // given
+        var replacement = {
+          id: 'rootNew'
+        };
+        replace.replaceElement(rootShape, replacement);
+
+        // when
+        commandStack.undo();
+
+        // then
+        var root = canvas.getRootElement();
+
+        expect(root).to.exist;
+        expect(root).to.eql(rootShape);
+      }));
+
+
+      it('should redo', inject(function(canvas, replace, commandStack) {
+
+        // given
+        var replacement = {
+          id: 'rootNew'
+        };
+        replace.replaceElement(rootShape, replacement);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var redoRoot = canvas.getRootElement();
+
+        expect(redoRoot).to.exist;
+        expect(redoRoot.id).to.eql(replacement.id);
+      }));
+
+    });
 
   });
 
