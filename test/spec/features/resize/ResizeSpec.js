@@ -9,14 +9,17 @@ import {
 
 import { pick } from 'min-dash';
 
-import resizeModule from 'lib/features/resize';
+import interactionEventsModule from 'lib/features/interaction-events';
 import modelingModule from 'lib/features/modeling';
+import resizeModule from 'lib/features/resize';
 import rulesModule from './rules';
-import selectModule from 'lib/features/selection';
+import selectionModule from 'lib/features/selection';
+
 
 import { getReferencePoint } from 'lib/features/resize/Resize';
 
 import {
+  classes as domClasses,
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
@@ -32,10 +35,11 @@ describe('features/resize - Resize', function() {
 
   beforeEach(bootstrapDiagram({
     modules: [
+      interactionEventsModule,
+      modelingModule,
       resizeModule,
       rulesModule,
-      modelingModule,
-      selectModule
+      selectionModule
     ]
   }));
 
@@ -62,53 +66,78 @@ describe('features/resize - Resize', function() {
 
   describe('handles', function() {
 
-    function getResizeHandles() {
-      return inject(function(resizeHandles) {
-        return domQueryAll('.djs-resizer', resizeHandles._getResizersParent());
-      })();
-    }
-
-    it('should add on selection', inject(function(selection, canvas) {
-
-      // when
-      selection.select(shape);
+    it('should add on shape added', function() {
 
       // then
-      var resizeAnchors = getResizeHandles();
+      expect(domQueryAll('.djs-resizer', gfx).length).to.equal(8);
 
-      expect(resizeAnchors.length).to.equal(8);
+      expect(getTranslate(domQuery('.djs-resizer-nw', gfx))).to.eql({ x: 0, y: 0 });
+      expect(getTranslate(domQuery('.djs-resizer-n', gfx))).to.eql({ x: 50, y: 0 });
+      expect(getTranslate(domQuery('.djs-resizer-ne', gfx))).to.eql({ x: 100, y: 0 });
+      expect(getTranslate(domQuery('.djs-resizer-e', gfx))).to.eql({ x: 100, y: 50 });
+      expect(getTranslate(domQuery('.djs-resizer-se', gfx))).to.eql({ x: 100, y: 100 });
+      expect(getTranslate(domQuery('.djs-resizer-s', gfx))).to.eql({ x: 50, y: 100 });
+      expect(getTranslate(domQuery('.djs-resizer-sw', gfx))).to.eql({ x: 0, y: 100 });
+      expect(getTranslate(domQuery('.djs-resizer-w', gfx))).to.eql({ x: 0, y: 50 });
+    });
+
+
+    it('should update on shape changed', inject(function(modeling) {
+
+      // when
+      modeling.resizeShape(shape, {
+        x: shape.x,
+        y: shape.y,
+        width: shape.width + 100,
+        height: shape.height + 100
+      });
+
+      // then
+      expect(domQueryAll('.djs-resizer', gfx).length).to.equal(8);
+
+      expect(getTranslate(domQuery('.djs-resizer-nw', gfx))).to.eql({ x: 0, y: 0 });
+      expect(getTranslate(domQuery('.djs-resizer-n', gfx))).to.eql({ x: 100, y: 0 });
+      expect(getTranslate(domQuery('.djs-resizer-ne', gfx))).to.eql({ x: 200, y: 0 });
+      expect(getTranslate(domQuery('.djs-resizer-e', gfx))).to.eql({ x: 200, y: 100 });
+      expect(getTranslate(domQuery('.djs-resizer-se', gfx))).to.eql({ x: 200, y: 200 });
+      expect(getTranslate(domQuery('.djs-resizer-s', gfx))).to.eql({ x: 100, y: 200 });
+      expect(getTranslate(domQuery('.djs-resizer-sw', gfx))).to.eql({ x: 0, y: 200 });
+      expect(getTranslate(domQuery('.djs-resizer-w', gfx))).to.eql({ x: 0, y: 100 });
     }));
 
 
-    it('should remove on deselect', inject(function(selection) {
+    describe('integration', function() {
 
-      // when
-      selection.select(shape, false);
-      selection.deselect(shape, false);
+      it('should be on top on shape added', function() {
 
-      // then
-      var resizeAnchors = getResizeHandles();
+        // then
+        var nodes = Array.prototype.slice.call(gfx.childNodes);
 
-      expect(resizeAnchors.length).to.equal(0);
-    }));
+        nodes.slice(nodes.length - 8).forEach(function(node) {
+          expect(domClasses(node).has('djs-resizer')).to.be.true;
+        });
+      });
 
 
-    it('should update on shape change', inject(function(selection, eventBus, elementRegistry) {
+      it('should be on top on shape changed', inject(function(modeling) {
 
-      // when
-      selection.select(shape, false);
+        // when
+        modeling.resizeShape(shape, {
+          x: shape.x,
+          y: shape.y,
+          width: shape.width + 100,
+          height: shape.height + 100
+        });
 
-      // change
-      elementRegistry.updateId(shape, 'BAR');
+        // then
+        var nodes = Array.prototype.slice.call(gfx.childNodes);
 
-      // trigger change
-      eventBus.fire('element.changed', { element: shape });
+        nodes.slice(nodes.length - 8).forEach(function(node) {
+          expect(domClasses(node).has('djs-resizer')).to.be.true;
+        });
+      }));
 
-      // then
-      var resizeAnchors = getResizeHandles();
-
-      expect(resizeAnchors.length).to.equal(8);
-    }));
+    });
 
   });
 
@@ -739,3 +768,14 @@ describe('features/resize - Resize', function() {
   });
 
 });
+
+// helpers //////////
+
+function getTranslate(svg) {
+  var matrix = svg.transform.baseVal.getItem(0).matrix;
+
+  return {
+    x: matrix.e,
+    y: matrix.f
+  };
+}
