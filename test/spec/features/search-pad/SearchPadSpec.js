@@ -304,7 +304,7 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('select should center viewbox on an element', inject(function(searchPad, canvas) {
+    it('select should scroll element into view', inject(function(searchPad, canvas) {
 
       // given
       typeText(input_node, 'one');
@@ -314,8 +314,8 @@ describe('features/searchPad', function() {
       container.style.height = '1000px';
 
       canvas.viewbox({
-        x: 0,
-        y: 0,
+        x: 1000,
+        y: 1000,
         width: 1000,
         height: 1000
       });
@@ -325,8 +325,8 @@ describe('features/searchPad', function() {
 
       // then
       var newViewbox = canvas.viewbox();
-      expect(newViewbox).to.have.property('x', -450);
-      expect(newViewbox).to.have.property('y', -460);
+      expect(newViewbox).to.have.property('x', -100);
+      expect(newViewbox).to.have.property('y', -400);
     }));
 
 

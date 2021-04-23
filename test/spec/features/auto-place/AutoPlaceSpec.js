@@ -90,6 +90,31 @@ describe('features/auto-place', function() {
       expect(selection.get()).to.eql([ newShape ]);
     }));
 
+
+    it('should scroll into view', inject(function(autoPlace, canvas) {
+
+      // given
+      var container = canvas.getContainer();
+      container.style.width = '500px';
+      container.style.height = '500px';
+
+      canvas.viewbox({
+        x: -400,
+        y: -450,
+        width: 500,
+        height: 500
+      });
+
+      // when
+      autoPlace.append(shape, newShape);
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.eql(-150);
+      expect(newViewbox.y).to.eql(-300);
+
+    }));
+
   });
 
 
