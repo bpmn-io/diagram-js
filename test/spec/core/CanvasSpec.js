@@ -951,6 +951,155 @@ describe('Canvas', function() {
 
   });
 
+  describe('#scrollToElement', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+    beforeEach(createDiagram({ canvas: { width: 500, height: 500 } }));
+
+
+    it('scrolls element into view', inject(function(canvas) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 650, y: 650,
+        width: 50, height: 50
+      });
+
+      // when
+      canvas.scrollToElement(shape);
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(300);
+      expect(newViewbox.y).to.equal(300);
+
+    }));
+
+
+    it('takes zoom into account', inject(function(canvas) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 650, y: 650,
+        width: 50, height: 50
+      });
+
+      canvas.zoom(2);
+
+      // when
+      canvas.scrollToElement(shape);
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(500);
+      expect(newViewbox.y).to.equal(500);
+
+    }));
+
+
+    it('does not scroll when inside bounds', inject(function(canvas) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 100, y: 100,
+        width: 10, height: 10
+      });
+
+      // when
+      canvas.scrollToElement(shape);
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(0);
+      expect(newViewbox.y).to.equal(0);
+
+    }));
+
+    it('focuses top-left of big elements', inject(function(canvas) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 200, y: 200,
+        width: 500, height: 600
+      });
+
+      // when
+      canvas.scrollToElement(shape);
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(100);
+      expect(newViewbox.y).to.equal(100);
+
+    }));
+
+
+    it('adds default padding', inject(function(canvas) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 0, y: 0,
+        width: 10, height: 10
+      });
+
+      // when
+      canvas.scrollToElement(shape);
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(-100);
+      expect(newViewbox.y).to.equal(-100);
+
+    }));
+
+
+    it('can specify padding', inject(function(canvas) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 0, y: 0,
+        width: 10, height: 10
+      });
+
+      // when
+      canvas.scrollToElement(shape, 200);
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(-200);
+      expect(newViewbox.y).to.equal(-200);
+
+    }));
+
+    it('can have specific directional padding', inject(function(canvas) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 0, y: 0,
+        width: 10, height: 10
+      });
+
+      // when
+      canvas.scrollToElement(shape, { left: 300 });
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(-300);
+      expect(newViewbox.y).to.equal(-100);
+
+    }));
+
+  });
+
 
   describe('zoom', function() {
 
