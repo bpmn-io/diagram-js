@@ -182,15 +182,6 @@ svg.new-parent {
   pointer-events: none;
 }
 
-.djs-resizer {
-  visibility: hidden;
-}
-
-.djs-element.hover .djs-resizer,
-.djs-element.selected .djs-resizer {
-  visibility: visible;
-}
-
 .djs-resizer-hit {
   fill: none;
   pointer-events: all;
