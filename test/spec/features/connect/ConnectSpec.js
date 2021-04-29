@@ -353,6 +353,34 @@ describe('features/connect', function() {
       expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
     }));
 
+
+    it('should display preview if connection is reversed', inject(function(connect, dragging, eventBus, connectionPreview) {
+
+      // given
+      var connectionPreviewSpy = sinon.spy(connectionPreview, 'drawPreview');
+
+      eventBus.on('commandStack.connection.create.canExecute', 9999, function(event) {
+        return event.context.source.id !== 's1';
+      });
+
+      // when
+      connect.start(canvasEvent({ x: 250, y: 250 }), shape1);
+      dragging.move(canvasEvent({ x: 250, y: 250 }));
+
+      dragging.hover(canvasEvent({ x: 500, y: 100 }, { element: shape2 }));
+      dragging.move(canvasEvent({ x: 500, y: 100 }));
+
+      var ctx = dragging.context();
+
+      // then
+      expect(ctx.data.context.connectionPreviewGfx.parentNode).to.exist;
+      expect(connectionPreviewSpy.lastCall.args[2].connectionStart.x).to.equal(500);
+      expect(connectionPreviewSpy.lastCall.args[2].connectionStart.y).to.equal(100);
+
+      expect(connectionPreviewSpy.lastCall.args[2].connectionEnd.x).to.equal(250);
+      expect(connectionPreviewSpy.lastCall.args[2].connectionEnd.y).to.equal(250);
+    }));
+
   });
 
 });
