@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 7.3.0
+
+* `FEAT`: add `Canvas#scrollToElement` ([#545](https://github.com/bpmn-io/diagram-js/pulls/545))
+* `FIX`: fix preview for reversed connection ([#546](https://github.com/bpmn-io/diagram-js/pull/546))
+
 ## 7.2.3
 
 * `FIX`: correct intersections not being reported in some cases
