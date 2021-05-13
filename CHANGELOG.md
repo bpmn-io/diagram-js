@@ -9,6 +9,7 @@ ___Note:__ Yet to be released changes appear here._
 ## 7.3.0
 
 * `FEAT`: add `Canvas#scrollToElement` ([#545](https://github.com/bpmn-io/diagram-js/pulls/545))
+* `FEAT`: ensure auto-placed elements are visible
 * `FIX`: fix preview for reversed connection ([#546](https://github.com/bpmn-io/diagram-js/pull/546))
 
 ## 7.2.3
