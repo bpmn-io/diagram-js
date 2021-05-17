@@ -3,6 +3,15 @@
   "version": "7.3.0",
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "main": "index.js",
+  "files": [
+    ".babelrc",
+    "lib",
+    "assets",
+    "test/util",
+    "test/helper",
+    "test/matchers",
+    "!.eslintrc"
+  ],
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",

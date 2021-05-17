@@ -1,9 +1,0 @@
-.github
-coverage
-test/*
-!test/util
-!test/helper
-!test/matchers
-.eslintignore
-.eslintrc
-karma.conf.js
