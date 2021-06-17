@@ -428,6 +428,52 @@ describe('features/dragging - Dragging', function() {
 });
 
 
+describe('features/dragging - error Handling', function() {
+
+  beforeEach(bootstrapDiagram({
+    modules: [
+      dragModule
+    ]
+  }));
+
+  beforeEach(inject(function(canvas) {
+    canvas.addShape({ id: 'shape', x: 10, y: 10, width: 50, height: 50 });
+  }));
+
+
+  beforeEach(inject(function(dragging) {
+    dragging.setOptions({ manual: true });
+  }));
+
+
+  it('should integrate with eventBus', inject(
+    function(dragging, eventBus) {
+
+      // given
+      eventBus.on('foo.move', function() {
+        throw new Error('<foo.move> error');
+      });
+
+      var errorSpy = sinon.spy(function(event) {
+        expect(event.error).to.have.property('message', '<foo.move> error');
+
+        return false;
+      });
+
+      eventBus.on('error', errorSpy);
+
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      // when
+      dragging.move(canvasEvent({ x: 30, y: 30 }));
+
+      // then
+      expect(errorSpy).to.have.been.calledOnce;
+    }));
+
+});
+
+
 describe('features/dragging - Dragging - zoomScroll integration', function() {
 
   beforeEach(bootstrapDiagram({
