@@ -170,7 +170,7 @@ describe('features/space-tool', function() {
     }));
 
 
-    it('should not contain moving shapes and resizing shapes', inject(function(elementRegistry, spaceTool) {
+    it('should contain moving shapes and resizing shapes', inject(function(elementRegistry, spaceTool) {
 
       // given
       var elements = elementRegistry.filter(function(element) {
@@ -606,7 +606,7 @@ describe('features/space-tool', function() {
   });
 
 
-  describe('labels', function() {
+  describe('external labels', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
@@ -874,7 +874,7 @@ describe('features/space-tool', function() {
   });
 
 
-  describe('resize containers', function() {
+  describe('resize shapes', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
