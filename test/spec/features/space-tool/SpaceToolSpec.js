@@ -72,14 +72,16 @@ describe('features/space-tool', function() {
 
     var childAttacher,
         childAttacherLabel,
-        childShape,
-        childShape2,
-        childShape2Label,
+        child,
+        child2,
+        child2Label,
         connection,
+        connectionLabel,
         grandParent,
         greatGrandParent,
+        greatGrandParentAttacher,
         parentAttacher,
-        parentShape;
+        parent;
 
     beforeEach(inject(function(canvas, elementFactory, modeling) {
       greatGrandParent = elementFactory.createShape({
@@ -90,6 +92,16 @@ describe('features/space-tool', function() {
 
       canvas.addShape(greatGrandParent);
 
+      greatGrandParentAttacher = elementFactory.createShape({
+        id: 'greatGrandParentAttacher',
+        x: 475,
+        y: 25,
+        width: 50, height: 50,
+        host: greatGrandParent
+      });
+
+      canvas.addShape(greatGrandParentAttacher);
+
       grandParent = elementFactory.createShape({
         id: 'grandParent-resizable',
         x: 125, y: 75,
@@ -98,36 +110,36 @@ describe('features/space-tool', function() {
 
       canvas.addShape(grandParent, greatGrandParent);
 
-      parentShape = elementFactory.createShape({
-        id: 'parent1-resizable',
+      parent = elementFactory.createShape({
+        id: 'parent-resizable',
         x: 200, y: 150,
         width: 200, height: 200
       });
 
-      canvas.addShape(parentShape, grandParent);
+      canvas.addShape(parent, grandParent);
 
-      childShape = elementFactory.createShape({
+      child = elementFactory.createShape({
         id: 'child',
         x: 225, y: 175,
         width: 50, height: 50
       });
 
-      canvas.addShape(childShape, parentShape);
+      canvas.addShape(child, parent);
 
-      childShape2 = elementFactory.createShape({
+      child2 = elementFactory.createShape({
         id: 'child2',
         x: 325, y: 275,
         width: 50, height: 50
       });
 
-      canvas.addShape(childShape2, parentShape);
+      canvas.addShape(child2, parent);
 
-      childShape2Label = elementFactory.createLabel({
-        id: 'childShape2Label',
+      child2Label = elementFactory.createLabel({
+        id: 'child2Label',
         width: 80, height: 40
       });
 
-      modeling.createLabel(childShape2, { x: 350, y: 350 }, childShape2Label);
+      modeling.createLabel(child2, { x: 350, y: 350 }, child2Label);
 
       connection = elementFactory.createConnection({
         id: 'connection',
@@ -135,24 +147,31 @@ describe('features/space-tool', function() {
           { x: 250, y: 200 },
           { x: 350, y: 300 }
         ],
-        source: childShape,
-        target: childShape2
+        source: child,
+        target: child2
       });
 
       canvas.addConnection(connection);
+
+      connectionLabel = elementFactory.createLabel({
+        id: 'connectionLabel',
+        width: 80, height: 40
+      });
+
+      modeling.createLabel(connection, { x: 300, y: 250 }, connectionLabel);
 
       childAttacher = elementFactory.createShape({
         id: 'childAttacher',
         x: 200,
         y: 200,
         width: 50, height: 50,
-        host: childShape
+        host: child
       });
 
       canvas.addShape(childAttacher);
 
       childAttacherLabel = elementFactory.createLabel({
-        id: 'childLabel',
+        id: 'childAttacherLabel',
         width: 80, height: 40
       });
 
@@ -163,47 +182,297 @@ describe('features/space-tool', function() {
         x: 375,
         y: 125,
         width: 50, height: 50,
-        host: parentShape
+        host: parent
       });
 
       canvas.addShape(parentAttacher);
     }));
 
 
+    it('should not include root element', inject(function(elementRegistry, spaceTool) {
+
+      // given
+      var delta = 100,
+          start = 0;
+
+      var rootElement = elementRegistry.get('__implicitroot');
+
+      // when
+      var adjustments = spaceTool.calculateAdjustments(elementRegistry.getAll(), 'x', delta, start);
+
+      // then
+      expect(adjustments.movingShapes).not.to.include(rootElement);
+      expect(adjustments.resizingShapes).not.to.include(rootElement);
+    }));
+
+
+    it('should not include connections', inject(function(elementRegistry, spaceTool) {
+
+      // given
+      var delta = 100,
+          start = 0;
+
+      // when
+      var adjustments = spaceTool.calculateAdjustments(elementRegistry.getAll(), 'x', delta, start);
+
+      // then
+      expect(adjustments.movingShapes).not.to.include(connection);
+      expect(adjustments.resizingShapes).not.to.include(connection);
+    }));
+
+
     it('should contain moving shapes and resizing shapes', inject(function(elementRegistry, spaceTool) {
 
       // given
-      var elements = elementRegistry.filter(function(element) {
-        return element.id !== '__implicitroot' && !element.waypoints;
-      });
-
-      var resizableElements = elements.filter(function(element) {
-        return element.id.includes('resizable');
-      });
+      var delta = 100,
+          start = 220;
 
       // when
-      var adjustments = spaceTool.calculateAdjustments(elementRegistry.getAll(), 'x', 100, 220);
+      var adjustments = spaceTool.calculateAdjustments(elementRegistry.getAll(), 'x', delta, start);
 
       // then
-      expect(adjustments.movingShapes).to.have.length(elements.length - resizableElements.length);
-      expect(adjustments.resizingShapes).to.have.length(resizableElements.length);
+      expect(adjustments.movingShapes).to.eql([
+        child,
+        child2,
+        child2Label,
+        childAttacher,
+        childAttacherLabel,
+        greatGrandParentAttacher,
+        parentAttacher,
+        connectionLabel
+      ]);
+
+      expect(adjustments.resizingShapes).to.eql([
+        greatGrandParent,
+        grandParent,
+        parent
+      ]);
     }));
 
 
-    it('should not contain duplicates (moving shapes)', inject(function(elementRegistry, spaceTool) {
+    it('should not contain duplicates', inject(function(elementRegistry, spaceTool) {
 
       // given
-      var elements = elementRegistry.filter(function(element) {
-        return element.id !== '__implicitroot' && !element.waypoints;
-      });
+      var delta = 100,
+          start = 220;
+
+      var elements = elementRegistry.getAll();
 
       // when
-      var adjustments = spaceTool.calculateAdjustments(elementRegistry.getAll(), 'x', 100, 0);
+      var adjustments = spaceTool.calculateAdjustments(elements.concat(elements), 'x', delta, start);
 
       // then
-      expect(adjustments.movingShapes).to.have.length(elements.length);
-      expect(adjustments.resizingShapes).to.have.length(0);
+      expect(adjustments.movingShapes).to.eql([
+        child,
+        child2,
+        child2Label,
+        childAttacher,
+        childAttacherLabel,
+        greatGrandParentAttacher,
+        parentAttacher,
+        connectionLabel
+      ]);
+
+      expect(adjustments.resizingShapes).to.eql([
+        greatGrandParent,
+        grandParent,
+        parent
+      ]);
     }));
+
+
+    describe('move', function() {
+
+      it('should move shape if its start is after space tool (delta > 0)', inject(function(spaceTool) {
+
+        // given
+        var delta = 100,
+            start = 0;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ grandParent ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.eql([
+          grandParent
+        ]);
+
+        expect(adjustments.resizingShapes).to.be.empty;
+      }));
+
+
+      it('should not move shape if its start is before space tool (delta > 0)', inject(function(spaceTool) {
+
+        // given
+        var delta = 100,
+            start = 1000;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ grandParent ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.be.empty;
+
+        expect(adjustments.resizingShapes).to.be.empty;
+      }));
+
+
+      it('should move shape if its start is after space tool (delta < 0)', inject(function(spaceTool) {
+
+        // given
+        var delta = -100,
+            start = 1000;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ grandParent ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.eql([
+          grandParent
+        ]);
+
+        expect(adjustments.resizingShapes).to.be.empty;
+      }));
+
+
+      it('should not move shape if its start is before space tool (delta < 0)', inject(function(spaceTool) {
+
+        // given
+        var delta = -100,
+            start = 0;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ grandParent ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.be.empty;
+
+        expect(adjustments.resizingShapes).to.be.empty;
+      }));
+
+
+      it('should move external label if its label target is moving', inject(function(spaceTool) {
+
+        // given
+        var delta = 100,
+            start = 0;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ child2 ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.eql([
+          child2,
+          child2Label
+        ]);
+
+        expect(adjustments.resizingShapes).to.be.empty;
+      }));
+
+
+      it('should move attacher if its host is moving', inject(function(spaceTool) {
+
+        // given
+        var delta = 100,
+            start = 0;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ child ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.eql([
+          child,
+          childAttacher,
+          childAttacherLabel
+        ]);
+
+        expect(adjustments.resizingShapes).to.be.empty;
+      }));
+
+
+      it('should move attacher if its mid is after space tool and its host is moving or resizing', inject(function(spaceTool) {
+
+        // given
+        var delta = 100,
+            start = 0;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ child, childAttacher ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.eql([
+          child,
+          childAttacher,
+          childAttacherLabel
+        ]);
+
+        expect(adjustments.resizingShapes).to.be.empty;
+      }));
+
+
+      it('should move external label if its label target\'s (connection) source and target are moving', inject(function(spaceTool) {
+
+        // given
+        var delta = 100,
+            start = 0;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ child, child2, connection ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.eql([
+          child,
+          child2,
+          child2Label,
+          childAttacher,
+          childAttacherLabel,
+          connectionLabel
+        ]);
+
+        expect(adjustments.resizingShapes).to.be.empty;
+      }));
+
+    });
+
+
+    describe('resize', function() {
+
+      it('should resize shape if its start is before and its end is after space tool (delta > 0)', inject(function(spaceTool) {
+
+        // given
+        var delta = 100,
+            start = 220;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ greatGrandParent ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.be.empty;
+
+        expect(adjustments.resizingShapes).to.eql([
+          greatGrandParent
+        ]);
+      }));
+
+
+      it('should resize shape if its start is before and its end is after space tool (delta < 0)', inject(function(spaceTool) {
+
+        // given
+        var delta = -100,
+            start = 220;
+
+        // when
+        var adjustments = spaceTool.calculateAdjustments([ greatGrandParent ], 'x', delta, start);
+
+        // then
+        expect(adjustments.movingShapes).to.be.empty;
+
+        expect(adjustments.resizingShapes).to.eql([
+          greatGrandParent
+        ]);
+      }));
+
+    });
 
   });
 
