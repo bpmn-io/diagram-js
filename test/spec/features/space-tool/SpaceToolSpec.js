@@ -81,7 +81,7 @@ describe('features/space-tool', function() {
 
       expect(context).not.to.exist;
 
-      expect(spaceTool.isActive()).not.to.exist;
+      expect(spaceTool.isActive()).to.be.false;
     }));
 
 
