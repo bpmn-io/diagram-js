@@ -5,20 +5,29 @@ on:
     - "master"
 
 jobs:
-  Create_pull_request:
+  Merge_master_to_develop:
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: write
+      contents: write
 
     steps:
-    - name: Checkout
+    - name: Checkout develop
       uses: actions/checkout@v2
-    - name: Create pull request to develop
-      uses: repo-sync/pull-request@65194d8015be7624d231796ddee1cd52a5023cb3
       with:
-        source_branch: ""                                       # If blank, default: triggered branch
-        destination_branch: "develop"                           # If blank, default: master
-        pr_title: "Merge master to develop"                     # Title of pull request
-        pr_body: "This integrates latest changes from master."  # Full markdown support, requires pr_title to be set
-        pr_reviewer: "modeling/modeling-dev"                    # Comma-separated list (no spaces)
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        ref: develop
+        fetch-depth: 0
+    - name: Merge master to develop and push
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git merge -m 'Merge master to develop' --no-edit origin/master
+        git push
+
+    - name: Notify failure on Slack
+      if: failure()
+      uses: slackapi/slack-github-action@v1.15.0
+      with:
+        channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+        slack-message: "Automatic merge of <https://github.com/${{ github.repository }}/tree/${{ github.ref }}|${{ github.ref }}> to <https://github.com/${{ github.repository }}/tree/develop|${{ github.repository }}#develop> failed."
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
