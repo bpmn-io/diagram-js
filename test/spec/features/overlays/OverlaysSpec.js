@@ -634,7 +634,7 @@ describe('features/overlays', function() {
       it('should not display overlays on hidden plane', inject(function(overlays, canvas) {
 
         // given
-        canvas.setPlane('a');
+        canvas.setActivePlane('a');
         var html = createOverlay();
 
         overlays.add(shape, {
@@ -658,7 +658,7 @@ describe('features/overlays', function() {
         });
 
         // when
-        canvas.setPlane('a');
+        canvas.setActivePlane('a');
 
         // then
         expect(isVisible(html)).to.be.false;
