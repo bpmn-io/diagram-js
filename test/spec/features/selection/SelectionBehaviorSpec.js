@@ -41,9 +41,11 @@ describe('features/selection/Selection', function() {
     ]
   }));
 
-  var shape1, shape2;
+  var shape1, shape2, rootElement;
 
   beforeEach(inject(function(canvas) {
+    rootElement = canvas.getRootElement();
+
     shape1 = canvas.addShape({
       id: 'shape1',
       x: 10,
@@ -288,8 +290,8 @@ describe('features/selection/Selection', function() {
         }), shape2);
 
         dragging.hover({
-          element: shape2,
-          gfx: elementRegistry.getGraphics(shape2)
+          element: rootElement,
+          gfx: elementRegistry.getGraphics(rootElement)
         });
 
         dragging.move(canvasEvent({ x: 300, y: 300 }));

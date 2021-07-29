@@ -151,6 +151,31 @@ describe('features/selection/Selection', function() {
       expect(selectedElements.length).to.equal(0);
     }));
 
+
+    it('should not select elements on other plane', inject(function(canvas, selection) {
+
+      // given
+      canvas.setActivePlane('a');
+      var shape3 = canvas.addShape({
+        id: 'shape3',
+        x: 300,
+        y: 10,
+        width: 100,
+        height: 100
+      });
+
+      // when
+      selection.select(shape1);
+      selection.select(shape2, true);
+      selection.select(shape3, true);
+
+      // then
+      var selectedElements = selection.get();
+
+      expect(selectedElements.length).to.equal(1);
+      expect(selectedElements[0]).to.equal(shape3);
+    }));
+
   });
 
 
