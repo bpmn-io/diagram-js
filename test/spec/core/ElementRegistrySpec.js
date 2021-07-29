@@ -104,6 +104,38 @@ describe('ElementRegistry', function() {
   });
 
 
+  describe('updateGraphics', function() {
+
+    it('should update graphics', inject(function(elementRegistry, canvas, graphicsFactory) {
+
+      // given
+      var shape = elementRegistry.get('1');
+      var newGfx = graphicsFactory.create('shape', shape);
+
+      // when
+      elementRegistry.updateGraphics(shape, newGfx);
+
+      // then
+      expect(elementRegistry.getGraphics(shape)).to.be.equal(newGfx);
+    }));
+
+
+    it('should update secondary graphics', inject(function(elementRegistry, canvas, graphicsFactory) {
+
+      // given
+      var shape = elementRegistry.get('1');
+      var newGfx = graphicsFactory.create('shape', shape);
+
+      // when
+      elementRegistry.updateGraphics(shape, newGfx, true);
+
+      // then
+      expect(elementRegistry.getGraphics(shape, true)).to.be.equal(newGfx);
+    }));
+
+  });
+
+
   describe('getGraphics', function() {
 
     it('should get by id', inject(function(elementRegistry) {

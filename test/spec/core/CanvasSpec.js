@@ -494,7 +494,7 @@ describe('Canvas', function() {
 
       // expect
       // the canvas to be correctly wired
-      expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('__implicitroot');
+      expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('__implicitrootbase');
     }));
 
 
@@ -558,7 +558,7 @@ describe('Canvas', function() {
       canvas.setRootElement(null, true);
 
       // then
-      expect(canvas._rootElement).to.equal(null);
+      expect(canvas.getActivePlane().rootElement).to.equal(null);
 
       // root is unbound from canvas
       expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('');
@@ -1079,6 +1079,7 @@ describe('Canvas', function() {
 
     }));
 
+
     it('can have specific directional padding', inject(function(canvas) {
 
       // given
@@ -1096,6 +1097,26 @@ describe('Canvas', function() {
       expect(newViewbox.x).to.equal(-300);
       expect(newViewbox.y).to.equal(-100);
 
+    }));
+
+
+    it('switches to correct layer', inject(function(canvas) {
+
+      // given
+      canvas.setPlane('a');
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 0, y: 0,
+        width: 10, height: 10
+      });
+
+      canvas.setPlane('b');
+
+      // when
+      canvas.scrollToElement(shape);
+
+      // then
+      expect(canvas.getActivePlane().name).to.equal('a');
     }));
 
   });
@@ -1975,6 +1996,178 @@ describe('Canvas', function() {
 
   });
 
+
+  describe('planes', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+    beforeEach(createDiagram({ canvas: { width: 300, height: 300 } }));
+
+    describe('#getActivePlane', function() {
+      it('should return a default plane', inject(function(canvas) {
+
+        // when
+        var plane = canvas.getActivePlane();
+
+        // then
+        expect(plane).to.exist;
+        expect(plane.name).to.equal('base');
+      }));
+
+      it('should return the selected plane', inject(function(canvas) {
+
+        // when
+        canvas.setPlane('a');
+        var plane = canvas.getActivePlane();
+
+        // then
+        expect(plane).to.exist;
+        expect(plane.name).to.equal('a');
+      }));
+    });
+
+
+    describe('#getPlane', function() {
+
+      it('should expect a name', inject(function(canvas) {
+
+        expect(function() {
+
+          // when
+          canvas.getPlane();
+
+          throw new Error('expected exception');
+        }).to.throw('must specify a name');
+      }));
+
+
+      it('should return an empty plane', inject(function(canvas) {
+
+        // when
+        var plane = canvas.getPlane('a');
+
+        // then
+        expect(plane.layer).to.exist;
+        expect(plane.rootElement).to.be.null;
+      }));
+    });
+
+
+    describe('#setPlane', function() {
+
+      it('should expect a plane', inject(function(canvas) {
+        expect(function() {
+
+          // when
+          canvas.setPlane();
+
+          throw new Error('expected exception');
+        }).to.throw('must specify a plane');
+      }));
+
+
+      it('should add elements to active plane', inject(function(canvas) {
+
+        // given
+        var shape1 = { id: 'a', x: 10, y: 20, width: 50, height: 50 };
+        var shape2 = { id: 'b', x: 10, y: 20, width: 50, height: 50 };
+
+
+        // when
+        canvas.setPlane('a');
+        canvas.addShape(shape1);
+
+        canvas.setPlane('b');
+        canvas.addShape(shape2);
+
+        var rootElement = canvas.getRootElement();
+
+        // then
+        expectChildren(rootElement, [
+          shape2
+        ]);
+      }));
+
+
+      it('should only show active plane', inject(function(canvas) {
+
+        // when
+        canvas.setPlane('a');
+        canvas.setPlane('b');
+
+        var gfxA = canvas.getPlane('a').layer;
+        var gfxB = canvas.getPlane('b').layer;
+
+        // then
+        expect(svgClasses(gfxA).has('djs-element-hidden')).to.be.true;
+        expect(svgClasses(gfxB).has('djs-element-hidden')).to.be.false;
+      }));
+
+    });
+
+
+    it('#setRootElementForPlane', inject(function(canvas) {
+
+      // given
+      var rootElement = { id: 'FOO' };
+
+      // when
+      canvas.setPlane('a');
+      canvas.setRootElementForPlane(rootElement, 'b');
+
+      // then
+      expect(canvas.getRootElement()).to.not.be.equal(rootElement);
+      expect(canvas.getPlane('b').rootElement).to.be.equal(rootElement);
+    }));
+
+
+    describe('#findPlane', function() {
+
+      it('should return the correct plane', inject(function(canvas) {
+
+        // given
+        var shape1 = { id: 'a', x: 10, y: 20, width: 50, height: 50 };
+        var shape2 = { id: 'b', x: 10, y: 20, width: 50, height: 50 };
+        var shape3 = { id: 'c', x: 10, y: 20, width: 50, height: 50 };
+
+        canvas.setPlane('a');
+        canvas.addShape(shape1);
+
+        canvas.setPlane('b');
+        canvas.addShape(shape2);
+
+        // when
+        var plane1 = canvas.findPlane(shape1);
+        var plane2 = canvas.findPlane(shape2);
+        var plane3 = canvas.findPlane(shape3);
+
+        // then
+        expect(plane1.name).to.equal('a');
+        expect(plane2.name).to.equal('b');
+        expect(plane3).to.be.undefined;
+      }));
+
+
+      it('should accept IDs', inject(function(canvas) {
+
+        // given
+        var shape = { id: 'shape1', x: 10, y: 20, width: 50, height: 50 };
+
+        canvas.setPlane('plane1');
+        canvas.addShape(shape);
+
+        // when
+        var plane = canvas.findPlane('shape1');
+
+        // then
+        expect(plane.name).to.equal('plane1');
+      }));
+
+    });
+
+  });
+
 });
 
 
@@ -2006,7 +2199,7 @@ function expectChildren(parent, children) {
     });
 
     var childrenContainerGfx =
-      domMatches(parentGfx, '[data-element-id="__implicitroot"]')
+      domMatches(parentGfx, '[data-element-id="__implicitrootbase"]')
         ? parentGfx
         : getChildrenGfx(parentGfx);
 
