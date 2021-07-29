@@ -630,6 +630,40 @@ describe('features/overlays', function() {
         expect(isVisible(html)).to.be.true;
       }));
 
+
+      it('should not display overlays on hidden plane', inject(function(overlays, canvas) {
+
+        // given
+        canvas.setPlane('a');
+        var html = createOverlay();
+
+        overlays.add(shape, {
+          html: html,
+          position: { left: 20, bottom: 0 }
+        });
+
+        // then
+        expect(isVisible(html)).to.be.false;
+      }));
+
+
+      it('should hide overlays when switching planes', inject(function(overlays, canvas) {
+
+        // given
+        var html = createOverlay();
+
+        overlays.add(shape, {
+          html: html,
+          position: { left: 20, bottom: 0 }
+        });
+
+        // when
+        canvas.setPlane('a');
+
+        // then
+        expect(isVisible(html)).to.be.false;
+      }));
+
     });
 
 
