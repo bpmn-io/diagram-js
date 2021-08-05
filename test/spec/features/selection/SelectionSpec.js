@@ -155,7 +155,7 @@ describe('features/selection/Selection', function() {
     it('should not select elements on other plane', inject(function(canvas, selection) {
 
       // given
-      canvas.setPlane('a');
+      canvas.setActivePlane('a');
       var shape3 = canvas.addShape({
         id: 'shape3',
         x: 300,

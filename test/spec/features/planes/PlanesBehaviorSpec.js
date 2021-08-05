@@ -41,7 +41,7 @@ describe('features/planes/PlanesBehavior', function() {
 
       // given
       modeling.removeShape(shape1);
-      canvas.setPlane('1');
+      canvas.setActivePlane('1');
 
       // when
       commandStack.undo();
@@ -60,7 +60,7 @@ describe('features/planes/PlanesBehavior', function() {
       // given
       modeling.removeShape(shape1);
       commandStack.undo();
-      canvas.setPlane('1');
+      canvas.setActivePlane('1');
 
       // when
       commandStack.redo();

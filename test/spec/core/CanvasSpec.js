@@ -498,6 +498,17 @@ describe('Canvas', function() {
     }));
 
 
+    it('should implicit root elements', inject(function(canvas) {
+
+      // when
+      // accessing root element for the first time
+      var rootElement = canvas.getRootElement();
+
+      // then
+      expect(rootElement.isImplicit).to.be.true;
+    }));
+
+
     it('should have implicit root element', inject(function(canvas) {
 
       // when
@@ -1103,14 +1114,14 @@ describe('Canvas', function() {
     it('switches to correct layer', inject(function(canvas) {
 
       // given
-      canvas.setPlane('a');
+      canvas.setActivePlane('a');
       var shape = canvas.addShape({
         id: 's0',
         x: 0, y: 0,
         width: 10, height: 10
       });
 
-      canvas.setPlane('b');
+      canvas.setActivePlane('b');
 
       // when
       canvas.scrollToElement(shape);
@@ -2018,7 +2029,7 @@ describe('Canvas', function() {
       it('should return the selected plane', inject(function(canvas) {
 
         // when
-        canvas.setPlane('a');
+        canvas.setActivePlane('a');
         var plane = canvas.getActivePlane();
 
         // then
@@ -2054,13 +2065,13 @@ describe('Canvas', function() {
     });
 
 
-    describe('#setPlane', function() {
+    describe('#setActivePlane', function() {
 
       it('should expect a plane', inject(function(canvas) {
         expect(function() {
 
           // when
-          canvas.setPlane();
+          canvas.setActivePlane();
 
           throw new Error('expected exception');
         }).to.throw('must specify a plane');
@@ -2075,10 +2086,10 @@ describe('Canvas', function() {
 
 
         // when
-        canvas.setPlane('a');
+        canvas.setActivePlane('a');
         canvas.addShape(shape1);
 
-        canvas.setPlane('b');
+        canvas.setActivePlane('b');
         canvas.addShape(shape2);
 
         var rootElement = canvas.getRootElement();
@@ -2093,8 +2104,8 @@ describe('Canvas', function() {
       it('should only show active plane', inject(function(canvas) {
 
         // when
-        canvas.setPlane('a');
-        canvas.setPlane('b');
+        canvas.setActivePlane('a');
+        canvas.setActivePlane('b');
 
         var gfxA = canvas.getPlane('a').layer;
         var gfxB = canvas.getPlane('b').layer;
@@ -2113,7 +2124,7 @@ describe('Canvas', function() {
       var rootElement = { id: 'FOO' };
 
       // when
-      canvas.setPlane('a');
+      canvas.setActivePlane('a');
       canvas.setRootElementForPlane(rootElement, 'b');
 
       // then
@@ -2131,10 +2142,10 @@ describe('Canvas', function() {
         var shape2 = { id: 'b', x: 10, y: 20, width: 50, height: 50 };
         var shape3 = { id: 'c', x: 10, y: 20, width: 50, height: 50 };
 
-        canvas.setPlane('a');
+        canvas.setActivePlane('a');
         canvas.addShape(shape1);
 
-        canvas.setPlane('b');
+        canvas.setActivePlane('b');
         canvas.addShape(shape2);
 
         // when
@@ -2154,7 +2165,7 @@ describe('Canvas', function() {
         // given
         var shape = { id: 'shape1', x: 10, y: 20, width: 50, height: 50 };
 
-        canvas.setPlane('plane1');
+        canvas.setActivePlane('plane1');
         canvas.addShape(shape);
 
         // when
