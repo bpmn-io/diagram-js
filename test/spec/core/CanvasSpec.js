@@ -2026,6 +2026,7 @@ describe('Canvas', function() {
         expect(plane.name).to.equal('base');
       }));
 
+
       it('should return the selected plane', inject(function(canvas) {
 
         // when
@@ -2062,6 +2063,17 @@ describe('Canvas', function() {
         expect(plane.layer).to.exist;
         expect(plane.rootElement).to.be.null;
       }));
+
+
+      it('should not display new plane', inject(function(canvas) {
+
+        // when
+        var plane = canvas.getPlane('a');
+
+        // then
+        expect(svgClasses(plane.layer).has('djs-element-hidden')).to.be.true;
+      }));
+
     });
 
 
