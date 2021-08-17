@@ -409,7 +409,7 @@ describe('features/resize - Resize', function() {
       dragging.move(canvasEvent({ x: 20, y: 20 }));
 
       // then
-      var frames = domQueryAll('.djs-resize-overlay', canvas.getDefaultLayer());
+      var frames = domQueryAll('.djs-resize-overlay', canvas.getActivePlane().layer);
 
       expect(frames.length).to.equal(1);
     }));
@@ -423,7 +423,7 @@ describe('features/resize - Resize', function() {
       dragging.move(canvasEvent({ x: 100, y: 200 }));
 
       // then
-      var frame = domQuery('.djs-resize-overlay', canvas.getDefaultLayer());
+      var frame = domQuery('.djs-resize-overlay', canvas.getActivePlane().layer);
 
       var bbox = frame.getBBox();
 
@@ -444,7 +444,7 @@ describe('features/resize - Resize', function() {
       dragging.end();
 
       // then
-      var frame = domQuery('.djs-resize-overlay', canvas.getDefaultLayer());
+      var frame = domQuery('.djs-resize-overlay', canvas.getActivePlane().layer);
 
       expect(frame).to.be.null;
     }));
@@ -487,7 +487,7 @@ describe('features/resize - Resize', function() {
 
         // then
         // TODO@philipp: fix in phantomjs, classList is undefined in phantomjs
-        var frame = domQuery('.djs-resize-overlay', canvas.getDefaultLayer());
+        var frame = domQuery('.djs-resize-overlay', canvas.getActivePlane().layer);
 
         expect(svgClasses(frame).has('resize-not-ok')).to.equal(true);
       }));
