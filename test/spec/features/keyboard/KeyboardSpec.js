@@ -135,7 +135,7 @@ describe('features/keyboard', function() {
     }));
 
 
-    it('should not fire event if target is input field', inject(
+    it('should not fire non-modifier event if target is input field', inject(
       function(keyboard, eventBus) {
 
         // given
@@ -146,9 +146,29 @@ describe('features/keyboard', function() {
 
         // when
         keyboard._keyHandler({ key: TEST_KEY, target: inputField });
+        keyboard._keyHandler({ key: TEST_KEY, shiftKey: true, target: inputField });
 
         // then
         expect(eventBusSpy).to.not.be.called;
+      })
+    );
+
+
+    it('should fire modifier event if target is input field', inject(
+      function(keyboard, eventBus) {
+
+        // given
+        var eventBusSpy = sinon.spy(eventBus, 'fire');
+
+        var inputField = document.createElement('input');
+        testDiv.appendChild(inputField);
+
+        // when
+        keyboard._keyHandler({ key: TEST_KEY, metaKey: true, target: inputField });
+        keyboard._keyHandler({ key: TEST_KEY, ctrlKey: true, target: inputField });
+
+        // then
+        expect(eventBusSpy).to.have.been.calledTwice;
       })
     );
 
