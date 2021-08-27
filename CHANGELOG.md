@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ___Note:__ Yet to be released changes appear here._
 
+## 7.3.1
+
+* `FIX`: only ignore non-modifier keys in `keyboard` ([#564](https://github.com/bpmn-io/diagram-js/pull/564))
+
 ## 7.3.0
 
 * `FEAT`: add `Canvas#scrollToElement` ([#545](https://github.com/bpmn-io/diagram-js/pulls/545))
