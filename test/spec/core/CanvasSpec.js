@@ -569,7 +569,7 @@ describe('Canvas', function() {
       canvas.setRootElement(null, true);
 
       // then
-      expect(canvas.getActivePlane().rootElement).to.equal(null);
+      expect(canvas.getPlane('base').rootElement).to.equal(null);
 
       // root is unbound from canvas
       expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('');
@@ -1114,17 +1114,21 @@ describe('Canvas', function() {
     it('switches to correct layer', inject(function(canvas) {
 
       // given
-      canvas.setActivePlane('a');
+      var shapeRoot = { id: 'root' };
+
+      canvas.setRootElementForPlane(shapeRoot, 'a');
       var shape = canvas.addShape({
         id: 's0',
         x: 0, y: 0,
         width: 10, height: 10
-      });
+      }, shapeRoot);
 
       canvas.setActivePlane('b');
 
       // when
       canvas.scrollToElement(shape);
+
+      console.log(shapeRoot, shape);
 
       // then
       expect(canvas.getActivePlane().name).to.equal('a');
@@ -1907,6 +1911,45 @@ describe('Canvas', function() {
       ]);
     }));
 
+    describe('#getActiveLayer', function() {
+      it('gets default layer', inject(function(canvas) {
+
+        // when
+        var activeLayer = canvas.getActiveLayer();
+        var baseLayer = canvas.getLayer('base');
+
+        // then
+        expectLayersOrder(canvas._viewport, [
+          'base'
+        ]);
+
+        expect(activeLayer).to.exist;
+        expect(activeLayer).to.eql(baseLayer);
+
+      }));
+
+
+      it('gets active layer', inject(function(canvas) {
+
+        // given
+        canvas.setActivePlane('a');
+
+        // when
+        var activeLayer = canvas.getActiveLayer();
+        var aLayer = canvas.getLayer('a');
+
+
+        // then
+        expectLayersOrder(canvas._viewport, [
+          'a'
+        ]);
+
+        expect(activeLayer).to.exist;
+        expect(activeLayer).to.eql(aLayer);
+
+      }));
+    });
+
 
     it('layer with negative index is below default layer', inject(function(canvas) {
 
@@ -2024,6 +2067,7 @@ describe('Canvas', function() {
         // then
         expect(plane).to.exist;
         expect(plane.name).to.equal('base');
+        expect(plane.rootElement).to.exist;
       }));
 
 
@@ -2085,12 +2129,11 @@ describe('Canvas', function() {
           // when
           canvas.setActivePlane();
 
-          throw new Error('expected exception');
         }).to.throw('must specify a plane');
       }));
 
 
-      it('should add elements to active plane', inject(function(canvas) {
+      it('should add elements to active plane by default', inject(function(canvas) {
 
         // given
         var shape1 = { id: 'a', x: 10, y: 20, width: 50, height: 50 };
@@ -2153,12 +2196,14 @@ describe('Canvas', function() {
         var shape1 = { id: 'a', x: 10, y: 20, width: 50, height: 50 };
         var shape2 = { id: 'b', x: 10, y: 20, width: 50, height: 50 };
         var shape3 = { id: 'c', x: 10, y: 20, width: 50, height: 50 };
+        var plane1Root = { id: 'root1' };
+        var plane2Root = { id: 'root2' };
 
-        canvas.setActivePlane('a');
-        canvas.addShape(shape1);
+        canvas.setRootElementForPlane(plane1Root, '1');
+        canvas.setRootElementForPlane(plane2Root, '2');
 
-        canvas.setActivePlane('b');
-        canvas.addShape(shape2);
+        canvas.addShape(shape1, plane1Root);
+        canvas.addShape(shape2, plane2Root);
 
         // when
         var plane1 = canvas.findPlane(shape1);
@@ -2166,8 +2211,8 @@ describe('Canvas', function() {
         var plane3 = canvas.findPlane(shape3);
 
         // then
-        expect(plane1.name).to.equal('a');
-        expect(plane2.name).to.equal('b');
+        expect(plane1.name).to.equal('1');
+        expect(plane2.name).to.equal('2');
         expect(plane3).to.be.undefined;
       }));
 

@@ -155,14 +155,16 @@ describe('features/selection/Selection', function() {
     it('should not select elements on other plane', inject(function(canvas, selection) {
 
       // given
-      canvas.setActivePlane('a');
+      var shapeRoot = { id: 'root' };
+      canvas.setRootElementForPlane(shapeRoot, 'a');
+
       var shape3 = canvas.addShape({
         id: 'shape3',
         x: 300,
         y: 10,
         width: 100,
         height: 100
-      });
+      }, shapeRoot);
 
       // when
       selection.select(shape1);
@@ -172,8 +174,8 @@ describe('features/selection/Selection', function() {
       // then
       var selectedElements = selection.get();
 
-      expect(selectedElements.length).to.equal(1);
-      expect(selectedElements[0]).to.equal(shape3);
+      expect(selectedElements.length).to.equal(2);
+      expect(selectedElements).to.not.contain(shape3);
     }));
 
   });
