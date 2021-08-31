@@ -634,9 +634,11 @@ describe('features/overlays', function() {
       it('should not display overlays on hidden plane', inject(function(overlays, canvas) {
 
         // given
+        canvas.createPlane('a');
         canvas.setActivePlane('a');
         var html = createOverlay();
 
+        // when
         overlays.add(shape, {
           html: html,
           position: { left: 20, bottom: 0 }
@@ -650,6 +652,7 @@ describe('features/overlays', function() {
       it('should hide overlays when switching planes', inject(function(overlays, canvas) {
 
         // given
+        canvas.createPlane('a');
         var html = createOverlay();
 
         overlays.add(shape, {
