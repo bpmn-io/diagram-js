@@ -41,6 +41,7 @@ describe('features/planes/PlanesBehavior', function() {
 
       // given
       modeling.removeShape(shape1);
+      canvas.createPlane('1');
       canvas.setActivePlane('1');
 
       // when
@@ -58,6 +59,7 @@ describe('features/planes/PlanesBehavior', function() {
     it('should switch to affected plane', inject(function(canvas, modeling, commandStack) {
 
       // given
+      canvas.createPlane('1');
       modeling.removeShape(shape1);
       commandStack.undo();
       canvas.setActivePlane('1');
