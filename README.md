@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/bpmn-io/diagram-js/workflows/CI/badge.svg)](https://github.com/bpmn-io/diagram-js/actions?query=workflow%3ACI)
 
-A toolbox for displaying and modifying diagrams on the web.
+A toolbox for displaying and modifying awesome diagrams on the web.
 
 
 ## Built with diagram-js
