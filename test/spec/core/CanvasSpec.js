@@ -2117,6 +2117,17 @@ describe('Canvas', function() {
       }));
 
 
+      it('should fail when adding a plane twice', inject(function(canvas) {
+
+        expect(function() {
+
+          // when
+          canvas.createPlane('a');
+          canvas.createPlane('a');
+        }).to.throw('Plane a already exists');
+      }));
+
+
       it('should not display new plane', inject(function(canvas) {
 
         // when
