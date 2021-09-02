@@ -113,9 +113,10 @@ describe('ElementRegistry', function() {
       var newGfx = graphicsFactory.create('shape', shape);
 
       // when
-      elementRegistry.updateGraphics(shape, newGfx);
+      var primaryGfx = elementRegistry.updateGraphics(shape, newGfx);
 
       // then
+      expect(primaryGfx).to.be.equal(newGfx);
       expect(elementRegistry.getGraphics(shape)).to.be.equal(newGfx);
     }));
 
@@ -127,9 +128,10 @@ describe('ElementRegistry', function() {
       var newGfx = graphicsFactory.create('shape', shape);
 
       // when
-      elementRegistry.updateGraphics(shape, newGfx, true);
+      var secondaryGfx = elementRegistry.updateGraphics(shape, newGfx, true);
 
       // then
+      expect(secondaryGfx).to.be.equal(newGfx);
       expect(elementRegistry.getGraphics(shape, true)).to.be.equal(newGfx);
     }));
 
