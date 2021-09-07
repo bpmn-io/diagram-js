@@ -1882,11 +1882,13 @@ describe('Canvas', function() {
 
   });
 
+
   describe('layers', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
     });
+
     beforeEach(createDiagram({ canvas: { width: 300, height: 300 } }));
 
 
@@ -1901,7 +1903,9 @@ describe('Canvas', function() {
       ]);
     }));
 
+
     describe('#getActiveLayer', function() {
+
       it('gets default layer', inject(function(canvas) {
 
         // when
@@ -1929,7 +1933,6 @@ describe('Canvas', function() {
         var activeLayer = canvas.getActiveLayer();
         var aLayer = canvas.getLayer('a');
 
-
         // then
         expectLayersOrder(canvas._viewport, [
           'a'
@@ -1937,8 +1940,8 @@ describe('Canvas', function() {
 
         expect(activeLayer).to.exist;
         expect(activeLayer).to.eql(aLayer);
-
       }));
+
     });
 
 
@@ -2047,9 +2050,12 @@ describe('Canvas', function() {
     beforeEach(function() {
       container = TestContainer.get(this);
     });
+
     beforeEach(createDiagram({ canvas: { width: 300, height: 300 } }));
 
+
     describe('#getActivePlane', function() {
+
       it('should return a default plane', inject(function(canvas) {
 
         // when
@@ -2069,12 +2075,14 @@ describe('Canvas', function() {
 
         // when
         canvas.setActivePlane('a');
-        var plane = canvas.getActivePlane();
 
         // then
+        var plane = canvas.getActivePlane();
+
         expect(plane).to.exist;
         expect(plane.name).to.equal('a');
       }));
+
     });
 
 
@@ -2092,7 +2100,7 @@ describe('Canvas', function() {
 
       it('should return a plane', inject(function(canvas) {
 
-        // Given
+        // given
         var originalPlane = canvas.createPlane('a');
 
         // when
@@ -2124,7 +2132,7 @@ describe('Canvas', function() {
           // when
           canvas.createPlane('a');
           canvas.createPlane('a');
-        }).to.throw('Plane a already exists');
+        }).to.throw('plane a already exists');
       }));
 
 
@@ -2140,7 +2148,7 @@ describe('Canvas', function() {
 
       it('should set a root element', inject(function(canvas) {
 
-        // Given
+        // given
         var rootElement = { id: 'root' };
 
         // when
@@ -2180,6 +2188,7 @@ describe('Canvas', function() {
         // given
         var shape1 = { id: 'a', x: 10, y: 20, width: 50, height: 50 };
         var shape2 = { id: 'b', x: 10, y: 20, width: 50, height: 50 };
+
         canvas.createPlane('a');
         canvas.createPlane('b');
 
@@ -2190,9 +2199,9 @@ describe('Canvas', function() {
         canvas.setActivePlane('b');
         canvas.addShape(shape2);
 
+        // then
         var rootElement = canvas.getRootElement();
 
-        // then
         expectChildren(rootElement, [
           shape2
         ]);
@@ -2201,7 +2210,7 @@ describe('Canvas', function() {
 
       it('should only show active plane', inject(function(canvas) {
 
-        // Given
+        // given
         canvas.createPlane('a');
         canvas.createPlane('b');
 
@@ -2209,10 +2218,10 @@ describe('Canvas', function() {
         canvas.setActivePlane('a');
         canvas.setActivePlane('b');
 
+        // then
         var gfxA = canvas.getPlane('a').layer;
         var gfxB = canvas.getPlane('b').layer;
 
-        // then
         expect(svgClasses(gfxA).has('djs-element-hidden')).to.be.true;
         expect(svgClasses(gfxB).has('djs-element-hidden')).to.be.false;
       }));
@@ -2227,6 +2236,7 @@ describe('Canvas', function() {
         // given
         var oldRoot = { id: 'old' };
         var newRoot = { id: 'new' };
+
         canvas.createPlane('a', oldRoot);
 
         expect(function() {
@@ -2242,6 +2252,7 @@ describe('Canvas', function() {
         // given
         var oldRoot = { id: 'old' };
         var newRoot = { id: 'new' };
+
         canvas.createPlane('a');
         canvas.createPlane('b', oldRoot);
 
@@ -2294,6 +2305,7 @@ describe('Canvas', function() {
         var shape = { id: 'shape1', x: 10, y: 20, width: 50, height: 50 };
 
         var rootElement = canvas.createPlane('plane1').rootElement;
+
         canvas.addShape(shape, rootElement);
 
         // when
