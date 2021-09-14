@@ -4,7 +4,7 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ## Unreleased
 
-**\_Note:** Yet to be released changes appear here.\_
+_**Note:** Yet to be released changes appear here._
 
 ## 7.4.0
 
