@@ -147,8 +147,8 @@ describe('Canvas', function() {
       canvas._clear();
 
       // then
-      expect(canvas.getPlane('a')).to.be.undefined;
-      expect(canvas.getPlane('b')).to.be.undefined;
+      expect(canvas.getPlane('a')).not.to.exist;
+      expect(canvas.getPlane('b')).not.to.exist;
       expect(canvas.getActivePlane().name).to.eql('base');
     }));
 
@@ -2137,7 +2137,7 @@ describe('Canvas', function() {
         var plane = canvas.getPlane('b');
 
         // then
-        expect(plane).to.be.undefined;
+        expect(plane).not.to.exist;
       }));
 
     });
