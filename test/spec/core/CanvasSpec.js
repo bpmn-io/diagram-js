@@ -135,6 +135,23 @@ describe('Canvas', function() {
       expect(canvas._cachedViewbox).not.to.exist;
     }));
 
+
+    it('should remove planes', inject(function(canvas, elementRegistry) {
+
+      // given
+      canvas.createPlane('a');
+      canvas.createPlane('b');
+      canvas.setActivePlane('b');
+
+      // when
+      canvas._clear();
+
+      // then
+      expect(canvas.getPlane('a')).to.be.undefined;
+      expect(canvas.getPlane('b')).to.be.undefined;
+      expect(canvas.getActivePlane().name).to.eql('base');
+    }));
+
   });
 
 
@@ -2108,6 +2125,19 @@ describe('Canvas', function() {
 
         // then
         expect(plane).to.eq(originalPlane);
+      }));
+
+
+      it('should not return a non-existent plane', inject(function(canvas) {
+
+        // given
+        canvas.createPlane('a');
+
+        // when
+        var plane = canvas.getPlane('b');
+
+        // then
+        expect(plane).to.be.undefined;
       }));
 
     });
