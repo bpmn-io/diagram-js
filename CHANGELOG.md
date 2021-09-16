@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 7.4.1
+
+- `FIX`: remove all planes on `diagram.clear` ([#569](https://github.com/bpmn-io/diagram-js/pull/569))
+
 ## 7.4.0
 
 - `FEAT`: support multiple planes for rendering elements ([#560](https://github.com/bpmn-io/diagram-js/issues/560))
