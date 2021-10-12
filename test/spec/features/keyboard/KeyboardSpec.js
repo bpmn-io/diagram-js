@@ -4,6 +4,10 @@ import {
   assign
 } from 'min-dash';
 
+import {
+  domify
+} from 'min-dom';
+
 import modelingModule from 'lib/features/modeling';
 import keyboardModule from 'lib/features/keyboard';
 
@@ -154,7 +158,7 @@ describe('features/keyboard', function() {
     );
 
 
-    it('should fire modifier event if target is input field', inject(
+    it('should not fire modifier event if target is input field', inject(
       function(keyboard, eventBus) {
 
         // given
@@ -168,9 +172,104 @@ describe('features/keyboard', function() {
         keyboard._keyHandler({ key: TEST_KEY, ctrlKey: true, target: inputField });
 
         // then
-        expect(eventBusSpy).to.have.been.calledTwice;
+        expect(eventBusSpy).to.not.be.called;
       })
     );
+
+
+    describe('input-handle-modified-keys property', function() {
+
+      it('should fire modifier event if requesting it', inject(
+        function(keyboard, eventBus) {
+
+          // given
+          var eventBusSpy = sinon.spy(eventBus, 'fire');
+
+          var inputField = domify('<input></input>');
+          testDiv.appendChild(inputField);
+          testDiv.setAttribute('input-handle-modified-keys', 'a');
+
+          // when
+          keyboard._keyHandler({ key: 'a', metaKey: true, target: inputField });
+          keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField });
+
+          // then
+          expect(eventBusSpy).to.have.been.calledTwice;
+        })
+      );
+
+
+      it('should not fire modifier event if not requested', inject(
+        function(keyboard, eventBus) {
+
+          // given
+          var eventBusSpy = sinon.spy(eventBus, 'fire');
+
+          var inputField = domify('<input></input>');
+          testDiv.appendChild(inputField);
+          testDiv.setAttribute('input-handle-modified-keys', 'a');
+
+          // when
+          keyboard._keyHandler({ key: 'b', metaKey: true, target: inputField });
+          keyboard._keyHandler({ key: 'b', ctrlKey: true, target: inputField });
+
+          // then
+          expect(eventBusSpy).to.not.be.called;
+        })
+      );
+
+
+      it('should override handled keys', inject(
+        function(keyboard, eventBus) {
+
+          // given
+          var eventBusSpy = sinon.spy(eventBus, 'fire');
+
+          var inputField = domify('<input input-handle-modified-keys="b"></input>');
+          testDiv.appendChild(inputField);
+          testDiv.setAttribute('input-handle-modified-keys', 'a');
+
+          // when
+          keyboard._keyHandler({ key: 'a', metaKey: true, target: inputField });
+          keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField });
+
+          // then
+          expect(eventBusSpy).to.not.be.called;
+
+          // when
+          keyboard._keyHandler({ key: 'b', metaKey: true, target: inputField });
+          keyboard._keyHandler({ key: 'b', ctrlKey: true, target: inputField });
+
+          // then
+          expect(eventBusSpy).to.have.been.calledTwice;
+        })
+      );
+
+
+      it('should not fire modifier event if the requesting element is outside of binding', inject(
+        function(keyboard, eventBus) {
+
+          // given
+          var inputContainer = domify('<div class="container"><input /></div>'),
+              inputField = inputContainer.querySelector('input');
+
+          testDiv.appendChild(inputContainer);
+          testDiv.setAttribute('input-handle-modified-keys', 'a');
+
+          keyboard.bind(inputContainer);
+
+          var eventBusSpy = sinon.spy(eventBus, 'fire');
+
+          // when
+          keyboard._keyHandler({ key: 'a', metaKey: true, target: inputField });
+          keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField });
+
+          // then
+          expect(eventBusSpy).to.not.be.called;
+        })
+      );
+
+    });
 
   });
 
