@@ -667,6 +667,33 @@ describe('features/overlays', function() {
         expect(isVisible(html)).to.be.false;
       }));
 
+
+      it('should override `show` when switching planes', inject(function(overlays, canvas) {
+
+        // given
+        canvas.createPlane('a');
+        var html = createOverlay();
+
+        overlays.add(shape, {
+          html: html,
+          position: { left: 20, bottom: 0 },
+          show: {
+            minZoom: 0.7,
+            maxZoom: 1.3
+          }
+        });
+
+        // assume
+        expect(isVisible(html)).to.be.true;
+
+        // when
+        canvas.setActivePlane('a');
+        canvas.zoom(1);
+
+        // then
+        expect(isVisible(html)).to.be.false;
+      }));
+
     });
 
 
