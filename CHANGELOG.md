@@ -8,16 +8,10 @@ _**Note:** Yet to be released changes appear here._
 
 ## 7.5.0
 
-- `FEAT`: specify which modified keys are handled ([#573](https://github.com/bpmn-io/diagram-js/pull/573))
+_This reverts fixes introduced in `v7.3.1`_.
 
-  This reverts [#564](https://github.com/bpmn-io/diagram-js/pull/564) and replaces it with a fine-grained utility 
-  to opt-into processing of input-triggered keyboard events. To react to a `CTRL/CMD+` shortcut the input 
-  triggering it must be wrapped in a `[input-handle-modified-keys]` directive like so:  
-  ```html
-  <div input-handle-modified-keys="z,y">
-    <input></input>
-  </div>
-  ```
+- `FEAT`: specify which modified keys are handled ([#573](https://github.com/bpmn-io/diagram-js/pull/573))
+- `FIX`: correct components being unable to handle keyboard events for themselves
 
 ## 7.4.1
 
