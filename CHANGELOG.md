@@ -6,6 +6,19 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 7.5.0
+
+- `FEAT`: specify which modified keys are handled ([#573](https://github.com/bpmn-io/diagram-js/pull/573))
+
+  This reverts [#564](https://github.com/bpmn-io/diagram-js/pull/564) and replaces it with a fine-grained utility 
+  to opt-into processing of input-triggered keyboard events. To react to a `CTRL/CMD+` shortcut the input 
+  triggering it must be wrapped in a `[input-handle-modified-keys]` directive like so:  
+  ```html
+  <div input-handle-modified-keys="z,y">
+    <input></input>
+  </div>
+  ```
+
 ## 7.4.1
 
 - `FIX`: remove all planes on `diagram.clear` ([#569](https://github.com/bpmn-io/diagram-js/pull/569))
