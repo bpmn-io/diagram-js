@@ -17,6 +17,7 @@ import {
 } from 'min-dom';
 
 import contextPadModule from 'lib/features/context-pad';
+import overlayModule from 'lib/features/overlays';
 
 import ContextPadProvider from './ContextPadProvider';
 
@@ -265,7 +266,7 @@ describe('features/context-pad', function() {
 
   describe('lifecycle', function() {
 
-    beforeEach(bootstrapDiagram({ modules: [ contextPadModule, providerModule ] }));
+    beforeEach(bootstrapDiagram({ modules: [ contextPadModule, providerModule, overlayModule ] }));
 
 
     function expectEntries(contextPad, element, entries) {
@@ -282,13 +283,20 @@ describe('features/context-pad', function() {
     }
 
 
-    it('should open', inject(function(canvas, contextPad) {
+    it.only('should open', inject(function(canvas, contextPad, overlays) {
 
       // given
       var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
 
       canvas.addShape(shape);
 
+      overlays.add(shape, {
+        position: {
+          right: 10,
+          top: 10
+        },
+        html: '<div class="overlay">FOO</div>'
+      });
 
       // when
       contextPad.open(shape);
