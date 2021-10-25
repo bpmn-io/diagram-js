@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 7.6.0
+
+- `FEAT`: allow passing attributes to the renderer ([#578](https://github.com/bpmn-io/diagram-js/issues/578))
+- `FIX`: ensure planes on different planes are always hidden ([#574](https://github.com/bpmn-io/diagram-js/issues/574))
+- `FIX`: ensure context pad is always in front ([#576](https://github.com/bpmn-io/diagram-js/pull/576))
+
 ## 7.5.0
 
 _This reverts fixes introduced in `v7.3.1`_.
