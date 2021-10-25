@@ -2,6 +2,7 @@ import {
   bootstrapDiagram,
   inject
 } from 'test/TestHelper';
+import { create } from 'tiny-svg';
 
 import drawModule from 'lib/draw';
 
@@ -89,6 +90,53 @@ describe('draw - DefaultRenderer', function() {
 
       // then
       expect(path).to.eql('M130,130L200,200L350,300');
+    }));
+
+  });
+
+
+  describe('#drawShape', function() {
+
+    var gfx;
+
+    beforeEach(function() {
+      gfx = create('svg');
+    });
+
+
+    it('should have default style', inject(function(eventBus) {
+
+      // given
+      var element = {
+        id: 'shapeA',
+        x: 100, y: 100, width: 100, height: 100
+      };
+
+      // when
+      var shape = eventBus.fire('render.shape', { gfx: gfx, element: element });
+
+      // then
+      expect(shape.style.strokeWidth).to.eql('2px');
+
+    }));
+
+
+    it('should apply supplied styles', inject(function(eventBus) {
+
+      // given
+      var element = {
+        id: 'shapeA',
+        x: 100, y: 100, width: 100, height: 100
+      };
+
+      var attrs = { strokeWidth: '10px' };
+
+      // when
+      var shape = eventBus.fire('render.shape', { gfx: gfx, element: element, attrs: attrs });
+
+      // then
+      expect(shape.style.strokeWidth).to.eql('10px');
+
     }));
 
   });
