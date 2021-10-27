@@ -631,6 +631,7 @@ describe('Canvas', function() {
         });
       }));
 
+
       it('should provide default viewbox / overflowing diagram', inject(function(canvas) {
 
         // given
@@ -666,6 +667,48 @@ describe('Canvas', function() {
           inner: { width: 150, height: 100, x: 50, y: 100 },
           outer: { width: 300, height: 300 }
         });
+      }));
+
+
+      it('should provide plane viewbox', inject(function(canvas) {
+
+        // given
+        var shape1 = { id: 'a', x: 0, y: 0, width: 50, height: 50 };
+        var shape2 = { id: 'b', x: 100, y: 100, width: 100, height: 100 };
+        var plane1Root = { id: 'root1' };
+        var plane2Root = { id: 'root2' };
+
+        canvas.createPlane('1', plane1Root);
+        canvas.createPlane('2', plane2Root);
+
+        canvas.addShape(shape1, plane1Root);
+        canvas.addShape(shape2, plane2Root);
+
+        canvas.setActivePlane('1');
+
+        // assume
+        var viewbox = canvas.viewbox();
+        expect(viewbox).to.eql({
+          x: 0, y: 0,
+          width: 300, height: 300,
+          scale: 1.0,
+          inner: { x: 0, y: 0, width: 50, height: 50 },
+          outer: { width: 300, height: 300 }
+        });
+
+        // when
+        canvas.setActivePlane('2');
+
+        // then
+        var newViewbox = canvas.viewbox();
+        expect(newViewbox).to.eql({
+          x: 0, y: 0,
+          width: 300, height: 300,
+          scale: 1.0,
+          inner: { x: 100, y: 100, width: 100, height: 100 },
+          outer: { width: 300, height: 300 }
+        });
+
       }));
 
     });
