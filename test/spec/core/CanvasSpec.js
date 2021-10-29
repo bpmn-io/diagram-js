@@ -711,6 +711,27 @@ describe('Canvas', function() {
 
       }));
 
+
+      it('should provide viewbox without elements or plane', inject(function(canvas) {
+
+        // assume
+        expect(canvas._activePlane).to.not.exist;
+
+        // when
+        var viewbox = canvas.viewbox();
+
+        // then
+        expect(canvas._activePlane).to.not.exist;
+        expect(viewbox).to.eql({
+          x: 0, y: 0,
+          width: 300, height: 300,
+          scale: 1.0,
+          inner: { x: 0, y: 0, width: 0, height: 0 },
+          outer: { width: 300, height: 300 }
+        });
+
+      }));
+
     });
 
 
