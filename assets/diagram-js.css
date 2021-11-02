@@ -751,6 +751,7 @@ marker.djs-dragger tspan {
   width: 100%;
   padding: 6px 10px;
   border: 1px solid var(--search-input-border-color);
+  box-sizing: border-box;
 }
 
 .djs-search-input input:focus {
