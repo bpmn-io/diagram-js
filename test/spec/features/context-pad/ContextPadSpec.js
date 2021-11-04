@@ -8,7 +8,7 @@ import {
   inject
 } from 'test/TestHelper';
 
-import { assign } from 'min-dash';
+import { assign, isArray } from 'min-dash';
 
 import {
   query as domQuery,
@@ -17,6 +17,7 @@ import {
 } from 'min-dom';
 
 import contextPadModule from 'lib/features/context-pad';
+import selectionModule from 'lib/features/selection';
 
 import ContextPadProvider from './ContextPadProvider';
 
@@ -54,9 +55,17 @@ describe('features/context-pad', function() {
 
     beforeEach(bootstrapDiagram({ modules: [ contextPadModule, initPadModule ] }));
 
-
+    /**
+     * @constructor
+     *
+     * @param {any} [entriesOrUpdater]
+     */
     function Provider(entriesOrUpdater) {
       this.getContextPadEntries = function(element) {
+        return entriesOrUpdater || {};
+      };
+
+      this.getMultiElementContextPadEntries = function(element) {
         return entriesOrUpdater || {};
       };
     }
@@ -74,24 +83,63 @@ describe('features/context-pad', function() {
     }));
 
 
-    it('should query provider for entries', inject(function(contextPad) {
+    describe('should query provider for entries', function() {
 
-      // given
-      var provider = new Provider();
+      it('single element', inject(function(contextPad) {
 
-      contextPad.registerProvider(provider);
+        // given
+        var provider = {
+          getContextPadEntries: sinon.spy()
+        };
 
-      sinon.spy(provider, 'getContextPadEntries');
+        contextPad.registerProvider(provider);
 
-      // when
-      var entries = contextPad.getEntries('FOO');
+        // when
+        var entries = contextPad.getEntries('FOO');
 
-      // then
-      expect(entries).to.eql({});
+        // then
+        expect(entries).to.eql({});
 
-      // pass over providers
-      expect(provider.getContextPadEntries).to.have.been.calledWith('FOO');
-    }));
+        // pass over providers
+        expect(provider.getContextPadEntries).to.have.been.calledWith('FOO');
+      }));
+
+
+      it('multiple elements', inject(function(contextPad) {
+
+        // given
+        var provider = {
+          getMultiElementContextPadEntries: sinon.spy()
+        };
+
+        contextPad.registerProvider(provider);
+
+        // when
+        var entries = contextPad.getEntries([ 'FOO', 'BAR' ]);
+
+        // then
+        expect(entries).to.eql({});
+
+        // pass over providers
+        expect(provider.getMultiElementContextPadEntries).to.have.been.calledWith([ 'FOO', 'BAR' ]);
+      }));
+
+
+      it('missing provider API', inject(function(contextPad) {
+
+        // given
+        var provider = {};
+
+        contextPad.registerProvider(provider);
+
+        // when
+        var entries = contextPad.getEntries('FOO');
+
+        // then
+        expect(entries).to.eql({});
+      }));
+
+    });
 
 
     describe('with updater', function() {
@@ -110,7 +158,7 @@ describe('features/context-pad', function() {
         contextPad.registerProvider(updatingProvider);
 
         // when
-        var entries = contextPad.getEntries();
+        var entries = contextPad.getEntries([]);
 
         // then
         expect(entries.entryA).to.exist;
@@ -132,7 +180,7 @@ describe('features/context-pad', function() {
         contextPad.registerProvider(updatingProvider);
 
         // when
-        var entries = contextPad.getEntries();
+        var entries = contextPad.getEntries([]);
 
         // then
         expect(entries.entryA).to.exist;
@@ -154,7 +202,7 @@ describe('features/context-pad', function() {
         contextPad.registerProvider(updatingProvider);
 
         // when
-        var entries = contextPad.getEntries();
+        var entries = contextPad.getEntries([]);
 
         // then
         expect(entries.entryA).to.not.exist;
@@ -178,7 +226,7 @@ describe('features/context-pad', function() {
           contextPad.registerProvider(updatingProvider);
 
           // when
-          var entries = contextPad.getEntries();
+          var entries = contextPad.getEntries([]);
 
           // then
           expect(entries.entryA).to.not.exist;
@@ -192,7 +240,7 @@ describe('features/context-pad', function() {
           contextPad.registerProvider(1200, updatingProvider);
 
           // when
-          var entries = contextPad.getEntries();
+          var entries = contextPad.getEntries([]);
 
           // then
           expect(entries.entryA).to.exist;
@@ -263,9 +311,14 @@ describe('features/context-pad', function() {
   });
 
 
-  describe('lifecycle', function() {
+  describe('life-cycle', function() {
 
-    beforeEach(bootstrapDiagram({ modules: [ contextPadModule, providerModule ] }));
+    beforeEach(bootstrapDiagram({
+      modules: [
+        contextPadModule,
+        providerModule
+      ]
+    }));
 
 
     function expectEntries(contextPad, element, entries) {
@@ -282,20 +335,79 @@ describe('features/context-pad', function() {
     }
 
 
-    it('should open', inject(function(canvas, contextPad) {
+    describe('is open', function() {
 
-      // given
-      var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+      it('single element', inject(function(canvas, contextPad) {
 
-      canvas.addShape(shape);
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        // when
+        contextPad.open(shape);
+
+        // then
+        expect(contextPad.isOpen(shape)).to.be.true;
+      }));
 
 
-      // when
-      contextPad.open(shape);
+      it('multiple elements', inject(function(canvas, contextPad) {
 
-      // then
-      expect(contextPad.isOpen()).to.be.true;
-    }));
+        // given
+        var shape1 = { id: 's1', type: 'A', width: 100, height: 100, x: 10, y: 10 };
+        var shape2 = { id: 's2', type: 'A', width: 100, height: 100, x: 210, y: 10 };
+
+        canvas.addShape(shape1);
+        canvas.addShape(shape2);
+
+        // when
+        contextPad.open([ shape1, shape2 ]);
+
+        // then
+        expect(contextPad.isOpen(shape1)).to.be.false;
+        expect(contextPad.isOpen([ shape2 ])).to.be.false;
+        expect(contextPad.isOpen([ shape1, shape2 ])).to.be.true;
+
+      }));
+
+    });
+
+
+    describe('should open', function() {
+
+      it('single element', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        // when
+        contextPad.open(shape);
+
+        // then
+        expect(contextPad.isOpen()).to.be.true;
+      }));
+
+
+      it('multiple elements', inject(function(canvas, contextPad) {
+
+        // given
+        var shape1 = { id: 's1', type: 'A', width: 100, height: 100, x: 10, y: 10 };
+        var shape2 = { id: 's2', type: 'A', width: 100, height: 100, x: 210, y: 10 };
+
+        canvas.addShape(shape1);
+        canvas.addShape(shape2);
+
+        // when
+        contextPad.open([ shape1, shape2 ]);
+
+        // then
+        expect(contextPad.isOpen()).to.be.true;
+      }));
+
+    });
 
 
     it('should provide context dependent entries', inject(function(canvas, contextPad) {
@@ -303,16 +415,17 @@ describe('features/context-pad', function() {
       // given
       var shapeA = { id: 's1', type: 'A', width: 100, height: 100, x: 10, y: 10 };
       var shapeB = { id: 's2', type: 'B', width: 100, height: 100, x: 210, y: 10 };
+      var shapeA2 = { id: 's3', type: 'A', width: 100, height: 100, x: 410, y: 10 };
 
       canvas.addShape(shapeA);
       canvas.addShape(shapeB);
+      canvas.addShape(shapeA2);
 
       // when (1)
       contextPad.open(shapeA);
 
       // then (1)
       expectEntries(contextPad, shapeA, [ 'action.a', 'action.b' ]);
-
 
       // when (2)
       contextPad.open(shapeB);
@@ -322,6 +435,19 @@ describe('features/context-pad', function() {
 
       // when (3)
       contextPad.open(shapeA);
+
+      // when (4)
+      contextPad.open([ shapeA, shapeA2 ]);
+
+      // then (4)
+      expectEntries(contextPad, [ shapeA, shapeA2 ], [ 'action.a' ]);
+
+      // when (5)
+      contextPad.open([ shapeA, shapeB ]);
+
+      // then (5)
+      expectEntries(contextPad, [ shapeA, shapeB ], [ ]);
+
       contextPad.close();
 
       // then (3)
@@ -354,7 +480,6 @@ describe('features/context-pad', function() {
 
       canvas.addShape(shape);
 
-
       contextPad.open(shape);
       contextPad.close();
 
@@ -365,44 +490,237 @@ describe('features/context-pad', function() {
       expectEntries(contextPad, shape, [ 'action.c', 'action.no-image' ]);
     }));
 
+  });
 
-    it('should reopen if current element changed', inject(function(eventBus, canvas, contextPad) {
 
-      // given
-      var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+  describe('integration', function() {
 
-      canvas.addShape(shape);
-
-      contextPad.open(shape);
-
-      var open = sinon.spy(contextPad, 'open');
-
-      // when
-      eventBus.fire('elements.changed', { elements: [ shape ] });
-
-      // then
-      expect(open).to.have.been.calledWith(shape, true);
+    beforeEach(bootstrapDiagram({
+      modules: [
+        contextPadModule,
+        selectionModule,
+        providerModule
+      ]
     }));
 
 
-    it('should not reopen if other element changed', inject(function(eventBus, canvas, contextPad) {
+    var openSpy, closeSpy;
 
-      // given
-      var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+    function expectOpened(target) {
+      expect(openSpy).to.have.been.calledOnceWith(target);
 
-      canvas.addShape(shape);
+      openSpy.resetHistory();
+      closeSpy.resetHistory();
+    }
 
-      contextPad.open(shape);
+    function expectUntouched() {
+      expect(openSpy).not.to.have.been.called;
+      expect(closeSpy).not.to.have.been.called;
+    }
 
-      var open = sinon.spy(contextPad, 'open');
+    function expectClosed() {
+      expect(closeSpy).to.have.been.calledOnce;
 
-      // when
-      eventBus.fire('elements.changed', { elements: [ canvas.getRootElement() ] });
+      openSpy.resetHistory();
+      closeSpy.resetHistory();
+    }
 
-      // then
-      expect(open).not.to.have.been.called;
+    beforeEach(inject(function(eventBus) {
+      openSpy = sinon.spy();
+      closeSpy = sinon.spy();
+
+      eventBus.on('contextPad.open', function(event) {
+        openSpy(event.current.target);
+      });
+
+      eventBus.on('contextPad.close', closeSpy);
     }));
 
+
+    describe('<elements.changed>', function() {
+
+      function change(elements) {
+        getDiagramJS().invoke(function(eventBus) {
+          eventBus.fire('elements.changed', {
+            elements: isArray(elements) ? elements : [ elements ]
+          });
+        });
+      }
+
+
+      describe('should handle changed', function() {
+
+        it('single target', inject(function(eventBus, canvas, contextPad) {
+
+          // given
+          var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+          canvas.addShape(shape_1);
+
+          // assume
+          contextPad.open(shape_1);
+
+          // then
+          expectOpened(shape_1);
+
+          // when
+          change(shape_1);
+
+          // then
+          expectOpened(shape_1);
+        }));
+
+
+        it('multiple targets', inject(function(eventBus, canvas, contextPad) {
+
+          // given
+          var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+          var shape_2 = { id: 's2', width: 50, height: 50, x: 210, y: 10 };
+
+          canvas.addShape(shape_1);
+          canvas.addShape(shape_2);
+
+          // assume
+          contextPad.open([ shape_1, shape_2 ]);
+
+          // then
+          expectOpened([ shape_1, shape_2 ]);
+
+          // when
+          change(shape_1);
+
+          // then
+          expectOpened([ shape_1, shape_2 ]);
+        }));
+
+      });
+
+
+      describe('should ignore unrelated', function() {
+
+        it('single target', inject(function(eventBus, canvas, contextPad) {
+
+          // given
+          var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+          var shape_2 = { id: 's2', width: 100, height: 100, x: 210, y: 10 };
+
+          canvas.addShape(shape_1);
+          canvas.addShape(shape_2);
+
+          // assume
+          contextPad.open(shape_1);
+
+          // then
+          expectOpened(shape_1);
+
+          // when
+          change(shape_2);
+
+          // then
+          expectUntouched();
+        }));
+
+
+        it('multiple targets', inject(function(eventBus, canvas, contextPad) {
+
+          // given
+          var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+          var shape_2 = { id: 's2', width: 50, height: 50, x: 210, y: 10 };
+          var shape_3 = { id: 's3', width: 50, height: 50, x: 410, y: 10 };
+
+          canvas.addShape(shape_1);
+          canvas.addShape(shape_2);
+          canvas.addShape(shape_3);
+
+          // assume
+          contextPad.open([ shape_1, shape_2 ]);
+
+          // then
+          expectOpened([ shape_1, shape_2 ]);
+
+          // when
+          change(shape_3);
+
+          // then
+          expectUntouched();
+        }));
+
+      });
+
+    });
+
+
+    describe('<selection.changed>', function() {
+
+      function select(elements) {
+        getDiagramJS().invoke(function(selection) {
+          selection.select(isArray(elements) ? elements : [ elements ]);
+        });
+      }
+
+
+      describe('should handle select', function() {
+
+        it('single target', inject(function(eventBus, canvas, contextPad) {
+
+          // given
+          var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+          var shape_2 = { id: 's2', width: 100, height: 100, x: 10, y: 10 };
+
+          canvas.addShape(shape_1);
+          canvas.addShape(shape_2);
+
+          // assume
+          contextPad.open(shape_1);
+
+          // then
+          expectOpened(shape_1);
+
+          // when
+          select(shape_2);
+
+          // then
+          expectOpened(shape_2);
+
+          // when
+          select([]);
+
+          // then
+          expectClosed();
+        }));
+
+
+        it('multiple targets', inject(function(eventBus, canvas, contextPad) {
+
+          // given
+          var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+          var shape_2 = { id: 's2', width: 50, height: 50, x: 210, y: 10 };
+
+          canvas.addShape(shape_1);
+          canvas.addShape(shape_2);
+
+          // assume
+          contextPad.open([ shape_1, shape_2 ]);
+
+          // then
+          expectOpened([ shape_1, shape_2 ]);
+
+          // when
+          select(shape_1);
+
+          // then
+          expectOpened(shape_1);
+
+          // when
+          select([ shape_1, shape_2 ]);
+
+          // then
+          expectOpened([ shape_1, shape_2 ]);
+        }));
+
+      });
+
+    });
 
   });
 

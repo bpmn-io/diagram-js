@@ -2,6 +2,8 @@ import imageA from './resources/a.png';
 import imageB from './resources/b.png';
 import imageC from './resources/c.png';
 
+import { every } from 'min-dash';
+
 
 export default function ContextPadProvider(contextPad) {
   contextPad.registerProvider(this);
@@ -47,6 +49,38 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
         }
       },
       'action.no-image': {
+        action: function(e) {
+          e.__handled = true;
+        }
+      }
+    };
+  }
+};
+
+
+ContextPadProvider.prototype.getMultiElementContextPadEntries = function(elements) {
+
+  function allTyped(elements, type) {
+    return every(elements, function(element) {
+      return element.type === type;
+    });
+  }
+
+  if (allTyped(elements, 'A')) {
+    return {
+      'action.a': {
+        imageUrl: imageA,
+        action: function(e) {
+          e.__handled = true;
+        }
+      }
+    };
+  }
+
+  if (allTyped(elements, 'C')) {
+    return {
+      'action.c': {
+        imageUrl: imageC,
         action: function(e) {
           e.__handled = true;
         }
