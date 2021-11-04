@@ -367,7 +367,7 @@ marker.djs-dragger tspan {
   stroke-linecap: round;
   stroke-width: 1px;
   pointer-events: none;
-  shape-rendering: crispEdges;
+  shape-rendering: geometricPrecision;
   stroke-dasharray: 5, 5;
 }
 
@@ -814,4 +814,11 @@ marker.djs-dragger tspan {
 .djs-element-hidden .djs-outline,
 .djs-label-hidden .djs-label {
   display: none !important;
+}
+
+.djs-selection-outline {
+  shape-rendering: geometricPrecision;
+  stroke: var(--element-selected-outline-stroke-color);
+  stroke-dasharray: 1,1;
+  stroke-width: 1px;
 }
