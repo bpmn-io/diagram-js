@@ -378,7 +378,7 @@ describe('features/context-pad', function() {
       var open = sinon.spy(contextPad, 'open');
 
       // when
-      eventBus.fire('element.changed', { element: shape });
+      eventBus.fire('elements.changed', { elements: [ shape ] });
 
       // then
       expect(open).to.have.been.calledWith(shape, true);
@@ -397,7 +397,7 @@ describe('features/context-pad', function() {
       var open = sinon.spy(contextPad, 'open');
 
       // when
-      eventBus.fire('element.changed', { element: canvas.getRootElement() });
+      eventBus.fire('elements.changed', { elements: [ canvas.getRootElement() ] });
 
       // then
       expect(open).not.to.have.been.called;
