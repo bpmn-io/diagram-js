@@ -11,7 +11,7 @@ import {
  * specified canvas local coordinates.
  *
  * @param {Point} point of the event local the canvas (closure)
- * @param {Object} data
+ * @param {Object} [data]
  *
  * @return {Event} event, scoped to the given canvas
  */
