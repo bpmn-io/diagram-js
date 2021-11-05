@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 7.6.1
+
+- `FIX`: ensure inner viewbox is calculated correctly in planes ([#580](https://github.com/bpmn-io/diagram-js/pull/580))
+- `FIX`: ensure plane layers are rendered with low priority ([#584](https://github.com/bpmn-io/diagram-js/pull/584))
+
 ## 7.6.0
 
 - `FEAT`: allow passing attributes to the renderer ([#578](https://github.com/bpmn-io/diagram-js/issues/578))
