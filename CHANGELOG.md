@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 7.6.2
+
+- `FIX`: revert [#584](https://github.com/bpmn-io/diagram-js/pull/584) ([#586](https://github.com/bpmn-io/diagram-js/issues/586))
+
 ## 7.6.1
 
 - `FIX`: ensure inner viewbox is calculated correctly in planes ([#580](https://github.com/bpmn-io/diagram-js/pull/580))
