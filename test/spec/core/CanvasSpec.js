@@ -2263,27 +2263,6 @@ describe('Canvas', function() {
         expect(plane.rootElement.isImplicit).to.be.true;
       }));
 
-
-      it('should create layer with low priority', inject(function(canvas) {
-
-        // given
-        canvas.getLayer('foo');
-
-        // when
-        canvas.createPlane('A');
-        canvas.createPlane('B');
-
-        canvas.getLayer('bar');
-
-        // then
-        expectLayersOrder(canvas._viewport, [
-          'A',
-          'B',
-          'foo',
-          'bar'
-        ]);
-      }));
-
     });
 
 
