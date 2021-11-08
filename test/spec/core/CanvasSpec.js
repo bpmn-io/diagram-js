@@ -1990,8 +1990,8 @@ describe('Canvas', function() {
       it('gets default layer', inject(function(canvas) {
 
         // when
+        var defaultLayer = canvas.getDefaultLayer();
         var activeLayer = canvas.getActiveLayer();
-        var baseLayer = canvas.getLayer('base');
 
         // then
         expectLayersOrder(canvas._viewport, [
@@ -1999,7 +1999,7 @@ describe('Canvas', function() {
         ]);
 
         expect(activeLayer).to.exist;
-        expect(activeLayer).to.eql(baseLayer);
+        expect(activeLayer).to.eql(defaultLayer);
 
       }));
 
@@ -2030,7 +2030,7 @@ describe('Canvas', function() {
 
       // when
       canvas.getDefaultLayer();
-      canvas.getLayer('foo', -10);
+      canvas.getLayer('foo', -1);
 
       // then
       expectLayersOrder(canvas._viewport, [
@@ -2044,7 +2044,7 @@ describe('Canvas', function() {
 
       // when
       canvas.getDefaultLayer();
-      canvas.getLayer('foo', 10);
+      canvas.getLayer('foo', 1);
 
       // then
       expectLayersOrder(canvas._viewport, [
@@ -2054,16 +2054,18 @@ describe('Canvas', function() {
     }));
 
 
-    it('layer without specified index gets default index', inject(function(canvas) {
+    it('layer without specified index is above default layer', inject(function(canvas) {
 
       // when
-      canvas.getDefaultLayer();
       canvas.getLayer('foo');
+      canvas.getDefaultLayer();
+      canvas.getLayer('bar');
 
       // then
       expectLayersOrder(canvas._viewport, [
         'base',
-        'foo'
+        'foo',
+        'bar'
       ]);
     }));
 
@@ -2261,6 +2263,54 @@ describe('Canvas', function() {
         // then
         expect(plane.rootElement).to.exist;
         expect(plane.rootElement.isImplicit).to.be.true;
+      }));
+
+
+      it('should create layer below utility planes', inject(function(canvas) {
+
+        // given
+        canvas.getLayer('foo');
+
+        // when
+        canvas.createPlane('A');
+        canvas.createPlane('B');
+
+        canvas.getLayer('bar');
+
+        // then
+        expectLayersOrder(canvas._viewport, [
+          'A',
+          'B',
+          'foo',
+          'bar'
+        ]);
+      }));
+
+
+      it('should create layer with default priority', inject(function(canvas) {
+
+        // when
+        canvas.createPlane('A');
+        canvas.getDefaultLayer();
+        canvas.createPlane('B');
+
+        // then
+        expectLayersOrder(canvas._viewport, [
+          'A',
+          'base',
+          'B'
+        ]);
+      }));
+
+
+      it('should reuse default layer', inject(function(canvas) {
+
+        // when
+        var layer = canvas.getDefaultLayer();
+        var plane = canvas.getActivePlane();
+
+        // then
+        expect(plane.layer).to.eq(layer);
       }));
 
     });
