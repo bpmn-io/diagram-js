@@ -8,7 +8,7 @@ _**Note:** Yet to be released changes appear here._
 
 ## 7.6.3
 
-- `FIX`: ensure plane layers are rendered with low priority ([#584](https://github.com/bpmn-io/diagram-js/pull/585))
+- `FIX`: ensure plane layers are rendered with low priority ([#585](https://github.com/bpmn-io/diagram-js/pull/585))
 
 ## 7.6.2
 
