@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 7.7.0
+
+- `FEAT`: incorporate reduced color palette ([#581](https://github.com/bpmn-io/diagram-js/issues/581))
+
 ## 7.6.3
 
 - `FIX`: ensure plane layers are rendered with low priority ([#585](https://github.com/bpmn-io/diagram-js/pull/585))
