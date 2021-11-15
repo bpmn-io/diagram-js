@@ -1063,6 +1063,26 @@ describe('Canvas', function() {
     }));
 
 
+    it('accepts element IDs', inject(function(canvas) {
+
+      // given
+      canvas.addShape({
+        id: 's0',
+        x: 650, y: 650,
+        width: 50, height: 50
+      });
+
+      // when
+      canvas.scrollToElement('s0');
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(300);
+      expect(newViewbox.y).to.equal(300);
+
+    }));
+
+
     it('takes zoom into account', inject(function(canvas) {
 
       // given
@@ -1103,6 +1123,7 @@ describe('Canvas', function() {
       expect(newViewbox.y).to.equal(0);
 
     }));
+
 
     it('focuses top-left of big elements', inject(function(canvas) {
 
