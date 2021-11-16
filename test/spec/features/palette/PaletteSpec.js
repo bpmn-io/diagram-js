@@ -365,7 +365,7 @@ describe('features/palette', function() {
 
       // marker class on .djs-container
       expectContainerCls('djs-palette-open', true);
-      expectContainerCls('djs-palette-available', true);
+      expectContainerCls('djs-palette-shown', true);
     }));
 
 
@@ -390,7 +390,7 @@ describe('features/palette', function() {
 
       // no marker class on .djs-container
       expectContainerCls('djs-palette-open', false);
-      expectContainerCls('djs-palette-available', true);
+      expectContainerCls('djs-palette-shown', true);
 
 
       expect(changedSpy).to.have.been.called;
@@ -420,7 +420,7 @@ describe('features/palette', function() {
 
       // marker class on .djs-container
       expectContainerCls('djs-palette-open', true);
-      expectContainerCls('djs-palette-available', true);
+      expectContainerCls('djs-palette-shown', true);
 
       expect(changedSpy).to.have.been.called;
     }));
