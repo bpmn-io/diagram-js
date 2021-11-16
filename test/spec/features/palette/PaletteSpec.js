@@ -360,8 +360,12 @@ describe('features/palette', function() {
       // then
       expect(palette.isOpen()).to.be.true;
 
-      // marker class on .djs-container
+      // marker class on .djs-palette
       expectPaletteCls('open', true);
+
+      // marker class on .djs-container
+      expectContainerCls('djs-palette-open', true);
+      expectContainerCls('djs-palette-available', true);
     }));
 
 
@@ -381,8 +385,13 @@ describe('features/palette', function() {
       // then
       expect(palette.isOpen()).to.be.false;
 
-      // no marker class on .djs-container
+      // no marker class on .djs-palette
       expectPaletteCls('open', false);
+
+      // no marker class on .djs-container
+      expectContainerCls('djs-palette-open', false);
+      expectContainerCls('djs-palette-available', true);
+
 
       expect(changedSpy).to.have.been.called;
     }));
@@ -406,8 +415,12 @@ describe('features/palette', function() {
       // then
       expect(palette.isOpen()).to.be.true;
 
-      // no marker class on .djs-container
+      // marker class on .djs-palette
       expectPaletteCls('open', true);
+
+      // marker class on .djs-container
+      expectContainerCls('djs-palette-open', true);
+      expectContainerCls('djs-palette-available', true);
 
       expect(changedSpy).to.have.been.called;
     }));
@@ -465,6 +478,7 @@ describe('features/palette', function() {
 
         // then
         expectPaletteCls('two-column', false);
+        expectContainerCls('djs-palette-two-column', false);
 
         expect(changedSpy).to.have.been.called;
       })
@@ -491,6 +505,7 @@ describe('features/palette', function() {
 
         // then
         expectPaletteCls('two-column', true);
+        expectContainerCls('djs-palette-two-column', true);
 
         expect(changedSpy).to.have.been.called;
       })
@@ -517,6 +532,7 @@ describe('features/palette', function() {
 
         // then
         expectPaletteCls('two-column', false);
+        expectContainerCls('djs-palette-two-column', false);
 
         expect(changedSpy).to.have.been.called;
       })
@@ -605,6 +621,14 @@ function is(node, cls) {
 function expectPaletteCls(marker, expectedActive) {
   getDiagramJS().invoke(function(palette) {
     var isActive = is(palette._container, marker);
+
+    expect(isActive).to.eql(expectedActive);
+  });
+}
+
+function expectContainerCls(marker, expectedActive) {
+  getDiagramJS().invoke(function(canvas) {
+    var isActive = is(canvas._container, marker);
 
     expect(isActive).to.eql(expectedActive);
   });
