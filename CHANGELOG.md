@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 7.8.1
+
+- `FIX`: rename CSS utility class for clarity ([#593](https://github.com/bpmn-io/diagram-js/pull/593))
+
 ## 7.8.0
 
 - `FEAT`: expose pallete state via css classes to djs-container ([#591](https://github.com/bpmn-io/diagram-js/issues/591))
