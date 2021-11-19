@@ -227,7 +227,7 @@ describe('Canvas', function() {
         // when
         canvas.addShape(s);
         canvas.addShape(s);
-      }).to.throw('element with id FOO already exists');
+      }).to.throw('element <FOO> already exists');
 
     }));
 
@@ -2249,7 +2249,7 @@ describe('Canvas', function() {
           // when
           canvas.createPlane('a');
           canvas.createPlane('a');
-        }).to.throw('plane a already exists');
+        }).to.throw('plane <a> already exists');
       }));
 
 
@@ -2357,7 +2357,7 @@ describe('Canvas', function() {
 
           // when
           canvas.setActivePlane('b');
-        }).to.throw('plane with name b does not exist');
+        }).to.throw('plane <b> does not exist');
 
         var gfx = plane.layer;
         expect(svgClasses(gfx).has('djs-element-hidden')).to.be.false;
