@@ -2348,6 +2348,23 @@ describe('Canvas', function() {
       }));
 
 
+      it('should not switch to non-existing plane', inject(function(canvas) {
+        var plane = canvas.createPlane('a');
+        canvas.setActivePlane(plane);
+
+        // then
+        expect(function() {
+
+          // when
+          canvas.setActivePlane('b');
+        }).to.throw('plane with name b does not exist');
+
+        var gfx = plane.layer;
+        expect(svgClasses(gfx).has('djs-element-hidden')).to.be.false;
+        expect(canvas.getActivePlane()).to.eq(plane);
+      }));
+
+
       it('should add elements to active plane by default', inject(function(canvas) {
 
         // given
