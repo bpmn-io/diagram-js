@@ -2259,7 +2259,7 @@ describe('Canvas', function() {
         var plane1 = canvas.createPlane('a');
 
         // then
-        expect(svgClasses(plane1.layer).has('djs-element-hidden')).to.be.true;
+        expect(svgAttr(plane1.layer, 'display')).to.equal('none');
       }));
 
 
@@ -2404,8 +2404,8 @@ describe('Canvas', function() {
         var gfxA = canvas.getPlane('a').layer;
         var gfxB = canvas.getPlane('b').layer;
 
-        expect(svgClasses(gfxA).has('djs-element-hidden')).to.be.true;
-        expect(svgClasses(gfxB).has('djs-element-hidden')).to.be.false;
+        expect(svgAttr(gfxA, 'display')).to.equal('none');
+        expect(svgAttr(gfxB, 'display')).to.equal('');
       }));
 
     });
