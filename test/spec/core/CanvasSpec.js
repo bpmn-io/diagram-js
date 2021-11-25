@@ -2337,6 +2337,138 @@ describe('Canvas', function() {
     });
 
 
+    describe('#renamePlane', function() {
+
+      it('should expect a plane', inject(function(canvas) {
+
+        expect(function() {
+
+          // when
+          canvas.renamePlane();
+        }).to.throw('must specify a plane');
+      }));
+
+
+      it('should expect a name', inject(function(canvas) {
+
+        // given
+        var plane = canvas.createPlane('a');
+
+        expect(function() {
+
+          // when
+          canvas.renamePlane(plane);
+        }).to.throw('must specify a name');
+      }));
+
+
+      it('should rename the plane', inject(function(canvas) {
+
+        // given
+        var plane = canvas.createPlane('a');
+
+        // when
+        canvas.renamePlane(plane, 'b');
+
+        // then
+        expect(canvas.getPlane('a')).not.to.exist;
+        expect(canvas.getPlane('b')).to.exist;
+        expect(plane.name).to.equal('b');
+      }));
+
+
+      it('should keep active plane', inject(function(canvas) {
+
+        // given
+        var plane = canvas.createPlane('a');
+        canvas.setActivePlane('a');
+
+        // when
+        canvas.renamePlane(plane, 'b');
+
+        // then
+        expect(canvas.getActivePlane()).to.eql(plane);
+
+      }));
+
+
+      it('should not override existing planes', inject(function(canvas) {
+
+        // given
+        var plane = canvas.createPlane('a');
+        canvas.createPlane('b');
+
+
+        expect(function() {
+
+          // when
+          canvas.renamePlane(plane, 'b');
+        }).to.throw('plane <b> already exists');
+      }));
+
+
+      it('should accept IDs', inject(function(canvas) {
+
+        // given
+        var plane = canvas.createPlane('a');
+
+        // when
+        canvas.renamePlane('a', 'b');
+
+        // then
+        expect(canvas.getPlane('a')).not.to.exist;
+        expect(canvas.getPlane('b')).to.exist;
+        expect(plane.name).to.equal('b');
+      }));
+
+
+      it('should rename associated layers', inject(function(canvas) {
+
+        // given
+        var plane = canvas.createPlane('a');
+
+        // when
+        canvas.renamePlane(plane, 'b');
+
+        // then
+        expect(canvas._layers['a']).not.to.exist;
+        expect(canvas._layers['b']).to.exist;
+        expect(svgClasses(plane.layer).has('layer-b')).to.be.true;
+      }));
+
+
+      it('should rename associated layers', inject(function(canvas) {
+
+        // given
+        var plane = canvas.createPlane('a');
+
+        // when
+        canvas.renamePlane(plane, 'b');
+
+        // then
+        expect(canvas._layers['a']).not.to.exist;
+        expect(canvas._layers['b']).to.exist;
+        expect(svgClasses(plane.layer).has('layer-b')).to.be.true;
+      }));
+
+
+      it('should move children', inject(function(canvas) {
+
+        // given
+        var plane = canvas.createPlane('a');
+        canvas.setActivePlane(plane);
+        var shape = canvas.addShape({ id: 'shape', x: 10, y: 20, width: 50, height: 50 });
+
+        // when
+        canvas.renamePlane(plane, 'b');
+
+        // then
+        expect(canvas.findPlane(shape)).to.eql(plane);
+      }));
+
+    });
+
+
     describe('#setActivePlane', function() {
 
       it('should expect a plane', inject(function(canvas) {
