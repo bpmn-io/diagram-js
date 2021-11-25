@@ -2407,6 +2407,25 @@ describe('Canvas', function() {
       }));
 
 
+      it('should not remove canvas data-element-id', inject(function(canvas) {
+
+        // given
+        var rootA = { id: 'A' };
+        var rootB = { id: 'B' };
+
+        canvas.createPlane('a', rootA);
+        canvas.createPlane('b', rootB);
+
+        canvas.setActivePlane('a');
+
+        // when
+        canvas.removePlane('b');
+
+        // then
+        expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('A');
+      }));
+
+
       it('should accept IDs', inject(function(canvas) {
 
         // given
@@ -2494,6 +2513,32 @@ describe('Canvas', function() {
         var gfx = plane.layer;
         expect(svgClasses(gfx).has('djs-element-hidden')).to.be.false;
         expect(canvas.getActivePlane()).to.eq(plane);
+      }));
+
+
+      it('should update root element link on svg', inject(function(canvas, elementRegistry) {
+
+        // given
+        var rootA = { id: 'A' };
+        var rootB = { id: 'B' };
+
+        canvas.createPlane('a', rootA);
+        canvas.createPlane('b', rootB);
+
+        canvas.setActivePlane('a');
+
+        // assume
+        expect(elementRegistry.getGraphics('A', true)).to.exist;
+        expect(elementRegistry.getGraphics('B', true)).to.not.exist;
+        expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('A');
+
+        // when
+        canvas.setActivePlane('b');
+
+        // then
+        expect(elementRegistry.getGraphics('A', true)).to.not.exist;
+        expect(elementRegistry.getGraphics('B', true)).to.exist;
+        expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('B');
       }));
 
 

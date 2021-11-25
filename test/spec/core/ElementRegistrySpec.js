@@ -53,7 +53,7 @@ describe('ElementRegistry', function() {
 
   describe('updateId', function() {
 
-    it('should update id', inject(function(elementRegistry, canvas) {
+    it('should update id', inject(function(elementRegistry) {
 
       // given
       var oldId = '1',
@@ -79,7 +79,7 @@ describe('ElementRegistry', function() {
     }));
 
 
-    it('should update by id', inject(function(elementRegistry, canvas) {
+    it('should update by id', inject(function(elementRegistry) {
 
       // given
       var oldId = '1',
@@ -106,7 +106,7 @@ describe('ElementRegistry', function() {
 
   describe('updateGraphics', function() {
 
-    it('should update graphics', inject(function(elementRegistry, canvas, graphicsFactory) {
+    it('should update graphics', inject(function(elementRegistry, graphicsFactory) {
 
       // given
       var shape = elementRegistry.get('1');
@@ -121,7 +121,22 @@ describe('ElementRegistry', function() {
     }));
 
 
-    it('should update secondary graphics', inject(function(elementRegistry, canvas, graphicsFactory) {
+    it('should remove graphics', inject(function(elementRegistry, graphicsFactory) {
+
+      // given
+      var shape = elementRegistry.get('1');
+      var newGfx = graphicsFactory.create('shape', shape);
+      elementRegistry.updateGraphics(shape, newGfx);
+
+      // when
+      elementRegistry.updateGraphics(shape, null);
+
+      // then
+      expect(elementRegistry.getGraphics(shape)).to.not.exist;
+    }));
+
+
+    it('should update secondary graphics', inject(function(elementRegistry, graphicsFactory) {
 
       // given
       var shape = elementRegistry.get('1');
@@ -135,6 +150,23 @@ describe('ElementRegistry', function() {
       expect(elementRegistry.getGraphics(shape, true)).to.be.equal(newGfx);
     }));
 
+
+    it('should remove secondary graphics', inject(function(elementRegistry, graphicsFactory) {
+
+      // given
+      var shape = elementRegistry.get('1');
+      var newGfx = graphicsFactory.create('shape', shape);
+      elementRegistry.updateGraphics(shape, newGfx, true);
+
+      // assume
+      expect(elementRegistry.getGraphics(shape, true)).to.exist;
+
+      // when
+      elementRegistry.updateGraphics(shape, null, true);
+
+      // then
+      expect(elementRegistry.getGraphics(shape, true)).to.not.exist;
+    }));
   });
 
 
