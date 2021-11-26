@@ -2337,6 +2337,61 @@ describe('Canvas', function() {
     });
 
 
+    describe('#removePlane', function() {
+
+      it('should expect a name', inject(function(canvas) {
+
+        expect(function() {
+
+          // when
+          canvas.removePlane();
+        }).to.throw('must specify a plane');
+      }));
+
+
+      it('should accept names', inject(function(canvas) {
+
+        // given
+        canvas.createPlane('a');
+
+        // when
+        canvas.removePlane('a');
+
+        // then
+        expect(canvas.getPlane('a')).not.to.exist;
+      }));
+
+
+      it('should remove active plane', inject(function(canvas) {
+
+        // given
+        canvas.createPlane('a');
+        canvas.setActivePlane('a');
+
+        // when
+        canvas.removePlane('a');
+
+        // then
+        expect(canvas._activePlane).to.not.exist;
+      }));
+
+
+      it('should default to base plane after active plane is removed', inject(function(canvas) {
+
+        // given
+        canvas.createPlane('a');
+        canvas.setActivePlane('a');
+
+        // when
+        canvas.removePlane('a');
+
+        // then
+        expect(canvas.getActivePlane().name).to.equal('base');
+      }));
+
+    });
+
+
     describe('#renamePlane', function() {
 
       it('should expect a plane', inject(function(canvas) {
@@ -2407,7 +2462,7 @@ describe('Canvas', function() {
       }));
 
 
-      it('should not remove canvas data-element-id', inject(function(canvas) {
+      it('should not remove canvas data-element-id', inject(function(canvas, elementRegistry) {
 
         // given
         var rootA = { id: 'A' };
@@ -2423,6 +2478,7 @@ describe('Canvas', function() {
 
         // then
         expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('A');
+        expect(elementRegistry.get(canvas._svg)).to.equal(rootA);
       }));
 
 
@@ -2530,7 +2586,7 @@ describe('Canvas', function() {
         // assume
         expect(elementRegistry.getGraphics('A', true)).to.exist;
         expect(elementRegistry.getGraphics('B', true)).to.not.exist;
-        expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('A');
+        expect(elementRegistry.get(canvas._svg)).to.equal(rootA);
 
         // when
         canvas.setActivePlane('b');
@@ -2538,7 +2594,7 @@ describe('Canvas', function() {
         // then
         expect(elementRegistry.getGraphics('A', true)).to.not.exist;
         expect(elementRegistry.getGraphics('B', true)).to.exist;
-        expect(svgAttr(canvas._svg, 'data-element-id')).to.equal('B');
+        expect(elementRegistry.get(canvas._svg)).to.equal(rootB);
       }));
 
 
@@ -2626,7 +2682,6 @@ describe('Canvas', function() {
       }));
 
     });
-
 
 
     describe('#findPlane', function() {
