@@ -2413,7 +2413,43 @@ describe('Canvas', function() {
 
           // when
           canvas.renamePlane(plane);
-        }).to.throw('must specify a name');
+        }).to.throw('must specify a plane');
+      }));
+
+
+      it('should accept a plane descriptor', inject(function(canvas) {
+
+        // given
+        var plane = {
+          name: 'a',
+          rootElement: { id: 'root' },
+          layer: canvas.getLayer('a')
+        };
+
+        // when
+        canvas.createPlane(plane);
+
+        // then
+        expect(canvas.getPlane('a')).to.exist;
+        expect(canvas.getPlane('a')).to.equal(plane);
+      }));
+
+
+      it('should fill missing plane attributes', inject(function(canvas) {
+
+        // given
+        var plane = {
+          name: 'a'
+        };
+
+        // when
+        canvas.createPlane(plane);
+
+        // then
+        expect(canvas.getPlane('a')).to.exist;
+        expect(canvas.getPlane('a')).to.equal(plane);
+        expect(plane.rootElement).to.exist;
+        expect(plane.layer).to.exist;
       }));
 
 
