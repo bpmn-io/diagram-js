@@ -2242,6 +2242,25 @@ describe('Canvas', function() {
       }));
 
 
+      it('should accept a plane descriptor', inject(function(canvas, elementRegistry) {
+
+        // given
+        var plane = {
+          name: 'a',
+          rootElement: { id: 'root' },
+          layer: canvas.getLayer('a')
+        };
+
+        // when
+        canvas.createPlane(plane);
+
+        // then
+        expect(canvas.getPlane('a')).to.exist;
+        expect(canvas.getPlane('a')).to.equal(plane);
+        expect(elementRegistry.get('root')).to.exist;
+      }));
+
+
       it('should fail when adding a plane twice', inject(function(canvas) {
 
         expect(function() {
@@ -2389,6 +2408,36 @@ describe('Canvas', function() {
         expect(canvas.getActivePlane().name).to.equal('base');
       }));
 
+
+      it('should remove root element', inject(function(canvas, elementRegistry) {
+
+        // given
+        var rootElement = { id: 'root' };
+        canvas.createPlane('a', rootElement);
+
+        // when
+        canvas.removePlane('a');
+
+        // then
+        expect(elementRegistry.get('root')).not.to.exist;
+      }));
+
+
+      it('should return valid plane descriptor', inject(function(canvas) {
+
+        // given
+        var rootElement = { id: 'root' };
+        canvas.createPlane('a', rootElement);
+
+        // when
+        var plane = canvas.removePlane('a');
+        canvas.createPlane(plane);
+
+        // then
+        expect(canvas.getPlane('a')).to.exist;
+        expect(canvas.getPlane('a').rootElement).to.eql(rootElement);
+      }));
+
     });
 
 
@@ -2414,24 +2463,6 @@ describe('Canvas', function() {
           // when
           canvas.renamePlane(plane);
         }).to.throw('must specify a name');
-      }));
-
-
-      it('should accept a plane descriptor', inject(function(canvas) {
-
-        // given
-        var plane = {
-          name: 'a',
-          rootElement: { id: 'root' },
-          layer: canvas.getLayer('a')
-        };
-
-        // when
-        canvas.createPlane(plane);
-
-        // then
-        expect(canvas.getPlane('a')).to.exist;
-        expect(canvas.getPlane('a')).to.equal(plane);
       }));
 
 
