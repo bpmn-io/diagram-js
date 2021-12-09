@@ -397,7 +397,9 @@ describe('features/popup', function() {
       popupMenu.close();
 
       // then
-      expect(popupMenu.close).not.to.throw;
+      expect(function() {
+        popupMenu.close();
+      }).not.to.throw();
     }));
 
   });

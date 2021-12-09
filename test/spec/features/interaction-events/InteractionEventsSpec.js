@@ -247,7 +247,7 @@ describe('features/interaction-events', function() {
           interactionEvents.unregisterEvent(
             node, 'mousemove', 'element.mousemove'
           );
-        }).not.to.throw;
+        }).not.to.throw();
       }
     ));
 

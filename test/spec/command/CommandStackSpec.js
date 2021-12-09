@@ -622,7 +622,7 @@ describe('command/CommandStack', function() {
       // then
       expect(function() {
         commandStack.undo();
-      }).not.to.throw;
+      }).not.to.throw();
     }));
 
   });

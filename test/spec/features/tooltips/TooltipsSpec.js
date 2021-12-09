@@ -134,7 +134,7 @@ describe('features/tooltips', function() {
 
       expect(function() {
         tooltips.remove('non-existing');
-      }).not.to.throw;
+      }).not.to.throw();
 
     }));
 

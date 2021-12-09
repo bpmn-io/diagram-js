@@ -111,7 +111,7 @@ describe('features/palette', function() {
       // then
       expect(function() {
         palette.registerProvider(provider);
-      }).not.to.throw;
+      }).not.to.throw();
     }));
 
 
