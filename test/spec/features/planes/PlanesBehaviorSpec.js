@@ -41,14 +41,14 @@ describe('features/planes/PlanesBehavior', function() {
 
       // given
       modeling.removeShape(shape1);
-      canvas.createPlane('1');
-      canvas.setActivePlane('1');
+
+      canvas.setRootElement(canvas.addRootElement(null));
 
       // when
       commandStack.undo();
 
       // then
-      expect(canvas.getActivePlane().name).to.equal('base');
+      expect(canvas.getRootElement()).to.equal(shape1.parent);
     }));
 
   });
@@ -59,16 +59,19 @@ describe('features/planes/PlanesBehavior', function() {
     it('should switch to affected plane', inject(function(canvas, modeling, commandStack) {
 
       // given
-      canvas.createPlane('1');
+      var rootElement = canvas.getRootElement();
+
+      var otherRootElement = canvas.addRootElement(null);
+
       modeling.removeShape(shape1);
       commandStack.undo();
-      canvas.setActivePlane('1');
+      canvas.setRootElement(otherRootElement);
 
       // when
       commandStack.redo();
 
       // then
-      expect(canvas.getActivePlane().name).to.equal('base');
+      expect(canvas.getRootElement()).to.equal(rootElement);
     }));
 
   });

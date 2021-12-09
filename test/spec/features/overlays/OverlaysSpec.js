@@ -631,11 +631,13 @@ describe('features/overlays', function() {
       }));
 
 
-      it('should not display overlays on hidden plane', inject(function(overlays, canvas) {
+      it('should hide on hidden plane', inject(function(overlays, canvas) {
 
         // given
-        canvas.createPlane('a');
-        canvas.setActivePlane('a');
+        var rootA = canvas.addRootElement({ id: 'a' });
+
+        canvas.setRootElement(rootA);
+
         var html = createOverlay();
 
         // when
@@ -649,10 +651,11 @@ describe('features/overlays', function() {
       }));
 
 
-      it('should hide overlays when switching planes', inject(function(overlays, canvas) {
+      it('should hide when switching planes', inject(function(overlays, canvas) {
 
         // given
-        canvas.createPlane('a');
+        var rootA = canvas.addRootElement({ id: 'a' });
+
         var html = createOverlay();
 
         overlays.add(shape, {
@@ -661,17 +664,38 @@ describe('features/overlays', function() {
         });
 
         // when
-        canvas.setActivePlane('a');
+        canvas.setRootElement(rootA);
 
         // then
         expect(isVisible(html)).to.be.false;
+      }));
+
+
+      it('should show when switching plane', inject(function(overlays, canvas) {
+
+        // given
+        canvas.setRootElement({ id: 'a' });
+
+        var html = createOverlay();
+
+        // when
+        overlays.add(shape, {
+          html: html,
+          position: { left: 20, bottom: 0 }
+        });
+
+        // when
+        canvas.setRootElement(shape.parent);
+
+        // then
+        expect(isVisible(html)).to.be.true;
       }));
 
 
       it('should override `show` when switching planes', inject(function(overlays, canvas) {
 
         // given
-        canvas.createPlane('a');
+        var rootA = canvas.addRootElement({ id: 'a' });
         var html = createOverlay();
 
         overlays.add(shape, {
@@ -687,7 +711,7 @@ describe('features/overlays', function() {
         expect(isVisible(html)).to.be.true;
 
         // when
-        canvas.setActivePlane('a');
+        canvas.setRootElement(rootA);
         canvas.zoom(1);
 
         // then
