@@ -6,17 +6,17 @@ import {
 import coreModule from 'lib/core';
 import commandModule from 'lib/command';
 import modelingModule from 'lib/features/modeling';
-import planesModule from 'lib/features/planes';
+import rootElementsModule from 'lib/features/root-elements';
 
 
-describe('features/planes/PlanesBehavior', function() {
+describe('features/planes/RootElementsBehavior', function() {
 
   beforeEach(bootstrapDiagram({
     modules: [
       coreModule,
       commandModule,
       modelingModule,
-      planesModule
+      rootElementsModule
     ]
   }));
 
@@ -37,7 +37,7 @@ describe('features/planes/PlanesBehavior', function() {
 
   describe('undo', function() {
 
-    it('should switch to affected plane', inject(function(canvas, modeling, commandStack) {
+    it('should switch to affected root', inject(function(canvas, modeling, commandStack) {
 
       // given
       modeling.removeShape(shape1);
@@ -56,7 +56,7 @@ describe('features/planes/PlanesBehavior', function() {
 
   describe('redo', function() {
 
-    it('should switch to affected plane', inject(function(canvas, modeling, commandStack) {
+    it('should switch to affected root', inject(function(canvas, modeling, commandStack) {
 
       // given
       var rootElement = canvas.getRootElement();
