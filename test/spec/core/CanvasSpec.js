@@ -671,6 +671,16 @@ describe('Canvas', function() {
 
     describe('layers', function() {
 
+      it('should require layer name', inject(function(canvas) {
+
+        // then
+        expect(function() {
+          canvas.getLayer();
+        }).to.throw(/must specify a name/);
+
+      }));
+
+
       it('should create layer below utility planes', inject(function(canvas) {
 
         // given
