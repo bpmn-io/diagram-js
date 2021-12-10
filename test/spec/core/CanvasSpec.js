@@ -644,29 +644,63 @@ describe('Canvas', function() {
     }));
 
 
-    it('should remove root element', inject(function(canvas, elementRegistry) {
+    describe('#removeRootElement', function() {
 
-      // given
-      var xxxxRoot = canvas.setRootElement({ id: 'XXXX' });
+      it('should remove root element', inject(function(canvas, elementRegistry) {
 
-      var otherRoot = canvas.addRootElement({ id: 'Other' });
+        // given
+        var xxxxRoot = canvas.setRootElement({ id: 'XXXX' });
 
-      // when
-      canvas.removeRootElement(otherRoot);
+        var otherRoot = canvas.addRootElement({ id: 'Other' });
 
-      // then
-      expect(canvas.findRoot(otherRoot)).not.to.exist;
+        // when
+        canvas.removeRootElement(otherRoot);
 
-      expect(elementRegistry.get('Other')).not.to.exist;
+        // then
+        expect(canvas.findRoot(otherRoot)).not.to.exist;
 
-      expect(canvas.getRootElements()).to.eql([
-        xxxxRoot
-      ]);
+        expect(elementRegistry.get('Other')).not.to.exist;
 
-      expectLayersOrder(canvas._viewport, [
-        xxxxRoot
-      ]);
-    }));
+        expect(canvas.getRootElements()).to.eql([
+          xxxxRoot
+        ]);
+
+        expectLayersOrder(canvas._viewport, [
+          xxxxRoot
+        ]);
+      }));
+
+
+      it('should return removed root element', inject(function(canvas) {
+
+        // given
+        var root = canvas.setRootElement({ id: 'root' });
+
+        // when
+        var removedRoot = canvas.removeRootElement(root);
+
+        // then
+        expect(removedRoot).to.exist;
+        expect(removedRoot).to.equal(root);
+      }));
+
+
+      it('should accept IDs', inject(function(canvas, elementRegistry) {
+
+        // given
+        var root = canvas.setRootElement({ id: 'root' });
+
+        // when
+        canvas.removeRootElement('root');
+
+        // then
+        expect(canvas.findRoot(root)).not.to.exist;
+
+        expect(elementRegistry.get('root')).not.to.exist;
+
+      }));
+
+    });
 
 
     describe('layers', function() {
