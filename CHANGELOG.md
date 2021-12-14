@@ -20,7 +20,7 @@ _This version of the toolkit makes the tookit truely multi-root aware and drops 
 
 - All plane related APIs on `Canvas` got removed, use the newly introduced `(add|set)RootElement` APIs to accomplish the same thing.
 - `Canvas#setRootElement` does not have single root semantics anymore. As such, it does not blow up if a non-existing root is being passed; rather, it adds that new root and shows it.
-- `Canvas#setRootElement` has on `override` semantics anymore. To replace the current root, set a new root and remove the old one.
+- `Canvas#setRootElement` has no `override` semantics anymore. To replace the current root, set a new root and remove the old one.
 
 ## 7.8.1
 
