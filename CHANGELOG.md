@@ -6,6 +6,22 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.0.0
+
+_This version of the toolkit makes the tookit truely multi-root aware and drops all `Plane` related APIs (introduced previously in `v7.4.0`)._
+
+- `FEAT`: make multi-root aware ([#600](https://github.com/bpmn-io/diagram-js/issues/600))
+- `FEAT`: introduce `Canvas` APIs for adding, listing and removing root elements ([`b789c453`](https://github.com/bpmn-io/diagram-js/commit/b789c453afc7fb1ce23d2ace509805237563716d))
+- `FEAT`: allow to remove `gfx` from `ElementRegistry` ([`06f47454`](https://github.com/bpmn-io/diagram-js/commit/06f47454d6649cf4cec0790e38cc369e73fae18a))
+- `FIX`: don't rely on external styles to hide root elements ([`
+  99c51fa5`](https://github.com/bpmn-io/diagram-js/commit/99c51fa5923ee14ddfca83d7839723f7617841e1))
+
+### Breaking Changes
+
+- All plane related APIs on `Canvas` got removed, use the newly introduced `(add|set)RootElement` APIs to accomplish the same thing.
+- `Canvas#setRootElement` does not have single root semantics anymore. As such, it does not blow up if a non-existing root is being passed; rather, it adds that new root and shows it.
+- `Canvas#setRootElement` has no `override` semantics anymore. To replace the current root, set a new root and remove the old one.
+
 ## 7.8.1
 
 - `FIX`: rename CSS utility class for clarity ([#593](https://github.com/bpmn-io/diagram-js/pull/593))
