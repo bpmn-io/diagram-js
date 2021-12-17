@@ -9,6 +9,7 @@ import {
 
 import {
   classes as domClasses,
+  domify,
   query as domQuery
 } from 'min-dom';
 
@@ -173,6 +174,72 @@ describe('features/overlay - integration', function() {
       expect(parseInt(html.style.left)).to.equal(50);
     }));
 
+
+    describe('changing root elements', function() {
+
+      it('should hide on move to hidden root', inject(function(modeling, canvas, overlays) {
+
+        // given
+        var root1 = canvas.setRootElement({ id: '1', children: [] });
+        var root2 = canvas.addRootElement({ id: '2', children: [] });
+        var shape = canvas.addShape({
+          id: 'test',
+          x: 50,
+          y: 50,
+          width: 100,
+          height: 100
+        }, root1);
+
+        // add overlay to a single shape (or connection)
+        var overlayId = overlays.add(shape, {
+          html: domify('<div style="width: 40px; height: 40px">TEST<br/>TEST</div>'),
+          position: {
+            top: 0,
+            left: 0
+          }
+        });
+
+        // when
+        modeling.moveShape(shape, { x: 0, y: 0 }, root2);
+
+        // then
+        var html = overlays.get(overlayId).html;
+        expect(isVisible(html)).to.be.false;
+      }));
+
+
+      it('should show on move to active root', inject(function(modeling, canvas, overlays) {
+
+        // given
+        var root1 = canvas.setRootElement({ id: '1', children: [] });
+        var root2 = canvas.addRootElement({ id: '2', children: [] });
+        var shape = canvas.addShape({
+          id: 'test',
+          x: 50,
+          y: 50,
+          width: 100,
+          height: 100
+        }, root2);
+
+        // add overlay to a single shape (or connection)
+        var overlayId = overlays.add(shape, {
+          html: domify('<div style="width: 40px; height: 40px">TEST<br/>TEST</div>'),
+          position: {
+            top: 0,
+            left: 0
+          }
+        });
+
+        // when
+        modeling.moveShape(shape, { x: 0, y: 0 }, root1);
+
+        // then
+        var html = overlays.get(overlayId).html;
+        expect(isVisible(html)).to.be.true;
+      }));
+
+    });
+
   });
 
 
@@ -328,3 +395,8 @@ describe('features/overlay - integration', function() {
   });
 
 });
+
+
+function isVisible(element) {
+  return element.parentNode.style.display !== 'none';
+}
