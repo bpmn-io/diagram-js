@@ -626,6 +626,20 @@ describe('features/copy-paste', function() {
     }));
 
 
+    it('should fire <copyPaste.createTree> for each shape', inject(function(copyPaste, eventBus) {
+
+      // given
+      var spy = sinon.spy();
+      eventBus.on('copyPaste.createTree', spy);
+
+      // when
+      copyPaste.createTree([ childShape1 ]);
+
+      // then
+      expect(spy).to.have.been.calledThrice;
+    }));
+
+
     it('should include children', inject(function(copyPaste) {
 
       // when
@@ -639,6 +653,30 @@ describe('features/copy-paste', function() {
         grandChildShape2,
         connection1
       ], tree, 1)).to.be.ok;
+    }));
+
+
+    it('should allow adding additional children', inject(function(copyPaste, eventBus) {
+
+      // given
+      var additionalChild = { id: 'additionalChild' };
+      eventBus.on('copyPaste.createTree', function(context) {
+        var children = context.children,
+            element = context.element;
+
+        if (grandChildShape1 === element) {
+          children.push(additionalChild);
+        }
+      });
+
+      // when
+      var tree = copyPaste.createTree([ grandChildShape1 ]);
+
+      // then
+      expect(findElementsInTree([
+        grandChildShape1,
+        additionalChild
+      ], tree)).to.be.ok;
     }));
 
 
