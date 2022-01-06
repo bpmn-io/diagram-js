@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.0.1
+
+- `FIX`: `touchInteractionModule` fires `element.dblclick` events now with `button=1` ([52af94](https://github.com/bpmn-io/diagram-js/commit/52af94e3784556ffe870fea1e7861efe1b94fbee))
+
 ## 8.0.0
 
 _This version of the toolkit makes the tookit truely multi-root aware and drops all `Plane` related APIs (introduced previously in `v7.4.0`)._
