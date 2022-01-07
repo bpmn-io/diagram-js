@@ -9,6 +9,7 @@ _**Note:** Yet to be released changes appear here._
 ## 8.0.1
 
 - `FIX`: `touchInteractionModule` fires `element.dblclick` events now with `button=1` ([52af94](https://github.com/bpmn-io/diagram-js/commit/52af94e3784556ffe870fea1e7861efe1b94fbee))
+- `FIX`: add multi-root modeling behavior for overlays ([26cfc9](https://github.com/bpmn-io/diagram-js/commit/26cfc933a2e22c7a50c539785bb44600f93c764b))
 
 ## 8.0.0
 
