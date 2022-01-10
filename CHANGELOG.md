@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.0.2
+
+- `FIX`: use know color for snap line ([#609](https://github.com/bpmn-io/diagram-js/pull/609))
+
 ## 8.0.1
 
 - `FIX`: `touchInteractionModule` fires `element.dblclick` events now with `button=1` ([52af94](https://github.com/bpmn-io/diagram-js/commit/52af94e3784556ffe870fea1e7861efe1b94fbee))
