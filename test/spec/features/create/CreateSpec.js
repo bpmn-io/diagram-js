@@ -43,7 +43,8 @@ describe('features/create - Create', function() {
       ignoreShape,
       newShape,
       newShape2,
-      newElements;
+      newElements,
+      hiddenShape;
 
   function setManualDragging(dragging) {
     dragging.setOptions({ manual: true });
@@ -137,6 +138,14 @@ describe('features/create - Create', function() {
         { x: 100, y: 25 }
       ]
     }));
+
+    hiddenShape = elementFactory.createShape({
+      id: 'hiddenShape',
+      x: 1000, y: 100, width: 100, height: 100,
+      hidden: true
+    });
+
+    newElements.push(hiddenShape);
   }
 
 
@@ -400,6 +409,55 @@ describe('features/create - Create', function() {
 
       expect(context.shape).to.equal(newShape2);
     }));
+
+
+    it('should ignore hidden shapes when centering elements around cursor', inject(
+      function(create, dragging, elementRegistry) {
+
+        // given
+        var parentGfx = elementRegistry.getGraphics('parentShape');
+
+        // when
+        create.start(canvasEvent({ x: 0, y: 0 }), [ newShape, hiddenShape ]);
+
+        var delta = {
+          x: hiddenShape.x - newShape.x,
+          y: hiddenShape.y - newShape.y
+        };
+
+        dragging.hover({ element: parentShape, gfx: parentGfx });
+
+        dragging.move(canvasEvent({ x: 100, y: 100 }));
+
+        dragging.end();
+
+        // then
+        var newVisibleShape = elementRegistry.get('newShape');
+
+        var expectedPosition = {
+          x: 100 - (newVisibleShape.width / 2),
+          y: 100 - (newVisibleShape.height / 2)
+        };
+
+        // visible shape should be centered around cursor
+        expect(newVisibleShape).to.exist;
+        expect(newVisibleShape.x).to.equal(expectedPosition.x);
+        expect(newVisibleShape.y).to.equal(expectedPosition.y);
+
+        var newHiddenShape = elementRegistry.get('hiddenShape');
+
+        // hidden shape should be positioned relative to visible shape
+        expect(newHiddenShape).to.exist;
+
+        expect({
+          x: newHiddenShape.x - newVisibleShape.x,
+          y: newHiddenShape.y - newVisibleShape.y
+        }).to.eql(delta);
+
+        expect(newHiddenShape.x).to.equal(1075);
+        expect(newHiddenShape.y).to.equal(175);
+      }
+    ));
 
 
     it('should cancel on <elements.changed>', inject(
