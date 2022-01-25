@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.1.0
+
+- `FEAT`: allow hooking into tree creation ([605](https://github.com/bpmn-io/diagram-js/pull/605))
+- `FIX`: only center around visible elements ([605](https://github.com/bpmn-io/diagram-js/pull/605))
+
 ## 8.0.2
 
 - `FIX`: use know color for snap line ([#609](https://github.com/bpmn-io/diagram-js/pull/609))
