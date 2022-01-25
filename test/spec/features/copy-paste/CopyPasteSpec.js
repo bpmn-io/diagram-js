@@ -629,14 +629,15 @@ describe('features/copy-paste', function() {
     it('should fire <copyPaste.createTree> for each shape', inject(function(copyPaste, eventBus) {
 
       // given
-      var spy = sinon.spy();
-      eventBus.on('copyPaste.createTree', spy);
+      var createTreeSpy = sinon.spy();
+
+      eventBus.on('copyPaste.createTree', createTreeSpy);
 
       // when
       copyPaste.createTree([ childShape1 ]);
 
       // then
-      expect(spy).to.have.been.calledThrice;
+      expect(createTreeSpy).to.have.been.calledThrice;
     }));
 
 
@@ -656,10 +657,11 @@ describe('features/copy-paste', function() {
     }));
 
 
-    it('should allow adding additional children', inject(function(copyPaste, eventBus) {
+    it('should allow adding children to be added to tree', inject(function(copyPaste, eventBus) {
 
       // given
       var additionalChild = { id: 'additionalChild' };
+
       eventBus.on('copyPaste.createTree', function(context) {
         var children = context.children,
             element = context.element;
