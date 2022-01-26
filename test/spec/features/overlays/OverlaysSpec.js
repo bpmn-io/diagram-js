@@ -643,7 +643,10 @@ describe('features/overlays', function() {
         // when
         overlays.add(shape, {
           html: html,
-          position: { left: 20, bottom: 0 }
+          position: { left: 20, bottom: 0 },
+          show: {
+            minZoom: 0.5
+          }
         });
 
         // then
@@ -660,7 +663,10 @@ describe('features/overlays', function() {
 
         overlays.add(shape, {
           html: html,
-          position: { left: 20, bottom: 0 }
+          position: { left: 20, bottom: 0 },
+          show: {
+            minZoom: 0.5
+          }
         });
 
         // when
@@ -681,7 +687,10 @@ describe('features/overlays', function() {
         // when
         overlays.add(shape, {
           html: html,
-          position: { left: 20, bottom: 0 }
+          position: { left: 20, bottom: 0 },
+          show: {
+            minZoom: 0.5
+          }
         });
 
         // when
