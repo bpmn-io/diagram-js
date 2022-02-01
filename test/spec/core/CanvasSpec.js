@@ -545,6 +545,21 @@ describe('Canvas', function() {
     }));
 
 
+    it('should not create implicit roots when explicit elements are present',
+      inject(function(canvas) {
+
+        // given
+        // root element is added but not set yet
+        canvas.addRootElement({ id: 'foo' });
+
+        // when
+        var rootElement = canvas.getRootElement();
+
+        // then
+        expect(rootElement).not.to.exist;
+      }));
+
+
     it('should use implicit root element', inject(function(canvas) {
 
       // when
