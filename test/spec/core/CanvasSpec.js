@@ -2240,6 +2240,25 @@ describe('Canvas', function() {
         expect(activeLayer).to.eql(aLayer);
       }));
 
+
+      it('should not get layer when none is active',
+        inject(function(canvas) {
+
+          // given
+          var rootA = canvas.addRootElement({ id: 'a' });
+
+          // when
+          var activeLayer = canvas.getActiveLayer();
+
+          // then
+          expectLayersOrder(canvas._viewport, [
+            rootA
+          ]);
+
+          expect(activeLayer).not.to.exist;
+        })
+      );
+
     });
 
 
