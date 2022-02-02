@@ -686,6 +686,28 @@ describe('Canvas', function() {
       }));
 
 
+      it('should remove active root', inject(function(canvas) {
+
+        // given
+        var root = canvas.setRootElement({ id: 'root' });
+        var otherRoot = canvas.addRootElement({ id: 'otherRoot' });
+
+        // when
+        canvas.removeRootElement(root);
+
+        // then
+        expect(canvas.getRootElement()).to.not.exist;
+
+        expect(canvas.getRootElements()).to.eql([
+          otherRoot
+        ]);
+
+        expectLayersOrder(canvas._viewport, [
+          otherRoot
+        ]);
+      }));
+
+
       it('should return removed root element', inject(function(canvas) {
 
         // given
