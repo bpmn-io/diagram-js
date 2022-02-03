@@ -6,10 +6,16 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.1.1
+
+- `FIX`: ensure overlays update on root change ([#614](https://github.com/bpmn-io/diagram-js/pull/614))
+- `FIX`: do not implicitly create root if roots already exist ([#619](https://github.com/bpmn-io/diagram-js/pull/619))
+- `FIX`: allow removing active root ([#619](https://github.com/bpmn-io/diagram-js/pull/619))
+
 ## 8.1.0
 
-- `FEAT`: allow hooking into tree creation ([605](https://github.com/bpmn-io/diagram-js/pull/605))
-- `FIX`: only center around visible elements ([605](https://github.com/bpmn-io/diagram-js/pull/605))
+- `FEAT`: allow hooking into tree creation ([#605](https://github.com/bpmn-io/diagram-js/pull/605))
+- `FIX`: only center around visible elements ([#605](https://github.com/bpmn-io/diagram-js/pull/605))
 
 ## 8.0.2
 
@@ -35,6 +41,8 @@ _This version of the toolkit makes the tookit truely multi-root aware and drops 
 - All plane related APIs on `Canvas` got removed, use the newly introduced `(add|set)RootElement` APIs to accomplish the same thing.
 - `Canvas#setRootElement` does not have single root semantics anymore. As such, it does not blow up if a non-existing root is being passed; rather, it adds that new root and shows it.
 - `Canvas#setRootElement` has no `override` semantics anymore. To replace the current root, set a new root and remove the old one.
+- `Canvas#getRootElement` supports two different modes for handling root elements.
+  If no root element has been added before, an implicit root will be added. When root elements have been added before, it can return null if none is active.
 
 ## 7.8.1
 
