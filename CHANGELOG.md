@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.1.2
+
+- `FIX`: ensure ES5 is used everywhere ([#624](https://github.com/bpmn-io/diagram-js/pull/624))
+
 ## 8.1.1
 
 - `FIX`: ensure overlays update on root change ([#614](https://github.com/bpmn-io/diagram-js/pull/614))
