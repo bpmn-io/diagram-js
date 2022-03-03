@@ -80,7 +80,7 @@ describe('features/palette', function() {
           } ],
           paletteProvider: [ 'type', function(palette) {
             palette.registerProvider(new Provider());
-          }]
+          } ]
         }
       ]
     }));

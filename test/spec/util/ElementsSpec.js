@@ -94,7 +94,7 @@ describe('util/Elements', function() {
       var a = shapeA;
 
       // when
-      var result = selfAndDirectChildren([shapeA]);
+      var result = selfAndDirectChildren([ shapeA ]);
 
       // then
       expect(result.length).to.equal(4);
@@ -105,7 +105,7 @@ describe('util/Elements', function() {
     it('should return self (no children)', function() {
 
       // when
-      var result = selfAndDirectChildren([shapeB]);
+      var result = selfAndDirectChildren([ shapeB ]);
 
       // then
       expect(result.length).to.equal(1);
@@ -252,7 +252,7 @@ describe('util/Elements', function() {
     it('should return bbox for elements', function() {
 
       // given
-      var elements = [shape1, shape2, connection1];
+      var elements = [ shape1, shape2, connection1 ];
 
       // when
       var bbox = getBBox(elements);
@@ -269,7 +269,7 @@ describe('util/Elements', function() {
     it('should return bbox for elements at negative x,y', function() {
 
       // given
-      var elements = [shape1, shape2, shape3, connection1];
+      var elements = [ shape1, shape2, shape3, connection1 ];
 
       // when
       var bbox = getBBox(elements);
@@ -286,7 +286,7 @@ describe('util/Elements', function() {
     it('should return bbox for elements with a connection at the bbox border', function() {
 
       // given
-      var elements = [shape1, connection1];
+      var elements = [ shape1, connection1 ];
 
       // when
       var bbox = getBBox(elements);

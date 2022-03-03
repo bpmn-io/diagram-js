@@ -660,7 +660,7 @@ function idToReference(id, quoteSymbol) {
  * @returns {string[]}
  */
 function idToReferenceFormatOptions(id) {
-  return ['', '\'', '"'].map(function(quoteSymbol) {
+  return [ '', '\'', '"' ].map(function(quoteSymbol) {
     return idToReference(id, quoteSymbol);
   });
 }

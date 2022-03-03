@@ -32,7 +32,7 @@ describe('features/keyboard - redo', function() {
     }
   };
 
-  var decisionTable = [{
+  var decisionTable = [ {
     desc: 'should call redo',
     keys: KEYS_UNDO,
     ctrlKey: true,
@@ -74,7 +74,7 @@ describe('features/keyboard - redo', function() {
     ctrlKey: false,
     shiftKey: false,
     called: false
-  }];
+  } ];
 
   beforeEach(bootstrapDiagram(defaultDiagramConfig));
 

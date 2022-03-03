@@ -71,7 +71,7 @@ describe('util - Text', function() {
     }
 
     if (!pass) {
-      var bbox = pick(actualBBox, ['x', 'y', 'width', 'height']);
+      var bbox = pick(actualBBox, [ 'x', 'y', 'width', 'height' ]);
 
       var message =
         'Expected Element#' + actual.id + ' with bbox ' +

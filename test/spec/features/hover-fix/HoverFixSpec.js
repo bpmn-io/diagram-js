@@ -50,14 +50,14 @@ describe('features/hover-fix', function() {
       // given
       var events = [];
 
-      eventBus.on(['element.hover', 'element.out'], function(event) {
+      eventBus.on([ 'element.hover', 'element.out' ], function(event) {
         events.push({ type: event.type, element: event.element });
       });
 
       eventBus.fire('element.hover', { element: shape1, gfx: canvas.getGraphics(shape1) });
 
       // assume
-      expect(events).to.eql([{ type: 'element.hover', element: shape1 }]);
+      expect(events).to.eql([ { type: 'element.hover', element: shape1 } ]);
 
       // when
       eventBus.fire('element.hover', { element: shape2, gfx: canvas.getGraphics(shape2) });
@@ -76,14 +76,14 @@ describe('features/hover-fix', function() {
       // given
       var events = [];
 
-      eventBus.on(['element.hover', 'element.out'], function(event) {
+      eventBus.on([ 'element.hover', 'element.out' ], function(event) {
         events.push({ type: event.type, element: event.element });
       });
 
       eventBus.fire('element.hover', { element: shape1, gfx: canvas.getGraphics(shape1) });
 
       // assume
-      expect(events).to.eql([{ type: 'element.hover', element: shape1 }]);
+      expect(events).to.eql([ { type: 'element.hover', element: shape1 } ]);
 
       // when
       eventBus.fire('element.out', { element: shape1, gfx: canvas.getGraphics(shape2) });

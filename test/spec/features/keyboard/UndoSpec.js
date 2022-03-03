@@ -29,7 +29,7 @@ describe('features/keyboard - undo', function() {
     }
   };
 
-  var decisionTable = [{
+  var decisionTable = [ {
     desc: 'should call undo',
     keys: KEYS_UNDO,
     ctrlKey: true,
@@ -53,7 +53,7 @@ describe('features/keyboard - undo', function() {
     ctrlKey: false,
     shiftKey: false,
     called: false
-  }];
+  } ];
 
   beforeEach(bootstrapDiagram(defaultDiagramConfig));
 

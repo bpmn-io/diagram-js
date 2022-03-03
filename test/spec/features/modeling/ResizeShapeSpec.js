@@ -218,7 +218,7 @@ describe('features/modeling - resize shape', function() {
           context.childrenBoxPadding = padding;
         });
 
-        var bbox = getBBox([shape1, shape2]);
+        var bbox = getBBox([ shape1, shape2 ]);
 
         resize.activate(canvasEvent({ x: 300, y: 300 }), parentShape, 'se');
         dragging.move(canvasEvent({ x: -100, y: -100 }));
