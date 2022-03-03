@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "css.escape": "^1.5.1",
-    "didi": "^5.2.1",
+    "didi": "^8.0.0",
     "hammerjs": "^2.0.1",
     "inherits": "^2.0.4",
     "min-dash": "^3.5.2",
