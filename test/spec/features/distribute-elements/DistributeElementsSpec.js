@@ -97,7 +97,7 @@ describe('features/distribute-elements', function() {
 
         // then
         expectRanges(rangeGroups, [
-          { min: -195, max: -105, elements: [ s1] },
+          { min: -195, max: -105, elements: [ s1 ] },
           { min: -95, max: -5, elements: [ s2 ] },
           { min: 255, max: 345, elements: [ s3 ] },
           { min: 355, max: 445, elements: [ s4 ] },

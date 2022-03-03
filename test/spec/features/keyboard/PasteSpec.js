@@ -32,7 +32,7 @@ describe('features/keyboard - paste', function() {
     }
   };
 
-  var decisionTable = [{
+  var decisionTable = [ {
     desc: 'should call paste',
     keys: KEYS_PASTE,
     ctrlKey: true,
@@ -42,7 +42,7 @@ describe('features/keyboard - paste', function() {
     keys: KEYS_PASTE,
     ctrlKey: false,
     called: false
-  }];
+  } ];
 
   beforeEach(bootstrapDiagram(defaultDiagramConfig));
 

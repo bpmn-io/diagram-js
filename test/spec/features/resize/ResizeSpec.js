@@ -284,7 +284,7 @@ describe('features/resize - Resize', function() {
       dragging.end();
 
       // then
-      var shapeBounds = pick(shape, ['x', 'y', 'width', 'height']);
+      var shapeBounds = pick(shape, [ 'x', 'y', 'width', 'height' ]);
 
       expect(shapeBounds).to.eql({ x: 100, y: 100, width: 10, height: 10 });
     }));
@@ -307,7 +307,7 @@ describe('features/resize - Resize', function() {
       dragging.end();
 
       // then
-      var shapeBounds = pick(shape, ['x', 'y', 'width', 'height']);
+      var shapeBounds = pick(shape, [ 'x', 'y', 'width', 'height' ]);
 
       expect(shapeBounds).to.eql({ x: 100, y: 100, width: 10, height: 10 });
     }));
@@ -330,7 +330,7 @@ describe('features/resize - Resize', function() {
       dragging.end();
 
       // then
-      var shapeBounds = pick(shape, ['x', 'y', 'width', 'height']);
+      var shapeBounds = pick(shape, [ 'x', 'y', 'width', 'height' ]);
 
       expect(shapeBounds).to.eql({ x: 100, y: 100, width: 100, height: 100 });
     }));
@@ -353,7 +353,7 @@ describe('features/resize - Resize', function() {
       dragging.end();
 
       // then
-      var shapeBounds = pick(shape, ['x', 'y', 'width', 'height']);
+      var shapeBounds = pick(shape, [ 'x', 'y', 'width', 'height' ]);
 
       expect(shapeBounds).to.eql({ x: 100, y: 100, width: 80, height: 110 });
     }));
@@ -558,7 +558,7 @@ describe('features/resize - Resize', function() {
         dragging.move(canvasEvent({ x: 0, y: 0 }));
         dragging.end();
 
-        var resizedBounds = pick(parentShape, ['x', 'y', 'width', 'height']);
+        var resizedBounds = pick(parentShape, [ 'x', 'y', 'width', 'height' ]);
 
         // then
         // still takes children bbox into account (!)
@@ -584,7 +584,7 @@ describe('features/resize - Resize', function() {
         dragging.end();
 
 
-        var resizedBounds = pick(parentShape, ['x', 'y', 'width', 'height']);
+        var resizedBounds = pick(parentShape, [ 'x', 'y', 'width', 'height' ]);
 
         // then
         // still takes children bbox into account (!)
@@ -613,7 +613,7 @@ describe('features/resize - Resize', function() {
         dragging.move(canvasEvent({ x: 0, y: 0 }));
         dragging.end();
 
-        var resizedBounds = pick(parentShape, ['x', 'y', 'width', 'height']);
+        var resizedBounds = pick(parentShape, [ 'x', 'y', 'width', 'height' ]);
 
         // then
         expect(resizedBounds).to.eql({
@@ -637,7 +637,7 @@ describe('features/resize - Resize', function() {
         dragging.move(canvasEvent({ x: 500, y: 500 }));
         dragging.end();
 
-        var resizedBounds = pick(parentShape, ['x', 'y', 'width', 'height']);
+        var resizedBounds = pick(parentShape, [ 'x', 'y', 'width', 'height' ]);
 
         // then
         expect(resizedBounds).to.eql({
@@ -659,7 +659,7 @@ describe('features/resize - Resize', function() {
         dragging.move(canvasEvent({ x: 0, y: 0 }));
         dragging.end();
 
-        var resizedBounds = pick(parentShape, ['x', 'y', 'width', 'height']);
+        var resizedBounds = pick(parentShape, [ 'x', 'y', 'width', 'height' ]);
 
         // then
         expect(resizedBounds).to.eql({
@@ -677,7 +677,7 @@ describe('features/resize - Resize', function() {
         dragging.move(canvasEvent({ x: 500, y: 500 }));
         dragging.end();
 
-        var resizedBounds = pick(parentShape, ['x', 'y', 'width', 'height']);
+        var resizedBounds = pick(parentShape, [ 'x', 'y', 'width', 'height' ]);
 
         // then
         expect(resizedBounds).to.eql({
@@ -703,7 +703,7 @@ describe('features/resize - Resize', function() {
         dragging.move(canvasEvent({ x: 0, y: 0 }));
         dragging.end();
 
-        var resizedBounds = pick(parentShape, ['x', 'y', 'width', 'height']);
+        var resizedBounds = pick(parentShape, [ 'x', 'y', 'width', 'height' ]);
 
         // then
         expect(resizedBounds).to.eql({
@@ -724,7 +724,7 @@ describe('features/resize - Resize', function() {
         dragging.move(canvasEvent({ x: 500, y: 500 }));
         dragging.end();
 
-        var resizedBounds = pick(parentShape, ['x', 'y', 'width', 'height']);
+        var resizedBounds = pick(parentShape, [ 'x', 'y', 'width', 'height' ]);
 
         // then
         expect(resizedBounds).to.eql({

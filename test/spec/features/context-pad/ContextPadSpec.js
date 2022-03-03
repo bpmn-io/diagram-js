@@ -22,7 +22,7 @@ import ContextPadProvider from './ContextPadProvider';
 
 var providerModule = {
   __init__: [ 'contextPadProvider' ],
-  contextPadProvider: ['type', ContextPadProvider ]
+  contextPadProvider: [ 'type', ContextPadProvider ]
 };
 
 var initPadModule = {

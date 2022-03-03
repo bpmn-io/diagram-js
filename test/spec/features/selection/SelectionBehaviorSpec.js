@@ -286,7 +286,7 @@ describe('features/selection/Selection', function() {
         // when
         move.start(canvasEvent({
           x: shape2.x + 10 + shape2.width / 2,
-          y: shape2.y + 30 + shape2.height/2
+          y: shape2.y + 30 + shape2.height / 2
         }), shape2);
 
         dragging.hover({

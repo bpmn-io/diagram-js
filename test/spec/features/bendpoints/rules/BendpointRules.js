@@ -6,7 +6,7 @@ export default function ConnectRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
-ConnectRules.$inject = ['eventBus'];
+ConnectRules.$inject = [ 'eventBus' ];
 
 inherits(ConnectRules, RuleProvider);
 

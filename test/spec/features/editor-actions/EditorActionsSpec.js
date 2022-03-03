@@ -224,7 +224,7 @@ describe('features/editor-actions', function() {
 
 
       it('should call modeling.removeElements with selected elements', inject(function(editorActions) {
-        selectedElements = ['any'];
+        selectedElements = [ 'any' ];
 
         // when
         editorActions.trigger('removeSelection');
@@ -254,7 +254,7 @@ describe('features/editor-actions', function() {
         var RULE_NAME = 'elements.delete';
 
         it('should remove all when rule returns true', inject(function(editorActions, customRules) {
-          selectedElements = ['a', 'b', 'c'];
+          selectedElements = [ 'a', 'b', 'c' ];
 
           customRules.addRule(RULE_NAME, function(context) {
             return true;
@@ -265,12 +265,12 @@ describe('features/editor-actions', function() {
 
           // then
           expect(removeElements).to.have.been.calledOnce;
-          expect(removeElements).to.have.been.calledWith(['a', 'b', 'c']);
+          expect(removeElements).to.have.been.calledWith([ 'a', 'b', 'c' ]);
         }));
 
 
         it('should not remove anything when rule returns true', inject(function(editorActions, customRules) {
-          selectedElements = ['a', 'b', 'c'];
+          selectedElements = [ 'a', 'b', 'c' ];
 
           customRules.addRule(RULE_NAME, function(context) {
             return false;
@@ -285,10 +285,10 @@ describe('features/editor-actions', function() {
 
 
         it('should only remove items returned by rule', inject(function(editorActions, customRules) {
-          selectedElements = ['a', 'b', 'c'];
+          selectedElements = [ 'a', 'b', 'c' ];
 
           customRules.addRule(RULE_NAME, function(context) {
-            return ['a', 'c'];
+            return [ 'a', 'c' ];
           });
 
           // when
@@ -296,12 +296,12 @@ describe('features/editor-actions', function() {
 
           // then
           expect(removeElements).to.have.been.calledOnce;
-          expect(removeElements).to.have.been.calledWith(['a', 'c']);
+          expect(removeElements).to.have.been.calledWith([ 'a', 'c' ]);
         }));
 
 
         it('should call rule with .elements property', inject(function(editorActions, customRules) {
-          selectedElements = ['a', 'b', 'c'];
+          selectedElements = [ 'a', 'b', 'c' ];
 
           var ruleFn = sinon.spy(function(context) {
             return true;
@@ -314,7 +314,7 @@ describe('features/editor-actions', function() {
 
           // then
           expect(ruleFn).to.have.been.calledOnce;
-          expect(ruleFn).to.have.been.calledWith({ elements: ['a', 'b', 'c'] });
+          expect(ruleFn).to.have.been.calledWith({ elements: [ 'a', 'b', 'c' ] });
         }));
 
       });

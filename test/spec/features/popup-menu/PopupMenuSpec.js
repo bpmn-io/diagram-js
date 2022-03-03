@@ -921,11 +921,11 @@ describe('features/popup', function() {
 
       var testProvider = {
         getHeaderEntries: function() {
-          return [{
+          return [ {
             id: '1',
             action: actionListener,
             label: 'foo'
-          }];
+          } ];
         },
         getEntries: function() { return []; }
       };
@@ -1270,7 +1270,7 @@ describe('features/popup', function() {
     it('should return false for isEmpty if entries', inject(function(popupMenu) {
 
       // when
-      popupMenu.registerProvider('entry-menu', new LegacyProvider([{ id: 'singleEntry' }]));
+      popupMenu.registerProvider('entry-menu', new LegacyProvider([ { id: 'singleEntry' } ]));
 
       // then
       expect(popupMenu.isEmpty({}, 'entry-menu')).to.be.false;

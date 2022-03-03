@@ -201,7 +201,7 @@ describe('features/copy-paste', function() {
           });
 
           // when
-          var tree = copyPaste.copy([parentShape, parentShape2]);
+          var tree = copyPaste.copy([ parentShape, parentShape2 ]);
 
           // then
           expect(findElementInTree(parentShape, tree)).not.to.be.ok;
@@ -219,7 +219,7 @@ describe('features/copy-paste', function() {
           });
 
           // when
-          var tree = copyPaste.copy([parentShape, parentShape2]);
+          var tree = copyPaste.copy([ parentShape, parentShape2 ]);
 
           // then
           expect(findElementInTree(parentShape, tree)).not.to.be.ok;
@@ -519,7 +519,7 @@ describe('features/copy-paste', function() {
         });
 
         // then
-        expect(elements[0].children).to.to.have.members([elements[1]]);
+        expect(elements[0].children).to.to.have.members([ elements[1] ]);
         expect(elements[0].collapsed).to.be.true;
         expect(elements[1].hidden).to.be.true;
 
@@ -540,10 +540,10 @@ describe('features/copy-paste', function() {
         });
 
         // then
-        expect(elements[0].children).to.to.have.members([elements[1]]);
+        expect(elements[0].children).to.to.have.members([ elements[1] ]);
         expect(elements[0].collapsed).to.be.true;
         expect(elements[1].hidden).to.be.true;
-        expect(elements[1].children).to.to.have.members([elements[2]]);
+        expect(elements[1].children).to.to.have.members([ elements[2] ]);
         expect(elements[1].collapsed).to.be.true;
         expect(elements[2].hidden).to.be.true;
 

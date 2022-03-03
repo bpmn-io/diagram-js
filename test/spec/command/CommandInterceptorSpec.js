@@ -460,7 +460,7 @@ describe('command/CommandInterceptor', function() {
 
         var interceptor = new TestInterceptor(eventBus);
 
-        interceptor.on([ 'simple-command.preExecute', 'preExecute'], 500, trace('raw-multiple-low'));
+        interceptor.on([ 'simple-command.preExecute', 'preExecute' ], 500, trace('raw-multiple-low'));
 
         interceptor.preExecute([ 'simple-command' ], 500, trace('local-multiple-low'));
         interceptor.preExecute(500, trace('global-low'));

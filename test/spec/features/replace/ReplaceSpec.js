@@ -75,7 +75,7 @@ describe('features/replace', function() {
         id: 'replacement',
         width: 200,
         height: 200,
-        customArray: ['FOO', 'BAR'],
+        customArray: [ 'FOO', 'BAR' ],
         customString: 'foobar'
       };
 

@@ -232,7 +232,7 @@ describe('layout/ManhattanLayout', function() {
         var connection = connectPoints(p0, p1, 'v:v');
 
         // then
-        expectConnection(connection, [ p0, point(200, 150), point(100, 150), p1]);
+        expectConnection(connection, [ p0, point(200, 150), point(100, 150), p1 ]);
       });
 
     });

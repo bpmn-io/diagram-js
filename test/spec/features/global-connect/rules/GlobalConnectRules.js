@@ -6,7 +6,7 @@ export default function GlobalConnectRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 
-GlobalConnectRules.$inject = ['eventBus'];
+GlobalConnectRules.$inject = [ 'eventBus' ];
 
 inherits(GlobalConnectRules, RuleProvider);
 

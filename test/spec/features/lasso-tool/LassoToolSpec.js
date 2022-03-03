@@ -94,7 +94,7 @@ describe('features/lasso-tool', function() {
     it('should select elements in bbox', inject(function(lassoTool, selection) {
 
       // given
-      var elements = [childShape, childShape2, childShape3, childShape4];
+      var elements = [ childShape, childShape2, childShape3, childShape4 ];
       var bbox = {
         x: 175,
         y: 0,

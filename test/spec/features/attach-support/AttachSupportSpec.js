@@ -692,7 +692,7 @@ describe('features/attach-support', function() {
         canvas.addConnection(connection, rootShape);
 
         // when
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: parentShape,
@@ -746,7 +746,7 @@ describe('features/attach-support', function() {
         canvas.addConnection(connection2, rootShape);
 
         // when
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: parentShape,
@@ -788,7 +788,7 @@ describe('features/attach-support', function() {
         canvas.addConnection(connection, rootShape);
 
         // when
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: parentShape,
@@ -842,7 +842,7 @@ describe('features/attach-support', function() {
         canvas.addConnection(connection2, rootShape);
 
         // when
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: parentShape,
@@ -884,7 +884,7 @@ describe('features/attach-support', function() {
         canvas.addConnection(connection, rootShape);
 
         // when
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: rootShape,
@@ -926,7 +926,7 @@ describe('features/attach-support', function() {
         canvas.addConnection(connection, rootShape);
 
         // when
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: rootShape,
@@ -953,7 +953,7 @@ describe('features/attach-support', function() {
         var rootGfx = elementRegistry.getGraphics(rootShape);
 
         // when
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: rootShape,
@@ -983,7 +983,7 @@ describe('features/attach-support', function() {
         var rootGfx = elementRegistry.getGraphics(rootShape);
 
         // when
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: rootShape,
@@ -1015,7 +1015,7 @@ describe('features/attach-support', function() {
         // when
         selection.select([ host, label ]);
 
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: rootShape,
@@ -1047,7 +1047,7 @@ describe('features/attach-support', function() {
         // when
         selection.select([ host, label1, label2 ]);
 
-        move.start(canvasEvent({ x: host.x+10, y: host.y+10 }), host);
+        move.start(canvasEvent({ x: host.x + 10, y: host.y + 10 }), host);
 
         dragging.hover({
           element: rootShape,
@@ -1160,7 +1160,7 @@ describe('features/attach-support', function() {
         id: 'replacement',
         width: host.width,
         height: host.height,
-        retainAttachmentIds: ['attacher']
+        retainAttachmentIds: [ 'attacher' ]
       };
 
       // when
@@ -1189,7 +1189,7 @@ describe('features/attach-support', function() {
           id: 'replacement',
           width: host.width,
           height: host.height,
-          retainAttachmentIds: ['attacher']
+          retainAttachmentIds: [ 'attacher' ]
         };
 
         // when
@@ -1215,7 +1215,7 @@ describe('features/attach-support', function() {
           height: host.height + 50,
           x: host.x + host.width / 2,
           y: host.y + host.height / 2,
-          retainAttachmentIds: ['attacher']
+          retainAttachmentIds: [ 'attacher' ]
         };
 
         // when
@@ -1594,7 +1594,7 @@ describe('features/attach-support', function() {
         var attacher4 = elementRegistry.get('attachedShape4');
 
         expect(parent).to.exist;
-        expect(parent.attachers).to.eql([attacher, attacher2, attacher3, attacher4 ]);
+        expect(parent.attachers).to.eql([ attacher, attacher2, attacher3, attacher4 ]);
 
         expect(attacher).to.exist;
         expect(attacher2).to.exist;

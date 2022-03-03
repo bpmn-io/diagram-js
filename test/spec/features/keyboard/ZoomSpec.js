@@ -33,7 +33,7 @@ describe('features/keyboard - zoom', function() {
     }
   };
 
-  var decisionTable = [{
+  var decisionTable = [ {
     desc: 'zoom in',
     keys: KEYS.ZOOM_IN,
     ctrlKey: true,
@@ -51,7 +51,7 @@ describe('features/keyboard - zoom', function() {
     ctrlKey: true,
     defaultZoom: 3,
     zoom: 1
-  }];
+  } ];
 
   beforeEach(bootstrapDiagram(defaultDiagramConfig));
 

@@ -156,7 +156,7 @@ describe('features/modeling - reconnect connection', function() {
 
         // then
         expect(layoutSpy).to.have.been.calledOnce;
-        expect(layoutSpy.getCall(0).args).to.eql([connection, { connectionStart: docking }]);
+        expect(layoutSpy.getCall(0).args).to.eql([ connection, { connectionStart: docking } ]);
 
       }));
 
@@ -221,7 +221,7 @@ describe('features/modeling - reconnect connection', function() {
 
         // then
         expect(layoutSpy).to.have.been.calledOnce;
-        expect(layoutSpy.getCall(0).args).to.eql([connection, { connectionStart: docking }]);
+        expect(layoutSpy.getCall(0).args).to.eql([ connection, { connectionStart: docking } ]);
 
       }));
 
@@ -290,7 +290,7 @@ describe('features/modeling - reconnect connection', function() {
 
         // then
         expect(layoutSpy).to.have.been.calledOnce;
-        expect(layoutSpy.getCall(0).args).to.eql([connection, { connectionEnd: docking }]);
+        expect(layoutSpy.getCall(0).args).to.eql([ connection, { connectionEnd: docking } ]);
 
       }));
 
@@ -355,7 +355,7 @@ describe('features/modeling - reconnect connection', function() {
 
         // then
         expect(layoutSpy).to.have.been.calledOnce;
-        expect(layoutSpy.getCall(0).args).to.eql([connection, { connectionEnd: docking }]);
+        expect(layoutSpy.getCall(0).args).to.eql([ connection, { connectionEnd: docking } ]);
 
       }));
 

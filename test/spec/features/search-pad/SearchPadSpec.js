@@ -57,7 +57,7 @@ describe('features/searchPad', function() {
         }
 
         if (pattern === 'one') {
-          return [{
+          return [ {
             primaryTokens: [
               { normal: 'one' }
             ],
@@ -67,11 +67,11 @@ describe('features/searchPad', function() {
               { normal: '_123456_id' }
             ],
             element: elements.one.a
-          }];
+          } ];
         }
 
         if (pattern === 'two') {
-          return [{
+          return [ {
             primaryTokens: [
               { normal: 'one' }
             ],
@@ -91,11 +91,11 @@ describe('features/searchPad', function() {
               { normal: '_123456_id' }
             ],
             element: elements.two.b
-          }];
+          } ];
         }
 
         if (pattern === 'html') {
-          return [{
+          return [ {
             primaryTokens: [
               { normal: '<html/>' }
             ],
@@ -105,7 +105,7 @@ describe('features/searchPad', function() {
               { normal: '_123456_id' }
             ],
             element: elements.one.a
-          }];
+          } ];
         }
 
         return [];
