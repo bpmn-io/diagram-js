@@ -47,15 +47,20 @@ module.exports = function(karma) {
 
     webpack: {
       mode: 'development',
+      target: 'browserslist:last 2 versions, IE 11',
       module: {
         rules: [
           {
+            test: /TestHelper/,
+            sideEffects: true
+          },
+          {
             test: /\.css$/,
-            use: 'raw-loader'
+            type: 'asset/source'
           },
           {
             test: /\.png$/,
-            use: 'url-loader'
+            type: 'asset/resource'
           }
         ].concat(
           coverage ? {
