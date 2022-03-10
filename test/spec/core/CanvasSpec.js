@@ -742,31 +742,19 @@ describe('Canvas', function() {
 
     describe('layers', function() {
 
-      it('should require layer name', inject(function(canvas) {
-
-        // then
-        expect(function() {
-          canvas.getLayer();
-        }).to.throw(/must specify a name/);
-
-      }));
-
-
       it('should create layer below utility planes', inject(function(canvas) {
 
         // given
         canvas.getLayer('foo');
 
         // when
-        var rootA = canvas.addRootElement({ id: 'A' });
-        var rootB = canvas.addRootElement({ id: 'B' });
+        var rootA = canvas.setRootElement({ id: 'A' });
 
         canvas.getLayer('bar');
 
         // then
         expectLayersOrder(canvas._viewport, [
           rootA,
-          rootB,
           'foo',
           'bar'
         ]);
@@ -776,17 +764,58 @@ describe('Canvas', function() {
       it('should create layer with default priority', inject(function(canvas) {
 
         // when
-        var rootA = canvas.addRootElement({ id: 'A' });
         canvas.getDefaultLayer();
-        var rootB = canvas.addRootElement({ id: 'B' });
+        var rootA = canvas.setRootElement({ id: 'A' });
 
         // then
         expectLayersOrder(canvas._viewport, [
-          rootA,
           'base',
-          rootB
+          rootA
         ]);
       }));
+
+      describe('visibility', function() {
+
+        it('should hide by default', inject(function(canvas) {
+
+          // when
+          canvas.addRootElement({ id: 'A' });
+
+          // then
+          expectLayersOrder(canvas._viewport, []);
+        }));
+
+
+        it('should show active root', inject(function(canvas) {
+
+          // given
+          var rootA = canvas.addRootElement({ id: 'A' });
+
+          // when
+          canvas.setRootElement(rootA);
+
+          // then
+          expectLayersOrder(canvas._viewport, [ rootA ]);
+        }));
+
+
+        it('should hide inactive root', inject(function(canvas) {
+
+          // given
+          var rootA = canvas.setRootElement({ id: 'A' });
+          var rootB = canvas.addRootElement({ id: 'B' });
+
+          // assume
+          expectLayersOrder(canvas._viewport, [ rootA ]);
+
+          // when
+          canvas.setRootElement(rootB);
+
+          // then
+          expectLayersOrder(canvas._viewport, [ rootB ]);
+        }));
+
+      });
 
     });
 
@@ -2189,6 +2218,16 @@ describe('Canvas', function() {
     beforeEach(createDiagram({ canvas: { width: 300, height: 300 } }));
 
 
+    it('should require layer name', inject(function(canvas) {
+
+      // then
+      expect(function() {
+        canvas.getLayer();
+      }).to.throw(/must specify a name/);
+
+    }));
+
+
     it('get default layer', inject(function(canvas) {
 
       // when
@@ -2258,6 +2297,127 @@ describe('Canvas', function() {
           expect(activeLayer).not.to.exist;
         })
       );
+
+    });
+
+
+    describe('visibility', function() {
+
+      it('should show layer by default', inject(function(canvas) {
+
+        // when
+        canvas.getLayer('foo');
+
+        // then
+        expectLayersOrder(canvas._viewport, [
+          'foo'
+        ]);
+      }));
+
+
+      describe('#hideLayer', function() {
+
+        it('should require a name', inject(function(canvas) {
+
+          // then
+          expect(function() {
+            canvas.hideLayer();
+          }).to.throw('must specify a name');
+
+        }));
+
+
+        it('should require the layer to exist', inject(function(canvas) {
+
+          // then
+          expect(function() {
+            canvas.hideLayer('FOO');
+          }).to.throw('layer <FOO> does not exist');
+
+        }));
+
+
+        it('should hide layer', inject(function(canvas) {
+
+          // given
+          canvas.getLayer('1');
+          canvas.getLayer('2');
+
+          // when
+          canvas.hideLayer('2');
+
+          // then
+          expectLayersOrder(canvas._viewport, [
+            '1'
+          ]);
+
+        }));
+
+      });
+
+
+      describe('#showLayer', function() {
+
+        it('should require a name', inject(function(canvas) {
+
+          // then
+          expect(function() {
+            canvas.showLayer();
+          }).to.throw('must specify a name');
+
+        }));
+
+
+        it('should require the layer to exist', inject(function(canvas) {
+
+          // then
+          expect(function() {
+            canvas.showLayer('FOO');
+          }).to.throw('layer <FOO> does not exist');
+
+        }));
+
+
+        it('should show layer', inject(function(canvas) {
+
+          // given
+          canvas.getLayer('1');
+          canvas.getLayer('2');
+
+          // when
+          canvas.hideLayer('2');
+          canvas.showLayer('2');
+
+          // then
+          expectLayersOrder(canvas._viewport, [
+            '1',
+            '2'
+          ]);
+
+        }));
+
+
+        it('should consider the index', inject(function(canvas) {
+
+          // given
+          canvas.getLayer('1', 1);
+          canvas.getLayer('2', 2);
+          canvas.getLayer('3', 3);
+
+          // when
+          canvas.hideLayer('2');
+          canvas.showLayer('2');
+
+          // then
+          expectLayersOrder(canvas._viewport, [
+            '1',
+            '2',
+            '3'
+          ]);
+
+        }));
+
+      });
 
     });
 
