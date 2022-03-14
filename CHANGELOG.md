@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.2.0
+
+- `FEAT`: add API to hide and show canvas layers ([#628](https://github.com/bpmn-io/diagram-js/pull/628))
+
 ## 8.1.2
 
 - `FIX`: ensure ES5 is used everywhere ([#624](https://github.com/bpmn-io/diagram-js/pull/624))
