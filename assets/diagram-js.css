@@ -477,6 +477,7 @@ marker.djs-dragger tspan {
   position: absolute;
   display: none;
   pointer-events: none;
+  line-height: 1;
 }
 
 .djs-context-pad .entry {
@@ -494,10 +495,7 @@ marker.djs-dragger tspan {
   background-color: var(--context-pad-entry-background-color);
   box-shadow: 0 0 2px 1px var(--context-pad-entry-background-color);
   pointer-events: all;
-}
-
-.djs-context-pad .entry:before {
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .djs-context-pad .entry:hover {
