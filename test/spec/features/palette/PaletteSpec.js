@@ -137,6 +137,13 @@ describe('features/palette', function() {
 
     it('should add palette entries', inject(function(canvas, palette) {
 
+      var img =
+        '<svg width="46" height="46" viewBox="-2 -2 9.82 9.82" xmlns="http://www.w3.org/2000/svg">' +
+          '<path d="m1.86 5.12-.72-.53 1.17-1.5c-.61-.16-1.22-.32-1.83-.5l.28-.85 1.78.65L2.46.5h.9l-.08 1.9 1.78-.66.28.86-1.83.5 1.17 1.49-.72.53-1.05-1.58-1.05 1.58Z" />' +
+        '</svg>';
+
+      var imgUrl = 'data:image/svg+xml;utf8,' + encodeURIComponent(img);
+
       // given
       var entries = {
         'entryA': {
@@ -146,9 +153,19 @@ describe('features/palette', function() {
             console.log('click entryA', arguments);
           }
         },
+        'entryA2': {
+          alt: 'A2',
+          className: 'FOO',
+          action: function() {
+            console.log('click entryA2', arguments);
+          }
+        },
+        'separator1': {
+          separator: true
+        },
         'entryB': {
           alt: 'B',
-          imageUrl: 'http://placehold.it/40x40',
+          imageUrl: imgUrl,
           action: {
             click: function() {
               console.log('click entryB');
@@ -156,6 +173,31 @@ describe('features/palette', function() {
             dragstart: function(event) {
               console.log('dragstart entryB');
               event.preventDefault();
+            }
+          }
+        },
+        'separator2': {
+          separator: true
+        },
+        'entryB2': {
+          alt: 'B',
+          imageUrl: imgUrl,
+          action: {
+            click: function() {
+              console.log('click entryB2');
+            },
+            dragstart: function(event) {
+              console.log('dragstart entryB2');
+              event.preventDefault();
+            }
+          }
+        },
+        'entryC': {
+          alt: 'C',
+          imageUrl: imgUrl,
+          action: {
+            click: function() {
+              console.log('click entryB');
             }
           }
         }
