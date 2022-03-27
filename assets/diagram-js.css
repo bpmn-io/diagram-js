@@ -385,7 +385,7 @@ marker.djs-dragger tspan {
 }
 
 .djs-palette .separator {
-  margin: 0 5px;
+  margin: 5px;
   padding-top: 5px;
 
   border: none;
@@ -395,7 +395,7 @@ marker.djs-dragger tspan {
 }
 
 .djs-palette .entry:before {
-  vertical-align: text-bottom;
+  vertical-align: initial;
 }
 
 .djs-palette .djs-palette-toggle {
