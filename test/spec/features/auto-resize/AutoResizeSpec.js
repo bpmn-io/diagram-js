@@ -15,7 +15,7 @@ import replaceModule from 'lib/features/replace';
 import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
 import AutoResize from 'lib/features/auto-resize/AutoResize';
 
-import inherits from 'inherits';
+import inherits from 'inherits-browser';
 
 
 /**

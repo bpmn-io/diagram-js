@@ -11,7 +11,7 @@ import modelingModule from 'lib/features/modeling';
 
 import RuleProvider from 'lib/features/rules/RuleProvider';
 
-import inherits from 'inherits';
+import inherits from 'inherits-browser';
 
 
 describe('features/rules - RuleProvider', function() {

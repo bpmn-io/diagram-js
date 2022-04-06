@@ -3,7 +3,7 @@ import {
   inject
 } from 'test/TestHelper';
 
-import inherits from 'inherits';
+import inherits from 'inherits-browser';
 
 import cmdModule from 'lib/command';
 

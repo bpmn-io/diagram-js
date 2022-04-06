@@ -72,7 +72,7 @@
     "css.escape": "^1.5.1",
     "didi": "^5.2.1",
     "hammerjs": "^2.0.1",
-    "inherits": "^2.0.4",
+    "inherits-browser": "0.0.1",
     "min-dash": "^3.5.2",
     "min-dom": "^3.2.0",
     "object-refs": "^0.3.0",

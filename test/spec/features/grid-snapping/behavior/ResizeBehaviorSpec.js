@@ -11,7 +11,7 @@ import moveModule from 'lib/features/move';
 import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
 import AutoResize from 'lib/features/auto-resize/AutoResize';
 
-import inherits from 'inherits';
+import inherits from 'inherits-browser';
 
 /**
  * Custom auto-resize provider.
