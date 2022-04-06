@@ -1,4 +1,4 @@
-import inherits from 'inherits';
+import inherits from 'inherits-browser';
 
 import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
 
