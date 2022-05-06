@@ -176,11 +176,11 @@ describe('Canvas', function() {
     }));
 
 
-    it('should fire <shape.added> event', inject(function(canvas, eventBus) {
+    it('should fire <shape.rendered> event', inject(function(canvas, eventBus) {
 
       // given
       var listener = sinon.spy();
-      eventBus.on('shape.added', listener);
+      eventBus.on('shape.rendered', listener);
 
       // when
       canvas.addShape({ id: 'a', x: 10, y: 20, width: 50, height: 50 });
@@ -391,7 +391,7 @@ describe('Canvas', function() {
     beforeEach(createDiagram());
 
 
-    it('should fire <connection.added> event', inject(function(canvas, eventBus) {
+    it('should fire <connection.rendered> event', inject(function(canvas, eventBus) {
 
       // given
       var listener = sinon.spy();
@@ -399,7 +399,7 @@ describe('Canvas', function() {
       canvas.addShape({ id: 's1', x: 10, y: 10, width: 30, height: 30 });
       canvas.addShape({ id: 's2', x: 100, y: 100, width: 30, height: 30 });
 
-      eventBus.on('connection.added', listener);
+      eventBus.on('connection.rendered', listener);
 
       // when
       canvas.addConnection({ id: 'c1', waypoints: [ { x: 25, y: 25 }, { x: 115, y: 115 } ] });
