@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.2.2
+
+* `FIX`: ensure compliance with strict style-src CSP ([#636](https://github.com/bpmn-io/diagram-js/pull/636))
+* `FIX`: correct palette separator spacing ([#633](https://github.com/bpmn-io/diagram-js/pull/633))
+
 ## 8.2.1
 
 * `FIX`: make context pad robust in `line-height != 1` environments ([#630](https://github.com/bpmn-io/diagram-js/pull/630))
