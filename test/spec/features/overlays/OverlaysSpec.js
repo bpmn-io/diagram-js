@@ -10,7 +10,8 @@ import {
 } from 'min-dash';
 
 import {
-  domify
+  domify,
+  assignStyle
 } from 'min-dom';
 
 import overlayModule from 'lib/features/overlays';
@@ -1333,7 +1334,7 @@ function isVisible(element) {
 }
 
 function highlight(element) {
-  assign(element.style, { background: 'fuchsia', minWidth: '10px', minHeight: '10px' });
+  assignStyle(element, { background: 'fuchsia', minWidth: '10px', minHeight: '10px' });
   return element;
 }
 
@@ -1343,7 +1344,7 @@ function queryOverlay(id) {
 
 function createOverlay() {
   var element = highlight(domify('<div>OV<br/>#' + (overlaysCounter++) + '</div>'));
-  assign(element.style, { width: 40, height: 40 });
+  assignStyle(element, { width: 40, height: 40 });
   return element;
 }
 

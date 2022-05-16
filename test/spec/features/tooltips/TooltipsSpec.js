@@ -4,11 +4,13 @@ import {
 } from 'test/TestHelper';
 
 import {
-  forEach,
-  assign
+  forEach
 } from 'min-dash';
 
-import { domify } from 'min-dom';
+import {
+  domify,
+  assignStyle
+} from 'min-dom';
 
 import tooltipsModule from 'lib/features/tooltips';
 
@@ -391,14 +393,14 @@ function isVisible(element) {
 }
 
 function highlight(element) {
-  assign(element.style, { background: 'fuchsia', minWidth: '10px', minHeight: '10px' });
+  assignStyle(element, { background: 'fuchsia', minWidth: '10px', minHeight: '10px' });
   return element;
 }
 
 
 function createOverlay() {
   var element = highlight(domify('<div>TEST<br/>TEST</div>'));
-  assign(element.style, { width: 40, height: 40 });
+  assignStyle(element, { width: 40, height: 40 });
   return element;
 }
 
