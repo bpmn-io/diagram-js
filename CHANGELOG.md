@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.3.0
+
+* `FEAT`: add hit box type to disable move interaction: `no-move`
+
 ## 8.2.2
 
 * `FIX`: ensure compliance with strict style-src CSP ([#636](https://github.com/bpmn-io/diagram-js/pull/636))
