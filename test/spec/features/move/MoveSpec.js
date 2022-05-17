@@ -180,6 +180,21 @@ describe('features/move - Move', function() {
       }
     ));
 
+
+    it('should NOT start if triggered on `no-move` hit', inject(function(dragging, move) {
+
+      // given
+      var target = document.createElement('svg'),
+          event = canvasEvent({ x: 0, y: 0 }, { target: target });
+
+      target.classList.add('djs-hit-no-move');
+
+      // when
+      move.start(event, childShape);
+
+      // then
+      expect(dragging.context()).not.to.exist;
+    }));
   });
 
 
@@ -214,6 +229,8 @@ describe('features/move - Move', function() {
 // helpers ////////////////
 
 function mouseDownEvent(element, data) {
+
+  data = data || { target: document.createElement('svg') };
 
   return getDiagramJS().invoke(function(eventBus) {
     return eventBus.createEvent({

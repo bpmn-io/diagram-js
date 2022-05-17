@@ -9,7 +9,7 @@
   --color-grey-225-10-80: hsl(225, 10%, 80%);
   --color-grey-225-10-85: hsl(225, 10%, 85%);
   --color-grey-225-10-90: hsl(225, 10%, 90%);
-  --color-grey-225-10-95: hsl(225, 10%, 95%); 
+  --color-grey-225-10-95: hsl(225, 10%, 95%);
   --color-grey-225-10-97: hsl(225, 10%, 97%);
 
   --color-blue-205-100-45: hsl(205, 100%, 45%);
@@ -25,8 +25,8 @@
   --color-red-360-100-97: hsl(360, 100%, 97%);
 
   --color-white: hsl(0, 0%, 100%);
-  --color-black: hsl(0, 0%, 0%); 
-  --color-black-opacity-05: hsla(0, 0%, 0%, 5%); 
+  --color-black: hsl(0, 0%, 0%);
+  --color-black-opacity-05: hsla(0, 0%, 0%, 5%);
   --color-black-opacity-10: hsla(0, 0%, 0%, 10%);
 
   --bendpoint-fill-color: var(--color-blue-205-100-45-opacity-30);
@@ -296,20 +296,14 @@ marker.djs-dragger tspan {
 /**
  * all pointer events for hit shape
  */
-.djs-element > .djs-hit-all {
+.djs-element > .djs-hit-all,
+.djs-element > .djs-hit-no-move {
   pointer-events: all;
 }
 
 .djs-element > .djs-hit-stroke,
 .djs-element > .djs-hit-click-stroke {
   pointer-events: stroke;
-}
-
-/**
- * all pointer events for hit shape
- */
-.djs-drag-active .djs-element > .djs-hit-click-stroke {
-  pointer-events: all;
 }
 
 /**
