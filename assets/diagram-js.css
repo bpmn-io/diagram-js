@@ -97,17 +97,18 @@
 .djs-element.selected .djs-outline {
   visibility: visible;
   shape-rendering: geometricPrecision;
+}
+
+.djs-element.hover .djs-outline {
+  stroke: var(--element-hover-outline-fill-color);
   stroke-dasharray: 3,3;
+  stroke-width: 1px;
 }
 
 .djs-element.selected .djs-outline {
   stroke: var(--element-selected-outline-stroke-color);
   stroke-width: 1px;
-}
-
-.djs-element.hover .djs-outline {
-  stroke: var(--element-hover-outline-fill-color);
-  stroke-width: 1px;
+  stroke-dasharray: none;
 }
 
 .djs-shape.connect-ok .djs-visual > :nth-child(1) {
