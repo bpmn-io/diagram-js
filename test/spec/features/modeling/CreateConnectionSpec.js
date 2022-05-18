@@ -58,7 +58,7 @@ describe('features/modeling - create connection', function() {
 
   describe('basics', function() {
 
-    describe('should create', function() {
+    describe('should create (shape -> shape)', function() {
 
       it('execute', inject(function(modeling, elementRegistry) {
 
@@ -111,6 +111,89 @@ describe('features/modeling - create connection', function() {
 
         expect(connection.waypoints).to.eql([
           { x: 130, y: 130 },
+          { x: 230, y: 130 }
+        ]);
+      }));
+
+    });
+
+
+    describe('should create (connection -> shape)', function() {
+
+      var sourceConnection;
+
+      beforeEach(inject(function(elementFactory, canvas, modeling) {
+        var helperSource = elementFactory.createShape({
+          id: 'helper1',
+          x: 310, y: 110, width: 40, height: 40
+        });
+
+        var helperTarget = elementFactory.createShape({
+          id: 'helper2',
+          x: 310, y: 210, width: 40, height: 40
+        });
+
+        canvas.addShape(helperSource, parentShape);
+        canvas.addShape(helperTarget, parentShape);
+
+        sourceConnection = elementFactory.createConnection({
+          id: 'sourceConnection'
+        });
+
+        modeling.connect(helperSource, helperTarget, sourceConnection);
+      }));
+
+      it('execute', inject(function(modeling, elementRegistry) {
+
+        // when
+        var createdConnection = modeling.connect(sourceConnection, targetShape, newConnection);
+
+        var connection = elementRegistry.get('newConnection');
+
+        // then
+        expect(createdConnection).to.eql(connection);
+
+        expect(connection.id).to.eql('newConnection');
+
+        expect(connection.waypoints).to.eql([
+          { x: 330, y: 180 },
+          { x: 230, y: 130 }
+        ]);
+      }));
+
+
+      it('undo', inject(function(modeling, commandStack, elementRegistry) {
+
+        // given
+        modeling.connect(sourceConnection, targetShape, newConnection);
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(parentShape.children).not.to.contain(newConnection);
+        expect(newConnection.parent).not.to.exist;
+
+        expect(elementRegistry.get('newConnection')).not.to.exist;
+      }));
+
+
+      it('redo', inject(function(modeling, commandStack, elementRegistry) {
+
+        // given
+        modeling.connect(sourceConnection, targetShape, newConnection);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var connection = elementRegistry.get('newConnection');
+
+        expect(connection.id).to.eql('newConnection');
+
+        expect(connection.waypoints).to.eql([
+          { x: 330, y: 180 },
           { x: 230, y: 130 }
         ]);
       }));
