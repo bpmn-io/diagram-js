@@ -431,7 +431,7 @@ describe('features/bendpoints', function() {
       var bendpointGfx,
           listenerSpy;
 
-      beforeEach(inject(function(bendpoints, eventBus) {
+      beforeEach(inject(function(bendpoints) {
         bendpoints.addHandles(connection);
 
         bendpointGfx = domQuery('.djs-bendpoint', bendpoints.getBendpointsContainer(connection));
@@ -571,7 +571,7 @@ describe('features/bendpoints', function() {
 
         // then
         expect(newBounds).to.not.eql(oldBounds);
-        expect(newBounds.left).to.be.closeTo(453, 2);
+        expect(newBounds.left).to.be.closeTo(451, 2);
       }
     ));
 

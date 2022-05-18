@@ -29,8 +29,10 @@
   --color-black-opacity-05: hsla(0, 0%, 0%, 5%);
   --color-black-opacity-10: hsla(0, 0%, 0%, 10%);
 
-  --bendpoint-fill-color: var(--color-blue-205-100-45-opacity-30);
-  --bendpoint-stroke-color: var(--color-blue-205-100-50);
+  --canvas-fill-color: var(--color-white);
+
+  --bendpoint-fill-color: var(--color-blue-205-100-45);
+  --bendpoint-stroke-color: var(--canvas-fill-color);
 
   --context-pad-entry-background-color: var(--color-white);
   --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);
@@ -57,8 +59,8 @@
   --popup-background-color: var(--color-grey-225-10-97);
   --popup-border-color: var(--color-grey-225-10-75);
 
-  --resizer-fill-color: var(--color-blue-205-100-45-opacity-30);
-  --resizer-stroke-color: var(--color-blue-205-100-50);
+  --resizer-fill-color: var(--color-blue-205-100-45);
+  --resizer-stroke-color: var(--canvas-fill-color);
 
   --search-container-background-color: var(--color-grey-225-10-97);
   --search-container-border-color: var(--color-blue-205-100-50);
@@ -93,22 +95,12 @@
   visibility: hidden;
 }
 
-.djs-element.hover .djs-outline,
 .djs-element.selected .djs-outline {
   visibility: visible;
   shape-rendering: geometricPrecision;
-}
 
-.djs-element.hover .djs-outline {
-  stroke: var(--element-hover-outline-fill-color);
-  stroke-dasharray: 3,3;
-  stroke-width: 1px;
-}
-
-.djs-element.selected .djs-outline {
   stroke: var(--element-selected-outline-stroke-color);
   stroke-width: 1px;
-  stroke-dasharray: none;
 }
 
 .djs-shape.connect-ok .djs-visual > :nth-child(1) {
@@ -193,7 +185,6 @@ svg.new-parent {
 .djs-resizer-visual {
   fill: var(--resizer-fill-color);
   stroke-width: 1px;
-  stroke-opacity: 0.5;
   stroke: var(--resizer-stroke-color);
   shape-rendering: geometricprecision;
 }
@@ -618,7 +609,6 @@ marker.djs-dragger tspan {
   fill: var(--bendpoint-fill-color);
   stroke: var(--bendpoint-stroke-color);
   stroke-width: 1px;
-  stroke-opacity: 0.5;
 }
 
 .djs-segment-dragger:hover,
