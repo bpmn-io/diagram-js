@@ -159,6 +159,8 @@ describe('features/modeling - create connection', function() {
           { x: 330, y: 180 },
           { x: 230, y: 130 }
         ]);
+
+        expect(sourceConnection.outgoing).to.eql([ newConnection ]);
       }));
 
 
@@ -175,6 +177,7 @@ describe('features/modeling - create connection', function() {
         expect(newConnection.parent).not.to.exist;
 
         expect(elementRegistry.get('newConnection')).not.to.exist;
+        expect(sourceConnection.outgoing).to.be.empty;
       }));
 
 
@@ -196,6 +199,8 @@ describe('features/modeling - create connection', function() {
           { x: 330, y: 180 },
           { x: 230, y: 130 }
         ]);
+
+        expect(sourceConnection.outgoing).to.eql([ newConnection ]);
       }));
 
     });
