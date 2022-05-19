@@ -6,6 +6,13 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.4.0
+
+* `FEAT`: add multi-element context pad ([#278](https://github.com/bpmn-io/diagram-js/issues/278))
+* `FEAT`: allow adding connections to connections ([#641](https://github.com/bpmn-io/diagram-js/pull/641))
+* `CHORE`: replace `inherits` with `inherits-browser`
+* `CHORE`: update to `didi@8`
+
 ## 8.3.0
 
 * `FEAT`: add hit box type to disable move interaction: `no-move`
