@@ -7,6 +7,7 @@ import selectionModule from 'lib/features/selection';
 import modelingModule from 'lib/features/modeling';
 
 import {
+  classes as domClasses,
   query as domQuery
 } from 'min-dom';
 
@@ -62,6 +63,7 @@ describe('features/selection/SelectionVisuals', function() {
       canvas.addConnection(connection);
     }));
 
+
     describe('single element', function() {
 
       it('should show box on select', inject(function(selection, canvas) {
@@ -74,6 +76,16 @@ describe('features/selection/SelectionVisuals', function() {
             outline = domQuery('.djs-outline', gfx);
 
         expect(outline).to.exist;
+      }));
+
+
+      it('should not add djs-multi-select marker', inject(function(canvas) {
+
+        // when
+        var element = canvas.getContainer();
+
+        // then
+        expect(domClasses(element).has('djs-multi-select'));
       }));
 
     });
@@ -94,12 +106,28 @@ describe('features/selection/SelectionVisuals', function() {
       }));
 
 
-      it('should show box', inject(function(selection) {
+      it('should show box', inject(function() {
         expect(outline).to.exist;
       }));
 
 
-      it('selection box should contain all selected elements', inject(function(selection) {
+      it('should add djs-multi-select marker', inject(function(selection, canvas) {
+
+        // when
+        var element = canvas.getContainer();
+
+        // then
+        expect(domClasses(element).has('djs-multi-select')).to.be.true;
+
+        // but when
+        selection.select(null);
+
+        // then
+        expect(domClasses(element).has('djs-multi-select')).to.be.false;
+      }));
+
+
+      it('selection box should contain all selected elements', inject(function() {
 
         // then
         selectedShapes.forEach(function(shape) {
@@ -110,11 +138,10 @@ describe('features/selection/SelectionVisuals', function() {
           expect(bbox.x + bbox.width).to.be.at.most(bounds.x + bounds.width);
           expect(bbox.y + bbox.height).to.be.at.most(bounds.y + bounds.height);
         });
-
       }));
 
 
-      it('selection box should react to element changes', inject(function(selection, modeling) {
+      it('selection box should react to element changes', inject(function(modeling) {
 
         // when
         modeling.resizeShape(shape2, resizeBounds(bounds, 'nw', { x: 10, y: 20 }));
@@ -139,7 +166,7 @@ describe('features/selection/SelectionVisuals', function() {
       }));
 
 
-      it('selection box should react to undo/redo', inject(function(selection, modeling, commandStack) {
+      it('selection box should react to undo/redo', inject(function(modeling, commandStack) {
 
         // given
         modeling.resizeShape(shape2, resizeBounds(shape, 'nw', { x: 10, y: 20 }));
