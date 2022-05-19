@@ -15,6 +15,7 @@
   --color-blue-205-100-45: hsl(205, 100%, 45%);
   --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);
   --color-blue-205-100-50: hsl(205, 100%, 50%);
+  --color-blue-205-100-70: hsl(205, 100%, 75%);
   --color-blue-205-100-95: hsl(205, 100%, 95%);
 
   --color-green-150-86-44: hsl(150, 86%, 44%);
@@ -40,6 +41,7 @@
   --element-dragger-color: var(--color-blue-205-100-50);
   --element-hover-outline-fill-color: var(--color-blue-205-100-45);
   --element-selected-outline-stroke-color: var(--color-blue-205-100-50);
+  --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);
 
   --lasso-fill-color: var(--color-black-opacity-05);
   --lasso-stroke-color: var(--color-black);
@@ -90,17 +92,29 @@
  * outline styles
  */
 
-.djs-outline {
+.djs-outline,
+.djs-selection-outline {
   fill: none;
+  shape-rendering: geometricPrecision;
+  stroke-width: 2px;
+}
+
+.djs-outline {
   visibility: hidden;
+}
+
+.djs-selection-outline {
+  stroke: var(--element-selected-outline-stroke-color);
 }
 
 .djs-element.selected .djs-outline {
   visibility: visible;
-  shape-rendering: geometricPrecision;
 
   stroke: var(--element-selected-outline-stroke-color);
-  stroke-width: 1px;
+}
+
+.djs-multi-select .djs-element.selected .djs-outline {
+  stroke: var(--element-selected-outline-secondary-stroke-color);
 }
 
 .djs-shape.connect-ok .djs-visual > :nth-child(1) {
@@ -667,6 +681,8 @@ marker.djs-dragger tspan {
 .djs-updating .djs-context-pad,
 .djs-updating .djs-outline,
 .djs-updating .djs-bendpoint,
+.djs-multi-select .djs-bendpoint,
+.djs-multi-select .djs-segment-dragger,
 .connect-ok .djs-bendpoint,
 .connect-not-ok .djs-bendpoint,
 .drop-ok .djs-bendpoint,
@@ -799,11 +815,4 @@ marker.djs-dragger tspan {
 .djs-element-hidden .djs-outline,
 .djs-label-hidden .djs-label {
   display: none !important;
-}
-
-.djs-selection-outline {
-  shape-rendering: geometricPrecision;
-  stroke: var(--element-selected-outline-stroke-color);
-  stroke-dasharray: 1,1;
-  stroke-width: 1px;
 }
