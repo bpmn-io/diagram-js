@@ -814,3 +814,9 @@ marker.djs-dragger tspan {
 .djs-label-hidden .djs-label {
   display: none !important;
 }
+
+.djs-element .djs-hit-stroke,
+.djs-element .djs-hit-click-stroke,
+.djs-element .djs-hit-all {
+  cursor: move;
+}
