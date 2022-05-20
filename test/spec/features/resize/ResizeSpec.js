@@ -75,7 +75,7 @@ describe('features/resize - Resize', function() {
       // then
       var resizeAnchors = getResizeHandles();
 
-      expect(resizeAnchors.length).to.equal(8);
+      expect(resizeAnchors).to.have.length(8);
     }));
 
 
@@ -88,7 +88,7 @@ describe('features/resize - Resize', function() {
       // then
       var resizeAnchors = getResizeHandles();
 
-      expect(resizeAnchors.length).to.equal(0);
+      expect(resizeAnchors).to.have.length(0);
     }));
 
 
@@ -106,7 +106,7 @@ describe('features/resize - Resize', function() {
       // then
       var resizeAnchors = getResizeHandles();
 
-      expect(resizeAnchors.length).to.equal(8);
+      expect(resizeAnchors).to.have.length(8);
     }));
 
 
@@ -130,7 +130,7 @@ describe('features/resize - Resize', function() {
 
       // then
       var resizeAnchors = getResizeHandles();
-      expect(resizeAnchors).to.be.empty;
+      expect(resizeAnchors).to.have.length(0);
     }));
 
   });
@@ -434,7 +434,7 @@ describe('features/resize - Resize', function() {
       // then
       var frames = domQueryAll('.djs-resize-overlay', canvas.getActiveLayer());
 
-      expect(frames.length).to.equal(1);
+      expect(frames).to.have.length(1);
     }));
 
 
@@ -495,7 +495,7 @@ describe('features/resize - Resize', function() {
         // then
         var resizeAnchors = domQueryAll('.resize', shapeGfx);
 
-        expect(resizeAnchors.length).to.equal(0);
+        expect(resizeAnchors).to.have.length(0);
       })
     );
 
