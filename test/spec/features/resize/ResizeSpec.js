@@ -40,7 +40,7 @@ describe('features/resize - Resize', function() {
   }));
 
 
-  var shape, gfx, rootShape;
+  var shape, shapeGfx, rootShape;
 
   beforeEach(inject(function(canvas, elementFactory, elementRegistry) {
     rootShape = elementFactory.createRoot({
@@ -49,14 +49,13 @@ describe('features/resize - Resize', function() {
 
     canvas.setRootElement(rootShape);
 
-    var s = elementFactory.createShape({
+    shape = canvas.addShape({
       id: 'c1',
       resizable: true, // checked by our rules
       x: 100, y: 100, width: 100, height: 100
     });
 
-    shape = canvas.addShape(s);
-    gfx = elementRegistry.getGraphics(shape);
+    shapeGfx = elementRegistry.getGraphics(shape);
   }));
 
 
@@ -108,6 +107,30 @@ describe('features/resize - Resize', function() {
       var resizeAnchors = getResizeHandles();
 
       expect(resizeAnchors.length).to.equal(8);
+    }));
+
+
+    it('should not add for connection', inject(function(canvas, selection) {
+
+      // given
+      var targetShape = canvas.addShape({
+        id: 'target',
+        x: 400, y: 100, width: 100, height: 100
+      });
+
+      var connection = canvas.addConnection({
+        id: 'connection',
+        waypoints: [ { x: 150, y: 150 }, { x: 450, y: 150 } ],
+        source: shape,
+        target: targetShape
+      });
+
+      // when
+      selection.select(connection);
+
+      // then
+      var resizeAnchors = getResizeHandles();
+      expect(resizeAnchors).to.be.empty;
     }));
 
   });
@@ -470,7 +493,7 @@ describe('features/resize - Resize', function() {
         selection.select(nonResizable);
 
         // then
-        var resizeAnchors = domQueryAll('.resize', gfx);
+        var resizeAnchors = domQueryAll('.resize', shapeGfx);
 
         expect(resizeAnchors.length).to.equal(0);
       })
