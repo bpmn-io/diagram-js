@@ -221,6 +221,30 @@ describe('features/connect', function() {
       );
     }));
 
+
+    it('should expose created connection on <connect.end>', inject(
+      function(connect, dragging, eventBus) {
+
+        // given
+        var connectSpy = sinon.spy(function(event) {
+          expect(event.context.connection).to.exist;
+        });
+
+        eventBus.on('connect.end', connectSpy);
+
+        // when
+        connect.start(canvasEvent({ x: 250, y: 250 }), shape1);
+
+        dragging.move(canvasEvent({ x: 550, y: 150 }));
+
+        dragging.hover(canvasEvent({ x: 550, y: 150 }, { element: shape2 }));
+        dragging.end();
+
+        // then
+        expect(connectSpy).to.have.been.calledOnce;
+      }
+    ));
+
   });
 
 
