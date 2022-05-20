@@ -207,7 +207,7 @@ describe('features/selection/Selection', function() {
     }));
 
 
-    it('should select target of connect interaction', inject(
+    it('should select connection', inject(
       function(connect, dragging, selection) {
 
         // given
@@ -224,12 +224,13 @@ describe('features/selection/Selection', function() {
         var selected = selection.get();
 
         expect(selected).to.exist;
-        expect(selected).to.eql([ targetOnly ]);
+        expect(selected).to.eql([ targetOnly.incoming[0] ]);
+        expect(selected).to.eql([ shape.outgoing[0] ]);
       }
     ));
 
 
-    it('should select target of connect interaction - reversed connection', inject(
+    it('should select connection (reversed connect)', inject(
       function(connect, dragging, selection) {
 
         // given
@@ -246,7 +247,8 @@ describe('features/selection/Selection', function() {
         var selected = selection.get();
 
         expect(selected).to.exist;
-        expect(selected).to.eql([ shape ]);
+        expect(selected).to.eql([ targetOnly.incoming[0] ]);
+        expect(selected).to.eql([ shape.outgoing[0] ]);
       }
     ));
 
