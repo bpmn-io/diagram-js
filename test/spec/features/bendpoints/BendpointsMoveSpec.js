@@ -10,6 +10,7 @@ import {
 
 import bendpointsModule from 'lib/features/bendpoints';
 import rulesModule from './rules';
+import connectModule from 'lib/features/connect';
 import modelingModule from 'lib/features/modeling';
 import selectModule from 'lib/features/selection';
 import connectionPreviewModule from 'lib/features/connection-preview';
@@ -28,7 +29,8 @@ var testModules = [
   bendpointsModule,
   rulesModule,
   modelingModule,
-  selectModule
+  selectModule,
+  connectModule
 ];
 
 var HIGH_PRIORITY = 2000;
@@ -40,7 +42,8 @@ describe('features/bendpoints - move', function() {
     dragging.setOptions({ manual: true });
   }
 
-  var rootShape, shape1, shape2, shape3, shape4, shape5, connection, connection2, connection3;
+  var rootShape, shape1, shape2, shape3, shape4, shape5,
+      connection, connection2, connection3, connection4;
 
   function setupDiagram(elementFactory, canvas) {
 
@@ -116,6 +119,16 @@ describe('features/bendpoints - move', function() {
     });
 
     canvas.addConnection(connection3, rootShape);
+
+
+    connection4 = elementFactory.createConnection({
+      id: 'connection4',
+      waypoints: [ { x: 400, y: 250 }, { x: 250, y: 250 } ],
+      source: connection,
+      target: connection2
+    });
+
+    canvas.addConnection(connection4, rootShape);
 
   }
 
@@ -620,6 +633,74 @@ describe('features/bendpoints - move', function() {
           x: shapeMid.x + 10,
           y: shapeMid.y + 10
         }));
+      });
+
+    });
+
+
+    it('should snap to connection', function(done) {
+
+      getDiagramJS().invoke(function(bendpointMove, canvas, dragging, eventBus) {
+
+        eventBus.once('bendpoint.move.move', function(event) {
+
+          // then
+          try {
+            expect(isSnapped(event, 'x')).to.be.true;
+            expect(isSnapped(event, 'y')).to.be.true;
+          } catch (error) {
+            done(error);
+          }
+
+          done();
+        });
+
+        var moveStart = connection2.waypoints[ 0 ];
+
+        bendpointMove.start(canvasEvent(moveStart), connection4, 1);
+
+        dragging.hover({ element: connection2, gfx: canvas.getGraphics(connection) });
+
+        // when
+        dragging.move(canvasEvent({
+          x: moveStart.x + 10,
+          y: moveStart.y + 10
+        }));
+
+      });
+
+    });
+
+
+    it('should snap to connection on connect', function(done) {
+
+      getDiagramJS().invoke(function(connect, canvas, dragging, eventBus) {
+
+        eventBus.once('connect.move', function(event) {
+
+          // then
+          try {
+            expect(isSnapped(event, 'x')).to.be.true;
+            expect(isSnapped(event, 'y')).to.be.true;
+          } catch (error) {
+            done(error);
+          }
+
+          done();
+        });
+
+        var moveStart = connection2.waypoints[ 0 ];
+
+        connect.start(canvasEvent(moveStart), connection4);
+
+        dragging.hover({ element: connection2, gfx: canvas.getGraphics(connection) });
+
+        // when
+        dragging.move(canvasEvent({
+          x: moveStart.x + 10,
+          y: moveStart.y + 10
+        }));
+
       });
 
     });
