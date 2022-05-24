@@ -138,19 +138,20 @@ svg.new-parent {
   background: var(--shape-drop-allowed-fill-color) !important;
 }
 
-.djs-connection.connect-ok .djs-visual > :nth-child(1),
-.djs-connection.drop-ok .djs-visual > :nth-child(1) {
-  stroke: var(--shape-drop-allowed-fill-color) !important;
-}
 
-.djs-connection.connect-not-ok .djs-visual > :nth-child(1),
-.djs-connection.drop-not-ok .djs-visual > :nth-child(1) {
-  stroke: var(--shape-drop-not-allowed-fill-color) !important;
-}
-
+/* Override move cursor during drop and connect */
 .drop-not-ok,
-.connect-not-ok {
-  cursor: not-allowed;
+.connect-not-ok,
+.drop-not-ok *,
+.connect-not-ok * {
+  cursor: not-allowed !important;
+}
+
+.drop-ok,
+.connect-ok,
+.drop-ok *,
+.connect-ok * {
+  cursor: default !important;
 }
 
 .djs-element.attach-ok .djs-visual > :nth-child(1) {
