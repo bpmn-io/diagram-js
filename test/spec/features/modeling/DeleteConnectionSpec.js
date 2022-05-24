@@ -15,7 +15,8 @@ describe('features/modeling - remove connection', function() {
   }));
 
 
-  var rootShape, parentShape, childShape, childShape2, connection;
+  var rootShape, parentShape, childShape, childShape2,
+      connection, outgoingConnection, incommingConnection;
 
   beforeEach(inject(function(elementFactory, canvas, elementRegistry) {
 
@@ -54,6 +55,25 @@ describe('features/modeling - remove connection', function() {
     });
 
     canvas.addConnection(connection, parentShape);
+
+    outgoingConnection = elementFactory.createConnection({
+      id: 'connection2',
+      waypoints: [ { x: 150, y: 150 }, { x: 350, y: 150 } ],
+      source: connection,
+      target: childShape2
+    });
+
+    canvas.addConnection(outgoingConnection, parentShape);
+
+    incommingConnection = elementFactory.createConnection({
+      id: 'connection3',
+      waypoints: [ { x: 150, y: 175 }, { x: 300, y: 150 } ],
+      source: childShape2,
+      target: connection
+    });
+
+    canvas.addConnection(incommingConnection, parentShape);
+
   }));
 
 
@@ -64,6 +84,19 @@ describe('features/modeling - remove connection', function() {
 
     // then
     expect(connection.parent).not.to.exist;
+  }));
+
+
+  it('should remove Outgoing', inject(function(modeling, elementRegistry) {
+
+    // when
+    modeling.removeConnection(connection);
+
+    // then
+    expect(connection.parent).not.to.exist;
+    expect(incommingConnection.parent).not.to.exist;
+    expect(outgoingConnection.parent).not.to.exist;
+
   }));
 
 
@@ -95,6 +128,20 @@ describe('features/modeling - remove connection', function() {
       expect(connection.parent).to.equal(parentShape);
     }));
 
+
+    it('should revert Incoming/Outgoing', inject(function(modeling, elementRegistry, commandStack) {
+
+      // given
+      modeling.removeConnection(connection);
+
+      // when
+      commandStack.undo();
+
+      // then
+      expect(incommingConnection.parent).to.equal(parentShape);
+      expect(outgoingConnection.parent).to.equal(parentShape);
+
+    }));
 
     it('should restore correct source/target', inject(function(modeling, elementRegistry, commandStack) {
 
