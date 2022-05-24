@@ -12,7 +12,7 @@ describe('features/modeling - #removeElements', function() {
   beforeEach(bootstrapDiagram({ modules: [ modelingModule ] }));
 
 
-  var rootShape, parentShape, childShape, childShape2, connection;
+  var rootShape, parentShape, childShape, childShape2, connection, connection2;
 
   beforeEach(inject(function(elementFactory, canvas, elementRegistry) {
 
@@ -51,6 +51,15 @@ describe('features/modeling - #removeElements', function() {
     });
 
     canvas.addConnection(connection, parentShape);
+
+    connection2 = elementFactory.createConnection({
+      id: 'connection2',
+      waypoints: [ { x: 150, y: 175 }, { x: 200, y: 160 } ],
+      source: connection,
+      target: childShape2
+    });
+
+    canvas.addConnection(connection2, parentShape);
   }));
 
 
@@ -59,19 +68,20 @@ describe('features/modeling - #removeElements', function() {
     it('should execute', inject(function(modeling, elementRegistry) {
 
       // when
-      modeling.removeElements([ connection, childShape, parentShape ]);
+      modeling.removeElements([ connection, connection2, childShape, parentShape ]);
 
       // then
       expect(elementRegistry.get(connection.id)).to.be.undefined;
       expect(elementRegistry.get(childShape.id)).to.be.undefined;
       expect(elementRegistry.get(parentShape.id)).to.be.undefined;
+      expect(elementRegistry.get(connection2.id)).to.be.undefined;
     }));
 
 
     it('should revert', inject(function(modeling, elementRegistry, commandStack) {
 
       // given
-      modeling.removeElements([ connection, childShape, parentShape ]);
+      modeling.removeElements([ connection, connection2, childShape, parentShape ]);
 
       // when
       commandStack.undo();
@@ -80,13 +90,14 @@ describe('features/modeling - #removeElements', function() {
       expect(elementRegistry.get(connection.id)).to.exist;
       expect(elementRegistry.get(childShape.id)).to.exist;
       expect(elementRegistry.get(parentShape.id)).to.exist;
+      expect(elementRegistry.get(connection2.id)).to.exist;
     }));
 
 
     it('should redo', inject(function(modeling, elementRegistry, commandStack) {
 
       // given
-      modeling.removeElements([ connection, childShape, parentShape ]);
+      modeling.removeElements([ connection, connection2, childShape, parentShape ]);
 
       // when
       commandStack.undo();
@@ -96,6 +107,7 @@ describe('features/modeling - #removeElements', function() {
       expect(elementRegistry.get(connection.id)).to.be.undefined;
       expect(elementRegistry.get(childShape.id)).to.be.undefined;
       expect(elementRegistry.get(parentShape.id)).to.be.undefined;
+      expect(elementRegistry.get(connection2.id)).to.be.undefined;
     }));
 
   });
