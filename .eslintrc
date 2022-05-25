@@ -2,5 +2,11 @@
   "extends": "plugin:bpmn-io/es6",
   "env": {
     "browser": true
+  },
+  "rules": {
+    "no-restricted-imports": [ "error", {
+      "name": "inherits",
+      "message": "Use inherits-browser instead"
+    } ]
   }
 }
