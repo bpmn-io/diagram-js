@@ -969,8 +969,8 @@ describe('features/context-pad', function() {
             entryBox = entry.getBoundingClientRect();
 
         try {
-          expect(entryBox.width).to.be.gte(imageBox.width);
-          expect(entryBox.height).to.be.gte(imageBox.width);
+          expect(entryBox.width).to.eql(imageBox.width);
+          expect(entryBox.height).to.eql(imageBox.width);
 
           done();
         } catch (error) {
