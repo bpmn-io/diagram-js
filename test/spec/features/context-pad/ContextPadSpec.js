@@ -951,4 +951,65 @@ describe('features/context-pad', function() {
 
   });
 
+
+  describe('icons size', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        contextPadModule,
+        providerModule
+      ]
+    }));
+
+
+    it('should limit image size', function(done) {
+
+      function verify(entry, image) {
+        var imageBox = image.getBoundingClientRect(),
+            entryBox = entry.getBoundingClientRect();
+
+        try {
+          expect(entryBox.width).to.be.gte(imageBox.width);
+          expect(entryBox.height).to.be.gte(imageBox.width);
+
+          done();
+        } catch (error) {
+          done(error);
+        }
+      }
+
+      var test = inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', type: 'bigImage', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        // when
+        contextPad.open(shape);
+
+        // then
+        var pad = contextPad.getPad(shape),
+            padContainer = pad.html;
+
+        var entry = domQuery('[data-action="action.c"]', padContainer),
+            image = domQuery('img', entry);
+
+        if (image.complete) {
+          return verify(entry, image);
+        }
+
+        image.onload = function() {
+          verify(entry, image);
+        };
+
+        image.onerror = function(error) {
+          done(error);
+        };
+      });
+
+      test();
+    });
+  });
+
 });
