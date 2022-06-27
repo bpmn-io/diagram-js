@@ -301,6 +301,18 @@ describe('features/popup', function() {
     }));
 
 
+    it('should add `data-popup` to popup menu container', inject(function(popupMenu) {
+
+      // when
+      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+
+      // then
+      var container = getPopupContainer(popupMenu);
+
+      expect(container.dataset).to.have.property('popup', 'menu');
+    }));
+
+
     it('should throw error when no provider', inject(function(popupMenu) {
 
       // when not registering a provider
@@ -1457,7 +1469,11 @@ function queryEntry(popupMenu, id) {
 }
 
 function queryPopup(popupMenu, selector) {
-  return domQuery(selector, popupMenu._current.container);
+  return domQuery(selector, getPopupContainer(popupMenu));
+}
+
+function getPopupContainer(popupMenu) {
+  return popupMenu._current.container;
 }
 
 function getGroup(popupMenu, groupName) {
