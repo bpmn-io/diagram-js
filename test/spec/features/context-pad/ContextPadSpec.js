@@ -1012,4 +1012,42 @@ describe('features/context-pad', function() {
     });
   });
 
+
+  describe('grouping', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        contextPadModule
+      ]
+    }));
+
+
+    it('should NOT allow XSS via group', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = { id: 's1', type: 'bigImage', width: 100, height: 100, x: 10, y: 10 };
+
+      canvas.addShape(shape);
+      contextPad.registerProvider({
+        getContextPadEntries: function() {
+          return {
+            entry: {
+              group: '"><marquee />',
+              action() {}
+            }
+          };
+        }
+      });
+
+      // when
+      contextPad.open(shape);
+
+      // then
+      var pad = contextPad.getPad(shape),
+          padContainer = pad.html,
+          injected = domQuery('marquee', padContainer);
+
+      expect(injected).not.to.exist;
+    }));
+  });
 });
