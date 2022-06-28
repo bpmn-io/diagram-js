@@ -643,6 +643,51 @@ describe('features/palette', function() {
 
   });
 
+
+  describe('DOM injection', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [ paletteModule ]
+    }));
+
+
+    it('should NOT allow XSS via group name', inject(function(canvas, palette) {
+
+      // given
+      var entries = {
+        'entryA': {
+          group: '"><marquee />'
+        }
+      };
+
+      // when
+      palette.registerProvider(new Provider(entries));
+
+      // then
+      var injected = domQuery('marquee', canvas.getContainer());
+      expect(injected).not.to.exist;
+    }));
+
+
+    it('should NOT allow XSS via imageUrl', inject(function(canvas, palette) {
+
+      // given
+      var entries = {
+        'entryA': {
+          imageUrl: '"><marquee />'
+        }
+      };
+
+      // when
+      palette.registerProvider(new Provider(entries));
+
+      // then
+      var injected = domQuery('marquee', canvas.getContainer());
+      expect(injected).not.to.exist;
+    }));
+
+  });
+
 });
 
 
