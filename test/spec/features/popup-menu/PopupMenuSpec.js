@@ -962,6 +962,31 @@ describe('features/popup', function() {
     }));
 
 
+    it('should NOT allow XSS via imageUrl', inject(function(popupMenu) {
+
+      // given
+      var testMenuProvider = {
+        getHeaderEntries: function() {
+          return [
+            {
+              id: '1',
+              imageUrl: '"><marquee />'
+            }
+          ];
+        },
+        getEntries: function() { return []; }
+      };
+
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+
+      // then
+      var injected = queryPopup(popupMenu, 'marquee');
+
+      expect(injected).not.to.exist;
+    }));
+
+
     it('should add a labeled element to the header section, if specified', inject(
       function(popupMenu) {
 
