@@ -398,6 +398,27 @@ describe('features/popup', function() {
         expect(group1.dataset).to.have.property('group', 'default');
         expect(group1.childNodes).to.have.lengthOf(5);
       }));
+
+
+      it('should NOT allow XSS via group', inject(function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('group-menu', {
+          getEntries: function() {
+            return [
+              { id: 'save', label: 'SAVE', group: '"><marquee />' }
+            ];
+          }
+        });
+
+        // when
+        popupMenu.open({}, 'group-menu' ,{ x: 100, y: 100 });
+
+        // then
+        var injected = queryPopup(popupMenu, 'marquee');
+
+        expect(injected).not.to.exist;
+      }));
     });
 
 
