@@ -6,6 +6,13 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.6.0
+
+* `FEAT`: allow to use groups for popup menu entries ([#653](https://github.com/bpmn-io/diagram-js/pull/653))
+* `FEAT`: set popup menu name via `data-popup` to allow custom styling
+* `FIX`: fix potentially vulnerable code in popup menu, context pad, and palette
+* `FIX`: display popup menu even if cursor position is not passed ([#654](https://github.com/bpmn-io/diagram-js/pull/654))
+
 ## 8.5.0
 
 _Complete rework of outline + drag handles._
