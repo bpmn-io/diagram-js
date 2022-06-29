@@ -261,6 +261,18 @@ describe('features/popup', function() {
     }));
 
 
+    it('should be visible even if no `position.cursor` was passed', inject(function(popupMenu) {
+
+      // when
+      popupMenu.open({}, 'menu' ,{ x: 100, y: 100 });
+
+      var container = popupMenu._current.container;
+
+      // then
+      expect(getComputedStyle(container).visibility).not.to.eql('hidden');
+    }));
+
+
     it('should add entries to menu', inject(function(popupMenu) {
 
       // when
