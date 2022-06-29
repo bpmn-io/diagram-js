@@ -199,7 +199,7 @@ describe('features/distribute-elements', function() {
     }));
 
 
-    it('should align shapes of same size horizontally', inject(function(distributeElements) {
+    it('should align shapes horizontally', inject(function(distributeElements) {
 
       // given
       var elements = [ shape5, shape3, shape1, shape4, shape2, shapeBig ];
@@ -210,10 +210,10 @@ describe('features/distribute-elements', function() {
       expect(shape1.x).to.equal(100);
       expect(shape1.y).to.equal(100);
 
-      expect(shape2.x).to.equal(373);
+      expect(shape2.x).to.equal(400);
       expect(shape2.y).to.equal(100);
 
-      expect(shape3.x).to.equal(373);
+      expect(shape3.x).to.equal(400);
       expect(shape3.y).to.equal(250);
 
       expect(shape4.x).to.equal(650);
@@ -222,12 +222,12 @@ describe('features/distribute-elements', function() {
       expect(shape5.x).to.equal(650);
       expect(shape5.y).to.equal(451);
 
-      expect(shapeBig.x).to.equal(150);
+      expect(shapeBig.x).to.equal(50);
       expect(shapeBig.y).to.equal(400);
     }));
 
 
-    it('should align shapes of same size vertically', inject(function(distributeElements) {
+    it('should align shapes vertically', inject(function(distributeElements) {
 
       // given
       var elements = [ shape5, shape3, shape1, shape4, shape2, shapeBig ];
@@ -242,16 +242,16 @@ describe('features/distribute-elements', function() {
       expect(shape2.y).to.equal(100);
 
       expect(shape3.x).to.equal(325);
-      expect(shape3.y).to.equal(219);
+      expect(shape3.y).to.equal(250);
 
       expect(shape4.x).to.equal(600);
-      expect(shape4.y).to.equal(338);
+      expect(shape4.y).to.equal(350);
 
       expect(shape5.x).to.equal(650);
       expect(shape5.y).to.equal(451);
 
       expect(shapeBig.x).to.equal(150);
-      expect(shapeBig.y).to.equal(400);
+      expect(shapeBig.y).to.equal(300);
     }));
 
   });
