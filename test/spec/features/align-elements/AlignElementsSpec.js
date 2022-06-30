@@ -6,6 +6,7 @@ import {
 
 import alignElementsModule from 'lib/features/align-elements';
 import modelingModule from 'lib/features/modeling';
+import testRules from './rules';
 
 
 describe('features/align-elements', function() {
@@ -60,46 +61,52 @@ describe('features/align-elements', function() {
 
   describe('integration', function() {
 
+    function createShapes() {
+      inject(function(elementFactory, canvas) {
+
+        rootShape = elementFactory.createRoot({
+          id: 'root'
+        });
+
+        canvas.setRootElement(rootShape);
+
+        shape1 = elementFactory.createShape({
+          id: 's1',
+          x: 50, y: 100, width: 100, height: 100
+        });
+
+        canvas.addShape(shape1, rootShape);
+
+        shape2 = elementFactory.createShape({
+          id: 's2',
+          x: 200, y: 250, width: 100, height: 100
+        });
+
+        canvas.addShape(shape2, rootShape);
+
+        shape3 = elementFactory.createShape({
+          id: 's3',
+          x: 800, y: 550, width: 100, height: 100
+        });
+
+        canvas.addShape(shape3, rootShape);
+
+        shapeBig = elementFactory.createShape({
+          id: 'sBig',
+          x: 400, y: 450, width: 300, height: 300
+        });
+
+        canvas.addShape(shapeBig, rootShape);
+
+        elements = [ shape1, shape2, shapeBig ];
+      })();
+    }
+
     var rootShape, shape1, shape2, shape3, shapeBig, elements;
 
-    beforeEach(inject(function(elementFactory, canvas) {
-
-      rootShape = elementFactory.createRoot({
-        id: 'root'
-      });
-
-      canvas.setRootElement(rootShape);
-
-      shape1 = elementFactory.createShape({
-        id: 's1',
-        x: 50, y: 100, width: 100, height: 100
-      });
-
-      canvas.addShape(shape1, rootShape);
-
-      shape2 = elementFactory.createShape({
-        id: 's2',
-        x: 200, y: 250, width: 100, height: 100
-      });
-
-      canvas.addShape(shape2, rootShape);
-
-      shape3 = elementFactory.createShape({
-        id: 's3',
-        x: 800, y: 550, width: 100, height: 100
-      });
-
-      canvas.addShape(shape3, rootShape);
-
-      shapeBig = elementFactory.createShape({
-        id: 'sBig',
-        x: 400, y: 450, width: 300, height: 300
-      });
-
-      canvas.addShape(shapeBig, rootShape);
-
-      elements = [ shape1, shape2, shapeBig ];
-    }));
+    beforeEach(function() {
+      createShapes();
+    });
 
 
     it('should align to the "left"', inject(function(alignElements) {
@@ -191,6 +198,33 @@ describe('features/align-elements', function() {
       }
     ));
 
+
+    describe('rules', function() {
+
+      beforeEach(bootstrapDiagram({
+        modules: [ alignElementsModule, modelingModule, testRules ]
+      }));
+
+
+      beforeEach(function() {
+        createShapes();
+      });
+
+
+      it('should respect rules', inject(function(alignElements, eventBus) {
+
+        // given
+        var changedSpy = sinon.spy();
+
+        eventBus.once('commandStack.changed', changedSpy);
+
+        // when
+        alignElements.trigger(elements, 'left');
+
+        // then
+        expect(changedSpy).not.to.have.been.called;
+      }));
+    });
   });
 
 });
