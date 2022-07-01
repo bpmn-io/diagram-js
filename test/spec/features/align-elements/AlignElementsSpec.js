@@ -3,6 +3,7 @@ import {
   inject
 } from 'test/TestHelper';
 
+import { sortBy } from 'min-dash';
 
 import alignElementsModule from 'lib/features/align-elements';
 import modelingModule from 'lib/features/modeling';
@@ -211,12 +212,16 @@ describe('features/align-elements', function() {
       });
 
 
-      it('should respect rules', inject(function(alignElements, eventBus) {
+      it('should respect rules (false)', inject(function(alignElements, eventBus, testRules) {
 
         // given
         var changedSpy = sinon.spy();
 
-        eventBus.once('commandStack.changed', changedSpy);
+        eventBus.once('elements.changed', function(_, context) {
+          changedSpy(context.elements);
+        });
+
+        testRules.setResult(false);
 
         // when
         alignElements.trigger(elements, 'left');
@@ -224,7 +229,54 @@ describe('features/align-elements', function() {
         // then
         expect(changedSpy).not.to.have.been.called;
       }));
+
+
+      it('should respect rules (true)', inject(function(alignElements, eventBus, testRules) {
+
+        // given
+        var changedSpy = sinon.spy();
+
+        eventBus.once('elements.changed', function(_, context) {
+          changedSpy(context.elements);
+        });
+
+        testRules.setResult(true);
+
+        // when
+        alignElements.trigger(elements, 'left');
+
+        // then
+        expect(changedSpy).to.have.been.calledOnce;
+        expectSameElements(changedSpy.firstCall.args[0], elements);
+      }));
+
+
+      it('should respect rules (array)', inject(function(alignElements, eventBus, testRules) {
+
+        // given
+        var changedSpy = sinon.spy();
+
+        eventBus.once('elements.changed', function(_, context) {
+          changedSpy(context.elements);
+        });
+
+        testRules.setResult([ shape1, shape2 ]);
+
+        // when
+        alignElements.trigger(elements, 'left');
+
+        // then
+        expect(changedSpy).to.have.been.calledOnce;
+        expectSameElements(changedSpy.firstCall.args[0], [ shape1, shape2 ]);
+      }));
     });
   });
 
 });
+
+
+
+// helper //////////////////////////////////////////////////////////////////////
+function expectSameElements(arr1, arr2) {
+  expect(sortBy(arr1, 'id')).to.eql(sortBy(arr2, 'id'));
+}
