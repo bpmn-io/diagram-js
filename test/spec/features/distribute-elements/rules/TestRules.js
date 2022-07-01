@@ -14,7 +14,7 @@ inherits(TestRules, RuleProvider);
 TestRules.prototype.init = function() {
   var self = this;
 
-  this.addRule('elements.align', function(context) {
+  this.addRule('elements.distribute', function(context) {
     return self._result;
   });
 };

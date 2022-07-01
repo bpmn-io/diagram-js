@@ -3,10 +3,11 @@ import {
   inject
 } from 'test/TestHelper';
 
-import { forEach } from 'min-dash';
+import { forEach, sortBy } from 'min-dash';
 
 import distributeElementsModule from 'lib/features/distribute-elements';
 import modelingModule from 'lib/features/modeling';
+import testRules from './rules';
 
 
 function expectRanges(rangeGroups, expectedRanges) {
@@ -147,56 +148,63 @@ describe('features/distribute-elements', function() {
   describe('integration', function() {
     var rootShape, shape1, shape2, shape3, shape4, shape5, shapeBig;
 
-    beforeEach(inject(function(elementFactory, canvas) {
+    function createShapes() {
+      inject(function(elementFactory, canvas) {
 
-      rootShape = elementFactory.createRoot({
-        id: 'root'
-      });
+        rootShape = elementFactory.createRoot({
+          id: 'root'
+        });
 
-      canvas.setRootElement(rootShape);
+        canvas.setRootElement(rootShape);
 
-      shape1 = elementFactory.createShape({
-        id: 's1',
-        x: 100, y: 100, width: 100, height: 100
-      });
+        shape1 = elementFactory.createShape({
+          id: 's1',
+          x: 100, y: 100, width: 100, height: 100
+        });
 
-      canvas.addShape(shape1, rootShape);
+        canvas.addShape(shape1, rootShape);
 
-      shape2 = elementFactory.createShape({
-        id: 's2',
-        x: 250, y: 100, width: 100, height: 100
-      });
+        shape2 = elementFactory.createShape({
+          id: 's2',
+          x: 250, y: 100, width: 100, height: 100
+        });
 
-      canvas.addShape(shape2, rootShape);
+        canvas.addShape(shape2, rootShape);
 
-      shape3 = elementFactory.createShape({
-        id: 's3',
-        x: 325, y: 250, width: 100, height: 100
-      });
+        shape3 = elementFactory.createShape({
+          id: 's3',
+          x: 325, y: 250, width: 100, height: 100
+        });
 
-      canvas.addShape(shape3, rootShape);
+        canvas.addShape(shape3, rootShape);
 
-      shape4 = elementFactory.createShape({
-        id: 's4',
-        x: 600, y: 350, width: 100, height: 100
-      });
+        shape4 = elementFactory.createShape({
+          id: 's4',
+          x: 600, y: 350, width: 100, height: 100
+        });
 
-      canvas.addShape(shape4, rootShape);
+        canvas.addShape(shape4, rootShape);
 
-      shape5 = elementFactory.createShape({
-        id: 's5',
-        x: 650, y: 451, width: 100, height: 100
-      });
+        shape5 = elementFactory.createShape({
+          id: 's5',
+          x: 650, y: 451, width: 100, height: 100
+        });
 
-      canvas.addShape(shape5, rootShape);
+        canvas.addShape(shape5, rootShape);
 
-      shapeBig = elementFactory.createShape({
-        id: 'sBig',
-        x: 150, y: 400, width: 200, height: 200
-      });
+        shapeBig = elementFactory.createShape({
+          id: 'sBig',
+          x: 150, y: 400, width: 200, height: 200
+        });
 
-      canvas.addShape(shapeBig, rootShape);
-    }));
+        canvas.addShape(shapeBig, rootShape);
+      })();
+    }
+
+
+    beforeEach(function() {
+      createShapes();
+    });
 
 
     it('should align shapes horizontally', inject(function(distributeElements) {
@@ -254,6 +262,88 @@ describe('features/distribute-elements', function() {
       expect(shapeBig.y).to.equal(300);
     }));
 
+
+    describe('rules', function() {
+
+      var elements;
+
+      beforeEach(bootstrapDiagram({
+        modules: [ distributeElementsModule, modelingModule, testRules ]
+      }));
+
+
+      beforeEach(function() {
+        createShapes();
+
+        elements = [ shape5, shape3, shape1, shape4, shape2, shapeBig ];
+      });
+
+
+      it('should respect rules (false)', inject(function(distributeElements, eventBus,testRules) {
+
+        // given
+        var changedSpy = sinon.spy();
+
+        eventBus.once('commandStack.changed', function(_, context) {
+          changedSpy(context.elements);
+        });
+
+        testRules.setResult(false);
+
+        // when
+        distributeElements.trigger(elements, 'horizontal');
+
+        // then
+        expect(changedSpy).not.to.have.been.called;
+      }));
+
+
+      it('should respect rules (true)', inject(function(distributeElements, eventBus, testRules) {
+
+        // given
+        var changedSpy = sinon.spy();
+
+        eventBus.once('elements.changed', function(_, context) {
+          changedSpy(context.elements);
+        });
+
+        testRules.setResult(true);
+
+        // when
+        distributeElements.trigger(elements, 'horizontal');
+
+        // then
+        expect(changedSpy).to.have.been.calledOnce;
+        expectSameElements(changedSpy.firstCall.args[0], [ shape2, shape3, shape4, shapeBig ]);
+      }));
+
+
+      it('should respect rules (array)', inject(function(distributeElements, eventBus, testRules) {
+
+        // given
+        var changedSpy = sinon.spy();
+
+        eventBus.once('elements.changed', function(_, context) {
+          changedSpy(context.elements);
+        });
+
+        testRules.setResult([ shape1, shape2, shape5 ]);
+
+        // when
+        distributeElements.trigger(elements, 'horizontal');
+
+        // then
+        expect(changedSpy).to.have.been.calledOnce;
+        expectSameElements(changedSpy.firstCall.args[0], [ shape2 ]);
+      }));
+    });
   });
 
 });
+
+
+
+// helper //////////////////////////////////////////////////////////////////////
+function expectSameElements(arr1, arr2) {
+  expect(sortBy(arr1, 'id')).to.eql(sortBy(arr2, 'id'));
+}
