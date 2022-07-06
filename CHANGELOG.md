@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.7.0
+
+* `FEAT`: use rules to determine which elements should be aligned and distributed ([#656](https://github.com/bpmn-io/diagram-js/pull/656))
+* `FIX`: distribute elements regardless their relative size ([#656](https://github.com/bpmn-io/diagram-js/pull/656))
+
 ## 8.6.0
 
 * `FEAT`: allow to use groups for popup menu entries ([#653](https://github.com/bpmn-io/diagram-js/pull/653))
