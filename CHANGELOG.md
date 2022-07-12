@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.7.1
+
+* `FIX`: correct helper SVG styling ([#657](https://github.com/bpmn-io/diagram-js/pull/657))
+
 ## 8.7.0
 
 * `FEAT`: use rules to determine which elements should be aligned and distributed ([#656](https://github.com/bpmn-io/diagram-js/pull/656))
