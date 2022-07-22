@@ -984,3 +984,13 @@ marker.djs-dragger tspan {
 .djs-element .djs-hit-all {
   cursor: move;
 }
+
+/* overlays */
+.djs-overlays .djs-overlays-relative {
+  display: flex;
+  flex-direction: row;
+}
+
+.djs-overlays .djs-overlays-relative .djs-overlay {
+  margin: 2px;
+}
