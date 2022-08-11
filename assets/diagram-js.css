@@ -30,6 +30,7 @@
   --color-black: hsl(0, 0%, 0%);
   --color-black-opacity-10: hsla(0, 0%, 0%, 10%);
 
+  --canvas-focus-box-shadow-color: var(--color-blue-205-100-50);
   --canvas-fill-color: var(--color-white);
 
   --bendpoint-fill-color: var(--color-blue-205-100-45);
@@ -89,6 +90,23 @@
 }
 
 /**
+ * SVG styles
+ */
+
+.djs-container svg:focus {
+  box-shadow: inset 0px 0px 0px 1px var(--canvas-focus-box-shadow-color);
+  outline: none;
+}
+
+.djs-container svg.drop-not-ok {
+  background: var(--shape-drop-not-allowed-fill-color) !important;
+}
+
+.djs-container svg.new-parent {
+  background: var(--shape-drop-allowed-fill-color) !important;
+}
+
+/**
  * outline styles
  */
 
@@ -128,14 +146,6 @@
 
 .djs-shape.new-parent .djs-visual > :nth-child(1) {
   fill: var(--shape-drop-allowed-fill-color) !important;
-}
-
-svg.drop-not-ok {
-  background: var(--shape-drop-not-allowed-fill-color) !important;
-}
-
-svg.new-parent {
-  background: var(--shape-drop-allowed-fill-color) !important;
 }
 
 
