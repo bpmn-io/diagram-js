@@ -4,6 +4,8 @@ import {
 } from 'test/TestHelper';
 
 import editorActionsModule from 'lib/features/editor-actions';
+import copyPasteModule from 'lib/features/copy-paste';
+import selectionModule from 'lib/features/selection';
 import keyboardMoveModule from 'lib/navigation/keyboard-move';
 import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
 import modelingModule from 'lib/features/modeling';
@@ -204,42 +206,88 @@ describe('features/editor-actions', function() {
 
   });
 
+});
 
-  describe('actions', function() {
 
-    describe('removeSelection', function() {
+describe('feature/editor-actions - actions', function() {
 
-      var selectedElements,
-          removeElements;
+  describe('removeSelection', function() {
 
-      beforeEach(inject(function(selection, modeling) {
-        selectedElements = [];
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        modelingModule,
+        customRulesModule
+      ]
+    }));
 
-        sinon.stub(selection, 'get').callsFake(function() {
-          return selectedElements;
+
+    var selectedElements,
+        removeElements;
+
+    beforeEach(inject(function(selection, modeling) {
+      selectedElements = [];
+
+      sinon.stub(selection, 'get').callsFake(function() {
+        return selectedElements;
+      });
+
+      removeElements = sinon.spy(modeling, 'removeElements');
+    }));
+
+
+    it('should call modeling.removeElements with selected elements', inject(function(editorActions) {
+      selectedElements = [ 'any' ];
+
+      // when
+      editorActions.trigger('removeSelection');
+
+      // then
+      expect(removeElements).to.have.been.calledOnce;
+      expect(removeElements).to.have.been.calledWith(selectedElements);
+
+      // pass shallow copy of selection
+      expect(removeElements.getCall(0).args[0]).not.to.equal(selectedElements);
+    }));
+
+
+    it('should NOT call modeling.removeElements when no element is selected', inject(function(editorActions) {
+      selectedElements = [];
+
+      // when
+      editorActions.trigger('removeSelection');
+
+      // then
+      expect(removeElements).not.to.have.been.called;
+    }));
+
+
+    describe('with rules', function() {
+
+      var RULE_NAME = 'elements.delete';
+
+      it('should remove all when rule returns true', inject(function(editorActions, customRules) {
+        selectedElements = [ 'a', 'b', 'c' ];
+
+        customRules.addRule(RULE_NAME, function(context) {
+          return true;
         });
-
-        removeElements = sinon.spy(modeling, 'removeElements');
-      }));
-
-
-      it('should call modeling.removeElements with selected elements', inject(function(editorActions) {
-        selectedElements = [ 'any' ];
 
         // when
         editorActions.trigger('removeSelection');
 
         // then
         expect(removeElements).to.have.been.calledOnce;
-        expect(removeElements).to.have.been.calledWith(selectedElements);
-
-        // pass shalow copy of selection
-        expect(removeElements.getCall(0).args[0]).not.to.equal(selectedElements);
+        expect(removeElements).to.have.been.calledWith([ 'a', 'b', 'c' ]);
       }));
 
 
-      it('should NOT call modeling.removeElements when no element is selected', inject(function(editorActions) {
-        selectedElements = [];
+      it('should not remove anything when rule returns true', inject(function(editorActions, customRules) {
+        selectedElements = [ 'a', 'b', 'c' ];
+
+        customRules.addRule(RULE_NAME, function(context) {
+          return false;
+        });
 
         // when
         editorActions.trigger('removeSelection');
@@ -249,84 +297,43 @@ describe('features/editor-actions', function() {
       }));
 
 
-      describe('with rules', function() {
+      it('should only remove items returned by rule', inject(function(editorActions, customRules) {
+        selectedElements = [ 'a', 'b', 'c' ];
 
-        var RULE_NAME = 'elements.delete';
+        customRules.addRule(RULE_NAME, function(context) {
+          return [ 'a', 'c' ];
+        });
 
-        it('should remove all when rule returns true', inject(function(editorActions, customRules) {
-          selectedElements = [ 'a', 'b', 'c' ];
+        // when
+        editorActions.trigger('removeSelection');
 
-          customRules.addRule(RULE_NAME, function(context) {
-            return true;
-          });
-
-          // when
-          editorActions.trigger('removeSelection');
-
-          // then
-          expect(removeElements).to.have.been.calledOnce;
-          expect(removeElements).to.have.been.calledWith([ 'a', 'b', 'c' ]);
-        }));
+        // then
+        expect(removeElements).to.have.been.calledOnce;
+        expect(removeElements).to.have.been.calledWith([ 'a', 'c' ]);
+      }));
 
 
-        it('should not remove anything when rule returns true', inject(function(editorActions, customRules) {
-          selectedElements = [ 'a', 'b', 'c' ];
+      it('should call rule with .elements property', inject(function(editorActions, customRules) {
+        selectedElements = [ 'a', 'b', 'c' ];
 
-          customRules.addRule(RULE_NAME, function(context) {
-            return false;
-          });
+        var ruleFn = sinon.spy(function(context) {
+          return true;
+        });
 
-          // when
-          editorActions.trigger('removeSelection');
+        customRules.addRule(RULE_NAME, ruleFn);
 
-          // then
-          expect(removeElements).not.to.have.been.called;
-        }));
+        // when
+        editorActions.trigger('removeSelection');
 
-
-        it('should only remove items returned by rule', inject(function(editorActions, customRules) {
-          selectedElements = [ 'a', 'b', 'c' ];
-
-          customRules.addRule(RULE_NAME, function(context) {
-            return [ 'a', 'c' ];
-          });
-
-          // when
-          editorActions.trigger('removeSelection');
-
-          // then
-          expect(removeElements).to.have.been.calledOnce;
-          expect(removeElements).to.have.been.calledWith([ 'a', 'c' ]);
-        }));
-
-
-        it('should call rule with .elements property', inject(function(editorActions, customRules) {
-          selectedElements = [ 'a', 'b', 'c' ];
-
-          var ruleFn = sinon.spy(function(context) {
-            return true;
-          });
-
-          customRules.addRule(RULE_NAME, ruleFn);
-
-          // when
-          editorActions.trigger('removeSelection');
-
-          // then
-          expect(ruleFn).to.have.been.calledOnce;
-          expect(ruleFn).to.have.been.calledWith({ elements: [ 'a', 'b', 'c' ] });
-        }));
-
-      });
+        // then
+        expect(ruleFn).to.have.been.calledOnce;
+        expect(ruleFn).to.have.been.calledWith({ elements: [ 'a', 'b', 'c' ] });
+      }));
 
     });
 
   });
 
-});
-
-
-describe('feature/editor-actions - actions', function() {
 
   describe('moveSelection', function() {
 
@@ -379,6 +386,66 @@ describe('feature/editor-actions - actions', function() {
 
       // then
       expect(moveSpy).to.have.been.calledOnce;
+    }));
+
+  });
+
+
+  describe('copy + paste', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        copyPasteModule,
+        selectionModule,
+        modelingModule
+      ]
+    }));
+
+
+    var root, shape;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      root = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(root);
+
+      shape = elementFactory.createShape({
+        id: 'shape',
+        x: 100, y: 100,
+        width: 300, height: 300
+      });
+
+      canvas.addShape(shape, root);
+    }));
+
+
+    it('should copy non empty', inject(function(selection, clipboard, editorActions) {
+
+      // given
+      selection.select(shape);
+
+      // when
+      var copied = editorActions.trigger('copy');
+
+      // then
+      expect(copied).to.exist;
+      expect(copied).to.equal(clipboard.get());
+    }));
+
+
+    it('should not copy empty', inject(function(selection, editorActions) {
+
+      // assume
+      expect(selection.get()).to.be.empty;
+
+      // when
+      var copied = editorActions.trigger('copy');
+
+      // then
+      expect(copied).not.to.exist;
     }));
 
   });
