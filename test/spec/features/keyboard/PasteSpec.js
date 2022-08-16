@@ -14,7 +14,7 @@ import editorActionsModule from 'lib/features/editor-actions';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-import { KEYS_PASTE } from 'lib/features/keyboard/KeyboardBindings';
+var KEYS_PASTE = [ 'v', 'V', 86 ];
 
 
 describe('features/keyboard - paste', function() {
