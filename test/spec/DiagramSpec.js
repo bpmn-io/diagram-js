@@ -45,6 +45,20 @@ describe('Diagram', function() {
     });
 
 
+    it('should throw inspectable errors', function() {
+
+      expect(function() {
+        new Diagram({
+          modules: {
+            __init__: [
+              function(foo) {}
+            ]
+          }
+        });
+      }).to.throw(/No provider for "foo"!/);
+    });
+
+
     describe('should expose diagram services', function() {
 
 
