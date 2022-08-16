@@ -94,7 +94,7 @@
  */
 
 .djs-container svg:focus {
-  box-shadow: inset 0px 0px 0px 1px var(--canvas-focus-box-shadow-color);
+  box-shadow: inset 0px 0px 0px 5px var(--canvas-focus-box-shadow-color);
   outline: none;
 }
 
