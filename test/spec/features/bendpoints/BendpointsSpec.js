@@ -592,14 +592,16 @@ describe('features/bendpoints', function() {
 
         var bendpointContainer = domQuery('.djs-bendpoints', layer),
             draggerGfx = bendpoints.getSegmentDragger(1, bendpointContainer),
-            draggerVisual = getVisual(draggerGfx),
-            oldBounds = draggerVisual.getBoundingClientRect();
+            draggerVisual = getVisual(draggerGfx);
 
         // when
         eventBus.fire('element.hover', {
           element: connection,
           gfx: elementRegistry.getGraphics(connection)
         });
+
+        var oldBounds = draggerVisual.getBoundingClientRect();
+
         eventBus.fire('element.mousemove', {
           element: connection,
           originalEvent: canvasEvent({ x: 250, y: 250 })
