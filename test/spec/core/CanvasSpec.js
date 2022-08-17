@@ -74,6 +74,97 @@ describe('Canvas', function() {
   });
 
 
+  describe('focus handling', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(createDiagram());
+
+
+    it('should be focusable', function() {
+
+      // given
+      var svg = container.querySelector('svg');
+
+      // when
+      svg.focus();
+
+      // then
+      expect(document.activeElement).to.equal(svg);
+    });
+
+
+    describe('<hover>', function() {
+
+      beforeEach(function() {
+        document.body.focus();
+      });
+
+
+      it('should focus if body is focused', inject(function(canvas, eventBus) {
+
+        // given
+        var svg = container.querySelector('svg');
+
+        // when
+        eventBus.fire('element.hover', {
+          element: canvas.getRootElement(),
+          gfx: svg
+        });
+
+        // then
+        expect(document.activeElement).to.equal(svg);
+      }));
+
+
+      (isPhantomJS() ? it.skip : it)('should not scroll on focus', inject(function(canvas, eventBus) {
+
+        // given
+        var svg = container.querySelector('svg');
+
+        var clientRect = svg.getBoundingClientRect();
+
+        // when
+        eventBus.fire('element.hover', {
+          element: canvas.getRootElement(),
+          gfx: svg
+        });
+
+        // then
+        expect(clientRect).to.eql(svg.getBoundingClientRect());
+      }));
+
+
+      it('should not focus on existing document focus', inject(function(canvas, eventBus) {
+
+        // given
+        var inputEl = document.createElement('input');
+
+        document.body.appendChild(inputEl);
+        inputEl.focus();
+
+        // assume
+        expect(document.activeElement).to.equal(inputEl);
+
+        var svg = container.querySelector('svg');
+
+        // when
+        eventBus.fire('element.hover', {
+          element: canvas.getRootElement(),
+          gfx: svg
+        });
+
+        // then
+        expect(document.activeElement).to.eql(inputEl);
+      }));
+
+    });
+
+  });
+
+
   describe('events', function() {
 
     beforeEach(function() {
@@ -2642,4 +2733,9 @@ function expectChildren(parent, children) {
     expect(existingChildrenGfx).to.eql(expectedChildrenGfx);
   });
 
+}
+
+
+function isPhantomJS() {
+  return /PhantomJS/.test(window.navigator.userAgent);
 }
