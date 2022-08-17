@@ -10,6 +10,10 @@ _**Note:** Yet to be released changes appear here._
 
 * `FEAT`: provide keyboard event testing utilities ([#664](https://github.com/bpmn-io/diagram-js/pull/664))
 
+## 7.9.0
+
+* `FEAT`: provide keyboard event testing utilities ([#663](https://github.com/bpmn-io/diagram-js/pull/663))
+
 ## 8.7.1
 
 * `FIX`: correct helper SVG styling ([#657](https://github.com/bpmn-io/diagram-js/pull/657))
