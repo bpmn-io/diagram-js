@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 7.9.0
+
+* `FEAT`: provide keyboard event testing utilities ([#663](https://github.com/bpmn-io/diagram-js/pull/663))
+
 ## 7.8.3
 
 * `FIX`: make context pad robust in `line-height != 1` environments ([#631](https://github.com/bpmn-io/diagram-js/pull/631))
