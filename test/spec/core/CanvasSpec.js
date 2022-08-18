@@ -47,18 +47,12 @@ describe('Canvas', function() {
 
     beforeEach(createDiagram());
 
-
     it('should create <svg> element', inject(function() {
 
-      // when
+      // then
       var svg = container.querySelector('svg');
 
-      // then
-      // svg is created
-      expect(svg).to.exist;
-
-      // and user selectable
-      expect(svgAttr(svg, 'tabindex')).to.equal('0');
+      expect(svg).not.to.be.null;
     }));
 
   });
