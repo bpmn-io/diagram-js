@@ -4,7 +4,6 @@
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "main": "index.js",
   "files": [
-    ".babelrc",
     "lib",
     "assets",
     "test/util",
