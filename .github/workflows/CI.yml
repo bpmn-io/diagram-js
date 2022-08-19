@@ -28,9 +28,20 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Build
+      if: matrix.os == 'ubuntu-latest'
+      env:
+        COVERAGE: 1
+        TEST_BROWSERS: Firefox,ChromeHeadless
+      run: xvfb-run npm run all
+    - name: Build
+      if: matrix.os == 'windows-latest'
       env:
         TEST_BROWSERS: ChromeHeadless
-        COVERAGE: 1
+    - name: Build
+      if: matrix.os == 'macos-latest'
+      env:
+        TEST_BROWSERS: Safari,ChromeHeadless
       run: npm run all
     - name: Upload coverage
+      if: matrix.os == 'ubuntu-latest'
       uses: codecov/codecov-action@v2
