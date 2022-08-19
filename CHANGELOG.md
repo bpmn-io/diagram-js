@@ -6,6 +6,13 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 8.9.0
+
+* `FEAT`: expose result of editor action execution ([#660](https://github.com/bpmn-io/diagram-js/pull/660))
+* `FEAT`: only copy if selected elements ([#660](https://github.com/bpmn-io/diagram-js/pull/660))
+* `FIX`: restore logging of initialization errors
+* `DEPS`: update to `didi@8.0.1`
+
 ## 8.8.0
 
 * `FEAT`: provide keyboard event testing utilities ([#664](https://github.com/bpmn-io/diagram-js/pull/664))
