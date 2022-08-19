@@ -66,12 +66,19 @@ module.exports = function(karma) {
         ].concat(
           coverage ? {
             test: /\.js$/,
+            exclude: /node_modules/,
             use: {
-              loader: 'istanbul-instrumenter-loader',
-              options: { esModules: true }
-            },
-            include: /lib\.*/,
-            exclude: /node_modules/
+              loader: 'babel-loader',
+              options: {
+                plugins: [
+                  [ 'istanbul', {
+                    include: [
+                      'lib/**'
+                    ]
+                  } ]
+                ],
+              }
+            }
           } : []
         )
       },
