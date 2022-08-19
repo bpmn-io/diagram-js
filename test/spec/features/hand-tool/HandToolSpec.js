@@ -194,7 +194,7 @@ function mouseDownEvent(element, data) {
     return eventBus.createEvent({
       type: 'element.mousedown',
       element: element,
-      originalEvent: assign({ button: 0 }, data || {})
+      originalEvent: assign({ button: 0, clientX: 0, clientY: 0 }, data || { })
     });
   });
 }
