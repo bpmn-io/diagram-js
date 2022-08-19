@@ -28,8 +28,8 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Build
-      env: 
-        TEST_BROWSERS: ChromeHeadless,PhantomJS
+      env:
+        TEST_BROWSERS: ChromeHeadless
         COVERAGE: 1
       run: npm run all
     - name: Upload coverage
