@@ -1148,10 +1148,12 @@ describe('features/popup', function() {
       // given
       var clientRect = canvas._container.getBoundingClientRect();
 
-      var cursorPosition = { x: clientRect.left + 100, y: clientRect.top + 500 };
+      var y = clientRect.height - 40;
+
+      var cursorPosition = { x: clientRect.left + 100, y: clientRect.top + y };
 
       // when
-      popupMenu.open({}, 'custom-provider', { x: 100, y: 500, cursor: cursorPosition });
+      popupMenu.open({}, 'custom-provider', { x: 100, y: y, cursor: cursorPosition });
 
       var menu = popupMenu._current.container;
 
@@ -1161,7 +1163,7 @@ describe('features/popup', function() {
       };
 
       // then
-      expect(menu.offsetTop).to.equal(500 - menuDimensions.height);
+      expect(menu.offsetTop).to.be.closeTo(y - menuDimensions.height, 1);
     }));
 
 
