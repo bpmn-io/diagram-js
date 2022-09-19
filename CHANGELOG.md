@@ -12,7 +12,7 @@ _**Note:** Yet to be released changes appear here._
 
 ### Breaking Changes
 
-* Migrated to ES2018 syntax. [Read the blog post with details and a migration guide](https://bpmn.io/blog/posts/2022-core-libraries-migrated-to-es2018.html).
+* Migrated to ES2018 syntax. [Read the blog post with details and a migration guide](https://bpmn.io/blog/posts/2022-migration-to-es2018.html).
 
 ## 8.9.0
 
