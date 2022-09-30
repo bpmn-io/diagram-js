@@ -70,11 +70,11 @@
     "css.escape": "^1.5.1",
     "didi": "^9.0.0",
     "hammerjs": "^2.0.1",
-    "inherits-browser": "0.0.1",
-    "min-dash": "^3.5.2",
-    "min-dom": "^3.2.0",
+    "inherits-browser": "^0.1.0",
+    "min-dash": "^4.0.0",
+    "min-dom": "^4.0.2",
     "object-refs": "^0.3.0",
     "path-intersection": "^2.2.1",
-    "tiny-svg": "^2.2.2"
+    "tiny-svg": "^3.0.0"
   }
 }
