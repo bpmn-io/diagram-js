@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 9.1.0
+
+* `DEPS`: bump utility dependencies
+
 ## 9.0.0
 
 * `FEAT`: use ES2018 syntax ([#674](https://github.com/bpmn-io/bpmn-js/pull/674))
