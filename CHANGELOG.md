@@ -13,6 +13,7 @@ _**Note:** Yet to be released changes appear here._
 ## 9.0.0
 
 * `FEAT`: use ES2018 syntax ([#674](https://github.com/bpmn-io/bpmn-js/pull/674))
+* `DEPS`: update to `didi@9`
 
 ### Breaking Changes
 
