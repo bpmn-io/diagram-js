@@ -6,6 +6,16 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 10.0.0
+
+* `FIX`: consider moving and non-moving attachers when using space tool ([#480](https://github.com/bpmn-io/diagram-js/pull/480))
+* `FIX`: move external labels with moving shapes/connections ([#480](https://github.com/bpmn-io/diagram-js/pull/480))
+* `FIX`: allow label behavior for laid-out connections ([#480](https://github.com/bpmn-io/diagram-js/pull/480))
+
+### Breaking Changes
+
+* label behavior for laid-out connection is not disallowed anymore
+
 ## 9.1.0
 
 * `DEPS`: bump utility dependencies
