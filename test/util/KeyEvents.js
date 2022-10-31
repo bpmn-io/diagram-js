@@ -1,12 +1,11 @@
 import {
-  assign,
-  isString
+  assign
 } from 'min-dash';
 
 /**
  * Create a fake key event for testing purposes.
  *
- * @param {String|number} key the key or keyCode/charCode
+ * @param {String} key the key or code
  * @param {Object} [attrs]
  * @param {string} [attrs.type]
  *
@@ -17,13 +16,8 @@ export function createKeyEvent(key, attrs) {
     attrs = {};
   }
 
-  var event = document.createEvent('Events') || new document.defaultView.CustomEvent('keyEvent');
-
-  // init and mark as bubbles / cancelable
-  event.initEvent(attrs.type || 'keydown', false, true);
-
-  var keyAttrs = isString(key) ? { key: key } : { keyCode: key, which: key };
-
+  var event = new Event(attrs.type || 'keydown', { bubbles: true, cancelable: true });
+  var keyAttrs = { key: key, code: key };
   delete attrs.type;
 
   return assign(event, keyAttrs, attrs);

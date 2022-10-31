@@ -21,7 +21,7 @@ import { createKeyEvent } from 'test/util/KeyEvents';
 
 describe('features/keyboard', function() {
 
-  var TEST_KEY = 99;
+  var TEST_KEY = 'Numpad3';
 
   var defaultDiagramConfig = {
     modules: [
@@ -442,15 +442,6 @@ describe('features/keyboard', function() {
 // helpers //////////
 
 function dispatchKeyboardEvent(target, type) {
-  var event;
-
-  try {
-    event = new KeyboardEvent(type);
-  } catch (e) {
-    event = document.createEvent('KeyboardEvent');
-
-    event.initEvent(type, true, false);
-  }
-
+  var event = createKeyEvent('Any', { type: type });
   target.dispatchEvent(event);
 }

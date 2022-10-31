@@ -128,7 +128,7 @@ describe('features/hand-tool', function() {
 
       // when
       eventBus.fire('keyboard.keydown', {
-        keyEvent: createKeyEvent(' ')
+        keyEvent: createKeyEvent('Space')
       });
 
       // then
@@ -152,12 +152,12 @@ describe('features/hand-tool', function() {
 
       // given
       eventBus.fire('keyboard.keydown', {
-        keyEvent: createKeyEvent(' ')
+        keyEvent: createKeyEvent('Space')
       });
 
       // when
       eventBus.fire('keyboard.keyup', {
-        keyEvent: createKeyEvent(' ')
+        keyEvent: createKeyEvent('Space')
       });
 
       // then
@@ -169,7 +169,7 @@ describe('features/hand-tool', function() {
 
       // given
       eventBus.fire('keyboard.keydown', {
-        keyEvent: createKeyEvent(' ')
+        keyEvent: createKeyEvent('Space')
       });
 
       // when

@@ -6,9 +6,13 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: drop KeyboardEvent.keyCode in favor of `code` ([#681](https://github.com/bpmn-io/diagram-js/pull/681))
+
 ### Breaking Changes
 * `FEAT`: new popupMenu UI featuring menu and group titles, search, entry descriptions and documentation urls ([#687](https://github.com/bpmn-io/diagram-js/pull/687))
 * `FEAT`: introduction of `.djs-parent` class to canvas and popup menu root ([#687](https://github.com/bpmn-io/diagram-js/pull/687))
+* Keyboard-related features no longer use KeyboardEvent#keyCode.
+  Use a polyfill (e.g. [keyboardevent-key-polyfill](https://www.npmjs.com/package/keyboardevent-key-polyfill) if you need to support old browsers.
 
 
 ## 10.0.0
