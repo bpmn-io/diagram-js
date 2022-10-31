@@ -3,6 +3,10 @@ import {
   inject
 } from 'test/TestHelper';
 
+import {
+  createKeyEvent
+} from 'test/util/KeyEvents';
+
 import searchPadModule from 'lib/features/search-pad';
 import SearchPad from 'lib/features/search-pad/SearchPad';
 
@@ -267,7 +271,7 @@ describe('features/searchPad', function() {
       typeText(input_node, 'two');
 
       // when
-      triggerKeyEvent(input_node, 'keyup', 13);
+      triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
       expect(capturedEvents).to.eql([
@@ -296,7 +300,7 @@ describe('features/searchPad', function() {
       typeText(input_node, 'one');
 
       // when
-      triggerKeyEvent(input_node, 'keyup', 13);
+      triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
       var overlay = overlays.get({ element: element });
@@ -321,7 +325,7 @@ describe('features/searchPad', function() {
       });
 
       // when
-      triggerKeyEvent(input_node, 'keyup', 13);
+      triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
       var newViewbox = canvas.viewbox();
@@ -338,7 +342,7 @@ describe('features/searchPad', function() {
       typeText(input_node, 'one');
 
       // when
-      triggerKeyEvent(input_node, 'keyup', 13);
+      triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
       var newViewbox = canvas.viewbox();
@@ -352,7 +356,7 @@ describe('features/searchPad', function() {
       typeText(input_node, 'one');
 
       // when
-      triggerKeyEvent(input_node, 'keyup', 13);
+      triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
       expect(selection.isSelected(element)).to.be.true;
@@ -362,7 +366,7 @@ describe('features/searchPad', function() {
     it('should close on escape', inject(function(canvas, eventBus, searchPad) {
 
       // when
-      triggerKeyEvent(input_node, 'keyup', 27);
+      triggerKeyEvent(input_node, 'keyup', 'Escape');
 
       // then
       expect(searchPad.isOpen()).to.equal(false);
@@ -377,14 +381,14 @@ describe('features/searchPad', function() {
       var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
 
       // when press 'down'
-      triggerKeyEvent(input_node, 'keyup', 40);
+      triggerKeyEvent(input_node, 'keyup', 'ArrowDown');
 
       // then
       expect(domClasses(result_nodes[0]).has(SearchPad.RESULT_SELECTED_CLASS)).to.be.false;
       expect(domClasses(result_nodes[1]).has(SearchPad.RESULT_SELECTED_CLASS)).to.be.true;
 
       // when press 'up'
-      triggerKeyEvent(input_node, 'keyup', 38);
+      triggerKeyEvent(input_node, 'keyup', 'ArrowUp');
 
       // then
       expect(domClasses(result_nodes[0]).has(SearchPad.RESULT_SELECTED_CLASS)).to.be.true;
@@ -405,7 +409,7 @@ describe('features/searchPad', function() {
       typeText(input_node, 'two');
 
       // when press 'down'
-      var e = triggerKeyEvent(input_node, 'keydown', 40);
+      var e = triggerKeyEvent(input_node, 'keydown', 'ArrowDown');
       expect(e.defaultPrevented).to.be.true;
     }));
 
@@ -416,7 +420,7 @@ describe('features/searchPad', function() {
       typeText(input_node, 'two');
 
       // when press 'up'
-      var e = triggerKeyEvent(input_node, 'keydown', 38);
+      var e = triggerKeyEvent(input_node, 'keydown', 'ArrowUp');
       expect(e.defaultPrevented).to.be.true;
     }));
 
@@ -428,7 +432,7 @@ describe('features/searchPad', function() {
       typeText(input_node, 'two');
 
       // when press 'left'
-      triggerKeyEvent(input_node, 'keyup', 37);
+      triggerKeyEvent(input_node, 'keyup', 'ArrowLeft');
 
       // then
       expect(find).callCount('two'.length);
@@ -442,7 +446,7 @@ describe('features/searchPad', function() {
       typeText(input_node, 'two');
 
       // when press 'right'
-      triggerKeyEvent(input_node, 'keyup', 39);
+      triggerKeyEvent(input_node, 'keyup', 'ArrowRight');
 
       // then
       expect(find).callCount('two'.length);
@@ -453,18 +457,12 @@ describe('features/searchPad', function() {
 });
 
 
-function triggerKeyEvent(element, event, code) {
-  var e = document.createEvent('Events');
+function triggerKeyEvent(element, eventType, code) {
+  var event = createKeyEvent(code, { type: eventType });
 
-  if (e.initEvent) {
-    e.initEvent(event, true, true);
-  }
+  element.dispatchEvent(event);
 
-  e.keyCode = code;
-  e.which = code;
-  element.dispatchEvent(e);
-
-  return e;
+  return event;
 }
 
 
