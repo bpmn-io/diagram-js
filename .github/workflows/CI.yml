@@ -5,7 +5,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        os: [ macos-latest, ubuntu-20.04, windows-latest ]
 
     runs-on: ${{ matrix.os }}
 
@@ -20,16 +20,16 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Build
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-20.04'
       env:
         COVERAGE: 1
         TEST_BROWSERS: Firefox,ChromeHeadless
       run: xvfb-run npm run all
     - name: Build
-      if: matrix.os != 'ubuntu-latest'
+      if: matrix.os != 'ubuntu-20.04'
       env:
         TEST_BROWSERS: ChromeHeadless
       run: npm run all
     - name: Upload coverage
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-20.04'
       uses: codecov/codecov-action@v3
