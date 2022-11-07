@@ -43,7 +43,7 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.18.10",
-    "babel-loader": "^8.2.5",
+    "babel-loader": "^9.0.0",
     "babel-plugin-istanbul": "^6.1.1",
     "chai": "^4.2.0",
     "eslint": "^8.24.0",
