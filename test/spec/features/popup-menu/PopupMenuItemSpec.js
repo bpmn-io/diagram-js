@@ -1,6 +1,11 @@
 import PopupMenuItem from 'lib/features/popup-menu/PopupMenuItem';
-import diagramJSui from '@bpmn-io/diagram-js-ui';
+
 import testEntryIcon from './resources/a.png';
+
+import {
+  html,
+  render
+} from 'lib/ui';
 
 import {
   bootstrapDiagram,
@@ -13,7 +18,7 @@ import {
 } from 'min-dom';
 
 
-describe('<PopupMenuItem>', function() {
+describe('features/popup-menu - <PopupMenuItem>', function() {
   let container;
 
   beforeEach(function() {
@@ -21,36 +26,33 @@ describe('<PopupMenuItem>', function() {
     document.body.appendChild(container);
   });
 
-  beforeEach(bootstrapDiagram({
-    modules: [ diagramJSui ]
-  }));
+  beforeEach(bootstrapDiagram());
 
   afterEach(function() {
     container.parentNode.removeChild(container);
   });
 
 
-  it('should add standard class to entry', inject(function(diagramJSui) {
+  it('should add standard class to entry', inject(function() {
 
     // given
     const entry = { id: '1' };
 
     // when
-    createPopupMenu({ container, entry, diagramJSui });
+    createPopupMenu({ container, entry });
 
     // then
-    expect(domQueryAll('.entry', container).length).to.eql(1);
+    expect(domQueryAll('.entry', container)).to.have.length(1);
   }));
 
 
-  it('should add custom class to entry if specified', inject(function(diagramJSui) {
-
+  it('should add custom class to entry if specified', inject(function() {
 
     // given
     const entry = { id: '1', className: 'entry-1 cls2 cls3' };
 
     // when
-    createPopupMenu({ container, entry, diagramJSui });
+    createPopupMenu({ container, entry });
 
     // then
     var element = domQuery('.entry-1', container);
@@ -58,13 +60,13 @@ describe('<PopupMenuItem>', function() {
   }));
 
 
-  it('should have label if specified', inject(function(diagramJSui) {
+  it('should have label if specified', inject(function() {
 
     // given
     const entry = { id: '1', label: 'Entry 1', className: 'entry-1 cls2 cls3' };
 
     // when
-    createPopupMenu({ container, entry, diagramJSui });
+    createPopupMenu({ container, entry });
 
     // then
     var element = domQuery('.entry-1', container);
@@ -72,13 +74,13 @@ describe('<PopupMenuItem>', function() {
   }));
 
 
-  it('should add action-id to entry', inject(function(diagramJSui) {
+  it('should add action-id to entry', inject(function() {
 
     // given
     const entry = { id: 'undo', label: 'UNDO' };
 
     // when
-    createPopupMenu({ container, entry, diagramJSui });
+    createPopupMenu({ container, entry });
 
     // then
     var entry1 = domQuery('.entry', container);
@@ -87,13 +89,13 @@ describe('<PopupMenuItem>', function() {
   }));
 
 
-  it('should add an image if specified', inject(function(diagramJSui) {
+  it('should add an image if specified', inject(function() {
 
     // given
     const entry = { id: '1', imageUrl: testEntryIcon };
 
     // when
-    createPopupMenu({ container, entry, diagramJSui });
+    createPopupMenu({ container, entry });
 
     // then
     var img = domQuery('[data-id="1"] img', container);
@@ -103,13 +105,13 @@ describe('<PopupMenuItem>', function() {
   }));
 
 
-  it('should add description if specified', inject(function(diagramJSui) {
+  it('should add description if specified', inject(function() {
 
     // given
     const entry = { id: '1', description: 'entry 1 description' };
 
     // when
-    createPopupMenu({ container, entry, diagramJSui });
+    createPopupMenu({ container, entry });
 
     // then
     var description = domQuery('.description', container);
@@ -119,13 +121,13 @@ describe('<PopupMenuItem>', function() {
   }));
 
 
-  it('should NOT allow XSS via imageUrl', inject(function(diagramJSui) {
+  it('should NOT allow XSS via imageUrl', inject(function() {
 
     // given
     const entry = { id: '1', imageUrl: '"><marquee />' };
 
     // when
-    createPopupMenu({ container, entry, diagramJSui });
+    createPopupMenu({ container, entry });
 
     // then
     var injected = domQuery('marquee', container);
@@ -137,16 +139,19 @@ describe('<PopupMenuItem>', function() {
 
 // helpers
 function createPopupMenu(options) {
-  const { container, diagramJSui } = options;
+  const {
+    container,
+    ...restProps
+  } = options;
 
-  return diagramJSui.render(
-    diagramJSui.html`
-    <${PopupMenuItem}
-      entry=${ { id: 'foo', label: 'bar' } }
-      selected=${ false }
-      html=${ diagramJSui.html }
-      ...${ options }
-    />`,
+  const props = {
+    entry: { id: 'foo', label: 'bar' },
+    selected: false,
+    ...restProps
+  };
+
+  return render(
+    html`<${PopupMenuItem} ...${ props } />`,
     container
   );
 }

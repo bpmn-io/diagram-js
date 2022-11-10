@@ -1,6 +1,10 @@
 import PopupMenuComponent from 'lib/features/popup-menu/PopupMenuComponent';
-import diagramJSui from '@bpmn-io/diagram-js-ui';
 import testEntryIcon from './resources/a.png';
+
+import {
+  html,
+  render
+} from 'lib/ui';
 
 import {
   bootstrapDiagram,
@@ -13,7 +17,7 @@ import {
 } from 'min-dom';
 
 
-describe('<PopupMenu>', function() {
+describe('features/popup-menu - <PopupMenu>', function() {
   let container;
 
   beforeEach(function() {
@@ -21,32 +25,29 @@ describe('<PopupMenu>', function() {
     document.body.appendChild(container);
   });
 
-  beforeEach(bootstrapDiagram({
-    modules: [ diagramJSui ]
-  }));
-
+  beforeEach(bootstrapDiagram());
 
   afterEach(function() {
     container.parentNode.removeChild(container);
   });
 
 
-  it('should render', inject(function(diagramJSui) {
-    createPopupMenu({ container, diagramJSui });
+  it('should render', inject(function() {
+    createPopupMenu({ container });
   }));
 
 
-  it('should be visible even if no `position.cursor` was passed', inject(function(diagramJSui) {
+  it('should be visible even if no `position.cursor` was passed', inject(function() {
 
     // when
-    createPopupMenu({ container, diagramJSui });
+    createPopupMenu({ container });
 
     // then
     expect(getComputedStyle(container).visibility).not.to.eql('hidden');
   }));
 
 
-  it('should open in correct position', inject(function(diagramJSui) {
+  it('should open in correct position', inject(function() {
 
     // given
     var position = () => {
@@ -56,8 +57,7 @@ describe('<PopupMenu>', function() {
     // when
     createPopupMenu({
       container,
-      position,
-      diagramJSui
+      position
     });
 
     const popup = domQuery(
@@ -70,13 +70,12 @@ describe('<PopupMenu>', function() {
   }));
 
 
-  it('should apply custom width', inject(function(diagramJSui) {
+  it('should apply custom width', inject(function() {
 
     // when
     createPopupMenu({
       container,
-      width: 200,
-      diagramJSui
+      width: 200
     });
 
     const popup = domQuery(
@@ -90,10 +89,10 @@ describe('<PopupMenu>', function() {
 
   describe('close', function() {
 
-    it('should close on background click', inject(function(diagramJSui) {
+    it('should close on background click', inject(function() {
       const onClose = sinon.spy();
 
-      createPopupMenu({ container, onClose, diagramJSui });
+      createPopupMenu({ container, onClose });
 
       container.children[0].click();
 
@@ -101,13 +100,13 @@ describe('<PopupMenu>', function() {
     }));
 
 
-    it('should close on entry click', inject(function(diagramJSui) {
+    it('should close on entry click', inject(function() {
       const onClose = sinon.spy();
 
       const entries = [ { id: '1', label: 'Entry 1', action: ()=>{} } ];
 
       // when
-      createPopupMenu({ container, entries, onClose, diagramJSui });
+      createPopupMenu({ container, entries, onClose });
 
       var entry = domQuery('.entry', container);
 
@@ -115,7 +114,7 @@ describe('<PopupMenu>', function() {
       entry.click();
 
       // then
-      expect(onClose).to.have.been.called;
+      expect(onClose).to.have.been.calledOnce;
     }));
 
   });
@@ -123,17 +122,17 @@ describe('<PopupMenu>', function() {
 
   describe('body', function() {
 
-    it('should only render body if entries exist', inject(function(diagramJSui) {
+    it('should only render body if entries exist', inject(function() {
 
       // when
-      createPopupMenu({ container, diagramJSui });
+      createPopupMenu({ container });
 
       // then
       expect(domQuery('.djs-popup-body', container)).not.to.exist;
     }));
 
 
-    it('should trigger action on click', inject(function(diagramJSui) {
+    it('should trigger action on click', inject(function() {
 
       // given
       var actionListener = sinon.spy();
@@ -141,7 +140,7 @@ describe('<PopupMenu>', function() {
       const entries = [ { id: '1', label: 'Entry 1', action: actionListener } ];
 
       // when
-      createPopupMenu({ container, entries, diagramJSui });
+      createPopupMenu({ container, entries });
 
       var entry = domQuery('.entry', container);
 
@@ -153,13 +152,13 @@ describe('<PopupMenu>', function() {
     }));
 
 
-    it('should focus first entry', inject(function(diagramJSui) {
+    it('should focus first entry', inject(function() {
       const entries = [
         { id: '1', label: 'Entry 1' },
         { id: '2', label: 'Entry 2' }
       ];
 
-      createPopupMenu({ container, entries, diagramJSui });
+      createPopupMenu({ container, entries });
 
       const firstEntry = domQuery('.entry', container);
 
@@ -172,7 +171,7 @@ describe('<PopupMenu>', function() {
 
   describe('header', function() {
 
-    it('should be attached to the top of the popup menu, if set', inject(function(diagramJSui) {
+    it('should be attached to the top of the popup menu, if set', inject(function() {
 
       // given
       const headerEntries = {
@@ -180,7 +179,7 @@ describe('<PopupMenu>', function() {
       };
 
       // when
-      createPopupMenu({ container, headerEntries, diagramJSui });
+      createPopupMenu({ container, headerEntries });
 
       // then
       var popupHeader = domQuery('.djs-popup .header', container);
@@ -188,13 +187,13 @@ describe('<PopupMenu>', function() {
     }));
 
 
-    it('should render title, if set', inject(function(diagramJSui) {
+    it('should render title, if set', inject(function() {
 
       // given
       const title = 'Title';
 
       // when
-      createPopupMenu({ container, title, diagramJSui });
+      createPopupMenu({ container, title });
 
       // then
       var titleElement = domQuery('.djs-popup .title', container);
@@ -206,28 +205,28 @@ describe('<PopupMenu>', function() {
 
     describe('entries', function() {
 
-      it('should add standard class to entry', inject(function(diagramJSui) {
+      it('should add standard class to entry', inject(function() {
 
         // given
         const headerEntries = { '1': { title: 'Header Entry A' } };
 
         // when
-        createPopupMenu({ container, headerEntries, diagramJSui });
+        createPopupMenu({ container, headerEntries });
 
         var popupHeader = domQuery('.djs-popup .header', container);
 
         // then
         expect(
-          domQueryAll('.djs-popup .header-entry', popupHeader).length
-        ).to.eql(1);
+          domQueryAll('.djs-popup .header-entry', popupHeader)
+        ).to.have.length(1);
       }));
 
 
-      it('should add custom class to entry if specified', inject(function(diagramJSui) {
+      it('should add custom class to entry if specified', inject(function() {
         const headerEntries = { '2': { className: 'header-entry-1 cls2 cls3' } };
 
         // when
-        createPopupMenu({ container, headerEntries, diagramJSui });
+        createPopupMenu({ container, headerEntries });
 
         // then
         var element = domQuery('.header-entry-1', container);
@@ -238,7 +237,7 @@ describe('<PopupMenu>', function() {
       }));
 
 
-      it('should have label if specified', inject(function(diagramJSui) {
+      it('should have label if specified', inject(function() {
 
         // given
         const headerEntries = {
@@ -246,7 +245,7 @@ describe('<PopupMenu>', function() {
         };
 
         // when
-        createPopupMenu({ container, headerEntries, diagramJSui });
+        createPopupMenu({ container, headerEntries });
 
         // then
         var element = domQuery('.header-entry-1', container);
@@ -255,7 +254,7 @@ describe('<PopupMenu>', function() {
       }));
 
 
-      it('should add action-id to entry', inject(function(diagramJSui) {
+      it('should add action-id to entry', inject(function() {
 
         // given
         const headerEntries = {
@@ -265,7 +264,7 @@ describe('<PopupMenu>', function() {
         };
 
         // when
-        createPopupMenu({ container, headerEntries, diagramJSui });
+        createPopupMenu({ container, headerEntries });
 
         // then
         var group = domQueryAll('.djs-popup .header-entry', container);
@@ -280,7 +279,7 @@ describe('<PopupMenu>', function() {
       }));
 
 
-      it('should add an image to the header section, if specified', inject(function(diagramJSui) {
+      it('should add an image to the header section, if specified', inject(function() {
 
         // given
         const headerEntries = {
@@ -288,7 +287,7 @@ describe('<PopupMenu>', function() {
         };
 
         // when
-        createPopupMenu({ container, headerEntries, diagramJSui });
+        createPopupMenu({ container, headerEntries });
 
         // then
         var img = domQuery('.image-1 img', container);
@@ -298,13 +297,13 @@ describe('<PopupMenu>', function() {
       }));
 
 
-      it('should NOT allow XSS via imageUrl', inject(function(diagramJSui) {
+      it('should NOT allow XSS via imageUrl', inject(function() {
 
         // given
         const headerEntries = { '1': { imageUrl: '"><marquee />' } };
 
         // when
-        createPopupMenu({ container, headerEntries, diagramJSui });
+        createPopupMenu({ container, headerEntries });
 
         // then
         var injected = domQuery('marquee', container);
@@ -312,7 +311,7 @@ describe('<PopupMenu>', function() {
       }));
 
 
-      it('should trigger action on click', inject(function(diagramJSui) {
+      it('should trigger action on click', inject(function() {
 
         // given
         var actionListener = sinon.spy();
@@ -326,7 +325,7 @@ describe('<PopupMenu>', function() {
         };
 
         // when
-        createPopupMenu({ container, headerEntries, diagramJSui });
+        createPopupMenu({ container, headerEntries });
 
         var entry = domQuery('.header-entry', container);
 
@@ -350,10 +349,10 @@ describe('<PopupMenu>', function() {
       { id: '3', label: 'Last' }
     ];
 
-    it('should filter entries', inject(async function(diagramJSui) {
+    it('should filter entries', inject(async function() {
 
       // given
-      createPopupMenu({ container, entries, diagramJSui, search: true });
+      createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup .search input', container);
       searchInput.value = 'Entry 1';
@@ -365,15 +364,15 @@ describe('<PopupMenu>', function() {
       await whenStable();
 
       // then
-      expect(domQueryAll('.entry', container).length).to.eql(1);
+      expect(domQueryAll('.entry', container)).to.have.length(1);
       expect(domQuery('.entry', container).textContent).to.eql('Entry 1');
     }));
 
 
-    it('should allow partial search', inject(async function(diagramJSui) {
+    it('should allow partial search', inject(async function() {
 
       // given
-      createPopupMenu({ container, entries, diagramJSui, search: true });
+      createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup .search input', container);
       searchInput.value = 'Entry';
@@ -385,7 +384,7 @@ describe('<PopupMenu>', function() {
       await whenStable();
 
       // then
-      expect(domQueryAll('.entry', container).length).to.eql(2);
+      expect(domQueryAll('.entry', container)).to.have.length(2);
     }));
 
 
@@ -401,10 +400,10 @@ describe('<PopupMenu>', function() {
       ];
 
 
-      it('should be visible (search=true specified)', inject(async function(diagramJSui) {
+      it('should be visible (search=true specified)', inject(async function() {
 
         // given
-        createPopupMenu({ container, entries, search: true, diagramJSui });
+        createPopupMenu({ container, entries, search: true });
 
         // then
         const search = domQuery('.djs-popup .search', container);
@@ -413,10 +412,10 @@ describe('<PopupMenu>', function() {
       }));
 
 
-      it('should be hidden (search=false specified)', inject(async function(diagramJSui) {
+      it('should be hidden (search=false specified)', inject(async function() {
 
         // given
-        createPopupMenu({ container, entries: otherEntries, search: false, diagramJSui });
+        createPopupMenu({ container, entries: otherEntries, search: false });
 
         // then
         const search = domQuery('.djs-popup .search', container);
@@ -426,10 +425,10 @@ describe('<PopupMenu>', function() {
       }));
 
 
-      it('should render (more than 5 entries)', inject(async function(diagramJSui) {
+      it('should render (more than 5 entries)', inject(async function() {
 
         // given
-        createPopupMenu({ container, entries: otherEntries, diagramJSui });
+        createPopupMenu({ container, entries: otherEntries });
 
         // then
         const search = domQuery('.djs-popup .search', container);
@@ -438,10 +437,10 @@ describe('<PopupMenu>', function() {
       }));
 
 
-      it('should be hidden (less than 5 entries)', inject(async function(diagramJSui) {
+      it('should be hidden (less than 5 entries)', inject(async function() {
 
         // given
-        createPopupMenu({ container, entries, diagramJSui });
+        createPopupMenu({ container, entries });
 
         // then
         const search = domQuery('.djs-popup .search', container);
@@ -464,10 +463,10 @@ describe('<PopupMenu>', function() {
       { id: '3', label: 'Entry 3' }
     ];
 
-    it('should trigger entry with <Enter>', inject(async function(diagramJSui) {
+    it('should trigger entry with <Enter>', inject(async function() {
 
       // given
-      createPopupMenu({ container, entries, diagramJSui });
+      createPopupMenu({ container, entries });
 
       const searchInput = domQuery('.djs-popup .search input', container);
 
@@ -479,11 +478,11 @@ describe('<PopupMenu>', function() {
     }));
 
 
-    it('should close with <Escape>', inject(function(diagramJSui) {
+    it('should close with <Escape>', inject(function() {
 
       // given
       const onClose = sinon.spy();
-      createPopupMenu({ container, entries, onClose, diagramJSui });
+      createPopupMenu({ container, entries, onClose });
 
       const searchInput = domQuery('.djs-popup .search input', container);
 
@@ -495,10 +494,10 @@ describe('<PopupMenu>', function() {
     }));
 
 
-    it('should navigate with <ArrowUp>', inject(async function(diagramJSui) {
+    it('should navigate with <ArrowUp>', inject(async function() {
 
       // given
-      createPopupMenu({ container, entries, diagramJSui });
+      createPopupMenu({ container, entries });
 
       const searchInput = domQuery('.djs-popup .search input', container);
 
@@ -513,10 +512,10 @@ describe('<PopupMenu>', function() {
     }));
 
 
-    it('should navigate with <ArrowUp>', inject(async function(diagramJSui) {
+    it('should navigate with <ArrowUp>', inject(async function() {
 
       // given
-      createPopupMenu({ container, entries, diagramJSui });
+      createPopupMenu({ container, entries });
 
       const searchInput = domQuery('.djs-popup .search input', container);
 
@@ -537,21 +536,26 @@ describe('<PopupMenu>', function() {
 
 // helpers
 function createPopupMenu(options) {
-  const { container, diagramJSui } = options;
 
-  const position = () => {
-    return { x: 0, y: 0 };
+  const {
+    container,
+    ...restOptions
+  } = options;
+
+  const props = {
+    entries: [],
+    headerEntries: [],
+    position() {
+      return { x: 0, y: 0 };
+    },
+    onClose() {},
+    ...restOptions
   };
 
-  return diagramJSui.render(
-    diagramJSui.html`
-      <${PopupMenuComponent}
-        entries=${ [] }
-        headerEntries=${ [] }
-        onClose=${ () => {} }
-        position=${ position }
-        ...${ options }
-      />`,
+  return render(
+    html`
+      <${PopupMenuComponent} ...${ props } />
+    `,
     container
   );
 }

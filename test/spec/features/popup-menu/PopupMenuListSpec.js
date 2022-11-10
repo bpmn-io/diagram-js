@@ -1,5 +1,9 @@
 import PopupMenuList from 'lib/features/popup-menu/PopupMenuList';
-import diagramJSui from '@bpmn-io/diagram-js-ui';
+
+import {
+  html,
+  render
+} from 'lib/ui';
 
 import {
   bootstrapDiagram,
@@ -12,7 +16,7 @@ import {
 } from 'min-dom';
 
 
-describe('<PopupMenuList>', function() {
+describe('features/popup-menu - <PopupMenuList>', function() {
   let container;
 
   beforeEach(function() {
@@ -20,16 +24,14 @@ describe('<PopupMenuList>', function() {
     document.body.appendChild(container);
   });
 
-  beforeEach(bootstrapDiagram({
-    modules: [ diagramJSui ]
-  }));
+  beforeEach(bootstrapDiagram());
 
   afterEach(function() {
     container.parentNode.removeChild(container);
   });
 
 
-  it('should group entries', inject(function(diagramJSui) {
+  it('should group entries', inject(function() {
 
     // given
     const entries = [
@@ -41,7 +43,7 @@ describe('<PopupMenuList>', function() {
     ];
 
     // when
-    createPopupMenuList({ container, entries, diagramJSui });
+    createPopupMenuList({ container, entries });
 
     // then
     var parent = domQuery('.results', container),
@@ -59,7 +61,7 @@ describe('<PopupMenuList>', function() {
   }));
 
 
-  it('should use group <default> if not provided', inject(function(diagramJSui) {
+  it('should use group <default> if not provided', inject(function() {
 
     // given
     const entries = [
@@ -71,7 +73,7 @@ describe('<PopupMenuList>', function() {
     ];
 
     // when
-    createPopupMenuList({ container, entries, diagramJSui });
+    createPopupMenuList({ container, entries });
 
     // then
     var parent = domQuery('.results', container),
@@ -83,7 +85,7 @@ describe('<PopupMenuList>', function() {
   }));
 
 
-  it('should NOT allow XSS via group', inject(function(diagramJSui) {
+  it('should NOT allow XSS via group', inject(function() {
 
     // given
     const entries = [
@@ -91,7 +93,7 @@ describe('<PopupMenuList>', function() {
     ];
 
     // when
-    createPopupMenuList({ container, entries, diagramJSui });
+    createPopupMenuList({ container, entries });
 
     // then
     var injected = domQuery('marquee', container);
@@ -100,7 +102,7 @@ describe('<PopupMenuList>', function() {
   }));
 
 
-  it('should display group name if provided', inject(function(diagramJSui) {
+  it('should display group name if provided', inject(function() {
 
     // given
     const entries = [
@@ -111,7 +113,7 @@ describe('<PopupMenuList>', function() {
     ];
 
     // when
-    createPopupMenuList({ container, entries, diagramJSui });
+    createPopupMenuList({ container, entries });
 
     const entryHeaders = domQueryAll('.entry-header', container);
 
@@ -122,7 +124,7 @@ describe('<PopupMenuList>', function() {
   }));
 
 
-  it('should support legacy groups (type = string)', inject(function(diagramJSui) {
+  it('should support legacy groups (type = string)', inject(function() {
 
     // given
     const entries = [
@@ -131,7 +133,7 @@ describe('<PopupMenuList>', function() {
     ];
 
     // when
-    createPopupMenuList({ container, entries, diagramJSui });
+    createPopupMenuList({ container, entries });
 
     const entryHeaders = domQuery('[data-group="file"]', container);
 
@@ -146,19 +148,21 @@ describe('<PopupMenuList>', function() {
 
 // helpers
 function createPopupMenuList(options) {
-  const { container, diagramJSui } = options;
+  const {
+    container,
+    ...restProps
+  } = options;
 
-  return diagramJSui.render(
-    diagramJSui.html`
-      <${PopupMenuList}
-        entries=${ [ ] }
-        selectedEntry=${ null }
-        setSelectedEntry=${ ()=>{} }
-        onSelect=${ ()=>{} }
-        resultsRef=${ null }
-        html=${ diagramJSui.html }
-        ...${ options }
-      />`,
+  const props = {
+    entries: [ ],
+    selectedEntry: null,
+    setSelectedEntry: () => {},
+    onSelect: () => {},
+    ...restProps
+  };
+
+  return render(
+    html`<${PopupMenuList} ...${props} />`,
     container
   );
 }
