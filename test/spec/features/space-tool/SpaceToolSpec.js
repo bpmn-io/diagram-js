@@ -28,6 +28,12 @@ var spy = sinon.spy;
 
 describe('features/space-tool', function() {
 
+  // adopt conservative retry strategy
+  // in an attempt to improve the stability
+  // of our test suite
+  this.retries(2);
+
+
   describe('basics', function() {
 
     beforeEach(bootstrapDiagram({
