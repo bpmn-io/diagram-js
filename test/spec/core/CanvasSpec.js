@@ -55,6 +55,16 @@ describe('Canvas', function() {
       expect(svg).not.to.be.null;
     }));
 
+
+    it('should create .djs-container element', inject(function() {
+
+      // then
+      var diagramContainer = container.querySelector('.djs-container');
+
+      expect(diagramContainer).not.to.be.null;
+      expect(diagramContainer.className).to.eql('djs-container djs-parent');
+    }));
+
   });
 
 
