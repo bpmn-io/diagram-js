@@ -1,7 +1,7 @@
 /**
  * color definitions
  */
-.djs-container {
+.djs-parent {
   --color-grey-225-10-15: hsl(225, 10%, 15%);
   --color-grey-225-10-35: hsl(225, 10%, 35%);
   --color-grey-225-10-55: hsl(225, 10%, 55%);
