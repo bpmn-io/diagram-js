@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+### Breaking Changes
+* `FEAT`: new popupMenu UI featuring menu and group titles, search, entry descriptions and documentation urls ([#687](https://github.com/bpmn-io/diagram-js/pull/687))
+* `FEAT`: introduction of `.djs-parent` class to canvas and popup menu root ([#687](https://github.com/bpmn-io/diagram-js/pull/687))
+
+
 ## 10.0.0
 
 * `FIX`: consider moving and non-moving attachers when using space tool ([#480](https://github.com/bpmn-io/diagram-js/pull/480))
