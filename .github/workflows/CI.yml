@@ -20,18 +20,18 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Build
-      if: matrix.os == 'ubuntu-20.04'
+      if: runner.os == 'Linux'
       env:
         COVERAGE: 1
         TEST_BROWSERS: Firefox,ChromeHeadless
       run: xvfb-run npm run all
     - name: Build
-      if: matrix.os != 'ubuntu-20.04'
+      if: runner.os != 'Linux'
       env:
         TEST_BROWSERS: ChromeHeadless
       run: npm run all
     - name: Upload coverage
-      if: matrix.os == 'ubuntu-20.04'
+      if: runner.os == 'Linux'
       uses: codecov/codecov-action@v3
       with:
         fail_ci_if_error: true
