@@ -6,14 +6,21 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.0.0
+
 * `FEAT`: drop KeyboardEvent.keyCode in favor of `code` ([#681](https://github.com/bpmn-io/diagram-js/pull/681))
+* `FEAT`: introduction of `.djs-parent` class to canvas and popup menu root ([#687](https://github.com/bpmn-io/diagram-js/pull/687))
+* `FEAT`: new popupMenu UI featuring menu and group titles, search, entry descriptions and documentation urls ([#686](https://github.com/bpmn-io/diagram-js/issues/686), [#695](https://github.com/bpmn-io/diagram-js/issues/695), [#697](https://github.com/bpmn-io/diagram-js/pull/697), [#699](https://github.com/bpmn-io/diagram-js/pull/699))
+* `FEAT`: provide UI utilities through `diagram-js/lib/ui` ([#692](https://github.com/bpmn-io/diagram-js/pull/692))
+* `DOCS`: update popup menu provider example ([#678](https://github.com/bpmn-io/diagram-js/pull/678))
+* `DOCS`: correct `ElementRegistry` method signatures ([#698](https://github.com/bpmn-io/diagram-js/pull/698))
+* `DEPS`: bump utility dependencies
 
 ### Breaking Changes
-* `FEAT`: new popupMenu UI featuring menu and group titles, search, entry descriptions and documentation urls ([#687](https://github.com/bpmn-io/diagram-js/pull/687))
-* `FEAT`: introduction of `.djs-parent` class to canvas and popup menu root ([#687](https://github.com/bpmn-io/diagram-js/pull/687))
+* HTML structure and CSS classes of the popup menu were modified. Ensure alignment with the new structure in your custom implementation.
+* There is no longer a single root (`.djs-container`). The global selector for both the canvas and popup menu roots is now `.djs-parent`.
 * Keyboard-related features no longer use KeyboardEvent#keyCode.
-  Use a polyfill (e.g. [keyboardevent-key-polyfill](https://www.npmjs.com/package/keyboardevent-key-polyfill) if you need to support old browsers.
-
+  Use a polyfill (e.g. [keyboardevent-key-polyfill](https://www.npmjs.com/package/keyboardevent-key-polyfill)) if you need to support old browsers.
 
 ## 10.0.0
 
