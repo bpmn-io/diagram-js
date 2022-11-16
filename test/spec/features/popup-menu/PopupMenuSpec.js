@@ -769,6 +769,7 @@ describe('features/popup-menu', function() {
 
       afterEach(sinon.restore);
 
+
       it('should close menu (contextPad.close)', inject(function(popupMenu, eventBus) {
 
         // given
@@ -1432,6 +1433,7 @@ describe('features/popup-menu', function() {
       });
     }
 
+
     it('should scale within [ 1.0, 1.5 ] by default', function() {
 
       // given
@@ -1602,9 +1604,6 @@ describe('features/popup-menu', function() {
     }));
 
 
-    beforeEach(inject(function(popupMenu) {}));
-
-
     it('should close', inject(function(popupMenu, eventBus) {
 
       // given
@@ -1694,7 +1693,8 @@ describe('features/popup-menu', function() {
 
 
 
-// helper ////
+// helpers /////////////
+
 function Provider(entries, headerEntries) {
   this.getPopupMenuEntries = isFunction(entries)
     ? entries
