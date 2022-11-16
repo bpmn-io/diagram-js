@@ -636,18 +636,33 @@ describe('features/popup-menu', function() {
               }
             }
           ];
+        },
+        getHeaderEntries: function() {
+          return [
+            {
+              id: '3',
+              label: 'Entry 3',
+              className: 'Entry_3',
+              action: function(event, entry) {
+                return 'Entry 3';
+              }
+            }
+          ];
         }
       });
 
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
 
       var entry = queryEntry('2');
+      var headerEntry = queryEntry('3');
 
       // when
-      var trigger = popupMenu.trigger(globalEvent(entry, { x: 0, y: 0 }));
+      var triggerEntry = popupMenu.trigger(globalEvent(entry, { x: 0, y: 0 }));
+      var triggerHeaderEntry = popupMenu.trigger(globalEvent(headerEntry, { x: 0, y: 0 }));
 
       // then
-      expect(trigger).to.eql('Entry 2');
+      expect(triggerEntry).to.eql('Entry 2');
+      expect(triggerHeaderEntry).to.eql('Entry 3');
     }));
 
   });
