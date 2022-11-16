@@ -998,6 +998,39 @@ describe('features/popup-menu', function() {
       expect(description.textContent).to.eql('This is a description');
     }));
 
+
+    it('should add docRef if specified', inject(function(popupMenu) {
+
+      // given
+      var testMenuProvider = {
+        getEntries: function() {
+          return [
+            {
+              id: '1',
+              documentationRef: '#',
+              label: 'with documentation ref'
+            }
+          ];
+        }
+      };
+
+      // when
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+
+      // then
+      var link = queryPopup('.entry .docs a');
+
+      expect(link).to.exist;
+
+      // but when
+      link.click();
+
+      // then
+      // menu shall remain open
+      expect(popupMenu.isOpen()).to.be.true;
+    }));
+
   });
 
 
