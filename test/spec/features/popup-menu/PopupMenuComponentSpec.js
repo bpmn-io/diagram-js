@@ -92,13 +92,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     }));
 
 
-    it('should close on entry click', inject(function() {
+    it('should close on selection', inject(function() {
       const onClose = sinon.spy();
+      const onSelect = sinon.spy();
 
-      const entries = [ { id: '1', label: 'Entry 1', action: ()=>{} } ];
+      const entries = [ { id: '1', label: 'Entry 1' } ];
 
       // when
-      createPopupMenu({ container, entries, onClose });
+      createPopupMenu({ container, entries, onClose, onSelect });
 
       var entry = domQuery('.entry', container);
 
@@ -106,6 +107,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       entry.click();
 
       // then
+      expect(onSelect).to.have.been.calledOnceWith(sinon.match.any);
       expect(onClose).to.have.been.calledOnce;
     }));
 
@@ -252,10 +254,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
   describe('keyboard', function() {
 
-    const action = sinon.spy();
-
     const entries = [
-      { id: '1', label: 'Entry 1', action },
+      { id: '1', label: 'Entry 1' },
       { id: '2', label: 'Entry 2' },
       { id: '3', label: 'Entry 3' }
     ];
@@ -264,15 +264,19 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should trigger entry with <Enter>', inject(async function() {
 
       // given
-      createPopupMenu({ container, entries, search: true });
+      const onClose = sinon.spy();
+      const onSelect = sinon.spy();
+
+      createPopupMenu({ container, entries, search: true, onClose, onSelect });
 
       const searchInput = domQuery('.djs-popup .search input', container);
+      const enterEvent = new KeyboardEvent('keydown', { 'key': 'Enter' });
 
       // when
-      searchInput.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Enter' }));
+      searchInput.dispatchEvent(enterEvent);
 
       // then
-      expect(action).to.be.calledOnce;
+      expect(onSelect).to.be.calledOnceWith(enterEvent, entries[0]);
     }));
 
 
