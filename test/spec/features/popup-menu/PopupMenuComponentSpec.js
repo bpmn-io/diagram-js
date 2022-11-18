@@ -154,7 +154,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
     const entries = [
       { id: '1', label: 'Entry 1' },
       { id: '2', label: 'Entry 2' },
-      { id: '3', label: 'Last' }
+      { id: '3', label: 'Entry 3' },
+      { id: '4', label: 'Entry 4' },
+      { id: '5', label: 'Entry 5' },
+      { id: '6', label: 'Last' }
     ];
 
     it('should filter entries', inject(async function() {
@@ -192,7 +195,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       await whenStable();
 
       // then
-      expect(domQueryAll('.entry', container)).to.have.length(2);
+      expect(domQueryAll('.entry', container)).to.have.length(5);
     }));
 
 
@@ -201,27 +204,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
       const otherEntries = [
         { id: '1', label: 'Entry 1' },
         { id: '2', label: 'Entry 2' },
-        { id: '3', label: 'Entry 3' },
-        { id: '4', label: 'Entry 4' },
-        { id: '5', label: 'Entry 5' },
-        { id: '6', label: 'Entry 6' }
+        { id: '3', label: 'Entry 3' }
       ];
 
 
-      it('should be visible (search=true specified)', inject(async function() {
+      it('should be hidden by default', inject(async function() {
 
         // given
-        createPopupMenu({ container, entries, search: true });
-
-        // then
-        expect(domQuery('.djs-popup .search', container)).to.exist;
-      }));
-
-
-      it('should be hidden (search=false specified)', inject(async function() {
-
-        // given
-        createPopupMenu({ container, entries: otherEntries, search: false });
+        createPopupMenu({ container, entries: otherEntries });
 
         // then
         expect(domQuery('.djs-popup .search', container)).not.to.exist;
@@ -231,7 +221,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       it('should render (more than 5 entries)', inject(async function() {
 
         // given
-        createPopupMenu({ container, entries: otherEntries });
+        createPopupMenu({ container, entries, search: true });
 
         // then
         expect(domQuery('.djs-popup .search', container)).to.exist;
@@ -241,7 +231,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       it('should be hidden (less than 5 entries)', inject(async function() {
 
         // given
-        createPopupMenu({ container, entries });
+        createPopupMenu({ container, entries: otherEntries, search: true });
 
         // then
         expect(domQuery('.djs-popup .search', container)).not.to.exist;
@@ -257,7 +247,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
     const entries = [
       { id: '1', label: 'Entry 1' },
       { id: '2', label: 'Entry 2' },
-      { id: '3', label: 'Entry 3' }
+      { id: '3', label: 'Entry 3' },
+      { id: '4', label: 'Entry 4' },
+      { id: '5', label: 'Entry 5' },
+      { id: '6', label: 'Entry 6' }
     ];
 
 
@@ -344,7 +337,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       await whenStable();
 
       // then
-      expect(domQuery('.selected', container).textContent).to.eql('Entry 3');
+      expect(domQuery('.selected', container).textContent).to.eql('Entry 6');
     }));
 
   });
