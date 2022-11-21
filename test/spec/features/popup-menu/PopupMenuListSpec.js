@@ -29,7 +29,7 @@ describe('features/popup-menu - <PopupMenuList>', function() {
     createPopupMenuList({ container });
 
     // then
-    expect(domQuery('.results', container)).to.exist;
+    expect(domQuery('.djs-popup-results', container)).to.exist;
 
   });
 });

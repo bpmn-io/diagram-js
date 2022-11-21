@@ -373,7 +373,7 @@ describe('features/popup-menu', function() {
         popupMenu.open({}, 'group-menu', { x: 100, y: 100 });
 
         // then
-        var parent = queryPopup('.djs-popup-body .results'),
+        var parent = queryPopup('.djs-popup-results'),
             group1 = parent.childNodes[0],
             group2 = parent.childNodes[1],
             group3 = parent.childNodes[2];
@@ -407,7 +407,7 @@ describe('features/popup-menu', function() {
         popupMenu.open({}, 'group-menu', { x: 100, y: 100 });
 
         // then
-        var parent = queryPopup('.djs-popup-body .results'),
+        var parent = queryPopup('.djs-popup-results'),
             group1 = parent.childNodes[0];
 
         expect(parent.children).to.have.lengthOf(1);
@@ -736,7 +736,7 @@ describe('features/popup-menu', function() {
       var element = queryEntry('entryA');
       expect(element).to.exist;
 
-      var name = domQuery('.name', element);
+      var name = domQuery('.djs-popup-entry-name', element);
       expect(domClasses(name).contains('special-entry')).to.be.true;
     }));
 
@@ -884,8 +884,8 @@ describe('features/popup-menu', function() {
       var element = queryEntry('2');
       expect(element.textContent).to.eql('Entry 2 - special');
 
-      var name = domQuery('.name', element);
-      expect(name.className).to.eql('name special-entry cls2 cls3');
+      var name = domQuery('.djs-popup-entry-name', element);
+      expect(name.className).to.eql('djs-popup-entry-name special-entry cls2 cls3');
     }));
 
 
@@ -992,7 +992,7 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
 
       // then
-      var description = queryPopup('.entry .description');
+      var description = queryPopup('.djs-popup-entry-description');
 
       expect(description).to.exist;
       expect(description.textContent).to.eql('This is a description');
@@ -1019,7 +1019,7 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
 
       // then
-      var link = queryPopup('.entry .docs a');
+      var link = queryPopup('.djs-popup-entry-docs a');
 
       expect(link).to.exist;
 
@@ -1357,7 +1357,7 @@ describe('features/popup-menu', function() {
       // when
       popupMenu.open({}, 'custom-provider', cursorPosition);
 
-      var menu = domQuery('.djs-popup .overlay', popupMenu._current.container);
+      var menu = domQuery('.djs-popup-overlay', popupMenu._current.container);
 
       var menuDimensions = {
         width: menu.scrollWidth,
@@ -1384,7 +1384,7 @@ describe('features/popup-menu', function() {
         // when
         popupMenu.open({}, 'custom-provider', { x: 100, y: 150, cursor: cursorPosition });
 
-        var menu = domQuery('.djs-popup .overlay', popupMenu._current.container);
+        var menu = domQuery('.djs-popup-overlay', popupMenu._current.container);
 
         // then
         expect(menu.offsetTop).to.equal(10);
@@ -1402,7 +1402,7 @@ describe('features/popup-menu', function() {
       // when
       popupMenu.open({}, 'custom-provider', cursorPosition);
 
-      var menu = domQuery('.djs-popup .overlay', popupMenu._current.container);
+      var menu = domQuery('.djs-popup-overlay', popupMenu._current.container);
 
       var menuDimensions = {
         width: menu.scrollWidth,
@@ -1455,7 +1455,7 @@ describe('features/popup-menu', function() {
 
           popupMenu.open({}, 'menu', { x: 100, y: 100 });
 
-          var menu = domQuery('.djs-popup .overlay', popupMenu._current.container);
+          var menu = domQuery('.djs-popup-overlay', popupMenu._current.container);
 
           var actualScale = scaleVector(menu) || { x: 1, y: 1 };
 
