@@ -186,23 +186,24 @@ describe('features/popup-menu - <PopupMenu>', function() {
     ];
 
 
-    it('should filter entries', inject(async function() {
+    it('should filter entries + focus first', inject(async function() {
 
       // given
       createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup-search input', container);
-      searchInput.value = 'Entry 1';
+      searchInput.value = 'Entry 3';
 
       // when
       searchInput.dispatchEvent(keyDown('ArrowUp'));
-      searchInput.dispatchEvent(keyUp('ArrowDown'));
+      searchInput.dispatchEvent(keyUp('ArrowUp'));
 
       await whenStable();
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
-      expect(domQuery('.entry', container).textContent).to.eql('Entry 1');
+      expect(domQuery('.entry', container).textContent).to.eql('Entry 3');
+      expect(domQuery('.selected', container).textContent).to.eql('Entry 3');
     }));
 
 
