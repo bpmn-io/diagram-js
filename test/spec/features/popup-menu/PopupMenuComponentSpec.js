@@ -54,11 +54,13 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
     const popup = domQuery(
       '.djs-popup-overlay', container
-    ).getBoundingClientRect();
+    );
+
+    const popupBounds = popup.getBoundingClientRect();
 
     // then
-    expect(popup.x).to.eql(100);
-    expect(popup.y).to.eql(100);
+    expect(popupBounds.x).to.eql(100);
+    expect(popupBounds.y).to.eql(100);
   }));
 
 
@@ -92,7 +94,9 @@ describe('features/popup-menu - <PopupMenu>', function() {
     }));
 
 
-    it('should close on selection', inject(function() {
+    it('should NOT close on selection', inject(function() {
+
+      // given
       const onClose = sinon.spy();
       const onSelect = sinon.spy();
 
@@ -108,7 +112,28 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(onSelect).to.have.been.calledOnceWith(sinon.match.any);
-      expect(onClose).to.have.been.calledOnce;
+      expect(onClose).not.to.have.been.called;
+    }));
+
+
+    it('should NOT close on click inside', inject(function() {
+
+      // given
+      const onClose = sinon.spy();
+      const onSelect = sinon.spy();
+
+      const entries = [ { id: '1', label: 'Entry 1' } ];
+
+      // when
+      createPopupMenu({ container, entries, onClose, onSelect });
+
+      const popup = domQuery(
+        '.djs-popup-overlay', container
+      );
+
+      popup.click();
+
+      expect(onClose).not.to.have.been.called;
     }));
 
   });
