@@ -53,7 +53,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
     const popup = domQuery(
-      '.overlay', container
+      '.djs-popup-overlay', container
     ).getBoundingClientRect();
 
     // then
@@ -71,7 +71,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
     const popup = domQuery(
-      '.overlay', container
+      '.djs-popup-overlay', container
     );
 
     // then
@@ -142,7 +142,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     createPopupMenu({ container, title });
 
     // then
-    var titleElement = domQuery('.djs-popup .title', container);
+    var titleElement = domQuery('.djs-popup-title', container);
     expect(titleElement).to.exist;
     expect(titleElement.innerHTML).to.eql(title);
 
@@ -165,7 +165,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // given
       createPopupMenu({ container, entries, search: true });
 
-      var searchInput = domQuery('.djs-popup .search input', container);
+      var searchInput = domQuery('.djs-popup-search input', container);
       searchInput.value = 'Entry 1';
 
       // when
@@ -185,7 +185,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // given
       createPopupMenu({ container, entries, search: true });
 
-      var searchInput = domQuery('.djs-popup .search input', container);
+      var searchInput = domQuery('.djs-popup-search input', container);
       searchInput.value = 'Entry';
 
       // when
@@ -214,7 +214,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         createPopupMenu({ container, entries: otherEntries });
 
         // then
-        expect(domQuery('.djs-popup .search', container)).not.to.exist;
+        expect(domQuery('.djs-popup-search', container)).not.to.exist;
       }));
 
 
@@ -224,7 +224,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         createPopupMenu({ container, entries, search: true });
 
         // then
-        expect(domQuery('.djs-popup .search', container)).to.exist;
+        expect(domQuery('.djs-popup-search', container)).to.exist;
       }));
 
 
@@ -234,7 +234,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         createPopupMenu({ container, entries: otherEntries, search: true });
 
         // then
-        expect(domQuery('.djs-popup .search', container)).not.to.exist;
+        expect(domQuery('.djs-popup-search', container)).not.to.exist;
       }));
 
     });
@@ -262,7 +262,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       createPopupMenu({ container, entries, search: true, onClose, onSelect });
 
-      const searchInput = domQuery('.djs-popup .search input', container);
+      const searchInput = domQuery('.djs-popup-search input', container);
       const enterEvent = new KeyboardEvent('keydown', { 'key': 'Enter' });
 
       // when
@@ -279,7 +279,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       const onClose = sinon.spy();
       createPopupMenu({ container, entries, onClose, search: true });
 
-      const searchInput = domQuery('.djs-popup .search input', container);
+      const searchInput = domQuery('.djs-popup-search input', container);
 
       // when
       searchInput.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Escape' }));
@@ -310,7 +310,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // given
       createPopupMenu({ container, entries, search: true });
 
-      const searchInput = domQuery('.djs-popup .search input', container);
+      const searchInput = domQuery('.djs-popup-search input', container);
 
       expect(domQuery('.selected', container).textContent).to.eql('Entry 1');
 
@@ -328,7 +328,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // given
       createPopupMenu({ container, entries, search: true });
 
-      const searchInput = domQuery('.djs-popup .search input', container);
+      const searchInput = domQuery('.djs-popup-search input', container);
 
       expect(domQuery('.selected', container).textContent).to.eql('Entry 1');
 
