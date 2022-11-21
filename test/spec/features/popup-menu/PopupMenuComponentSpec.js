@@ -64,6 +64,51 @@ describe('features/popup-menu - <PopupMenu>', function() {
   }));
 
 
+  describe('should focus', function() {
+
+    it('with search', inject(function() {
+
+      // when
+      createPopupMenu({
+        container,
+        search: true,
+        entries: [
+          { id: '1', label: 'Entry 1' },
+          { id: '2', label: 'Entry 2' },
+          { id: '3', label: 'Entry 3' },
+          { id: '4', label: 'Entry 4' },
+          { id: '5', label: 'Entry 5' },
+          { id: '6', label: 'Last' }
+        ]
+      });
+
+      const searchInputEl = domQuery(
+        '.djs-popup-search input', container
+      );
+
+      // then
+      expect(document.activeElement).to.equal(searchInputEl);
+    }));
+
+
+    it('without search', inject(function() {
+
+      // when
+      createPopupMenu({
+        container
+      });
+
+      const popupEl = domQuery(
+        '.djs-popup', container
+      );
+
+      // then
+      expect(document.activeElement).to.equal(popupEl);
+    }));
+
+  });
+
+
   it('should apply custom width', inject(function() {
 
     // when
@@ -141,7 +186,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
   describe('body', function() {
 
-    it('should focus first entry', inject(function() {
+    it('should select first entry', inject(function() {
       const entries = [
         { id: '1', label: 'Entry 1' },
         { id: '2', label: 'Entry 2' }
@@ -186,7 +231,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     ];
 
 
-    it('should filter entries + focus first', inject(async function() {
+    it('should filter entries + select first', inject(async function() {
 
       // given
       createPopupMenu({ container, entries, search: true });
@@ -313,6 +358,22 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
         // when
         searchInput.dispatchEvent(keyDown('Escape'));
+
+        // then
+        expect(onClose).to.be.calledOnce;
+      }));
+
+
+      it('on popup', inject(function() {
+
+        // given
+        const onClose = sinon.spy();
+        createPopupMenu({ container, entries, onClose, search: true });
+
+        const popupEl = domQuery('.djs-popup', container);
+
+        // when
+        popupEl.dispatchEvent(keyDown('Escape'));
 
         // then
         expect(onClose).to.be.calledOnce;
