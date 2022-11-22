@@ -139,7 +139,47 @@ describe('features/keyboard', function() {
     }));
 
 
-    it('should not fire non-modifier event if target is input field', inject(
+    describe('should ignore input field targets', function() {
+
+      it('non-modifier event', inject(
+        function(keyboard, eventBus) {
+
+          // given
+          var eventBusSpy = sinon.spy(eventBus, 'fire');
+
+          var inputField = document.createElement('input');
+          testDiv.appendChild(inputField);
+
+          // when
+          keyboard._keyHandler({ key: TEST_KEY, target: inputField });
+          keyboard._keyHandler({ key: TEST_KEY, shiftKey: true, target: inputField });
+
+          // then
+          expect(eventBusSpy).to.not.be.called;
+        })
+      );
+
+      it('modifier event', inject(
+        function(keyboard, eventBus) {
+
+          // given
+          var eventBusSpy = sinon.spy(eventBus, 'fire');
+
+          var inputField = document.createElement('input');
+          testDiv.appendChild(inputField);
+
+          // when
+          keyboard._keyHandler({ key: TEST_KEY, metaKey: true, target: inputField });
+          keyboard._keyHandler({ key: TEST_KEY, ctrlKey: true, target: inputField });
+
+          // then
+          expect(eventBusSpy).to.not.be.called;
+        })
+      );
+
+    });
+
+
       function(keyboard, eventBus) {
 
         // given
