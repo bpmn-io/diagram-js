@@ -185,6 +185,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       { id: '6', label: 'Last' }
     ];
 
+
     it('should filter entries', inject(async function() {
 
       // given
@@ -194,8 +195,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'Entry 1';
 
       // when
-      searchInput.dispatchEvent(new Event('keydown'));
-      searchInput.dispatchEvent(new Event('keyup'));
+      searchInput.dispatchEvent(keyDown('ArrowUp'));
+      searchInput.dispatchEvent(keyUp('ArrowDown'));
 
       await whenStable();
 
@@ -214,8 +215,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'Entry';
 
       // when
-      searchInput.dispatchEvent(new Event('keydown'));
-      searchInput.dispatchEvent(new Event('keyup'));
+      searchInput.dispatchEvent(keyDown('ArrowDown'));
+      searchInput.dispatchEvent(keyUp('ArrowDown'));
 
       await whenStable();
 
@@ -288,7 +289,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       createPopupMenu({ container, entries, search: true, onClose, onSelect });
 
       const searchInput = domQuery('.djs-popup-search input', container);
-      const enterEvent = new KeyboardEvent('keydown', { 'key': 'Enter' });
+
+      const enterEvent = keyDown('Enter');
 
       // when
       searchInput.dispatchEvent(enterEvent);
@@ -307,7 +309,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       const searchInput = domQuery('.djs-popup-search input', container);
 
       // when
-      searchInput.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Escape' }));
+      searchInput.dispatchEvent(keyDown('Escape'));
 
       // then
       expect(onClose).to.be.calledOnce;
@@ -323,24 +325,26 @@ describe('features/popup-menu - <PopupMenu>', function() {
       await whenStable();
 
       // when
-      document.documentElement.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Escape' }));
+      document.documentElement.dispatchEvent(keyDown('Escape'));
 
       // then
       expect(onClose).to.be.calledOnce;
     }));
 
 
-    it('should navigate with <ArrowUp>', inject(async function() {
+    it('should navigate with <ArrowDown>', inject(async function() {
 
       // given
       createPopupMenu({ container, entries, search: true });
 
       const searchInput = domQuery('.djs-popup-search input', container);
 
+      // assume
       expect(domQuery('.selected', container).textContent).to.eql('Entry 1');
 
       // when
-      searchInput.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'ArrowDown' }));
+      searchInput.dispatchEvent(keyDown('ArrowDown'));
+
       await whenStable();
 
       // then
@@ -358,7 +362,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(domQuery('.selected', container).textContent).to.eql('Entry 1');
 
       // when
-      searchInput.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'ArrowUp' }));
+      searchInput.dispatchEvent(keyDown('ArrowUp'));
+
       await whenStable();
 
       // then
@@ -405,3 +410,24 @@ describe('features/popup-menu - <PopupMenu>', function() {
   }
 
 });
+
+
+// helpers /////////////
+
+/**
+ * @param { string } key
+ *
+ * @return { KeyboardEvent }
+ */
+function keyDown(key) {
+  return new KeyboardEvent('keydown', { key, bubbles: true });
+}
+
+/**
+ * @param { string } key
+ *
+ * @return { KeyboardEvent }
+ */
+function keyUp(key) {
+  return new KeyboardEvent('keyup', { key, bubbles: true });
+}
