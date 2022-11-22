@@ -301,36 +301,40 @@ describe('features/popup-menu - <PopupMenu>', function() {
     }));
 
 
-    it('should close with <Escape>', inject(function() {
+    describe('should close with <Escape>', function() {
 
-      // given
-      const onClose = sinon.spy();
-      createPopupMenu({ container, entries, onClose, search: true });
+      it('on search', inject(function() {
 
-      const searchInput = domQuery('.djs-popup-search input', container);
+        // given
+        const onClose = sinon.spy();
+        createPopupMenu({ container, entries, onClose, search: true });
 
-      // when
-      searchInput.dispatchEvent(keyDown('Escape'));
+        const searchInput = domQuery('.djs-popup-search input', container);
 
-      // then
-      expect(onClose).to.be.calledOnce;
-    }));
+        // when
+        searchInput.dispatchEvent(keyDown('Escape'));
+
+        // then
+        expect(onClose).to.be.calledOnce;
+      }));
 
 
-    it('should close on global <Escape>', inject(async function() {
+      it('global', inject(async function() {
 
-      // given
-      const onClose = sinon.spy();
-      createPopupMenu({ container, entries, onClose });
+        // given
+        const onClose = sinon.spy();
+        createPopupMenu({ container, entries, onClose });
 
-      await whenStable();
+        await whenStable();
 
-      // when
-      document.documentElement.dispatchEvent(keyDown('Escape'));
+        // when
+        document.documentElement.dispatchEvent(keyDown('Escape'));
 
-      // then
-      expect(onClose).to.be.calledOnce;
-    }));
+        // then
+        expect(onClose).to.be.calledOnce;
+      }));
+
+    });
 
 
     it('should navigate with <ArrowDown>', inject(async function() {
