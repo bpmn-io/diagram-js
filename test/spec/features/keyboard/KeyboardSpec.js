@@ -180,39 +180,68 @@ describe('features/keyboard', function() {
     });
 
 
+    it('should ignore propagation stopped events', inject(
       function(keyboard, eventBus) {
 
         // given
-        var eventBusSpy = sinon.spy(eventBus, 'fire');
+        var keyListener = sinon.spy();
 
-        var inputField = document.createElement('input');
-        testDiv.appendChild(inputField);
+        keyboard.bind(testDiv);
+
+        eventBus.on('keyboard.keydown', keyListener);
+        eventBus.on('keyboard.keyup', keyListener);
+
+        var testEl = domify('<div tab-index="-1"></div>');
+
+        testEl.addEventListener('keydown', function(event) {
+          event.stopPropagation();
+        });
+
+        testEl.addEventListener('keyup', function(event) {
+          event.stopPropagation();
+        });
+
+        testDiv.appendChild(testEl);
 
         // when
-        keyboard._keyHandler({ key: TEST_KEY, target: inputField });
-        keyboard._keyHandler({ key: TEST_KEY, shiftKey: true, target: inputField });
+        dispatchKeyboardEvent(testEl, 'keydown');
+        dispatchKeyboardEvent(testEl, 'keyup');
 
         // then
-        expect(eventBusSpy).to.not.be.called;
+        expect(keyListener).not.to.be.called;
       })
     );
 
 
-    it('should not fire modifier event if target is input field', inject(
+    it('should ignore default prevented events', inject(
       function(keyboard, eventBus) {
 
         // given
-        var eventBusSpy = sinon.spy(eventBus, 'fire');
+        var keyListener = sinon.spy();
 
-        var inputField = document.createElement('input');
-        testDiv.appendChild(inputField);
+        keyboard.bind(testDiv);
+
+        eventBus.on('keyboard.keydown', keyListener);
+        eventBus.on('keyboard.keyup', keyListener);
+
+        var testEl = domify('<div tab-index="-1"></div>');
+
+        testEl.addEventListener('keydown', function(event) {
+          event.preventDefault();
+        });
+
+        testEl.addEventListener('keyup', function(event) {
+          event.preventDefault();
+        });
+
+        testDiv.appendChild(testEl);
 
         // when
-        keyboard._keyHandler({ key: TEST_KEY, metaKey: true, target: inputField });
-        keyboard._keyHandler({ key: TEST_KEY, ctrlKey: true, target: inputField });
+        dispatchKeyboardEvent(testEl, 'keydown');
+        dispatchKeyboardEvent(testEl, 'keyup');
 
         // then
-        expect(eventBusSpy).to.not.be.called;
+        expect(keyListener).not.to.be.called;
       })
     );
 
@@ -482,6 +511,7 @@ describe('features/keyboard', function() {
 // helpers //////////
 
 function dispatchKeyboardEvent(target, type) {
-  var event = createKeyEvent('Any', { type: type });
+  var event = createKeyEvent('KeyA', { type });
+
   target.dispatchEvent(event);
 }
