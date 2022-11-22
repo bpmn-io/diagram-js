@@ -12,6 +12,8 @@ import zoomScrollModule from 'lib/navigation/zoomscroll';
 import createModule from 'lib/features/create';
 import modelingModule from 'lib/features/modeling';
 
+import { createKeyEvent } from 'test/util/KeyEvents';
+
 import { classes as svgClasses } from 'tiny-svg';
 
 
@@ -424,6 +426,30 @@ describe('features/dragging - Dragging', function() {
     ));
 
   });
+
+});
+
+
+describe('features/dragging - keyboard integration', function() {
+
+  beforeEach(bootstrapDiagram({
+    modules: [
+      dragModule
+    ]
+  }));
+
+
+  it('should cancel on <Escape>', inject(function(dragging) {
+
+    // given
+    dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+    // when
+    document.dispatchEvent(createKeyEvent('Escape', { type: 'keyup' }));
+
+    // then
+    expect(dragging.context()).not.to.exist;
+  }));
 
 });
 
