@@ -220,6 +220,36 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
+  describe('header', function() {
+
+    it('should render header entry', inject(function() {
+
+      // given
+      const headerEntries = [
+        { id: '1', label: '1' },
+        { id: '2', imageUrl: 'http://localhost/404.png', title: 'Toggle foo' }
+      ];
+
+      createPopupMenu({ container, headerEntries });
+
+      // when
+      const [
+        firstEntry,
+        secondEntry
+      ] = domQueryAll('.entry', container);
+
+      // then
+      expect(firstEntry.title).to.be.empty;
+      expect(firstEntry.textContent).to.eql('1');
+
+      expect(secondEntry.title).to.eql('Toggle foo');
+      expect(secondEntry.textContent).to.eql('');
+      expect(secondEntry.innerHTML).to.eql('<img src="http://localhost/404.png">');
+    }));
+
+  });
+
+
   it('should render title, if set', inject(function() {
 
     // given
