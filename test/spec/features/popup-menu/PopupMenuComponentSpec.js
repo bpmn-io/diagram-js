@@ -247,6 +247,36 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(secondEntry.innerHTML).to.eql('<img src="http://localhost/404.png">');
     }));
 
+
+    it('should select header entry on hover', inject(async function() {
+
+      // given
+      const headerEntries = [
+        { id: '1', label: '1' },
+        { id: '2', label: '2' }
+      ];
+
+      createPopupMenu({ container, headerEntries });
+
+      const entryEl = domQuery('.entry', container);
+
+      // when
+      entryEl.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+
+      await whenStable();
+
+      // then
+      expect(entryEl.classList.contains('selected')).to.be.true;
+
+      // but when
+      entryEl.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+
+      await whenStable();
+
+      // then
+      expect(entryEl.classList.contains('selected')).to.be.false;
+    }));
+
   });
 
 
