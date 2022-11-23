@@ -200,6 +200,23 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(firstEntry.classList.contains('selected')).to.be.true;
     }));
 
+
+    it('should hide if empty', inject(function() {
+      const headerEntries = [
+        { id: '1', label: '1' },
+        { id: '2', label: '2' }
+      ];
+
+      createPopupMenu({ container, headerEntries });
+
+      const popupEl = domQuery('.djs-popup', container);
+      const popupBodyEl = domQuery('.djs-popup-body', container);
+
+      // then
+      expect(popupEl.textContent).to.eql('12');
+      expect(popupBodyEl).not.to.exist;
+    }));
+
   });
 
 
@@ -268,6 +285,27 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(5);
+      expect(domQuery('.djs-popup-no-results', container)).not.to.exist;
+    }));
+
+
+    it('should show <not found>', inject(async function() {
+
+      // given
+      createPopupMenu({ container, entries, search: true });
+
+      var searchInput = domQuery('.djs-popup-search input', container);
+      searchInput.value = 'Foo bar';
+
+      // when
+      searchInput.dispatchEvent(keyDown('ArrowDown'));
+      searchInput.dispatchEvent(keyUp('ArrowDown'));
+
+      await whenStable();
+
+      // then
+      expect(domQueryAll('.entry', container)).to.have.length(0);
+      expect(domQuery('.djs-popup-no-results', container)).to.exist;
     }));
 
 
