@@ -6,6 +6,15 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.1.0
+* `FEAT`: keyboard handles events on bubble phase instead of capture phase ([#708](https://github.com/bpmn-io/diagram-js/pull/708))
+* `FEAT`: keyboard ignores events that got their propagation stopped or their default prevented ([#708](https://github.com/bpmn-io/diagram-js/pull/708))
+* `FIX`: popup menu remains open after clicking on it ([#702](https://github.com/bpmn-io/diagram-js/issues/702))
+* `FIX`: correctly listen for <ESCAPE> to cancel dragging ([#709](https://github.com/bpmn-io/diagram-js/pull/709))
+* `FIX`: ensure arrow keys navigation works consistently in popup menu ([#701](https://github.com/bpmn-io/diagram-js/issues/701))
+* `FIX`: handle popup menu header selection properly ([#711](https://github.com/bpmn-io/diagram-js/pull/711))
+* `CHORE`: add `djs-popup-` prefix to popup menu classes ([#703](https://github.com/bpmn-io/diagram-js/issues/703))
+
 ## 11.0.0
 
 * `FEAT`: drop `KeyboardEvent#keyCode` in favor of `code` ([#681](https://github.com/bpmn-io/diagram-js/pull/681))
