@@ -99,7 +99,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       });
 
       const popupEl = domQuery(
-        '.djs-popup-backdrop', container
+        '.djs-popup', container
       );
 
       // then

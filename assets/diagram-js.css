@@ -536,6 +536,7 @@ marker.djs-dragger tspan {
   box-shadow: 0px 2px 10px var(--popup-shadow-color);
   padding-top: 12px;
   min-width: 120px;
+  outline: none;
 }
 
 .djs-popup-search input {
