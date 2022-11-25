@@ -440,7 +440,6 @@ describe('features/popup-menu', function() {
       it('should display group name if provided', inject(function(popupMenu) {
 
         // given
-        var container = getPopupContainer(popupMenu);
         popupMenu.registerProvider('group-menu', {
           getEntries: function() {
             return [
@@ -454,6 +453,7 @@ describe('features/popup-menu', function() {
         // when
         popupMenu.open({}, 'group-menu', { x: 100, y: 100 });
 
+        const container = getPopupContainer(popupMenu);
         const entryHeaders = domQueryAll('.entry-header', container);
 
         // then
@@ -556,6 +556,28 @@ describe('features/popup-menu', function() {
       expect(open).to.be.false;
 
       expect(closeSpy).to.have.been.calledOnce;
+    }));
+
+
+    it('should remove container', inject(function(popupMenu, eventBus) {
+
+      // given
+      var closeSpy = sinon.spy();
+      var container = popupMenu._current.container;
+
+      eventBus.on('popupMenu.close', closeSpy);
+
+      // assume
+      expect(container.parentNode).to.exist;
+
+      // when
+      popupMenu.close();
+
+      // then
+      expect(popupMenu.isOpen()).to.be.false;
+
+      expect(closeSpy).to.have.been.calledOnce;
+      expect(container.parentNode).not.to.exist;
     }));
 
 
