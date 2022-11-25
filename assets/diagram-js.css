@@ -514,7 +514,7 @@ marker.djs-dragger tspan {
 /**
  * popup styles
  */
-.djs-popup {
+.djs-popup-backdrop {
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -527,7 +527,7 @@ marker.djs-dragger tspan {
   border-radius: 2px;
 }
 
-.djs-popup-overlay {
+.djs-popup {
   width: min-content;
   background: var(--popup-background-color);
   overflow: hidden;

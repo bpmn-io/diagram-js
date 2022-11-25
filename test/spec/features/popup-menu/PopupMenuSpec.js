@@ -255,13 +255,13 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'menu', { x: 100, y: 100 });
 
       var container = popupMenu._current.container;
-      var popup = container.childNodes[0];
 
       // then
       expect(domClasses(container).has('djs-popup-parent')).to.be.true;
+      expect(domQueryAll('.djs-popup-backdrop', container)).to.have.length(1);
       expect(domQueryAll('.djs-popup', container)).to.have.length(1);
-      expect(domClasses(popup).has('djs-popup')).to.be.true;
-      expect(domClasses(popup).has('menu')).to.be.true;
+
+      expect(domClasses(domQuery('.djs-popup', container)).has('menu')).to.be.true;
     }));
 
 
@@ -1072,12 +1072,12 @@ describe('features/popup-menu', function() {
         expect(queryPopup('.popup-menu1')).to.be.null;
         expect(queryPopup('.popup-menu2')).not.to.be.null;
 
-        var popup = container.childNodes[0];
-        expect(domClasses(popup).has('popup-menu2')).to.be.true;
+        var popupBackdropEl = container.childNodes[0];
 
-        var popupOverlay = popup.childNodes[0];
-        expect(popupOverlay.style.left).to.eql('200px');
-        expect(popupOverlay.style.top).to.eql('200px');
+        var popupEl = popupBackdropEl.childNodes[0];
+        expect(popupEl.style.left).to.eql('200px');
+        expect(popupEl.style.top).to.eql('200px');
+        expect(domClasses(popupEl).has('popup-menu2')).to.be.true;
 
         var group = getGroup('default');
 
@@ -1357,7 +1357,7 @@ describe('features/popup-menu', function() {
       // when
       popupMenu.open({}, 'custom-provider', cursorPosition);
 
-      var menu = domQuery('.djs-popup-overlay', popupMenu._current.container);
+      var menu = domQuery('.djs-popup', popupMenu._current.container);
 
       var menuDimensions = {
         width: menu.scrollWidth,
@@ -1384,7 +1384,7 @@ describe('features/popup-menu', function() {
         // when
         popupMenu.open({}, 'custom-provider', { x: 100, y: 150, cursor: cursorPosition });
 
-        var menu = domQuery('.djs-popup-overlay', popupMenu._current.container);
+        var menu = domQuery('.djs-popup', popupMenu._current.container);
 
         // then
         expect(menu.offsetTop).to.equal(10);
@@ -1402,7 +1402,7 @@ describe('features/popup-menu', function() {
       // when
       popupMenu.open({}, 'custom-provider', cursorPosition);
 
-      var menu = domQuery('.djs-popup-overlay', popupMenu._current.container);
+      var menu = domQuery('.djs-popup', popupMenu._current.container);
 
       var menuDimensions = {
         width: menu.scrollWidth,
@@ -1455,7 +1455,7 @@ describe('features/popup-menu', function() {
 
           popupMenu.open({}, 'menu', { x: 100, y: 100 });
 
-          var menu = domQuery('.djs-popup-overlay', popupMenu._current.container);
+          var menu = domQuery('.djs-popup', popupMenu._current.container);
 
           var actualScale = scaleVector(menu) || { x: 1, y: 1 };
 

@@ -53,7 +53,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
     const popup = domQuery(
-      '.djs-popup-overlay', container
+      '.djs-popup', container
     );
 
     const popupBounds = popup.getBoundingClientRect();
@@ -99,7 +99,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       });
 
       const popupEl = domQuery(
-        '.djs-popup', container
+        '.djs-popup-backdrop', container
       );
 
       // then
@@ -118,7 +118,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
     const popup = domQuery(
-      '.djs-popup-overlay', container
+      '.djs-popup', container
     );
 
     // then
@@ -173,7 +173,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       createPopupMenu({ container, entries, onClose, onSelect });
 
       const popup = domQuery(
-        '.djs-popup-overlay', container
+        '.djs-popup', container
       );
 
       popup.click();
