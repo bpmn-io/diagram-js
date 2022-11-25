@@ -254,14 +254,14 @@ describe('features/popup-menu', function() {
       // when
       popupMenu.open({}, 'menu', { x: 100, y: 100 });
 
-      var container = popupMenu._current.container;
+      var container = getPopupContainer();
 
       // then
       expect(domClasses(container).has('djs-popup-parent')).to.be.true;
-      expect(domQueryAll('.djs-popup-backdrop', container)).to.have.length(1);
-      expect(domQueryAll('.djs-popup', container)).to.have.length(1);
+      expect(queryPopupAll('.djs-popup-backdrop')).to.have.length(1);
+      expect(queryPopupAll('.djs-popup')).to.have.length(1);
 
-      expect(domClasses(domQuery('.djs-popup', container)).has('menu')).to.be.true;
+      expect(domClasses(queryPopup('.djs-popup')).has('menu')).to.be.true;
     }));
 
 
@@ -270,7 +270,7 @@ describe('features/popup-menu', function() {
       // when
       popupMenu.open({}, 'menu', { x: 100, y: 100 });
 
-      var container = popupMenu._current.container;
+      var container = getPopupContainer();
 
       // then
       expect(getComputedStyle(container).visibility).not.to.eql('hidden');
@@ -453,8 +453,7 @@ describe('features/popup-menu', function() {
         // when
         popupMenu.open({}, 'group-menu', { x: 100, y: 100 });
 
-        const container = getPopupContainer(popupMenu);
-        const entryHeaders = domQueryAll('.entry-header', container);
+        const entryHeaders = queryPopupAll('.entry-header');
 
         // then
         expect(entryHeaders).to.have.lengthOf(2);
@@ -563,7 +562,7 @@ describe('features/popup-menu', function() {
 
       // given
       var closeSpy = sinon.spy();
-      var container = popupMenu._current.container;
+      var container = getPopupContainer();
 
       eventBus.on('popupMenu.close', closeSpy);
 
@@ -1379,7 +1378,7 @@ describe('features/popup-menu', function() {
       // when
       popupMenu.open({}, 'custom-provider', cursorPosition);
 
-      var menu = domQuery('.djs-popup', popupMenu._current.container);
+      var menu = queryPopup('.djs-popup');
 
       var menuDimensions = {
         width: menu.scrollWidth,
@@ -1406,7 +1405,7 @@ describe('features/popup-menu', function() {
         // when
         popupMenu.open({}, 'custom-provider', { x: 100, y: 150, cursor: cursorPosition });
 
-        var menu = domQuery('.djs-popup', popupMenu._current.container);
+        var menu = queryPopup('.djs-popup');
 
         // then
         expect(menu.offsetTop).to.equal(10);
@@ -1424,7 +1423,7 @@ describe('features/popup-menu', function() {
       // when
       popupMenu.open({}, 'custom-provider', cursorPosition);
 
-      var menu = domQuery('.djs-popup', popupMenu._current.container);
+      var menu = queryPopup('.djs-popup');
 
       var menuDimensions = {
         width: menu.scrollWidth,
@@ -1477,7 +1476,7 @@ describe('features/popup-menu', function() {
 
           popupMenu.open({}, 'menu', { x: 100, y: 100 });
 
-          var menu = domQuery('.djs-popup', popupMenu._current.container);
+          var menu = queryPopup('.djs-popup');
 
           var actualScale = scaleVector(menu) || { x: 1, y: 1 };
 
@@ -1788,7 +1787,11 @@ function queryPopupAll(selector) {
 
 function getPopupContainer() {
   return getDiagramJS().invoke(function(popupMenu) {
-    return popupMenu._current.container;
+    const current = popupMenu._current;
+
+    expect(current, 'expect popupMenu to be open').to.exist;
+
+    return current.container;
   });
 }
 
