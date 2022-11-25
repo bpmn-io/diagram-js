@@ -555,13 +555,6 @@ marker.djs-dragger tspan {
   outline: none;
 }
 
-.djs-popup_header {
-  display: flex;
-  align-items: stretch;
-  line-height: 20px;
-  margin: 12px 12px 10px 12px;
-}
-
 .djs-popup-header {
   display: flex;
   align-items: stretch;
