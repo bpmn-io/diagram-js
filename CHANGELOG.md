@@ -6,7 +6,15 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.1.1
+
+* `FEAT`: keep popup menu class structure aligned with `diagram-js@10` ([`f78a1a57`](https://github.com/bpmn-io/diagram-js/commit/f78a1a57e6dd7ca31933f2467ee56ba6f7b2fab9))
+* `FIX`: remove popup menu container on close ([`e1df3edd`](https://github.com/bpmn-io/diagram-js/commit/e1df3eddf58f96dfabef8dc2b6e576966e89c803))
+* `FIX`: make actual popup menu keyboard selectable ([`9fda6b0f`](https://github.com/bpmn-io/diagram-js/commit/9fda6b0f9d32bfc8d13b7dc1062f43c37b65bf57))
+* `FIX`: apply consistent popup-menu spacing ([`4d4ab8e1`](https://github.com/bpmn-io/diagram-js/commit/4d4ab8e1cfc91b805db3f90c7fd36bd2626fdfca))
+
 ## 11.1.0
+
 * `FEAT`: keyboard handles events on bubble phase instead of capture phase ([#708](https://github.com/bpmn-io/diagram-js/pull/708))
 * `FEAT`: keyboard ignores events that got their propagation stopped or their default prevented ([#708](https://github.com/bpmn-io/diagram-js/pull/708))
 * `FIX`: popup menu remains open after clicking on it ([#702](https://github.com/bpmn-io/diagram-js/issues/702))
