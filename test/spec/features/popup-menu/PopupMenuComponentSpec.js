@@ -328,6 +328,34 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(describedEntry.textContent).to.eql('FOOI DESCRIBE IT');
     }));
 
+
+    it('should render entry header', inject(function() {
+
+      // given
+      const entries = [
+        {
+          id: '1',
+          label: '1',
+          group: {
+            id: 'SAD',
+            name: 'SOME GROUP'
+          }
+        }
+      ];
+
+      createPopupMenu({ container, entries });
+
+      // when
+      const [
+        groupHeader
+      ] = domQueryAll('.entry-header', container);
+
+      // then
+      expect(groupHeader).to.exist;
+      expect(groupHeader.title).to.eql('SOME GROUP');
+      expect(groupHeader.textContent).to.eql('SOME GROUP');
+    }));
+
   });
 
 
@@ -404,8 +432,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
     // then
     var titleElement = domQuery('.djs-popup-title', container);
     expect(titleElement).to.exist;
+    expect(titleElement.title).to.eql(title);
     expect(titleElement.innerHTML).to.eql(title);
-
   }));
 
 
