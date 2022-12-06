@@ -322,7 +322,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       expect(secondEntry.title).to.eql('Toggle foo');
       expect(secondEntry.textContent).to.eql('');
-      expect(secondEntry.innerHTML).to.include('<img');
+      expect(secondEntry.innerHTML).to.include(`<img class="djs-popup-entry-icon" src="${ imageUrl }">`);
 
       expect(describedEntry.title).to.eql('FOO');
       expect(describedEntry.textContent).to.eql('FOOI DESCRIBE IT');
@@ -336,9 +336,11 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should render header entry', inject(function() {
 
       // given
+      const imageUrl = TEST_IMAGE_URL;
+
       const headerEntries = [
         { id: '1', label: '1' },
-        { id: '2', imageUrl: 'http://localhost/404.png', title: 'Toggle foo' }
+        { id: '2', imageUrl, title: 'Toggle foo' }
       ];
 
       createPopupMenu({ container, headerEntries });
@@ -355,7 +357,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       expect(secondEntry.title).to.eql('Toggle foo');
       expect(secondEntry.textContent).to.eql('');
-      expect(secondEntry.innerHTML).to.eql('<img src="http://localhost/404.png">');
+      expect(secondEntry.innerHTML).to.eql(`<img class="djs-popup-entry-icon" src="${ imageUrl }">`);
     }));
 
 
