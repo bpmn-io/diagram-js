@@ -87,8 +87,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
     const popupBounds = popup.getBoundingClientRect();
 
     // then
-    expect(popupBounds.x).to.eql(100);
-    expect(popupBounds.y).to.eql(100);
+    expect(popupBounds.x).to.be.closeTo(100, 1);
+    expect(popupBounds.y).to.be.closeTo(100, 1);
   }));
 
 
