@@ -714,7 +714,7 @@ marker.djs-dragger tspan {
 
 .djs-popup *::-webkit-scrollbar-track {
   box-shadow: none;
-  background: transparent1;
+  background: transparent;
   margin: 0;
   padding: 5px;
 }
