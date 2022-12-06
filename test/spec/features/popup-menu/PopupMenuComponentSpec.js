@@ -295,6 +295,39 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(popupBodyEl).not.to.exist;
     }));
 
+
+    it('should render body entry', inject(function() {
+
+      // given
+      const imageUrl = TEST_IMAGE_URL;
+
+      const entries = [
+        { id: '1', label: '1' },
+        { id: '2', imageUrl, title: 'Toggle foo' },
+        { id: '3', label: 'FOO', description: 'I DESCRIBE IT' }
+      ];
+
+      createPopupMenu({ container, entries });
+
+      // when
+      const [
+        firstEntry,
+        secondEntry,
+        describedEntry
+      ] = domQueryAll('.entry', container);
+
+      // then
+      expect(firstEntry.title).to.eql('1');
+      expect(firstEntry.textContent).to.eql('1');
+
+      expect(secondEntry.title).to.eql('Toggle foo');
+      expect(secondEntry.textContent).to.eql('');
+      expect(secondEntry.innerHTML).to.include('<img');
+
+      expect(describedEntry.title).to.eql('FOO');
+      expect(describedEntry.textContent).to.eql('FOOI DESCRIBE IT');
+    }));
+
   });
 
 
@@ -317,7 +350,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       ] = domQueryAll('.entry', container);
 
       // then
-      expect(firstEntry.title).to.be.empty;
+      expect(firstEntry.title).to.eql('1');
       expect(firstEntry.textContent).to.eql('1');
 
       expect(secondEntry.title).to.eql('Toggle foo');
