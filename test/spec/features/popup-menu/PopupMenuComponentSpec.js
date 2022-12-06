@@ -7,13 +7,40 @@ import {
 
 import {
   bootstrapDiagram,
+  insertCSS,
   inject
 } from 'test/TestHelper';
 
 import {
+  domify,
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
+
+
+const TEST_IMAGE_URL = `data:image/svg+xml;utf8,${
+  encodeURIComponent(`
+    <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="300" style="fill: green" />
+    </svg>
+  `)
+}`;
+
+insertCSS('fake-font.css', `
+  .bpmn-icon-sun:before {
+    content: '☼';
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+  }
+`);
 
 
 describe('features/popup-menu - <PopupMenu>', function() {
@@ -21,7 +48,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
   let container, teardown;
 
   beforeEach(function() {
-    container = document.createElement('div');
+    container = domify('<div class="djs-parent"></div>');
+
     document.body.appendChild(container);
   });
 
@@ -123,6 +151,56 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
     // then
     expect(popup.style.width).to.eql('200px');
+  }));
+
+
+  it('should render complex', inject(function() {
+
+    const imageUrl = TEST_IMAGE_URL;
+
+    // given
+    const headerEntries = [
+      { id: '1', label: '|A|' },
+      { id: '1.1', label: '|A|', imageUrl },
+      { id: '2', imageUrl, title: 'Toggle foo' },
+      { id: '3', className: 'bpmn-icon-sun' }
+    ];
+
+    const iconGroup = {
+      id: 'icons',
+      name: 'Icon Group'
+    };
+
+    const entries = [
+      { id: '4', label: 'Just label' },
+      { id: '5', imageUrl, title: 'Toggle foo' },
+      { id: '6', imageUrl, label: 'Toggle foo' },
+      { id: '7', label: 'with description', description: 'I DESCRIBE IT' },
+      { id: '7.1', label: 'with long title and description, you cannot believe what happened next', description: 'A very long description, you cannot believe what happened next' },
+      { id: '7.2', label: 'with long title and description, you cannot believe what happened next', description: 'A very long description, you cannot believe what happened next', documentationRef: 'http://localhost' },
+      { id: '8', imageUrl, label: 'with image + description', description: 'I DESCRIBE more stuff' },
+      { id: '9', imageUrl, label: 'WITH DOC REF', documentationRef: 'http://localhost' },
+      { id: '10', imageUrl, label: 'FOO', description: 'WITH DOC REF', documentationRef: 'http://localhost' },
+      { id: '11', className: 'bpmn-icon-sun', label: 'FONT ICON + description', description: 'WITH DOC REF', group: iconGroup },
+      { id: '11.1', className: 'bpmn-icon-sun', label: 'FONT ICON', group: iconGroup },
+      { id: '11.2', className: 'bpmn-icon-sun', title: 'icon only', group: iconGroup },
+      { id: '12', className: 'bpmn-icon-sun', title: 'icon only', group: {
+        id: 'super long',
+        name: 'Extremely super long group incredible!'
+      } }
+    ];
+
+    createPopupMenu({
+      container,
+      title: 'Popup menu with super long title',
+      headerEntries,
+      entries,
+      position: () => {
+        return { x: 100, y: 200 };
+      },
+      width: 250
+    });
+
   }));
 
 
