@@ -564,7 +564,6 @@ marker.djs-dragger tspan {
 }
 
 .djs-popup-header .entry {
-  font-size: 19.5px;
   border-radius: 2px;
 }
 
@@ -629,10 +628,18 @@ marker.djs-dragger tspan {
   padding-left: 0;
 }
 
+.djs-popup [class*="icon"] .djs-popup-label,
+.djs-popup-label:not(:first-child) {
+  margin-left: .5rem;
+}
+
+.djs-popup [class*="icon"]:before,
 .djs-popup-entry-icon {
-  width: 16px;
-  margin-right: 0.5rem;
-  margin-bottom: -0.2rem;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  font-size: 1.4em;
+  vertical-align: middle;
 }
 
 .djs-popup-body .entry-header:not(:first-child) {
@@ -689,15 +696,6 @@ marker.djs-dragger tspan {
   flex-direction: column;
   flex: 1;
   overflow: hidden;
-}
-
-.djs-popup-entry-name[class^="bpmn-icon-"]:before,
-.djs-popup-entry-name[class*=" bpmn-icon-"]:before,
-.djs-popup-entry-icon {
-  display: inline-block;
-  font-size: 1.4em;
-  vertical-align: middle;
-  margin-right: 0.5rem;
 }
 
 .djs-popup-body {
