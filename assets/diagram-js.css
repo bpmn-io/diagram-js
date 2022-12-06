@@ -585,7 +585,6 @@ marker.djs-dragger tspan {
   font-weight: var(--popup-header-font-weight);
   flex: 1;
   margin: 0;
-  width: max-content;
 }
 
 .djs-popup-search {
@@ -667,10 +666,15 @@ marker.djs-dragger tspan {
   color: var(--popup-description-color);
 }
 
-.djs-popup-entry-name,
+.djs-popup-label,
 .djs-popup-entry-description {
   line-height: 1.4em;
-  display: block;
+}
+
+.djs-popup-title,
+.djs-popup-label,
+.djs-popup-entry-description,
+.djs-popup .entry-header {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
