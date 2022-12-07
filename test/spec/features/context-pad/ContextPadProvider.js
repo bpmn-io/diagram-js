@@ -36,6 +36,8 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
         action: {
           dragstart: function(e) {
             e.__handled = true;
+
+            return 'action.dragstart';
           }
         }
       }
