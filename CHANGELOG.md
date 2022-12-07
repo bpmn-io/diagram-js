@@ -6,6 +6,13 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.2.0
+
+* `FEAT`: consistently truncate popup menu elements ([#717](https://github.com/bpmn-io/diagram-js/pull/717))
+* `FIX`: account for popup menu entry `title` meta-data ([#717](https://github.com/bpmn-io/diagram-js/pull/717))
+* `FIX`: apply popup menu element margins only where needed ([#717](https://github.com/bpmn-io/diagram-js/pull/717))
+* `CHORE`: improve popup menu theming ([#717](https://github.com/bpmn-io/diagram-js/pull/717))
+
 ## 11.1.1
 
 * `FEAT`: keep popup menu class structure aligned with `diagram-js@10` ([`f78a1a57`](https://github.com/bpmn-io/diagram-js/commit/f78a1a57e6dd7ca31933f2467ee56ba6f7b2fab9))
