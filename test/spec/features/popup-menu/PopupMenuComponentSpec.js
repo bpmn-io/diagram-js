@@ -63,6 +63,38 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
+  it('should emit "opened" after mounting', async function() {
+
+    // given
+    const onOpened = sinon.spy();
+
+    // when
+    createPopupMenu({ container, onOpened });
+
+    await whenStable();
+
+    // then
+    expect(onOpened).to.have.been.calledOnce;
+  });
+
+
+  it('should emit "closed" after unmounting', async function() {
+
+    // given
+    const onClosed = sinon.spy();
+
+    createPopupMenu({ container, onClosed });
+
+    await whenStable();
+
+    // when
+    teardown();
+
+    // then
+    expect(onClosed).to.have.been.calledOnce;
+  });
+
+
   it('should open in correct position', function() {
 
     // given
@@ -689,6 +721,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
         return { x: 0, y: 0 };
       },
       onClose() {},
+      onOpened() {},
+      onClosed() {},
       ...restOptions
     };
 

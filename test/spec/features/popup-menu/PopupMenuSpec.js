@@ -233,12 +233,15 @@ describe('features/popup-menu', function() {
     }));
 
 
-    it('should open', inject(function(popupMenu, eventBus) {
+    it('should open', inject(async function(popupMenu, eventBus) {
 
       // given
       var openSpy = sinon.spy();
+      var openedSpy = sinon.spy();
 
       eventBus.on('popupMenu.open', openSpy);
+      eventBus.on('popupMenu.opened', openedSpy);
+
 
       // when
       popupMenu.open({}, 'menu', { x: 100, y: 100 });
@@ -246,6 +249,9 @@ describe('features/popup-menu', function() {
       // then
       expect(popupMenu._current).to.exist;
       expect(openSpy).to.have.been.calledOnce;
+
+      await whenStable();
+      expect(openedSpy).to.have.been.calledOnce;
     }));
 
 
@@ -539,22 +545,25 @@ describe('features/popup-menu', function() {
     }));
 
 
-    it('should close', inject(function(popupMenu, eventBus) {
+    it('should close', inject(async function(popupMenu, eventBus) {
 
       // given
       var closeSpy = sinon.spy();
+      var closedSpy = sinon.spy();
 
       eventBus.on('popupMenu.close', closeSpy);
+      eventBus.on('popupMenu.closed', closedSpy);
 
       // when
+      await whenStable();
       popupMenu.close();
 
       // then
       var open = popupMenu.isOpen();
 
       expect(open).to.be.false;
-
       expect(closeSpy).to.have.been.calledOnce;
+      expect(closedSpy).to.have.been.calledOnce;
     }));
 
 
@@ -1797,4 +1806,8 @@ function getPopupContainer() {
 
 function getGroup(groupName) {
   return domQuery('[data-group="' + groupName + '"]', getPopupContainer());
+}
+
+function whenStable() {
+  return new Promise(resolve => setTimeout(resolve, 200));
 }
