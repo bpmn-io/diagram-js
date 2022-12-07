@@ -844,6 +844,55 @@ describe('features/context-pad', function() {
       expect(event.__handled).to.be.true;
     }));
 
+
+    it('should handle manually initiated drag', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's1',
+        width: 100, height: 100,
+        x: 10, y: 10,
+        type: 'drag'
+      });
+
+      contextPad.open(shape);
+
+      var pad = contextPad.getPad(shape),
+          html = pad.html,
+          target = domQuery('[data-action=""]', html);
+
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      var result = contextPad.triggerEntry('action.dragstart', 'dragstart', event);
+
+      // then
+      expect(event.__handled).to.be.true;
+      expect(result).to.eql('action.dragstart');
+    }));
+
+
+    it('should not handle events if contextPad is not shown', inject(function(canvas, contextPad, eventBus) {
+
+      // given
+      var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
+
+      contextPad.open(shape);
+
+      var pad = contextPad.getPad(shape),
+          html = pad.html,
+          target = domQuery('[data-action="action.c"]', html);
+
+      var event = globalEvent(target, { x: 0, y: 0 });
+      eventBus.fire('canvas.viewbox.changing');
+
+      // when
+      contextPad.trigger('click', event);
+
+      // then
+      expect(event.__handled).to.be.undefined;
+    }));
+
   });
 
 
