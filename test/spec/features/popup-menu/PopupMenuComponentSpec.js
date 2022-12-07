@@ -6,9 +6,7 @@ import {
 } from 'lib/ui';
 
 import {
-  bootstrapDiagram,
-  insertCSS,
-  inject
+  insertCSS
 } from 'test/TestHelper';
 
 import {
@@ -53,8 +51,6 @@ describe('features/popup-menu - <PopupMenu>', function() {
     document.body.appendChild(container);
   });
 
-  beforeEach(bootstrapDiagram());
-
   afterEach(function() {
     container.parentNode.removeChild(container);
 
@@ -62,12 +58,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
-  it('should render', inject(function() {
+  it('should render', function() {
     createPopupMenu({ container });
-  }));
+  });
 
 
-  it('should open in correct position', inject(function() {
+  it('should open in correct position', function() {
 
     // given
     var position = () => {
@@ -89,12 +85,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
     // then
     expect(popupBounds.x).to.be.closeTo(100, 1);
     expect(popupBounds.y).to.be.closeTo(100, 1);
-  }));
+  });
 
 
   describe('should focus', function() {
 
-    it('with search', inject(function() {
+    it('with search', function() {
 
       // when
       createPopupMenu({
@@ -116,10 +112,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(document.activeElement).to.equal(searchInputEl);
-    }));
+    });
 
 
-    it('without search', inject(function() {
+    it('without search', function() {
 
       // when
       createPopupMenu({
@@ -132,12 +128,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(document.activeElement).to.equal(popupEl);
-    }));
+    });
 
   });
 
 
-  it('should apply custom width', inject(function() {
+  it('should apply custom width', function() {
 
     // when
     createPopupMenu({
@@ -151,10 +147,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
     // then
     expect(popup.style.width).to.eql('200px');
-  }));
+  });
 
 
-  it('should render complex', inject(function() {
+  it('should render complex', function() {
 
     const imageUrl = TEST_IMAGE_URL;
 
@@ -201,12 +197,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
       width: 250
     });
 
-  }));
+  });
 
 
   describe('close', function() {
 
-    it('should close on background click', inject(function() {
+    it('should close on background click', function() {
       const onClose = sinon.spy();
 
       createPopupMenu({ container, onClose });
@@ -214,10 +210,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       container.children[0].click();
 
       expect(onClose).to.have.been.calledOnce;
-    }));
+    });
 
 
-    it('should NOT close on selection', inject(function() {
+    it('should NOT close on selection', function() {
 
       // given
       const onClose = sinon.spy();
@@ -236,10 +232,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // then
       expect(onSelect).to.have.been.calledOnceWith(sinon.match.any);
       expect(onClose).not.to.have.been.called;
-    }));
+    });
 
 
-    it('should NOT close on click inside', inject(function() {
+    it('should NOT close on click inside', function() {
 
       // given
       const onClose = sinon.spy();
@@ -257,14 +253,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
       popup.click();
 
       expect(onClose).not.to.have.been.called;
-    }));
+    });
 
   });
 
 
   describe('body', function() {
 
-    it('should select first entry', inject(function() {
+    it('should select first entry', function() {
       const entries = [
         { id: '1', label: 'Entry 1' },
         { id: '2', label: 'Entry 2' }
@@ -276,10 +272,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(firstEntry.classList.contains('selected')).to.be.true;
-    }));
+    });
 
 
-    it('should hide if empty', inject(function() {
+    it('should hide if empty', function() {
       const headerEntries = [
         { id: '1', label: '1' },
         { id: '2', label: '2' }
@@ -293,10 +289,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // then
       expect(popupEl.textContent).to.eql('12');
       expect(popupBodyEl).not.to.exist;
-    }));
+    });
 
 
-    it('should render body entry', inject(function() {
+    it('should render body entry', function() {
 
       // given
       const imageUrl = TEST_IMAGE_URL;
@@ -326,10 +322,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       expect(describedEntry.title).to.eql('FOO');
       expect(describedEntry.textContent).to.eql('FOOI DESCRIBE IT');
-    }));
+    });
 
 
-    it('should render entry header', inject(function() {
+    it('should render entry header', function() {
 
       // given
       const entries = [
@@ -354,14 +350,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(groupHeader).to.exist;
       expect(groupHeader.title).to.eql('SOME GROUP');
       expect(groupHeader.textContent).to.eql('SOME GROUP');
-    }));
+    });
 
   });
 
 
   describe('header', function() {
 
-    it('should render header entry', inject(function() {
+    it('should render header entry', function() {
 
       // given
       const imageUrl = TEST_IMAGE_URL;
@@ -386,10 +382,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(secondEntry.title).to.eql('Toggle foo');
       expect(secondEntry.textContent).to.eql('');
       expect(secondEntry.innerHTML).to.eql(`<img class="djs-popup-entry-icon" src="${ imageUrl }">`);
-    }));
+    });
 
 
-    it('should select header entry on hover', inject(async function() {
+    it('should select header entry on hover', async function() {
 
       // given
       const headerEntries = [
@@ -416,12 +412,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(entryEl.classList.contains('selected')).to.be.false;
-    }));
+    });
 
   });
 
 
-  it('should render title, if set', inject(function() {
+  it('should render title, if set', function() {
 
     // given
     const title = 'Title';
@@ -434,7 +430,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     expect(titleElement).to.exist;
     expect(titleElement.title).to.eql(title);
     expect(titleElement.innerHTML).to.eql(title);
-  }));
+  });
 
 
   describe('search', function() {
@@ -449,7 +445,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     ];
 
 
-    it('should filter entries + select first', inject(async function() {
+    it('should filter entries + select first', async function() {
 
       // given
       createPopupMenu({ container, entries, search: true });
@@ -467,10 +463,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(domQueryAll('.entry', container)).to.have.length(1);
       expect(domQuery('.entry', container).textContent).to.eql('Entry 3');
       expect(domQuery('.selected', container).textContent).to.eql('Entry 3');
-    }));
+    });
 
 
-    it('should allow partial search', inject(async function() {
+    it('should allow partial search', async function() {
 
       // given
       createPopupMenu({ container, entries, search: true });
@@ -487,10 +483,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // then
       expect(domQueryAll('.entry', container)).to.have.length(5);
       expect(domQuery('.djs-popup-no-results', container)).not.to.exist;
-    }));
+    });
 
 
-    it('should show <not found>', inject(async function() {
+    it('should show <not found>', async function() {
 
       // given
       createPopupMenu({ container, entries, search: true });
@@ -507,7 +503,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // then
       expect(domQueryAll('.entry', container)).to.have.length(0);
       expect(domQuery('.djs-popup-no-results', container)).to.exist;
-    }));
+    });
 
 
     describe('render', function() {
@@ -519,34 +515,34 @@ describe('features/popup-menu - <PopupMenu>', function() {
       ];
 
 
-      it('should be hidden by default', inject(async function() {
+      it('should be hidden by default', async function() {
 
         // given
         createPopupMenu({ container, entries: otherEntries });
 
         // then
         expect(domQuery('.djs-popup-search', container)).not.to.exist;
-      }));
+      });
 
 
-      it('should render (more than 5 entries)', inject(async function() {
+      it('should render (more than 5 entries)', async function() {
 
         // given
         createPopupMenu({ container, entries, search: true });
 
         // then
         expect(domQuery('.djs-popup-search', container)).to.exist;
-      }));
+      });
 
 
-      it('should be hidden (less than 5 entries)', inject(async function() {
+      it('should be hidden (less than 5 entries)', async function() {
 
         // given
         createPopupMenu({ container, entries: otherEntries, search: true });
 
         // then
         expect(domQuery('.djs-popup-search', container)).not.to.exist;
-      }));
+      });
 
     });
 
@@ -565,7 +561,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     ];
 
 
-    it('should trigger entry with <Enter>', inject(async function() {
+    it('should trigger entry with <Enter>', async function() {
 
       // given
       const onClose = sinon.spy();
@@ -582,12 +578,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(onSelect).to.be.calledOnceWith(enterEvent, entries[0]);
-    }));
+    });
 
 
     describe('should close with <Escape>', function() {
 
-      it('on search', inject(function() {
+      it('on search', function() {
 
         // given
         const onClose = sinon.spy();
@@ -600,10 +596,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
         // then
         expect(onClose).to.be.calledOnce;
-      }));
+      });
 
 
-      it('on popup', inject(function() {
+      it('on popup', function() {
 
         // given
         const onClose = sinon.spy();
@@ -616,10 +612,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
         // then
         expect(onClose).to.be.calledOnce;
-      }));
+      });
 
 
-      it('global', inject(async function() {
+      it('global', async function() {
 
         // given
         const onClose = sinon.spy();
@@ -632,12 +628,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
         // then
         expect(onClose).to.be.calledOnce;
-      }));
+      });
 
     });
 
 
-    it('should navigate with <ArrowDown>', inject(async function() {
+    it('should navigate with <ArrowDown>', async function() {
 
       // given
       createPopupMenu({ container, entries, search: true });
@@ -654,10 +650,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(domQuery('.selected', container).textContent).to.eql('Entry 2');
-    }));
+    });
 
 
-    it('should navigate with <ArrowUp>', inject(async function() {
+    it('should navigate with <ArrowUp>', async function() {
 
       // given
       createPopupMenu({ container, entries, search: true });
@@ -673,7 +669,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(domQuery('.selected', container).textContent).to.eql('Entry 6');
-    }));
+    });
 
   });
 
