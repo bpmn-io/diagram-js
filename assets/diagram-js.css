@@ -630,7 +630,7 @@ marker.djs-dragger tspan {
 
 .djs-popup [class*="icon"] .djs-popup-label,
 .djs-popup-label:not(:first-child) {
-  margin-left: .5rem;
+  margin-left: .5em;
 }
 
 .djs-popup [class*="icon"]:before,
