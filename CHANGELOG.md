@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.2.1
+
+* `FIX`: correct popup menu icon to label spacing
+
 ## 11.2.0
 
 * `FEAT`: consistently truncate popup menu elements ([#717](https://github.com/bpmn-io/diagram-js/pull/717))
