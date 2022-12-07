@@ -417,6 +417,43 @@ describe('features/overlays', function() {
   });
 
 
+  describe('#isShown', function() {
+
+    beforeEach(bootstrapDiagram({ modules: [ overlayModule ] }));
+
+
+    it('should show per default', inject(function(overlays) {
+
+      // then
+      expect(overlays.isShown()).to.be.true;
+    }));
+
+
+    it('hide on changing canvas', inject(function(overlays, eventBus) {
+
+      // when
+      eventBus.fire('canvas.viewbox.changing');
+
+      // then
+      expect(overlays.isShown()).not.to.be.true;
+    }));
+
+
+    it('show after canvas changed', inject(function(overlays, eventBus, canvas) {
+
+      // given
+      eventBus.fire('canvas.viewbox.changing');
+
+      // when
+      eventBus.fire('canvas.viewbox.changed', { viewbox: canvas.viewbox() });
+
+      // then
+      expect(overlays.isShown()).to.be.true;
+    }));
+
+  });
+
+
   describe('positioning', function() {
 
     beforeEach(bootstrapDiagram({ modules: [ overlayModule ] }));
