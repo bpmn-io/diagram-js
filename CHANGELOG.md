@@ -13,7 +13,7 @@ _**Note:** Yet to be released changes appear here._
 
 ## 11.2.1
 
-* `FIX`: correct popup menu icon to label spacing ([da5dac5](https://github.com/bpmn-io/diagram-js/commit/da5dac5))
+* `FIX`: correct popup menu icon to label spacing ([`da5dac5`](https://github.com/bpmn-io/diagram-js/commit/da5dac5))
 
 ## 11.2.0
 
