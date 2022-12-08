@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.3.0
+
+* `FEAT`: fire `popupMenu.opened` and `popupMenu.closed` events ([#718](https://github.com/bpmn-io/diagram-js/pull/718))
+* `FIX`: do not search popup menu entries by id ([#720](https://github.com/bpmn-io/diagram-js/pull/720))
+
 ## 11.2.1
 
 * `FIX`: correct popup menu icon to label spacing ([da5dac5](https://github.com/bpmn-io/diagram-js/commit/da5dac5))
