@@ -440,12 +440,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
   describe('search', function() {
 
     const entries = [
-      { id: '1', label: 'Entry 1' },
+      { id: '1', label: 'Entry 1', description: 'Entry 1 description' },
       { id: '2', label: 'Entry 2' },
       { id: '3', label: 'Entry 3' },
       { id: '4', label: 'Entry 4' },
       { id: '5', label: 'Entry 5' },
-      { id: '6', label: 'Last' }
+      { id: 'some_entry_id', label: 'Last' }
     ];
 
 
@@ -508,6 +508,45 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(domQueryAll('.entry', container)).to.have.length(0);
       expect(domQuery('.djs-popup-no-results', container)).to.exist;
     }));
+
+
+    it('should search description', async function() {
+
+      // given
+      createPopupMenu({ container, entries, search: true });
+
+      var searchInput = domQuery('.djs-popup-search input', container);
+      searchInput.value = entries[0].description;
+
+      // when
+      searchInput.dispatchEvent(keyDown('ArrowUp'));
+      searchInput.dispatchEvent(keyUp('ArrowUp'));
+
+      await whenStable();
+
+      // then
+      expect(domQueryAll('.entry', container)).to.have.length(1);
+      expect(domQuery('.entry .djs-popup-label', container).textContent).to.eql('Entry 1');
+    });
+
+
+    it('should not search id', async function() {
+
+      // given
+      createPopupMenu({ container, entries, search: true });
+
+      var searchInput = domQuery('.djs-popup-search input', container);
+      searchInput.value = entries[5].id;
+
+      // when
+      searchInput.dispatchEvent(keyDown('ArrowUp'));
+      searchInput.dispatchEvent(keyUp('ArrowUp'));
+
+      await whenStable();
+
+      // then
+      expect(domQueryAll('.entry', container)).to.have.length(0);
+    });
 
 
     describe('render', function() {
