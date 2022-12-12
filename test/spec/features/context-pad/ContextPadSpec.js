@@ -374,6 +374,53 @@ describe('features/context-pad', function() {
     });
 
 
+    describe('is shown', function() {
+
+      it('open', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        // when
+        contextPad.open(shape);
+
+        // then
+        expect(contextPad.isShown()).to.be.true;
+      }));
+
+
+      it('open and hidden', inject(function(canvas, contextPad, eventBus) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        // when
+        contextPad.open(shape);
+        eventBus.fire('canvas.viewbox.changing');
+
+        // then
+        expect(contextPad.isShown()).to.not.be.true;
+      }));
+
+
+      it('closed', inject(function(canvas, contextPad, eventBus) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        // then
+        expect(contextPad.isShown()).to.not.be.true;
+      }));
+
+    });
+
+
     describe('should open', function() {
 
       it('single element', inject(function(canvas, contextPad) {
