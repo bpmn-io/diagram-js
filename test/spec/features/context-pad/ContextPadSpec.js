@@ -872,6 +872,74 @@ describe('features/context-pad', function() {
     }));
 
 
+    it('should gracefully handle non-existing entry', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's1',
+        width: 100, height: 100,
+        x: 10, y: 10,
+        type: 'drag'
+      });
+
+      contextPad.open(shape);
+
+      var pad = contextPad.getPad(shape),
+          html = pad.html,
+          target = domQuery('[data-action=""]', html);
+
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      var result = contextPad.triggerEntry('NON_EXISTING_ENTRY', 'dragstart', event);
+
+      // then
+      expect(event.__handled).not.to.exist;
+      expect(result).not.to.exist;
+    }));
+
+
+    it('should gracefully handle non-existing action', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's1',
+        width: 100, height: 100,
+        x: 10, y: 10,
+        type: 'drag'
+      });
+
+      contextPad.open(shape);
+
+      var pad = contextPad.getPad(shape),
+          html = pad.html,
+          target = domQuery('[data-action=""]', html);
+
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      var result = contextPad.triggerEntry('action.dragstart', 'NON_EXISTING_ACTION', event);
+
+      // then
+      expect(event.__handled).not.to.exist;
+      expect(result).not.to.exist;
+    }));
+
+
+    it('should gracefully handle closed', inject(function(canvas, contextPad) {
+
+      // given
+      var event = globalEvent(document.body, { x: 0, y: 0 });
+
+      // when
+      var result = contextPad.triggerEntry('NON_EXISTING_ENTRY', 'dragstart', event);
+
+      // then
+      expect(event.__handled).not.to.exist;
+      expect(result).not.to.exist;
+    }));
+
+
     it('should not handle events if contextPad is not shown', inject(function(canvas, contextPad, eventBus) {
 
       // given
