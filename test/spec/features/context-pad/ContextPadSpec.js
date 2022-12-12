@@ -79,7 +79,7 @@ describe('features/context-pad', function() {
       // then
       expect(function() {
         contextPad.registerProvider(provider);
-      }).to.not.throw;
+      }).not.to.throw;
     }));
 
 
@@ -205,7 +205,7 @@ describe('features/context-pad', function() {
         var entries = contextPad.getEntries([]);
 
         // then
-        expect(entries.entryA).to.not.exist;
+        expect(entries.entryA).not.to.exist;
       }));
 
 
@@ -229,7 +229,7 @@ describe('features/context-pad', function() {
           var entries = contextPad.getEntries([]);
 
           // then
-          expect(entries.entryA).to.not.exist;
+          expect(entries.entryA).not.to.exist;
         }));
 
 
@@ -403,7 +403,7 @@ describe('features/context-pad', function() {
         eventBus.fire('canvas.viewbox.changing');
 
         // then
-        expect(contextPad.isShown()).to.not.be.true;
+        expect(contextPad.isShown()).not.to.be.true;
       }));
 
 
@@ -415,7 +415,7 @@ describe('features/context-pad', function() {
         canvas.addShape(shape);
 
         // then
-        expect(contextPad.isShown()).to.not.be.true;
+        expect(contextPad.isShown()).not.to.be.true;
       }));
 
     });
