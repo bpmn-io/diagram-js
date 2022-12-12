@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.4.1
+
+* `FIX`: gracefully handle context pad trigger errors
+
 ## 11.4.0
 
 * `FEAT`: add `Overlays#isShown` utility ([#719](https://github.com/bpmn-io/diagram-js/pull/719))
