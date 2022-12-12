@@ -521,7 +521,7 @@ marker.djs-dragger tspan {
   height: 100vh;
   top: 0;
   left: 0;
-  z-index: 200;
+  z-index: 2000;
   line-height: 1;
   font-family: "IBM Plex Sans", sans-serif;
   border: solid 1px var(--popup-border-color);
