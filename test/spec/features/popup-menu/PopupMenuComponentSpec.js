@@ -215,7 +215,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
       { id: '12', className: 'bpmn-icon-sun', title: 'icon only', group: {
         id: 'super long',
         name: 'Extremely super long group incredible!'
-      } }
+      } },
+      { id: '13', group: { id: 'other', name: 'Other' }, label: '13' },
+      { id: '14', group: { id: 'other', name: 'Other' }, label: '14' },
+      { id: '15', group: { id: 'other', name: 'Other' }, label: '15' },
+      { id: '16', group: { id: 'other', name: 'Other' }, label: '16' },
+      { id: '17', group: { id: 'other', name: 'Other' }, label: '17' },
+      { id: '18', group: { id: 'other', name: 'Other' }, label: '18' },
+      { id: '19', group: { id: 'other', name: 'Other' }, label: '19' }
     ];
 
     createPopupMenu({
