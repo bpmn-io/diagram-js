@@ -21,6 +21,7 @@ Some libraries / applications built on top of diagram-js:
 * [chor-js](https://github.com/bptlab/chor-js) - A BPMN 2.0 Choreography diagram viewer and editor
 * [postit-js](https://github.com/pinussilvestrus/postit-js) - Create Post-it boards on a canvas editor ([Demo](https://postit-js-demo.netlify.app/))
 * [Object Diagram Modeler](https://github.com/timKraeuter/object-diagram-modeler) - An object diagram viewer and editor ([Demo](https://timkraeuter.com/object-diagram-modeler/))
+* [archimate-js](https://github.com/archimodel/archimate-js) - An ArchiMate diagram viewer and editor ([Demo](https://archimodel.net))
 
 ## Resources
 
