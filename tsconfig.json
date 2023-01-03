@@ -1,0 +1,8 @@
+{
+  "files": [
+    "./test/types/test.ts"
+  ],
+  "compilerOptions": {
+    "noEmit": true
+  }
+}
