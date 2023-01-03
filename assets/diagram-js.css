@@ -605,7 +605,7 @@ marker.djs-dragger tspan {
   margin: 7px 3px 7px 12px;
   list-style: none;
   max-height: 280px;
-  overflow: overlay;
+  overflow: auto;
   padding-right: 9px;
 }
 
