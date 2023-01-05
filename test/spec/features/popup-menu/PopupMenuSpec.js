@@ -255,7 +255,7 @@ describe('features/popup-menu', function() {
     }));
 
 
-    it('should attach popup to html', inject(function(popupMenu) {
+    it('should scaffold basic structure', inject(function(popupMenu, canvas) {
 
       // when
       popupMenu.open({}, 'menu', { x: 100, y: 100 });
@@ -268,6 +268,18 @@ describe('features/popup-menu', function() {
       expect(queryPopupAll('.djs-popup')).to.have.length(1);
 
       expect(domClasses(queryPopup('.djs-popup')).has('menu')).to.be.true;
+    }));
+
+
+    it('should attach to diagram container', inject(function(popupMenu, canvas) {
+
+      // when
+      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+
+      var container = getPopupContainer();
+
+      // then
+      expect(container.parentNode).to.equal(canvas.getContainer());
     }));
 
 
