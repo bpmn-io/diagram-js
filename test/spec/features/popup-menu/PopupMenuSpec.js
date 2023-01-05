@@ -49,7 +49,7 @@ describe('features/popup-menu', function() {
 
   describe('bootstrap', function() {
 
-    it('overlay to be defined', inject(function(popupMenu) {
+    it('should expose <popupMenu> service', inject(function(popupMenu) {
       expect(popupMenu).to.exist;
       expect(popupMenu.open).to.exist;
     }));
