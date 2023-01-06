@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.4.2
+
+* `FIX`: render popup menu inside `djs-container` ([#728](https://github.com/bpmn-io/diagram-js/pull/728))
+* `FIX`: correct popup menu overflow ([#727](https://github.com/bpmn-io/diagram-js/pull/727))
+* `FIX`: drop popup menu backdrop border ([`e1327caf`](https://github.com/bpmn-io/diagram-js/commit/e1327caf0770038cba535d947742e0feecc39c98))
+
 ## 11.4.1
 
 * `FIX`: gracefully handle context pad trigger errors
