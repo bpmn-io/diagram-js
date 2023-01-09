@@ -47,7 +47,7 @@
     "babel-plugin-istanbul": "^6.1.1",
     "chai": "^4.3.6",
     "eslint": "^8.24.0",
-    "eslint-plugin-bpmn-io": "^0.16.0",
+    "eslint-plugin-bpmn-io": "^1.0.0",
     "eslint-plugin-import": "^2.26.0",
     "jquery": "^3.5.1",
     "karma": "^6.4.0",
