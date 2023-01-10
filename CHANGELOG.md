@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.4.4
+
+* `DEPS`: update to `@bpmn-io/diagram-js-ui@0.2.2`
+
 ## 11.4.3
 
 * `FIX`: prevent canvas scrolling inside popup menu ([#729](https://github.com/bpmn-io/diagram-js/issues/729))

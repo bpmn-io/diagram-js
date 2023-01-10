@@ -1,6 +1,6 @@
 {
   "name": "diagram-js",
-  "version": "11.4.3",
+  "version": "11.4.4",
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "main": "index.js",
   "files": [
@@ -67,7 +67,7 @@
     "webpack": "^5.74.0"
   },
   "dependencies": {
-    "@bpmn-io/diagram-js-ui": "^0.2.1",
+    "@bpmn-io/diagram-js-ui": "^0.2.2",
     "clsx": "^1.2.1",
     "css.escape": "^1.5.1",
     "didi": "^9.0.0",
