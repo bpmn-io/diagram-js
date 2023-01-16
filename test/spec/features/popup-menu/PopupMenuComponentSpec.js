@@ -182,64 +182,6 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
-  it('should render complex', function() {
-
-    const imageUrl = TEST_IMAGE_URL;
-
-    // given
-    const headerEntries = [
-      { id: '1', label: '|A|' },
-      { id: '1.1', label: '|A|', imageUrl },
-      { id: '2', imageUrl, title: 'Toggle foo' },
-      { id: '3', className: 'bpmn-icon-sun' }
-    ];
-
-    const iconGroup = {
-      id: 'icons',
-      name: 'Icon Group'
-    };
-
-    const entries = [
-      { id: '4', label: 'Just label' },
-      { id: '5', imageUrl, title: 'Toggle foo' },
-      { id: '6', imageUrl, label: 'Toggle foo' },
-      { id: '7', label: 'with description', description: 'I DESCRIBE IT' },
-      { id: '7.1', label: 'with long title and description, you cannot believe what happened next', description: 'A very long description, you cannot believe what happened next' },
-      { id: '7.2', label: 'with long title and description, you cannot believe what happened next', description: 'A very long description, you cannot believe what happened next', documentationRef: 'http://localhost' },
-      { id: '8', imageUrl, label: 'with image + description', description: 'I DESCRIBE more stuff' },
-      { id: '9', imageUrl, label: 'WITH DOC REF', documentationRef: 'http://localhost' },
-      { id: '10', imageUrl, label: 'FOO', description: 'WITH DOC REF', documentationRef: 'http://localhost' },
-      { id: '11', className: 'bpmn-icon-sun', label: 'FONT ICON + description', description: 'WITH DOC REF', group: iconGroup },
-      { id: '11.1', className: 'bpmn-icon-sun', label: 'FONT ICON', group: iconGroup },
-      { id: '11.2', className: 'bpmn-icon-sun', title: 'icon only', group: iconGroup },
-      { id: '12', className: 'bpmn-icon-sun', title: 'icon only', group: {
-        id: 'super long',
-        name: 'Extremely super long group incredible!'
-      } },
-      { id: '13', group: { id: 'other', name: 'Other' }, label: '13' },
-      { id: '14', group: { id: 'other', name: 'Other' }, label: '14' },
-      { id: '15', group: { id: 'other', name: 'Other' }, label: '15' },
-      { id: '16', group: { id: 'other', name: 'Other' }, label: '16' },
-      { id: '17', group: { id: 'other', name: 'Other' }, label: '17' },
-      { id: '18', group: { id: 'other', name: 'Other' }, label: '18' },
-      { id: '19', group: { id: 'other', name: 'Other' }, label: '19' },
-      { id: '20', label: 'Draggable', action: { dragstart: () => {} } },
-    ];
-
-    createPopupMenu({
-      container,
-      title: 'Popup menu with super long title',
-      headerEntries,
-      entries,
-      position: () => {
-        return { x: 100, y: 200 };
-      },
-      width: 250
-    });
-
-  });
-
-
   describe('close', function() {
 
     it('should close on background click', function() {
