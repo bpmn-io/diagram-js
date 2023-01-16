@@ -707,6 +707,87 @@ describe('features/popup-menu', function() {
       expect(triggerHeaderEntry).to.eql('Entry 3');
     }));
 
+
+    describe('complex handler', function() {
+
+      it('should trigger click', inject(function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('test-menu', {
+          getEntries: function() {
+            return [
+              {
+                id: '1',
+                label: 'Entry 1',
+                className: 'Entry_1',
+                action: {
+                  click: () => 'Entry 1 click',
+                  dragstart: () => 'Entry 1 dragstart'
+                }
+              }
+            ];
+          },
+          getHeaderEntries: function() {
+            return [
+              {
+                id: '2',
+                label: 'Entry 2',
+                className: 'Entry_2',
+                action: {
+                  click: () => 'Entry 2 click'
+                }
+              }
+            ];
+          }
+        });
+
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+
+        var entry = queryEntry('1');
+        var headerEntry = queryEntry('2');
+
+        // when
+        var triggerEntry = popupMenu.trigger(globalEvent(entry, { x: 0, y: 0 }));
+        var triggerHeaderEntry = popupMenu.trigger(globalEvent(headerEntry, { x: 0, y: 0 }));
+
+        // then
+        expect(triggerEntry).to.eql('Entry 1 click');
+        expect(triggerHeaderEntry).to.eql('Entry 2 click');
+      }));
+
+
+      it('should trigger dragstart', inject(function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('test-menu', {
+          getEntries: function() {
+            return [
+              {
+                id: '1',
+                label: 'Entry 1',
+                className: 'Entry_1',
+                action: {
+                  click: () => 'Entry 1 click',
+                  dragstart: () => 'Entry 1 dragstart'
+                }
+              }
+            ];
+          }
+        });
+
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+
+        var entry = queryEntry('1');
+
+        // when
+        var triggerEntry = popupMenu.trigger(globalEvent(entry, { x: 0, y: 0 }), null, 'dragstart');
+
+        // then
+        expect(triggerEntry).to.eql('Entry 1 dragstart');
+      }));
+
+    });
+
   });
 
 
