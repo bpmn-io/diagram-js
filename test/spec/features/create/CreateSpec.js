@@ -184,6 +184,32 @@ describe('features/create - Create', function() {
     }));
 
 
+    it('should create from keyboard', inject(function(create, dragging, elementRegistry) {
+
+      // given
+      var parentGfx = elementRegistry.getGraphics('parentShape');
+      var keyboardEvent = new KeyboardEvent('keydown', { keyCode: 'Enter' });
+      document.dispatchEvent(keyboardEvent);
+
+      // when
+      create.start(keyboardEvent, newShape);
+
+      dragging.hover({ element: parentShape, gfx: parentGfx });
+
+      dragging.move(canvasEvent(getMid(parentShape)));
+
+      dragging.end();
+
+      // then
+      var createdShape = elementRegistry.get('newShape');
+
+      expect(createdShape).to.exist;
+      expect(createdShape).to.equal(newShape);
+
+      expect(createdShape.parent).to.equal(parentShape);
+    }));
+
+
     it('should update elements and shape after create', inject(
       function(create, dragging, elementFactory, elementRegistry, eventBus) {
 
