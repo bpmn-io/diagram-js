@@ -1848,6 +1848,112 @@ describe('features/popup-menu', function() {
 });
 
 
+describe('features/popup-menu - integration', function() {
+
+  const imageUrl = `data:image/svg+xml;utf8,${
+    encodeURIComponent(`
+      <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="300" style="fill: green" />
+      </svg>
+    `)
+  }`;
+
+  const entrySet = (entries) => {
+
+    return entries.reduce((keyedEntries, entry) => {
+
+      expect(entry).to.have.property('id');
+      expect(keyedEntries).not.to.have.property(entry.id);
+
+      keyedEntries[entry.id] = entry;
+
+      return keyedEntries;
+    }, {});
+
+  };
+
+  beforeEach(bootstrapDiagram({
+    modules: [
+      popupMenuModule
+    ]
+  }));
+
+
+  it('should render complex', inject(function(popupMenu) {
+
+    // given
+    const headerEntries = entrySet([
+      { id: '_1', label: '|A|' },
+      { id: '_1.1', label: '|A|', imageUrl },
+      { id: '_2', imageUrl, title: 'Toggle foo' },
+      { id: '_3', className: 'bpmn-icon-sun' }
+    ]);
+
+    const iconGroup = {
+      id: '_icons',
+      name: 'Icon Group'
+    };
+
+    const entries = entrySet([
+      { id: '_4', label: 'Label (click)', action: {
+        click(...args) {
+          console.log('CLICK', ...args);
+        }
+      } },
+      { id: '_4.1', label: 'Label (drag)', action: {
+        dragstart(...args) {
+          console.log('DRAG START', ...args);
+        }
+      } },
+      { id: '_4.2', label: 'Label (click + drag)', action: {
+        dragstart(...args) {
+          console.log('DRAG START', ...args);
+        },
+        click(...args) {
+          console.log('CLICK', ...args);
+        }
+      } },
+      { id: '_5', imageUrl, title: 'Just image' },
+      { id: '_6', imageUrl, label: 'Image and label' },
+      { id: '_7', label: 'with description', description: 'I DESCRIBE IT' },
+      { id: '_7.1', label: 'with long title and description, you cannot believe what happened next', description: 'A very long description, you cannot believe what happened next' },
+      { id: '_7.2', label: 'with long title and description, you cannot believe what happened next', description: 'A very long description, you cannot believe what happened next', documentationRef: 'http://localhost' },
+      { id: '_8', imageUrl, label: 'with image + description', description: 'I DESCRIBE more stuff' },
+      { id: '_9', imageUrl, label: 'WITH DOC REF', documentationRef: 'http://localhost' },
+      { id: '_10', imageUrl, label: 'FOO', description: 'WITH DOC REF', documentationRef: 'http://localhost' },
+      { id: '_11', className: 'bpmn-icon-sun', label: 'FONT ICON + description', description: 'WITH DOC REF', group: iconGroup },
+      { id: '_11.1', className: 'bpmn-icon-sun', label: 'FONT ICON', group: iconGroup },
+      { id: '_11.2', className: 'bpmn-icon-sun', title: 'icon only', group: iconGroup },
+      { id: '_12', className: 'bpmn-icon-sun', title: 'icon only', group: {
+        id: '_super long',
+        name: 'Extremely super long group incredible!'
+      } },
+      { id: '_13', group: { id: '_other', name: 'Other' }, label: '13' },
+      { id: '_14', group: { id: '_other', name: 'Other' }, label: '14' },
+      { id: '_15', group: { id: '_other', name: 'Other' }, label: '15' },
+      { id: '_16', group: { id: '_other', name: 'Other' }, label: '16' },
+      { id: '_17', group: { id: '_other', name: 'Other' }, label: '17' },
+      { id: '_18', group: { id: '_other', name: 'Other' }, label: '18' },
+      { id: '_19', group: { id: '_other', name: 'Other' }, label: '19' }
+    ]);
+
+    const provider = new Provider(entries, headerEntries);
+
+    // when
+    popupMenu.registerProvider('complex', provider);
+
+    // then
+    popupMenu.open({}, 'complex', {
+      x: 100, y: 200
+    }, {
+      width: 250,
+      title: 'Popup menu with super long title'
+    });
+
+  }));
+
+});
+
 
 // helpers /////////////
 
