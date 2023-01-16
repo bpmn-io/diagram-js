@@ -222,7 +222,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       { id: '16', group: { id: 'other', name: 'Other' }, label: '16' },
       { id: '17', group: { id: 'other', name: 'Other' }, label: '17' },
       { id: '18', group: { id: 'other', name: 'Other' }, label: '18' },
-      { id: '19', group: { id: 'other', name: 'Other' }, label: '19' }
+      { id: '19', group: { id: 'other', name: 'Other' }, label: '19' },
+      { id: '20', label: 'Draggable', action: { dragstart: () => {} } },
     ];
 
     createPopupMenu({
@@ -389,6 +390,23 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(groupHeader).to.exist;
       expect(groupHeader.title).to.eql('SOME GROUP');
       expect(groupHeader.textContent).to.eql('SOME GROUP');
+    });
+
+
+    it('should allow to drag entries', function() {
+
+      // given
+      const entries = [ { id: '1', label: '1', action: { dragstart: ()=> {} } } ];
+
+      const onSelectSpy = sinon.spy();
+
+      createPopupMenu({ container, entries, onSelect: onSelectSpy });
+
+      // when
+      domQuery('.entry', container).dispatchEvent(dragStart());
+
+      // then
+      expect(onSelectSpy).to.have.been.calledOnce;
     });
 
   });
@@ -811,4 +829,12 @@ function keyDown(key) {
  */
 function keyUp(key) {
   return new KeyboardEvent('keyup', { key, bubbles: true });
+}
+
+/**
+ *
+ * @return { DragEvent }
+ */
+function dragStart() {
+  return new DragEvent('dragstart');
 }
