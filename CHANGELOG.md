@@ -8,7 +8,7 @@ _**Note:** Yet to be released changes appear here._
 
 ## 11.5.0
 
-* `FEAT`: allow popup menu entries to be draggable ([#731](https://github.com/bpmn-io/diagram-js/pull/731))
+* `FEAT`: allow `dragstart` from popup menu entries ([#731](https://github.com/bpmn-io/diagram-js/pull/731))
 
 ## 11.4.4
 
