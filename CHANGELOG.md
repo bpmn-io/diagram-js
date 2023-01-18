@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: make popup menu icons decorational ([#736](https://github.com/bpmn-io/diagram-js/issues/736))
+
 ## 11.5.0
 
 * `FEAT`: allow `dragstart` from popup menu entries ([#731](https://github.com/bpmn-io/diagram-js/pull/731))
