@@ -300,7 +300,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       expect(secondEntry.title).to.eql('Toggle foo');
       expect(secondEntry.textContent).to.eql('');
-      expect(secondEntry.innerHTML).to.include(`<img class="djs-popup-entry-icon" src="${ imageUrl }">`);
+      expect(secondEntry.innerHTML).to.include(`<img class="djs-popup-entry-icon" src="${ imageUrl }" aria-hidden="true">`);
 
       expect(describedEntry.title).to.eql('FOO');
       expect(describedEntry.textContent).to.eql('FOOI DESCRIBE IT');
@@ -380,7 +380,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       expect(secondEntry.title).to.eql('Toggle foo');
       expect(secondEntry.textContent).to.eql('');
-      expect(secondEntry.innerHTML).to.eql(`<img class="djs-popup-entry-icon" src="${ imageUrl }">`);
+      expect(secondEntry.innerHTML).to.eql(`<img class="djs-popup-entry-icon" src="${ imageUrl }" aria-hidden="true">`);
     });
 
 
