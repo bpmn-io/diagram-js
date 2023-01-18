@@ -5,12 +5,12 @@ labels: "bug"
 ---
 
 
-__Describe the Bug__
+### Describe the Bug
 
 A clear and concise description of what the bug is.
 
 
-__Steps to Reproduce__
+### Steps to Reproduce
 
 Steps to reproduce the behavior:
 
@@ -20,12 +20,12 @@ Steps to reproduce the behavior:
 If possible, try to build [a test case](https://github.com/bpmn-io/diagram-js/tree/master/test/spec) that reproduces your problem.
 
 
-__Expected Behavior__
+### Expected Behavior
 
 A clear and concise description of what you expected to happen.
 
 
-__Environment__
+### Environment
 
 Please complete the following information:
 
