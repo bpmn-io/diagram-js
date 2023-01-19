@@ -3,7 +3,7 @@ import {
   inject
 } from 'test/TestHelper';
 
-import { sortBy } from 'min-dash';
+import { forEach, sortBy } from 'min-dash';
 
 import alignElementsModule from 'lib/features/align-elements';
 import modelingModule from 'lib/features/modeling';
@@ -198,6 +198,119 @@ describe('features/align-elements', function() {
         expect(changedSpy).not.to.have.been.called;
       }
     ));
+
+
+    describe('around zero', function() {
+
+      beforeEach(bootstrapDiagram({
+        modules: [ alignElementsModule, modelingModule ]
+      }));
+
+
+      function createElements(boxes) {
+        var elements = [];
+        inject(function(elementFactory, canvas) {
+
+          rootShape = elementFactory.createRoot({
+            id: 'root'
+          });
+
+          canvas.setRootElement(rootShape);
+
+          forEach(boxes, function(box, idx) {
+
+            var shape = elementFactory.createShape({
+              id: 's' + idx,
+              ...box
+            });
+
+            canvas.addShape(shape, rootShape);
+
+            elements.push(shape);
+          });
+
+        })();
+        return elements;
+      }
+
+      function testSuit(type, boxes, expects) {
+        var dimension = {
+          left: 'x',
+          right: 'x',
+          top: 'y',
+          bottom: 'y',
+          center: 'x',
+          middle: 'y'
+        };
+
+        return inject(function(alignElements) {
+          var elements = createElements(boxes);
+
+          alignElements.trigger(elements, type);
+
+          forEach(expects, function(expected, idx) {
+            expect(elements[idx][dimension[type]]).to.equal(expected);
+          });
+        });
+      }
+
+      it('should align to the "left" around zero', testSuit(
+        'left',
+        [
+          { x: 0, y: 100, width: 100, height: 100 },
+          { x: 200, y: 200, width: 100, height: 100 },
+        ],
+        [ 0, 0 ]
+      ));
+
+      it('should align to the "right" around zero', testSuit(
+        'right',
+        [
+          { x: -100, y: 100, width: 100, height: 100 },
+          { x: -200, y: 200, width: 100, height: 100 },
+        ],
+        [ -100, -100 ]
+      ));
+
+      it('should align to the "center" around zero', testSuit(
+        'center',
+        [
+          { x: -50, y: 100, width: 100, height: 100 },
+          { x: -50, y: 200, width: 100, height: 100 },
+          { x: 100, y: 300, width: 100, height: 100 },
+        ],
+        [ -50, -50, -50 ]
+      ));
+
+      it('should align to the "top" around zero', testSuit(
+        'top',
+        [
+          { x: 100, y: 0, width: 100, height: 100 },
+          { x: 200, y: 100, width: 100, height: 100 },
+        ],
+        [ 0, 0 ]
+      ));
+
+      it('should align to the "bottom" around zero', testSuit(
+        'bottom',
+        [
+          { x: 100, y: -100, width: 100, height: 100 },
+          { x: 200, y: -200, width: 100, height: 100 },
+        ],
+        [ -100, -100 ]
+      ));
+
+      it('should align to the "middle" around zero', testSuit(
+        'middle',
+        [
+          { x: 100, y: -50, width: 100, height: 100 },
+          { x: 200, y: -50, width: 100, height: 100 },
+          { x: 300, y: 100, width: 100, height: 100 },
+        ],
+        [ -50, -50, -50 ]
+      ));
+
+    });
 
 
     describe('rules', function() {
