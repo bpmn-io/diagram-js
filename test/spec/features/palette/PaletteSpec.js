@@ -4,6 +4,10 @@ import {
   inject
 } from 'test/TestHelper';
 
+import {
+  createEvent as globalEvent
+} from '../../../util/MockEvents';
+
 import paletteModule from 'lib/features/palette';
 
 import {
@@ -686,6 +690,112 @@ describe('features/palette', function() {
       expect(injected).not.to.exist;
     }));
 
+  });
+
+
+  describe('event handling', function() {
+
+    const paletteProvider = {
+      getPaletteEntries: function() {
+        return {
+          'entry-1': {
+            label: 'My Entry',
+            action: function(e) {
+              e.__handled = true;
+            }
+          },
+          'entry-2': {
+            label: 'My Entry',
+            action: {
+              click: function(e) {
+                e.__handled = true;
+              },
+              dragstart: function(e) {
+                e.__handled = true;
+              }
+            }
+          }
+        };
+      }
+    };
+
+    beforeEach(bootstrapDiagram({ modules: [ paletteModule ] }));
+
+    beforeEach(inject(function(palette) {
+      palette.registerProvider(800, paletteProvider);
+    }));
+
+
+    it('should handle click event', inject(function(palette) {
+
+      // given
+      var target = domQuery('.djs-palette [data-action="entry-1"]');
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      palette.trigger('click', event);
+
+      // then
+      expect(event.__handled).to.be.true;
+    }));
+
+
+    it('should prevent unhandled events', inject(function(palette) {
+
+      // given
+      var target = domQuery('.djs-palette [data-action="entry-1"]');
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      palette.trigger('dragstart', event);
+
+      // then
+      expect(event.defaultPrevented).to.be.true;
+    }));
+
+
+    it('should handle drag event', inject(function(palette) {
+
+      // given
+      var target = domQuery('.djs-palette [data-action="entry-2"]');
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      palette.trigger('dragstart', event);
+
+      // then
+      expect(event.__handled).to.be.true;
+    }));
+
+
+    it('should gracefully handle non-existing entry', inject(function(palette) {
+
+      // given
+      var target = domQuery('.djs-palette [data-action=""]');
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      var result = palette.triggerEntry('NON_EXISTING_ENTRY', 'dragstart', event);
+
+      // then
+      expect(event.__handled).not.to.exist;
+      expect(result).not.to.exist;
+    }));
+
+
+    it('should gracefully handle non-existing action', inject(function(palette) {
+
+      // given
+      var target = domQuery('.djs-palette [data-action="entry-1"]');
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      var result = palette.triggerEntry('entry-1', 'NON_EXISTING_ACTION', event);
+
+      // then
+      expect(event.__handled).not.to.exist;
+      expect(result).not.to.exist;
+    }));
   });
 
 });
