@@ -21,6 +21,4 @@ export default class ElementFactory {
   createConnection(attrs?: ModelAttrsConnection): Connection;
   create(type: ModelType, attrs?: ModelAttrs): Connection | Label | Root | Shape;
   create<T extends Connection | Label | Root | Shape>(type: GetModelType<T>, attrs?: GetModelAttrs<T>): T;
-
-  private _uid: number;
 }

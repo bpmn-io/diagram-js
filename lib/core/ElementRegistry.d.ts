@@ -26,9 +26,4 @@ export default class ElementRegistry {
   getAll(): Base[];
   forEach(fn: (element: Base, gfx: SVGElement) => void): void;
   getGraphics(filter: Base | string, secondary?: boolean): SVGElement;
-  private _validateId(id: string): void;
-
-  private _elements: ElementRegistryElements;
-  private _eventBus: EventBus;
-  private static $inject: string[];
 }

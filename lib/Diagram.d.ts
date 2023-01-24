@@ -15,6 +15,4 @@ export default class Diagram {
   invoke<T>(func: (...args: any[]) => T, context?: InjectionContext, locals?: LocalsMap): T;
   destroy(): void;
   clear(): void;
-
-  private injector: Injector;
 }

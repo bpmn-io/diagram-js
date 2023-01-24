@@ -90,9 +90,13 @@ class CreateShapeBehavior extends CommandInterceptor {
 
     this.execute([ 'shape.create' ], (context) => {}, true);
 
+    this.execute([ 'shape.create' ], (context) => [], true);
+
     this.execute([ 'shape.create' ], 2000, (context) => {}, true);
 
     this.executed([ 'shape.create' ], (context) => {}, true);
+
+    this.executed([ 'shape.create' ], (context) => [], true);
 
     this.executed([ 'shape.create' ], 2000, (context) => {}, true);
 
@@ -110,9 +114,13 @@ class CreateShapeBehavior extends CommandInterceptor {
 
     this.revert([ 'shape.create' ], (context) => {}, true);
 
+    this.revert([ 'shape.create' ], (context) => [], true);
+
     this.revert([ 'shape.create' ], 2000, (context) => {}, true);
 
     this.reverted([ 'shape.create' ], (context) => {}, true);
+
+    this.reverted([ 'shape.create' ], (context) => [], true);
 
     this.reverted([ 'shape.create' ], 2000, (context) => {}, true);
   }
