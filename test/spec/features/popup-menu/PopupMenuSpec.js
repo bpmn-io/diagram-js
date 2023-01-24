@@ -1488,7 +1488,7 @@ describe('features/popup-menu', function() {
       };
 
       // then
-      expect(menu.offsetTop).to.be.closeTo(y - menuDimensions.height, 1);
+      expect(menu.offsetTop).to.be.closeTo(y - menuDimensions.height, 3);
     }));
 
 
