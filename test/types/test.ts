@@ -22,6 +22,7 @@ import EventBus from "../../lib/core/EventBus";
 import GraphicsFactory from "../../lib/core/GraphicsFactory";
 
 import Modeling from "../../lib/features/modeling/Modeling";
+
 import Overlays, { OverlayAttrs } from "../../lib/features/overlays/Overlays";
 
 class CreateShapeHandler implements CommandHandler {
@@ -357,6 +358,15 @@ eventBus.once([ 'foo', 'bar' ], callback);
 eventBus.once('foo', 2000, callback);
 
 eventBus.once('foo', callback, this);
+
+const foo = diagram.invoke((modeling: Modeling, eventBus: EventBus) => {
+
+  return {
+    bar: 1
+  };
+});
+
+foo.bar = 10;
 
 const modeling = diagram.get<Modeling>('modeling');
 
