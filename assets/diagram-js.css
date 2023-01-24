@@ -29,6 +29,7 @@
   --color-white: hsl(0, 0%, 100%);
   --color-black: hsl(0, 0%, 0%);
   --color-black-opacity-10: hsla(0, 0%, 0%, 10%);
+  --color-black-opacity-30: hsla(0, 0%, 0%, 30%);
 
   --canvas-fill-color: var(--color-white);
 
@@ -58,8 +59,8 @@
   --popup-header-entry-selected-color: var(--color-blue-205-100-50);
   --popup-header-font-weight: bolder;
   --popup-background-color: var(--color-white);
-  --popup-border-color: var(--color-grey-225-10-75);
-  --popup-shadow-color: var(--color-grey-225-10-80);
+  --popup-border-color: transparent;
+  --popup-shadow-color: var(--color-black-opacity-30);
   --popup-description-color: var(--color-grey-225-10-55);
   --popup-no-results-color: var(--color-grey-225-10-55);
   --popup-entry-title-color: var(--color-grey-225-10-55);
@@ -527,12 +528,14 @@ marker.djs-dragger tspan {
 }
 
 .djs-popup {
+  box-sizing: border-box;
   width: min-content;
   background: var(--popup-background-color);
   overflow: hidden;
   position: absolute;
 
-  box-shadow: 0px 2px 10px var(--popup-shadow-color);
+  box-shadow: 0px 2px 6px var(--popup-shadow-color);
+  border: solid 1px var(--popup-border-color);
   min-width: 120px;
   outline: none;
   font-size: var(--popup-font-size);
