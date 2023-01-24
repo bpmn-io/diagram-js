@@ -6,7 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
-* `FIX`: make popup menu icons decorational ([#736](https://github.com/bpmn-io/diagram-js/issues/736))
+## 11.6.0
+
+* `FEAT`: allow to trigger palette entries by ID ([#741](https://github.com/bpmn-io/diagram-js/pull/741))
+* `FIX`: make popup menu icons decorational ([`50eb3d7`](https://github.com/bpmn-io/diagram-js/commit/50eb3d7))
+* `FIX`: align elements with coordinates around `0` ([#740](https://github.com/bpmn-io/diagram-js/pull/740))
 
 ## 11.5.0
 
