@@ -4,26 +4,26 @@ import {
   Label,
   Root,
   Shape
-} from "../../lib/model/index";
+} from '../../lib/model';
 
 import Diagram from '../../lib/Diagram';
 
+import CommandModule from '../../lib/command';
+import CommandHandler from '../../lib/command/CommandHandler';
+import CommandInterceptor from '../../lib/command/CommandInterceptor';
+import CommandStack from '../../lib/command/CommandStack';
+
 import CoreModule from '../../lib/core';
+import Canvas from '../../lib/core/Canvas';
+import ElementFactory from '../../lib/core/ElementFactory';
+import ElementRegistry from '../../lib/core/ElementRegistry';
+import EventBus from '../../lib/core/EventBus';
+import GraphicsFactory from '../../lib/core/GraphicsFactory';
+
 import ModelingModule from '../../lib/features/modeling';
+import Modeling from '../../lib/features/modeling/Modeling';
 
-import CommandHandler from "../../lib/command/CommandHandler";
-import CommandInterceptor from "../../lib/command/CommandInterceptor";
-import CommandStack from "../../lib/command/CommandStack";
-
-import Canvas from "../../lib/core/Canvas";
-import ElementFactory from "../../lib/core/ElementFactory";
-import ElementRegistry from "../../lib/core/ElementRegistry";
-import EventBus from "../../lib/core/EventBus";
-import GraphicsFactory from "../../lib/core/GraphicsFactory";
-
-import Modeling from "../../lib/features/modeling/Modeling";
-
-import Overlays, { OverlayAttrs } from "../../lib/features/overlays/Overlays";
+import Overlays, { OverlayAttrs } from '../../lib/features/overlays/Overlays';
 
 class CreateShapeHandler implements CommandHandler {
   private _canvas: Canvas;
@@ -130,6 +130,7 @@ class CreateShapeBehavior extends CommandInterceptor {
 const diagram = new Diagram({
   modules: [
     CoreModule,
+    CommandModule,
     ModelingModule,
     {
       __init__: [ 'createShapeBehavior' ],
