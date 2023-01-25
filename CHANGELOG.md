@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.7.0
+
+* `FEAT`: allow additional search terms for popup menu entries ([#745](https://github.com/bpmn-io/diagram-js/pull/745))
+* `FIX`: improve popup menu set off off from background ([#743](https://github.com/bpmn-io/diagram-js/pull/743))
+
 ## 11.6.0
 
 * `FEAT`: allow to trigger palette entries by ID ([#741](https://github.com/bpmn-io/diagram-js/pull/741))
