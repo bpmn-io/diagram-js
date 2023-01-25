@@ -439,7 +439,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       { id: '2', label: 'Entry 2' },
       { id: '3', label: 'Entry 3' },
       { id: '4', label: 'Entry 4' },
-      { id: '5', label: 'Entry 5' },
+      { id: '5', label: 'Entry 5', search: 'foo' },
       { id: 'some_entry_id', label: 'Last' }
     ];
 
@@ -522,6 +522,26 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
       expect(domQuery('.entry .djs-popup-label', container).textContent).to.eql('Entry 1');
+    });
+
+
+    it('should search additional "search" terms', async function() {
+
+      // given
+      createPopupMenu({ container, entries, search: true });
+
+      var searchInput = domQuery('.djs-popup-search input', container);
+      searchInput.value = entries[4].search;
+
+      // when
+      searchInput.dispatchEvent(keyDown('ArrowUp'));
+      searchInput.dispatchEvent(keyUp('ArrowUp'));
+
+      await whenStable();
+
+      // then
+      expect(domQueryAll('.entry', container)).to.have.length(1);
+      expect(domQuery('.entry .djs-popup-label', container).textContent).to.eql('Entry 5');
     });
 
 
