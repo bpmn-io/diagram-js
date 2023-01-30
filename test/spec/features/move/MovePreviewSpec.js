@@ -596,20 +596,20 @@ describe('features/move - MovePreview', function() {
       expect(markerMidClone).to.exist;
       expect(markerEndClone).to.exist;
 
-      var connection1Polyline = domQuery('[data-element-id="connection1"] polyline', dragGroup);
+      var connection1Path = domQuery('[data-element-id="connection1"] path', dragGroup);
 
-      expect(idToReferenceFormatOptions(markerStartClone.id)).to.deep.include(connection1Polyline.style.markerStart);
-      expect(idToReferenceFormatOptions(markerEndClone.id)).to.deep.include(connection1Polyline.style.markerEnd);
+      expect(idToReferenceFormatOptions(markerStartClone.id)).to.deep.include(connection1Path.style.markerStart);
+      expect(idToReferenceFormatOptions(markerEndClone.id)).to.deep.include(connection1Path.style.markerEnd);
 
-      var connection2Polyline = domQuery('[data-element-id="connection2"] polyline', dragGroup);
+      var connection2Path = domQuery('[data-element-id="connection2"] path', dragGroup);
 
-      expect(idToReferenceFormatOptions(markerStartClone.id)).to.deep.include(connection2Polyline.style.markerStart);
-      expect(idToReferenceFormatOptions(markerMidClone.id)).to.deep.include(connection2Polyline.style.markerMid);
+      expect(idToReferenceFormatOptions(markerStartClone.id)).to.deep.include(connection2Path.style.markerStart);
+      expect(idToReferenceFormatOptions(markerMidClone.id)).to.deep.include(connection2Path.style.markerMid);
 
-      var connection3Polyline = domQuery('[data-element-id="connection3"] polyline', dragGroup);
+      var connection3Path = domQuery('[data-element-id="connection3"] path', dragGroup);
 
-      expect(idToReferenceFormatOptions(markerMidClone.id)).to.deep.include(connection3Polyline.style.markerMid);
-      expect(idToReferenceFormatOptions(markerEndClone.id)).to.deep.include(connection3Polyline.style.markerEnd);
+      expect(idToReferenceFormatOptions(markerMidClone.id)).to.deep.include(connection3Path.style.markerMid);
+      expect(idToReferenceFormatOptions(markerEndClone.id)).to.deep.include(connection3Path.style.markerEnd);
     }));
 
 
