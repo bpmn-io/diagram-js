@@ -1,6 +1,6 @@
 {
   "name": "diagram-js",
-  "version": "11.6.0",
+  "version": "11.7.0",
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "main": "index.js",
   "files": [
