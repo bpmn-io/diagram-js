@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.8.0
+
+* `FEAT`: make outline more prominent ([#747](https://github.com/bpmn-io/diagram-js/pull/747))
+* `FEAT`: add ability to render connections with rounded corners ([#747](https://github.com/bpmn-io/diagram-js/pull/747))
+
 ## 11.7.0
 
 * `FEAT`: allow additional search terms for popup menu entries ([#745](https://github.com/bpmn-io/diagram-js/pull/745))
