@@ -1154,6 +1154,76 @@ describe('features/popup-menu', function() {
       expect(popupMenu.isOpen()).to.be.true;
     }));
 
+
+    describe('search rank', function() {
+
+      var testMenuProvider = {
+        getEntries: function() {
+          return [
+            {
+              id: 'A',
+              label: 'A'
+            },
+            {
+              id: 'B',
+              label: 'B'
+            },
+            {
+              id: 'C',
+              label: 'C'
+            },
+            {
+              id: 'D',
+              label: 'D',
+              rank: 1
+            },
+            {
+              id: 'E',
+              label: 'E',
+              rank: 0
+            },
+            {
+              id: 'F',
+              label: 'F (hide initially)',
+              rank: -1
+            }
+          ];
+        }
+      };
+
+
+      it('should hide rank < 0 items', inject(async function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('test-menu', testMenuProvider);
+
+        // when
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // then
+        var shownEntries = queryPopupAll('.entry');
+
+        expect(shownEntries).to.have.length(5);
+      }));
+
+
+      it('should show rank < 0 if filtered', inject(async function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('test-menu', testMenuProvider);
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('hide ini');
+
+        // then
+        var shownEntries = queryPopupAll('.entry');
+
+        expect(shownEntries).to.have.length(1);
+      }));
+
+    });
+
   });
 
 
@@ -2009,4 +2079,28 @@ function getGroup(groupName) {
 
 function whenStable() {
   return new Promise(resolve => setTimeout(resolve, 300));
+}
+
+/**
+ * @param { string } key
+ *
+ * @return { KeyboardEvent }
+ */
+function keyUp(key) {
+  return new KeyboardEvent('keyup', { key, bubbles: true });
+}
+
+/**
+ * @param {string} value
+ */
+function triggerSearch(value) {
+
+  var searchInput = queryPopup('.djs-popup-search input');
+
+  expect(searchInput, 'search exists').to.exist;
+
+  searchInput.value = value;
+  searchInput.dispatchEvent(keyUp('ArrowRight'));
+
+  return whenStable();
 }
