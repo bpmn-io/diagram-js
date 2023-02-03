@@ -59,7 +59,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
 
   it('should render', function() {
-    createPopupMenu({ container });
+    return createPopupMenu({ container });
   });
 
 
@@ -69,9 +69,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     const onOpened = sinon.spy();
 
     // when
-    createPopupMenu({ container, onOpened });
-
-    await whenStable();
+    await createPopupMenu({ container, onOpened });
 
     // then
     expect(onOpened).to.have.been.calledOnce;
@@ -83,9 +81,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     // given
     const onClosed = sinon.spy();
 
-    createPopupMenu({ container, onClosed });
-
-    await whenStable();
+    await createPopupMenu({ container, onClosed });
 
     // when
     teardown();
@@ -95,7 +91,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
-  it('should open in correct position', function() {
+  it('should open in correct position', async function() {
 
     // given
     var position = () => {
@@ -103,7 +99,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     };
 
     // when
-    createPopupMenu({
+    await createPopupMenu({
       container,
       position
     });
@@ -122,10 +118,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
   describe('should focus', function() {
 
-    it('with search', function() {
+    it('with search', async function() {
 
       // when
-      createPopupMenu({
+      await createPopupMenu({
         container,
         search: true,
         entries: [
@@ -147,10 +143,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
-    it('without search', function() {
+    it('without search', async function() {
 
       // when
-      createPopupMenu({
+      await createPopupMenu({
         container
       });
 
@@ -165,10 +161,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
-  it('should apply custom width', function() {
+  it('should apply custom width', async function() {
 
     // when
-    createPopupMenu({
+    await createPopupMenu({
       container,
       width: 200
     });
@@ -184,10 +180,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
   describe('close', function() {
 
-    it('should close on background click', function() {
+    it('should close on background click', async function() {
       const onClose = sinon.spy();
 
-      createPopupMenu({ container, onClose });
+      await createPopupMenu({ container, onClose });
 
       container.children[0].click();
 
@@ -195,7 +191,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
-    it('should NOT close on selection', function() {
+    it('should NOT close on selection', async function() {
 
       // given
       const onClose = sinon.spy();
@@ -204,7 +200,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       const entries = [ { id: '1', label: 'Entry 1' } ];
 
       // when
-      createPopupMenu({ container, entries, onClose, onSelect });
+      await createPopupMenu({ container, entries, onClose, onSelect });
 
       var entry = domQuery('.entry', container);
 
@@ -217,7 +213,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
-    it('should NOT close on click inside', function() {
+    it('should NOT close on click inside', async function() {
 
       // given
       const onClose = sinon.spy();
@@ -226,7 +222,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       const entries = [ { id: '1', label: 'Entry 1' } ];
 
       // when
-      createPopupMenu({ container, entries, onClose, onSelect });
+      await createPopupMenu({ container, entries, onClose, onSelect });
 
       const popup = domQuery(
         '.djs-popup', container
@@ -242,13 +238,13 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
   describe('body', function() {
 
-    it('should select first entry', function() {
+    it('should select first entry', async function() {
       const entries = [
         { id: '1', label: 'Entry 1' },
         { id: '2', label: 'Entry 2' }
       ];
 
-      createPopupMenu({ container, entries });
+      await createPopupMenu({ container, entries });
 
       const firstEntry = domQuery('.entry', container);
 
@@ -257,13 +253,13 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
-    it('should hide if empty', function() {
+    it('should hide if empty', async function() {
       const headerEntries = [
         { id: '1', label: '1' },
         { id: '2', label: '2' }
       ];
 
-      createPopupMenu({ container, headerEntries });
+      await createPopupMenu({ container, headerEntries });
 
       const popupEl = domQuery('.djs-popup', container);
       const popupBodyEl = domQuery('.djs-popup-body', container);
@@ -274,7 +270,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
-    it('should render body entry', function() {
+    it('should render body entry', async function() {
 
       // given
       const imageUrl = TEST_IMAGE_URL;
@@ -285,7 +281,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         { id: '3', label: 'FOO', description: 'I DESCRIBE IT' }
       ];
 
-      createPopupMenu({ container, entries });
+      await createPopupMenu({ container, entries });
 
       // when
       const [
@@ -307,7 +303,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
-    it('should render entry header', function() {
+    it('should render entry header', async function() {
 
       // given
       const entries = [
@@ -321,7 +317,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         }
       ];
 
-      createPopupMenu({ container, entries });
+      await createPopupMenu({ container, entries });
 
       // when
       const [
@@ -335,14 +331,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
-    it('should allow to drag entries', function() {
+    it('should allow to drag entries', async function() {
 
       // given
       const entries = [ { id: '1', label: '1', action: { dragstart: ()=> {} } } ];
 
       const onSelectSpy = sinon.spy();
 
-      createPopupMenu({ container, entries, onSelect: onSelectSpy });
+      await createPopupMenu({ container, entries, onSelect: onSelectSpy });
 
       // when
       domQuery('.entry', container).dispatchEvent(dragStart());
@@ -356,7 +352,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
   describe('header', function() {
 
-    it('should render header entry', function() {
+    it('should render header entry', async function() {
 
       // given
       const imageUrl = TEST_IMAGE_URL;
@@ -366,7 +362,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         { id: '2', imageUrl, title: 'Toggle foo' }
       ];
 
-      createPopupMenu({ container, headerEntries });
+      await createPopupMenu({ container, headerEntries });
 
       // when
       const [
@@ -392,22 +388,18 @@ describe('features/popup-menu - <PopupMenu>', function() {
         { id: '2', label: '2' }
       ];
 
-      createPopupMenu({ container, headerEntries });
+      await createPopupMenu({ container, headerEntries });
 
       const entryEl = domQuery('.entry', container);
 
       // when
-      entryEl.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
-
-      await whenStable();
+      await trigger(entryEl, mouseEnter());
 
       // then
-      expect(entryEl.classList.contains('selected')).to.be.true;
+      expect(entryEl.classList.contains('selected'), 'entry is selected').to.be.true;
 
       // but when
-      entryEl.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
-
-      await whenStable();
+      await trigger(entryEl, mouseLeave());
 
       // then
       expect(entryEl.classList.contains('selected')).to.be.false;
@@ -416,13 +408,13 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
-  it('should render title, if set', function() {
+  it('should render title, if set', async function() {
 
     // given
     const title = 'Title';
 
     // when
-    createPopupMenu({ container, title });
+    await createPopupMenu({ container, title });
 
     // then
     var titleElement = domQuery('.djs-popup-title', container);
@@ -447,16 +439,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should filter entries + select first', async function() {
 
       // given
-      createPopupMenu({ container, entries, search: true });
+      await createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup-search input', container);
       searchInput.value = 'Entry 3';
 
       // when
-      searchInput.dispatchEvent(keyDown('ArrowUp'));
-      searchInput.dispatchEvent(keyUp('ArrowUp'));
-
-      await whenStable();
+      await trigger(searchInput, keyDown('ArrowUp'));
+      await trigger(searchInput, keyUp('ArrowUp'));
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
@@ -468,16 +458,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should allow partial search', async function() {
 
       // given
-      createPopupMenu({ container, entries, search: true });
+      await createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup-search input', container);
       searchInput.value = 'Entry';
 
       // when
-      searchInput.dispatchEvent(keyDown('ArrowDown'));
-      searchInput.dispatchEvent(keyUp('ArrowDown'));
-
-      await whenStable();
+      await trigger(searchInput, keyDown('ArrowDown'));
+      await trigger(searchInput, keyUp('ArrowDown'));
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(5);
@@ -488,16 +476,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should show <not found>', async function() {
 
       // given
-      createPopupMenu({ container, entries, search: true });
+      await createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup-search input', container);
       searchInput.value = 'Foo bar';
 
       // when
-      searchInput.dispatchEvent(keyDown('ArrowDown'));
-      searchInput.dispatchEvent(keyUp('ArrowDown'));
-
-      await whenStable();
+      await trigger(searchInput, keyDown('ArrowDown'));
+      await trigger(searchInput, keyUp('ArrowDown'));
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(0);
@@ -508,16 +494,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should search description', async function() {
 
       // given
-      createPopupMenu({ container, entries, search: true });
+      await createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup-search input', container);
       searchInput.value = entries[0].description;
 
       // when
-      searchInput.dispatchEvent(keyDown('ArrowUp'));
-      searchInput.dispatchEvent(keyUp('ArrowUp'));
-
-      await whenStable();
+      await trigger(searchInput, keyDown('ArrowUp'));
+      await trigger(searchInput, keyUp('ArrowUp'));
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
@@ -528,16 +512,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should search additional "search" terms', async function() {
 
       // given
-      createPopupMenu({ container, entries, search: true });
+      await createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup-search input', container);
       searchInput.value = entries[4].search;
 
       // when
-      searchInput.dispatchEvent(keyDown('ArrowUp'));
-      searchInput.dispatchEvent(keyUp('ArrowUp'));
-
-      await whenStable();
+      await trigger(searchInput, keyDown('ArrowUp'));
+      await trigger(searchInput, keyUp('ArrowUp'));
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
@@ -548,16 +530,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should not search id', async function() {
 
       // given
-      createPopupMenu({ container, entries, search: true });
+      await createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup-search input', container);
       searchInput.value = entries[5].id;
 
       // when
-      searchInput.dispatchEvent(keyDown('ArrowUp'));
-      searchInput.dispatchEvent(keyUp('ArrowUp'));
-
-      await whenStable();
+      await trigger(searchInput, keyDown('ArrowUp'));
+      await trigger(searchInput, keyUp('ArrowUp'));
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(0);
@@ -575,8 +555,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       it('should be hidden by default', async function() {
 
-        // given
-        createPopupMenu({ container, entries: otherEntries });
+        // when
+        await createPopupMenu({ container, entries: otherEntries });
 
         // then
         expect(domQuery('.djs-popup-search', container)).not.to.exist;
@@ -585,8 +565,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       it('should render (more than 5 entries)', async function() {
 
-        // given
-        createPopupMenu({ container, entries, search: true });
+        // when
+        await createPopupMenu({ container, entries, search: true });
 
         // then
         expect(domQuery('.djs-popup-search', container)).to.exist;
@@ -596,7 +576,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       it('should be hidden (less than 5 entries)', async function() {
 
         // given
-        createPopupMenu({ container, entries: otherEntries, search: true });
+        await createPopupMenu({ container, entries: otherEntries, search: true });
 
         // then
         expect(domQuery('.djs-popup-search', container)).not.to.exist;
@@ -625,14 +605,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
       const onClose = sinon.spy();
       const onSelect = sinon.spy();
 
-      createPopupMenu({ container, entries, search: true, onClose, onSelect });
+      await createPopupMenu({ container, entries, search: true, onClose, onSelect });
 
       const searchInput = domQuery('.djs-popup-search input', container);
 
       const enterEvent = keyDown('Enter');
 
       // when
-      searchInput.dispatchEvent(enterEvent);
+      await trigger(searchInput, enterEvent);
 
       // then
       expect(onSelect).to.be.calledOnceWith(enterEvent, entries[0]);
@@ -641,27 +621,29 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
     describe('should close with <Escape>', function() {
 
-      it('on search', function() {
+      it('on search', async function() {
 
         // given
         const onClose = sinon.spy();
-        createPopupMenu({ container, entries, onClose, search: true });
+
+        await createPopupMenu({ container, entries, onClose, search: true });
 
         const searchInput = domQuery('.djs-popup-search input', container);
 
         // when
-        searchInput.dispatchEvent(keyDown('Escape'));
+        await trigger(searchInput, keyDown('Escape'));
 
         // then
         expect(onClose).to.be.calledOnce;
       });
 
 
-      it('on popup', function() {
+      it('on popup', async function() {
 
         // given
         const onClose = sinon.spy();
-        createPopupMenu({ container, entries, onClose, search: true });
+
+        await createPopupMenu({ container, entries, onClose, search: true });
 
         const popupEl = domQuery('.djs-popup', container);
 
@@ -677,9 +659,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
         // given
         const onClose = sinon.spy();
-        createPopupMenu({ container, entries, onClose });
 
-        await whenStable();
+        await createPopupMenu({ container, entries, onClose });
 
         // when
         document.documentElement.dispatchEvent(keyDown('Escape'));
@@ -694,7 +675,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should navigate with <ArrowDown>', async function() {
 
       // given
-      createPopupMenu({ container, entries, search: true });
+      await createPopupMenu({ container, entries, search: true });
 
       const searchInput = domQuery('.djs-popup-search input', container);
 
@@ -702,9 +683,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(domQuery('.selected', container).textContent).to.eql('Entry 1');
 
       // when
-      searchInput.dispatchEvent(keyDown('ArrowDown'));
-
-      await whenStable();
+      await trigger(searchInput, keyDown('ArrowDown'));
 
       // then
       expect(domQuery('.selected', container).textContent).to.eql('Entry 2');
@@ -714,16 +693,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should navigate with <ArrowUp>', async function() {
 
       // given
-      createPopupMenu({ container, entries, search: true });
+      await createPopupMenu({ container, entries, search: true });
 
       const searchInput = domQuery('.djs-popup-search input', container);
 
       expect(domQuery('.selected', container).textContent).to.eql('Entry 1');
 
       // when
-      searchInput.dispatchEvent(keyDown('ArrowUp'));
-
-      await whenStable();
+      await trigger(searchInput, keyDown('ArrowUp'));
 
       // then
       expect(domQuery('.selected', container).textContent).to.eql('Entry 6');
@@ -733,7 +710,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
 
   // helpers
-  function createPopupMenu(options) {
+  async function createPopupMenu(options) {
 
     const {
       container,
@@ -758,16 +735,16 @@ describe('features/popup-menu - <PopupMenu>', function() {
       teardown = null;
     };
 
-    return render(
+    const result = render(
       html`
         <${PopupMenuComponent} ...${ props } />
       `,
       container
     );
-  }
 
-  function whenStable() {
-    return new Promise(resolve => setTimeout(resolve, 200));
+    await whenStable();
+
+    return result;
   }
 
 });
@@ -799,4 +776,22 @@ function keyUp(key) {
  */
 function dragStart() {
   return new DragEvent('dragstart');
+}
+
+function mouseEnter() {
+  return new MouseEvent('mouseenter', { bubbles: true });
+}
+
+function mouseLeave() {
+  return new MouseEvent('mouseleave', { bubbles: true });
+}
+
+async function trigger(element, event) {
+  element.dispatchEvent(event);
+
+  return whenStable();
+}
+
+function whenStable() {
+  return new Promise(resolve => setTimeout(resolve, 50));
 }
