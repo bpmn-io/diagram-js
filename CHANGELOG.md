@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.9.0
+
+* `FEAT`: allow popup menu entries to be initially hidden ([#748](https://github.com/bpmn-io/diagram-js/pull/748))
+* `FIX`: filter popup menu entries eagerly to prevent flickering ([#748](https://github.com/bpmn-io/diagram-js/pull/748))
+* `FIX`: prevent `Escape` from triggering closing twice ([#748](https://github.com/bpmn-io/diagram-js/pull/748))
+
 ## 11.8.0
 
 * `FEAT`: make outline more prominent ([#747](https://github.com/bpmn-io/diagram-js/pull/747))
