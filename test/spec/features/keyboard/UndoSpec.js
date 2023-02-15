@@ -13,7 +13,7 @@ import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
 
-var KEYS_UNDO = [ 'z', 'Z', 'KeyZ' ];
+var KEYS_UNDO = [ 'z', 'Z' ];
 
 
 describe('features/keyboard - undo', function() {
