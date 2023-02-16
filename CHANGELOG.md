@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.9.1
+
+* `FIX`: restore undo/redo shortcuts on some international keyboards ([#749](https://github.com/bpmn-io/diagram-js/pull/749))
+
 ## 11.9.0
 
 * `FEAT`: allow popup menu entries to be initially hidden ([#748](https://github.com/bpmn-io/diagram-js/pull/748))
