@@ -1,5 +1,12 @@
 import { pick } from 'min-dash';
 
+/**
+ * @typedef {import('../../lib/util/Types').Dimensions} Dimensions
+ * @typedef {import('../../lib/util/Types').Point} Point
+ * @typedef {import('../../lib/util/Types').Rect} Rect
+ * @typedef {import('../../lib/util/Types').RectTRBL} RectTRBL
+ */
+
 var BOUNDS_ATTRS = [ 'x', 'y', 'width', 'height' ],
     POSITION_ATTRS = [ 'x', 'y' ],
     DIMENSION_ATTRS = [ 'width', 'height' ];
@@ -53,7 +60,7 @@ export default function(chai, utils) {
    * expect(di.label).to.have.bounds({ x: 100, y: 100, width: 10, height: 20 });
    * expect(shape).to.have.bounds({ top: 100, left: 0, right: 200, bottom: 50 });
    *
-   * @param {Bounds|TLBR} exp
+   * @param {Rect|RectTRBL} exp
    */
   Assertion.addMethod('bounds', function(exp) {
     var obj = this._obj;

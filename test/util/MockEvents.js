@@ -4,6 +4,9 @@ import {
   getDiagramJS
 } from 'test/TestHelper';
 
+/**
+ * @typedef {import('../../lib/util/Types').Point} Point
+ */
 
 /**
  * Create an event with global coordinates

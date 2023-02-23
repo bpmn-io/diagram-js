@@ -1,5 +1,9 @@
 import { pick } from 'min-dash';
 
+/**
+ * @typedef {import('../../lib/util/Types').Point} Point
+ */
+
 var POSITION_ATTRS = [ 'x', 'y' ];
 
 function extractPoints(point) {
