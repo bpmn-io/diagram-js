@@ -1,5 +1,8 @@
 import { getMid } from 'lib/layout/LayoutUtil';
 
+/**
+ * @typedef {import('../../model').Connection} Connection
+ */
 
 /**
  * A base connection layouter implementation
@@ -12,7 +15,7 @@ export default function CustomLayouter() {}
 /**
  * Return the new layouted waypoints for the given connection.
  *
- * @param {djs.model.Connection} connection
+ * @param {Connection} connection
  * @param {Object} [hints]
  * @param {boolean} [hints.connectionStart]
  * @param {boolean} [hints.connectionEnd]

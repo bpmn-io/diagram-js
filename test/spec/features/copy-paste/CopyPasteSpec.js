@@ -18,6 +18,10 @@ import modelingModule from 'lib/features/modeling';
 import rulesModule from './rules';
 import selectionModule from 'lib/features/selection';
 
+/**
+ * @typedef {import('../../model').Base} Base
+ */
+
 var HIGH_PRIORITY = 2000;
 
 
@@ -756,11 +760,11 @@ describe('features/copy-paste', function() {
  * Find elements in a tree.
  * Return found elements or false.
  *
- * @param {Array<djs.model.Base>} elements
+ * @param {Array<Base>} elements
  * @param {Object} tree
  * @param {number} [depth]
  *
- * @returns {Array<djs.model.Base>|false}
+ * @returns {Array<Base>|false}
  */
 function findElementsInTree(elements, tree, depth) {
   var foundElements = _findElementsInTree(elements, tree, depth);
@@ -776,11 +780,11 @@ function findElementsInTree(elements, tree, depth) {
  * Find element in a tree.
  * Return found element or false.
  *
- * @param {djs.model.Base} element
+ * @param {Base} element
  * @param {Object} tree
  * @param {number} [depth]
  *
- * @returns {djs.model.Base|false}
+ * @returns {Base|false}
  */
 function findElementInTree(elements, tree, depth) {
   var foundElements = _findElementsInTree(elements, tree, depth);

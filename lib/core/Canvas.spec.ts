@@ -1,8 +1,8 @@
 import Diagram from '../../lib/Diagram';
 
 import CoreModule from '../../lib/core';
-import Canvas from '../../lib/core/Canvas';
-import ElementFactory from '../../lib/core/ElementFactory';
+import Canvas from './Canvas';
+import ElementFactory from './ElementFactory';
 
 const diagram = new Diagram({
   modules: [

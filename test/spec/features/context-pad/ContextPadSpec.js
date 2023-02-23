@@ -58,7 +58,7 @@ describe('features/context-pad', function() {
     /**
      * @constructor
      *
-     * @param {any} [entriesOrUpdater]
+     * @param {*} [entriesOrUpdater]
      */
     function Provider(entriesOrUpdater) {
       this.getContextPadEntries = function(element) {

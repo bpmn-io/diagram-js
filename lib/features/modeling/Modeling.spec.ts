@@ -1,7 +1,5 @@
 import Diagram from '../../../lib/Diagram';
 
-import CommandStack from '../../command/CommandStack';
-
 import CoreModule from '.';
 import ElementFactory from '../../core/ElementFactory';
 
