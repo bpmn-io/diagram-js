@@ -1,13 +1,13 @@
 import Diagram from '../../Diagram';
 
-import CoreModule from '.';
+import OverlaysModule from '.';
 import ElementFactory from '../../core/ElementFactory';
 
 import Overlays, { OverlayAttrs } from './Overlays';
 
 const diagram = new Diagram({
   modules: [
-    CoreModule
+    OverlaysModule
   ]
 });
 
