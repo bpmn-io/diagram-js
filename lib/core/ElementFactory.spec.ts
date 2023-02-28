@@ -1,7 +1,7 @@
-import Diagram from '../../lib/Diagram';
+import Diagram from '../Diagram';
 
-import CoreModule from '../../lib/core';
-import ElementFactory from '../../lib/core/ElementFactory';
+import CoreModule from '.';
+import ElementFactory from './ElementFactory';
 
 const diagram = new Diagram({
   modules: [

@@ -1,9 +1,9 @@
 import { Base, Connection, Shape } from '../model';
 
-import Diagram from '../../lib/Diagram';
+import Diagram from '../Diagram';
 
-import CoreModule from '../../lib/core';
-import ElementFactory from '../../lib/core/ElementFactory';
+import CoreModule from '../core';
+import ElementFactory from '../core/ElementFactory';
 import GraphicsFactory from '../core/GraphicsFactory';
 
 import BaseRenderer from './BaseRenderer';

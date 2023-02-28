@@ -1,7 +1,7 @@
-import Diagram from '../../lib/Diagram';
+import Diagram from '../Diagram';
 
-import CommandModule from '../../lib/command';
-import CommandStack from '../../lib/command/CommandStack';
+import CommandModule from '.';
+import CommandStack from './CommandStack';
 
 import { AddShapeHandler } from './CommandHandler.spec';
 

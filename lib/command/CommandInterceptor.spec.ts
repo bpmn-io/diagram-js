@@ -1,8 +1,8 @@
-import CommandInterceptor from '../../lib/command/CommandInterceptor';
+import CommandInterceptor from './CommandInterceptor';
 
-import EventBus from '../../lib/core/EventBus';
+import EventBus from '../core/EventBus';
 
-import Modeling from '../../lib/features/modeling/Modeling';
+import Modeling from '../features/modeling/Modeling';
 
 export class AddShapeBehavior extends CommandInterceptor {
   static $inject = [ 'eventBus', 'modeling' ];

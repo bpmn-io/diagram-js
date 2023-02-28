@@ -1,6 +1,6 @@
-import CommandHandler from '../../lib/command/CommandHandler';
+import CommandHandler from './CommandHandler';
 
-import Canvas from '../../lib/core/Canvas';
+import Canvas from '../core/Canvas';
 
 export class AddShapeHandler implements CommandHandler {
   private _canvas: Canvas;
