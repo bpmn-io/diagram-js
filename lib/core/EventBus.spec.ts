@@ -1,4 +1,4 @@
-import Diagram from '../../lib/Diagram';
+import Diagram from '../Diagram';
 
 import CoreModule from '.';
 import EventBus, { Event } from './EventBus';

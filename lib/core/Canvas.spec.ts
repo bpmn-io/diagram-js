@@ -1,6 +1,6 @@
-import Diagram from '../../lib/Diagram';
+import Diagram from '../Diagram';
 
-import CoreModule from '../../lib/core';
+import CoreModule from '.';
 import Canvas from './Canvas';
 import ElementFactory from './ElementFactory';
 
