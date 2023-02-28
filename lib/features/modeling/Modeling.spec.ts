@@ -1,6 +1,5 @@
 import Diagram from '../../Diagram';
 
-import CoreModule from '.';
 import ElementFactory from '../../core/ElementFactory';
 
 import ModelingModule from '.';
@@ -8,7 +7,6 @@ import Modeling from './Modeling';
 
 const diagram = new Diagram({
   modules: [
-    CoreModule,
     ModelingModule
   ]
 });
