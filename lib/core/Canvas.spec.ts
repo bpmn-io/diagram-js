@@ -1,14 +1,9 @@
 import Diagram from '../Diagram';
 
-import CoreModule from '.';
 import Canvas from './Canvas';
 import ElementFactory from './ElementFactory';
 
-const diagram = new Diagram({
-  modules: [
-    CoreModule
-  ]
-});
+const diagram = new Diagram();
 
 const shapeLike = {
   id: 'shapeLike',

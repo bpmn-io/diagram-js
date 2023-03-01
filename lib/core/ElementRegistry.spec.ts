@@ -1,15 +1,10 @@
 import Diagram from '../Diagram';
 
-import CoreModule from '.';
 import ElementFactory from './ElementFactory';
 import ElementRegistry from './ElementRegistry';
 import GraphicsFactory from './GraphicsFactory';
 
-const diagram = new Diagram({
-  modules: [
-    CoreModule
-  ]
-});
+const diagram = new Diagram();
 
 const elementFactory = diagram.get<ElementFactory>('elementFactory'),
       elementRegistry = diagram.get<ElementRegistry>('elementRegistry'),

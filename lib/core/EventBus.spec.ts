@@ -1,13 +1,8 @@
 import Diagram from '../Diagram';
 
-import CoreModule from '.';
 import EventBus, { Event } from './EventBus';
 
-const diagram = new Diagram({
-  modules: [
-    CoreModule
-  ]
-});
+const diagram = new Diagram();
 
 const eventBus = diagram.get<EventBus>('eventBus');
 

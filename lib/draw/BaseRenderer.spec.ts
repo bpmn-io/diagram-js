@@ -2,7 +2,6 @@ import { Base, Connection, Shape } from '../model';
 
 import Diagram from '../Diagram';
 
-import CoreModule from '../core';
 import ElementFactory from '../core/ElementFactory';
 import GraphicsFactory from '../core/GraphicsFactory';
 
@@ -32,7 +31,6 @@ class CustomRenderer extends BaseRenderer {
 
 const diagram = new Diagram({
   modules: [
-    CoreModule,
     {
       __init__: [ 'customRenderer' ],
       customRenderer: [ 'type', CustomRenderer ]
