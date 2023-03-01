@@ -1,8 +1,8 @@
 import Diagram from '../../Diagram';
 
-import OverlaysModule from '.';
 import ElementFactory from '../../core/ElementFactory';
 
+import OverlaysModule from '.';
 import Overlays, { OverlayAttrs } from './Overlays';
 
 const diagram = new Diagram({

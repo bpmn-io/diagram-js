@@ -54,7 +54,7 @@ export type DiagramOptions = {
  * @param injector An (optional) injector to bootstrap the diagram with.
  */
 export default class Diagram {
-  constructor(options: DiagramOptions, injector?: Injector);
+  constructor(options?: DiagramOptions, injector?: Injector);
 
   /**
    * Resolves a diagram service.

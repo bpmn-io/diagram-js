@@ -8,7 +8,9 @@ import EventBus from './core/EventBus';
 import ModelingModule from './features/modeling';
 import Modeling from './features/modeling/Modeling';
 
-const diagram = new Diagram({
+let diagram = new Diagram();
+
+diagram = new Diagram({
   modules: [
     CoreModule,
     CommandModule,
