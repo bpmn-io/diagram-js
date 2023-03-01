@@ -10,7 +10,8 @@
     "test/util",
     "test/helper",
     "test/matchers",
-    "!.eslintrc"
+    "!.eslintrc",
+    "!lib/**/*.spec.ts"
   ],
   "scripts": {
     "all": "run-s lint test test:types",
