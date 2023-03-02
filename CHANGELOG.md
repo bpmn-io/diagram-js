@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+# 11.10.0
+
+* `FEAT`: add TypeScript declarations for core components ([#732](https://github.com/bpmn-io/diagram-js/pull/732))
+* `DEPS`: update to `didi@9.0.2`
+
 ## 11.9.1
 
 * `FIX`: restore undo/redo shortcuts on some international keyboards ([#749](https://github.com/bpmn-io/diagram-js/pull/749))
