@@ -10,8 +10,12 @@ import {
   query as domQuery
 } from 'min-dom';
 
+import {
+  pick
+} from 'min-dash';
 
-describe('features/replace', function() {
+
+describe('features/replace - Replace', function() {
 
   beforeEach(bootstrapDiagram({
     modules: [
@@ -65,6 +69,49 @@ describe('features/replace', function() {
 
       // expect added
       expect(elementRegistry.get('replacement')).to.equal(newShape);
+    }));
+
+
+    it('should emit events', inject(function(elementRegistry, replace, eventBus) {
+
+      // given
+      var log = [];
+
+      function capture(eventBus, eventType) {
+        eventBus.on(eventType, function(event) {
+          log.push([ eventType, pick(event, [ 'attrs', 'element', 'hints', 'newElement' ]) ]);
+        });
+      }
+
+      capture(eventBus, 'replace.start');
+      capture(eventBus, 'replace.end');
+
+      var replaceHints = {
+        foo: 'FOO'
+      };
+
+      var replaceAttrs = {
+        id: 'replacement',
+        width: 200,
+        height: 200
+      };
+
+      // when
+      var newElement = replace.replaceElement(originalShape, replaceAttrs, replaceHints);
+
+      // then
+      expect(log).to.eql([
+        [ 'replace.start', {
+          element: originalShape,
+          attrs: replaceAttrs,
+          hints: replaceHints
+        } ],
+        [ 'replace.end', {
+          element: originalShape,
+          newElement: newElement,
+          hints: replaceHints
+        } ]
+      ]);
     }));
 
 
