@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+# 11.11.0
+
+* `FEAT`: add `translate` typings ([#756](https://github.com/bpmn-io/diagram-js/pull/756))
+* `FEAT`: support select after replacement ([#755](https://github.com/bpmn-io/diagram-js/pull/756))
+
 # 11.10.0
 
 * `FEAT`: add TypeScript declarations for core components ([#732](https://github.com/bpmn-io/diagram-js/pull/732))
