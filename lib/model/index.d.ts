@@ -8,16 +8,16 @@ export type ModelTypeShape = 'shape';
 
 export type ModelType = ModelTypeConnection | ModelTypeLabel | ModelTypeRoot | ModelTypeShape;
 
-export type ModelBaseAttrs = {
+export interface ModelBaseAttrs {
   businessObject?: any;
   id?: string;
   label?: Label;
   parent?: Base;
   incoming?: Connection[];
   outgoing?: Connection[];
-};
+}
 
-export type ModelAttrsShape = {
+export interface ModelAttrsShape extends ModelBaseAttrs {
   isFrame?: boolean;
   children?: Base[];
   host?: Shape;
@@ -26,32 +26,32 @@ export type ModelAttrsShape = {
   y?: number;
   width?: number;
   height?: number;
-} & ModelBaseAttrs;
+}
 
-export type ModelAttrsRoot = {} & ModelAttrsShape;
+export interface ModelAttrsRoot extends ModelAttrsShape {}
 
-export type ModelAttrsLabel = {
+export interface ModelAttrsLabel extends ModelAttrsShape {
   labelTarget?: Base;
-} & ModelAttrsShape;
+}
 
-export type ModelAttrsConnection = {
+export interface ModelAttrsConnection extends ModelBaseAttrs {
   source?: Base;
   target?: Base;
   waypoints?: Point[];
-} & ModelBaseAttrs;
+}
 
 export type ModelAttrs = ModelAttrsConnection | ModelAttrsLabel | ModelAttrsRoot | ModelAttrsShape;
 
-export type Base = {
+export interface Base {
   businessObject: any;
   id: string;
   label: Label;
   parent: Base;
   incoming: Connection[];
   outgoing: Connection[];
-};
+}
 
-export type Shape = {
+export interface Shape extends Base {
   isFrame: boolean;
   children: Base[];
   host: Shape;
@@ -60,19 +60,19 @@ export type Shape = {
   y: number;
   width: number;
   height: number;
-} & Base;
+}
 
-export type Root = {} & Shape;
+export interface Root extends Shape {}
 
-export type Label = {
+export interface Label extends Shape {
   labelTarget: Base;
-} & Shape;
+}
 
-export type Connection = {
+export interface Connection extends Base {
   source: Base;
   target: Base;
   waypoints: Point[];
-} & Base;
+}
 
 export type Parent = Shape | Root;
 
