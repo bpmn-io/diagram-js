@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `CHORE`: adjust type declarations to allow augmentation ([#757](https://github.com/bpmn-io/diagram-js/pull/757))
+
 # 11.11.0
 
 * `FEAT`: add `translate` typings ([#756](https://github.com/bpmn-io/diagram-js/pull/756))
