@@ -1,4 +1,4 @@
-export type Dimensions = import('../util/Types').Dimensions;
+type Dimensions = import('../util/Types').Dimensions;
 
 export type Padding = {
   top: number;
