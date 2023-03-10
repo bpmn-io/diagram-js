@@ -6,7 +6,7 @@ export type Event = {
   defaultPrevented: boolean;
 };
 
-export type EventCallback<T extends Event> = (event: T) => any | void;
+export type EventCallback<T extends Event> = (event: T, ...additional: any[]) => any | void;
 
 export type EventBusListener = {
   priority: number;
