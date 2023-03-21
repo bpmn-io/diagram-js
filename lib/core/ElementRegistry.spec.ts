@@ -40,6 +40,11 @@ elementRegistry.filter((element, gfx) => {
   return true;
 });
 
+
+elementRegistry.filter((element, gfx) => {
+  console.log(element, gfx);
+});
+
 elementRegistry.forEach((element, gfx) => console.log(element, gfx));
 
 elementRegistry.get('shape');
