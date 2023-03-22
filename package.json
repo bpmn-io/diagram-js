@@ -72,6 +72,7 @@
   },
   "dependencies": {
     "@bpmn-io/diagram-js-ui": "^0.2.2",
+    "bio-dts": "^0.8.0",
     "clsx": "^1.2.1",
     "didi": "^9.0.2",
     "hammerjs": "^2.0.1",
