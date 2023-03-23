@@ -35,7 +35,7 @@ eventBus.on('foo', 2000, callback);
 eventBus.on('foo', callback, this);
 
 eventBus.on('foo', (event, additional1, additional2) => {
-  console.log(foo, additional1, additional2);
+  console.log('foo', additional1, additional2);
 });
 
 type FooEvent = {
@@ -57,5 +57,5 @@ eventBus.once('foo', 2000, callback);
 eventBus.once('foo', callback, this);
 
 eventBus.once('foo', (event, additional1, additional2) => {
-  console.log(foo, additional1, additional2);
+  console.log('foo', additional1, additional2);
 });
