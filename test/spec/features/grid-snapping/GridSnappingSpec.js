@@ -5,7 +5,6 @@ import {
 } from 'test/TestHelper';
 
 import modelingModule from 'lib/features/modeling';
-import gridModule from 'lib/features/grid-snapping/visuals';
 import gridSnappingModule from 'lib/features/grid-snapping';
 import bendpointsModule from 'lib/features/bendpoints';
 import connectModule from 'lib/features/connect';
@@ -143,7 +142,6 @@ describe('features/grid-snapping', function() {
     beforeEach(bootstrapDiagram({
       modules: [
         modelingModule,
-        gridModule,
         gridSnappingModule,
         bendpointsModule,
         connectModule,
