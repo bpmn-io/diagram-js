@@ -23,6 +23,6 @@ export type RectTRBL = {
 
 export type Axis = 'x' | 'y';
 
-export type Directions = 'n' | 'w' | 's' | 'e' | 'nw' | 'ne' | 'sw' | 'se';
+export type Direction = 'n' | 'w' | 's' | 'e' | 'nw' | 'ne' | 'sw' | 'se';
 
 export type DirectionTRBL = 'top' | 'right' | 'bottom' | 'left' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
