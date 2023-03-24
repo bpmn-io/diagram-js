@@ -40,7 +40,7 @@ eventBus.on('foo', (event, additional1, additional2) => {
 
 type FooEvent = {
   foo: string;
-} & Event;
+};
 
 eventBus.on<FooEvent>('foo', (event) => {
   const { foo } = event;
