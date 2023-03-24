@@ -64,6 +64,12 @@ modeling.createShape(shape, { x: 100, y: 100 }, root, {
   attach: true
 });
 
+modeling.createShape(shape, { x: 100, y: 100 }, root, 10, {
+  attach: true
+});
+
+modeling.createShape(shape, { x: 100, y: 100 }, root, 10);
+
 modeling.createElements([
   shape,
   elementFactory.createShape()
