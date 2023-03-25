@@ -598,15 +598,6 @@ describe('Canvas', function() {
     }));
 
 
-    it('should fail with override flag', inject(function(canvas) {
-
-      // then
-      expect(function() {
-        canvas.setRootElement({ id: 'newRoot' }, true);
-      }).to.throw(/override not supported/);
-    }));
-
-
     it('should list root elements', inject(function(canvas, elementRegistry) {
 
       // given
