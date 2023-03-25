@@ -2,8 +2,7 @@ import { Point } from '../util/Types';
 
 export type ElementLike = {
   id: string;
-  [key: string]: any;
-};
+} & Record<string, any>;
 
 export type ConnectionLike = {
   waypoints: Point[];
@@ -18,4 +17,4 @@ export type ShapeLike = {
   y: number;
   width: number;
   height: number;
-};
+} & ElementLike;
