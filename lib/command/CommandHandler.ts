@@ -1,4 +1,4 @@
-import { ElementLike } from "../core/Model";
+import { ElementLike } from "../core/Types";
 import { CommandContext } from "./CommandStack";
 
 /**
