@@ -14,9 +14,10 @@
     "!lib/**/*.spec.ts"
   ],
   "scripts": {
-    "all": "run-s lint test test:types",
+    "all": "run-s lint test generate-types test:types",
     "lint": "eslint .",
     "dev": "npm test -- --auto-watch --no-single-run",
+    "generate-types": "del-cli \"lib/**/*.d.ts\" && npx bio-dts -r lib",
     "test": "karma start",
     "test:types": "tsc"
   },
@@ -49,6 +50,7 @@
     "babel-loader": "^9.1.0",
     "babel-plugin-istanbul": "^6.1.1",
     "chai": "^4.3.6",
+    "del-cli": "^5.0.0",
     "eslint": "^8.24.0",
     "eslint-plugin-bpmn-io": "^1.0.0",
     "eslint-plugin-import": "^2.26.0",
