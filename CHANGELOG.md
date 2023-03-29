@@ -6,6 +6,9 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.12.0
+
+* `DOCS`: add additional parameters to `EventCallback` type ([#759](https://github.com/bpmn-io/diagram-js/pull/759))
 * `CHORE`: adjust type declarations to allow augmentation ([#757](https://github.com/bpmn-io/diagram-js/pull/757))
 
 # 11.11.0
