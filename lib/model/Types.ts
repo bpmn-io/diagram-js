@@ -1,36 +1,53 @@
 import { Point } from '../util/Types';
 
-export interface Base {
-  businessObject: any;
+export type ElementLike = {
   id: string;
+  businessObject?: any;
+} & Record<string, any>;
+
+export type Element = ElementLike & {
   label?: Label;
   labels: Label[];
-  parent?: Base;
+  parent?: Element;
   incoming: Connection[];
   outgoing: Connection[];
 }
 
-export interface Shape extends Base {
-  isFrame: boolean;
-  children: Base[];
-  host?: Shape;
-  attachers: Shape[];
+export type ShapeLike = ElementLike & {
   x: number;
   y: number;
   width: number;
   height: number;
+};
+
+export type Shape = ShapeLike & Element & {
+  isFrame?: boolean;
+  children: Element[];
+  host?: Shape;
+  attachers: Shape[];
 }
 
-export interface Root extends Shape {}
+export type RootLike = ElementLike & {
+  isImplicit?: boolean;
+};
 
-export interface Label extends Shape {
-  labelTarget?: Base;
+export type Root = RootLike & Element;
+
+export type LabelLike = ShapeLike;
+
+export type Label = LabelLike & Shape & {
+  labelTarget?: Element;
 }
 
-export interface Connection extends Base {
-  source?: Base;
-  target?: Base;
+export type ConnectionLike = {
   waypoints: Point[];
-}
+} & ElementLike;
+
+export type Connection = ConnectionLike & Element & {
+  source?: Element;
+  target?: Element;
+};
+
+export type ParentLike = ShapeLike | RootLike;
 
 export type Parent = Shape | Root;
