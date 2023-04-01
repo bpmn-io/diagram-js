@@ -1,4 +1,4 @@
-import { Base, Connection, Shape } from '../model';
+import { Element, Connection, Shape } from '../model';
 
 import Diagram from '../Diagram';
 
@@ -8,7 +8,7 @@ import GraphicsFactory from '../core/GraphicsFactory';
 import BaseRenderer from './BaseRenderer';
 
 class CustomRenderer extends BaseRenderer {
-  canRender(element: Base): boolean {
+  canRender(element: Element): boolean {
     return true;
   }
 
