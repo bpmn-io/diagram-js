@@ -2,8 +2,8 @@
   "name": "diagram-js",
   "version": "11.13.1",
   "description": "A toolbox for displaying and modifying diagrams on the web",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "lib/Diagram.js",
+  "types": "lib/Diagram.d.ts",
   "files": [
     "lib",
     "assets",
