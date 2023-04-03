@@ -630,6 +630,9 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
         const searchInput = domQuery('.djs-popup-search input', container);
 
+        // assume
+        expect(searchInput).to.exist;
+
         // when
         await trigger(searchInput, keyDown('Escape'));
 
@@ -742,7 +745,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       container
     );
 
-    await whenStable();
+    await whenStable(500);
 
     return result;
   }
@@ -789,9 +792,9 @@ function mouseLeave() {
 async function trigger(element, event) {
   element.dispatchEvent(event);
 
-  return whenStable();
+  return whenStable(500);
 }
 
-function whenStable() {
-  return new Promise(resolve => setTimeout(resolve, 50));
+function whenStable(timeout = 50) {
+  return new Promise(resolve => setTimeout(resolve, timeout));
 }
