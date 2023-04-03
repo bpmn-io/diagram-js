@@ -14,12 +14,14 @@
     "!lib/**/*.spec.ts"
   ],
   "scripts": {
-    "all": "run-s lint test generate-types test:types",
+    "all": "run-s lint test generate-types",
     "lint": "eslint .",
     "dev": "npm test -- --auto-watch --no-single-run",
-    "generate-types": "del-cli \"lib/**/*.d.ts\" && npx bio-dts -r lib",
+    "generate-types": "run-s generate-types:*",
+    "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts -r lib",
+    "generate-types:test": "tsc --noEmit",
     "test": "karma start",
-    "test:types": "tsc"
+    "prepublishOnly": "run-s generate-types"
   },
   "repository": {
     "type": "git",
