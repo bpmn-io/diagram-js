@@ -1,5 +1,3 @@
-import { Injector } from 'didi';
-
 /**
  * A service that provides rules for certain diagram actions.
  *
@@ -7,12 +5,18 @@ import { Injector } from 'didi';
  * to perform the actual rule evaluation. Make sure to provide the
  * `commandStack` service with this module if you plan to use it.
  *
- * Together with this implementation you may use the {@link RuleProvider}
+ * Together with this implementation you may use the {@link import('./RuleProvider').default}
  * to implement your own rule checkers.
  *
  * This module is ment to be easily replaced, thus the tiny foot print.
+ *
  */
 export default class Rules {
+  static $inject: string[];
+
+  /**
+   * @param injector
+   */
   constructor(injector: Injector);
 
   /**
@@ -30,3 +34,5 @@ export default class Rules {
    */
   allowed(action: string, context?: any): boolean | null;
 }
+
+type Injector = import('didi').Injector;
