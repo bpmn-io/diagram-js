@@ -1,4 +1,10 @@
 {
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "ES2018"
+    ]
+  },
   "include": [
     "./lib/**/*.spec.ts"
   ]
