@@ -15,7 +15,10 @@ diagram = new Diagram({
     CoreModule,
     CommandModule,
     ModelingModule
-  ]
+  ],
+  canvas: {
+    deferUpdate: true
+  }
 });
 
 diagram.clear();
