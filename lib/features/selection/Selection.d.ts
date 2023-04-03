@@ -1,11 +1,15 @@
-import Canvas from '../../core/Canvas';
-import EventBus from '../../core/EventBus';
-
 /**
  * A service that offers the current selection in a diagram.
  * Offers the api to control the selection, too.
+ *
  */
 export default class Selection {
+  static $inject: string[];
+
+  /**
+   * @param eventBus
+   * @param canvas
+   */
   constructor(eventBus: EventBus, canvas: Canvas);
 
   /**
@@ -13,14 +17,14 @@ export default class Selection {
    *
    * @param element The element to deselect.
    */
-  deselect(element: Object): void;
+  deselect(element: any): void;
 
   /**
    * Get the selected elements.
    *
    * @return The selected elements.
    */
-  get(): Object[];
+  get(): any[];
 
   /**
    * Check whether an element is selected.
@@ -29,7 +33,7 @@ export default class Selection {
    *
    * @return Whether the element is selected.
    */
-  isSelected(element: Object): boolean;
+  isSelected(element: any): boolean;
 
   /**
    * Select one or many elements.
@@ -38,5 +42,8 @@ export default class Selection {
    * @param add Whether to add the element(s) to the selected elements.
    * Defaults to `false`.
    */
-  select(elements: Object | Object[], add?: boolean): void;
+  select(elements: any | any[], add?: boolean): void;
 }
+
+type Canvas = import('../../core/Canvas').default;
+type EventBus = import('../../core/EventBus').default;

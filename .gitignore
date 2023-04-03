@@ -1,6 +1,7 @@
 node_modules/
 dist/
 coverage/
+lib/**/*.d.ts
 .idea/
 .vscode/
 .DS_Store
