@@ -798,6 +798,48 @@ describe('features/palette', function() {
     }));
   });
 
+
+  describe('event integration', function() {
+
+    const entry = {
+      label: 'My Entry',
+      action: () => {}
+    };
+
+    const paletteProvider = {
+      getPaletteEntries: function() {
+        return {
+          'entry-1': entry
+        };
+      }
+    };
+
+    beforeEach(bootstrapDiagram({ modules: [ paletteModule ] }));
+
+    beforeEach(inject(function(palette) {
+      palette.registerProvider(800, paletteProvider);
+    }));
+
+
+    it('should fire "palette.trigger"', inject(function(palette, eventBus) {
+
+      // given
+      var target = domQuery('.djs-palette [data-action="entry-1"]');
+      var event = globalEvent(target, { x: 0, y: 0 });
+      var triggerSpy = sinon.spy();
+
+      eventBus.on('palette.trigger', triggerSpy);
+
+      // when
+      palette.trigger('click', event);
+
+      // then
+      expect(triggerSpy).to.have.been.calledOnce;
+      expect(triggerSpy.getCall(0).args[1]).to.eql({ entry, event });
+    }));
+
+  });
+
 });
 
 
