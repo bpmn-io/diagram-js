@@ -964,6 +964,39 @@ describe('features/context-pad', function() {
   });
 
 
+  describe('event integration', function() {
+
+    beforeEach(bootstrapDiagram({ modules: [ contextPadModule, providerModule ] }));
+
+    it('should fire "contextPad.trigger"', inject(function(canvas, contextPad, eventBus) {
+
+      // given
+      var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
+      var triggerSpy = sinon.spy();
+
+      eventBus.on('contextPad.trigger', triggerSpy);
+
+      contextPad.open(shape);
+
+      var pad = contextPad.getPad(shape),
+          html = pad.html,
+          target = domQuery('[data-action="action.c"]', html);
+
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      contextPad.trigger('click', event);
+
+      // then
+      const entry = contextPad._current.entries['action.c'];
+
+      expect(triggerSpy).to.have.been.calledOnce;
+      expect(triggerSpy.getCall(0).args[1]).to.eql({ entry, event });
+    }));
+
+  });
+
+
   describe('scaling', function() {
 
     var NUM_REGEX = /([+-]?\d*[.]?\d+)(?=,|\))/g;
