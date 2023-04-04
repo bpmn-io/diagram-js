@@ -791,6 +791,44 @@ describe('features/popup-menu', function() {
   });
 
 
+  describe('events integration', function() {
+
+    it('should fire "popupMenu.trigger"', inject(function(popupMenu, eventBus) {
+
+      // given
+      var triggerSpy = sinon.spy();
+      eventBus.on('popupMenu.trigger', triggerSpy);
+
+      popupMenu.registerProvider('test-menu', {
+        getEntries: function() {
+          return [ {
+            id: '1',
+            label: 'Entry 1',
+            action: () => {}
+          } ];
+        }
+      });
+
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+
+      var entry = queryEntry('1');
+      var event = globalEvent(entry, { x: 0, y: 0 });
+
+      // when
+      popupMenu.trigger(event);
+
+      // then
+      expect(triggerSpy).to.have.been.calledOnce;
+      expect(triggerSpy.getCall(0).args[1]).to.eql({
+        entry: popupMenu._getEntry('1'),
+        event
+      });
+    }));
+
+
+  });
+
+
   describe('with updater', function() {
 
     it('should allow to add entries', inject(function(popupMenu) {
