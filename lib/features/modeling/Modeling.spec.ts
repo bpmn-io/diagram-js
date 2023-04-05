@@ -5,6 +5,14 @@ import ElementFactory from '../../core/ElementFactory';
 import ModelingModule from '.';
 import Modeling from './Modeling';
 
+import {
+  Connection,
+  Element,
+  Label,
+  Root,
+  Shape
+} from '../../model';
+
 const diagram = new Diagram({
   modules: [
     ModelingModule
@@ -53,6 +61,8 @@ modeling.layoutConnection(connection, { foo: 'bar' });
 modeling.createConnection(shape, elementFactory.createShape(), { id: 'foo' }, root);
 
 modeling.createConnection(shape, elementFactory.createShape(), connection, root);
+
+modeling.createConnection(shape, elementFactory.createShape(), 10, connection, root);
 
 modeling.createConnection(shape, elementFactory.createShape(), connection, root, { foo: 'bar' });
 
@@ -205,3 +215,31 @@ modeling.toggleCollapse(shape);
 modeling.toggleCollapse(shape, {
   layoutConnection: false
 });
+
+/**
+ * Customization
+ */
+
+type CustomElement = {
+  foo: string;
+} & Element;
+
+type CustomShape = {
+  bar: string;
+} & Shape & CustomElement;
+
+class CustomModeling extends Modeling<Connection, CustomElement, Label, Root, CustomShape> {};
+
+const customModeling = diagram.get<CustomModeling>('modeling');
+
+const customShape = customModeling.createShape({ bar: 'bar' }, { x: 100, y: 100 }, root);
+
+customModeling.distributeElements([
+  {
+    elements: [ customShape ],
+    range: {
+      min: 100,
+      max: 200
+    }
+  }
+], 'x', 'width');
