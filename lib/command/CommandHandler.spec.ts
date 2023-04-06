@@ -1,4 +1,5 @@
 import CommandHandler from './CommandHandler';
+import { CommandContext } from './CommandStack';
 
 import Canvas from '../core/Canvas';
 
@@ -11,7 +12,7 @@ export class AddShapeHandler implements CommandHandler {
     this._canvas = canvas;
   }
 
-  execute(context) {
+  execute(context: CommandContext) {
     const {
       parent,
       shape
@@ -25,7 +26,7 @@ export class AddShapeHandler implements CommandHandler {
     ];
   }
 
-  revert(context) {
+  revert(context: CommandContext) {
     const {
       parent,
       shape
@@ -39,11 +40,11 @@ export class AddShapeHandler implements CommandHandler {
     ];
   }
 
-  canExecute(_) {
+  canExecute(_: CommandContext) {
     return true;
   }
 
-  preExecute(_) {}
+  preExecute(_: CommandContext) {}
 
-  postExecute(_) {}
+  postExecute(_: CommandContext) {}
 }
