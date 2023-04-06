@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.13.0
+
+* `FEAT`: fire `popupMenu.trigger`, `palette.trigger` and `contextPad.trigger` events ([#772](https://github.com/bpmn-io/diagram-js/pull/772))
+
 ## 11.12.0
 
 * `DOCS`: add additional parameters to `EventCallback` type ([#759](https://github.com/bpmn-io/diagram-js/pull/759))
