@@ -47,9 +47,3 @@ export class AddShapeHandler implements CommandHandler {
 
   postExecute(_) {}
 }
-
-class NoopHandler implements CommandHandler {
-  execute(_) {}
-
-  revert(_) {}
-}
