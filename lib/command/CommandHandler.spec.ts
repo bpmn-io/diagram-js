@@ -1,12 +1,6 @@
 import CommandHandler from './CommandHandler';
 
 import Canvas from '../core/Canvas';
-import Modeling from '../features/modeling/Modeling';
-
-import {
-  ElementLike,
-  Shape
-} from '../model/Types';
 
 export class AddShapeHandler implements CommandHandler {
   private _canvas: Canvas;
@@ -54,24 +48,8 @@ export class AddShapeHandler implements CommandHandler {
   postExecute(_) {}
 }
 
-class MoveShapeHandler implements CommandHandler {
-  private _modeling: Modeling;
+class NoopHandler implements CommandHandler {
+  execute(_) {}
 
-  static $inject = [ 'modeling' ];
-
-  constructor(modeling: Modeling) {
-    this._modeling = modeling;
-  }
-
-  execute(context) {
-    const { shape } = context;
-
-    this._modeling.moveShape(shape as Shape, { x: 100, y: 100 });
-  }
-
-  revert(context) {
-    const { shape } = context;
-
-    this._modeling.moveShape(shape as Shape, { x: 100, y: 100 });
-  }
+  revert(_) {}
 }
