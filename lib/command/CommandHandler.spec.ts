@@ -1,17 +1,23 @@
 import CommandHandler from './CommandHandler';
 
 import Canvas from '../core/Canvas';
+import Modeling from '../features/modeling/Modeling';
+
+import {
+  ElementLike,
+  Shape
+} from '../model/Types';
 
 export class AddShapeHandler implements CommandHandler {
   private _canvas: Canvas;
 
-  static $inject = [ 'canvas', 'rules' ];
+  static $inject = [ 'canvas' ];
 
   constructor(canvas: Canvas) {
     this._canvas = canvas;
   }
 
-  execute(context: any) {
+  execute(context) {
     const {
       parent,
       shape
@@ -25,7 +31,7 @@ export class AddShapeHandler implements CommandHandler {
     ];
   }
 
-  revert(context: any) {
+  revert(context) {
     const {
       parent,
       shape
@@ -39,11 +45,33 @@ export class AddShapeHandler implements CommandHandler {
     ];
   }
 
-  canExecute(context: any): boolean {
+  canExecute(_) {
     return true;
   }
 
-  preExecute(context: any): void {}
+  preExecute(_) {}
 
-  postExecute(context: any): void {}
+  postExecute(_) {}
+}
+
+class MoveShapeHandler implements CommandHandler {
+  private _modeling: Modeling;
+
+  static $inject = [ 'modeling' ];
+
+  constructor(modeling: Modeling) {
+    this._modeling = modeling;
+  }
+
+  execute(context) {
+    const { shape } = context;
+
+    this._modeling.moveShape(shape as Shape, { x: 100, y: 100 });
+  }
+
+  revert(context) {
+    const { shape } = context;
+
+    this._modeling.moveShape(shape as Shape, { x: 100, y: 100 });
+  }
 }
