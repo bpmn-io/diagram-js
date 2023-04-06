@@ -14,7 +14,7 @@ export default interface CommandHandler {
    *
    * @return The list of diagram elements that have changed.
    */
-  execute?(context: CommandContext): ElementLike[];
+  execute?(context: CommandContext): ElementLike[] | void;
 
   /**
    * Revert changes described in the passed action context.
@@ -23,7 +23,7 @@ export default interface CommandHandler {
    *
    * @return The list of diagram elements that have changed.
    */
-  revert?(context: CommandContext): ElementLike[];
+  revert?(context: CommandContext): ElementLike[] | void;
 
   /**
    * Return true if the handler may execute in the given context.
