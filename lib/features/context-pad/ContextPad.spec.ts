@@ -5,6 +5,8 @@ import ElementFactory from '../../core/ElementFactory';
 import ContextPadModule from '.';
 import ContextPad from './ContextPad';
 
+import { FooContextPadProvider } from './ContextPadProvider.spec';
+
 const diagram = new Diagram({
   modules: [
     ContextPadModule
@@ -15,77 +17,11 @@ const elementFactory = diagram.get<ElementFactory>('elementFactory');
 
 const shape = elementFactory.createShape();
 
-const contextPad = diagram.get<ContextPad>('overlays');
+const contextPad = diagram.get<ContextPad>('contextPad');
 
-contextPad.registerProvider({
-  getContextPadEntries: (element) => {
-    return {
-      foo: {
-        label: 'Foo',
-        action: () => console.log(element)
-      },
-      bar: {
-        label: 'Bar',
-        action: () => console.log(element)
-      }
-    }
-  }
-});
+contextPad.registerProvider(new FooContextPadProvider());
 
-contextPad.registerProvider({
-  getContextPadEntries: (element) => {
-    return (entries) => {
-      return {
-        ...entries,
-        baz: {
-          label: 'Baz',
-          action: () => console.log(element)
-        }
-      };
-    }
-  },
-  getMultiElementContextPadEntries: (elements) => {
-    return {
-      foo: {
-        label: 'Foo',
-        action: () => console.log(elements)
-      },
-      bar: {
-        label: 'Bar',
-        action: () => console.log(elements)
-      }
-    }
-  }
-});
-
-contextPad.registerProvider({
-  getContextPadEntries: (element) => {
-    return (entries) => {
-      return {
-        ...entries,
-        baz: {
-          label: 'Baz',
-          action: () => console.log(element)
-        }
-      };
-    }
-  },
-  getMultiElementContextPadEntries: (elements) => {
-    return (entries) => {
-      return {
-        ...entries,
-        foo: {
-          label: 'Foo',
-          action: () => console.log(elements)
-        },
-        bar: {
-          label: 'Bar',
-          action: () => console.log(elements)
-        }
-      }
-    }
-  }
-});
+contextPad.registerProvider(1000, new FooContextPadProvider());
 
 contextPad.open(shape);
 
@@ -98,7 +34,7 @@ const entries = contextPad.getEntries([ shape ]);
 for (let key in entries) {
   const entry = entries[ key ];
 
-  console.log(entry.action, entry.label);
+  console.log(entry.action, entry.title);
 }
 
 contextPad.trigger('foo', new Event('click'));
