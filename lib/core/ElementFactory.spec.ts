@@ -2,6 +2,13 @@ import Diagram from '../Diagram';
 
 import ElementFactory from './ElementFactory';
 
+import {
+  Connection,
+  Label,
+  Root,
+  Shape
+} from '../model/Types';
+
 const diagram = new Diagram();
 
 const elementFactory = diagram.get<ElementFactory>('elementFactory');
@@ -57,3 +64,19 @@ elementFactory.createLabel();
 elementFactory.createRoot();
 
 elementFactory.createShape();
+
+/**
+ * Customization
+ */
+
+type CustomShape = {
+  foo: string;
+} & Shape;
+
+class CustomElementFactory extends ElementFactory<Connection, Label, Root, CustomShape> {};
+
+const customElementFactory = diagram.get<CustomElementFactory>('elementFactory');
+
+const customShape = customElementFactory.createShape({ foo: 'bar' });
+
+console.log(customShape.foo);
