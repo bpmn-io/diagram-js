@@ -208,18 +208,18 @@ describe('features/popup-menu', function() {
         // then
         expect(function() {
           popupMenu.isEmpty({});
-        }).to.throw('providerId parameter is missing');
+        }).to.throw('provider ID is missing');
       }
     ));
 
 
-    it('should throw error when element is missing', inject(
+    it('should throw error when target is missing', inject(
       function(popupMenu) {
 
         // then
         expect(function() {
           popupMenu.isEmpty();
-        }).to.throw('element parameter is missing');
+        }).to.throw('target is missing');
       }
     ));
 
@@ -354,7 +354,7 @@ describe('features/popup-menu', function() {
       // then
       expect(function() {
         popupMenu.open({}, 'foo', { x: 100, y: 100 });
-      }).to.throw('No registered providers for: foo');
+      }).to.throw('provider for <foo> not found');
 
     }));
 
@@ -365,7 +365,7 @@ describe('features/popup-menu', function() {
 
       expect(function() {
         popupMenu.open();
-      }).to.throw('Element is missing');
+      }).to.throw('target is missing');
 
     }));
 
@@ -1297,7 +1297,7 @@ describe('features/popup-menu', function() {
         // then
         expect(function() {
           popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
-        }).to.throw('every entry must have the id property set');
+        }).to.throw('entry ID is missing');
       }
     ));
 
@@ -1422,7 +1422,7 @@ describe('features/popup-menu', function() {
         // then
         expect(function() {
           popupMenu.open({}, 'menu');
-        }).to.throw('the position argument is missing');
+        }).to.throw('position is missing');
       }
     ));
 
@@ -1892,7 +1892,7 @@ describe('features/popup-menu', function() {
         // then
         expect(function() {
           popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
-        }).to.throw('every entry must have the id property set');
+        }).to.throw('entry ID is missing');
       }
     ));
 
@@ -1909,7 +1909,7 @@ describe('features/popup-menu', function() {
         // then
         expect(function() {
           popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
-        }).to.throw('every entry must have the id property set');
+        }).to.throw('entry ID is missing');
       }
     ));
 
