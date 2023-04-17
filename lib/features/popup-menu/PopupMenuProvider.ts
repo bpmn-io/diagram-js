@@ -1,7 +1,9 @@
 import { PopupMenuTarget } from './PopupMenu';
 
+export type PopupMenuEntryAction = (event: Event, entry: PopupMenuEntry) => any;
+
 export type PopupMenuEntry = {
-  action: (event: Event, entry: PopupMenuEntry) => any;
+  action: PopupMenuEntryAction;
   className: string;
   label: string;
 };
@@ -10,8 +12,10 @@ export type PopupMenuEntries = Record<string, PopupMenuEntry>;
 
 export type PopupMenuEntriesCallback = (entries: PopupMenuEntries) => PopupMenuEntries;
 
+export type PopupMenuHeaderEntryAction = (event: Event, entry: PopupMenuHeaderEntry) => any;
+
 export type PopupMenuHeaderEntry = {
-  action: (event: Event, entry: PopupMenuHeaderEntry) => void;
+  action: PopupMenuHeaderEntryAction;
   active?: boolean;
   className: string;
   id: string;
