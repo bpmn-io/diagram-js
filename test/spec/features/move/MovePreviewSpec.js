@@ -642,7 +642,7 @@ describe('features/move - MovePreview', function() {
  * @param {string} id
  * @param {string} [quoteSymbol='']
  *
- * @returns {string}
+ * @return {string}
  */
 function idToReference(id, quoteSymbol) {
   quoteSymbol = quoteSymbol ? quoteSymbol : '';
@@ -657,7 +657,7 @@ function idToReference(id, quoteSymbol) {
  *
  * @param {string} id
  *
- * @returns {string[]}
+ * @return {string[]}
  */
 function idToReferenceFormatOptions(id) {
   return [ '', '\'', '"' ].map(function(quoteSymbol) {

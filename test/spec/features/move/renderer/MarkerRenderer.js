@@ -122,7 +122,7 @@ MarkerRenderer.prototype.addMarker = function(gfx, markerType) {
  *
  * @param {string} id
  *
- * @returns {string}
+ * @return {string}
  */
 function idToReference(id) {
   return 'url(#' + id + ')';
@@ -134,7 +134,7 @@ function idToReference(id) {
  * @param {Connection} connection
  * @param {string} markerType
  *
- * @returns {boolean}
+ * @return {boolean}
  */
 function hasMarker(connection, markerType) {
   return connection.marker && connection.marker[ markerType.split('-').pop() ];
