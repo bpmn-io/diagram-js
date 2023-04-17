@@ -15,6 +15,7 @@ export interface ModelBaseAttrs {
   parent?: Base;
   incoming?: Connection[];
   outgoing?: Connection[];
+  [key: string]: any;
 }
 
 export interface ModelAttrsShape extends ModelBaseAttrs {
