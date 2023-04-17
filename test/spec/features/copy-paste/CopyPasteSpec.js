@@ -764,7 +764,7 @@ describe('features/copy-paste', function() {
  * @param {Object} tree
  * @param {number} [depth]
  *
- * @returns {Array<Base>|false}
+ * @return {Array<Base>|false}
  */
 function findElementsInTree(elements, tree, depth) {
   var foundElements = _findElementsInTree(elements, tree, depth);
@@ -784,7 +784,7 @@ function findElementsInTree(elements, tree, depth) {
  * @param {Object} tree
  * @param {number} [depth]
  *
- * @returns {Base|false}
+ * @return {Base|false}
  */
 function findElementInTree(elements, tree, depth) {
   var foundElements = _findElementsInTree(elements, tree, depth);
