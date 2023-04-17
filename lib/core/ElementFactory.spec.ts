@@ -11,7 +11,8 @@ const shape1 = elementFactory.create('shape', {
   x: 100,
   y: 100,
   width: 100,
-  height: 100
+  height: 100,
+  foo: 'bar'
 });
 
 const shape2 = elementFactory.create('shape', {
@@ -19,22 +20,26 @@ const shape2 = elementFactory.create('shape', {
   x: 100,
   y: 100,
   width: 100,
-  height: 100
+  height: 100,
+  foo: 'bar'
 });
 
 elementFactory.create('connection', {
   id: 'connection',
   source: shape1,
   target: shape2,
-  waypoints: []
+  waypoints: [],
+  foo: 'bar'
 });
 
 elementFactory.create('root', {
-  id: 'root'
+  id: 'root',
+  foo: 'bar'
 });
 
 elementFactory.create('label', {
-  id: 'label'
+  id: 'label',
+  foo: 'bar'
 });
 
 elementFactory.create('connection');
