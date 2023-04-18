@@ -6,6 +6,15 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.0.0
+
+* `FEAT`: rework and complete type definitions (https://github.com/bpmn-io/diagram-js/pull/775)
+* `FEAT`: rework `model`
+
+### Breaking Changes
+
+* Model elements must be created through factory functions exposed by the `model` package.
+
 ## 11.13.1
 
 * `FIX`: fix type declaration for `ElementFactory` ([#776](https://github.com/bpmn-io/diagram-js/pull/776))
