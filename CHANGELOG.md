@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 11.13.1
+
+* `FIX`: fix type declaration for `ElementFactory` ([#776](https://github.com/bpmn-io/diagram-js/pull/776))
+
 ## 11.13.0
 
 * `FEAT`: fire `popupMenu.trigger`, `palette.trigger` and `contextPad.trigger` events ([#772](https://github.com/bpmn-io/diagram-js/pull/772))
