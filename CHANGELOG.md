@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.0.1
+
+* `FIX`: export types as `type` ([#779](https://github.com/bpmn-io/diagram-js/pull/779))
+
 ## 12.0.0
 
 * `FEAT`: rework and complete type definitions (https://github.com/bpmn-io/diagram-js/pull/775)
