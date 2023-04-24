@@ -4,7 +4,8 @@
     "lib": [
       "DOM",
       "ES2018"
-    ]
+    ],
+    "strict": true
   },
   "include": [
     "./lib/**/*.d.ts",
