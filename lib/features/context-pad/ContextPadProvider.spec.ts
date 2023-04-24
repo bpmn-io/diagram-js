@@ -26,7 +26,7 @@ export class FooContextPadProvider implements ContextPadProvider {
       }
     };
   }
-};
+}
 
 export class BarContextPadProvider implements ContextPadProvider {
   getMultiElementContextPadEntries(elements: Element[]): ContextPadEntries {
@@ -53,7 +53,7 @@ export class BarContextPadProvider implements ContextPadProvider {
       }
     };
   }
-};
+}
 
 /**
  * Customization
@@ -88,4 +88,4 @@ export class CustomContextPadProvider implements ContextPadProvider<CustomElemen
       }
     };
   }
-};
+}

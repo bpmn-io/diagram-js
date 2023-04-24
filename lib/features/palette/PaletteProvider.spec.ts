@@ -16,7 +16,7 @@ export class FooPaletteProvider implements PaletteProvider {
       }
     };
   }
-};
+}
 
 export class BarPaletteProvider implements PaletteProvider {
   getPaletteEntries(): PaletteEntriesCallback {
@@ -37,4 +37,4 @@ export class BarPaletteProvider implements PaletteProvider {
       };
     };
   }
-};
+}

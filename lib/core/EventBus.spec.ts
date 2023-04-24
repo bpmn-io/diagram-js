@@ -1,6 +1,6 @@
 import Diagram from '../Diagram';
 
-import EventBus, { Event } from './EventBus';
+import EventBus from './EventBus';
 
 const diagram = new Diagram();
 
@@ -14,9 +14,9 @@ eventBus.fire(event);
 
 eventBus.fire(event, 'foo', 'bar');
 
-eventBus.fire({ foo: 'bar'});
+eventBus.fire({ foo: 'bar' });
 
-eventBus.fire({ foo: 'bar'}, 'foo', 'bar');
+eventBus.fire({ foo: 'bar' }, 'foo', 'bar');
 
 eventBus.handleError(new Error());
 
@@ -57,5 +57,5 @@ eventBus.once('foo', 2000, callback);
 eventBus.once('foo', callback, this);
 
 eventBus.once('foo', (event, additional1, additional2) => {
-  console.log('foo', additional1, additional2);
+  console.log('foo', event, additional1, additional2);
 });

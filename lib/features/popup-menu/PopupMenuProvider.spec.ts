@@ -37,7 +37,7 @@ export class BarPopupMenuProvider implements PopupMenuProvider {
           action: (event, entry) => {
             console.log(event.target);
             console.log(entry.label);
-            
+
             if (Array.isArray(target)) {
               target.forEach(({ id }) => console.log(id));
             } else {
@@ -57,7 +57,7 @@ export class BarPopupMenuProvider implements PopupMenuProvider {
         action: (event, entry) => {
           console.log(event.target);
           console.log(entry.title);
-          
+
           if (Array.isArray(target)) {
             target.forEach(({ id }) => console.log(id));
           } else {
@@ -74,7 +74,9 @@ export class BarPopupMenuProvider implements PopupMenuProvider {
 }
 
 export class BazPopupMenuProvider implements PopupMenuProvider {
-  getPopupMenuEntries(_: PopupMenuTarget): PopupMenuEntries {
+  getPopupMenuEntries(target: PopupMenuTarget): PopupMenuEntries {
+    console.log(target);
+
     return {};
   }
 
@@ -86,7 +88,7 @@ export class BazPopupMenuProvider implements PopupMenuProvider {
           action: (event, entry) => {
             console.log(event.target);
             console.log(entry.title);
-            
+
             if (Array.isArray(target)) {
               target.forEach(({ id }) => console.log(id));
             } else {
@@ -99,6 +101,6 @@ export class BazPopupMenuProvider implements PopupMenuProvider {
           title: 'Baz'
         }
       ];
-    }
+    };
   }
 }

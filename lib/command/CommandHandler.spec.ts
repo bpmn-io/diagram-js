@@ -40,11 +40,17 @@ export class AddShapeHandler implements CommandHandler {
     ];
   }
 
-  canExecute(_: CommandContext) {
+  canExecute(context: CommandContext) {
+    console.log(context);
+
     return true;
   }
 
-  preExecute(_: CommandContext) {}
+  preExecute(context: CommandContext) {
+    console.log(context);
+  }
 
-  postExecute(_: CommandContext) {}
+  postExecute(context: CommandContext) {
+    console.log(context);
+  }
 }

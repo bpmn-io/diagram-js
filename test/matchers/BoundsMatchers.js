@@ -57,8 +57,10 @@ export default function(chai, utils) {
    *
    * @example
    *
+   * ```javascript
    * expect(di.label).to.have.bounds({ x: 100, y: 100, width: 10, height: 20 });
    * expect(shape).to.have.bounds({ top: 100, left: 0, right: 200, bottom: 50 });
+   * ```
    *
    * @param {Rect|RectTRBL} exp
    */
@@ -97,7 +99,9 @@ export default function(chai, utils) {
    *
    * @example
    *
+   * ```javascript
    * expect(di.label).to.have.dimensions({ width: 10, height: 20 });
+   * ```
    *
    * @param {Dimensions} exp
    */
@@ -137,7 +141,9 @@ export default function(chai, utils) {
    *
    * @example
    *
+   * ```javascript
    * expect(taskShape).to.have.position({ x: 100, y: 150 });
+   * ```
    *
    * @param {Point} exp
    */

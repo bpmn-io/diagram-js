@@ -31,7 +31,7 @@ contextPad.getEntries(shape);
 
 const entries = contextPad.getEntries([ shape ]);
 
-for (let key in entries) {
+for (const key in entries) {
   const entry = entries[ key ];
 
   console.log(entry.action, entry.title);

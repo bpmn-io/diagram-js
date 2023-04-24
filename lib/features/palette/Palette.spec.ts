@@ -27,7 +27,7 @@ palette.registerProvider(new FooPaletteProvider());
 
 const entries = palette.getEntries();
 
-for (let key in entries) {
+for (const key in entries) {
   const entry = entries[ key ];
 
   console.log(entry.action);
