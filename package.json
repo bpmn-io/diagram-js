@@ -1,6 +1,6 @@
 {
   "name": "diagram-js",
-  "version": "12.0.1",
+  "version": "12.0.2",
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "main": "lib/Diagram.js",
   "types": "lib/Diagram.d.ts",
