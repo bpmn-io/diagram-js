@@ -228,7 +228,7 @@ type CustomShape = {
   bar: string;
 } & Shape & CustomElement;
 
-class CustomModeling extends Modeling<Connection, CustomElement, Label, Root, CustomShape> {};
+class CustomModeling extends Modeling<Connection, CustomElement, Label, Root, CustomShape> {}
 
 const customModeling = diagram.get<CustomModeling>('modeling');
 

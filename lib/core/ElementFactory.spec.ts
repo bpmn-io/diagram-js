@@ -73,7 +73,7 @@ type CustomShape = {
   foo: string;
 } & Shape;
 
-class CustomElementFactory extends ElementFactory<Connection, Label, Root, CustomShape> {};
+class CustomElementFactory extends ElementFactory<Connection, Label, Root, CustomShape> {}
 
 const customElementFactory = diagram.get<CustomElementFactory>('elementFactory');
 

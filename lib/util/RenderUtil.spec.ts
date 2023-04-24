@@ -3,9 +3,7 @@ import {
   componentsToPath
 } from './RenderUtil';
 
-// api
-
-const points = toSVGPoints([
+toSVGPoints([
   { x: 10, y: 100 },
   { x: 100, y: 100 }
 ]);

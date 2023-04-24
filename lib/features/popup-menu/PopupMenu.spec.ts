@@ -4,6 +4,7 @@ import ElementFactory from '../../core/ElementFactory';
 
 import PopupMenuModule from '.';
 import PopupMenu from './PopupMenu';
+import { PopupMenuEntry } from './PopupMenuProvider';
 
 import { FooPopupMenuProvider } from './PopupMenuProvider.spec';
 
@@ -40,7 +41,11 @@ popupMenu.reset();
 popupMenu.close();
 
 popupMenu.trigger(new Event('click'), {
-  action: () => {},
+  action: (event: Event, entry: PopupMenuEntry, action?: string) => {
+    console.log(event.target);
+    console.log(entry.label);
+    console.log(action);
+  },
   className: 'foo',
   label: 'Foo'
 }, 'foo');
