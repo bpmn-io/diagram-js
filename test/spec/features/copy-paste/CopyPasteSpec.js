@@ -19,7 +19,7 @@ import rulesModule from './rules';
 import selectionModule from 'lib/features/selection';
 
 /**
- * @typedef {import('../../model').Base} Base
+ * @typedef {import('../../../../lib/model/Types').Element} Element
  */
 
 var HIGH_PRIORITY = 2000;
@@ -760,11 +760,11 @@ describe('features/copy-paste', function() {
  * Find elements in a tree.
  * Return found elements or false.
  *
- * @param {Array<Base>} elements
+ * @param {Array<Element>} elements
  * @param {Object} tree
  * @param {number} [depth]
  *
- * @return {Array<Base>|false}
+ * @return {Array<Element>|false}
  */
 function findElementsInTree(elements, tree, depth) {
   var foundElements = _findElementsInTree(elements, tree, depth);
@@ -780,11 +780,11 @@ function findElementsInTree(elements, tree, depth) {
  * Find element in a tree.
  * Return found element or false.
  *
- * @param {Base} element
+ * @param {Element} element
  * @param {Object} tree
  * @param {number} [depth]
  *
- * @return {Base|false}
+ * @return {Element|false}
  */
 function findElementInTree(elements, tree, depth) {
   var foundElements = _findElementsInTree(elements, tree, depth);
