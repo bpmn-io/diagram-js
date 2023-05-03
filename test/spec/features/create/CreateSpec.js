@@ -356,6 +356,7 @@ describe('features/create - Create', function() {
 
       expect(createdLabel).to.exist;
       expect(createdLabel).to.equal(newLabel);
+      expect(createdLabel.host).to.not.exist;
 
       expect(createdShape.label).to.equal(newLabel);
 
