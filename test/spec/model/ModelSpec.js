@@ -3,6 +3,11 @@ import {
   isModelElement
 } from 'lib/model';
 
+import {
+  isConnection,
+  isLabel,
+  isRoot
+} from '../../../lib/util/ModelUtil';
 
 describe('model', function() {
 
@@ -21,7 +26,61 @@ describe('model', function() {
       // then
       expect(connection.waypoints).to.equal(waypoints);
 
+      expect(isConnection(connection)).to.be.true;
       expect(isModelElement(connection)).to.be.true;
+    });
+
+
+    it('should create label', function() {
+
+      // given
+      var shape = create('shape', {
+        x: 10,
+        y: 20,
+        width: 100,
+        height: 100
+      });
+
+      var x = 10, y = 20, width = 100, height = 100;
+
+      // when
+      var label = create('label', {
+        x: x,
+        y: y,
+        width: width,
+        height: height,
+        labelTarget: shape
+      });
+
+      // then
+      expect(label.labelTarget).to.equal(shape);
+
+      expect(isLabel(label)).to.be.true;
+      expect(isModelElement(label)).to.be.true;
+    });
+
+
+    it('should create root', function() {
+
+      // given
+      var x = 10, y = 20, width = 100, height = 100;
+
+      // when
+      var root = create('root', {
+        x: x,
+        y: y,
+        width: width,
+        height: height
+      });
+
+      // then
+      expect(root.x).to.equal(x);
+      expect(root.y).to.equal(y);
+      expect(root.width).to.equal(width);
+      expect(root.height).to.equal(height);
+
+      expect(isRoot(root)).to.be.true;
+      expect(isModelElement(root)).to.be.true;
     });
 
 
