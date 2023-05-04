@@ -18,6 +18,11 @@ import modelingModule from 'lib/features/modeling';
 import rulesModule from './rules';
 import selectionModule from 'lib/features/selection';
 
+import {
+  isConnection,
+  isLabel
+} from '../../../../lib/util/ModelUtil';
+
 /**
  * @typedef {import('../../../../lib/model/Types').Element} Element
  */
@@ -47,12 +52,14 @@ describe('features/copy-paste', function() {
         attacher,
         childShape,
         childShape2,
+        childShape3,
         connection,
         collapsedShape,
         hiddenContainedChild,
         collapsedShape2,
         hiddenContainedParent,
-        hiddenContainedChild2;
+        hiddenContainedChild2,
+        label;
 
 
     beforeEach(inject(function(elementFactory, canvas, modeling) {
@@ -99,7 +106,7 @@ describe('features/copy-paste', function() {
 
       childShape = elementFactory.createShape({
         id: 'childShape',
-        x: 110, y: 110,
+        x: 110, y: 50,
         width: 100, height: 100
       });
 
@@ -113,10 +120,27 @@ describe('features/copy-paste', function() {
 
       canvas.addShape(childShape2, parentShape2);
 
+      childShape3 = elementFactory.createShape({
+        id: 'childShape3',
+        x: 110, y: 200,
+        width: 100, height: 100
+      });
+
+      canvas.addShape(childShape3, parentShape2);
+
+      label = elementFactory.createLabel({
+        id: 'label',
+        x: 120, y: 300,
+        width: 80, height: 20,
+        labelTarget: childShape3
+      });
+
+      canvas.addShape(label, parentShape2);
+
       connection = elementFactory.createConnection({
         id: 'connection',
         waypoints: [
-          { x: 160, y: 160 },
+          { x: 160, y: 100 },
           { x: 450, y: 250 }
         ],
         source: childShape,
@@ -165,9 +189,8 @@ describe('features/copy-paste', function() {
       });
 
       canvas.addShape(hiddenContainedChild2, hiddenContainedParent);
-
-
     }));
+
 
     beforeEach(inject(function(dragging) {
       dragging.setOptions({ manual: true });
@@ -446,7 +469,7 @@ describe('features/copy-paste', function() {
       });
 
 
-      it('should paste', inject(function(copyPaste) {
+      it('should paste shape and shape with attacher', inject(function(copyPaste) {
 
         // given
         copyPaste.copy([
@@ -465,6 +488,55 @@ describe('features/copy-paste', function() {
 
         // then
         expect(parentShape.children).to.have.length(3);
+      }));
+
+
+      it('should paste connection', inject(function(copyPaste) {
+
+        // given
+        copyPaste.copy([
+          childShape,
+          childShape2
+        ]);
+
+        // when
+        copyPaste.paste({
+          element: parentShape,
+          point: {
+            x: 900,
+            y: 350
+          }
+        });
+
+        // then
+        expect(parentShape.children).to.have.length(3);
+
+        expect(parentShape.children.filter(isConnection)).to.have.length(1);
+      }));
+
+
+      it('should paste label', inject(function(copyPaste) {
+
+        // given
+        copyPaste.copy([
+          childShape3
+        ]);
+
+        // when
+        copyPaste.paste({
+          element: parentShape,
+          point: {
+            x: 900,
+            y: 350
+          }
+        });
+
+        console.log(parentShape.children);
+
+        // then
+        expect(parentShape.children).to.have.length(2);
+
+        expect(parentShape.children.filter(isLabel)).to.have.length(1);
       }));
 
 
@@ -508,6 +580,7 @@ describe('features/copy-paste', function() {
         expect(element.host).not.to.exist;
       }));
 
+
       it('should keep hidden element hidden', inject(function(copyPaste) {
 
         // given
@@ -526,8 +599,8 @@ describe('features/copy-paste', function() {
         expect(elements[0].children).to.to.have.members([ elements[1] ]);
         expect(elements[0].collapsed).to.be.true;
         expect(elements[1].hidden).to.be.true;
-
       }));
+
 
       it('should keep hidden elements inside hidden elements hidden', inject(function(copyPaste) {
 
@@ -550,9 +623,7 @@ describe('features/copy-paste', function() {
         expect(elements[1].children).to.to.have.members([ elements[2] ]);
         expect(elements[1].collapsed).to.be.true;
         expect(elements[2].hidden).to.be.true;
-
       }));
-
 
     });
 
@@ -561,8 +632,7 @@ describe('features/copy-paste', function() {
 
   describe('#createTree', function() {
 
-    var attacherShape,
-        childShape1,
+    var childShape1,
         childShape2,
         connection1,
         connection2,
@@ -575,49 +645,33 @@ describe('features/copy-paste', function() {
         labelShape2,
         parentShape;
 
-    beforeEach(function() {
-      parentShape = { id: 'parentShape' };
-      childShape1 = { id: 'childShape1', parent: parentShape };
-      hostShape = { id: 'hostShape', parent: parentShape };
-      attacherShape = { id: 'attacherShape', parent: parentShape };
+    beforeEach(inject(function(elementFactory) {
+      parentShape = elementFactory.createShape({ id: 'parentShape' });
 
-      parentShape.children = [ childShape1, hostShape, attacherShape ];
+      childShape1 = elementFactory.createShape({ id: 'childShape1', parent: parentShape });
 
-      hostShape.attachers = [ attacherShape ];
-      attacherShape.host = hostShape;
+      hostShape = elementFactory.createShape({ id: 'hostShape', parent: parentShape });
 
-      grandChildShape1 = { id: 'grandChildShape1', parent: childShape1 };
-      grandChildShape2 = { id: 'grandChildShape2', parent: childShape1 };
+      elementFactory.createShape({ id: 'attacherShape', parent: parentShape, host: hostShape });
 
-      childShape1.children = [ grandChildShape1, grandChildShape2 ];
+      grandChildShape1 = elementFactory.createShape({ id: 'grandChildShape1', parent: childShape1 });
 
-      childShape2 = { id: 'childShape2', parent: parentShape };
-      grandChildShape3 = { id: 'grandChildShape3', parent: childShape2 };
-      grandChildShape4 = { id: 'grandChildShape4', parent: childShape2 };
-      labelShape1 = { id: 'labelShape1', parent: childShape2 };
+      grandChildShape2 = elementFactory.createShape({ id: 'grandChildShape2', parent: childShape1 });
 
-      childShape2.children = [ grandChildShape3, grandChildShape4, labelShape1 ];
+      childShape2 = elementFactory.createShape({ id: 'childShape2', parent: parentShape });
 
-      grandChildShape4.labels = [ labelShape1 ];
-      labelShape1.labelTarget = grandChildShape4;
+      grandChildShape3 = elementFactory.createShape({ id: 'grandChildShape3', parent: childShape2 });
 
-      connection1 = { id: 'connection1', parent: childShape1, waypoints: [] };
-      connection2 = { id: 'connection2', parent: parentShape, waypoints: [] };
-      labelShape2 = { id: 'labelShape2', parent: parentShape };
+      labelShape1 = elementFactory.createLabel({ id: 'labelShape1', parent: childShape2 });
 
-      connection1.source = grandChildShape1;
-      connection1.target = grandChildShape2;
+      grandChildShape4 = elementFactory.createShape({ id: 'grandChildShape4', parent: childShape2, label: labelShape1 });
 
-      connection2.source = grandChildShape1;
-      connection2.target = grandChildShape3;
-      connection2.labels = [ labelShape2 ];
+      connection1 = elementFactory.createConnection({ id: 'connection1', parent: childShape1, source: grandChildShape1, target: grandChildShape2 });
 
-      labelShape2.labelTarget = connection2;
+      labelShape2 = elementFactory.createLabel({ id: 'labelShape2', parent: parentShape });
 
-      grandChildShape1.outgoing = [ connection1, connection2 ];
-      grandChildShape2.incoming = [ connection1 ];
-      grandChildShape3.incoming = [ connection2 ];
-    });
+      connection2 = elementFactory.createConnection({ id: 'connection2', parent: parentShape, source: grandChildShape1, target: grandChildShape3, label: labelShape2, waypoints: [] });
+    }));
 
 
     it('should create tree', inject(function(copyPaste) {
@@ -641,7 +695,7 @@ describe('features/copy-paste', function() {
       copyPaste.createTree([ childShape1 ]);
 
       // then
-      expect(createTreeSpy).to.have.been.calledThrice;
+      expect(createTreeSpy.callCount).to.equal(childShape1.children.length + 1);
     }));
 
 
@@ -699,10 +753,10 @@ describe('features/copy-paste', function() {
     it('should NOT include labels if labelTarget is not included', inject(function(copyPaste) {
 
       // when
-      var tree = copyPaste.createTree([ grandChildShape1 ]);
+      var tree = copyPaste.createTree([ labelShape1 ]);
 
       // then
-      expect(findElementInTree(labelShape2, tree, 0)).not.to.be.ok;
+      expect(findElementInTree(labelShape1, tree, 0)).not.to.be.ok;
     }));
 
 
