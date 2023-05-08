@@ -820,7 +820,7 @@ describe('features/popup-menu', function() {
       // then
       expect(triggerSpy).to.have.been.calledOnce;
       expect(triggerSpy.getCall(0).args[1]).to.eql({
-        entry: popupMenu._getEntry('1'),
+        entry: { ...popupMenu._getEntry('1'), id: '1' },
         event
       });
     }));
