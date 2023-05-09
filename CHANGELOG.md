@@ -6,9 +6,16 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.1.0
+
+* `FEAT`: centralize `isConnection`, `isLabel` and `isRoot` checks ([#783](https://github.com/bpmn-io/diagram-js/pull/783))
+* `FIX`: do not attach labels ([#782](https://github.com/bpmn-io/diagram-js/pull/782))
+* `FIX`: include entry id in `popupMenu.trigger` event ([#785](https://github.com/bpmn-io/diagram-js/pull/785))
+* `CHORE`: fix JSDoc types ([#783](https://github.com/bpmn-io/diagram-js/pull/783))
+
 ## 12.0.2
 
-* `chore`: fix various JSDoc comments ([#780](https://github.com/bpmn-io/diagram-js/pull/780), [#781](https://github.com/bpmn-io/diagram-js/pull/781))
+* `CHORE`: fix various JSDoc comments ([#780](https://github.com/bpmn-io/diagram-js/pull/780), [#781](https://github.com/bpmn-io/diagram-js/pull/781))
 
 ## 12.0.1
 
