@@ -43,12 +43,12 @@ _**Note:** Yet to be released changes appear here._
 * `DOCS`: add additional parameters to `EventCallback` type ([#759](https://github.com/bpmn-io/diagram-js/pull/759))
 * `CHORE`: adjust type declarations to allow augmentation ([#757](https://github.com/bpmn-io/diagram-js/pull/757))
 
-# 11.11.0
+## 11.11.0
 
 * `FEAT`: add `translate` typings ([#756](https://github.com/bpmn-io/diagram-js/pull/756))
 * `FEAT`: support select after replacement ([#755](https://github.com/bpmn-io/diagram-js/pull/756))
 
-# 11.10.0
+## 11.10.0
 
 * `FEAT`: add TypeScript declarations for core components ([#732](https://github.com/bpmn-io/diagram-js/pull/732))
 * `DEPS`: update to `didi@9.0.2`
