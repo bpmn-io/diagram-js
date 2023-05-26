@@ -51,6 +51,7 @@
     "@babel/core": "^7.20.2",
     "babel-loader": "^9.1.0",
     "babel-plugin-istanbul": "^6.1.1",
+    "bio-dts": "^0.8.1",
     "chai": "^4.3.6",
     "del-cli": "^5.0.0",
     "eslint": "^8.24.0",
@@ -76,7 +77,6 @@
   },
   "dependencies": {
     "@bpmn-io/diagram-js-ui": "^0.2.2",
-    "bio-dts": "^0.8.0",
     "clsx": "^1.2.1",
     "didi": "^9.0.2",
     "hammerjs": "^2.0.1",
