@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.1.1
+
+* `FIX`: make `bio-dts` a dev dependency
+
 ## 12.1.0
 
 * `FEAT`: centralize `isConnection`, `isLabel` and `isRoot` checks ([#783](https://github.com/bpmn-io/diagram-js/pull/783))
