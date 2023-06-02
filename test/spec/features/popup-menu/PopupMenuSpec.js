@@ -1107,6 +1107,32 @@ describe('features/popup-menu', function() {
     }));
 
 
+    it('should add icon as html if specified', inject(function(popupMenu) {
+
+      // given
+      var testMenuProvider = {
+        getEntries: function() {
+          return [
+            {
+              id: '1',
+              imageHtml: '<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>',
+              className: 'image-1'
+            }
+          ];
+        },
+        getHeaderEntries: function() { return []; }
+      };
+
+      // when
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+
+      // then
+      var svg = queryPopup('.image-1 svg');
+      expect(svg).to.exist;
+    }));
+
+
     it('should NOT allow XSS via imageUrl', inject(function(popupMenu) {
 
       // given
