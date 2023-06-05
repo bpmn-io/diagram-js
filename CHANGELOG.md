@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.2.0
+
+* `FEAT`: allow to provide html for popup menu entries icons ([#790](https://github.com/bpmn-io/diagram-js/pull/790))
+
 ## 12.1.1
 
 * `FIX`: make `bio-dts` a dev dependency
