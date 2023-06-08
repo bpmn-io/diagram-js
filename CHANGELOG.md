@@ -37,6 +37,7 @@ _**Note:** Yet to be released changes appear here._
 ### Breaking Changes
 
 * Model elements must be created through factory functions exposed by the `model` package.
+* Certain interface like `*Provider` types (`PopupMenuProvider`, `PaletteProvider`) are actual interfaces now
 
 ## 11.13.1
 
