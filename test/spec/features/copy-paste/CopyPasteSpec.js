@@ -16,6 +16,7 @@ import {
 
 import attachSupportModule from 'lib/features/attach-support';
 import copyPasteModule from 'lib/features/copy-paste';
+import createModule from 'lib/features/create';
 import modelingModule from 'lib/features/modeling';
 import rulesModule from './rules/index.js';
 import selectionModule from 'lib/features/selection';
@@ -39,6 +40,7 @@ describe('features/copy-paste', function() {
     modules: [
       attachSupportModule,
       copyPasteModule,
+      createModule,
       modelingModule,
       rulesModule,
       selectionModule
@@ -952,6 +954,98 @@ describe('features/copy-paste', function() {
   });
 
 });
+
+
+describe('features/copy-paste - no create', function() {
+
+  beforeEach(bootstrapDiagram({
+    modules: [
+      copyPasteModule,
+      modelingModule,
+      rulesModule,
+      selectionModule
+    ]
+  }));
+
+
+  describe('basics', function() {
+
+    var rootShape,
+        parentShape,
+        parentShape2;
+
+
+    beforeEach(inject(function(elementFactory, canvas, modeling) {
+
+      rootShape = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(rootShape);
+
+      parentShape = elementFactory.createShape({
+        id: 'parent',
+        x: 600, y: 200,
+        width: 600, height: 300
+      });
+
+      canvas.addShape(parentShape, rootShape);
+
+      parentShape2 = elementFactory.createShape({
+        id: 'parent2',
+        x: 90, y: 15,
+        width: 425, height: 300
+      });
+
+      canvas.addShape(parentShape2, rootShape);
+    }));
+
+
+    describe('copy', function() {
+
+      it('should copy elements', inject(function(copyPaste) {
+
+        // when
+        var tree = copyPaste.copy(parentShape);
+
+        // then
+        expect(tree).to.exist;
+
+        expect(findElementInTree(parentShape, tree)).to.be.ok;
+      }));
+
+    });
+
+
+    describe('paste', function() {
+
+      it('should paste shape and shape with attacher', inject(function(copyPaste) {
+
+        // given
+        copyPaste.copy([
+          parentShape,
+          parentShape2
+        ]);
+
+        // when
+        copyPaste.paste({
+          element: rootShape,
+          point: {
+            x: 900,
+            y: 350
+          }
+        });
+
+        // then
+        expect(rootShape.children).to.have.length(4);
+      }));
+
+    });
+
+  });
+
+});
+
 
 // helpers //////////
 

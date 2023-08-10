@@ -16,6 +16,8 @@ import keyboardMoveModule from 'lib/navigation/keyboard-move';
 import zoomScrollModule from 'lib/navigation/zoomscroll';
 import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
 import modelingModule from 'lib/features/modeling';
+import createModule from 'lib/features/create';
+
 import customRulesModule from './rules/index.js';
 
 
@@ -465,6 +467,7 @@ describe('feature/editor-actions - actions', function() {
       modules: [
         editorActionsModule,
         copyPasteModule,
+        createModule,
         selectionModule,
         modelingModule
       ]
@@ -590,6 +593,7 @@ describe('feature/editor-actions - actions', function() {
       modules: [
         editorActionsModule,
         copyPasteModule,
+        createModule,
         selectionModule,
         modelingModule
       ]
