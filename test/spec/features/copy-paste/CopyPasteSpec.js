@@ -531,8 +531,6 @@ describe('features/copy-paste', function() {
           }
         });
 
-        console.log(parentShape.children);
-
         // then
         expect(parentShape.children).to.have.length(2);
 
