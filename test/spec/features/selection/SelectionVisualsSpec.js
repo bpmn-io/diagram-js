@@ -3,7 +3,7 @@ import {
   inject
 } from 'test/TestHelper';
 
-import selectionModule from 'lib/features/selection';
+import selectionVisualsModule from 'lib/features/selection-visuals';
 import modelingModule from 'lib/features/modeling';
 
 import {
@@ -18,19 +18,14 @@ import {
 } from 'lib/features/resize/ResizeUtil';
 
 
-describe('features/selection/SelectionVisuals', function() {
+describe('features/selection-visuals - SelectionVisuals', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ selectionModule, modelingModule ] }));
-
-  describe('bootstrap', function() {
-
-    beforeEach(bootstrapDiagram({ modules: [ selectionModule ] }));
-
-    it('should bootstrap diagram with component', inject(function() {
-
-    }));
-
-  });
+  beforeEach(bootstrapDiagram({
+    modules: [
+      selectionVisualsModule,
+      modelingModule
+    ]
+  }));
 
 
   describe('selection box', function() {
@@ -195,6 +190,22 @@ describe('features/selection/SelectionVisuals', function() {
     });
 
   });
+
+});
+
+
+describe('features/selection-visuals - SelectionVisuals - boostrap', function() {
+
+  beforeEach(bootstrapDiagram({
+    modules: [
+      selectionVisualsModule
+    ]
+  }));
+
+
+  it('should bootstrap diagram with component', inject(function() {
+
+  }));
 
 });
 

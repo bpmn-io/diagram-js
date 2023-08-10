@@ -6,7 +6,8 @@ import {
 import modelingModule from 'lib/features/modeling';
 import bendpointsModule from 'lib/features/bendpoints';
 import rulesModule from './rules';
-import interactionModule from 'lib/features/interaction-events';
+import interactionEventsModule from 'lib/features/interaction-events';
+import selectionModule from 'lib/features/selection';
 
 import {
   createCanvasEvent as canvasEvent
@@ -22,7 +23,7 @@ import {
 } from 'lib/util/GraphicsUtil';
 
 
-describe('features/bendpoints', function() {
+describe.only('features/bendpoints', function() {
 
   // adopt conservative retry strategy
   // in an attempt to improve the stability
@@ -34,7 +35,8 @@ describe('features/bendpoints', function() {
     modules: [
       modelingModule,
       bendpointsModule,
-      interactionModule,
+      interactionEventsModule,
+      selectionModule,
       rulesModule
     ]
   }));
