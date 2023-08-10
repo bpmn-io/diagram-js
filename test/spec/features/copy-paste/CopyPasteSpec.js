@@ -16,6 +16,7 @@ import {
 
 import attachSupportModule from 'lib/features/attach-support';
 import copyPasteModule from 'lib/features/copy-paste';
+import createModule from 'lib/features/create';
 import modelingModule from 'lib/features/modeling';
 import rulesModule from './rules';
 import selectionModule from 'lib/features/selection';
@@ -39,6 +40,7 @@ describe('features/copy-paste', function() {
     modules: [
       attachSupportModule,
       copyPasteModule,
+      createModule,
       modelingModule,
       rulesModule,
       selectionModule
