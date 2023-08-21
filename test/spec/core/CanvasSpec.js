@@ -1451,6 +1451,21 @@ describe('Canvas', function() {
       expect(canvas.getRootElement()).to.equal(shapeRoot);
     }));
 
+
+    it('accepts root elements as argument', inject(function(canvas) {
+
+      // given
+      var shapeRoot = canvas.addRootElement({ id: 'root' });
+      canvas.setRootElement(canvas.addRootElement(null));
+
+      // when
+      canvas.scrollToElement(shapeRoot);
+
+      // then
+      expect(canvas.getRootElement()).to.equal(shapeRoot);
+
+    }));
+
   });
 
 
