@@ -1106,71 +1106,108 @@ describe('Canvas', function() {
 
   describe('viewbox - debounce', function() {
 
-    var clock;
+    describe('deferUpdate: true', function() {
 
-    beforeEach(function() {
-      container = TestContainer.get(this);
+      var clock;
 
-      clock = sinon.useFakeTimers();
-    });
+      beforeEach(function() {
+        container = TestContainer.get(this);
 
-    afterEach(function() {
-      clock.restore();
-    });
-
-
-    beforeEach(createDiagram({
-      canvas: {
-        width: 300,
-        height: 300,
-        deferUpdate: true
-      }
-    }));
-
-
-    // NOTE(nikku): this relies on fake timers properly set up
-    // to work with lodash (see TestHelper)
-
-    it('should debounce viewbox update', inject(function(eventBus, canvas) {
-
-      // given
-      var changedListener = sinon.spy(function(event) {
-        var viewbox = event.viewbox;
-
-        expect(viewbox).to.exist;
-        expect(viewbox.scale).to.eql(0.5);
+        clock = sinon.useFakeTimers();
       });
 
-      eventBus.on('canvas.viewbox.changed', changedListener);
-
-      // when
-      canvas.zoom(0.5);
-
-      // then
-      expect(changedListener).not.to.have.been.called;
-
-      // but when...
-      // letting the viewbox changed timeout of 300ms kick in
-      clock.tick(300);
-
-      // then
-      expect(changedListener).to.have.been.called;
-    }));
+      afterEach(function() {
+        clock.restore();
+      });
 
 
-    it('should provide new viewbox immediately via getter', inject(function(canvas) {
+      beforeEach(createDiagram({
+        canvas: {
+          width: 300,
+          height: 300,
+          deferUpdate: true
+        }
+      }));
 
-      // given
-      canvas.zoom();
 
-      // when
-      canvas.zoom(0.5);
+      // NOTE(nikku): this relies on fake timers properly set up
+      // to work with lodash (see TestHelper)
 
-      // then
-      var newZoom = canvas.zoom();
+      it('should debounce viewbox update', inject(function(eventBus, canvas) {
 
-      expect(newZoom).to.eql(0.5);
-    }));
+        // given
+        var changedListener = sinon.spy(function(event) {
+          var viewbox = event.viewbox;
+
+          expect(viewbox).to.exist;
+          expect(viewbox.scale).to.eql(0.5);
+        });
+
+        eventBus.on('canvas.viewbox.changed', changedListener);
+
+        // when
+        canvas.zoom(0.5);
+
+        // then
+        expect(changedListener).not.to.have.been.called;
+
+        // but when...
+        // letting the viewbox changed timeout of 300ms kick in
+        clock.tick(300);
+
+        // then
+        expect(changedListener).to.have.been.called;
+      }));
+
+
+      it('should provide new viewbox immediately via getter', inject(function(canvas) {
+
+        // given
+        canvas.zoom();
+
+        // when
+        canvas.zoom(0.5);
+
+        // then
+        var newZoom = canvas.zoom();
+
+        expect(newZoom).to.eql(0.5);
+      }));
+
+    });
+
+
+    describe('default', function() {
+
+      beforeEach(createDiagram({
+        canvas: {
+          width: 300,
+          height: 300,
+          deferUpdate: null
+        }
+      }));
+
+
+      it('should not debounce viewbox update', inject(function(eventBus, canvas) {
+
+        // given
+        var changedListener = sinon.spy(function(event) {
+          var viewbox = event.viewbox;
+
+          expect(viewbox).to.exist;
+          expect(viewbox.scale).to.eql(0.5);
+        });
+
+        eventBus.on('canvas.viewbox.changed', changedListener);
+
+        // when
+        canvas.zoom(0.5);
+
+        // then
+        expect(changedListener).to.have.been.called;
+      }));
+
+    });
 
   });
 
