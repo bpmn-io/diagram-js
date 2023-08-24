@@ -6,11 +6,9 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
-* `FEAT`: don't hide overlays on canvas move by default ([#798](https://github.com/bpmn-io/diagram-js/issues/798))
+## 12.3.0
 
-### Breaking Changes
-
-* The config option `canvas.deferUpdate` defaults to `false`.
+* `FEAT`: don't hide overlays on canvas move by default. The config option `canvas.deferUpdate` now defaults to `false` ([#798](https://github.com/bpmn-io/diagram-js/issues/798))
 
 ## 12.2.0
 
