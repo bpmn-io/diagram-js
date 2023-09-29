@@ -90,7 +90,7 @@ describe('features/connection-preview', function() {
       // when
       connectionPreview.drawPreview(context, true, hints);
 
-      var preview = domQuery('.djs-connection-preview', testContainer);
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).to.exist;
@@ -110,7 +110,7 @@ describe('features/connection-preview', function() {
       // when
       connectionPreview.drawPreview(context, true, hints);
 
-      var preview = domQuery('.djs-connection-preview', testContainer);
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).to.exist;
@@ -131,7 +131,7 @@ describe('features/connection-preview', function() {
       connectionPreview.drawPreview(context, true, hints);
       connectionPreview.cleanUp(context);
 
-      var preview = domQuery('.djs-connection-preview', testContainer);
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).not.to.exist;
@@ -154,7 +154,7 @@ describe('features/connection-preview', function() {
       // when
       connectionPreview.drawPreview(context, false, hints);
 
-      var preview = domQuery('.djs-connection-preview', testContainer);
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).to.exist;
@@ -175,7 +175,7 @@ describe('features/connection-preview', function() {
       // when
       connectionPreview.drawPreview(context, false, hints);
 
-      var preview = domQuery('.djs-connection-preview', testContainer);
+      var preview = domQuery('.djs-dragger', testContainer);
 
       // then
       expect(preview).to.exist;
