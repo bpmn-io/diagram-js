@@ -47,4 +47,68 @@ describe('GraphicsFactory', function() {
       expect(svgClasses(gfx).has('djs-frame')).to.equal(true);
     }));
 
+
+  it('should propagate additional attributes when drawing shape', inject(
+    function(canvas, elementFactory, eventBus, graphicsFactory) {
+
+      // given
+      var root = canvas.getRootElement();
+
+      var element = elementFactory.createShape({
+        id: 'shape',
+        parent: root
+      });
+
+      var gfx = graphicsFactory.create('shape', element);
+
+      var spy = sinon.spy();
+
+      eventBus.on('render.shape', spy);
+
+      // when
+      graphicsFactory.drawShape(gfx, element, { foo: 'bar' });
+
+      // then
+      expect(spy).to.have.been.calledWith(sinon.match({
+        attrs: { foo: 'bar' }
+      }));
+    }));
+
+
+  it('should propagate additional attributes when drawing connection', inject(
+    function(canvas, elementFactory, eventBus, graphicsFactory) {
+
+      // given
+      var root = canvas.getRootElement();
+
+      var element = elementFactory.createConnection({
+        id: 'connection',
+        parent: root,
+        waypoints: [
+          {
+            x: 0,
+            y: 0
+          },
+          {
+            x: 0,
+            y: 100
+          }
+        ]
+      });
+
+      var gfx = graphicsFactory.create('connection', element);
+
+      var spy = sinon.spy();
+
+      eventBus.on('render.connection', spy);
+
+      // when
+      graphicsFactory.drawConnection(gfx, element, { foo: 'bar' });
+
+      // then
+      expect(spy).to.have.been.calledWith(sinon.match({
+        attrs: { foo: 'bar' }
+      }));
+    }));
+
 });
