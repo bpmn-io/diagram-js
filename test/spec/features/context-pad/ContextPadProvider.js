@@ -42,6 +42,19 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
         }
       }
     };
+  } else if (element.type === 'hover') {
+    return {
+      'action.hover': {
+        className: 'hover',
+        action: {
+          hover: function(e) {
+            e.__handled = true;
+
+            return 'action.hover';
+          }
+        }
+      }
+    };
   } else if (element.type === 'bigImage') {
     return {
       'action.c': {
