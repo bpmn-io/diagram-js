@@ -776,6 +776,16 @@ describe('features/context-pad', function() {
 
     beforeEach(bootstrapDiagram({ modules: [ contextPadModule, providerModule ] }));
 
+    var clock;
+
+    beforeEach(function() {
+      clock = sinon.useFakeTimers();
+    });
+
+    afterEach(function() {
+      clock.restore();
+    });
+
 
     it('should handle click event', inject(function(canvas, contextPad) {
 
@@ -792,6 +802,36 @@ describe('features/context-pad', function() {
 
       // when
       contextPad.trigger('click', event);
+
+      // then
+      expect(event.__handled).to.be.true;
+    }));
+
+
+    it('should handle hover event', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's1',
+        width: 100, height: 100,
+        x: 10, y: 10,
+        type: 'hover'
+      });
+
+      contextPad.open(shape);
+
+      var pad = contextPad.getPad(shape),
+          html = pad.html,
+          target = domQuery('[data-action="action.hover"]', html);
+
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      contextPad.trigger('mouseover', event);
+
+      expect(event.__handled).not.to.exist;
+
+      clock.tick(500);
 
       // then
       expect(event.__handled).to.be.true;
@@ -1274,4 +1314,5 @@ describe('features/context-pad', function() {
       expect(injected).not.to.exist;
     }));
   });
+
 });
