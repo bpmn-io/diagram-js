@@ -11,7 +11,7 @@ import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
 import attachSupportModule from 'lib/features/attach-support';
 import rulesModule from './rules';
-import rendererModule from './renderer';
+import rendererModule from '../preview-support/renderer';
 
 import {
   query as domQuery,
@@ -584,13 +584,13 @@ describe('features/move - MovePreview', function() {
       // then
       var container = canvas.getContainer();
 
-      var clonedMarkers = domQueryAll('marker.djs-dragger-marker', container);
+      var clonedMarkers = domQueryAll('marker.djs-dragger', container);
 
       expect(clonedMarkers).to.have.length(3);
 
-      var markerStartClone = domQuery('marker#marker-start-clone', container),
-          markerMidClone = domQuery('marker#marker-mid-clone', container),
-          markerEndClone = domQuery('marker#marker-end-clone', container);
+      var markerStartClone = domQuery('marker#marker-start-djs-dragger-clone', container),
+          markerMidClone = domQuery('marker#marker-mid-djs-dragger-clone', container),
+          markerEndClone = domQuery('marker#marker-end-djs-dragger-clone', container);
 
       expect(markerStartClone).to.exist;
       expect(markerMidClone).to.exist;
