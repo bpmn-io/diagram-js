@@ -562,7 +562,7 @@ describe('features/space-tool', function() {
   });
 
 
-  describe('create/remove space', function() {
+  describe('create/remove space - global', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
@@ -870,6 +870,171 @@ describe('features/space-tool', function() {
 
       expect(connection.waypoints[1].original).not.to.exist;
     }));
+
+  });
+
+
+  describe('create/remove space - local', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        modelingModule,
+        rulesModule,
+        spaceToolModule
+      ]
+    }));
+
+    var childShape,
+        childShape2,
+        grandChildShape;
+
+    beforeEach(inject(function(canvas, elementFactory) {
+      childShape = elementFactory.createShape({
+        id: 'child-resizable',
+        x: 100,
+        y: 100,
+        width: 200,
+        height: 100
+      });
+
+      canvas.addShape(childShape);
+
+      childShape2 = elementFactory.createShape({
+        id: 'child2-resizable',
+        x: 100,
+        y: 300,
+        width: 200,
+        height: 100
+      });
+
+      canvas.addShape(childShape2);
+
+      grandChildShape = elementFactory.createShape({
+        id: 'grandChild',
+        x: 225,
+        y: 325,
+        width: 50,
+        height: 50
+      });
+
+      canvas.addShape(grandChildShape, childShape2);
+    }));
+
+    beforeEach(inject(function(dragging) {
+      dragging.setOptions({ manual: true });
+    }));
+
+
+    it('should create space locally', inject(
+      function(dragging, spaceTool) {
+
+        // given
+        spaceTool.activateMakeSpace(canvasEvent({ x: 110, y: 0 }));
+
+        dragging.hover({
+          element: childShape2
+        });
+
+        // when
+        dragging.move(canvasEvent({ x: 210, y: 0 }, {
+          button: 0,
+          shiftKey: true
+        }));
+
+        dragging.end();
+
+        // then
+        expect(childShape.x).to.equal(100);
+        expect(childShape.y).to.equal(100);
+        expect(childShape.width).to.equal(200);
+        expect(childShape.height).to.equal(100);
+
+        expect(childShape2.x).to.equal(100);
+        expect(childShape2.y).to.equal(300);
+        expect(childShape2.width).to.equal(300);
+        expect(childShape2.height).to.equal(100);
+
+        expect(grandChildShape.x).to.equal(325);
+        expect(grandChildShape.y).to.equal(325);
+        expect(grandChildShape.width).to.equal(50);
+        expect(grandChildShape.height).to.equal(50);
+      }
+    ));
+
+
+    it('should remove space locally', inject(
+      function(dragging, spaceTool) {
+
+        // given
+        spaceTool.activateMakeSpace(canvasEvent({ x: 210, y: 0 }));
+
+        dragging.hover({
+          element: childShape2
+        });
+
+        // when
+        dragging.move(canvasEvent({ x: 110, y: 0 }, {
+          button: 0,
+          shiftKey: true
+        }));
+
+        dragging.end();
+
+        // then
+        expect(childShape.x).to.equal(100);
+        expect(childShape.y).to.equal(100);
+        expect(childShape.width).to.equal(200);
+        expect(childShape.height).to.equal(100);
+
+        expect(childShape2.x).to.equal(100);
+        expect(childShape2.y).to.equal(300);
+        expect(childShape2.width).to.equal(100);
+        expect(childShape2.height).to.equal(100);
+
+        expect(grandChildShape.x).to.equal(125);
+        expect(grandChildShape.y).to.equal(325);
+        expect(grandChildShape.width).to.equal(50);
+        expect(grandChildShape.height).to.equal(50);
+      }
+    ));
+
+
+    it('should move attachers', inject(
+      function(canvas, dragging, elementFactory, spaceTool) {
+
+        // given
+        var attacher = elementFactory.createShape({
+          id: 'attacher',
+          x: 275,
+          y: 375,
+          width: 50,
+          height: 50,
+          host: childShape2
+        });
+
+        canvas.addShape(attacher);
+
+        spaceTool.activateMakeSpace(canvasEvent({ x: 110, y: 0 }));
+
+        dragging.hover({
+          element: childShape2
+        });
+
+        // when
+        dragging.move(canvasEvent({ x: 210, y: 0 }, {
+          button: 0,
+          shiftKey: true
+        }));
+
+        dragging.end();
+
+        // then
+        expect(attacher.x).to.equal(375);
+        expect(attacher.y).to.equal(375);
+        expect(attacher.width).to.equal(50);
+        expect(attacher.height).to.equal(50);
+      }
+    ));
 
   });
 
