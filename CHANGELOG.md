@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.4.0
+
+* `FEAT`: add zoom through `Cmd` + mousewheel on macOS ([#806](https://github.com/bpmn-io/diagram-js/pull/806))
+* `FEAT`: add/remove space locally through `Shift` + space tool ([#808](https://github.com/bpmn-io/diagram-js/pull/808))
+
 ## 12.3.0
 
 * `FEAT`: don't hide overlays on canvas move by default. The config option `canvas.deferUpdate` now defaults to `false` ([#798](https://github.com/bpmn-io/diagram-js/issues/798))
