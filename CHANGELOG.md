@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.5.0
+
+* `FEAT`: add complex preview feature ([#807](https://github.com/bpmn-io/diagram-js/pull/807))
+* `FEAT`: make space tool local by default ([#811](https://github.com/bpmn-io/diagram-js/pull/811))
+
 ## 12.4.0
 
 * `FEAT`: add zoom through `Cmd` + mousewheel on macOS ([#806](https://github.com/bpmn-io/diagram-js/pull/806))
