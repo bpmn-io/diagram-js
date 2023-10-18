@@ -562,7 +562,7 @@ describe('features/space-tool', function() {
   });
 
 
-  describe('create/remove space - global', function() {
+  describe('create/remove space', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
@@ -874,7 +874,7 @@ describe('features/space-tool', function() {
   });
 
 
-  describe('create/remove space - local', function() {
+  describe('create/remove space - local and global', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
@@ -925,7 +925,7 @@ describe('features/space-tool', function() {
     }));
 
 
-    it('should create space locally', inject(
+    it('should create space locally by default', inject(
       function(dragging, spaceTool) {
 
         // given
@@ -936,10 +936,7 @@ describe('features/space-tool', function() {
         });
 
         // when
-        dragging.move(canvasEvent({ x: 210, y: 0 }, {
-          button: 0,
-          shiftKey: true
-        }));
+        dragging.move(canvasEvent({ x: 210, y: 0 }));
 
         dragging.end();
 
@@ -962,7 +959,44 @@ describe('features/space-tool', function() {
     ));
 
 
-    it('should remove space locally', inject(
+    it('should create space globally', inject(
+      function(dragging, spaceTool) {
+
+        // given
+        spaceTool.activateMakeSpace(canvasEvent({ x: 110, y: 0 }));
+
+        dragging.hover({
+          element: childShape2
+        });
+
+        // when
+        dragging.move(canvasEvent({ x: 210, y: 0 }, {
+          button: 0,
+          shiftKey: true
+        }));
+
+        dragging.end();
+
+        // then
+        expect(childShape.x).to.equal(100);
+        expect(childShape.y).to.equal(100);
+        expect(childShape.width).to.equal(300);
+        expect(childShape.height).to.equal(100);
+
+        expect(childShape2.x).to.equal(100);
+        expect(childShape2.y).to.equal(300);
+        expect(childShape2.width).to.equal(300);
+        expect(childShape2.height).to.equal(100);
+
+        expect(grandChildShape.x).to.equal(325);
+        expect(grandChildShape.y).to.equal(325);
+        expect(grandChildShape.width).to.equal(50);
+        expect(grandChildShape.height).to.equal(50);
+      }
+    ));
+
+
+    it('should remove space locally by default', inject(
       function(dragging, spaceTool) {
 
         // given
@@ -973,10 +1007,7 @@ describe('features/space-tool', function() {
         });
 
         // when
-        dragging.move(canvasEvent({ x: 110, y: 0 }, {
-          button: 0,
-          shiftKey: true
-        }));
+        dragging.move(canvasEvent({ x: 110, y: 0 }));
 
         dragging.end();
 
@@ -999,29 +1030,18 @@ describe('features/space-tool', function() {
     ));
 
 
-    it('should move attachers', inject(
-      function(canvas, dragging, elementFactory, spaceTool) {
+    it('should remove space globally', inject(
+      function(dragging, spaceTool) {
 
         // given
-        var attacher = elementFactory.createShape({
-          id: 'attacher',
-          x: 275,
-          y: 375,
-          width: 50,
-          height: 50,
-          host: childShape2
-        });
-
-        canvas.addShape(attacher);
-
-        spaceTool.activateMakeSpace(canvasEvent({ x: 110, y: 0 }));
+        spaceTool.activateMakeSpace(canvasEvent({ x: 210, y: 0 }));
 
         dragging.hover({
           element: childShape2
         });
 
         // when
-        dragging.move(canvasEvent({ x: 210, y: 0 }, {
+        dragging.move(canvasEvent({ x: 110, y: 0 }, {
           button: 0,
           shiftKey: true
         }));
@@ -1029,10 +1049,20 @@ describe('features/space-tool', function() {
         dragging.end();
 
         // then
-        expect(attacher.x).to.equal(375);
-        expect(attacher.y).to.equal(375);
-        expect(attacher.width).to.equal(50);
-        expect(attacher.height).to.equal(50);
+        expect(childShape.x).to.equal(100);
+        expect(childShape.y).to.equal(100);
+        expect(childShape.width).to.equal(100);
+        expect(childShape.height).to.equal(100);
+
+        expect(childShape2.x).to.equal(100);
+        expect(childShape2.y).to.equal(300);
+        expect(childShape2.width).to.equal(100);
+        expect(childShape2.height).to.equal(100);
+
+        expect(grandChildShape.x).to.equal(125);
+        expect(grandChildShape.y).to.equal(325);
+        expect(grandChildShape.width).to.equal(50);
+        expect(grandChildShape.height).to.equal(50);
       }
     ));
 
@@ -1271,6 +1301,29 @@ describe('features/space-tool', function() {
 
       // when
       spaceTool.activateMakeSpace(canvasEvent({ x: 250, y: 0 }));
+
+      dragging.move(canvasEvent({ x: 350, y: 0 }));
+
+      dragging.end();
+
+      // then
+      expect(parentAttacher).to.have.bounds({
+        x: 425,
+        y: 275,
+        width: 50,
+        height: 50
+      });
+    }));
+
+
+    it('should move attacher of resizing root', inject(function(dragging, spaceTool) {
+
+      // when
+      spaceTool.activateMakeSpace(canvasEvent({ x: 250, y: 0 }));
+
+      dragging.hover({
+        element: parent
+      });
 
       dragging.move(canvasEvent({ x: 350, y: 0 }));
 
