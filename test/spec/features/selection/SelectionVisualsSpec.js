@@ -69,10 +69,10 @@ describe('features/selection/SelectionVisuals', function() {
       it('should show box on select', inject(function(selection, canvas) {
 
         // when
-        selection.select(connection);
+        selection.select(shape);
 
         // then
-        var gfx = canvas.getGraphics(connection),
+        var gfx = canvas.getGraphics(shape),
             outline = domQuery('.djs-outline', gfx);
 
         expect(outline).to.exist;
