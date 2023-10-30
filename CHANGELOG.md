@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.6.0
+
+* `FEAT`: support custom outline providers ([#817](https://github.com/bpmn-io/diagram-js/pull/817))
+* `FEAT`: remove selection outline from connections ([#817](https://github.com/bpmn-io/diagram-js/pull/817))
+
 ## 12.5.0
 
 * `FEAT`: make spacetool local per default ([#811](https://github.com/bpmn-io/diagram-js/pull/811))
