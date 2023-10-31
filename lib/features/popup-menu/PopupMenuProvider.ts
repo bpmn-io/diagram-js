@@ -5,6 +5,8 @@ export type PopupMenuEntryAction = (event: Event, entry: PopupMenuEntry, action?
 export type PopupMenuEntry = {
   action: PopupMenuEntryAction;
   className: string;
+  imageUrl?: string;
+  imageHtml?: string;
   label: string;
 };
 
@@ -19,6 +21,9 @@ export type PopupMenuHeaderEntry = {
   active?: boolean;
   className: string;
   id: string;
+  imageUrl?: string;
+  imageHtml?: string;
+  label?: string;
   title: string;
 };
 
