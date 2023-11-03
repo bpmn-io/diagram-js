@@ -154,7 +154,7 @@ describe('features/bendpoints - move', function() {
       dragging.move(canvasEvent({ x: 400, y: 200 }));
 
       // then
-      var bendpoint = domQuery('.djs-bendpoint.djs-dragging', layer);
+      var bendpoint = domQuery('.djs-bendpoint', layer);
       expect(bendpoint).to.exist;
     }));
 
@@ -169,7 +169,7 @@ describe('features/bendpoints - move', function() {
       dragging.move(canvasEvent({ x: 100, y: 100 }));
 
       // then
-      var bendpoint = domQuery('.djs-bendpoint.djs-dragging', layer);
+      var bendpoint = domQuery('.djs-bendpoint', layer);
       expect(bendpoint).to.exist;
     }));
 
@@ -187,7 +187,7 @@ describe('features/bendpoints - move', function() {
       dragging.cancel();
 
       // then
-      var bendpoint = domQuery('.djs-bendpoint.djs-dragging', layer);
+      var bendpoint = domQuery('.djs-bendpoint', layer);
       expect(bendpoint).to.be.null;
     }));
 
