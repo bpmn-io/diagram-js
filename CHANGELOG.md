@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.7.1
+
+* `FIX`: revert selection outline removal for connections ([#820](https://github.com/bpmn-io/diagram-js/pull/820))
+
 ## 12.7.0
 
 * `FEAT`: support `imageHtml` option for popup menu header entries ([#819](https://github.com/bpmn-io/diagram-js/pull/819))
