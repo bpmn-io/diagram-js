@@ -51,7 +51,7 @@ describe('features/outline/Outline', function() {
     }));
 
 
-    it('should not add outline to connection', inject(function(selection, canvas, elementRegistry) {
+    it('should add outline to connection', inject(function(selection, canvas, elementRegistry) {
 
       // given
       var connection = canvas.addConnection({ id: 'select1', waypoints: [ { x: 25, y: 25 }, { x: 115, y: 115 } ] });
@@ -63,7 +63,7 @@ describe('features/outline/Outline', function() {
       var gfx = elementRegistry.getGraphics(connection);
       var outline = domQuery('.djs-outline', gfx);
 
-      expect(outline).to.not.exist;
+      expect(outline).to.exist;
       expect(svgClasses(gfx).has('selected')).to.be.true; // Outline class is set
     }));
 
