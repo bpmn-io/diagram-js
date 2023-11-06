@@ -838,6 +838,47 @@ describe('features/context-pad', function() {
     }));
 
 
+    it('should not handle hover event', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = canvas.addShape({
+        id: 's1',
+        width: 100, height: 100,
+        x: 10, y: 10,
+        type: 'hover'
+      });
+
+      canvas.addShape({
+        id: 's2',
+        width: 100, height: 100,
+        x: 10, y: 10,
+        type: 'hover'
+      });
+
+      contextPad.open(shape);
+
+      var pad = contextPad.getPad(shape),
+          html = pad.html,
+          target = domQuery('[data-action="action.hover"]', html);
+
+      var event = globalEvent(target, { x: 0, y: 0 });
+
+      // when
+      contextPad.trigger('mouseover', event);
+
+      expect(event.__handled).not.to.exist;
+
+      clock.tick(250);
+
+      contextPad.trigger('click', globalEvent(target, { x: 0, y: 0 }));
+
+      clock.tick(500);
+
+      // then
+      expect(event.__handled).not.to.exist;
+    }));
+
+
     it('should prevent unhandled events', inject(function(canvas, contextPad) {
 
       // given
