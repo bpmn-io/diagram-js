@@ -40,7 +40,6 @@
   --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);
 
   --element-dragger-color: var(--color-blue-205-100-50);
-  --element-dragging-color: var(--color-grey-225-10-75);
   --element-hover-outline-fill-color: var(--color-blue-205-100-45);
   --element-selected-outline-stroke-color: var(--color-blue-205-100-50);
   --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);
@@ -283,38 +282,8 @@ marker.djs-dragger tspan {
 
 .djs-dragging,
 .djs-dragging > * {
+  opacity: 0.3 !important;
   pointer-events: none !important;
-}
-
-.djs-dragging .djs-context-pad,
-.djs-dragging .djs-outline {
-  display: none !important;
-}
-
-.djs-dragging * {
-  fill: none !important;
-  stroke: var(--element-dragging-color) !important;
-}
-
-.djs-dragging tspan,
-.djs-dragging text {
-  fill: var(--element-dragging-color) !important;
-  stroke: none !important;
-}
-
-marker.djs-dragging circle,
-marker.djs-dragging path,
-marker.djs-dragging polygon,
-marker.djs-dragging polyline,
-marker.djs-dragging rect {
-  fill: var(--element-dragging-color) !important;
-  stroke: none !important;
-}
-
-marker.djs-dragging text,
-marker.djs-dragging tspan {
-  fill: none !important;
-  stroke: var(--element-dragging-color) !important;
 }
 
 /**
