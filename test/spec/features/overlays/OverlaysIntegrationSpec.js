@@ -292,7 +292,7 @@ describe('features/overlay - integration', function() {
 
   describe('drag integration', function() {
 
-    it('should add <djs-dragging> marker class', inject(function(canvas, move, dragging, overlays) {
+    it('should add <djs-element-hidden> marker class', inject(function(canvas, move, dragging, overlays) {
 
       // given
       var parent = canvas.addShape({
@@ -320,12 +320,12 @@ describe('features/overlay - integration', function() {
       dragging.move(canvasEvent({ x: 20, y: 30 }));
 
       // then
-      expect(domClasses(parentOverlayContainer.html).has('djs-dragging')).to.be.true;
-      expect(domClasses(childOverlayContainer.html).has('djs-dragging')).to.be.true;
+      expect(domClasses(parentOverlayContainer.html).has('djs-element-hidden')).to.be.true;
+      expect(domClasses(childOverlayContainer.html).has('djs-element-hidden')).to.be.true;
     }));
 
 
-    it('should remove <djs-dragging> marker class on end', inject(function(canvas, move, dragging, overlays) {
+    it('should remove <djs-element-hidden> marker class on end', inject(function(canvas, move, dragging, overlays) {
 
       // given
       var parent = canvas.addShape({
@@ -354,8 +354,8 @@ describe('features/overlay - integration', function() {
       dragging.end();
 
       // then
-      expect(domClasses(parentOverlayContainer.html).has('djs-dragging')).to.be.false;
-      expect(domClasses(childOverlayContainer.html).has('djs-dragging')).to.be.false;
+      expect(domClasses(parentOverlayContainer.html).has('djs-element-hidden')).to.be.false;
+      expect(domClasses(childOverlayContainer.html).has('djs-element-hidden')).to.be.false;
     }));
 
   });

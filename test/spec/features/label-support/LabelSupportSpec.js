@@ -17,6 +17,9 @@ import {
   classes as svgClasses
 } from 'tiny-svg';
 
+import {
+  query as domQuery
+} from 'min-dom';
 
 describe('features/label-support', function() {
 
@@ -413,7 +416,7 @@ describe('features/label-support', function() {
 
   describe('visuals', function() {
 
-    it('should add marker', inject(function(elementRegistry, move, dragging) {
+    it('should add preview and hide element', inject(function(canvas, elementRegistry, move, dragging) {
 
       // given
       var labelGfx = elementRegistry.getGraphics(label),
@@ -425,12 +428,22 @@ describe('features/label-support', function() {
       dragging.move(canvasEvent({ x: 225, y: 150 }));
 
       // then
-      expect(svgClasses(labelGfx).has('djs-dragging')).to.be.true;
-      expect(svgClasses(otherLabelGfx).has('djs-dragging')).to.be.true;
+      var context = dragging.context().data.context;
+
+      expect(svgClasses(labelGfx).has('djs-element-hidden')).to.be.true;
+      expect(svgClasses(otherLabelGfx).has('djs-element-hidden')).to.be.true;
+
+      // grey preview
+      expect(domQuery('.djs-dragging[data-preview-support-element-id="label"]', canvas.getLayer('move-preview'))).to.exist;
+      expect(domQuery('.djs-dragging[data-preview-support-element-id="otherLabel"]', canvas.getLayer('move-preview'))).to.exist;
+
+      // blue preview
+      expect(domQuery('.djs-dragger[data-preview-support-element-id="label"]', context.dragGroup)).to.exist;
+      expect(domQuery('.djs-dragger[data-preview-support-element-id="otherLabel"]', context.dragGroup)).to.exist;
     }));
 
 
-    it('should remove marker', inject(function(elementRegistry, move, dragging) {
+    it('should remove preview and unhide element', inject(function(canvas, elementRegistry, move, dragging) {
 
       // given
       var labelGfx = elementRegistry.getGraphics(label),
@@ -443,8 +456,15 @@ describe('features/label-support', function() {
       dragging.end();
 
       // then
-      expect(svgClasses(labelGfx).has('djs-dragging')).to.be.false;
-      expect(svgClasses(otherLabelGfx).has('djs-dragging')).to.be.false;
+      expect(svgClasses(labelGfx).has('djs-element-hidden')).to.be.false;
+      expect(svgClasses(otherLabelGfx).has('djs-element-hidden')).to.be.false;
+
+      // grey preview
+      expect(domQuery('.djs-dragging[data-preview-support-element-id="label"]', canvas.getLayer('move-preview'))).not.to.exist;
+      expect(domQuery('.djs-dragging[data-preview-support-element-id="otherLabel"]', canvas.getLayer('move-preview'))).not.to.exist;
+
+      // blue preview
+      expect(context.dragGroup).not.to.exist;
     }));
 
 

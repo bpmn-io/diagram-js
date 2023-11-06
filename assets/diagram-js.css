@@ -41,6 +41,7 @@
 
   --element-dragger-color: var(--color-blue-205-100-50);
   --element-dragging-color: var(--color-grey-225-10-75);
+  --element-resizing-color: var(--color-grey-225-10-75);
   --element-hover-outline-fill-color: var(--color-blue-205-100-45);
   --element-selected-outline-stroke-color: var(--color-blue-205-100-50);
   --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);
@@ -248,6 +249,21 @@ svg.new-parent {
   visibility: hidden;
 }
 
+.djs-resizing circle,
+.djs-resizing path,
+.djs-resizing polygon,
+.djs-resizing polyline,
+.djs-resizing rect {
+  fill: none !important;
+  stroke: var(--element-resizing-color) !important;
+}
+
+.djs-resizing text,
+.djs-resizing tspan {
+  stroke: none !important;
+  fill: var(--element-resizing-color) !important;
+}
+
 .djs-dragger > .djs-resizer {
   visibility: hidden;
 }
@@ -281,38 +297,41 @@ marker.djs-dragger tspan {
   stroke: var(--element-dragger-color) !important;
 }
 
-.djs-dragging,
-.djs-dragging > * {
-  pointer-events: none !important;
+.djs-dragging {
+  opacity: 0.25;
 }
 
-.djs-dragging .djs-context-pad,
-.djs-dragging .djs-outline {
+.djs-dragging .djs-visual {
   display: none !important;
 }
 
-.djs-dragging * {
+.djs-dragging-preview,
+.djs-dragging-preview > * {
+  pointer-events: none !important;
+}
+
+.djs-dragging-preview * {
   fill: none !important;
   stroke: var(--element-dragging-color) !important;
 }
 
-.djs-dragging tspan,
-.djs-dragging text {
+.djs-dragging-preview tspan,
+.djs-dragging-preview text {
   fill: var(--element-dragging-color) !important;
   stroke: none !important;
 }
 
-marker.djs-dragging circle,
-marker.djs-dragging path,
-marker.djs-dragging polygon,
-marker.djs-dragging polyline,
-marker.djs-dragging rect {
+marker.djs-dragging-preview circle,
+marker.djs-dragging-preview path,
+marker.djs-dragging-preview polygon,
+marker.djs-dragging-preview polyline,
+marker.djs-dragging-preview rect {
   fill: var(--element-dragging-color) !important;
   stroke: none !important;
 }
 
-marker.djs-dragging text,
-marker.djs-dragging tspan {
+marker.djs-dragging-preview text,
+marker.djs-dragging-preview tspan {
   fill: none !important;
   stroke: var(--element-dragging-color) !important;
 }
@@ -995,7 +1014,7 @@ marker.djs-dragging tspan {
 /**
  * hidden styles
  */
-.djs-element-hidden,
+.djs-element-hidden .djs-visual,
 .djs-element-hidden .djs-hit,
 .djs-element-hidden .djs-outline,
 .djs-label-hidden .djs-label {
@@ -1006,4 +1025,8 @@ marker.djs-dragging tspan {
 .djs-element .djs-hit-click-stroke,
 .djs-element .djs-hit-all {
   cursor: move;
+}
+
+.djs-overlays.djs-dragging {
+  opacity: 0.25;
 }
