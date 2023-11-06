@@ -5,13 +5,17 @@ import imageC from './resources/c.png';
 import { every } from 'min-dash';
 
 
-export default function ContextPadProvider(contextPad) {
+export default function ContextPadProvider(contextPad, elementRegistry) {
+  this._contextPad = contextPad;
+  this._elementRegistry = elementRegistry;
+
   contextPad.registerProvider(this);
 }
 
-ContextPadProvider.$inject = [ 'contextPad' ];
+ContextPadProvider.$inject = [ 'contextPad', 'elementRegistry' ];
 
 ContextPadProvider.prototype.getContextPadEntries = function(element) {
+  var self = this;
 
   if (element.type === 'A') {
     return {
@@ -47,6 +51,11 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       'action.hover': {
         className: 'hover',
         action: {
+          click: function(e) {
+            self._contextPad.open(self._elementRegistry.get('s2'));
+
+            return 'action.click';
+          },
           hover: function(e) {
             e.__handled = true;
 
