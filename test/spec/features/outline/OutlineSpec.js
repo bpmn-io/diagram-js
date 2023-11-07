@@ -11,7 +11,8 @@ import {
 
 import {
   classes as svgClasses,
-  create as svgCreate
+  create as svgCreate,
+  attr as svgAttr
 } from 'tiny-svg';
 
 
@@ -47,7 +48,11 @@ describe('features/outline/Outline', function() {
       var outline = domQuery('.djs-outline', gfx);
 
       expect(outline).to.exist;
-      expect(svgClasses(gfx).has('selected')).to.be.true; // Outline class is set
+
+      expect(svgAttr(outline, 'x')).to.exist;
+
+      // outline class is set
+      expect(svgClasses(gfx).has('selected')).to.be.true;
     }));
 
 
@@ -64,7 +69,11 @@ describe('features/outline/Outline', function() {
       var outline = domQuery('.djs-outline', gfx);
 
       expect(outline).to.exist;
-      expect(svgClasses(gfx).has('selected')).to.be.true; // Outline class is set
+
+      expect(svgAttr(outline, 'x')).to.exist;
+
+      // outline class is set
+      expect(svgClasses(gfx).has('selected')).to.be.true;
     }));
 
   });
@@ -106,6 +115,11 @@ describe('features/outline/Outline', function() {
         } else if (element === 'B') {
           return svgCreate('rect');
         }
+      }
+
+      updateOutline(element, gfx) {
+
+        // noop
       }
     }
 
