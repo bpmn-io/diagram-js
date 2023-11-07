@@ -27,6 +27,9 @@
     "type": "git",
     "url": "https://github.com/bpmn-io/diagram-js"
   },
+  "engines": {
+    "node": "*"
+  },
   "keywords": [
     "modeler",
     "modeling",
