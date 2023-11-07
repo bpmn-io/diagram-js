@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.7.3
+
+* `FIX`: correct error when computing outline ([#822](https://github.com/bpmn-io/diagram-js/issues/822))
+
 ## 12.7.2
 
 * `FIX`: revert `djs-dragging` CSS class changes ([#821](https://github.com/bpmn-io/diagram-js/pull/821))
