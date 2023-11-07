@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.7.2
+
+* `FIX`: revert `djs-dragging` CSS class changes ([#821](https://github.com/bpmn-io/diagram-js/pull/821))
+* `FIX`: clear context pad hover timeout on close ([#823](https://github.com/bpmn-io/diagram-js/pull/823))
+
 ## 12.7.1
 
 * `FIX`: revert selection outline removal for connections ([#820](https://github.com/bpmn-io/diagram-js/pull/820))
