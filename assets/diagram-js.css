@@ -121,8 +121,13 @@
   stroke: var(--element-selected-outline-stroke-color);
 }
 
+.djs-connection.selected .djs-outline {
+  display: none;
+}
+
 .djs-multi-select .djs-element.selected .djs-outline {
   stroke: var(--element-selected-outline-secondary-stroke-color);
+  display: block;
 }
 
 .djs-shape.connect-ok .djs-visual > :nth-child(1) {
