@@ -16,6 +16,8 @@ import {
   classes as domClasses
 } from 'min-dom';
 
+import { getBBox } from 'lib/util/Elements';
+
 import contextPadModule from 'lib/features/context-pad';
 import selectionModule from 'lib/features/selection';
 
@@ -1354,6 +1356,80 @@ describe('features/context-pad', function() {
 
       expect(injected).not.to.exist;
     }));
+  });
+
+
+  describe('position', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        contextPadModule
+      ]
+    }));
+
+
+    describe('single element', function() {
+
+      it('shape', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        // when
+        const pad = contextPad.getPad(shape);
+
+        // then
+        var bBox = getBBox(shape);
+        expect(pad.position).to.eql({
+          left: bBox.x + bBox.width + 12,
+          top: bBox.y - 12 / 2
+        });
+      }));
+
+
+      it('connection', inject(function(canvas, contextPad) {
+
+        // given
+        var connection = { id: 'c1', waypoints: [ { x: 0, y: 0 }, { x: 100, y: 100 } ] };
+
+        canvas.addConnection(connection);
+
+        // when
+        const pad = contextPad.getPad(connection);
+
+        // then
+        var bBox = getBBox(connection.waypoints[connection.waypoints.length - 1]);
+        expect(pad.position).to.eql({
+          left: bBox.x + bBox.width + 12,
+          top: bBox.y - 12 / 2
+        });
+      }));
+
+    });
+
+
+    it('multi element', inject(function(canvas, contextPad) {
+
+      // given
+      var shape1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+      var shape2 = { id: 's2', width: 100, height: 100, x: 210, y: 10 };
+
+      canvas.addShape(shape1);
+      canvas.addShape(shape2);
+
+      // when
+      const pad = contextPad.getPad([ shape1, shape2 ]);
+
+      // then
+      var bBox = getBBox([ shape1, shape2 ]);
+      expect(pad.position).to.eql({
+        left: bBox.x + bBox.width + 12,
+        top: bBox.y - 12 / 2
+      });
+    }));
+
   });
 
 });
