@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 12.8.0
+
+* `FEAT`: remove selection outline from connections ([#826](https://github.com/bpmn-io/diagram-js/pull/826))
+* `FEAT`: position context pad according to last waypoint for connections ([#826](https://github.com/bpmn-io/diagram-js/pull/826))
+
 ## 12.7.3
 
 * `FIX`: correct error when computing outline ([#822](https://github.com/bpmn-io/diagram-js/issues/822))
