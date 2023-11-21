@@ -1653,6 +1653,29 @@ describe('features/popup-menu', function() {
     }));
 
 
+    it('should open within bounds bellow', inject(function(popupMenu) {
+
+      // given
+      var documentBounds = document.documentElement.getBoundingClientRect();
+
+      const y = - 5;
+      var cursorPosition = { x: documentBounds.left + 100, y: documentBounds.top + y };
+
+      // when
+      popupMenu.open({}, 'custom-provider', cursorPosition);
+
+      var menu = queryPopup('.djs-popup');
+
+      var menuDimensions = {
+        width: menu.scrollWidth,
+        height: menu.scrollHeight
+      };
+
+      // then
+      expect(menu.offsetTop).to.be.closeTo(y + menuDimensions.height, 3);
+    }));
+
+
     it('should open within bounds above (limited client rect height)', inject(
 
       function(popupMenu) {
