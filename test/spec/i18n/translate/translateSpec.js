@@ -19,28 +19,23 @@ describe('i18n - translate', function() {
     }));
 
 
-    it('should pass through', inject(function(translate) {
-      expect(translate('FOO BAR')).to.eql('FOO BAR');
+    it('should use default translation', inject(function(translate) {
+      expect(translate('FOO_BAR', 'FOO BAR')).to.eql('FOO BAR');
     }));
 
 
     it('should replace patterns', inject(function(translate) {
-      expect(translate('FOO {bar}!', { bar: 'BAR' })).to.eql('FOO BAR!');
+      expect(translate('FOO_BAR', 'FOO {bar}!', { bar: 'BAR' })).to.eql('FOO BAR!');
     }));
 
 
     it('should handle missing replacement', inject(function(translate) {
-      expect(translate('FOO {bar}!')).to.eql('FOO {bar}!');
+      expect(translate('FOO_BAR', 'FOO {bar}!')).to.eql('FOO {bar}!');
     }));
 
 
     it('should NOT escape', inject(function(translate) {
-      expect(translate('<div />')).to.eql('<div />');
-    }));
-
-
-    it('should handle missing replacement', inject(function(translate) {
-      expect(translate('FOO {bar}!', {})).to.eql('FOO {bar}!');
+      expect(translate('FOO_BAR', '<div />')).to.eql('<div />');
     }));
 
   });
@@ -51,7 +46,8 @@ describe('i18n - translate', function() {
     beforeEach(bootstrapDiagram({ modules: [ translateModule, customTranslateModule ] }));
 
     it('should override translate', inject(function(translate) {
-      expect(translate('Remove')).to.eql('Eliminar');
+      expect(translate('REMOVE', 'Remove')).to.eql('Entfernen');
+      expect(translate('CREATE_ELEMENT', 'Create {element}', { element: 'Foo' })).to.eql('Foo erzeugen');
     }));
 
   });

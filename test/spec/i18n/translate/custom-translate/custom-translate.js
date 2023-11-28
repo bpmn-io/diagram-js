@@ -1,13 +1,13 @@
 import translate from 'lib/i18n/translate/translate';
 
-export default function customTranslate(template, replacements) {
-  if (template === 'Remove') {
-    template = 'Eliminar';
+export default function customTranslate(id, defaultTranslation, replacements) {
+  if (id === 'REMOVE') {
+    return translate(id, 'Entfernen', replacements);
   }
 
-  if (template === 'Activate the hand tool') {
-    template = 'Activar herramienta mano';
+  if (id === 'CREATE_ELEMENT') {
+    return translate(id, '{element} erzeugen', replacements);
   }
 
-  return translate(template, replacements);
+  return translate(id, defaultTranslation, replacements);
 }

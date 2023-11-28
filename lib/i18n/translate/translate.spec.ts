@@ -1,4 +1,4 @@
 import translate from './translate';
 
-translate('foo {{bar}}', { bar: 'baz' });
-translate('foo {{bar}}');
+translate('FOO_BAR', 'Foo bar');
+translate('FOO_BAR', 'Foo { bar }', { bar: 'baz' });
