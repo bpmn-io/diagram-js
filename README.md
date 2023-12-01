@@ -20,7 +20,7 @@ Some libraries / applications built on top of diagram-js:
 * [archimate-js](https://github.com/archimodel/archimate-js) - An ArchiMate diagram viewer and editor ([Demo](https://archimodel.net))
 * [chor-js](https://github.com/bptlab/chor-js) - A BPMN 2.0 Choreography diagram viewer and editor ([Demo](https://bpt-lab.org/chor-js-demo/))
 * [Node Sequencer](https://github.com/philippfromme/node-sequencer) - A Node-Based Sequencer for the Web ([Demo](https://philippfromme.github.io/node-sequencer-demo/))
-* [object-diagram-js](https://github.com/timKraeuter/object-diagram-js) - An object diagram viewer and editor ([Demo](https://timkraeuter.com/object-diagram-modeler/))
+* [object-diagram-js](https://github.com/timKraeuter/object-diagram-js) - An object diagram viewer and editor ([Demo](https://timkraeuter.com/object-diagram-js/))
 * [postit-js](https://github.com/pinussilvestrus/postit-js) - Create Post-it boards on a canvas editor ([Demo](https://postit-js-demo.netlify.app/))
 
 ## Resources
