@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 13.0.0
+
+* `DEPS`: update to `didi@10.0.1`
+
 ## 12.8.1
 
 * `FIX`: reposition popup menu if it opens above the viewport ([#829](https://github.com/bpmn-io/diagram-js/pull/829))
