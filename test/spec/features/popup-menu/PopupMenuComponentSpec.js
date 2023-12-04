@@ -432,7 +432,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       { id: '3', label: 'Entry 3' },
       { id: '4', label: 'Entry 4' },
       { id: '5', label: 'Entry 5', search: 'foo' },
-      { id: 'some_entry_id', label: 'Last' }
+      { id: 'some_entry_id', label: 'Last' },
+      { id: '7', label: 'Entry 7' , searchable: false }
     ];
 
 
@@ -541,6 +542,23 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(0);
+    });
+
+
+    it('should not search non-searchable entries', async function() {
+
+      // given
+      await createPopupMenu({ container, entries, search: true });
+
+      var searchInput = domQuery('.djs-popup-search input', container);
+      searchInput.value = 'entry';
+
+      // when
+      await trigger(searchInput, keyDown('ArrowUp'));
+      await trigger(searchInput, keyUp('ArrowUp'));
+
+      // then
+      expect(domQuery('.entry[data-id="7"]', container)).to.not.exist;
     });
 
 
