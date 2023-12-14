@@ -31,29 +31,31 @@ Some libraries / applications built on top of diagram-js:
 * [Examples](https://github.com/bpmn-io/diagram-js-examples)
 
 
-## Hacking the Project
+## Development
 
-To get the development setup make sure to have [NodeJS](https://nodejs.org/en/download/) installed.
-As soon as you are set up, clone the project and execute
+Prepare the project by installing all dependencies:
 
-```
+```sh
 npm install
 ```
 
+Then, depending on your use-case you may run any of the following commands:
 
-### Testing
+```sh
+# build the library and run all tests
+npm run all
 
-Execute `npm run dev` to run the test suite in watch mode.
+# run the development setup
+npm run dev
 
-Expose an environment variable `TEST_BROWSERS=(Chrome|Firefox|IE)` to execute the tests in a non-headless browser.
+# run tests (single run)
+npm test
+```
 
+Expose an environment variable `TEST_BROWSERS=(Chrome|Firefox)` to execute the tests in a non-headless browser.
 
-### Package
-
-Execute `npm run all` to lint and test the project.
-
-__Note:__ We do not generate any build artifacts. Required parts of the library should be bundled by modelers / viewers as needed instead.
-
+> [!NOTE]
+> We do not generate any build artifacts. Required parts of the library should be bundled by consuming libraries as needed instead.
 
 
 ## License
