@@ -17,7 +17,7 @@ Steps to reproduce the behavior:
 1. do this
 2. do that
 
-If possible, try to build [a test case](https://github.com/bpmn-io/diagram-js/tree/master/test/spec) that reproduces your problem.
+If possible, try to build [a test case](https://github.com/bpmn-io/diagram-js/tree/main/test/spec) that reproduces your problem.
 
 
 ### Expected Behavior
