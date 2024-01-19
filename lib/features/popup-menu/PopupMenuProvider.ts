@@ -1,3 +1,5 @@
+import { VNode } from '@bpmn-io/diagram-js-ui';
+
 import { PopupMenuTarget } from './PopupMenu';
 
 export type PopupMenuEntryAction = (event: Event, entry: PopupMenuEntry, action?: string) => any;
@@ -30,6 +32,10 @@ export type PopupMenuHeaderEntry = {
 export type PopupMenuHeaderEntries = PopupMenuHeaderEntry[];
 
 export type PopupMenuProviderHeaderEntriesCallback = (entries: PopupMenuHeaderEntries) => PopupMenuHeaderEntries;
+
+export type PopupMenuEmptyPlaceholder = VNode;
+
+export type PopupMenuEmptyPlaceholderProvider = (search: string) => PopupMenuEmptyPlaceholder;
 
 /**
  * An interface to be implemented by a popup menu provider.
@@ -97,4 +103,20 @@ export default interface PopupMenuProvider {
    * @param target
    */
   getHeaderEntries?(target: PopupMenuTarget): PopupMenuProviderHeaderEntriesCallback | PopupMenuHeaderEntries;
+
+  /**
+   * Returns a component to be displayed when no popup menu entries
+   * match a given search query.
+   *
+   * @example
+   *
+   * ```javascript
+   * getEmptyPlaceholder() {
+   *   return (search) => <>
+   *     No results for <strong>{ search }</strong>
+   *   <>;
+   * }
+   * ```
+   */
+  getEmptyPlaceholder?(): PopupMenuEmptyPlaceholderProvider | PopupMenuEmptyPlaceholder;
 }
