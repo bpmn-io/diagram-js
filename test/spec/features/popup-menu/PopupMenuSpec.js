@@ -1218,43 +1218,149 @@ describe('features/popup-menu', function() {
       expect(popupMenu.isOpen()).to.be.true;
     }));
 
+  });
 
-    describe('search rank', function() {
 
-      var testMenuProvider = {
+  describe('search', function() {
+
+    var testMenuProvider = {
+      getEntries: function() {
+        return [
+          {
+            id: 'a',
+            label: 'Alpha'
+          },
+          {
+            id: 'b',
+            label: 'Bravo'
+          },
+          {
+            id: 'c',
+            label: 'Charlie'
+          },
+          {
+            id: 'search',
+            label: 'Delta',
+            search: 'search'
+          },
+          {
+            id: 'description',
+            label: 'Echo',
+            description: 'description'
+          },
+          {
+            id: 'hidden',
+            label: 'Foxtrot',
+            rank: -1
+          }
+        ];
+      }
+    };
+
+
+    it('should not be searchable (<= 5 entries)', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', {
         getEntries: function() {
           return [
             {
-              id: 'A',
-              label: 'A'
+              id: 'foo',
+              label: 'Foo'
             },
             {
-              id: 'B',
-              label: 'B'
+              id: 'bar',
+              label: 'Bar'
             },
             {
-              id: 'C',
-              label: 'C'
-            },
-            {
-              id: 'D',
-              label: 'D',
-              rank: 1
-            },
-            {
-              id: 'E',
-              label: 'E',
-              rank: 0
-            },
-            {
-              id: 'F',
-              label: 'F (hide initially)',
-              rank: -1
+              id: 'baz',
+              label: 'Baz',
+              search: 'Bar'
             }
           ];
         }
-      };
+      });
 
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      const search = queryPopup('.djs-popup-search');
+
+      // then
+      expect(search).not.to.exist;
+    }));
+
+
+    it('should show search results (matching label)', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('alpha');
+
+      // then
+      var shownEntries = queryPopupAll('.entry');
+
+      expect(shownEntries).to.have.length(1);
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Alpha');
+    }));
+
+
+    it('should show search results (matching search)', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('search');
+
+      // then
+      var shownEntries = queryPopupAll('.entry');
+
+      expect(shownEntries).to.have.length(1);
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
+    }));
+
+
+    it('should show search results (matching description)', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('description');
+
+      // then
+      var shownEntries = queryPopupAll('.entry');
+
+      expect(shownEntries).to.have.length(1);
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Echo');
+      expect(shownEntries[0].querySelector('.djs-popup-entry-description').textContent).to.eql('description');
+    }));
+
+
+    it('should show search results (matching label & search)', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('delta search');
+
+      // then
+      var shownEntries = queryPopupAll('.entry');
+
+      expect(shownEntries).to.have.length(1);
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
+    }));
+
+
+    describe('ranking', function() {
 
       it('should hide rank < 0 items', inject(async function(popupMenu) {
 
@@ -1278,12 +1384,13 @@ describe('features/popup-menu', function() {
         popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
         // when
-        await triggerSearch('hide ini');
+        await triggerSearch('foxtrot');
 
         // then
         var shownEntries = queryPopupAll('.entry');
 
         expect(shownEntries).to.have.length(1);
+        expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Foxtrot');
       }));
 
     });
