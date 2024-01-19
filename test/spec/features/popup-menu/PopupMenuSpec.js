@@ -1,3 +1,5 @@
+import { waitFor as originalWaitFor } from '@testing-library/preact';
+
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -24,8 +26,12 @@ import modelingModule from 'lib/features/modeling';
 
 import { html } from 'lib/ui';
 
+const waitFor = (callback) => originalWaitFor(callback, { timeout: 10000 });
+
 
 describe('features/popup-menu', function() {
+
+  this.timeout(10000);
 
   beforeEach(bootstrapDiagram({
     modules: [
@@ -252,7 +258,8 @@ describe('features/popup-menu', function() {
       expect(popupMenu._current).to.exist;
       expect(openSpy).to.have.been.calledOnce;
 
-      await whenStable();
+      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+
       expect(openedSpy).to.have.been.calledOnce;
     }));
 
@@ -553,9 +560,16 @@ describe('features/popup-menu', function() {
 
   describe('#close', function() {
 
-    beforeEach(inject(function(popupMenu) {
+    beforeEach(inject(async function(eventBus, popupMenu) {
+      var openedSpy = sinon.spy();
+
+      eventBus.on('popupMenu.opened', openedSpy);
+
       popupMenu.registerProvider('menu', menuProvider);
+
       popupMenu.open({}, 'menu', { x: 100, y: 100 });
+
+      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
     }));
 
 
@@ -569,8 +583,9 @@ describe('features/popup-menu', function() {
       eventBus.on('popupMenu.closed', closedSpy);
 
       // when
-      await whenStable();
       popupMenu.close();
+
+      await waitFor(() => expect(closedSpy).to.have.been.calledOnce);
 
       // then
       var open = popupMenu.isOpen();
@@ -1303,9 +1318,14 @@ describe('features/popup-menu', function() {
       await triggerSearch('alpha');
 
       // then
-      var shownEntries = queryPopupAll('.entry');
+      var shownEntries;
 
-      expect(shownEntries).to.have.length(1);
+      await waitFor(() => {
+        shownEntries = queryPopupAll('.entry');
+
+        expect(shownEntries).to.have.length(1);
+      });
+
       expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Alpha');
     }));
 
@@ -1320,9 +1340,14 @@ describe('features/popup-menu', function() {
       await triggerSearch('search');
 
       // then
-      var shownEntries = queryPopupAll('.entry');
+      var shownEntries;
 
-      expect(shownEntries).to.have.length(1);
+      await waitFor(() => {
+        shownEntries = queryPopupAll('.entry');
+
+        expect(shownEntries).to.have.length(1);
+      });
+
       expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
     }));
 
@@ -1337,9 +1362,14 @@ describe('features/popup-menu', function() {
       await triggerSearch('description');
 
       // then
-      var shownEntries = queryPopupAll('.entry');
+      var shownEntries;
 
-      expect(shownEntries).to.have.length(1);
+      await waitFor(() => {
+        shownEntries = queryPopupAll('.entry');
+
+        expect(shownEntries).to.have.length(1);
+      });
+
       expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Echo');
       expect(shownEntries[0].querySelector('.djs-popup-entry-description').textContent).to.eql('description');
     }));
@@ -1355,9 +1385,14 @@ describe('features/popup-menu', function() {
       await triggerSearch('delta search');
 
       // then
-      var shownEntries = queryPopupAll('.entry');
+      var shownEntries;
 
-      expect(shownEntries).to.have.length(1);
+      await waitFor(() => {
+        shownEntries = queryPopupAll('.entry');
+
+        expect(shownEntries).to.have.length(1);
+      });
+
       expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
     }));
 
@@ -1373,9 +1408,17 @@ describe('features/popup-menu', function() {
         popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
         // then
-        var shownEntries = queryPopupAll('.entry');
+        var shownEntries;
 
-        expect(shownEntries).to.have.length(5);
+        await waitFor(() => {
+          shownEntries = queryPopupAll('.entry');
+
+          expect(shownEntries).to.have.length(5);
+        });
+
+        expect(Array.from(shownEntries).find(entry => {
+          entry.querySelector('.djs-popup-label').textContent === 'Foxtrot';
+        })).not.to.exist;
       }));
 
 
@@ -1389,9 +1432,14 @@ describe('features/popup-menu', function() {
         await triggerSearch('foxtrot');
 
         // then
-        var shownEntries = queryPopupAll('.entry');
+        var shownEntries;
 
-        expect(shownEntries).to.have.length(1);
+        await waitFor(() => {
+          shownEntries = queryPopupAll('.entry');
+
+          expect(shownEntries).to.have.length(1);
+        });
+
         expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Foxtrot');
       }));
 
@@ -1413,9 +1461,11 @@ describe('features/popup-menu', function() {
       await triggerSearch('foobar');
 
       // then
-      var shownEntries = queryPopupAll('.entry');
+      await waitFor(() => {
+        var shownEntries = queryPopupAll('.entry');
 
-      expect(shownEntries).to.have.length(0);
+        expect(shownEntries).to.have.length(0);
+      });
 
       var noSearchResultsNode = queryPopup('.djs-popup-no-results');
 
@@ -1442,9 +1492,11 @@ describe('features/popup-menu', function() {
       await triggerSearch('foobar');
 
       // then
-      var shownEntries = queryPopupAll('.entry');
+      await waitFor(() => {
+        var shownEntries = queryPopupAll('.entry');
 
-      expect(shownEntries).to.have.length(0);
+        expect(shownEntries).to.have.length(0);
+      });
 
       var noSearchResultsNode = queryPopup('.djs-popup-no-results');
 
@@ -2359,14 +2411,10 @@ function getGroup(groupName) {
   return domQuery('[data-group="' + groupName + '"]', getPopupContainer());
 }
 
-function whenStable() {
-  return new Promise(resolve => setTimeout(resolve, 300));
-}
-
 /**
- * @param { string } key
+ * @param {string} key
  *
- * @return { KeyboardEvent }
+ * @return {KeyboardEvent}
  */
 function keyUp(key) {
   return new KeyboardEvent('keyup', { key, bubbles: true });
@@ -2383,6 +2431,4 @@ function triggerSearch(value) {
 
   searchInput.value = value;
   searchInput.dispatchEvent(keyUp('ArrowRight'));
-
-  return whenStable();
 }
