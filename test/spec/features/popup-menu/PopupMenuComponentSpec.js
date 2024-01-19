@@ -477,7 +477,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should show <not found>', async function() {
 
       // given
-      await createPopupMenu({ container, entries, search: true });
+      await createPopupMenu({
+        container,
+        entries,
+        search: true,
+        emptyPlaceholder: 'No results'
+      });
 
       var searchInput = domQuery('.djs-popup-search input', container);
       searchInput.value = 'Foo bar';

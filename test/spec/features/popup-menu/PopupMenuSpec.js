@@ -22,6 +22,8 @@ import { createEvent as globalEvent } from '../../../util/MockEvents';
 import popupMenuModule from 'lib/features/popup-menu';
 import modelingModule from 'lib/features/modeling';
 
+import { html } from 'lib/ui';
+
 
 describe('features/popup-menu', function() {
 
@@ -1394,6 +1396,65 @@ describe('features/popup-menu', function() {
       }));
 
     });
+
+
+    it('should render entry if no search results', inject(async function(popupMenu) {
+
+      // given
+      const menuProvider = {
+        ...testMenuProvider,
+        getEmptyPlaceholder: () => 'No matching entries found.'
+      };
+
+      popupMenu.registerProvider('test-menu', menuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('foobar');
+
+      // then
+      var shownEntries = queryPopupAll('.entry');
+
+      expect(shownEntries).to.have.length(0);
+
+      var noSearchResultsNode = queryPopup('.djs-popup-no-results');
+
+      expect(noSearchResultsNode).to.exist;
+      expect(noSearchResultsNode.textContent).to.eql('No matching entries found.');
+    }));
+
+
+    it('should render custom entry if no search results', inject(async function(popupMenu) {
+
+      // given
+      const menuProvider = {
+        ...testMenuProvider,
+        getEmptyPlaceholder: () => {
+          return search => html`<h1 class="custom-empty-placeholder">${ search }</h1>`;
+        }
+      };
+
+      popupMenu.registerProvider('test-menu', menuProvider);
+
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('foobar');
+
+      // then
+      var shownEntries = queryPopupAll('.entry');
+
+      expect(shownEntries).to.have.length(0);
+
+      var noSearchResultsNode = queryPopup('.djs-popup-no-results');
+
+      expect(noSearchResultsNode).to.exist;
+
+      var customNode = domQuery('.custom-empty-placeholder', noSearchResultsNode);
+
+      expect(customNode).to.exist;
+      expect(customNode.textContent).to.eql('foobar');
+    }));
 
   });
 
