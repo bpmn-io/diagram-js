@@ -749,22 +749,13 @@ marker.djs-dragger tspan {
 }
 
 /**
- * touch
+ * bendpoints
  */
-
-.djs-shape,
-.djs-connection {
-  touch-action: none;
-}
-
 .djs-segment-dragger,
 .djs-bendpoint {
   display: none;
 }
 
-/**
- * bendpoints
- */
 .djs-segment-dragger .djs-visual {
   display: none;
 
