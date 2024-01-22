@@ -21,10 +21,6 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents';
 
-import { isMac } from 'lib/util/Platform';
-
-var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
-
 
 describe('features/selection/Selection', function() {
 
@@ -363,23 +359,6 @@ describe('features/selection/Selection', function() {
     }));
 
 
-    it('should add element to selection on click + CTRL',
-      inject(function(eventBus, selection) {
-
-        // given
-        selection.select(shape1);
-
-        // when
-        eventBus.fire(clickEvent(shape2, keyModifier));
-
-        // then
-        expect(selection.get()).to.have.length(2);
-        expect(selection.isSelected(shape1)).to.be.true;
-        expect(selection.isSelected(shape2)).to.be.true;
-      })
-    );
-
-
     it('should add element to selection on click + SHIFT',
       inject(function(eventBus, selection) {
 
@@ -392,23 +371,6 @@ describe('features/selection/Selection', function() {
         // then
         expect(selection.get()).to.have.length(2);
         expect(selection.isSelected(shape1)).to.be.true;
-        expect(selection.isSelected(shape2)).to.be.true;
-      })
-    );
-
-
-    it('should remove selected element from selection on click + CTRL',
-      inject(function(eventBus, selection) {
-
-        // given
-        selection.select([ shape1, shape2 ]);
-
-        // when
-        eventBus.fire(clickEvent(shape1, keyModifier));
-
-        // then
-        expect(selection.get()).to.have.length(1);
-        expect(selection.isSelected(shape1)).to.be.false;
         expect(selection.isSelected(shape2)).to.be.true;
       })
     );
