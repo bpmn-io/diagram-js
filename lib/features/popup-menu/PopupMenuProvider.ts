@@ -14,7 +14,7 @@ export type PopupMenuEntry = {
 
 export type PopupMenuEntries = Record<string, PopupMenuEntry>;
 
-export type PopupMenuEntriesCallback = (entries: PopupMenuEntries) => PopupMenuEntries;
+export type PopupMenuEntriesProvider = (entries: PopupMenuEntries) => PopupMenuEntries;
 
 export type PopupMenuHeaderEntryAction = (event: Event, entry: PopupMenuHeaderEntry, action?: string) => any;
 
@@ -31,7 +31,7 @@ export type PopupMenuHeaderEntry = {
 
 export type PopupMenuHeaderEntries = PopupMenuHeaderEntry[];
 
-export type PopupMenuProviderHeaderEntriesCallback = (entries: PopupMenuHeaderEntries) => PopupMenuHeaderEntries;
+export type PopupMenuProviderHeaderEntriesProvider = (entries: PopupMenuHeaderEntries) => PopupMenuHeaderEntries;
 
 export type PopupMenuEmptyPlaceholder = VNode;
 
@@ -70,7 +70,7 @@ export default interface PopupMenuProvider {
    *
    * @param target
    */
-  getPopupMenuEntries(target: PopupMenuTarget): PopupMenuEntriesCallback | PopupMenuEntries;
+  getPopupMenuEntries(target: PopupMenuTarget): PopupMenuEntriesProvider | PopupMenuEntries;
 
   /**
    * Returns a list of header entries or a function that receives, modifies and
@@ -102,7 +102,7 @@ export default interface PopupMenuProvider {
    *
    * @param target
    */
-  getHeaderEntries?(target: PopupMenuTarget): PopupMenuProviderHeaderEntriesCallback | PopupMenuHeaderEntries;
+  getHeaderEntries?(target: PopupMenuTarget): PopupMenuProviderHeaderEntriesProvider | PopupMenuHeaderEntries;
 
   /**
    * Returns a component to be displayed when no popup menu entries

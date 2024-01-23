@@ -3,8 +3,8 @@ import { PopupMenuTarget } from './PopupMenu';
 import PopupMenuProvider, {
   PopupMenuEntries,
   PopupMenuHeaderEntries,
-  PopupMenuEntriesCallback,
-  PopupMenuProviderHeaderEntriesCallback
+  PopupMenuEntriesProvider,
+  PopupMenuProviderHeaderEntriesProvider
 } from './PopupMenuProvider';
 
 export class FooPopupMenuProvider implements PopupMenuProvider {
@@ -29,7 +29,7 @@ export class FooPopupMenuProvider implements PopupMenuProvider {
 }
 
 export class BarPopupMenuProvider implements PopupMenuProvider {
-  getPopupMenuEntries(target: PopupMenuTarget): PopupMenuEntriesCallback {
+  getPopupMenuEntries(target: PopupMenuTarget): PopupMenuEntriesProvider {
     return function(entries) {
       return {
         ...entries,
@@ -85,7 +85,7 @@ export class BazPopupMenuProvider implements PopupMenuProvider {
     return {};
   }
 
-  getHeaderEntries(target: PopupMenuTarget): PopupMenuProviderHeaderEntriesCallback {
+  getHeaderEntries(target: PopupMenuTarget): PopupMenuProviderHeaderEntriesProvider {
     return function(entries) {
       return [
         ...entries,
