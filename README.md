@@ -17,6 +17,7 @@ Some libraries / applications built on top of diagram-js:
 
 #### External
 
+* [Apache Seata Saga Designer](https://github.com/apache/incubator-seata/tree/2.x/saga/seata-saga-statemachine-designer) - A visual orchestration tool for Seata Saga transaction ([Demo](https://seata.apache.org/saga-designer/))
 * [archimate-js](https://github.com/archimodel/archimate-js) - An ArchiMate diagram viewer and editor ([Demo](https://archimodel.net))
 * [chor-js](https://github.com/bptlab/chor-js) - A BPMN 2.0 Choreography diagram viewer and editor ([Demo](https://bpt-lab.org/chor-js-demo/))
 * [Node Sequencer](https://github.com/philippfromme/node-sequencer) - A Node-Based Sequencer for the Web ([Demo](https://philippfromme.github.io/node-sequencer-demo/))
