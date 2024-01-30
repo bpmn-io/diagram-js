@@ -19,7 +19,6 @@ import draggingModule from 'lib/features/dragging';
 
 describe('features/lasso-tool', function() {
 
-
   beforeEach(bootstrapDiagram({
     modules: [
       modelingModule,
@@ -102,7 +101,6 @@ describe('features/lasso-tool', function() {
         height: 220
       };
 
-
       // when
       lassoTool.select(elements, bbox);
 
@@ -113,6 +111,55 @@ describe('features/lasso-tool', function() {
       expect(selectedElements[0]).to.equal(childShape2);
       expect(selectedElements[1]).to.equal(childShape3);
     }));
+
+
+    it('shoud select elements in bbox and previously selected elements', inject(function(lassoTool, selection) {
+
+      // given
+      selection.select([ childShape ]);
+
+      var elements = [ childShape2, childShape3 ];
+
+      var bbox = {
+        x: 175,
+        y: 0,
+        width: 120,
+        height: 220
+      };
+
+      // when
+      lassoTool.select(elements, bbox, selection.get());
+
+      // then
+      var selectedElements = selection.get();
+
+      expect(selectedElements.length).to.equal(3);
+      expect(selectedElements[0]).to.equal(childShape);
+      expect(selectedElements[1]).to.equal(childShape2);
+      expect(selectedElements[2]).to.equal(childShape3);
+    }));
+
+  });
+
+
+  describe('#activateLasso', function() {
+
+    beforeEach(inject(function(dragging) {
+      dragging.setOptions({ manual: true });
+    }));
+
+
+    it('should select after lasso', inject(function(lassoTool, dragging, selection, elementRegistry) {
+
+      // when
+      lassoTool.activateLasso(canvasEvent({ x: 100, y: 100 }));
+      dragging.move(canvasEvent({ x: 200, y: 300 }));
+      dragging.end();
+
+      // then
+      expect(selection.get()).to.eql([ elementRegistry.get('child') ]);
+    }));
+
   });
 
 
@@ -131,18 +178,6 @@ describe('features/lasso-tool', function() {
 
       // then
       expect(canvas._svg.querySelector('.djs-lasso-overlay')).to.exist;
-    }));
-
-
-    it('should select after lasso', inject(function(lassoTool, dragging, selection, elementRegistry) {
-
-      // when
-      lassoTool.activateLasso(canvasEvent({ x: 100, y: 100 }));
-      dragging.move(canvasEvent({ x: 200, y: 300 }));
-      dragging.end();
-
-      // then
-      expect(selection.get()).to.eql([ elementRegistry.get('child') ]);
     }));
 
   });
