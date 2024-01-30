@@ -6,6 +6,19 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.0.0-alpha.1
+
+* `FEAT`: allow to provide custom popup menu empty state ([#847](https://github.com/bpmn-io/diagram-js/pull/847))
+* `FIX`: remove `CTRL + click` for adding selections ([#850](https://github.com/bpmn-io/diagram-js/pull/850))
+* `FIX`: correct type definitions ([#https://github.com/bpmn-io/diagram-js/issues/843](https://github.com/bpmn-io/diagram-js/issues/843), [`175da39`](https://github.com/bpmn-io/diagram-js/commit/175da3929e51cc5fae9537d0b1d1d1265474f9df))
+* `CHORE`: remove broken touch interaction ([#796](https://github.com/bpmn-io/diagram-js/issues/796))
+* `DEPS`: drop `hammerjs` dependency ([#845](https://github.com/bpmn-io/diagram-js/pull/845))
+
+### Breaking Changes
+
+* (Broken) touch interaction module removed without immediate replacement ([#845](https://github.com/bpmn-io/diagram-js/pull/845))
+* Some type signatures changed
+
 ## 13.4.0
 
 * `DEPS`: update to `object-refs@0.4.0`
