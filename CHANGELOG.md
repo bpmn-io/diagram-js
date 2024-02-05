@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.0.0
+
+* `FEAT`: add to selection through SHIFT ([#851](https://github.com/bpmn-io/diagram-js/pull/851))
+
 ## 14.0.0-alpha.1
 
 * `FEAT`: allow to provide custom popup menu empty state ([#847](https://github.com/bpmn-io/diagram-js/pull/847))
