@@ -9,9 +9,6 @@ _**Note:** Yet to be released changes appear here._
 ## 14.0.0
 
 * `FEAT`: add to selection through SHIFT ([#851](https://github.com/bpmn-io/diagram-js/pull/851))
-
-## 14.0.0-alpha.1
-
 * `FEAT`: allow to provide custom popup menu empty state ([#847](https://github.com/bpmn-io/diagram-js/pull/847))
 * `FIX`: remove `CTRL + click` for adding selections ([#850](https://github.com/bpmn-io/diagram-js/pull/850))
 * `FIX`: correct type definitions ([#843](https://github.com/bpmn-io/diagram-js/issues/843), [`175da39`](https://github.com/bpmn-io/diagram-js/commit/175da3929e51cc5fae9537d0b1d1d1265474f9df))
