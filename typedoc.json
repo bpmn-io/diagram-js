@@ -1,5 +1,12 @@
 {
   "entryPoints": ["lib/**/*.d.ts"],
   "out": "./docs",
-  "cleanOutputDir": true
+  "cleanOutputDir": true,
+  "cacheBust": true,
+  "searchInComments": true,
+  "disableSources": true,
+  "navigationLinks": {
+    "Docs": "https://bpmn-io.github.io/diagram-js/",
+    "GitHub": "https://github.com/bpmn-io/diagram-js"
+  }
 }
