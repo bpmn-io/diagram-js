@@ -1,0 +1,5 @@
+{
+  "entryPoints": ["lib/**/*.d.ts"],
+  "out": "./docs",
+  "cleanOutputDir": true
+}
