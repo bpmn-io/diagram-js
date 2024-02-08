@@ -21,6 +21,9 @@
     "generate-types": "run-s generate-types:*",
     "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts -r lib",
     "generate-types:test": "tsc --noEmit --noImplicitAny",
+    "generate-docs": "typedoc",
+    "pregenerate-docs": "run-s generate-types",
+    "publish-docs": "scripts/publish-docs.sh",
     "test": "karma start",
     "prepublishOnly": "run-s generate-types"
   },
@@ -77,6 +80,7 @@
     "puppeteer": "^22.0.0",
     "sinon": "^17.0.0",
     "sinon-chai": "^3.7.0",
+    "typedoc": "^0.25.7",
     "typescript": "^5.0.0",
     "webpack": "^5.74.0"
   },
