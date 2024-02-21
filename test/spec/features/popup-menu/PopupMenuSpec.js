@@ -558,6 +558,85 @@ describe('features/popup-menu', function() {
   });
 
 
+  describe('#refresh', function() {
+
+    it('should refresh', inject(function(eventBus, popupMenu) {
+
+      // given
+      var refreshSpy = sinon.spy();
+
+      eventBus.on('popupMenu.refresh', refreshSpy);
+
+      var dynamicMenuProvider = {
+        getPopupMenuEntries: function() {
+          return {
+            foo: { label: 'Foo' },
+            bar: { label: 'Bar' }
+          };
+        },
+        getHeaderEntries: function() {
+          return {
+            foo: { id: 'foo', label: 'Foo' },
+            bar: { id: 'bar', label: 'Bar' }
+          };
+        }
+      };
+
+      popupMenu.registerProvider('menu', dynamicMenuProvider);
+
+      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+
+      expect(popupMenu._current).to.exist;
+      expect(popupMenu._current.entries).to.have.keys('foo', 'bar');
+      expect(popupMenu._current.entries).not.to.have.keys('baz');
+      expect(popupMenu._current.headerEntries).to.have.keys('foo', 'bar');
+      expect(popupMenu._current.headerEntries).not.to.have.keys('baz');
+
+      // when
+      dynamicMenuProvider.getPopupMenuEntries = function() {
+        return {
+          foo: { label: 'Foo' },
+          bar: { label: 'Bar' },
+          baz: { label: 'Baz' }
+        };
+      };
+
+      dynamicMenuProvider.getHeaderEntries = function() {
+        return {
+          foo: { id: 'foo', label: 'Foo' },
+          bar: { id: 'bar', label: 'Bar' },
+          baz: { id: 'baz', label: 'Baz' }
+        };
+      };
+
+      popupMenu.refresh();
+
+      // then
+      expect(refreshSpy).to.have.been.calledOnce;
+
+      expect(popupMenu._current).to.exist;
+      expect(popupMenu._current.entries).to.have.keys('foo', 'bar', 'baz');
+      expect(popupMenu._current.headerEntries).to.have.keys('foo', 'bar', 'baz');
+    }));
+
+
+    it('should not refresh', inject(function(eventBus, popupMenu) {
+
+      // given
+      var refreshSpy = sinon.spy();
+
+      eventBus.on('popupMenu.refresh', refreshSpy);
+
+      // when
+      popupMenu.refresh();
+
+      // then
+      expect(refreshSpy).not.to.have.been.called;
+    }));
+
+  });
+
+
   describe('#close', function() {
 
     beforeEach(inject(async function(eventBus, popupMenu) {
@@ -841,7 +920,6 @@ describe('features/popup-menu', function() {
         event
       });
     }));
-
 
   });
 
