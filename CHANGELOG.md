@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.1.0
+
+* `FEAT`: add ability to refresh popup menu ([#804](https://github.com/bpmn-io/diagram-js/issues/804))
+* `DEPS`: update to `clsx@2.1.0`
+
 ## 14.0.0
 
 * `FEAT`: add to selection through SHIFT ([#851](https://github.com/bpmn-io/diagram-js/pull/851))
