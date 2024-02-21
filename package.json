@@ -71,7 +71,7 @@
     "karma-safari-launcher": "^1.0.0",
     "karma-sinon-chai": "^2.0.2",
     "karma-webpack": "^5.0.1",
-    "mocha": "^4.1.0",
+    "mocha": "^10.3.0",
     "mocha-test-container-support": "^0.2.0",
     "npm-run-all2": "^6.0.0",
     "puppeteer": "^22.1.0",
