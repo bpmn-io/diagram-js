@@ -32,8 +32,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
         }
       }
     };
-  } else
-  if (element.type === 'drag') {
+  } else if (element.type === 'drag') {
     return {
       'action.dragstart': {
         className: 'drag-out',
