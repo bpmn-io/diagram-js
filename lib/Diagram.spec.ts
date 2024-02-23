@@ -34,3 +34,13 @@ const foo = diagram.invoke((modeling: Modeling, eventBus: EventBus) => {
 });
 
 foo.bar = false;
+
+type ServiceMap = {
+  'eventBus': EventBus
+};
+
+const typedDiagram = new Diagram<ServiceMap>();
+
+const eventBus = typedDiagram.get('eventBus');
+
+eventBus.on('a', (event: any) => console.log('a'));
