@@ -59,3 +59,22 @@ eventBus.once('foo', callback, this);
 eventBus.once('foo', (event, additional1, additional2) => {
   console.log('foo', event, additional1, additional2);
 });
+
+
+type EventMap = {
+  foo: FooEvent
+};
+
+const typedEventBus = new EventBus<EventMap>();
+
+typedEventBus.on('foo', (event: FooEvent) => {
+  const { foo } = event;
+
+  console.log(foo);
+});
+
+typedEventBus.on('foo', (event) => {
+  const { foo } = event;
+
+  console.log(foo);
+});
