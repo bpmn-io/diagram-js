@@ -93,7 +93,7 @@
   "dependencies": {
     "@bpmn-io/diagram-js-ui": "^0.2.3",
     "clsx": "^2.1.0",
-    "didi": "^10.2.0",
+    "didi": "^10.2.1",
     "inherits-browser": "^0.1.0",
     "min-dash": "^4.1.0",
     "min-dom": "^5.0.0",
