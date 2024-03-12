@@ -2,7 +2,6 @@
   "name": "diagram-js",
   "version": "14.1.0",
   "description": "A toolbox for displaying and modifying diagrams on the web",
-  "main": "lib/Diagram.js",
   "type": "module",
   "types": "lib/Diagram.d.ts",
   "files": [
