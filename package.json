@@ -4,6 +4,17 @@
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "type": "module",
   "types": "lib/Diagram.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/Diagram.js",
+      "types": "./lib/Diagram.d.ts"
+    },
+    "./lib/*.js": "./lib/*.js",
+    "./assets/*.css": "./assets/*.css",
+    "./test/util/*.js": "./test/util/*.js",
+    "./test/helper/*.js": "./test/helper/*.js",
+    "./test/matchers/*.js": "./test/matchers/*.js"
+  },
   "files": [
     "lib",
     "assets",
