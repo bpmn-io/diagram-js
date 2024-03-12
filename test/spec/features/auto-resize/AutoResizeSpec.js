@@ -9,13 +9,13 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import autoResizeModule from 'lib/features/auto-resize/index.js';
-import createModule from 'lib/features/create/index.js';
-import replaceModule from 'lib/features/replace/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize/index.js';
+import createModule from 'diagram-js/lib/features/create/index.js';
+import replaceModule from 'diagram-js/lib/features/replace/index.js';
 
-import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider.js';
-import AutoResize from 'lib/features/auto-resize/AutoResize.js';
+import AutoResizeProvider from 'diagram-js/lib/features/auto-resize/AutoResizeProvider.js';
+import AutoResize from 'diagram-js/lib/features/auto-resize/AutoResize.js';
 
 
 /**

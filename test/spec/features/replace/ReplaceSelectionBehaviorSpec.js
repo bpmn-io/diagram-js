@@ -3,8 +3,8 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import replaceModule from 'lib/features/replace/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import replaceModule from 'diagram-js/lib/features/replace/index.js';
 
 
 describe('features/replace - ReplaceSelectionBehavior', function() {

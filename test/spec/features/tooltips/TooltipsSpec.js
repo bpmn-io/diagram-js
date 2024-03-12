@@ -12,7 +12,7 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import tooltipsModule from 'lib/features/tooltips/index.js';
+import tooltipsModule from 'diagram-js/lib/features/tooltips/index.js';
 
 
 describe('features/tooltips', function() {

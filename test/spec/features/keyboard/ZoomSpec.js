@@ -7,9 +7,9 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import editorActionsModule from 'lib/features/editor-actions/index.js';
-import zoomScrollModule from 'lib/navigation/zoomscroll/index.js';
-import keyboardModule from 'lib/features/keyboard/index.js';
+import editorActionsModule from 'diagram-js/lib/features/editor-actions/index.js';
+import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll/index.js';
+import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
 
 import { createKeyEvent } from 'test/util/KeyEvents.js';
 

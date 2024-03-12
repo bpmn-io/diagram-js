@@ -9,12 +9,12 @@ import {
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import rulesModule from './rules/index.js';
-import connectModule from 'lib/features/connect/index.js';
-import connectionPreviewModule from 'lib/features/connection-preview/index.js';
+import connectModule from 'diagram-js/lib/features/connect/index.js';
+import connectionPreviewModule from 'diagram-js/lib/features/connection-preview/index.js';
 
-import { getMid } from 'lib/layout/LayoutUtil.js';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
 
 var testModules = [

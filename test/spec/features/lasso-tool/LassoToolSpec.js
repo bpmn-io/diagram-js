@@ -12,9 +12,9 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import lassoToolModule from 'lib/features/lasso-tool/index.js';
-import draggingModule from 'lib/features/dragging/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import lassoToolModule from 'diagram-js/lib/features/lasso-tool/index.js';
+import draggingModule from 'diagram-js/lib/features/dragging/index.js';
 
 
 describe('features/lasso-tool', function() {

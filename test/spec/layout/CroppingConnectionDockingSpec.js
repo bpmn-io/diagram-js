@@ -10,7 +10,7 @@ import {
   create as svgCreate
 } from 'tiny-svg';
 
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking.js';
+import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]

@@ -7,9 +7,9 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import editorActionsModule from 'lib/features/editor-actions/index.js';
-import keyboardModule from 'lib/features/keyboard/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import editorActionsModule from 'diagram-js/lib/features/editor-actions/index.js';
+import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
 
 import { createKeyEvent } from 'test/util/KeyEvents.js';
 

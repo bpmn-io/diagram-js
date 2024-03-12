@@ -17,7 +17,7 @@ import {
   createEvent as globalEvent
 } from '../../../util/MockEvents.js';
 
-import paletteModule from 'lib/features/palette/index.js';
+import paletteModule from 'diagram-js/lib/features/palette/index.js';
 
 
 describe('features/palette', function() {

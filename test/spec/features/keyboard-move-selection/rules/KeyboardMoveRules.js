@@ -2,7 +2,7 @@ import { find } from 'min-dash';
 
 import inherits from 'inherits-browser';
 
-import RuleProvider from 'lib/features/rules/RuleProvider.js';
+import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider.js';
 
 
 export default function CreateRules(injector) {

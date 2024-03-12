@@ -21,11 +21,10 @@ import testImage from './resources/a.png';
 
 import { createEvent as globalEvent } from '../../../util/MockEvents.js';
 
-import popupMenuModule from 'lib/features/popup-menu/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import popupMenuModule from 'diagram-js/lib/features/popup-menu/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
-import { html } from 'lib/ui/index.js';
-
+import { html } from 'diagram-js/lib/ui/index.js';
 
 const waitFor = (callback) => originalWaitFor(callback, { timeout: 10000 });
 

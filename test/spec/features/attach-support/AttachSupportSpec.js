@@ -11,15 +11,15 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import attachSupportModule from 'lib/features/attach-support/index.js';
-import labelSupportModule from 'lib/features/label-support/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
-import moveModule from 'lib/features/move/index.js';
-import replaceModule from 'lib/features/replace/index.js';
-import spaceToolModule from 'lib/features/space-tool/index.js';
+import attachSupportModule from 'diagram-js/lib/features/attach-support/index.js';
+import labelSupportModule from 'diagram-js/lib/features/label-support/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
+import replaceModule from 'diagram-js/lib/features/replace/index.js';
+import spaceToolModule from 'diagram-js/lib/features/space-tool/index.js';
 import rulesModule from './rules/index.js';
 
-import { getNewAttachShapeDelta } from 'lib/util/AttachUtil.js';
+import { getNewAttachShapeDelta } from 'diagram-js/lib/util/AttachUtil.js';
 
 
 var ATTACH = { attach: true };

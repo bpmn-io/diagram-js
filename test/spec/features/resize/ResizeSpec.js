@@ -16,12 +16,12 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import resizeModule from 'lib/features/resize/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import resizeModule from 'diagram-js/lib/features/resize/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import rulesModule from './rules/index.js';
-import selectModule from 'lib/features/selection/index.js';
+import selectModule from 'diagram-js/lib/features/selection/index.js';
 
-import { getReferencePoint } from 'lib/features/resize/Resize.js';
+import { getReferencePoint } from 'diagram-js/lib/features/resize/Resize.js';
 
 
 function bounds(b) {

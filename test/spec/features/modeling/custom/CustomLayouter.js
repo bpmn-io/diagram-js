@@ -1,4 +1,4 @@
-import { getMid } from 'lib/layout/LayoutUtil.js';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
 /**
  * @typedef {import('../../model/index.js').Connection} Connection

@@ -6,12 +6,12 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import snappingModule from 'lib/features/snapping/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import snappingModule from 'diagram-js/lib/features/snapping/index.js';
 
-import SnapContext, { SnapPoints } from 'lib/features/snapping/SnapContext.js';
+import SnapContext, { SnapPoints } from 'diagram-js/lib/features/snapping/SnapContext.js';
 
-import { SNAP_LINE_HIDE_DELAY } from 'lib/features/snapping/Snapping.js';
+import { SNAP_LINE_HIDE_DELAY } from 'diagram-js/lib/features/snapping/Snapping.js';
 
 import { queryAll as domQueryAll } from 'min-dom';
 

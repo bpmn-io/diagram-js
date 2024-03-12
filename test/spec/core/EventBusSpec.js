@@ -1,4 +1,4 @@
-import EventBus from 'lib/core/EventBus.js';
+import EventBus from 'diagram-js/lib/core/EventBus.js';
 
 
 describe('core/EventBus', function() {

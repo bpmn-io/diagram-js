@@ -6,15 +6,15 @@ import {
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import bendpointsModule from 'lib/features/bendpoints/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
-import selectModule from 'lib/features/selection/index.js';
+import bendpointsModule from 'diagram-js/lib/features/bendpoints/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import selectModule from 'diagram-js/lib/features/selection/index.js';
 
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking.js';
+import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 
-import { isSnapped } from 'lib/features/snapping/SnapUtil.js';
+import { isSnapped } from 'diagram-js/lib/features/snapping/SnapUtil.js';
 
-import { getMid } from 'lib/layout/LayoutUtil.js';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 import { getConnectionIntersection } from '../../../../lib/features/bendpoints/BendpointUtil.js';
 
 var layoutModule = {

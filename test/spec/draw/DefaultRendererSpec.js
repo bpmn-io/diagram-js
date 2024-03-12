@@ -5,7 +5,7 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import drawModule from 'lib/draw/index.js';
+import drawModule from 'diagram-js/lib/draw/index.js';
 
 
 describe('draw - DefaultRenderer', function() {

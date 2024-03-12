@@ -3,7 +3,7 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import clipboardModule from 'lib/features/clipboard/index.js';
+import clipboardModule from 'diagram-js/lib/features/clipboard/index.js';
 
 
 describe('features/clipboard', function() {

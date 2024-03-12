@@ -8,10 +8,10 @@ import {
 import testRulesModule from './rules/index.js';
 import sayNoRulesModule from './say-no-rules/index.js';
 import priorityRulesModule from './priority-rules/index.js';
-import rulesModule from 'lib/features/rules/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import rulesModule from 'diagram-js/lib/features/rules/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
-import RuleProvider from 'lib/features/rules/RuleProvider.js';
+import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider.js';
 
 
 describe('features/rules - RuleProvider', function() {

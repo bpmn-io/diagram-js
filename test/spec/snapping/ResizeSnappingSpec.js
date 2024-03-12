@@ -3,13 +3,13 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import resizeModule from 'lib/features/resize/index.js';
-import snappingModule from 'lib/features/snapping/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import resizeModule from 'diagram-js/lib/features/resize/index.js';
+import snappingModule from 'diagram-js/lib/features/snapping/index.js';
 
-import SnapContext from 'lib/features/snapping/SnapContext.js';
+import SnapContext from 'diagram-js/lib/features/snapping/SnapContext.js';
 
-import { getReferencePoint } from 'lib/features/resize/Resize.js';
+import { getReferencePoint } from 'diagram-js/lib/features/resize/Resize.js';
 
 import {
   createCanvasEvent as canvasEvent

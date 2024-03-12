@@ -5,9 +5,9 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import cmdModule from 'lib/command/index.js';
+import cmdModule from 'diagram-js/lib/command/index.js';
 
-import CommandInterceptor from 'lib/command/CommandInterceptor.js';
+import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor.js';
 
 
 // example commands

@@ -1,7 +1,7 @@
 import {
   pointsOnLine,
   pointsAligned
-} from 'lib/util/Geometry.js';
+} from 'diagram-js/lib/util/Geometry.js';
 
 
 describe('util/Geometry', function() {

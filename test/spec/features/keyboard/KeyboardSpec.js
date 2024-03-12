@@ -8,8 +8,8 @@ import {
 
 import TestContainer from 'mocha-test-container-support';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import keyboardModule from 'lib/features/keyboard/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
 
 import {
   bootstrapDiagram,

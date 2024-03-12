@@ -1,6 +1,6 @@
 import {
   create
-} from 'lib/model/index.js';
+} from 'diagram-js/lib/model/index.js';
 
 
 describe('matchers/ConnectionMatchers', function() {

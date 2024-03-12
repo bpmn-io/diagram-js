@@ -8,14 +8,14 @@ import {
   assign
 } from 'min-dash';
 
-import coreModule from 'lib/core/index.js';
-import createModule from 'lib/features/create/index.js';
-import draggingModule from 'lib/features/dragging/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
-import moveModule from 'lib/features/move/index.js';
-import connectModule from 'lib/features/connect/index.js';
+import coreModule from 'diagram-js/lib/core/index.js';
+import createModule from 'diagram-js/lib/features/create/index.js';
+import draggingModule from 'diagram-js/lib/features/dragging/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
+import connectModule from 'diagram-js/lib/features/connect/index.js';
 import rulesModule from './rules/index.js';
-import selectionModule from 'lib/features/selection/index.js';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
 
 import {
   createCanvasEvent as canvasEvent

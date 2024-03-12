@@ -9,17 +9,17 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import autoResizeModule from 'lib/features/auto-resize/index.js';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize/index.js';
 import autoResizeProviderModule from './auto-resize/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import rulesModule from './rules/index.js';
-import spaceToolModule from 'lib/features/space-tool/index.js';
+import spaceToolModule from 'diagram-js/lib/features/space-tool/index.js';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import { isMac } from 'lib/util/Platform.js';
+import { isMac } from 'diagram-js/lib/util/Platform.js';
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 

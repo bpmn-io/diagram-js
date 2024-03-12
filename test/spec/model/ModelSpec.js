@@ -1,13 +1,13 @@
 import {
   create,
   isModelElement
-} from 'lib/model/index.js';
+} from 'diagram-js/lib/model/index.js';
 
 import {
   isConnection,
   isLabel,
   isRoot
-} from 'lib/util/ModelUtil.js';
+} from 'diagram-js/lib/util/ModelUtil.js';
 
 
 describe('model', function() {

@@ -10,13 +10,13 @@ import {
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import handToolModule from 'lib/features/hand-tool/index.js';
-import draggingModule from 'lib/features/dragging/index.js';
-import keyboardModule from 'lib/features/keyboard/index.js';
+import handToolModule from 'diagram-js/lib/features/hand-tool/index.js';
+import draggingModule from 'diagram-js/lib/features/dragging/index.js';
+import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
 
 import { createKeyEvent } from 'test/util/KeyEvents.js';
 
-import { isMac } from 'lib/util/Platform.js';
+import { isMac } from 'diagram-js/lib/util/Platform.js';
 
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };

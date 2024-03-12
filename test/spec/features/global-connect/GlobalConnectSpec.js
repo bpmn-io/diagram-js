@@ -5,8 +5,8 @@ import {
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import globalConnectModule from 'lib/features/global-connect/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import globalConnectModule from 'diagram-js/lib/features/global-connect/index.js';
 import rulesModule from './rules/index.js';
 
 

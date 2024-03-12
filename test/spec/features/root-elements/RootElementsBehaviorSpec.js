@@ -3,10 +3,10 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import coreModule from 'lib/core/index.js';
-import commandModule from 'lib/command/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
-import rootElementsModule from 'lib/features/root-elements/index.js';
+import coreModule from 'diagram-js/lib/core/index.js';
+import commandModule from 'diagram-js/lib/command/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import rootElementsModule from 'diagram-js/lib/features/root-elements/index.js';
 
 
 describe('features/planes/RootElementsBehavior', function() {

@@ -7,8 +7,8 @@ import {
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import dragModule from 'lib/features/dragging/index.js';
-import hoverFixModule from 'lib/features/hover-fix/index.js';
+import dragModule from 'diagram-js/lib/features/dragging/index.js';
+import hoverFixModule from 'diagram-js/lib/features/hover-fix/index.js';
 
 
 describe('features/hover-fix', function() {

@@ -10,11 +10,11 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import DefaultRenderer from 'lib/draw/DefaultRenderer.js';
+import DefaultRenderer from 'diagram-js/lib/draw/DefaultRenderer.js';
 
 import {
   createLine
-} from 'lib/util/RenderUtil.js';
+} from 'diagram-js/lib/util/RenderUtil.js';
 
 /**
  * @typedef {import('../../model/index.js').Connection} Connection

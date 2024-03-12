@@ -8,10 +8,10 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import bendpointsModule from 'lib/features/bendpoints/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import bendpointsModule from 'diagram-js/lib/features/bendpoints/index.js';
 import rulesModule from './rules/index.js';
-import interactionModule from 'lib/features/interaction-events/index.js';
+import interactionModule from 'diagram-js/lib/features/interaction-events/index.js';
 
 import {
   createCanvasEvent as canvasEvent
@@ -19,7 +19,7 @@ import {
 
 import {
   getVisual
-} from 'lib/util/GraphicsUtil.js';
+} from 'diagram-js/lib/util/GraphicsUtil.js';
 
 
 describe('features/bendpoints', function() {

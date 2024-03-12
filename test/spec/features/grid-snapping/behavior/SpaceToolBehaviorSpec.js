@@ -3,10 +3,10 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import gridSnappingModule from 'lib/features/grid-snapping/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
-import moveModule from 'lib/features/move/index.js';
-import spaceToolModule from 'lib/features/space-tool/index.js';
+import gridSnappingModule from 'diagram-js/lib/features/grid-snapping/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
+import spaceToolModule from 'diagram-js/lib/features/space-tool/index.js';
 
 import {
   createCanvasEvent as canvasEvent

@@ -1,6 +1,6 @@
 import inherits from 'inherits-browser';
 
-import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider.js';
+import AutoResizeProvider from 'diagram-js/lib/features/auto-resize/AutoResizeProvider.js';
 
 
 export default function CustomAutoResizeProvider(eventBus) {
