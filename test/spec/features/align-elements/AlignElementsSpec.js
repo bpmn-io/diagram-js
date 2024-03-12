@@ -1,13 +1,13 @@
+import { forEach, sortBy } from 'min-dash';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import { forEach, sortBy } from 'min-dash';
-
-import alignElementsModule from 'lib/features/align-elements';
-import modelingModule from 'lib/features/modeling';
-import testRules from './rules';
+import alignElementsModule from 'lib/features/align-elements/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import testRules from './rules/index.js';
 
 
 describe('features/align-elements', function() {

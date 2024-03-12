@@ -1,18 +1,18 @@
 import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
-import { createKeyEvent } from 'test/util/KeyEvents';
-
-import {
   assign,
   forEach
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
-import keyboardMoveModule from 'lib/navigation/keyboard-move';
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
+
+import { createKeyEvent } from 'test/util/KeyEvents.js';
+
+import modelingModule from 'lib/features/modeling/index.js';
+import keyboardMoveModule from 'lib/navigation/keyboard-move/index.js';
 
 
 describe('navigation/keyboard-move', function() {

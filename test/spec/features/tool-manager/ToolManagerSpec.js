@@ -1,24 +1,31 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
-import toolManagerModule from 'lib/features/tool-manager';
-import handToolModule from 'lib/features/hand-tool';
-import draggingModule from 'lib/features/dragging';
+import toolManagerModule from 'lib/features/tool-manager/index.js';
+import handToolModule from 'lib/features/hand-tool/index.js';
+import draggingModule from 'lib/features/dragging/index.js';
 
 
 describe('features/tool-manager', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ toolManagerModule, handToolModule, draggingModule ] }));
+  beforeEach(bootstrapDiagram({
+    modules: [
+      toolManagerModule,
+      handToolModule,
+      draggingModule
+    ]
+  }));
 
   beforeEach(inject(function(dragging) {
     dragging.setOptions({ manual: true });
   }));
+
 
   describe('basics', function() {
 

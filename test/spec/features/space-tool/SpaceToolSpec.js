@@ -7,19 +7,19 @@ import { attr as svgAttr } from 'tiny-svg';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import autoResizeModule from 'lib/features/auto-resize';
-import autoResizeProviderModule from './auto-resize';
-import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
-import spaceToolModule from 'lib/features/space-tool';
+import autoResizeModule from 'lib/features/auto-resize/index.js';
+import autoResizeProviderModule from './auto-resize/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import rulesModule from './rules/index.js';
+import spaceToolModule from 'lib/features/space-tool/index.js';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
-import { isMac } from 'lib/util/Platform';
+import { isMac } from 'lib/util/Platform.js';
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 

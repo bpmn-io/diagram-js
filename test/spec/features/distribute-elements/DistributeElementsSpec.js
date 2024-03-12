@@ -1,13 +1,13 @@
+import { forEach, sortBy } from 'min-dash';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import { forEach, sortBy } from 'min-dash';
-
-import distributeElementsModule from 'lib/features/distribute-elements';
-import modelingModule from 'lib/features/modeling';
-import testRules from './rules';
+import distributeElementsModule from 'lib/features/distribute-elements/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import testRules from './rules/index.js';
 
 
 function expectRanges(rangeGroups, expectedRanges) {

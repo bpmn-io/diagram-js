@@ -1,6 +1,6 @@
 import {
   create
-} from 'lib/model';
+} from 'lib/model/index.js';
 
 
 describe('matchers/BoundsMatchers', function() {

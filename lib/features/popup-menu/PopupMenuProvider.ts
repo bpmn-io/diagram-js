@@ -1,6 +1,6 @@
-import { VNode } from '@bpmn-io/diagram-js-ui';
+import { VNode } from '../../ui/index.js';
 
-import { PopupMenuTarget } from './PopupMenu';
+import { PopupMenuTarget } from './PopupMenu.js';
 
 export type PopupMenuEntryAction = (event: Event, entry: PopupMenuEntry, action?: string) => any;
 

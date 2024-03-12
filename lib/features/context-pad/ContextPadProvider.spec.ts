@@ -1,6 +1,6 @@
-import ContextPadProvider, { ContextPadEntries } from './ContextPadProvider';
+import ContextPadProvider, { ContextPadEntries } from './ContextPadProvider.js';
 
-import { Element } from '../../model';
+import { Element } from '../../model/index.js';
 
 export class FooContextPadProvider implements ContextPadProvider {
   getContextPadEntries(element: Element): ContextPadEntries {

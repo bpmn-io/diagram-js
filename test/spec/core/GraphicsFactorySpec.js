@@ -1,11 +1,11 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
   classes as svgClasses
 } from 'tiny-svg';
+
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
 
 
 describe('GraphicsFactory', function() {

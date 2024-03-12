@@ -1,12 +1,12 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 
-import modelingModule from 'lib/features/modeling';
-import snappingModule from 'lib/features/snapping';
-import moveModule from 'lib/features/move';
+import modelingModule from 'lib/features/modeling/index.js';
+import snappingModule from 'lib/features/snapping/index.js';
+import moveModule from 'lib/features/move/index.js';
 
 
 describe('features/snapping', function() {

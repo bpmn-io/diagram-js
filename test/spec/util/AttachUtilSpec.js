@@ -1,6 +1,6 @@
 import {
   getNewAttachPoint
-} from 'lib/util/AttachUtil';
+} from 'lib/util/AttachUtil.js';
 
 
 describe('AttachUtil', function() {

@@ -1,6 +1,6 @@
-import SearchProvider, { SearchResult } from './SearchPadProvider';
+import SearchProvider, { SearchResult } from './SearchPadProvider.js';
 
-import { create } from '../../model';
+import { create } from '../../model/index.js';
 
 export class FooSearchProvider implements SearchProvider {
   find(pattern: string): SearchResult[] {

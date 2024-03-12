@@ -1,15 +1,15 @@
 import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
-import {
   assign
 } from 'min-dash';
 
-import moveCanvasModule from 'lib/navigation/movecanvas';
-import interactionEventsModule from 'lib/features/interaction-events';
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
+
+import moveCanvasModule from 'lib/navigation/movecanvas/index.js';
+import interactionEventsModule from 'lib/features/interaction-events/index.js';
 
 
 describe('navigation/movecanvas', function() {

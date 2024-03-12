@@ -1,7 +1,7 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 
 describe('ElementRegistry', function() {

@@ -1,16 +1,17 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import complexPreviewModule from 'lib/features/complex-preview';
-import modelingModule from 'lib/features/modeling';
-import rendererModule from '../preview-support/renderer';
-
-import {
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
+
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import complexPreviewModule from 'lib/features/complex-preview/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import rendererModule from '../preview-support/renderer/index.js';
+
 
 var testModules = [
   complexPreviewModule,

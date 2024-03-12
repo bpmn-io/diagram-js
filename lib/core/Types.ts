@@ -5,4 +5,4 @@ export type {
   RootLike,
   ConnectionLike,
   LabelLike
-} from '../model/Types';
+} from '../model/Types.js';

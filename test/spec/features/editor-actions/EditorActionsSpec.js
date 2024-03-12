@@ -1,15 +1,15 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import editorActionsModule from 'lib/features/editor-actions';
-import copyPasteModule from 'lib/features/copy-paste';
-import selectionModule from 'lib/features/selection';
-import keyboardMoveModule from 'lib/navigation/keyboard-move';
-import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
-import modelingModule from 'lib/features/modeling';
-import customRulesModule from './rules';
+import editorActionsModule from 'lib/features/editor-actions/index.js';
+import copyPasteModule from 'lib/features/copy-paste/index.js';
+import selectionModule from 'lib/features/selection/index.js';
+import keyboardMoveModule from 'lib/navigation/keyboard-move/index.js';
+import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import customRulesModule from './rules/index.js';
 
 
 describe('features/editor-actions', function() {

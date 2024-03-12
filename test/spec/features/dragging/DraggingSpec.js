@@ -1,20 +1,20 @@
+import { assign } from 'min-dash';
+
+import { classes as svgClasses } from 'tiny-svg';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import { assign } from 'min-dash';
+import dragModule from 'lib/features/dragging/index.js';
+import zoomScrollModule from 'lib/navigation/zoomscroll/index.js';
+import createModule from 'lib/features/create/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
 
-import dragModule from 'lib/features/dragging';
-import zoomScrollModule from 'lib/navigation/zoomscroll';
-import createModule from 'lib/features/create';
-import modelingModule from 'lib/features/modeling';
-
-import { createKeyEvent } from 'test/util/KeyEvents';
-
-import { classes as svgClasses } from 'tiny-svg';
+import { createKeyEvent } from 'test/util/KeyEvents.js';
 
 
 describe('features/dragging - Dragging', function() {

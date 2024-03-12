@@ -1,25 +1,26 @@
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
-
-import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
 import { pick } from 'min-dash';
-
-import attachSupportModule from 'lib/features/attach-support';
-import labelSupportModule from 'lib/features/label-support';
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import replaceModule from 'lib/features/replace';
-import spaceToolModule from 'lib/features/space-tool';
-import rulesModule from './rules';
-
-import { getNewAttachShapeDelta } from 'lib/util/AttachUtil';
 
 import { query as domQuery } from 'min-dom';
 
 import { classes as svgClasses } from 'tiny-svg';
+
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
+
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import attachSupportModule from 'lib/features/attach-support/index.js';
+import labelSupportModule from 'lib/features/label-support/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import moveModule from 'lib/features/move/index.js';
+import replaceModule from 'lib/features/replace/index.js';
+import spaceToolModule from 'lib/features/space-tool/index.js';
+import rulesModule from './rules/index.js';
+
+import { getNewAttachShapeDelta } from 'lib/util/AttachUtil.js';
+
 
 var ATTACH = { attach: true };
 var NO_ATTACH = { attach: false };

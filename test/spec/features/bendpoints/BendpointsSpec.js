@@ -1,25 +1,25 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import modelingModule from 'lib/features/modeling';
-import bendpointsModule from 'lib/features/bendpoints';
-import rulesModule from './rules';
-import interactionModule from 'lib/features/interaction-events';
-
-import {
-  createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
-
-import {
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
 
 import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import modelingModule from 'lib/features/modeling/index.js';
+import bendpointsModule from 'lib/features/bendpoints/index.js';
+import rulesModule from './rules/index.js';
+import interactionModule from 'lib/features/interaction-events/index.js';
+
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents.js';
+
+import {
   getVisual
-} from 'lib/util/GraphicsUtil';
+} from 'lib/util/GraphicsUtil.js';
 
 
 describe('features/bendpoints', function() {

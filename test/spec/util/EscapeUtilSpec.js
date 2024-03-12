@@ -1,7 +1,7 @@
 import {
   escapeCSS,
   escapeHTML
-} from 'lib/util/EscapeUtil';
+} from 'lib/util/EscapeUtil.js';
 
 
 describe('util/EscapeUtil', function() {

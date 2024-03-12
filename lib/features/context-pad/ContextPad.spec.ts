@@ -1,11 +1,11 @@
-import Diagram from '../../Diagram';
+import Diagram from '../../Diagram.js';
 
-import ElementFactory from '../../core/ElementFactory';
+import ElementFactory from '../../core/ElementFactory.js';
 
-import ContextPadModule from '.';
-import ContextPad from './ContextPad';
+import ContextPadModule from './index.js';
+import ContextPad from './ContextPad.js';
 
-import { FooContextPadProvider } from './ContextPadProvider.spec';
+import { FooContextPadProvider } from './ContextPadProvider.spec.js';
 
 const diagram = new Diagram({
   modules: [

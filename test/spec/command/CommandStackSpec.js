@@ -1,10 +1,10 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 
-import cmdModule from 'lib/command';
+import cmdModule from 'lib/command/index.js';
 
 // example commands
 

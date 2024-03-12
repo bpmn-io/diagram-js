@@ -1,13 +1,14 @@
 import {
   create,
   isModelElement
-} from 'lib/model';
+} from 'lib/model/index.js';
 
 import {
   isConnection,
   isLabel,
   isRoot
-} from '../../../lib/util/ModelUtil';
+} from 'lib/util/ModelUtil.js';
+
 
 describe('model', function() {
 

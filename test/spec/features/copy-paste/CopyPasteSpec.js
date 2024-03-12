@@ -1,10 +1,4 @@
 import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
-import {
   filter,
   isArray,
   isNumber,
@@ -12,19 +6,25 @@ import {
   some
 } from 'min-dash';
 
-import attachSupportModule from 'lib/features/attach-support';
-import copyPasteModule from 'lib/features/copy-paste';
-import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
-import selectionModule from 'lib/features/selection';
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
+
+import attachSupportModule from 'lib/features/attach-support/index.js';
+import copyPasteModule from 'lib/features/copy-paste/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import rulesModule from './rules/index.js';
+import selectionModule from 'lib/features/selection/index.js';
 
 import {
   isConnection,
   isLabel
-} from '../../../../lib/util/ModelUtil';
+} from '../../../../lib/util/ModelUtil.js';
 
 /**
- * @typedef {import('../../../../lib/model/Types').Element} Element
+ * @typedef {import('../../../../lib/model/Types.js').Element} Element
  */
 
 var HIGH_PRIORITY = 2000;

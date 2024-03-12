@@ -1,10 +1,10 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import replaceModule from 'lib/features/replace';
+import modelingModule from 'lib/features/modeling/index.js';
+import replaceModule from 'lib/features/replace/index.js';
 
 
 describe('features/replace - ReplaceSelectionBehavior', function() {

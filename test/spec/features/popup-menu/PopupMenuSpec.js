@@ -1,13 +1,3 @@
-import { waitFor as originalWaitFor } from '@testing-library/preact';
-
-import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
-import testImage from './resources/a.png';
-
 import {
   assign,
   isFunction
@@ -19,12 +9,23 @@ import {
   classes as domClasses
 } from 'min-dom';
 
-import { createEvent as globalEvent } from '../../../util/MockEvents';
+import { waitFor as originalWaitFor } from '@testing-library/preact';
 
-import popupMenuModule from 'lib/features/popup-menu';
-import modelingModule from 'lib/features/modeling';
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
 
-import { html } from 'lib/ui';
+import testImage from './resources/a.png';
+
+import { createEvent as globalEvent } from '../../../util/MockEvents.js';
+
+import popupMenuModule from 'lib/features/popup-menu/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+
+import { html } from 'lib/ui/index.js';
+
 
 const waitFor = (callback) => originalWaitFor(callback, { timeout: 10000 });
 

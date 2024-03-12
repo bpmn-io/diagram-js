@@ -1,4 +1,4 @@
-import CopyPasteRules from './CopyPasteRules';
+import CopyPasteRules from './CopyPasteRules.js';
 
 export default {
   __init__: [ 'copyPasteRules' ],

@@ -1,21 +1,21 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import selectionModule from 'lib/features/selection';
-import modelingModule from 'lib/features/modeling';
-
-import {
   classes as domClasses,
   query as domQuery
 } from 'min-dom';
 
-import { getBBox } from 'lib/util/Elements';
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import selectionModule from 'lib/features/selection/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+
+import { getBBox } from 'lib/util/Elements.js';
 
 import {
   resizeBounds
-} from 'lib/features/resize/ResizeUtil';
+} from 'lib/features/resize/ResizeUtil.js';
 
 
 describe('features/selection/SelectionVisuals', function() {

@@ -1,4 +1,4 @@
-import PaletteProvider, { PaletteEntries, PaletteEntriesCallback } from './PaletteProvider';
+import PaletteProvider, { PaletteEntries, PaletteEntriesCallback } from './PaletteProvider.js';
 
 export class FooPaletteProvider implements PaletteProvider {
   getPaletteEntries(): PaletteEntries {

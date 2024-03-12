@@ -1,38 +1,38 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
   pick
 } from 'min-dash';
 
 import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import {
   resizeBounds
-} from 'lib/features/resize/ResizeUtil';
+} from 'lib/features/resize/ResizeUtil.js';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
-import { getBBox } from 'lib/util/Elements';
+import { getBBox } from 'lib/util/Elements.js';
 
-import modelingModule from 'lib/features/modeling';
-import resizeModule from 'lib/features/resize';
-import attachModule from 'lib/features/attach-support';
+import modelingModule from 'lib/features/modeling/index.js';
+import resizeModule from 'lib/features/resize/index.js';
+import attachModule from 'lib/features/attach-support/index.js';
 
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking.js';
+
+import { getNewAttachPoint } from 'lib/util/AttachUtil.js';
+
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]
 };
 
-import { getNewAttachPoint } from 'lib/util/AttachUtil';
-
 function bounds(b) {
   return pick(b, [ 'x', 'y', 'width', 'height' ]);
 }
-
 
 describe('features/modeling - resize shape', function() {
 

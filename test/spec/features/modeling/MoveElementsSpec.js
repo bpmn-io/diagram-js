@@ -1,18 +1,18 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
   pick
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import modelingModule from 'lib/features/modeling/index.js';
+
 
 function containment(element) {
   return pick(element, [ 'x', 'y', 'parent' ]);
 }
-
 
 describe('features/modeling - move elements', function() {
 

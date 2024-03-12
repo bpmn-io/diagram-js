@@ -1,13 +1,14 @@
-import PopupMenuItem from 'lib/features/popup-menu/PopupMenuItem';
+import {
+  query as domQuery
+} from 'min-dom';
+
+import PopupMenuItem from 'lib/features/popup-menu/PopupMenuItem.js';
 
 import {
   html,
   render
-} from 'lib/ui';
+} from 'lib/ui/index.js';
 
-import {
-  query as domQuery
-} from 'min-dom';
 
 
 describe('features/popup-menu - <PopupMenuItem>', function() {

@@ -1,11 +1,3 @@
-import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
-import TestContainer from 'mocha-test-container-support';
-
 import { merge } from 'min-dash';
 
 import {
@@ -17,7 +9,15 @@ import {
   classes as svgClasses
 } from 'tiny-svg';
 
-import { getChildren as getChildrenGfx } from 'lib/util/GraphicsUtil';
+import TestContainer from 'mocha-test-container-support';
+
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
+
+import { getChildren as getChildrenGfx } from 'lib/util/GraphicsUtil.js';
 
 
 describe('Canvas', function() {

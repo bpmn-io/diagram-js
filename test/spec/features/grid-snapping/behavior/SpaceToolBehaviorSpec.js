@@ -1,16 +1,16 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import gridSnappingModule from 'lib/features/grid-snapping';
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import spaceToolModule from 'lib/features/space-tool';
+import gridSnappingModule from 'lib/features/grid-snapping/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import moveModule from 'lib/features/move/index.js';
+import spaceToolModule from 'lib/features/space-tool/index.js';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../../util/MockEvents';
+} from '../../../../util/MockEvents.js';
 
 var spy = sinon.spy;
 

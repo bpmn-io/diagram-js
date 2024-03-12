@@ -1,5 +1,3 @@
-import TestContainer from 'mocha-test-container-support';
-
 import {
   assign
 } from 'min-dash';
@@ -8,15 +6,17 @@ import {
   domify
 } from 'min-dom';
 
-import modelingModule from 'lib/features/modeling';
-import keyboardModule from 'lib/features/keyboard';
+import TestContainer from 'mocha-test-container-support';
+
+import modelingModule from 'lib/features/modeling/index.js';
+import keyboardModule from 'lib/features/keyboard/index.js';
 
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import { createKeyEvent } from 'test/util/KeyEvents.js';
 
 
 describe('features/keyboard', function() {

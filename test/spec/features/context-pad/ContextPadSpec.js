@@ -1,13 +1,3 @@
-import {
-  createEvent as globalEvent
-} from '../../../util/MockEvents';
-
-import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
 import { assign, isArray } from 'min-dash';
 
 import {
@@ -16,12 +6,22 @@ import {
   classes as domClasses
 } from 'min-dom';
 
-import { getBBox } from 'lib/util/Elements';
+import {
+  createEvent as globalEvent
+} from '../../../util/MockEvents.js';
 
-import contextPadModule from 'lib/features/context-pad';
-import selectionModule from 'lib/features/selection';
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
 
-import ContextPadProvider from './ContextPadProvider';
+import { getBBox } from 'lib/util/Elements.js';
+
+import contextPadModule from 'lib/features/context-pad/index.js';
+import selectionModule from 'lib/features/selection/index.js';
+
+import ContextPadProvider from './ContextPadProvider.js';
 
 var providerModule = {
   __init__: [ 'contextPadProvider' ],

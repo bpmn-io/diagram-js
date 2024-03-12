@@ -1,19 +1,19 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import resizeModule from 'lib/features/resize';
-import snappingModule from 'lib/features/snapping';
+import modelingModule from 'lib/features/modeling/index.js';
+import resizeModule from 'lib/features/resize/index.js';
+import snappingModule from 'lib/features/snapping/index.js';
 
-import SnapContext from 'lib/features/snapping/SnapContext';
+import SnapContext from 'lib/features/snapping/SnapContext.js';
 
-import { getReferencePoint } from 'lib/features/resize/Resize';
+import { getReferencePoint } from 'lib/features/resize/Resize.js';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../util/MockEvents';
+} from '../../util/MockEvents.js';
 
 var VERY_LOW_PRIORITY = 100;
 

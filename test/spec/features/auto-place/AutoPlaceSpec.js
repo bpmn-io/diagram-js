@@ -1,25 +1,25 @@
+import { assign } from 'min-dash';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import autoPlaceModule from 'lib/features/auto-place';
-import coreModule from 'lib/core';
-import modelingModule from 'lib/features/modeling';
-import selectionModule from 'lib/features/selection';
+import autoPlaceModule from 'lib/features/auto-place/index.js';
+import coreModule from 'lib/core/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import selectionModule from 'lib/features/selection/index.js';
 
-import { getMid } from 'lib/layout/LayoutUtil';
+import { getMid } from 'lib/layout/LayoutUtil.js';
 
 import {
   findFreePosition,
   generateGetNextPosition,
   getConnectedAtPosition,
   getConnectedDistance
-} from 'lib/features/auto-place/AutoPlaceUtil';
+} from 'lib/features/auto-place/AutoPlaceUtil.js';
 
-import { assign } from 'min-dash';
-
-import { DEFAULT_DISTANCE } from 'lib/features/auto-place/AutoPlaceUtil';
+import { DEFAULT_DISTANCE } from 'lib/features/auto-place/AutoPlaceUtil.js';
 
 
 describe('features/auto-place', function() {

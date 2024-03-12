@@ -1,10 +1,10 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import paletteModule from 'lib/features/palette';
-import i18nModule from 'lib/i18n';
+import paletteModule from 'lib/features/palette/index.js';
+import i18nModule from 'lib/i18n/index.js';
 
 
 describe('i18n', function() {

@@ -1,17 +1,18 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
   forEach
 } from 'min-dash';
 
-import editorActionsModule from 'lib/features/editor-actions';
-import zoomScrollModule from 'lib/navigation/zoomscroll';
-import keyboardModule from 'lib/features/keyboard';
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import editorActionsModule from 'lib/features/editor-actions/index.js';
+import zoomScrollModule from 'lib/navigation/zoomscroll/index.js';
+import keyboardModule from 'lib/features/keyboard/index.js';
+
+import { createKeyEvent } from 'test/util/KeyEvents.js';
+
 
 var KEYS = {
   ZOOM_IN: [ '+', 'Add', '=' ],

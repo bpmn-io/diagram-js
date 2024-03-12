@@ -1,10 +1,11 @@
 import inherits from 'inherits-browser';
 
-import RuleProvider from 'lib/features/rules/RuleProvider';
+import RuleProvider from 'lib/features/rules/RuleProvider.js';
 
 import {
   isFrameElement
-} from 'lib/util/Elements';
+} from 'lib/util/Elements.js';
+
 
 export default function MoveRules(eventBus) {
   RuleProvider.call(this, eventBus);

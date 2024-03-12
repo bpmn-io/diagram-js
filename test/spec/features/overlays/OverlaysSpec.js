@@ -1,10 +1,4 @@
 import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
-import {
   forEach,
   assign
 } from 'min-dash';
@@ -14,7 +8,13 @@ import {
   assignStyle
 } from 'min-dom';
 
-import overlayModule from 'lib/features/overlays';
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
+
+import overlayModule from 'lib/features/overlays/index.js';
 
 
 describe('features/overlays', function() {

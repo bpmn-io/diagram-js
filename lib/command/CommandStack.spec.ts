@@ -1,9 +1,9 @@
-import Diagram from '../Diagram';
+import Diagram from '../Diagram.js';
 
-import CommandModule from '.';
-import CommandStack from './CommandStack';
+import CommandModule from './index.js';
+import CommandStack from './CommandStack.js';
 
-import { AddShapeHandler } from './CommandHandler.spec';
+import { AddShapeHandler } from './CommandHandler.spec.js';
 
 const diagram = new Diagram({
   modules: [

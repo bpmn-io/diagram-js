@@ -1,12 +1,12 @@
-import Diagram from './Diagram';
+import Diagram from './Diagram.js';
 
-import CommandModule from './command';
+import CommandModule from './command/index.js';
 
-import CoreModule from './core';
-import EventBus from './core/EventBus';
+import CoreModule from './core/index.js';
+import EventBus from './core/EventBus.js';
 
-import ModelingModule from './features/modeling';
-import Modeling from './features/modeling/Modeling';
+import ModelingModule from './features/modeling/index.js';
+import Modeling from './features/modeling/Modeling.js';
 
 let diagram = new Diagram();
 

@@ -1,13 +1,13 @@
-import PopupMenuComponent from 'lib/features/popup-menu/PopupMenuComponent';
+import PopupMenuComponent from 'lib/features/popup-menu/PopupMenuComponent.js';
 
 import {
   html,
   render
-} from 'lib/ui';
+} from 'lib/ui/index.js';
 
 import {
   insertCSS
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 import {
   domify,

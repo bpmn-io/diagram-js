@@ -1,9 +1,9 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import clipboardModule from 'lib/features/clipboard';
+import clipboardModule from 'lib/features/clipboard/index.js';
 
 
 describe('features/clipboard', function() {

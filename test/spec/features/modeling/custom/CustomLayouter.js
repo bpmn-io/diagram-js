@@ -1,7 +1,7 @@
-import { getMid } from 'lib/layout/LayoutUtil';
+import { getMid } from 'lib/layout/LayoutUtil.js';
 
 /**
- * @typedef {import('../../model').Connection} Connection
+ * @typedef {import('../../model/index.js').Connection} Connection
  */
 
 /**

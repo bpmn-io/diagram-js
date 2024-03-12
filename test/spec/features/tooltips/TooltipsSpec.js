@@ -1,9 +1,4 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
   forEach
 } from 'min-dash';
 
@@ -12,7 +7,12 @@ import {
   assignStyle
 } from 'min-dom';
 
-import tooltipsModule from 'lib/features/tooltips';
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import tooltipsModule from 'lib/features/tooltips/index.js';
 
 
 describe('features/tooltips', function() {

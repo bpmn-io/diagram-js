@@ -1,10 +1,10 @@
-import CommandModule from 'lib/command';
-import ChangeSupportModule from 'lib/features/change-support';
-import SelectionModule from 'lib/features/selection';
-import RulesModule from 'lib/features/rules';
+import CommandModule from 'lib/command/index.js';
+import ChangeSupportModule from 'lib/features/change-support/index.js';
+import SelectionModule from 'lib/features/selection/index.js';
+import RulesModule from 'lib/features/rules/index.js';
 
-import Modeling from 'lib/features/modeling/Modeling';
-import CustomLayouter from './CustomLayouter';
+import Modeling from 'lib/features/modeling/Modeling.js';
+import CustomLayouter from './CustomLayouter.js';
 
 
 export default {

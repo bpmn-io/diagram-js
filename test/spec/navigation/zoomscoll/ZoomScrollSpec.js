@@ -1,10 +1,4 @@
 import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
-import {
   assign
 } from 'min-dash';
 
@@ -12,7 +6,13 @@ import {
   domify
 } from 'min-dom';
 
-import zoomScrollModule from 'lib/navigation/zoomscroll';
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
+
+import zoomScrollModule from 'lib/navigation/zoomscroll/index.js';
 
 
 describe('navigation/zoomscroll', function() {

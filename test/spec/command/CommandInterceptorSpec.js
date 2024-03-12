@@ -1,13 +1,13 @@
+import inherits from 'inherits-browser';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import inherits from 'inherits-browser';
+import cmdModule from 'lib/command/index.js';
 
-import cmdModule from 'lib/command';
-
-import CommandInterceptor from 'lib/command/CommandInterceptor';
+import CommandInterceptor from 'lib/command/CommandInterceptor.js';
 
 
 // example commands

@@ -1,24 +1,24 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import createModule from 'lib/features/create';
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import snappingModule from 'lib/features/snapping';
+import createModule from 'lib/features/create/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import moveModule from 'lib/features/move/index.js';
+import snappingModule from 'lib/features/snapping/index.js';
 
-import SnapContext from 'lib/features/snapping/SnapContext';
+import SnapContext from 'lib/features/snapping/SnapContext.js';
 
 import {
   bottomRight,
   mid,
   topLeft
-} from 'lib/features/snapping/SnapUtil';
+} from 'lib/features/snapping/SnapUtil.js';
 
 import {
   createCanvasEvent as canvasEventMid
-} from '../../util/MockEvents';
+} from '../../util/MockEvents.js';
 
 
 describe('features/snapping - CreateMoveSnapping', function() {

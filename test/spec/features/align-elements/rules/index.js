@@ -1,4 +1,4 @@
-import TestRules from './TestRules';
+import TestRules from './TestRules.js';
 
 export default {
   __init__: [ 'testRules' ],

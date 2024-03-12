@@ -1,20 +1,4 @@
-import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
-  createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
-
 import { pick } from 'min-dash';
-
-import resizeModule from 'lib/features/resize';
-import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
-import selectModule from 'lib/features/selection';
-
-import { getReferencePoint } from 'lib/features/resize/Resize';
 
 import {
   query as domQuery,
@@ -23,10 +7,26 @@ import {
 
 import { classes as svgClasses } from 'tiny-svg';
 
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents.js';
+
+import resizeModule from 'lib/features/resize/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import rulesModule from './rules/index.js';
+import selectModule from 'lib/features/selection/index.js';
+
+import { getReferencePoint } from 'lib/features/resize/Resize.js';
+
+
 function bounds(b) {
   return pick(b, [ 'x', 'y', 'width', 'height' ]);
 }
-
 
 describe('features/resize - Resize', function() {
 

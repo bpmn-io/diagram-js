@@ -10,14 +10,14 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import DefaultRenderer from 'lib/draw/DefaultRenderer';
+import DefaultRenderer from 'lib/draw/DefaultRenderer.js';
 
 import {
   createLine
-} from 'lib//util/RenderUtil';
+} from 'lib/util/RenderUtil.js';
 
 /**
- * @typedef {import('../../model').Connection} Connection
+ * @typedef {import('../../model/index.js').Connection} Connection
  */
 
 var HIGH_PRIORITY = 3000;

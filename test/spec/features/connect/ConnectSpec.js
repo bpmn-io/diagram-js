@@ -1,20 +1,20 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
   classes as svgClasses
 } from 'tiny-svg';
 
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
-import connectModule from 'lib/features/connect';
-import connectionPreviewModule from 'lib/features/connection-preview';
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import { getMid } from 'lib/layout/LayoutUtil';
+import modelingModule from 'lib/features/modeling/index.js';
+import rulesModule from './rules/index.js';
+import connectModule from 'lib/features/connect/index.js';
+import connectionPreviewModule from 'lib/features/connection-preview/index.js';
+
+import { getMid } from 'lib/layout/LayoutUtil.js';
 
 
 var testModules = [

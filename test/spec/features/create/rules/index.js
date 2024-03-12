@@ -1,4 +1,4 @@
-import CreateRules from './CreateRules';
+import CreateRules from './CreateRules.js';
 
 export default {
   __init__: [ 'createRules' ],

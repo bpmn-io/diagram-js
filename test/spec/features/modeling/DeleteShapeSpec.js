@@ -1,11 +1,11 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import contextPadModule from 'lib/features/context-pad';
-import selectionModule from 'lib/features/selection';
+import modelingModule from 'lib/features/modeling/index.js';
+import contextPadModule from 'lib/features/context-pad/index.js';
+import selectionModule from 'lib/features/selection/index.js';
 
 
 describe('features/modeling - #removeShape', function() {

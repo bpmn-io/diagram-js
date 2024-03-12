@@ -1,6 +1,6 @@
 // instantiation
 
-import Text from './Text';
+import Text from './Text.js';
 
 const text = new Text({
   style: {

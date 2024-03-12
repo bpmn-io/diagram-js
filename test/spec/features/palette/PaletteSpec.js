@@ -1,16 +1,4 @@
 import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
-import {
-  createEvent as globalEvent
-} from '../../../util/MockEvents';
-
-import paletteModule from 'lib/features/palette';
-
-import {
   query as domQuery,
   classes as domClasses
 } from 'min-dom';
@@ -18,6 +6,18 @@ import {
 import {
   assign
 } from 'min-dash';
+
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
+
+import {
+  createEvent as globalEvent
+} from '../../../util/MockEvents.js';
+
+import paletteModule from 'lib/features/palette/index.js';
 
 
 describe('features/palette', function() {

@@ -1,21 +1,21 @@
 import {
+  classes as svgClasses
+} from 'tiny-svg';
+
+import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
-import labelSupportModule from 'lib/features/label-support';
-import moveModule from 'lib/features/move';
-import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
-import spaceToolModule from 'lib/features/space-tool';
-
-import {
-  classes as svgClasses
-} from 'tiny-svg';
+import labelSupportModule from 'lib/features/label-support/index.js';
+import moveModule from 'lib/features/move/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import rulesModule from './rules/index.js';
+import spaceToolModule from 'lib/features/space-tool/index.js';
 
 
 describe('features/label-support', function() {

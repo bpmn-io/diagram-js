@@ -1,17 +1,18 @@
+import inherits from 'inherits-browser';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import autoResizeModule from 'lib/features/auto-resize';
-import gridSnappingModule from 'lib/features/grid-snapping';
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
+import autoResizeModule from 'lib/features/auto-resize/index.js';
+import gridSnappingModule from 'lib/features/grid-snapping/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import moveModule from 'lib/features/move/index.js';
 
-import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
-import AutoResize from 'lib/features/auto-resize/AutoResize';
+import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider.js';
+import AutoResize from 'lib/features/auto-resize/AutoResize.js';
 
-import inherits from 'inherits-browser';
 
 /**
  * Custom auto-resize provider.

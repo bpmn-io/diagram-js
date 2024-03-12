@@ -1,4 +1,4 @@
-import { Element } from '../../model/Types';
+import { Element } from '../../model/Types.js';
 
 export type Token = {
   matched: string;

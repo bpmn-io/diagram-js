@@ -1,17 +1,17 @@
+import { forEach } from 'min-dash';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import { forEach } from 'min-dash';
+import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import rulesModule from './rules/index.js';
 
-import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
-import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
+import { getMid } from 'lib/layout/LayoutUtil.js';
 
-import { getMid } from 'lib/layout/LayoutUtil';
-
-import { createKeyEvent } from 'test/util/KeyEvents';
+import { createKeyEvent } from 'test/util/KeyEvents.js';
 
 var KEYS = {
   ArrowUp: 'up',
