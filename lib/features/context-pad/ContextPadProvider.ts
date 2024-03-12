@@ -1,6 +1,6 @@
-import { Element } from '../../model/Types';
+import { Element } from '../../model/Types.js';
 
-import { ContextPadTarget } from './ContextPad';
+import { ContextPadTarget } from './ContextPad.js';
 
 export type ContextPadEntry<ElementType extends Element = Element> = {
   action: (event: Event, target: ContextPadTarget<ElementType>, autoActivate: boolean) => void;

@@ -1,7 +1,7 @@
-import CommandHandler from './CommandHandler';
-import { CommandContext } from './CommandStack';
+import CommandHandler from './CommandHandler.js';
+import { CommandContext } from './CommandStack.js';
 
-import Canvas from '../core/Canvas';
+import Canvas from '../core/Canvas.js';
 
 export class AddShapeHandler implements CommandHandler {
   private _canvas: Canvas;

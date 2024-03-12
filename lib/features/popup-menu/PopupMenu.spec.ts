@@ -1,12 +1,12 @@
-import Diagram from '../../Diagram';
+import Diagram from '../../Diagram.js';
 
-import ElementFactory from '../../core/ElementFactory';
+import ElementFactory from '../../core/ElementFactory.js';
 
-import PopupMenuModule from '.';
-import PopupMenu from './PopupMenu';
-import { PopupMenuEntry } from './PopupMenuProvider';
+import PopupMenuModule from './index.js';
+import PopupMenu from './PopupMenu.js';
+import { PopupMenuEntry } from './PopupMenuProvider.js';
 
-import { FooPopupMenuProvider } from './PopupMenuProvider.spec';
+import { FooPopupMenuProvider } from './PopupMenuProvider.spec.js';
 
 const diagram = new Diagram({
   modules: [

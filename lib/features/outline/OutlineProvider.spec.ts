@@ -3,9 +3,9 @@ import {
   create as svgCreate
 } from 'tiny-svg';
 
-import { Element } from '../../model/Types';
+import { Element } from '../../model/Types.js';
 
-import OutlineProvider, { Outline } from './OutlineProvider';
+import OutlineProvider, { Outline } from './OutlineProvider.js';
 
 export class FooOutlineProvider implements OutlineProvider {
   getOutline(element: Element): Outline {

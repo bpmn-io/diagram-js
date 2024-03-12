@@ -1,9 +1,9 @@
-import Diagram from '../../Diagram';
+import Diagram from '../../Diagram.js';
 
-import ElementFactory from '../../core/ElementFactory';
+import ElementFactory from '../../core/ElementFactory.js';
 
-import OverlaysModule from '.';
-import Overlays, { OverlayAttrs } from './Overlays';
+import OverlaysModule from './index.js';
+import Overlays, { OverlayAttrs } from './Overlays.js';
 
 const diagram = new Diagram({
   modules: [

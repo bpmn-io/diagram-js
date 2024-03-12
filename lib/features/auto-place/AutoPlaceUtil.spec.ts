@@ -1,12 +1,12 @@
-import Diagram from '../../Diagram';
+import Diagram from '../../Diagram.js';
 
-import ElementFactory from '../../core/ElementFactory';
+import ElementFactory from '../../core/ElementFactory.js';
 
 import {
   findFreePosition,
   generateGetNextPosition,
   getConnectedDistance
-} from './AutoPlaceUtil';
+} from './AutoPlaceUtil.js';
 
 const diagram = new Diagram();
 
