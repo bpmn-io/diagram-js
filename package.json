@@ -81,7 +81,7 @@
     "webpack": "^5.90.3"
   },
   "dependencies": {
-    "@bpmn-io/diagram-js-ui": "^0.2.2",
+    "@bpmn-io/diagram-js-ui": "^0.2.3",
     "clsx": "^2.1.0",
     "didi": "^10.2.0",
     "inherits-browser": "^0.1.0",
