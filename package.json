@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "all": "run-s lint test generate-types",
-    "lint": "eslint .",
+    "lint": "eslint . --ext cjs,js",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "run-s generate-types:*",
     "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts --module NodeNext -r lib",
