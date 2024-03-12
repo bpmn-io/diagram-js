@@ -31,7 +31,7 @@
     "generate-types": "run-s generate-types:*",
     "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts --module NodeNext -r lib",
     "generate-types:test": "tsc --noEmit --noImplicitAny",
-    "test": "karma start",
+    "test": "karma start karma.conf.cjs",
     "prepublishOnly": "run-s generate-types"
   },
   "repository": {
