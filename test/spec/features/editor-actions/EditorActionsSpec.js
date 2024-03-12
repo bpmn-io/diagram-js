@@ -3,12 +3,12 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import editorActionsModule from 'lib/features/editor-actions/index.js';
-import copyPasteModule from 'lib/features/copy-paste/index.js';
-import selectionModule from 'lib/features/selection/index.js';
-import keyboardMoveModule from 'lib/navigation/keyboard-move/index.js';
-import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import editorActionsModule from 'diagram-js/lib/features/editor-actions/index.js';
+import copyPasteModule from 'diagram-js/lib/features/copy-paste/index.js';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
+import keyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move/index.js';
+import keyboardMoveSelectionModule from 'diagram-js/lib/features/keyboard-move-selection/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import customRulesModule from './rules/index.js';
 
 

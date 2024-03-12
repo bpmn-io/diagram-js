@@ -15,15 +15,15 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import overlayModule from 'lib/features/overlays/index.js';
-import selectionModule from 'lib/features/selection/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
-import resizeModule from 'lib/features/resize/index.js';
-import moveModule from 'lib/features/move/index.js';
+import overlayModule from 'diagram-js/lib/features/overlays/index.js';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import resizeModule from 'diagram-js/lib/features/resize/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
 
 import {
   resizeBounds
-} from 'lib/features/resize/ResizeUtil.js';
+} from 'diagram-js/lib/features/resize/ResizeUtil.js';
 
 
 describe('features/overlay - integration', function() {

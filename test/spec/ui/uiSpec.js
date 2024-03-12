@@ -2,7 +2,7 @@ import {
   html,
   render,
   useState
-} from 'lib/ui/index.js';
+} from 'diagram-js/lib/ui/index.js';
 
 
 describe('ui', function() {

@@ -5,10 +5,10 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import autoResizeModule from 'lib/features/auto-resize/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
-import { getBBox } from 'lib/util/Elements.js';
+import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
 import { getMid } from '../../../../lib/layout/LayoutUtil.js';
 

@@ -1,19 +1,19 @@
-import PopupMenuComponent from 'lib/features/popup-menu/PopupMenuComponent.js';
-
-import {
-  html,
-  render
-} from 'lib/ui/index.js';
-
-import {
-  insertCSS
-} from 'test/TestHelper.js';
-
 import {
   domify,
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
+
+import PopupMenuComponent from 'diagram-js/lib/features/popup-menu/PopupMenuComponent.js';
+
+import {
+  html,
+  render
+} from 'diagram-js/lib/ui/index.js';
+
+import {
+  insertCSS
+} from 'test/TestHelper.js';
 
 
 const TEST_IMAGE_URL = `data:image/svg+xml;utf8,${

@@ -12,11 +12,11 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import attachSupportModule from 'lib/features/attach-support/index.js';
-import copyPasteModule from 'lib/features/copy-paste/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import attachSupportModule from 'diagram-js/lib/features/attach-support/index.js';
+import copyPasteModule from 'diagram-js/lib/features/copy-paste/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import rulesModule from './rules/index.js';
-import selectionModule from 'lib/features/selection/index.js';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
 
 import {
   isConnection,

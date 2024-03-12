@@ -1,10 +1,10 @@
-export * from './helper/index.js';
+export * from 'diagram-js/test/helper/index.js';
 
 import {
   insertCSS
-} from './helper/index.js';
+} from 'diagram-js/test/helper/index.js';
 
-import diagramCSS from '../assets/diagram-js.css';
+import diagramCSS from 'diagram-js/assets/diagram-js.css';
 
 insertCSS('diagram-js.css', diagramCSS);
 
@@ -14,8 +14,8 @@ insertCSS('diagram-js-testing.css',
 );
 
 
-import BoundsMatchers from './matchers/BoundsMatchers.js';
-import ConnectionMatchers from './matchers/ConnectionMatchers.js';
+import BoundsMatchers from 'diagram-js/test/matchers/BoundsMatchers.js';
+import ConnectionMatchers from 'diagram-js/test/matchers/ConnectionMatchers.js';
 
 /* global chai */
 

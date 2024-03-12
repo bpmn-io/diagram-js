@@ -1,7 +1,7 @@
 import {
   escapeCSS,
   escapeHTML
-} from 'lib/util/EscapeUtil.js';
+} from 'diagram-js/lib/util/EscapeUtil.js';
 
 
 describe('util/EscapeUtil', function() {

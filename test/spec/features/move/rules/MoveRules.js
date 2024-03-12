@@ -1,10 +1,10 @@
 import inherits from 'inherits-browser';
 
-import RuleProvider from 'lib/features/rules/RuleProvider.js';
+import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider.js';
 
 import {
   isFrameElement
-} from 'lib/util/Elements.js';
+} from 'diagram-js/lib/util/Elements.js';
 
 
 export default function MoveRules(eventBus) {

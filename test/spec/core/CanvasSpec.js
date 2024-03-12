@@ -17,7 +17,7 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import { getChildren as getChildrenGfx } from 'lib/util/GraphicsUtil.js';
+import { getChildren as getChildrenGfx } from 'diagram-js/lib/util/GraphicsUtil.js';
 
 
 describe('Canvas', function() {

@@ -2,15 +2,16 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import PopupMenuList from 'lib/features/popup-menu/PopupMenuList.js';
+import PopupMenuList from 'diagram-js/lib/features/popup-menu/PopupMenuList.js';
 
 import {
   html,
   render
-} from 'lib/ui/index.js';
+} from 'diagram-js/lib/ui/index.js';
 
 
 describe('features/popup-menu - <PopupMenuList>', function() {
+
   let container;
 
   beforeEach(function() {

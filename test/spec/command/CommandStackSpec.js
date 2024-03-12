@@ -4,7 +4,7 @@ import {
 } from 'test/TestHelper.js';
 
 
-import cmdModule from 'lib/command/index.js';
+import cmdModule from 'diagram-js/lib/command/index.js';
 
 // example commands
 

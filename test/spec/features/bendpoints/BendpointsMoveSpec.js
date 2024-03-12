@@ -13,17 +13,17 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import bendpointsModule from 'lib/features/bendpoints/index.js';
+import bendpointsModule from 'diagram-js/lib/features/bendpoints/index.js';
 import rulesModule from './rules/index.js';
-import connectModule from 'lib/features/connect/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
-import selectModule from 'lib/features/selection/index.js';
-import connectionPreviewModule from 'lib/features/connection-preview/index.js';
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking.js';
+import connectModule from 'diagram-js/lib/features/connect/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import selectModule from 'diagram-js/lib/features/selection/index.js';
+import connectionPreviewModule from 'diagram-js/lib/features/connection-preview/index.js';
+import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 
-import { getMid } from 'lib/layout/LayoutUtil.js';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
-import { isSnapped } from 'lib/features/snapping/SnapUtil.js';
+import { isSnapped } from 'diagram-js/lib/features/snapping/SnapUtil.js';
 
 var testModules = [
   bendpointsModule,

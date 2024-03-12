@@ -5,11 +5,11 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import keyboardMoveSelectionModule from 'diagram-js/lib/features/keyboard-move-selection/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import rulesModule from './rules/index.js';
 
-import { getMid } from 'lib/layout/LayoutUtil.js';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
 import { createKeyEvent } from 'test/util/KeyEvents.js';
 

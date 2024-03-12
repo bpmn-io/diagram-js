@@ -3,7 +3,7 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import translateModule from 'lib/i18n/translate/index.js';
+import translateModule from 'diagram-js/lib/i18n/translate/index.js';
 import customTranslateModule from './custom-translate/index.js';
 
 

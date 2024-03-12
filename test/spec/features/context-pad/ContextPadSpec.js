@@ -16,10 +16,10 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import { getBBox } from 'lib/util/Elements.js';
+import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
-import contextPadModule from 'lib/features/context-pad/index.js';
-import selectionModule from 'lib/features/selection/index.js';
+import contextPadModule from 'diagram-js/lib/features/context-pad/index.js';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
 
 import ContextPadProvider from './ContextPadProvider.js';
 

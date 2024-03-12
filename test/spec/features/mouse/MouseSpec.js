@@ -3,9 +3,9 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import mouseModule from 'lib/features/mouse/index.js';
+import mouseModule from 'diagram-js/lib/features/mouse/index.js';
 
-import { createMoveEvent } from 'lib/features/mouse/Mouse.js';
+import { createMoveEvent } from 'diagram-js/lib/features/mouse/Mouse.js';
 
 
 describe('features/mouse', function() {

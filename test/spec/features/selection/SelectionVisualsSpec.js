@@ -8,14 +8,14 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import selectionModule from 'lib/features/selection/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
-import { getBBox } from 'lib/util/Elements.js';
+import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
 import {
   resizeBounds
-} from 'lib/features/resize/ResizeUtil.js';
+} from 'diagram-js/lib/features/resize/ResizeUtil.js';
 
 
 describe('features/selection/SelectionVisuals', function() {

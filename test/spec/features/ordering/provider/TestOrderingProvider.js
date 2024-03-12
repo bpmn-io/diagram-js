@@ -4,7 +4,7 @@ import {
   findIndex
 } from 'min-dash';
 
-import OrderingProvider from 'lib/features/ordering/OrderingProvider.js';
+import OrderingProvider from 'diagram-js/lib/features/ordering/OrderingProvider.js';
 
 
 /**

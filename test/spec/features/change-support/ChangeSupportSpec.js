@@ -3,8 +3,8 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import coreModule from 'lib/core/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import coreModule from 'diagram-js/lib/core/index.js';
 
 
 describe('features/change-support', function() {

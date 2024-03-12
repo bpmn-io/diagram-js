@@ -5,21 +5,21 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import autoPlaceModule from 'lib/features/auto-place/index.js';
-import coreModule from 'lib/core/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
-import selectionModule from 'lib/features/selection/index.js';
+import autoPlaceModule from 'diagram-js/lib/features/auto-place/index.js';
+import coreModule from 'diagram-js/lib/core/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
 
-import { getMid } from 'lib/layout/LayoutUtil.js';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
 import {
   findFreePosition,
   generateGetNextPosition,
   getConnectedAtPosition,
   getConnectedDistance
-} from 'lib/features/auto-place/AutoPlaceUtil.js';
+} from 'diagram-js/lib/features/auto-place/AutoPlaceUtil.js';
 
-import { DEFAULT_DISTANCE } from 'lib/features/auto-place/AutoPlaceUtil.js';
+import { DEFAULT_DISTANCE } from 'diagram-js/lib/features/auto-place/AutoPlaceUtil.js';
 
 
 describe('features/auto-place', function() {

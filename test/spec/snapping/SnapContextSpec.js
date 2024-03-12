@@ -1,4 +1,4 @@
-import SnapContext from 'lib/features/snapping/SnapContext.js';
+import SnapContext from 'diagram-js/lib/features/snapping/SnapContext.js';
 
 
 describe('snapping - SnapContext', function() {

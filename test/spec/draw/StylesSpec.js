@@ -1,4 +1,4 @@
-import Styles from 'lib/draw/Styles.js';
+import Styles from 'diagram-js/lib/draw/Styles.js';
 
 
 describe('draw/Styles', function() {

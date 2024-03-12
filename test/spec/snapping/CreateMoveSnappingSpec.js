@@ -3,18 +3,18 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import createModule from 'lib/features/create/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
-import moveModule from 'lib/features/move/index.js';
-import snappingModule from 'lib/features/snapping/index.js';
+import createModule from 'diagram-js/lib/features/create/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
+import snappingModule from 'diagram-js/lib/features/snapping/index.js';
 
-import SnapContext from 'lib/features/snapping/SnapContext.js';
+import SnapContext from 'diagram-js/lib/features/snapping/SnapContext.js';
 
 import {
   bottomRight,
   mid,
   topLeft
-} from 'lib/features/snapping/SnapUtil.js';
+} from 'diagram-js/lib/features/snapping/SnapUtil.js';
 
 import {
   createCanvasEvent as canvasEventMid

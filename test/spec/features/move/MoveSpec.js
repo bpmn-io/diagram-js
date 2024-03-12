@@ -13,8 +13,8 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import moveModule from 'lib/features/move/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
 
 
 describe('features/move - Move', function() {

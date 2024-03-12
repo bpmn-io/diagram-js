@@ -4,7 +4,7 @@ import {
   getMinResizeBounds,
   resizeBounds,
   reattachPoint
-} from 'lib/features/resize/ResizeUtil.js';
+} from 'diagram-js/lib/features/resize/ResizeUtil.js';
 
 
 describe('resize/ResizeUtil', function() {

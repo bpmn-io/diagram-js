@@ -3,9 +3,9 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
-import { getChildren } from 'lib/features/snapping/SnapUtil.js';
+import { getChildren } from 'diagram-js/lib/features/snapping/SnapUtil.js';
 
 
 describe('features/snapping - SnapUtil', function() {

@@ -7,8 +7,8 @@ import {
   createKeyEvent
 } from 'test/util/KeyEvents.js';
 
-import searchPadModule from 'lib/features/search-pad/index.js';
-import SearchPad from 'lib/features/search-pad/SearchPad.js';
+import searchPadModule from 'diagram-js/lib/features/search-pad/index.js';
+import SearchPad from 'diagram-js/lib/features/search-pad/SearchPad.js';
 
 import {
   query as domQuery,

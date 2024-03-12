@@ -12,7 +12,7 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import zoomScrollModule from 'lib/navigation/zoomscroll/index.js';
+import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll/index.js';
 
 
 describe('navigation/zoomscroll', function() {

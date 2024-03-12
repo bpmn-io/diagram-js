@@ -11,11 +11,11 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import moveModule from 'lib/features/move/index.js';
-import dragModule from 'lib/features/dragging/index.js';
-import createModule from 'lib/features/create/index.js';
-import attachSupportModule from 'lib/features/attach-support/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
+import dragModule from 'diagram-js/lib/features/dragging/index.js';
+import createModule from 'diagram-js/lib/features/create/index.js';
+import attachSupportModule from 'diagram-js/lib/features/attach-support/index.js';
 import rulesModule from './rules/index.js';
 
 

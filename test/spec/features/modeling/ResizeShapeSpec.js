@@ -9,21 +9,21 @@ import {
 
 import {
   resizeBounds
-} from 'lib/features/resize/ResizeUtil.js';
+} from 'diagram-js/lib/features/resize/ResizeUtil.js';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import { getBBox } from 'lib/util/Elements.js';
+import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import resizeModule from 'lib/features/resize/index.js';
-import attachModule from 'lib/features/attach-support/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import resizeModule from 'diagram-js/lib/features/resize/index.js';
+import attachModule from 'diagram-js/lib/features/attach-support/index.js';
 
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking.js';
+import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 
-import { getNewAttachPoint } from 'lib/util/AttachUtil.js';
+import { getNewAttachPoint } from 'diagram-js/lib/util/AttachUtil.js';
 
 
 var layoutModule = {

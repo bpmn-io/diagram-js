@@ -14,7 +14,7 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import overlayModule from 'lib/features/overlays/index.js';
+import overlayModule from 'diagram-js/lib/features/overlays/index.js';
 
 
 describe('features/overlays', function() {

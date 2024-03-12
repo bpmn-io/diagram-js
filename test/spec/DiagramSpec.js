@@ -1,4 +1,4 @@
-import Diagram from '../..';
+import Diagram from 'diagram-js';
 
 
 describe('Diagram', function() {

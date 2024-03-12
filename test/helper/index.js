@@ -6,7 +6,7 @@ import {
 
 import TestContainer from 'mocha-test-container-support';
 
-import Diagram from '../../lib/Diagram.js';
+import Diagram from 'diagram-js';
 
 var OPTIONS, DIAGRAM_JS;
 

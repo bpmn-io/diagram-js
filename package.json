@@ -2,9 +2,19 @@
   "name": "diagram-js",
   "version": "14.1.0",
   "description": "A toolbox for displaying and modifying diagrams on the web",
-  "main": "lib/Diagram.js",
-  "module": "lib/Diagram.js",
+  "type": "module",
   "types": "lib/Diagram.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/Diagram.js",
+      "types": "./lib/Diagram.d.ts"
+    },
+    "./lib/*.js": "./lib/*.js",
+    "./assets/*.css": "./assets/*.css",
+    "./test/util/*.js": "./test/util/*.js",
+    "./test/helper/*.js": "./test/helper/*.js",
+    "./test/matchers/*.js": "./test/matchers/*.js"
+  },
   "files": [
     "lib",
     "assets",
@@ -16,12 +26,12 @@
   ],
   "scripts": {
     "all": "run-s lint test generate-types",
-    "lint": "eslint .",
+    "lint": "eslint . --ext cjs,js",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "run-s generate-types:*",
-    "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts -r lib",
+    "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts --module NodeNext -r lib",
     "generate-types:test": "tsc --noEmit --noImplicitAny",
-    "test": "karma start",
+    "test": "karma start karma.conf.cjs",
     "prepublishOnly": "run-s generate-types"
   },
   "repository": {
@@ -61,7 +71,6 @@
     "del-cli": "^5.0.0",
     "eslint": "^8.56.0",
     "eslint-plugin-bpmn-io": "^1.0.0",
-    "eslint-plugin-import": "^2.29.1",
     "jquery": "^3.5.1",
     "karma": "^6.4.2",
     "karma-chrome-launcher": "^3.2.0",
@@ -83,12 +92,12 @@
   "dependencies": {
     "@bpmn-io/diagram-js-ui": "^0.2.3",
     "clsx": "^2.1.0",
-    "didi": "^10.2.0",
+    "didi": "^10.2.1",
     "inherits-browser": "^0.1.0",
     "min-dash": "^4.1.0",
-    "min-dom": "^4.1.0",
+    "min-dom": "^5.0.0",
     "object-refs": "^0.4.0",
-    "path-intersection": "^3.0.0",
-    "tiny-svg": "^3.0.1"
+    "path-intersection": "^3.1.0",
+    "tiny-svg": "^4.0.0"
   }
 }

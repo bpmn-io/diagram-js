@@ -11,8 +11,8 @@ import {
 
 import { createKeyEvent } from 'test/util/KeyEvents.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import keyboardMoveModule from 'lib/navigation/keyboard-move/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import keyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move/index.js';
 
 
 describe('navigation/keyboard-move', function() {

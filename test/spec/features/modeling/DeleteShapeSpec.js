@@ -3,9 +3,9 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling/index.js';
-import contextPadModule from 'lib/features/context-pad/index.js';
-import selectionModule from 'lib/features/selection/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import contextPadModule from 'diagram-js/lib/features/context-pad/index.js';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
 
 
 describe('features/modeling - #removeShape', function() {

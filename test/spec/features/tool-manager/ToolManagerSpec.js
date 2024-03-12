@@ -7,9 +7,9 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import toolManagerModule from 'lib/features/tool-manager/index.js';
-import handToolModule from 'lib/features/hand-tool/index.js';
-import draggingModule from 'lib/features/dragging/index.js';
+import toolManagerModule from 'diagram-js/lib/features/tool-manager/index.js';
+import handToolModule from 'diagram-js/lib/features/hand-tool/index.js';
+import draggingModule from 'diagram-js/lib/features/dragging/index.js';
 
 
 describe('features/tool-manager', function() {

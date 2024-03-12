@@ -8,8 +8,8 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import moveCanvasModule from 'lib/navigation/movecanvas/index.js';
-import interactionEventsModule from 'lib/features/interaction-events/index.js';
+import moveCanvasModule from 'diagram-js/lib/navigation/movecanvas/index.js';
+import interactionEventsModule from 'diagram-js/lib/features/interaction-events/index.js';
 
 
 describe('navigation/movecanvas', function() {

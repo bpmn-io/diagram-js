@@ -4,7 +4,8 @@
       "DOM",
       "ES2018"
     ],
-    "strict": true
+    "strict": true,
+    "module": "NodeNext"
   },
   "include": [
     "./lib/**/*.d.ts",

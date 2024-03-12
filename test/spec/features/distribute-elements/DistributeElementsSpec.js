@@ -5,8 +5,8 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import distributeElementsModule from 'lib/features/distribute-elements/index.js';
-import modelingModule from 'lib/features/modeling/index.js';
+import distributeElementsModule from 'diagram-js/lib/features/distribute-elements/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import testRules from './rules/index.js';
 
 

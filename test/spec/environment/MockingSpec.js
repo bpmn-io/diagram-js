@@ -3,7 +3,7 @@ import {
   inject
 } from 'test/TestHelper.js';
 
-import EventBus from 'lib/core/EventBus.js';
+import EventBus from 'diagram-js/lib/core/EventBus.js';
 
 
 describe('environment/Mocking', function() {
