@@ -1,8 +1,9 @@
+import { find } from 'min-dash';
+
 import inherits from 'inherits-browser';
 
-import RuleProvider from 'lib/features/rules/RuleProvider';
+import RuleProvider from 'lib/features/rules/RuleProvider.js';
 
-import { find } from 'min-dash';
 
 export default function CreateRules(injector) {
   injector.invoke(RuleProvider, this);

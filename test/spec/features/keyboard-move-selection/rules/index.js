@@ -1,4 +1,4 @@
-import KeyboardMoveRules from './KeyboardMoveRules';
+import KeyboardMoveRules from './KeyboardMoveRules.js';
 
 export default {
   __init__: [ 'keyboardMoveRules' ],

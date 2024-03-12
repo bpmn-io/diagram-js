@@ -1,16 +1,16 @@
+import { forEach } from 'min-dash';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import autoResizeModule from 'lib/features/auto-resize';
-import modelingModule from 'lib/features/modeling';
+import autoResizeModule from 'lib/features/auto-resize/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
 
-import { getBBox } from 'lib/util/Elements';
+import { getBBox } from 'lib/util/Elements.js';
 
-import { getMid } from '../../../../lib/layout/LayoutUtil';
-
-import { forEach } from 'min-dash';
+import { getMid } from '../../../../lib/layout/LayoutUtil.js';
 
 
 describe('features/modeling - create elements', function() {

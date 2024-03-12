@@ -4,11 +4,10 @@ import {
   getMinResizeBounds,
   resizeBounds,
   reattachPoint
-} from 'lib/features/resize/ResizeUtil';
+} from 'lib/features/resize/ResizeUtil.js';
 
 
 describe('resize/ResizeUtil', function() {
-
 
   describe('resizeBounds', function() {
 

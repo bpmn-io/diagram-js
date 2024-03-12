@@ -1,4 +1,4 @@
-import SayNoRules from './SayNoRules';
+import SayNoRules from './SayNoRules.js';
 
 export default {
   __init__: [ 'sayNoRules' ],

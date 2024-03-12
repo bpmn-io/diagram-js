@@ -1,21 +1,21 @@
+import inherits from 'inherits-browser';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling';
-import autoResizeModule from 'lib/features/auto-resize';
-import createModule from 'lib/features/create';
-import replaceModule from 'lib/features/replace';
+import modelingModule from 'lib/features/modeling/index.js';
+import autoResizeModule from 'lib/features/auto-resize/index.js';
+import createModule from 'lib/features/create/index.js';
+import replaceModule from 'lib/features/replace/index.js';
 
-import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
-import AutoResize from 'lib/features/auto-resize/AutoResize';
-
-import inherits from 'inherits-browser';
+import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider.js';
+import AutoResize from 'lib/features/auto-resize/AutoResize.js';
 
 
 /**

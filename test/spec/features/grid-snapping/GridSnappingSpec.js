@@ -2,21 +2,21 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import gridSnappingModule from 'lib/features/grid-snapping';
-import bendpointsModule from 'lib/features/bendpoints';
-import connectModule from 'lib/features/connect';
-import createModule from 'lib/features/create';
-import moveModule from 'lib/features/move';
-import resizeModule from 'lib/features/resize';
+import modelingModule from 'lib/features/modeling/index.js';
+import gridSnappingModule from 'lib/features/grid-snapping/index.js';
+import bendpointsModule from 'lib/features/bendpoints/index.js';
+import connectModule from 'lib/features/connect/index.js';
+import createModule from 'lib/features/create/index.js';
+import moveModule from 'lib/features/move/index.js';
+import resizeModule from 'lib/features/resize/index.js';
 
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking.js';
 
-import { asTRBL } from 'lib/layout/LayoutUtil';
+import { asTRBL } from 'lib/layout/LayoutUtil.js';
 
-import { SPACING } from 'lib/features/grid-snapping/GridUtil';
+import { SPACING } from 'lib/features/grid-snapping/GridUtil.js';
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]
@@ -24,11 +24,11 @@ var layoutModule = {
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import { isString } from 'min-dash';
 
-import { mid } from 'lib/features/snapping/SnapUtil';
+import { mid } from 'lib/features/snapping/SnapUtil.js';
 
 var LOW_PRIORITY = 500;
 

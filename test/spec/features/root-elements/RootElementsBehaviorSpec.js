@@ -1,12 +1,12 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import coreModule from 'lib/core';
-import commandModule from 'lib/command';
-import modelingModule from 'lib/features/modeling';
-import rootElementsModule from 'lib/features/root-elements';
+import coreModule from 'lib/core/index.js';
+import commandModule from 'lib/command/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import rootElementsModule from 'lib/features/root-elements/index.js';
 
 
 describe('features/planes/RootElementsBehavior', function() {

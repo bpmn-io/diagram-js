@@ -1,9 +1,9 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
+import modelingModule from 'lib/features/modeling/index.js';
 
 
 describe('features/modeling - attach shape', function() {

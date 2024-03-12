@@ -1,22 +1,25 @@
 import {
+  query as domQuery
+} from 'min-dom';
+
+import {
+  isDefined
+} from 'min-dash';
+
+import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 import TestContainer from 'mocha-test-container-support';
 
-import modelingModule from 'lib/features/modeling';
-import connectionPreviewModule from 'lib/features/connection-preview';
+import modelingModule from 'lib/features/modeling/index.js';
+import connectionPreviewModule from 'lib/features/connection-preview/index.js';
 
-import BaseLayouter from 'lib/layout/BaseLayouter';
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+import BaseLayouter from 'lib/layout/BaseLayouter.js';
+import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking.js';
 
-import {
-  query as domQuery
-} from 'min-dom';
-import { isDefined } from 'min-dash';
-
-import { getMid } from '../../../lib/layout/LayoutUtil';
+import { getMid } from '../../../lib/layout/LayoutUtil.js';
 
 var testModules = [
   modelingModule,

@@ -1,8 +1,8 @@
-export * from './helper';
+export * from './helper/index.js';
 
 import {
   insertCSS
-} from './helper';
+} from './helper/index.js';
 
 import diagramCSS from '../assets/diagram-js.css';
 
@@ -14,8 +14,8 @@ insertCSS('diagram-js-testing.css',
 );
 
 
-import BoundsMatchers from './matchers/BoundsMatchers';
-import ConnectionMatchers from './matchers/ConnectionMatchers';
+import BoundsMatchers from './matchers/BoundsMatchers.js';
+import ConnectionMatchers from './matchers/ConnectionMatchers.js';
 
 /* global chai */
 

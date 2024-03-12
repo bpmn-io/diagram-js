@@ -1,17 +1,17 @@
+import inherits from 'inherits-browser';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import testRulesModule from './rules';
-import sayNoRulesModule from './say-no-rules';
-import priorityRulesModule from './priority-rules';
-import rulesModule from 'lib/features/rules';
-import modelingModule from 'lib/features/modeling';
+import testRulesModule from './rules/index.js';
+import sayNoRulesModule from './say-no-rules/index.js';
+import priorityRulesModule from './priority-rules/index.js';
+import rulesModule from 'lib/features/rules/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
 
-import RuleProvider from 'lib/features/rules/RuleProvider';
-
-import inherits from 'inherits-browser';
+import RuleProvider from 'lib/features/rules/RuleProvider.js';
 
 
 describe('features/rules - RuleProvider', function() {

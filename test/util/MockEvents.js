@@ -2,10 +2,10 @@ import { assign } from 'min-dash';
 
 import {
   getDiagramJS
-} from 'test/TestHelper';
+} from '../TestHelper.js';
 
 /**
- * @typedef {import('../../lib/util/Types').Point} Point
+ * @typedef {import('../../lib/util/Types.js').Point} Point
  */
 
 /**

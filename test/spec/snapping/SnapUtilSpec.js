@@ -1,11 +1,11 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
+import modelingModule from 'lib/features/modeling/index.js';
 
-import { getChildren } from 'lib/features/snapping/SnapUtil';
+import { getChildren } from 'lib/features/snapping/SnapUtil.js';
 
 
 describe('features/snapping - SnapUtil', function() {

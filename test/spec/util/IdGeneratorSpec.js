@@ -1,4 +1,4 @@
-import IdGenerator from 'lib/util/IdGenerator';
+import IdGenerator from 'lib/util/IdGenerator.js';
 
 
 describe('util/IdGenerator', function() {

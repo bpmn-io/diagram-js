@@ -1,11 +1,4 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import selectionModule from 'lib/features/selection';
-
-import {
   query as domQuery
 } from 'min-dom';
 
@@ -14,6 +7,13 @@ import {
   create as svgCreate,
   attr as svgAttr
 } from 'tiny-svg';
+
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import selectionModule from 'lib/features/selection/index.js';
 
 
 describe('features/outline/Outline', function() {

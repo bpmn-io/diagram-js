@@ -1,17 +1,17 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import interactionEventsModule from 'lib/features/interaction-events';
-
-import {
   queryAll as domQueryAll
 } from 'min-dom';
 
 import {
   filter
 } from 'min-dash';
+
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import interactionEventsModule from 'lib/features/interaction-events/index.js';
 
 
 var bindings = {

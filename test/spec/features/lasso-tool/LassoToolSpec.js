@@ -1,20 +1,20 @@
 import {
-  bootstrapDiagram,
-  getDiagramJS,
-  inject
-} from 'test/TestHelper';
-
-import {
-  createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
-
-import {
   assign
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
-import lassoToolModule from 'lib/features/lasso-tool';
-import draggingModule from 'lib/features/dragging';
+import {
+  bootstrapDiagram,
+  getDiagramJS,
+  inject
+} from 'test/TestHelper.js';
+
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents.js';
+
+import modelingModule from 'lib/features/modeling/index.js';
+import lassoToolModule from 'lib/features/lasso-tool/index.js';
+import draggingModule from 'lib/features/dragging/index.js';
 
 
 describe('features/lasso-tool', function() {

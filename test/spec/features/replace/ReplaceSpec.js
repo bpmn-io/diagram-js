@@ -1,10 +1,7 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
-
-import modelingModule from 'lib/features/modeling';
-import replaceModule from 'lib/features/replace';
+} from 'test/TestHelper.js';
 
 import {
   query as domQuery
@@ -13,6 +10,9 @@ import {
 import {
   pick
 } from 'min-dash';
+
+import modelingModule from 'lib/features/modeling/index.js';
+import replaceModule from 'lib/features/replace/index.js';
 
 
 describe('features/replace - Replace', function() {

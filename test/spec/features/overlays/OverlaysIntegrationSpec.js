@@ -1,13 +1,4 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
-  createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
-
-import {
   classes as domClasses,
   domify,
   query as domQuery
@@ -15,15 +6,24 @@ import {
 
 import $ from 'jquery';
 
-import overlayModule from 'lib/features/overlays';
-import selectionModule from 'lib/features/selection';
-import modelingModule from 'lib/features/modeling';
-import resizeModule from 'lib/features/resize';
-import moveModule from 'lib/features/move';
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents.js';
+
+import overlayModule from 'lib/features/overlays/index.js';
+import selectionModule from 'lib/features/selection/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import resizeModule from 'lib/features/resize/index.js';
+import moveModule from 'lib/features/move/index.js';
 
 import {
   resizeBounds
-} from 'lib/features/resize/ResizeUtil';
+} from 'lib/features/resize/ResizeUtil.js';
 
 
 describe('features/overlay - integration', function() {

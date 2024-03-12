@@ -1,6 +1,6 @@
 import inherits from 'inherits-browser';
 
-import RuleProvider from 'lib/features/rules/RuleProvider';
+import RuleProvider from 'lib/features/rules/RuleProvider.js';
 
 
 var HIGH_PRIORITY = 1500;

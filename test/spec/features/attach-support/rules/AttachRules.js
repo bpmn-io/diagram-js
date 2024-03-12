@@ -1,8 +1,9 @@
 import inherits from 'inherits-browser';
 
-import RuleProvider from 'lib/features/rules/RuleProvider';
-
 import { forEach } from 'min-dash';
+
+import RuleProvider from 'lib/features/rules/RuleProvider.js';
+
 
 export default function AttachRules(eventBus) {
   RuleProvider.call(this, eventBus);

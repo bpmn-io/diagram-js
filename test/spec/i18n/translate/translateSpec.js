@@ -1,10 +1,10 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import translateModule from 'lib/i18n/translate';
-import customTranslateModule from './custom-translate';
+import translateModule from 'lib/i18n/translate/index.js';
+import customTranslateModule from './custom-translate/index.js';
 
 
 describe('i18n - translate', function() {

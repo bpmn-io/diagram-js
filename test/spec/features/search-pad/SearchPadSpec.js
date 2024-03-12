@@ -1,14 +1,14 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 import {
   createKeyEvent
-} from 'test/util/KeyEvents';
+} from 'test/util/KeyEvents.js';
 
-import searchPadModule from 'lib/features/search-pad';
-import SearchPad from 'lib/features/search-pad/SearchPad';
+import searchPadModule from 'lib/features/search-pad/index.js';
+import SearchPad from 'lib/features/search-pad/SearchPad.js';
 
 import {
   query as domQuery,

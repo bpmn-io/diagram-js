@@ -1,4 +1,4 @@
-import GlobalConnectRules from './GlobalConnectRules';
+import GlobalConnectRules from './GlobalConnectRules.js';
 
 export default {
   __init__: [ 'globalConnectRules' ],

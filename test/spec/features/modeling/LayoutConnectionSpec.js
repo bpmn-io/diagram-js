@@ -1,12 +1,12 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import customModelingModule from './custom';
+import customModelingModule from './custom/index.js';
+
 
 var spy = sinon.spy;
-
 
 describe('features/modeling - layout connection', function() {
 

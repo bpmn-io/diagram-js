@@ -1,10 +1,10 @@
 import inherits from 'inherits-browser';
 
-import OrderingProvider from 'lib/features/ordering/OrderingProvider';
-
 import {
   findIndex
 } from 'min-dash';
+
+import OrderingProvider from 'lib/features/ordering/OrderingProvider.js';
 
 
 /**

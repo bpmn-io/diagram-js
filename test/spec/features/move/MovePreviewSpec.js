@@ -1,19 +1,4 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
-  createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
-
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import attachSupportModule from 'lib/features/attach-support';
-import rulesModule from './rules';
-import rendererModule from '../preview-support/renderer';
-
-import {
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
@@ -21,6 +6,21 @@ import {
 import {
   classes as svgClasses
 } from 'tiny-svg';
+
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents.js';
+
+import modelingModule from 'lib/features/modeling/index.js';
+import moveModule from 'lib/features/move/index.js';
+import attachSupportModule from 'lib/features/attach-support/index.js';
+import rulesModule from './rules/index.js';
+import rendererModule from '../preview-support/renderer/index.js';
 
 
 describe('features/move - MovePreview', function() {

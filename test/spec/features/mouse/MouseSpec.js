@@ -1,11 +1,11 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import mouseModule from 'lib/features/mouse';
+import mouseModule from 'lib/features/mouse/index.js';
 
-import { createMoveEvent } from 'lib/features/mouse/Mouse';
+import { createMoveEvent } from 'lib/features/mouse/Mouse.js';
 
 
 describe('features/mouse', function() {

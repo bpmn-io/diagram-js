@@ -1,10 +1,10 @@
 import { pick } from 'min-dash';
 
 /**
- * @typedef {import('../../lib/util/Types').Dimensions} Dimensions
- * @typedef {import('../../lib/util/Types').Point} Point
- * @typedef {import('../../lib/util/Types').Rect} Rect
- * @typedef {import('../../lib/util/Types').RectTRBL} RectTRBL
+ * @typedef {import('../../lib/util/Types.js').Dimensions} Dimensions
+ * @typedef {import('../../lib/util/Types.js').Point} Point
+ * @typedef {import('../../lib/util/Types.js').Rect} Rect
+ * @typedef {import('../../lib/util/Types.js').RectTRBL} RectTRBL
  */
 
 var BOUNDS_ATTRS = [ 'x', 'y', 'width', 'height' ],

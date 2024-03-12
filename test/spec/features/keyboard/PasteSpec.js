@@ -1,18 +1,18 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
   forEach
 } from 'min-dash';
 
-import copyPasteModule from 'lib/features/copy-paste';
-import modelingModule from 'lib/features/modeling';
-import keyboardModule from 'lib/features/keyboard';
-import editorActionsModule from 'lib/features/editor-actions';
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import copyPasteModule from 'lib/features/copy-paste/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import keyboardModule from 'lib/features/keyboard/index.js';
+import editorActionsModule from 'lib/features/editor-actions/index.js';
+
+import { createKeyEvent } from 'test/util/KeyEvents.js';
 
 var KEYS_PASTE = [ 'v', 'V' ];
 

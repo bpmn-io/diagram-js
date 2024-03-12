@@ -1,24 +1,24 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
   forEach
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
-import editorActionsModule from 'lib/features/editor-actions';
-import keyboardModule from 'lib/features/keyboard';
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import modelingModule from 'lib/features/modeling/index.js';
+import editorActionsModule from 'lib/features/editor-actions/index.js';
+import keyboardModule from 'lib/features/keyboard/index.js';
+
+import { createKeyEvent } from 'test/util/KeyEvents.js';
+
 
 var KEYS = [
   'Backspace',
   'Delete',
   'Del'
 ];
-
 
 describe('features/keyboard - remove selection', function() {
 

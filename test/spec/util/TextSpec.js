@@ -10,7 +10,7 @@ import {
 } from 'tiny-svg';
 
 
-import TextUtil from 'lib/util/Text';
+import TextUtil from 'lib/util/Text.js';
 
 import TestContainer from 'mocha-test-container-support';
 

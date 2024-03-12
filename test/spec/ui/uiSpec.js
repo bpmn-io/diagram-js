@@ -2,7 +2,7 @@ import {
   html,
   render,
   useState
-} from 'lib/ui';
+} from 'lib/ui/index.js';
 
 
 describe('ui', function() {

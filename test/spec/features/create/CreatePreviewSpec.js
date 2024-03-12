@@ -1,22 +1,23 @@
-import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
-  createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
-
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import dragModule from 'lib/features/dragging';
-import createModule from 'lib/features/create';
-import attachSupportModule from 'lib/features/attach-support';
-import rulesModule from './rules';
-
 import { queryAll as domQueryAll } from 'min-dom';
 
 import { attr as svgAttr } from 'tiny-svg';
+
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import {
+  createCanvasEvent as canvasEvent
+} from '../../../util/MockEvents.js';
+
+import modelingModule from 'lib/features/modeling/index.js';
+import moveModule from 'lib/features/move/index.js';
+import dragModule from 'lib/features/dragging/index.js';
+import createModule from 'lib/features/create/index.js';
+import attachSupportModule from 'lib/features/attach-support/index.js';
+import rulesModule from './rules/index.js';
+
 
 var testModules = [
   createModule,

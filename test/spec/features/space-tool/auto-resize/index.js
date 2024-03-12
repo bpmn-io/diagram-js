@@ -1,4 +1,4 @@
-import CustomAutoResizeProvider from './CustomAutoResizeProvider';
+import CustomAutoResizeProvider from './CustomAutoResizeProvider.js';
 
 export default {
   __init__: [ 'customAutoResizeProvider' ],

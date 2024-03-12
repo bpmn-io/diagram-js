@@ -1,12 +1,12 @@
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import dragModule from 'lib/features/dragging';
-import scrollModule from 'lib/features/auto-scroll';
+import dragModule from 'lib/features/dragging/index.js';
+import scrollModule from 'lib/features/auto-scroll/index.js';
 
 
 describe('features/auto-scroll - AutoScroll', function() {

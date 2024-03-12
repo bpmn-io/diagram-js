@@ -1,17 +1,16 @@
 import {
-  bootstrapDiagram,
-  inject
-} from 'test/TestHelper';
-
-import {
   find
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
+import {
+  bootstrapDiagram,
+  inject
+} from 'test/TestHelper.js';
+
+import modelingModule from 'lib/features/modeling/index.js';
 
 
 describe('features/modeling - append shape', function() {
-
 
   beforeEach(bootstrapDiagram({ modules: [ modelingModule ] }));
 

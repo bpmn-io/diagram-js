@@ -1,10 +1,9 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-
-import EventBus from 'lib/core/EventBus';
+import EventBus from 'lib/core/EventBus.js';
 
 
 describe('environment/Mocking', function() {

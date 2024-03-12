@@ -1,7 +1,7 @@
 import {
   createLine,
   updateLine
-} from 'lib/util/RenderUtil';
+} from 'lib/util/RenderUtil.js';
 
 import {
   attr as svgAttr

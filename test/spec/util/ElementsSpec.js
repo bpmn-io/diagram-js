@@ -5,7 +5,7 @@ import {
   getClosure,
   getParents,
   isFrameElement
-} from 'lib/util/Elements';
+} from 'lib/util/Elements.js';
 
 
 describe('util/Elements', function() {

@@ -2,24 +2,24 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
 import {
   assign
 } from 'min-dash';
 
-import coreModule from 'lib/core';
-import createModule from 'lib/features/create';
-import draggingModule from 'lib/features/dragging';
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import connectModule from 'lib/features/connect';
-import rulesModule from './rules';
-import selectionModule from 'lib/features/selection';
+import coreModule from 'lib/core/index.js';
+import createModule from 'lib/features/create/index.js';
+import draggingModule from 'lib/features/dragging/index.js';
+import modelingModule from 'lib/features/modeling/index.js';
+import moveModule from 'lib/features/move/index.js';
+import connectModule from 'lib/features/connect/index.js';
+import rulesModule from './rules/index.js';
+import selectionModule from 'lib/features/selection/index.js';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 
 describe('features/selection/Selection', function() {

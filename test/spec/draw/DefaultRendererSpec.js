@@ -1,10 +1,11 @@
+import { create } from 'tiny-svg';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
-import { create } from 'tiny-svg';
+} from 'test/TestHelper.js';
 
-import drawModule from 'lib/draw';
+import drawModule from 'lib/draw/index.js';
 
 
 describe('draw - DefaultRenderer', function() {

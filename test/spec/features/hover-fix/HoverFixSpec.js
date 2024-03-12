@@ -1,14 +1,14 @@
+import { assign } from 'min-dash';
+
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import { assign } from 'min-dash';
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
-
-import dragModule from 'lib/features/dragging';
-import hoverFixModule from 'lib/features/hover-fix';
+import dragModule from 'lib/features/dragging/index.js';
+import hoverFixModule from 'lib/features/hover-fix/index.js';
 
 
 describe('features/hover-fix', function() {

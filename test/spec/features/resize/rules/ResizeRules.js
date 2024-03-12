@@ -1,6 +1,7 @@
 import inherits from 'inherits-browser';
 
-import RuleProvider from 'lib/features/rules/RuleProvider';
+import RuleProvider from 'lib/features/rules/RuleProvider.js';
+
 
 export default function ResizeRules(eventBus) {
   RuleProvider.call(this, eventBus);

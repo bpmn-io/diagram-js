@@ -1,11 +1,11 @@
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import orderingProviderModule from './provider';
+import modelingModule from 'lib/features/modeling/index.js';
+import moveModule from 'lib/features/move/index.js';
+import orderingProviderModule from './provider/index.js';
 
 
 describe('features/ordering', function() {
