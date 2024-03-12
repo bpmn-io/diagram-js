@@ -3,7 +3,7 @@
   "version": "14.1.0",
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "main": "lib/Diagram.js",
-  "module": "lib/Diagram.js",
+  "type": "module",
   "types": "lib/Diagram.d.ts",
   "files": [
     "lib",
@@ -19,7 +19,7 @@
     "lint": "eslint .",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "run-s generate-types:*",
-    "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts -r lib",
+    "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts --module NodeNext -r lib",
     "generate-types:test": "tsc --noEmit --noImplicitAny",
     "test": "karma start",
     "prepublishOnly": "run-s generate-types"
