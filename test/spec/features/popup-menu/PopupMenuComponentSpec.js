@@ -735,6 +735,31 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
+  describe('a11y', function() {
+
+    const entries = [
+      { id: '1', label: 'Entry 1', description: 'Entry 1 description' },
+      { id: '2', label: 'Entry 2' },
+      { id: '3', label: 'Entry 3' },
+      { id: '4', label: 'Entry 4' },
+      { id: '5', label: 'Entry 5', search: 'foo' },
+      { id: 'some_entry_id', label: 'Last' },
+      { id: '7', label: 'Entry 7' , searchable: false }
+    ];
+
+    it('should have label for search input', async function() {
+
+      // given
+      await createPopupMenu({ container, entries, title: 'Search', search: true });
+
+      const searchInput = domQuery('.djs-popup-search input', container);
+
+      // then
+      expect(searchInput.getAttribute('aria-label')).to.eql('Search');
+    });
+  });
+
+
   // helpers
   async function createPopupMenu(options) {
 
