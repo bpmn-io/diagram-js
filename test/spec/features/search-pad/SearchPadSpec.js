@@ -463,7 +463,7 @@ describe('features/searchPad', function() {
       var input = domQuery(SearchPad.INPUT_SELECTOR, canvas.getContainer());
 
       // then
-      expect(input.getAttribute('aria-label')).to.eql('Search');
+      expect(input.getAttribute('aria-label')).to.eql('Search in diagram');
     }));
   });
 });
