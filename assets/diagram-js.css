@@ -565,6 +565,12 @@ marker.djs-dragger tspan {
   border-radius: 2px;
 }
 
+.djs-popup button.entry {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
 .djs-popup-header .entry.active {
   color: var(--popup-header-entry-selected-color);
 }
