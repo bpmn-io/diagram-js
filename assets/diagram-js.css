@@ -55,6 +55,7 @@
   --palette-background-color: var(--color-grey-225-10-97);
   --palette-border-color: var(--color-grey-225-10-75);
 
+  --popup-font-family: "IBM Plex Sans", sans-serif;
   --popup-font-size: 14px;
   --popup-header-entry-selected-color: var(--color-blue-205-100-50);
   --popup-header-font-weight: bolder;
@@ -513,29 +514,20 @@ marker.djs-dragger tspan {
 /**
  * popup styles
  */
-.djs-popup-backdrop {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  z-index: 200;
-  line-height: 1;
-  font-family: "IBM Plex Sans", sans-serif;
-}
-
 .djs-popup {
+  line-height: 1;
   box-sizing: border-box;
   width: min-content;
   background: var(--popup-background-color);
   overflow: hidden;
-  position: absolute;
+  position: fixed;
 
   box-shadow: 0px 2px 6px var(--popup-shadow-color);
   border: solid 1px var(--popup-border-color);
   min-width: 120px;
   outline: none;
   font-size: var(--popup-font-size);
+  font-family: var(--popup-font-family);
 }
 
 .djs-popup-search input {

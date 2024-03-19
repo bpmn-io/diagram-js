@@ -185,7 +185,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       await createPopupMenu({ container, onClose });
 
-      container.children[0].click();
+      document.body.click();
 
       expect(onClose).to.have.been.calledOnce;
     });
