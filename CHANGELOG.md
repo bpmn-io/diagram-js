@@ -6,6 +6,13 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.2.0
+
+* `FEAT`: be able to type diagram services and events ([#862](https://github.com/bpmn-io/diagram-js/pull/862))
+* `FIX`: correct various types ([#865](https://github.com/bpmn-io/diagram-js/pull/865), [#873](https://github.com/bpmn-io/diagram-js/pull/873))
+* `DEPS`: update to `didi@10.2.2`
+* `DEPS`: update to `@bpmn-io/diagram-js-ui@0.2.3`
+
 ## 14.1.1
 
 * `FIX`: apply labels to inputs ([#872](https://github.com/bpmn-io/diagram-js/pull/872))
