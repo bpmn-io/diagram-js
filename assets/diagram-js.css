@@ -689,13 +689,6 @@ marker.djs-dragger tspan {
   display: flex;
 }
 
-.entry-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-}
-
 .djs-popup-body {
   flex-direction: column;
   width: auto;
