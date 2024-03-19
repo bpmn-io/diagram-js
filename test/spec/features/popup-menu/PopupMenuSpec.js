@@ -272,7 +272,6 @@ describe('features/popup-menu', function() {
 
       // then
       expect(domClasses(container).has('djs-popup-parent')).to.be.true;
-      expect(queryPopupAll('.djs-popup-backdrop')).to.have.length(1);
       expect(queryPopupAll('.djs-popup')).to.have.length(1);
 
       expect(domClasses(queryPopup('.djs-popup')).has('menu')).to.be.true;
@@ -1670,9 +1669,7 @@ describe('features/popup-menu', function() {
         expect(queryPopup('.popup-menu1')).to.be.null;
         expect(queryPopup('.popup-menu2')).not.to.be.null;
 
-        var popupBackdropEl = container.childNodes[0];
-
-        var popupEl = popupBackdropEl.childNodes[0];
+        var popupEl = container.childNodes[0];
         expect(popupEl.style.left).to.eql('200px');
         expect(popupEl.style.top).to.eql('200px');
         expect(domClasses(popupEl).has('popup-menu2')).to.be.true;
