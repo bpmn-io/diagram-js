@@ -454,6 +454,18 @@ describe('features/searchPad', function() {
 
   });
 
+
+  describe('a11y', function() {
+
+    it('should have label for search input', inject(function(canvas) {
+
+      // given
+      var input = domQuery(SearchPad.INPUT_SELECTOR, canvas.getContainer());
+
+      // then
+      expect(input.getAttribute('aria-label')).to.eql('Search in diagram');
+    }));
+  });
 });
 
 
