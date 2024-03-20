@@ -97,6 +97,22 @@
 }
 
 /**
+ * SVG styles
+ */
+
+.djs-container svg:focus {
+  outline: none;
+}
+
+.djs-container svg.drop-not-ok {
+  background: var(--shape-drop-not-allowed-fill-color) !important;
+}
+
+.djs-container svg.new-parent {
+  background: var(--shape-drop-allowed-fill-color) !important;
+}
+
+/**
  * outline styles
  */
 
@@ -141,14 +157,6 @@
 
 .djs-shape.new-parent .djs-visual > :nth-child(1) {
   fill: var(--shape-drop-allowed-fill-color) !important;
-}
-
-svg.drop-not-ok {
-  background: var(--shape-drop-not-allowed-fill-color) !important;
-}
-
-svg.new-parent {
-  background: var(--shape-drop-allowed-fill-color) !important;
 }
 
 

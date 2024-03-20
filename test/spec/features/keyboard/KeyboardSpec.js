@@ -1,14 +1,3 @@
-import TestContainer from 'mocha-test-container-support';
-
-import {
-  assign
-} from 'min-dash';
-
-import {
-  domify
-} from 'min-dom';
-
-import modelingModule from 'lib/features/modeling';
 import keyboardModule from 'lib/features/keyboard';
 
 import {
@@ -23,17 +12,11 @@ describe('features/keyboard', function() {
 
   var TEST_KEY = 'Numpad3';
 
-  var defaultDiagramConfig = {
+  beforeEach(bootstrapDiagram({
     modules: [
-      modelingModule,
       keyboardModule
-    ],
-    canvas: {
-      deferUpdate: false
-    }
-  };
-
-  beforeEach(bootstrapDiagram(defaultDiagramConfig));
+    ]
+  }));
 
 
   it('should bootstrap diagram with keyboard', inject(function(keyboard) {
@@ -41,64 +24,26 @@ describe('features/keyboard', function() {
   }));
 
 
-  describe('keyboard binding', function() {
-
-    var keyboardConfig = {
-      keyboard: {
-        bindTo: document
-      }
-    };
-
-    beforeEach(bootstrapDiagram(assign(defaultDiagramConfig, keyboardConfig)));
-
-
-    it('should integrate with <attach> + <detach> events', inject(
-      function(keyboard, eventBus) {
-
-        // assume
-        expect(keyboard._node).not.to.exist;
-
-        // when
-        eventBus.fire('attach');
-
-        expect(keyboard._node).to.eql(document);
-
-        // but when
-        eventBus.fire('detach');
-
-        expect(keyboard._node).not.to.exist;
-      }
-    ));
-
-  });
-
-
   describe('keydown event listener handling', function() {
 
-    var testDiv;
-
-    beforeEach(function() {
-
-      var testContainer = TestContainer.get(this);
-
-      testDiv = document.createElement('div');
-      testDiv.setAttribute('class', 'testClass');
-      testContainer.appendChild(testDiv);
-    });
-
-
-    it('should bind keyboard events to node', inject(function(keyboard) {
+    it('should bind keyboard events', inject(function(keyboard) {
 
       // given
       var keyHandlerSpy = sinon.spy(keyboard, '_keyHandler');
 
       // when
-      keyboard.bind(testDiv);
+      keyboard.bind();
 
       // then
-      dispatchKeyboardEvent(testDiv, 'keydown');
+      var node = keyboard.getBinding();
 
-      expect(keyHandlerSpy).to.have.been.called;
+      expect(node).to.exist;
+
+      // but when
+      dispatchKeyboardEvent(node, 'keydown');
+
+      // then
+      expect(keyHandlerSpy).to.have.been.calledOnce;
     }));
 
 
@@ -107,13 +52,15 @@ describe('features/keyboard', function() {
       // given
       var keyHandlerSpy = sinon.spy(keyboard, '_keyHandler');
 
-      keyboard.bind(testDiv);
-
       // when
+      keyboard.bind();
+
+      var node = keyboard.getBinding();
+
       keyboard.unbind();
 
       // then
-      dispatchKeyboardEvent(testDiv, 'keydown');
+      dispatchKeyboardEvent(node, 'keydown');
 
       expect(keyHandlerSpy).not.to.have.been.called;
     }));
@@ -126,219 +73,17 @@ describe('features/keyboard', function() {
     }));
 
 
-    it('should return node', inject(function(keyboard) {
+    it('should return node', inject(function(keyboard, canvas) {
 
       // given
-      keyboard.bind(testDiv);
+      keyboard.bind();
 
       // when
       var binding = keyboard.getBinding();
 
       // then
-      expect(binding).to.equal(testDiv);
+      expect(binding).to.equal(canvas._svg);
     }));
-
-
-    describe('should ignore input field targets', function() {
-
-      it('non-modifier event', inject(
-        function(keyboard, eventBus) {
-
-          // given
-          var eventBusSpy = sinon.spy(eventBus, 'fire');
-
-          var inputField = document.createElement('input');
-          testDiv.appendChild(inputField);
-
-          // when
-          keyboard._keyHandler({ key: TEST_KEY, target: inputField });
-          keyboard._keyHandler({ key: TEST_KEY, shiftKey: true, target: inputField });
-
-          // then
-          expect(eventBusSpy).to.not.be.called;
-        })
-      );
-
-      it('modifier event', inject(
-        function(keyboard, eventBus) {
-
-          // given
-          var eventBusSpy = sinon.spy(eventBus, 'fire');
-
-          var inputField = document.createElement('input');
-          testDiv.appendChild(inputField);
-
-          // when
-          keyboard._keyHandler({ key: TEST_KEY, metaKey: true, target: inputField });
-          keyboard._keyHandler({ key: TEST_KEY, ctrlKey: true, target: inputField });
-
-          // then
-          expect(eventBusSpy).to.not.be.called;
-        })
-      );
-
-    });
-
-
-    it('should ignore propagation stopped events', inject(
-      function(keyboard, eventBus) {
-
-        // given
-        var keyListener = sinon.spy();
-
-        keyboard.bind(testDiv);
-
-        eventBus.on('keyboard.keydown', keyListener);
-        eventBus.on('keyboard.keyup', keyListener);
-
-        var testEl = domify('<div tab-index="-1"></div>');
-
-        testEl.addEventListener('keydown', function(event) {
-          event.stopPropagation();
-        });
-
-        testEl.addEventListener('keyup', function(event) {
-          event.stopPropagation();
-        });
-
-        testDiv.appendChild(testEl);
-
-        // when
-        dispatchKeyboardEvent(testEl, 'keydown');
-        dispatchKeyboardEvent(testEl, 'keyup');
-
-        // then
-        expect(keyListener).not.to.be.called;
-      })
-    );
-
-
-    it('should ignore default prevented events', inject(
-      function(keyboard, eventBus) {
-
-        // given
-        var keyListener = sinon.spy();
-
-        keyboard.bind(testDiv);
-
-        eventBus.on('keyboard.keydown', keyListener);
-        eventBus.on('keyboard.keyup', keyListener);
-
-        var testEl = domify('<div tab-index="-1"></div>');
-
-        testEl.addEventListener('keydown', function(event) {
-          event.preventDefault();
-        });
-
-        testEl.addEventListener('keyup', function(event) {
-          event.preventDefault();
-        });
-
-        testDiv.appendChild(testEl);
-
-        // when
-        dispatchKeyboardEvent(testEl, 'keydown');
-        dispatchKeyboardEvent(testEl, 'keyup');
-
-        // then
-        expect(keyListener).not.to.be.called;
-      })
-    );
-
-
-    describe('input-handle-modified-keys property', function() {
-
-      it('should fire modifier event if requesting it', inject(
-        function(keyboard, eventBus) {
-
-          // given
-          var eventBusSpy = sinon.spy(eventBus, 'fire');
-
-          var inputField = domify('<input></input>');
-          testDiv.appendChild(inputField);
-          testDiv.setAttribute('input-handle-modified-keys', 'a');
-
-          // when
-          keyboard._keyHandler({ key: 'a', metaKey: true, target: inputField });
-          keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField });
-
-          // then
-          expect(eventBusSpy).to.have.been.calledTwice;
-        })
-      );
-
-
-      it('should not fire modifier event if not requested', inject(
-        function(keyboard, eventBus) {
-
-          // given
-          var eventBusSpy = sinon.spy(eventBus, 'fire');
-
-          var inputField = domify('<input></input>');
-          testDiv.appendChild(inputField);
-          testDiv.setAttribute('input-handle-modified-keys', 'a');
-
-          // when
-          keyboard._keyHandler({ key: 'b', metaKey: true, target: inputField });
-          keyboard._keyHandler({ key: 'b', ctrlKey: true, target: inputField });
-
-          // then
-          expect(eventBusSpy).to.not.be.called;
-        })
-      );
-
-
-      it('should override handled keys', inject(
-        function(keyboard, eventBus) {
-
-          // given
-          var eventBusSpy = sinon.spy(eventBus, 'fire');
-
-          var inputField = domify('<input input-handle-modified-keys="b"></input>');
-          testDiv.appendChild(inputField);
-          testDiv.setAttribute('input-handle-modified-keys', 'a');
-
-          // when
-          keyboard._keyHandler({ key: 'a', metaKey: true, target: inputField });
-          keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField });
-
-          // then
-          expect(eventBusSpy).to.not.be.called;
-
-          // when
-          keyboard._keyHandler({ key: 'b', metaKey: true, target: inputField });
-          keyboard._keyHandler({ key: 'b', ctrlKey: true, target: inputField });
-
-          // then
-          expect(eventBusSpy).to.have.been.calledTwice;
-        })
-      );
-
-
-      it('should not fire modifier event if the requesting element is outside of binding', inject(
-        function(keyboard, eventBus) {
-
-          // given
-          var inputContainer = domify('<div class="container"><input /></div>'),
-              inputField = inputContainer.querySelector('input');
-
-          testDiv.appendChild(inputContainer);
-          testDiv.setAttribute('input-handle-modified-keys', 'a');
-
-          keyboard.bind(inputContainer);
-
-          var eventBusSpy = sinon.spy(eventBus, 'fire');
-
-          // when
-          keyboard._keyHandler({ key: 'a', metaKey: true, target: inputField });
-          keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField });
-
-          // then
-          expect(eventBusSpy).to.not.be.called;
-        })
-      );
-
-    });
 
   });
 
@@ -506,6 +251,109 @@ describe('features/keyboard', function() {
   });
 
 });
+
+
+describe('features/keyboard - <keyboard.bind=false> config', function() {
+
+  beforeEach(bootstrapDiagram({
+    modules: [
+      keyboardModule
+    ],
+    keyboard: {
+      bind: false
+    }
+  }));
+
+
+  it('should not bind initially', inject(
+    function(keyboard) {
+
+      // then
+      expect(keyboard.getBinding()).not.to.exist;
+    }
+  ));
+
+});
+
+
+describe('features/keyboard - legacy', function() {
+
+  var errorSpy;
+
+  beforeEach(function() {
+    errorSpy = sinon.spy(console, 'error');
+  });
+
+  afterEach(function() {
+    errorSpy.restore();
+  });
+
+  function expectError(errorSpy, errorMessage) {
+    expect(errorSpy).to.have.been.calledOnce;
+
+    var args = errorSpy.args[0];
+
+    expect(args).to.have.length(2);
+    expect(args[0]).to.eql(errorMessage);
+  }
+
+
+  describe('keyboard.bindTo=document> config', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        keyboardModule
+      ],
+      keyboard: {
+        bindTo: document.body
+      }
+    }));
+
+
+    it('should bind but indicate error', inject(
+      function(keyboard) {
+
+        // then
+        // binding happens regardless
+        expect(keyboard.getBinding()).to.exist;
+        expect(keyboard.getBinding()).not.to.equal(document.body);
+
+        // error is indicated
+        expectError(errorSpy, 'unsupported configuration <keyboard.bindTo>');
+      }
+    ));
+
+  });
+
+
+  describe('keyboard.bind(Element)', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        keyboardModule
+      ]
+    }));
+
+
+    it('should bind but indicate error', inject(
+      function(keyboard) {
+
+        // when
+        keyboard.bind(document.body);
+
+        // then
+        // binding happens regardless
+        expect(keyboard.getBinding()).to.exist;
+
+        // error is indicated
+        expectError(errorSpy, 'unsupported argument <node>');
+      }
+    ));
+
+  });
+
+});
+
 
 
 // helpers //////////
