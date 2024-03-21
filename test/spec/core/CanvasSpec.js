@@ -598,6 +598,20 @@ describe('Canvas', function() {
     }));
 
 
+    it('should return the current root element when attempting to set it again', inject(function(canvas, elementRegistry) {
+
+      // given
+      var rootElement = canvas.setRootElement({ id: 'XXXX' });
+
+      // when
+      var updatedRootElement = canvas.setRootElement(rootElement);
+
+      // then
+      // is the current root element returned from setter?
+      expect(updatedRootElement).to.equal(rootElement);
+    }));
+
+
     it('should list root elements', inject(function(canvas, elementRegistry) {
 
       // given
