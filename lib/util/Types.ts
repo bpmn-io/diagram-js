@@ -3,6 +3,11 @@ export type Point = {
   y: number;
 };
 
+export type ScrollDelta = {
+  dx?: number;
+  dy?: number;
+}
+
 export type Vector = Point;
 
 export type Dimension = 'width' | 'height';

@@ -158,7 +158,7 @@ canvas.removeConnection(connectionLike);
 
 canvas.resized();
 
-canvas.scroll({ x: 100, y: 100 });
+canvas.scroll({ dx: 100, dy: 100 });
 
 canvas.scrollToElement('shape');
 
