@@ -180,6 +180,46 @@ describe('features/keyboard', function() {
     });
 
 
+    describe('should ignore ENTER and SPACE on button like elements', function() {
+
+      const SPACE_KEY = ' ';
+      const ENTER_KEY = 'Enter';
+
+      const testScenarios = {
+        'input[type=button]': () => domify('<input type="button" value="BUTTON" />'),
+        'input[type=submit]': () => domify('<input type="submit" value="BUTTON" />'),
+        'button': () => domify('<button>BUTTON</button>'),
+        'a[href]': () => domify('<a href="#">LINK</a>'),
+        '[aria-role=button]': () => domify('<span aria-role="button">FAKE Button</span>')
+      };
+
+      for (const [ name, createElement ] of Object.entries(testScenarios)) {
+
+        it(name, inject(
+          function(keyboard, eventBus) {
+
+            // given
+            var eventBusSpy = sinon.spy(eventBus, 'fire');
+
+            var buttonEl = createElement();
+            testDiv.appendChild(buttonEl);
+
+            // when
+            keyboard._keyHandler({ key: SPACE_KEY, target: buttonEl });
+            keyboard._keyHandler({ key: SPACE_KEY, shiftKey: true, target: buttonEl });
+
+            keyboard._keyHandler({ key: ENTER_KEY, target: buttonEl });
+            keyboard._keyHandler({ key: ENTER_KEY, shiftKey: true, target: buttonEl });
+
+            // then
+            expect(eventBusSpy).to.not.be.called;
+          })
+        );
+      }
+
+    });
+
+
     it('should ignore propagation stopped events', inject(
       function(keyboard, eventBus) {
 
