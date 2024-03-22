@@ -347,6 +347,20 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(onSelectSpy).to.have.been.calledOnce;
     });
 
+
+    it('should show placeholder if no entries', async function() {
+
+      // given
+      await createPopupMenu({
+        container,
+        emptyPlaceholder: 'No Entries'
+      });
+
+      // then
+      expect(domQueryAll('.entry', container)).to.have.length(0);
+      expect(domQuery('.djs-popup-no-results', container)).to.exist;
+    });
+
   });
 
 
