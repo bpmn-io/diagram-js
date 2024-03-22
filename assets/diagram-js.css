@@ -674,6 +674,11 @@ marker.djs-dragger tspan {
   line-height: 1.4em;
 }
 
+.djs-popup .entry,
+.djs-popup .entry-header {
+  margin: 1px;
+}
+
 .djs-popup-title,
 .djs-popup-label,
 .djs-popup-entry-description,
