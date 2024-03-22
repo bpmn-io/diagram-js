@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.3.1
+
+* `FIX`: ensure popup menu is rendered on top
+
 ## 14.3.0
 
 * `FEAT`: make popup menu fully keyboard navigatable ([#871](https://github.com/bpmn-io/diagram-js/issues/871))
