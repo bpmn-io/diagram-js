@@ -6,7 +6,14 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.3.0
+
+* `FEAT`: make popup menu fully keyboard navigatable ([#871](https://github.com/bpmn-io/diagram-js/issues/871))
+* `FIX`: do not trap `TAB` in popup menu ([#874](https://github.com/bpmn-io/diagram-js/pull/874))
+* `FIX`: do not trap `Space` and `Enter` on button elements ([#874](https://github.com/bpmn-io/diagram-js/pull/874))
+* `FIX`: do not trap click outside of popup menu ([#874](https://github.com/bpmn-io/diagram-js/pull/874))
 * `FIX`: show empty placeholder in popup menu when no entries were returned ([#876](https://github.com/bpmn-io/diagram-js/pull/876))
+* `FIX`: correct various types ([#875](https://github.com/bpmn-io/diagram-js/pull/875))
 
 ## 14.2.0
 
