@@ -521,7 +521,7 @@ marker.djs-dragger tspan {
   background: var(--popup-background-color);
   overflow: hidden;
   position: fixed;
-
+  z-index: 200;
   box-shadow: 0px 2px 6px var(--popup-shadow-color);
   border: solid 1px var(--popup-border-color);
   min-width: 120px;
