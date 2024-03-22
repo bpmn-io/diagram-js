@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: show empty placeholder in popup menu when no entries were returned ([#876](https://github.com/bpmn-io/diagram-js/pull/876))
+
 ## 14.2.0
 
 * `FEAT`: be able to type diagram services and events ([#862](https://github.com/bpmn-io/diagram-js/pull/862))
