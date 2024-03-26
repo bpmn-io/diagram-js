@@ -16,7 +16,8 @@ import {
 import {
   query as domQuery,
   queryAll as domQueryAll,
-  classes as domClasses
+  classes as domClasses,
+  domify
 } from 'min-dom';
 
 import { createEvent as globalEvent } from '../../../util/MockEvents';
@@ -615,6 +616,60 @@ describe('features/popup-menu', function() {
       expect(popupMenu._current).to.exist;
       expect(popupMenu._current.entries).to.have.keys('foo', 'bar', 'baz');
       expect(popupMenu._current.headerEntries).to.have.keys('foo', 'bar', 'baz');
+    }));
+
+
+    it.only('should not close on outside click', inject(async function(eventBus, popupMenu) {
+
+      // given
+      // a click event on the body to track the event propagation
+      document.body.addEventListener('click', () => {
+        console.log('click handled in body, bubble phase');
+      });
+
+      document.body.addEventListener('click', () => {
+        console.log('click handled in body, capture phase');
+      }, true);
+
+      // a provider that refreshes the menu
+      // but the async operation resolves instantly
+      let firstCall = true;
+
+      const callUpdate = async () => {
+
+        await new Promise(resolve => resolve());
+        firstCall = false;
+        console.log('promise resolved');
+        popupMenu.refresh();
+      };
+
+      var dynamicMenuProvider = {
+        getPopupMenuEntries: function() {
+          firstCall && callUpdate();
+          return { };
+        }
+      };
+      popupMenu.registerProvider('menu', dynamicMenuProvider);
+
+      // a button to open the menu
+      const button = domify('<button>open</button>');
+      button.addEventListener('click', (event) => {
+        popupMenu.open({}, 'menu', { x: 100, y: 100 });
+      });
+      document.body.appendChild(button);
+
+
+      // when
+      // const click_event = new CustomEvent('click');
+      // button.dispatchEvent(click_event);
+
+      // button.click();
+
+      // await secondCall;
+
+      // then
+      // expect(popupMenu.isOpen()).to.be.true;
+
     }));
 
 
