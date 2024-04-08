@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.3.2
+
+* `FIX`: ensure popup menu position is consistent with scale ([#878](https://github.com/bpmn-io/diagram-js/pull/878))
+
 ## 14.3.1
 
 * `FIX`: ensure popup menu is rendered on top
