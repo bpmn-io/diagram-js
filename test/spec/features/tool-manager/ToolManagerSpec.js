@@ -66,6 +66,30 @@ describe('features/tool-manager', function() {
       expect(toolManager.isActive('hand')).to.be.false;
     }));
 
+
+    it('should not interfere with dragging', inject(function(toolManager, handTool, dragging) {
+
+      // given
+      toolManager.registerTool('customTool', {
+        tool: 'my-custom-event'
+      });
+
+      toolManager.setActive('customTool');
+
+      // when
+      const startDrag = () =>
+        dragging.init(canvasEvent({ x: 150, y: 150 }), 'my-custom-event', {
+          autoActivate: true,
+          data: {
+            context: {}
+          }
+        });
+
+      // then
+      expect(startDrag).not.to.throw();
+
+    }));
+
   });
 
 });
