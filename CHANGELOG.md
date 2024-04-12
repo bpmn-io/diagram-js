@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.3.3
+
+* `FIX`: do not cancel dragging on tool deselection ([#881](https://github.com/bpmn-io/diagram-js/pull/881))
+
 ## 14.3.2
 
 * `FIX`: ensure popup menu position is consistent with scale ([#878](https://github.com/bpmn-io/diagram-js/pull/878))
