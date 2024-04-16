@@ -2112,10 +2112,10 @@ describe('features/popup-menu', function() {
     }
 
 
-    it('should scale within [ 1.0, 1.5 ] by default', function() {
+    it('should not scale by default', function() {
 
       // given
-      var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
+      var expectedScales = [ 1.0, 1.0, 1.0, 1.0, 1.0 ];
 
       bootstrapDiagram({
         modules: [
@@ -2129,10 +2129,10 @@ describe('features/popup-menu', function() {
     });
 
 
-    it('should scale within [ 1.0, 1.5 ] without scale config', function() {
+    it('should not scale without scale config', function() {
 
       // given
-      var expectedScales = [ 1.0, 1.2, 1.5, 1.5, 1.0 ];
+      var expectedScales = [ 1.0, 1.0, 1.0, 1.0, 1.0 ];
 
       bootstrapDiagram({
         modules: [
