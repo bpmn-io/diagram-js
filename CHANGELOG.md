@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.4.0
+
 * `FEAT`: do not scale context pad and popup menu by default ([#883](https://github.com/bpmn-io/diagram-js/pull/883))
 
 ## 14.3.3
