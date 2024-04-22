@@ -1,5 +1,7 @@
+export type PaletteEntryAction = (event: Event, autoActivate: boolean) => any;
+
 export type PaletteEntry = {
-  action: (event: Event, autoActivate: boolean) => any;
+  action: Record<string, PaletteEntryAction> | PaletteEntryAction;
   className?: string;
   group?: string;
   html?: string;
