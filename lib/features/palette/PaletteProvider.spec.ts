@@ -24,9 +24,15 @@ export class BarPaletteProvider implements PaletteProvider {
       return {
         ...entries,
         bar: {
-          action: (event, autoActivate) => {
-            console.log(event.target);
-            console.log(autoActivate);
+          action: {
+            click: (event, autoActivate) => {
+              console.log(event.target);
+              console.log(autoActivate);
+            },
+            dragstart: (event, autoActivate) => {
+              console.log(event.target);
+              console.log(autoActivate);
+            }
           },
           className: 'bar',
           group: 'bar',
