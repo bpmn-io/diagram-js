@@ -57,26 +57,11 @@ describe('features/context-pad', function() {
 
     beforeEach(bootstrapDiagram({ modules: [ contextPadModule, initPadModule ] }));
 
-    /**
-     * @constructor
-     *
-     * @param {*} [entriesOrUpdater]
-     */
-    function Provider(entriesOrUpdater) {
-      this.getContextPadEntries = function(element) {
-        return entriesOrUpdater || {};
-      };
-
-      this.getMultiElementContextPadEntries = function(element) {
-        return entriesOrUpdater || {};
-      };
-    }
-
 
     it('should register provider', inject(function(contextPad) {
 
       // given
-      var provider = new Provider();
+      var provider = new MockProvider();
 
       // then
       expect(function() {
@@ -153,8 +138,8 @@ describe('features/context-pad', function() {
           return assign(entries, { entryB: {} });
         }
 
-        var plainProvider = new Provider({ entryA: { action: function() {} } }),
-            updatingProvider = new Provider(updater);
+        var plainProvider = new MockProvider({ entryA: { action: function() {} } }),
+            updatingProvider = new MockProvider(updater);
 
         contextPad.registerProvider(plainProvider);
         contextPad.registerProvider(updatingProvider);
@@ -175,8 +160,8 @@ describe('features/context-pad', function() {
           return assign(entries, { entryA: { alt: 'text' } });
         }
 
-        var plainProvider = new Provider({ entryA: { action: function() {} } }),
-            updatingProvider = new Provider(updater);
+        var plainProvider = new MockProvider({ entryA: { action: function() {} } }),
+            updatingProvider = new MockProvider(updater);
 
         contextPad.registerProvider(plainProvider);
         contextPad.registerProvider(updatingProvider);
@@ -197,8 +182,8 @@ describe('features/context-pad', function() {
           return {};
         }
 
-        var plainProvider = new Provider({ entryA: { action: function() {} } }),
-            updatingProvider = new Provider(updater);
+        var plainProvider = new MockProvider({ entryA: { action: function() {} } }),
+            updatingProvider = new MockProvider(updater);
 
         contextPad.registerProvider(plainProvider);
         contextPad.registerProvider(updatingProvider);
@@ -211,14 +196,14 @@ describe('features/context-pad', function() {
       }));
 
 
-      describe('ordering', function() {
+      describe('priority', function() {
 
         function updater(entries) {
           return {};
         }
 
-        var plainProvider = new Provider({ entryA: { action: function() {} } }),
-            updatingProvider = new Provider(updater);
+        var plainProvider = new MockProvider({ entryA: { action: function() {} } }),
+            updatingProvider = new MockProvider(updater);
 
 
         it('should call providers by registration order per default', inject(function(contextPad) {
@@ -269,7 +254,7 @@ describe('features/context-pad', function() {
             }
           };
 
-          var provider = new Provider(entries);
+          var provider = new MockProvider(entries);
 
           // when
           contextPad.registerProvider(provider);
@@ -1330,6 +1315,67 @@ describe('features/context-pad', function() {
     }));
 
 
+    describe('order', function() {
+
+      it('should order groups by order property', inject(function(canvas, contextPad) {
+
+        // given
+        contextPad.registerProvider(1000, new MockProvider({
+          'foo': {
+            className: 'foo',
+            group: 'foo'
+          },
+          'bar': {
+            className: 'bar',
+            group: 'foo'
+          },
+          'baz': {
+            className: 'baz',
+            group: 'baz'
+          }
+        }));
+
+        contextPad.registerProvider(2000, new MockProvider({
+          'second': {
+            className: 'second',
+            order: 2,
+            group: 'first',
+            groupOrder: -1
+          },
+          'last': {
+            className: 'last',
+            group: 'last',
+            groupOrder: 1
+          },
+          'first': {
+            className: 'first',
+            order: 1,
+            group: 'first',
+            groupOrder: -1
+          }
+        }));
+
+        // when
+        contextPad.open({ id: 's1' });
+
+        // then
+        var pad = contextPad.getPad({ id: 's1' }),
+            padContainer = pad.html,
+            entries = domQueryAll('.entry', padContainer);
+
+        expect(entries).to.have.length(6);
+
+        expect(entries[0].getAttribute('data-action')).to.eql('first');
+        expect(entries[1].getAttribute('data-action')).to.eql('second');
+        expect(entries[2].getAttribute('data-action')).to.eql('foo');
+        expect(entries[3].getAttribute('data-action')).to.eql('bar');
+        expect(entries[4].getAttribute('data-action')).to.eql('baz');
+        expect(entries[5].getAttribute('data-action')).to.eql('last');
+      }));
+
+    });
+
+
     it('should NOT allow XSS via group', inject(function(canvas, contextPad) {
 
       // given
@@ -1356,6 +1402,7 @@ describe('features/context-pad', function() {
 
       expect(injected).not.to.exist;
     }));
+
   });
 
 
@@ -1433,3 +1480,18 @@ describe('features/context-pad', function() {
   });
 
 });
+
+/**
+ * @constructor
+ *
+ * @param {*} [entriesOrUpdater]
+ */
+function MockProvider(entriesOrUpdater) {
+  this.getContextPadEntries = function(element) {
+    return entriesOrUpdater || {};
+  };
+
+  this.getMultiElementContextPadEntries = function(element) {
+    return entriesOrUpdater || {};
+  };
+}
