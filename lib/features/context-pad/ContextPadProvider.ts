@@ -2,8 +2,10 @@ import { Element } from '../../model/Types';
 
 import { ContextPadTarget } from './ContextPad';
 
+export type ContextPadEntryAction<ElementType extends Element = Element> = (event: Event, target: ContextPadTarget<ElementType>, autoActivate: boolean) => any;
+
 export type ContextPadEntry<ElementType extends Element = Element> = {
-  action: (event: Event, target: ContextPadTarget<ElementType>, autoActivate: boolean) => void;
+  action: Record<string, ContextPadEntryAction<ElementType>> | ContextPadEntryAction<ElementType>;
   className?: string;
   group?: string;
   html?: string;
