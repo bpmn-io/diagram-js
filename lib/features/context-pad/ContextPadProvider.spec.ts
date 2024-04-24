@@ -1,4 +1,4 @@
-import ContextPadProvider, { ContextPadEntries } from './ContextPadProvider';
+import ContextPadProvider, { ContextPadEntries, ContextPadEntryAction } from './ContextPadProvider';
 
 import { Element } from '../../model';
 
@@ -30,20 +30,25 @@ export class FooContextPadProvider implements ContextPadProvider {
 
 export class BarContextPadProvider implements ContextPadProvider {
   getMultiElementContextPadEntries(elements: Element[]): ContextPadEntries {
+    const action: ContextPadEntryAction = (event, target, autoActivate) => {
+      console.log(event.target);
+
+      if (Array.isArray(target)) {
+        target.forEach(({ id }) => console.log(id));
+      } else {
+        console.log(target.id);
+      }
+
+      console.log(autoActivate);
+
+      elements.forEach(element => console.log(element.id));
+    };
+
     return {
       bar: {
-        action: (event, target, autoActivate) => {
-          console.log(event.target);
-
-          if (Array.isArray(target)) {
-            target.forEach(({ id }) => console.log(id));
-          } else {
-            console.log(target.id);
-          }
-
-          console.log(autoActivate);
-
-          elements.forEach(element => console.log(element.id));
+        action: {
+          click: action,
+          hover: action
         },
         className: 'bar',
         group: 'bar',
