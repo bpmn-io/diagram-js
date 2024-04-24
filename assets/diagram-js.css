@@ -473,16 +473,13 @@ marker.djs-dragger tspan {
 /**
  * context-pad
  */
-.djs-overlay-context-pad {
-  width: 72px;
-  z-index: 100;
-}
-
 .djs-context-pad {
   position: absolute;
   display: none;
   pointer-events: none;
   line-height: 1;
+  width: 72px;
+  z-index: 100;
 }
 
 .djs-context-pad .entry {
