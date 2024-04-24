@@ -42,7 +42,7 @@ export class BarContextPadProvider implements ContextPadProvider {
       console.log(autoActivate);
 
       elements.forEach(element => console.log(element.id));
-    }
+    };
 
     return {
       bar: {
