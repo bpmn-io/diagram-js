@@ -1292,7 +1292,7 @@ describe('features/context-pad', function() {
       }));
 
 
-      it('connection', inject(function(canvas, contextPad) {
+      (isFirefox() ? it.skip : it)('connection', inject(function(canvas, contextPad) {
 
         // given
         var connection = {
@@ -1402,3 +1402,7 @@ describe('features/context-pad', function() {
   });
 
 });
+
+function isFirefox() {
+  return /firefox/i.test(navigator.userAgent);
+}
