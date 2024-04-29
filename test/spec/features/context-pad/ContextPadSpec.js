@@ -828,15 +828,21 @@ describe('features/context-pad', function() {
 
       var event = globalEvent(target, { x: 0, y: 0 });
 
+      sinon.spy(contextPad, 'triggerEntry');
+
       // when
       contextPad.trigger('mouseover', event);
 
       expect(event.__handled).not.to.exist;
 
+      expect(contextPad.triggerEntry).not.to.have.been.called;
+
       clock.tick(500);
 
       // then
       expect(event.__handled).to.be.true;
+
+      expect(contextPad.triggerEntry).to.have.been.calledOnceWith('action.hover', 'hover', event);
     }));
 
 
@@ -865,10 +871,14 @@ describe('features/context-pad', function() {
 
       var event = globalEvent(target, { x: 0, y: 0 });
 
+      sinon.spy(contextPad, 'triggerEntry');
+
       // when
       contextPad.trigger('mouseover', event);
 
       expect(event.__handled).not.to.exist;
+
+      expect(contextPad.triggerEntry).not.to.have.been.called;
 
       clock.tick(250);
 
@@ -878,6 +888,8 @@ describe('features/context-pad', function() {
 
       // then
       expect(event.__handled).not.to.exist;
+
+      expect(contextPad.triggerEntry).not.to.have.been.calledWith('action.hover', 'hover', event);
     }));
 
 
