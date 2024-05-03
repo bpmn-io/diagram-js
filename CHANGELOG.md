@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.4.2
+
+* `FIX`: do not call context pad handler twice on hover ([#890](https://github.com/bpmn-io/diagram-js/pull/890))
+
 ## 14.4.1
 
 * `FIX`: prevent missing parent error in move preview ([#889](https://github.com/bpmn-io/diagram-js/pull/889))
