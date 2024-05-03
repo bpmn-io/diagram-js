@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.5.0
+
+* `FEAT`: context pad position absolute instead of relative to element ([#888](https://github.com/bpmn-io/diagram-js/pull/888))
+* `CHORE`: deprecate `ContextPad#getPad` ([#888](https://github.com/bpmn-io/diagram-js/pull/888))
+
 ## 14.4.2
 
 * `FIX`: do not call context pad handler twice on hover ([#890](https://github.com/bpmn-io/diagram-js/pull/890))
