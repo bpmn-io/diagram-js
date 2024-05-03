@@ -1287,6 +1287,27 @@ describe('features/context-pad', function() {
         var containerBounds = canvas.getContainer().getBoundingClientRect();
         var targetBounds = canvas.getGraphics(shape).getBoundingClientRect();
 
+        expect(position.left).be.closeTo(targetBounds.left + targetBounds.width + 8 - containerBounds.left, 1);
+        expect(position.top).be.closeTo(targetBounds.top - containerBounds.top, 1);
+      }));
+
+
+      it('shape (scaled)', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        canvas.zoom(1.5);
+
+        // when
+        var position = contextPad._getPosition(shape);
+
+        // then
+        var containerBounds = canvas.getContainer().getBoundingClientRect();
+        var targetBounds = canvas.getGraphics(shape).getBoundingClientRect();
+
         expect(position.left).be.closeTo(targetBounds.left + targetBounds.width + 12 - containerBounds.left, 1);
         expect(position.top).be.closeTo(targetBounds.top - containerBounds.top, 1);
       }));
@@ -1313,7 +1334,7 @@ describe('features/context-pad', function() {
         var containerBounds = canvas.getContainer().getBoundingClientRect();
         var targetBounds = canvas.getGraphics(connection).getBoundingClientRect();
 
-        expect(position.left).be.closeTo(targetBounds.left + targetBounds.width + 12 - containerBounds.left, 1);
+        expect(position.left).be.closeTo(targetBounds.left + targetBounds.width + 8 - containerBounds.left, 1);
         expect(position.top).be.closeTo(targetBounds.bottom - containerBounds.top, 1);
       }));
 
@@ -1337,7 +1358,7 @@ describe('features/context-pad', function() {
       var target1Bounds = canvas.getGraphics(shape1).getBoundingClientRect();
       var target2Bounds = canvas.getGraphics(shape2).getBoundingClientRect();
 
-      expect(position.left).be.closeTo(target2Bounds.left + target2Bounds.width + 12 - containerBounds.left, 1);
+      expect(position.left).be.closeTo(target2Bounds.left + target2Bounds.width + 8 - containerBounds.left, 1);
       expect(position.top).be.closeTo(target1Bounds.top - containerBounds.top, 1);
     }));
 
@@ -1358,7 +1379,7 @@ describe('features/context-pad', function() {
       var containerBounds = canvas.getContainer().getBoundingClientRect();
       var targetBounds = canvas.getGraphics(shape).getBoundingClientRect();
 
-      expect(position.left).be.closeTo(targetBounds.left + targetBounds.width + 12 - containerBounds.left, 1);
+      expect(position.left).be.closeTo(targetBounds.left + targetBounds.width + 8 - containerBounds.left, 1);
       expect(position.top).be.closeTo(targetBounds.top - containerBounds.top, 1);
     }));
 
