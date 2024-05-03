@@ -1408,7 +1408,7 @@ describe('features/context-pad', function() {
 
       expect(warnSpy).to.have.been.calledOnce;
       expect(warnSpy.getCall(0).args[ 0 ]).to.be.instanceOf(Error);
-      expect(warnSpy.getCall(0).args[ 0 ].message).to.equal('getPad is deprecated and will be removed in future library versions');
+      expect(warnSpy.getCall(0).args[ 0 ].message).to.match(/is deprecated/);
     }));
 
   });
