@@ -390,7 +390,7 @@ describe('features/context-pad', function() {
       }));
 
 
-      it('open and hidden', inject(function(canvas, contextPad, eventBus) {
+      it('open and hidden', inject(function(canvas, contextPad) {
 
         // given
         var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
@@ -407,7 +407,7 @@ describe('features/context-pad', function() {
       }));
 
 
-      it('closed', inject(function(canvas, contextPad, eventBus) {
+      it('closed', inject(function(canvas, contextPad) {
 
         // given
         var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
@@ -575,8 +575,7 @@ describe('features/context-pad', function() {
       contextPad.close();
 
       // then
-      expect(overlays.get({ element: shape })).to.have.length(0);
-      expect(!!contextPad.isOpen()).to.be.false;
+      expect(contextPad.isOpen()).to.be.false;
     }));
 
 
@@ -654,10 +653,20 @@ describe('features/context-pad', function() {
         });
       }
 
+      function remove(elements) {
+        getDiagramJS().invoke(function(canvas) {
+          (isArray(elements) ? elements : [ elements ]).forEach(function(element) {
+            canvas.removeShape(element);
+          });
+        });
+
+        change(elements);
+      }
+
 
       describe('should handle changed', function() {
 
-        it('single target', inject(function(eventBus, canvas, contextPad) {
+        it('single target', inject(function(canvas, contextPad) {
 
           // given
           var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
@@ -678,7 +687,7 @@ describe('features/context-pad', function() {
         }));
 
 
-        it('multiple targets', inject(function(eventBus, canvas, contextPad) {
+        it('multiple targets', inject(function(canvas, contextPad) {
 
           // given
           var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
@@ -703,9 +712,59 @@ describe('features/context-pad', function() {
       });
 
 
+      describe('should handle removed', function() {
+
+        it('some removed', inject(function(canvas, contextPad) {
+
+          // given
+          var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+          var shape_2 = { id: 's2', width: 50, height: 50, x: 210, y: 10 };
+
+          canvas.addShape(shape_1);
+          canvas.addShape(shape_2);
+
+          // assume
+          contextPad.open([ shape_1, shape_2 ]);
+
+          // then
+          expectOpened([ shape_1, shape_2 ]);
+
+          // when
+          remove(shape_1);
+
+          // then
+          expectOpened(shape_2);
+        }));
+
+
+        it('all removed', inject(function(canvas, contextPad) {
+
+          // given
+          var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+          var shape_2 = { id: 's2', width: 50, height: 50, x: 210, y: 10 };
+
+          canvas.addShape(shape_1);
+          canvas.addShape(shape_2);
+
+          // assume
+          contextPad.open([ shape_1, shape_2 ]);
+
+          // then
+          expectOpened([ shape_1, shape_2 ]);
+
+          // when
+          remove([ shape_1, shape_2 ]);
+
+          // then
+          expectClosed();
+        }));
+
+      });
+
+
       describe('should ignore unrelated', function() {
 
-        it('single target', inject(function(eventBus, canvas, contextPad) {
+        it('single target', inject(function(canvas, contextPad) {
 
           // given
           var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
@@ -728,7 +787,7 @@ describe('features/context-pad', function() {
         }));
 
 
-        it('multiple targets', inject(function(eventBus, canvas, contextPad) {
+        it('multiple targets', inject(function(canvas, contextPad) {
 
           // given
           var shape_1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
