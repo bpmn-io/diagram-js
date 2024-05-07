@@ -1467,17 +1467,10 @@ describe('features/context-pad', function() {
     }));
 
 
-    afterEach(function() {
-      console.warn.restore();
-    });
-
-
     it('should return pad', inject(function(canvas, contextPad) {
 
       // given
       var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
-
-      var warnSpy = sinon.spy(console, 'warn');
 
       // when
       const pad = contextPad.getPad(shape);
@@ -1485,11 +1478,110 @@ describe('features/context-pad', function() {
       // then
       expect(pad).to.exist;
       expect(pad.html).to.exist;
-
-      expect(warnSpy).to.have.been.calledOnce;
-      expect(warnSpy.getCall(0).args[ 0 ]).to.be.instanceOf(Error);
-      expect(warnSpy.getCall(0).args[ 0 ].message).to.match(/is deprecated/);
     }));
+
+
+    it('should return existing if targets equal (target === target)', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
+
+      contextPad.open(shape);
+
+      var spy = sinon.spy(contextPad, '_createHtml');
+
+      // when
+      const pad = contextPad.getPad(shape);
+
+      // then
+      expect(pad).to.exist;
+      expect(spy).not.to.have.been.called;
+    }));
+
+
+    it('should return existing if targets equal (target === [ target ])', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
+
+      contextPad.open(shape);
+
+      var spy = sinon.spy(contextPad, '_createHtml');
+
+      // when
+      const pad = contextPad.getPad([ shape ]);
+
+      // then
+      expect(pad).to.exist;
+      expect(spy).not.to.have.been.called;
+    }));
+
+
+    it('should return existing if targets equal ([ target ] === target)', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
+
+      contextPad.open([ shape ]);
+
+      var spy = sinon.spy(contextPad, '_createHtml');
+
+      // when
+      const pad = contextPad.getPad(shape);
+
+      // then
+      expect(pad).to.exist;
+      expect(spy).not.to.have.been.called;
+    }));
+
+
+    it('should return new if targets not equal (target !== target)', inject(function(canvas, contextPad) {
+
+      // given
+      var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 }),
+          shape2 = canvas.addShape({ id: 's2', width: 100, height: 100, x: 10, y: 10 });
+
+      contextPad.open(shape);
+
+      var spy = sinon.spy(contextPad, '_createHtml');
+
+      // when
+      const pad = contextPad.getPad(shape2);
+
+      // then
+      expect(pad).to.exist;
+      expect(spy).to.have.been.called;
+    }));
+
+
+    describe('deprecation warning', function() {
+
+      var warnSpy;
+
+      beforeEach(function() {
+        warnSpy = sinon.spy(console, 'warn');
+      });
+
+      afterEach(function() {
+        console.warn.restore();
+      });
+
+      it('should log deprecation warning', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
+
+        // when
+        const pad = contextPad.getPad(shape);
+
+        // then
+        expect(pad).to.exist;
+
+        expect(warnSpy).to.have.been.calledOnce;
+        expect(warnSpy.getCall(0).args[ 0 ]).to.be.instanceOf(Error);
+        expect(warnSpy.getCall(0).args[ 0 ].message).to.match(/is deprecated/);
+      }));
+    });
 
   });
 
