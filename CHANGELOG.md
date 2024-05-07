@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.5.2
+
+* `FIX`: remove leftover return statement from context pad ([#895](https://github.com/bpmn-io/diagram-js/pull/895))
+
 ## 14.5.1
 
 * `FIX`: do not re-open context pad for elements that were removed ([#893](https://github.com/bpmn-io/diagram-js/pull/893))
