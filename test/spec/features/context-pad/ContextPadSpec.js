@@ -514,6 +514,48 @@ describe('features/context-pad', function() {
         expect(hideSpy).to.have.been.calledOnce;
       }));
 
+
+      describe('updating position', function() {
+
+        var updatePositionSpy;
+
+        beforeEach(inject(function(contextPad) {
+          updatePositionSpy = sinon.spy(contextPad, '_updatePosition');
+        }));
+
+        afterEach(function() {
+          updatePositionSpy.restore();
+        });
+
+
+        it('should update position on show', inject(function(canvas, contextPad) {
+
+          // given
+          var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+          canvas.addShape(shape);
+
+          contextPad.open(shape);
+
+          contextPad.hide();
+
+          expect(contextPad.isOpen()).to.be.true;
+          expect(contextPad.isShown()).to.be.false;
+
+          updatePositionSpy.resetHistory();
+
+          // when
+          contextPad.show();
+
+          // then
+          expect(contextPad.isOpen()).to.be.true;
+          expect(contextPad.isShown()).to.be.true;
+
+          expect(updatePositionSpy).to.have.been.calledOnce;
+        }));
+
+      });
+
     });
 
 
@@ -885,6 +927,98 @@ describe('features/context-pad', function() {
         }));
 
       });
+
+    });
+
+
+    describe('<element.marker.update>', function() {
+
+      it('should hide context pad when djs-element-hidden is added', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        contextPad.open(shape);
+
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.true;
+
+        // when
+        canvas.addMarker(shape, 'djs-element-hidden');
+
+        // then
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.false;
+      }));
+
+
+      it('should show context pad when djs-element-hidden is removed', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        canvas.addMarker(shape, 'djs-element-hidden');
+
+        contextPad.open(shape);
+
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.false;
+
+        // when
+        canvas.removeMarker(shape, 'djs-element-hidden');
+
+        // then
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.true;
+      }));
+
+
+      it('should hide context pad when djs-label-hidden is added', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        contextPad.open(shape);
+
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.true;
+
+        // when
+        canvas.addMarker(shape, 'djs-label-hidden');
+
+        // then
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.false;
+      }));
+
+
+      it('should show context pad when djs-label-hidden is removed', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        canvas.addMarker(shape, 'djs-label-hidden');
+
+        contextPad.open(shape);
+
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.false;
+
+        // when
+        canvas.removeMarker(shape, 'djs-label-hidden');
+
+        // then
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.true;
+      }));
 
     });
 
