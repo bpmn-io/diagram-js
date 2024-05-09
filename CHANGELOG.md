@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.5.4
+
+* `FIX`: don't hide context pad on `djs-label-hidden` ([#898](https://github.com/bpmn-io/diagram-js/pull/898))
+
 ## 14.5.3
 
 * `FIX`: hide context pad when targets hidden ([#897](https://github.com/bpmn-io/diagram-js/pull/897))
