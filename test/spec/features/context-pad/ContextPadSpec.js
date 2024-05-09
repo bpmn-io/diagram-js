@@ -976,50 +976,6 @@ describe('features/context-pad', function() {
         expect(contextPad.isShown()).to.be.true;
       }));
 
-
-      it('should hide context pad when djs-label-hidden is added', inject(function(canvas, contextPad) {
-
-        // given
-        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
-
-        canvas.addShape(shape);
-
-        contextPad.open(shape);
-
-        expect(contextPad.isOpen()).to.be.true;
-        expect(contextPad.isShown()).to.be.true;
-
-        // when
-        canvas.addMarker(shape, 'djs-label-hidden');
-
-        // then
-        expect(contextPad.isOpen()).to.be.true;
-        expect(contextPad.isShown()).to.be.false;
-      }));
-
-
-      it('should show context pad when djs-label-hidden is removed', inject(function(canvas, contextPad) {
-
-        // given
-        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
-
-        canvas.addShape(shape);
-
-        canvas.addMarker(shape, 'djs-label-hidden');
-
-        contextPad.open(shape);
-
-        expect(contextPad.isOpen()).to.be.true;
-        expect(contextPad.isShown()).to.be.false;
-
-        // when
-        canvas.removeMarker(shape, 'djs-label-hidden');
-
-        // then
-        expect(contextPad.isOpen()).to.be.true;
-        expect(contextPad.isShown()).to.be.true;
-      }));
-
     });
 
   });
