@@ -59,6 +59,7 @@
   --popup-font-size: 14px;
   --popup-header-entry-selected-color: var(--color-blue-205-100-50);
   --popup-header-font-weight: bolder;
+  --popup-header-group-divider-color: var(--color-grey-225-10-75);
   --popup-background-color: var(--color-white);
   --popup-border-color: transparent;
   --popup-shadow-color: var(--color-black-opacity-30);
@@ -566,6 +567,29 @@ marker.djs-dragger tspan {
 
 .djs-popup-header .entry.disabled {
   color: inherit;
+}
+
+.djs-popup-header-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.djs-popup-header-group .entry {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.djs-popup-header-group + .djs-popup-header-group:before {
+  content: '';
+  width: 1px;
+  height: 20px;
+  background: var(--popup-header-group-divider-color);
+  margin: 0 5px;
 }
 
 .djs-popup-search {

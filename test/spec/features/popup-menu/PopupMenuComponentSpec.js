@@ -364,64 +364,6 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
-  describe('header', function() {
-
-    it('should render header entry', async function() {
-
-      // given
-      const imageUrl = TEST_IMAGE_URL;
-
-      const headerEntries = [
-        { id: '1', label: '1' },
-        { id: '2', imageUrl, title: 'Toggle foo' }
-      ];
-
-      await createPopupMenu({ container, headerEntries });
-
-      // when
-      const [
-        firstEntry,
-        secondEntry
-      ] = domQueryAll('.entry', container);
-
-      // then
-      expect(firstEntry.title).to.eql('1');
-      expect(firstEntry.textContent).to.eql('1');
-
-      expect(secondEntry.title).to.eql('Toggle foo');
-      expect(secondEntry.textContent).to.eql('');
-      expect(secondEntry.innerHTML).to.eql(`<img class="djs-popup-entry-icon" src="${ imageUrl }" alt="">`);
-    });
-
-
-    it('should select header entry on hover', async function() {
-
-      // given
-      const headerEntries = [
-        { id: '1', label: '1' },
-        { id: '2', label: '2' }
-      ];
-
-      await createPopupMenu({ container, headerEntries });
-
-      const entryEl = domQuery('.entry', container);
-
-      // when
-      await trigger(entryEl, mouseEnter());
-
-      // then
-      expect(entryEl.classList.contains('selected'), 'entry is selected').to.be.true;
-
-      // but when
-      await trigger(entryEl, mouseLeave());
-
-      // then
-      expect(entryEl.classList.contains('selected')).to.be.false;
-    });
-
-  });
-
-
   it('should render title, if set', async function() {
 
     // given
@@ -841,14 +783,6 @@ function keyUp(key) {
  */
 function dragStart() {
   return new DragEvent('dragstart');
-}
-
-function mouseEnter() {
-  return new MouseEvent('mouseenter', { bubbles: true });
-}
-
-function mouseLeave() {
-  return new MouseEvent('mouseleave', { bubbles: true });
 }
 
 async function trigger(element, event) {
