@@ -47,7 +47,8 @@ export class BarPopupMenuProvider implements PopupMenuProvider {
           className: 'foo',
           imageUrl: 'https://example.com/',
           imageHtml: '<img src="https://example.com/" />',
-          label: 'Foo'
+          label: 'Foo',
+          group: 'foo'
         }
       };
     };
@@ -73,6 +74,7 @@ export class BarPopupMenuProvider implements PopupMenuProvider {
         imageHtml: '<img src="https://example.com/" />',
         label: 'Bar',
         title: 'Bar',
+        group: 'bar'
       }
     ];
   }

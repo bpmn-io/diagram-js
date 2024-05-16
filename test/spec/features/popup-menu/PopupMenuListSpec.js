@@ -30,10 +30,9 @@ describe('features/popup-menu - <PopupMenuList>', function() {
 
     // then
     expect(domQuery('.djs-popup-results', container)).to.exist;
-
   });
-});
 
+});
 
 
 // helpers
