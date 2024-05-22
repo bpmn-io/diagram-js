@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.6.0
+
+* `FEAT`: popup menu header entries can be grouped ([#900](https://github.com/bpmn-io/diagram-js/pull/900))
+
 ## 14.5.4
 
 * `FIX`: don't hide context pad on `djs-label-hidden` ([#898](https://github.com/bpmn-io/diagram-js/pull/898))
