@@ -99,7 +99,7 @@ MarkerRenderer.prototype.addMarker = function(gfx, markerType) {
 
     svgAppend(marker, circle);
 
-    defs = domQuery('defs', this._canvas._svg);
+    defs = domQuery(':scope > defs', this._canvas._svg);
 
     if (!defs) {
       defs = svgCreate('defs');

@@ -272,17 +272,17 @@ svg.new-parent {
   stroke: none !important;
 }
 
-marker.djs-dragger circle,
-marker.djs-dragger path,
-marker.djs-dragger polygon,
-marker.djs-dragger polyline,
-marker.djs-dragger rect {
+.djs-dragger marker circle,
+.djs-dragger marker path,
+.djs-dragger marker polygon,
+.djs-dragger marker polyline,
+.djs-dragger marker rect {
   fill: var(--element-dragger-color) !important;
   stroke: none !important;
 }
 
-marker.djs-dragger text,
-marker.djs-dragger tspan {
+.djs-dragger marker text,
+.djs-dragger marker tspan {
   fill: none !important;
   stroke: var(--element-dragger-color) !important;
 }
