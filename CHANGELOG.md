@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.7.0
+
+* `FEAT`: support nested `defs` in the SVG ([#906](https://github.com/bpmn-io/diagram-js/pull/906))
+* `FIX`: show connection markers on move preview ([#904](https://github.com/bpmn-io/diagram-js/issues/904))
+
 ## 14.6.0
 
 * `FEAT`: popup menu header entries can be grouped ([#900](https://github.com/bpmn-io/diagram-js/pull/900))
