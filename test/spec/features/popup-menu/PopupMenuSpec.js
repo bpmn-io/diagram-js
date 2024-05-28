@@ -1363,35 +1363,16 @@ describe('features/popup-menu', function() {
     var testMenuProvider = {
       getEntries: function() {
         return [
-          {
-            id: 'a',
-            label: 'Alpha'
-          },
-          {
-            id: 'b',
-            label: 'Bravo'
-          },
-          {
-            id: 'c',
-            label: 'Charlie'
-          },
-          {
-            id: 'search',
-            label: 'Delta',
-            search: 'search'
-          },
-          {
-            id: 'description',
-            label: 'Echo',
-            description: 'description'
-          },
-          {
-            id: 'hidden',
-            label: 'Foxtrot',
-            rank: -1
-          }
+          { id: 1, label: 'Apple' },
+          { id: 2, label: 'Banana' },
+          { id: 3, label: 'Cherry' },
+          { id: 4, label: 'Orange' },
+          { id: 5, label: 'Clementine', search: 'Mandarine Tangerine' },
+          { id: 6, label: 'Pineapple', description: 'Tropical fruit' },
+          { id: 7, label: 'Watermelon', rank: -1 }
         ];
-      }
+      },
+      getEmptyPlaceholder: () => 'No matching entries found.'
     };
 
 
@@ -1401,19 +1382,9 @@ describe('features/popup-menu', function() {
       popupMenu.registerProvider('test-menu', {
         getEntries: function() {
           return [
-            {
-              id: 'foo',
-              label: 'Foo'
-            },
-            {
-              id: 'bar',
-              label: 'Bar'
-            },
-            {
-              id: 'baz',
-              label: 'Baz',
-              search: 'Bar'
-            }
+            { id: 1, label: 'Apple' },
+            { id: 2, label: 'Banana' },
+            { id: 3, label: 'Cherry' }
           ];
         }
       });
@@ -1435,7 +1406,7 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
       // when
-      await triggerSearch('alpha');
+      await triggerSearch('banana');
 
       // then
       var shownEntries;
@@ -1446,7 +1417,7 @@ describe('features/popup-menu', function() {
         expect(shownEntries).to.have.length(1);
       });
 
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Alpha');
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Banana');
     }));
 
 
@@ -1457,7 +1428,7 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
       // when
-      await triggerSearch('search');
+      await triggerSearch('mandarine');
 
       // then
       var shownEntries;
@@ -1468,7 +1439,7 @@ describe('features/popup-menu', function() {
         expect(shownEntries).to.have.length(1);
       });
 
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Clementine');
     }));
 
 
@@ -1479,7 +1450,7 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
       // when
-      await triggerSearch('description');
+      await triggerSearch('tropical');
 
       // then
       var shownEntries;
@@ -1490,30 +1461,30 @@ describe('features/popup-menu', function() {
         expect(shownEntries).to.have.length(1);
       });
 
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Echo');
-      expect(shownEntries[0].querySelector('.djs-popup-entry-description').textContent).to.eql('description');
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Pineapple');
+      expect(shownEntries[0].querySelector('.djs-popup-entry-description').textContent).to.eql('Tropical fruit');
     }));
 
 
-    it('should show search results (matching label & search)', inject(async function(popupMenu) {
+    it('should not show search results (cannot match label & search at the same time)', inject(async function(popupMenu) {
 
       // given
       popupMenu.registerProvider('test-menu', testMenuProvider);
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
       // when
-      await triggerSearch('delta search');
+      await triggerSearch('pineapple tropical');
 
       // then
-      var shownEntries;
+      var noSearchResultsNode;
 
       await waitFor(() => {
-        shownEntries = queryPopupAll('.entry');
+        noSearchResultsNode = queryPopup('.djs-popup-no-results');
 
-        expect(shownEntries).to.have.length(1);
+        expect(noSearchResultsNode).to.exist;
       });
 
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
+      expect(noSearchResultsNode.textContent).to.eql('No matching entries found.');
     }));
 
 
@@ -1533,11 +1504,11 @@ describe('features/popup-menu', function() {
         await waitFor(() => {
           shownEntries = queryPopupAll('.entry');
 
-          expect(shownEntries).to.have.length(5);
+          expect(shownEntries).to.have.length(6);
         });
 
         expect(Array.from(shownEntries).find(entry => {
-          entry.querySelector('.djs-popup-label').textContent === 'Foxtrot';
+          entry.querySelector('.djs-popup-label').textContent === 'Watermelon';
         })).not.to.exist;
       }));
 
@@ -1549,7 +1520,7 @@ describe('features/popup-menu', function() {
         popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
         // when
-        await triggerSearch('foxtrot');
+        await triggerSearch('watermelon');
 
         // then
         var shownEntries;
@@ -1560,7 +1531,7 @@ describe('features/popup-menu', function() {
           expect(shownEntries).to.have.length(1);
         });
 
-        expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Foxtrot');
+        expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Watermelon');
       }));
 
     });
@@ -1578,7 +1549,7 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
       // when
-      await triggerSearch('foobar');
+      await triggerSearch('cucumber');
 
       // then
       await waitFor(() => {
@@ -1609,7 +1580,7 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
       // when
-      await triggerSearch('foobar');
+      await triggerSearch('cucumber');
 
       // then
       await waitFor(() => {
@@ -1625,7 +1596,7 @@ describe('features/popup-menu', function() {
       var customNode = domQuery('.custom-empty-placeholder', noSearchResultsNode);
 
       expect(customNode).to.exist;
-      expect(customNode.textContent).to.eql('foobar');
+      expect(customNode.textContent).to.eql('cucumber');
     }));
 
   });

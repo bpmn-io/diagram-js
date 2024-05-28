@@ -383,23 +383,22 @@ describe('features/popup-menu - <PopupMenu>', function() {
   describe('search', function() {
 
     const entries = [
-      { id: '1', label: 'Entry 1', description: 'Entry 1 description' },
-      { id: '2', label: 'Entry 2' },
-      { id: '3', label: 'Entry 3' },
-      { id: '4', label: 'Entry 4' },
-      { id: '5', label: 'Entry 5', search: 'foo' },
-      { id: 'some_entry_id', label: 'Last' },
-      { id: '7', label: 'Entry 7' , searchable: false }
+      { id: 1, label: 'Apple' },
+      { id: 2, label: 'Banana' },
+      { id: 3, label: 'Cherry' },
+      { id: 4, label: 'Orange' },
+      { id: 5, label: 'Pineapple' },
+      { id: 6, label: 'Watermelon' }
     ];
 
 
-    it('should filter entries + select first', async function() {
+    it('should filter entries & select first', async function() {
 
       // given
       await createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup-search input', container);
-      searchInput.value = 'Entry 3';
+      searchInput.value = 'orange';
 
       // when
       await trigger(searchInput, keyDown('ArrowUp'));
@@ -407,25 +406,28 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
-      expect(domQuery('.entry', container).textContent).to.eql('Entry 3');
-      expect(domQuery('.selected', container).textContent).to.eql('Entry 3');
+      expect(domQuery('.entry', container).textContent).to.eql('Orange');
+      expect(domQuery('.selected', container).textContent).to.eql('Orange');
+      expect(domQuery('.djs-popup-no-results', container)).not.to.exist;
     });
 
 
-    it('should allow partial search', async function() {
+    it('should filter entries (substring)', async function() {
 
       // given
       await createPopupMenu({ container, entries, search: true });
 
       var searchInput = domQuery('.djs-popup-search input', container);
-      searchInput.value = 'Entry';
+      searchInput.value = 'ora';
 
       // when
       await trigger(searchInput, keyDown('ArrowDown'));
       await trigger(searchInput, keyUp('ArrowDown'));
 
       // then
-      expect(domQueryAll('.entry', container)).to.have.length(5);
+      expect(domQueryAll('.entry', container)).to.have.length(1);
+      expect(domQuery('.entry', container).textContent).to.eql('Orange');
+      expect(domQuery('.selected', container).textContent).to.eql('Orange');
       expect(domQuery('.djs-popup-no-results', container)).not.to.exist;
     });
 
@@ -441,7 +443,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       });
 
       var searchInput = domQuery('.djs-popup-search input', container);
-      searchInput.value = 'Foo bar';
+      searchInput.value = 'Blueberry';
 
       // when
       await trigger(searchInput, keyDown('ArrowDown'));
@@ -450,76 +452,6 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // then
       expect(domQueryAll('.entry', container)).to.have.length(0);
       expect(domQuery('.djs-popup-no-results', container)).to.exist;
-    });
-
-
-    it('should search description', async function() {
-
-      // given
-      await createPopupMenu({ container, entries, search: true });
-
-      var searchInput = domQuery('.djs-popup-search input', container);
-      searchInput.value = entries[0].description;
-
-      // when
-      await trigger(searchInput, keyDown('ArrowUp'));
-      await trigger(searchInput, keyUp('ArrowUp'));
-
-      // then
-      expect(domQueryAll('.entry', container)).to.have.length(1);
-      expect(domQuery('.entry .djs-popup-label', container).textContent).to.eql('Entry 1');
-    });
-
-
-    it('should search additional "search" terms', async function() {
-
-      // given
-      await createPopupMenu({ container, entries, search: true });
-
-      var searchInput = domQuery('.djs-popup-search input', container);
-      searchInput.value = entries[4].search;
-
-      // when
-      await trigger(searchInput, keyDown('ArrowUp'));
-      await trigger(searchInput, keyUp('ArrowUp'));
-
-      // then
-      expect(domQueryAll('.entry', container)).to.have.length(1);
-      expect(domQuery('.entry .djs-popup-label', container).textContent).to.eql('Entry 5');
-    });
-
-
-    it('should not search id', async function() {
-
-      // given
-      await createPopupMenu({ container, entries, search: true });
-
-      var searchInput = domQuery('.djs-popup-search input', container);
-      searchInput.value = entries[5].id;
-
-      // when
-      await trigger(searchInput, keyDown('ArrowUp'));
-      await trigger(searchInput, keyUp('ArrowUp'));
-
-      // then
-      expect(domQueryAll('.entry', container)).to.have.length(0);
-    });
-
-
-    it('should not search non-searchable entries', async function() {
-
-      // given
-      await createPopupMenu({ container, entries, search: true });
-
-      var searchInput = domQuery('.djs-popup-search input', container);
-      searchInput.value = 'entry';
-
-      // when
-      await trigger(searchInput, keyDown('ArrowUp'));
-      await trigger(searchInput, keyUp('ArrowUp'));
-
-      // then
-      expect(domQuery('.entry[data-id="7"]', container)).to.not.exist;
     });
 
 
@@ -552,7 +484,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       });
 
 
-      it('should be hidden (less than 5 entries)', async function() {
+      it('should be hidden (5 entries or less)', async function() {
 
         // given
         await createPopupMenu({ container, entries: otherEntries, search: true });
