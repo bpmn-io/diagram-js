@@ -12,11 +12,14 @@ import moveModule from 'lib/features/move';
 import attachSupportModule from 'lib/features/attach-support';
 import rulesModule from './rules';
 import rendererModule from '../preview-support/renderer';
+import nestedRendererModule from '../preview-support/nested-renderer';
 
 import {
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
+
+import { isArray } from 'min-dash';
 
 import {
   classes as svgClasses
@@ -584,32 +587,35 @@ describe('features/move - MovePreview', function() {
       // then
       var container = canvas.getContainer();
 
-      var clonedMarkers = domQueryAll('marker.djs-dragger', container);
+      // var clonedMarkers = domQueryAll('marker.djs-dragger', container);
+      // expect(clonedMarkers).to.have.length(6);
 
-      expect(clonedMarkers).to.have.length(3);
+      var markerStartClones = [ ...domQueryAll('marker[id^="marker-start-djs-dragger-ps"]', container) ],
+          markerMidClones = [ ...domQueryAll('marker[id^="marker-mid-djs-dragger-ps"]', container) ],
+          markerEndClones = [ ...domQueryAll('marker[id^="marker-end-djs-dragger-ps"]', container) ];
 
-      var markerStartClone = domQuery('marker#marker-start-djs-dragger-clone', container),
-          markerMidClone = domQuery('marker#marker-mid-djs-dragger-clone', container),
-          markerEndClone = domQuery('marker#marker-end-djs-dragger-clone', container);
+      expect(markerStartClones).to.have.length(4);
+      expect(markerMidClones).to.exist.length(4);
+      expect(markerEndClones).to.exist.length(4);
 
-      expect(markerStartClone).to.exist;
-      expect(markerMidClone).to.exist;
-      expect(markerEndClone).to.exist;
+      var markerStartCloneIds = markerStartClones.map(marker => marker.id),
+          markerMidCloneIds = markerMidClones.map(marker => marker.id),
+          markerEndCloneIds = markerEndClones.map(marker => marker.id);
 
       var connection1Path = domQuery('[data-element-id="connection1"] path', dragGroup);
 
-      expect(idToReferenceFormatOptions(markerStartClone.id)).to.deep.include(connection1Path.style.markerStart);
-      expect(idToReferenceFormatOptions(markerEndClone.id)).to.deep.include(connection1Path.style.markerEnd);
+      expect(idToReferenceFormatOptions(markerStartCloneIds)).to.deep.include(connection1Path.style.markerStart);
+      expect(idToReferenceFormatOptions(markerEndCloneIds)).to.deep.include(connection1Path.style.markerEnd);
 
       var connection2Path = domQuery('[data-element-id="connection2"] path', dragGroup);
 
-      expect(idToReferenceFormatOptions(markerStartClone.id)).to.deep.include(connection2Path.style.markerStart);
-      expect(idToReferenceFormatOptions(markerMidClone.id)).to.deep.include(connection2Path.style.markerMid);
+      expect(idToReferenceFormatOptions(markerStartCloneIds)).to.deep.include(connection2Path.style.markerStart);
+      expect(idToReferenceFormatOptions(markerMidCloneIds)).to.deep.include(connection2Path.style.markerMid);
 
       var connection3Path = domQuery('[data-element-id="connection3"] path', dragGroup);
 
-      expect(idToReferenceFormatOptions(markerMidClone.id)).to.deep.include(connection3Path.style.markerMid);
-      expect(idToReferenceFormatOptions(markerEndClone.id)).to.deep.include(connection3Path.style.markerEnd);
+      expect(idToReferenceFormatOptions(markerMidCloneIds)).to.deep.include(connection3Path.style.markerMid);
+      expect(idToReferenceFormatOptions(markerEndCloneIds)).to.deep.include(connection3Path.style.markerEnd);
     }));
 
 
@@ -632,6 +638,169 @@ describe('features/move - MovePreview', function() {
 
   });
 
+
+  describe('nested markers', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        attachSupportModule,
+        modelingModule,
+        moveModule,
+        nestedRendererModule,
+        rulesModule
+      ]
+    }));
+
+    beforeEach(inject(function(dragging) {
+      dragging.setOptions({ manual: true });
+    }));
+
+
+    var rootShape, shape1, shape2, shape3, connection1, connection2, connection3;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+
+      rootShape = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(rootShape);
+
+      shape1 = elementFactory.createShape({
+        id: 'shape1',
+        x: 100, y: 100, width: 100, height: 100
+      });
+
+      canvas.addShape(shape1, rootShape);
+
+      shape2 = elementFactory.createShape({
+        id: 'shape2',
+        x: 400, y: 300, width: 100, height: 100
+      });
+
+      canvas.addShape(shape2, rootShape);
+
+      shape3 = elementFactory.createShape({
+        id: 'shape3',
+        x: 100, y: 300, width: 100, height: 100
+      });
+
+      canvas.addShape(shape3, rootShape);
+
+      connection1 = elementFactory.createConnection({
+        id: 'connection1',
+        waypoints: [ { x: 200, y: 150 }, { x: 450, y: 150 }, { x: 450, y: 300 } ],
+        source: shape1,
+        target: shape2,
+        marker: {
+          start: true,
+          end: true
+        }
+      });
+
+      canvas.addConnection(connection1, rootShape);
+
+      connection2 = elementFactory.createConnection({
+        id: 'connection2',
+        waypoints: [ { x: 450, y: 400 }, { x: 450, y: 450 }, { x: 150, y: 450 }, { x: 150, y: 400 } ],
+        source: shape1,
+        target: shape2,
+        marker: {
+          start: true,
+          mid: true
+        }
+      });
+
+      canvas.addConnection(connection2, rootShape);
+
+      connection3 = elementFactory.createConnection({
+        id: 'connection3',
+        waypoints: [ { x: 150, y: 300 }, { x: 150, y: 200 } ],
+        source: shape1,
+        target: shape2,
+        marker: {
+          start: true,
+          mid: true,
+          end: true
+        }
+      });
+
+      canvas.addConnection(connection3, rootShape);
+    }));
+
+
+    it('should clone markers', inject(function(canvas, dragging, move, selection) {
+
+      // when
+      selection.select([ shape1, shape2, shape3 ]);
+
+      move.start(canvasEvent({ x: 0, y: 0 }), shape2);
+
+      dragging.move(canvasEvent({ x: 100, y: 50 }));
+
+      var dragGroup = dragging.context().data.context.dragGroup;
+
+      // then
+      var container = canvas.getContainer();
+
+      // var clonedMarkers = domQueryAll('marker.djs-dragger', container);
+      // expect(clonedMarkers).to.have.length(7);
+
+      var markerStartClone = domQuery('marker[id^="marker-start-connection3-djs-dragger-ps"]', container),
+          markerMidClone = domQuery('marker[id^="marker-mid-connection3-djs-dragger-ps"]', container),
+          markerEndClone = domQuery('marker[id^="marker-end-connection3-djs-dragger-ps"]', container);
+
+      expect(markerStartClone).to.exist;
+      expect(markerMidClone).to.exist;
+      expect(markerEndClone).to.exist;
+
+      var connection3Path = domQuery('[data-element-id="connection3"] path', dragGroup);
+
+      expect(idToReferenceFormatOptions(markerMidClone.id)).to.deep.include(connection3Path.style.markerMid);
+      expect(idToReferenceFormatOptions(markerEndClone.id)).to.deep.include(connection3Path.style.markerEnd);
+    }));
+
+
+    it('should NOT copy marker IDs', inject(function(canvas, dragging, move, selection) {
+
+      // when
+      selection.select([ shape1, shape2, shape3 ]);
+
+      move.start(canvasEvent({ x: 0, y: 0 }), shape2);
+
+      dragging.move(canvasEvent({ x: 100, y: 50 }));
+
+      // then
+      var container = canvas.getContainer();
+
+      var markerStart = domQueryAll('marker#marker-start-connection3', container),
+          markerMid = domQueryAll('marker#marker-mid-connection3', container),
+          markerEnd = domQueryAll('marker#marker-end-connection3', container);
+
+      expect(markerStart).to.have.length(1);
+      expect(markerMid).to.have.length(1);
+      expect(markerEnd).to.have.length(1);
+    }));
+
+
+    it('should remove markers on cleanup', inject(function(canvas, dragging, move, selection) {
+
+      // when
+      selection.select([ shape1, shape2, shape3 ]);
+
+      move.start(canvasEvent({ x: 0, y: 0 }), shape2);
+
+      dragging.move(canvasEvent({ x: 100, y: 50 }));
+
+      dragging.end();
+
+      // then
+      var clonedMarkers = domQueryAll('marker.djs-dragger-marker', canvas.getContainer());
+
+      expect(clonedMarkers).to.have.length(0);
+    }));
+
+  });
 });
 
 // helpers //////////
@@ -660,6 +829,10 @@ function idToReference(id, quoteSymbol) {
  * @return {string[]}
  */
 function idToReferenceFormatOptions(id) {
+  if (isArray(id)) {
+    return id.flatMap(id => idToReferenceFormatOptions(id));
+  }
+
   return [ '', '\'', '"' ].map(function(quoteSymbol) {
     return idToReference(id, quoteSymbol);
   });

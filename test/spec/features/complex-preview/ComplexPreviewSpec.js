@@ -217,8 +217,8 @@ describe('features/complex-preview', function() {
     // then
     expect(domQueryAll('marker.djs-dragging', canvas.getContainer())).to.have.length(2);
 
-    expect(domQuery('marker#marker-start-djs-dragging-clone', canvas.getContainer())).to.exist;
-    expect(domQuery('marker#marker-end-djs-dragging-clone', canvas.getContainer())).to.exist;
+    expect(domQuery('marker[id^="marker-start-djs-dragging-ps"]', canvas.getContainer())).to.exist;
+    expect(domQuery('marker[id^="marker-end-djs-dragging-ps"]', canvas.getContainer())).to.exist;
   }));
 
 
@@ -251,8 +251,8 @@ describe('features/complex-preview', function() {
     expect(layer).to.exist;
 
     expect(layer.childNodes).to.have.length(0);
-    expect(domQuery('marker#marker-start-djs-dragging-clone', canvas.getContainer())).not.to.exist;
-    expect(domQuery('marker#marker-end-djs-dragging-clone', canvas.getContainer())).not.to.exist;
+    expect(domQuery('marker[id^="marker-start-djs-dragging-ps"]', canvas.getContainer())).not.to.exist;
+    expect(domQuery('marker[id^="marker-end-djs-dragging-ps"]', canvas.getContainer())).not.to.exist;
   }));
 
 });

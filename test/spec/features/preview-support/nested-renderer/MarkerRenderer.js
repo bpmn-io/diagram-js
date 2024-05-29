@@ -41,8 +41,6 @@ export default function MarkerRenderer(canvas, eventBus, styles) {
   DefaultRenderer.call(this, eventBus, styles, HIGH_PRIORITY);
 
   this._canvas = canvas;
-
-  this._markers = {};
 }
 
 inherits(MarkerRenderer, DefaultRenderer);
@@ -66,49 +64,47 @@ MarkerRenderer.prototype.drawConnection = function(parentGfx, connection) {
 
   MARKER_TYPES.forEach(function(markerType) {
     if (hasMarker(connection, markerType)) {
-      self.addMarker(line, markerType);
+      self.addMarker(parentGfx, line, markerType, connection.id);
     }
   });
 
   return line;
 };
 
-MarkerRenderer.prototype.addMarker = function(gfx, markerType) {
-  var marker = this._markers[ markerType ],
-      defs;
+MarkerRenderer.prototype.addMarker = function(parentGfx, gfx, markerType, id) {
+  var defs, marker;
+  parentGfx = parentGfx || this._canvas._svg;
 
-  if (!marker) {
-    marker = this._markers[ markerType ] = svgCreate('marker');
+  marker = svgCreate('marker');
 
-    marker.id = markerType;
+  marker.id = markerType + '-' + id;
 
-    svgAttr(marker, {
-      refX: 5,
-      refY: 5,
-      viewBox: '0 0 10 10'
-    });
+  svgAttr(marker, {
+    refX: 5,
+    refY: 5,
+    viewBox: '0 0 10 10'
+  });
 
-    var circle = svgCreate('circle');
+  var circle = svgCreate('circle');
 
-    svgAttr(circle, {
-      cx: 5,
-      cy: 5,
-      fill: 'fuchsia',
-      r: 5
-    });
+  svgAttr(circle, {
+    cx: 5,
+    cy: 5,
+    fill: 'fuchsia',
+    r: 5
+  });
 
-    svgAppend(marker, circle);
+  svgAppend(marker, circle);
 
-    defs = domQuery(':scope > defs', this._canvas._svg);
+  defs = domQuery(':scope > defs', parentGfx);
 
-    if (!defs) {
-      defs = svgCreate('defs');
+  if (!defs) {
+    defs = svgCreate('defs');
 
-      svgAppend(this._canvas._svg, defs);
-    }
-
-    svgAppend(defs, marker);
+    svgAppend(parentGfx, defs);
   }
+
+  svgAppend(defs, marker);
 
   var reference = idToReference(marker.id);
 
