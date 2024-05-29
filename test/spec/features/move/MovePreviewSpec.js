@@ -587,16 +587,16 @@ describe('features/move - MovePreview', function() {
       // then
       var container = canvas.getContainer();
 
-      // var clonedMarkers = domQueryAll('marker.djs-dragger', container);
-      // expect(clonedMarkers).to.have.length(6);
+      var clonedMarkers = domQueryAll('marker.djs-dragger', container);
+      expect(clonedMarkers).to.have.length(6);
 
       var markerStartClones = [ ...domQueryAll('marker[id^="marker-start-djs-dragger-ps"]', container) ],
           markerMidClones = [ ...domQueryAll('marker[id^="marker-mid-djs-dragger-ps"]', container) ],
           markerEndClones = [ ...domQueryAll('marker[id^="marker-end-djs-dragger-ps"]', container) ];
 
-      expect(markerStartClones).to.have.length(4);
-      expect(markerMidClones).to.exist.length(4);
-      expect(markerEndClones).to.exist.length(4);
+      expect(markerStartClones).to.have.length(2);
+      expect(markerMidClones).to.exist.length(2);
+      expect(markerEndClones).to.exist.length(2);
 
       var markerStartCloneIds = markerStartClones.map(marker => marker.id),
           markerMidCloneIds = markerMidClones.map(marker => marker.id),
@@ -743,8 +743,8 @@ describe('features/move - MovePreview', function() {
       // then
       var container = canvas.getContainer();
 
-      // var clonedMarkers = domQueryAll('marker.djs-dragger', container);
-      // expect(clonedMarkers).to.have.length(7);
+      var clonedMarkers = domQueryAll('marker.djs-dragger', container);
+      expect(clonedMarkers).to.have.length(7);
 
       var markerStartClone = domQuery('marker[id^="marker-start-connection3-djs-dragger-ps"]', container),
           markerMidClone = domQuery('marker[id^="marker-mid-connection3-djs-dragger-ps"]', container),
@@ -801,6 +801,7 @@ describe('features/move - MovePreview', function() {
     }));
 
   });
+
 });
 
 // helpers //////////
