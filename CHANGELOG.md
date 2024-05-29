@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.7.1
+
 * `FIX`: ensure cloned marker IDs are unique ([#909](https://github.com/bpmn-io/diagram-js/pull/909))
 
 ## 14.7.0
