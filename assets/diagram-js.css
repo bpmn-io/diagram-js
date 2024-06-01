@@ -81,7 +81,8 @@
   --search-input-border-color: var(--color-grey-225-10-75);
   --search-result-border-color: var(--color-grey-225-10-75);
   --search-result-highlight-color: var(--color-black);
-  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);
+  --search-result-selected-background-color: var(--color-blue-205-100-45-opacity-30);
+  --search-result-selected-border-color: var(--color-blue-205-100-45);
 
   --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);
   --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);
@@ -971,7 +972,14 @@ svg.new-parent {
 }
 
 .djs-search-overlay {
-  background: var(--search-result-selected-color);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border: solid 2px var(--search-result-selected-border-color);
+  background: var(--search-result-selected-background-color);
+  border-radius: 4px;
 }
 
 /**
