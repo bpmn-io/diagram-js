@@ -36,15 +36,15 @@ describe('features/searchPad', function() {
 
   beforeEach(inject(function(searchPad, eventBus, canvas) {
 
-    canvas.setRootElement({ id: 'FOO' });
+    canvas.setRootElement({ id: 'root' });
 
     elements = {
       one: {
-        a: canvas.addShape({ id: 'one-a', x: 0, y: 0, width: 100, height: 80 })
+        a: canvas.addShape({ id: 'one-a', x: 0, y: 0, width: 100, height: 100 })
       },
       two: {
-        a: canvas.addShape({ id: 'two-a', x: 0, y: 0, width: 100, height: 80 }),
-        b: canvas.addShape({ id: 'two-b', x: 0, y: 0, width: 100, height: 80 })
+        a: canvas.addShape({ id: 'two-a', x: 200, y: 0, width: 100, height: 100 }),
+        b: canvas.addShape({ id: 'two-b', x: 400, y: 0, width: 100, height: 100 })
       }
     };
 
@@ -63,12 +63,13 @@ describe('features/searchPad', function() {
         if (pattern === 'one') {
           return [ {
             primaryTokens: [
-              { normal: 'one' }
+              { matched: 'One' },
+              { normal: ' A' }
             ],
             secondaryTokens: [
-              { normal: 'some_' },
-              { matched: 'DataStore' },
-              { normal: '_123456_id' }
+              { normal: 'Shape_' },
+              { matched: 'one' },
+              { normal: '-a' }
             ],
             element: elements.one.a
           } ];
@@ -77,22 +78,24 @@ describe('features/searchPad', function() {
         if (pattern === 'two') {
           return [ {
             primaryTokens: [
-              { normal: 'one' }
+              { matched: 'Two' },
+              { normal: ' A' }
             ],
             secondaryTokens: [
-              { normal: 'some_' },
-              { matched: 'DataStore' },
-              { normal: '_123456_id' }
+              { normal: 'Shape_' },
+              { matched: 'two' },
+              { normal: '-a' }
             ],
             element: elements.two.a
           },{
             primaryTokens: [
-              { normal: 'two' }
+              { matched: 'Two' },
+              { normal: ' B' }
             ],
             secondaryTokens: [
-              { normal: 'some_' },
-              { matched: 'DataStore' },
-              { normal: '_123456_id' }
+              { normal: 'Shape_' },
+              { matched: 'two' },
+              { normal: '-b' }
             ],
             element: elements.two.b
           } ];
