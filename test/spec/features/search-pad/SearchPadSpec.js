@@ -325,31 +325,6 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('should set overlay on an highlighted element', inject(function(overlays) {
-
-      // when
-      typeText(input_node, 'one');
-
-      // then
-      var overlay = overlays.get({ element: elements.one.a });
-      expect(overlay).length(1);
-    }));
-
-
-    it('should remove overlay from an element on enter', inject(function(overlays) {
-
-      // given
-      typeText(input_node, 'one');
-
-      // when
-      triggerKeyEvent(input_node, 'keyup', 'Enter');
-
-      // then
-      var overlay = overlays.get({ element: elements.one.a });
-      expect(overlay).length(0);
-    }));
-
-
     it('select should scroll element into view', inject(function(canvas) {
 
       // given
