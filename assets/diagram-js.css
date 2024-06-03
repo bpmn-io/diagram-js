@@ -951,11 +951,17 @@ svg.new-parent {
 
 .djs-search-result-primary {
   margin: 0 0 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .djs-search-result-secondary {
   font-family: monospace;
   margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .djs-search-result:hover {
