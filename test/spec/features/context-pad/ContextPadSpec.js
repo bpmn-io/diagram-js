@@ -976,6 +976,49 @@ describe('features/context-pad', function() {
         expect(contextPad.isShown()).to.be.true;
       }));
 
+
+      it('should not update visibility if not open', inject(function(canvas, contextPad) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        expect(contextPad.isOpen()).to.be.false;
+
+        var spy = sinon.spy(contextPad, '_updateVisibility');
+
+        // when
+        canvas.addMarker(shape, 'djs-element-hidden');
+
+        // then
+        expect(spy).not.to.have.been.called;
+      }));
+
+
+      it('should not update visibility if element is not target', inject(function(canvas, contextPad) {
+
+        // given
+        var shape1 = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        var shape2 = { id: 's2', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape1);
+        canvas.addShape(shape2);
+
+        contextPad.open(shape1);
+
+        expect(contextPad.isOpen()).to.be.true;
+
+        var spy = sinon.spy(contextPad, '_updateVisibility');
+
+        // when
+        canvas.addMarker(shape2, 'djs-element-hidden');
+
+        // then
+        expect(spy).not.to.have.been.called;
+      }));
+
     });
 
   });
