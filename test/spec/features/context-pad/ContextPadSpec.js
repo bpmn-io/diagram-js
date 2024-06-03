@@ -1330,7 +1330,7 @@ describe('features/context-pad', function() {
       contextPad.trigger('click', event);
 
       // then
-      const entry = contextPad._current.entries['action.c'];
+      var entry = contextPad._current.entries['action.c'];
 
       expect(triggerSpy).to.have.been.calledOnce;
       expect(triggerSpy.getCall(0).args[1]).to.eql({ entry, event });
@@ -1606,7 +1606,7 @@ describe('features/context-pad', function() {
       var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
 
       // when
-      const pad = contextPad.getPad(shape);
+      var pad = contextPad.getPad(shape);
 
       // then
       expect(pad).to.exist;
@@ -1624,7 +1624,7 @@ describe('features/context-pad', function() {
       var spy = sinon.spy(contextPad, '_createHtml');
 
       // when
-      const pad = contextPad.getPad(shape);
+      var pad = contextPad.getPad(shape);
 
       // then
       expect(pad).to.exist;
@@ -1642,7 +1642,7 @@ describe('features/context-pad', function() {
       var spy = sinon.spy(contextPad, '_createHtml');
 
       // when
-      const pad = contextPad.getPad([ shape ]);
+      var pad = contextPad.getPad([ shape ]);
 
       // then
       expect(pad).to.exist;
@@ -1660,7 +1660,7 @@ describe('features/context-pad', function() {
       var spy = sinon.spy(contextPad, '_createHtml');
 
       // when
-      const pad = contextPad.getPad(shape);
+      var pad = contextPad.getPad(shape);
 
       // then
       expect(pad).to.exist;
@@ -1679,7 +1679,7 @@ describe('features/context-pad', function() {
       var spy = sinon.spy(contextPad, '_createHtml');
 
       // when
-      const pad = contextPad.getPad(shape2);
+      var pad = contextPad.getPad(shape2);
 
       // then
       expect(pad).to.exist;
@@ -1705,7 +1705,7 @@ describe('features/context-pad', function() {
         var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
 
         // when
-        const pad = contextPad.getPad(shape);
+        var pad = contextPad.getPad(shape);
 
         // then
         expect(pad).to.exist;
