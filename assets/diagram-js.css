@@ -533,7 +533,7 @@ svg.new-parent {
   width: 100%;
   box-sizing: border-box;
   font-size: var(--popup-font-size);
-  padding: 3px 6px;
+  padding: 3px 6px 3px 25px;
   border-radius: 2px;
   border: solid 1px var(--popup-search-border-color);
   line-height: 21px;
@@ -594,6 +594,8 @@ svg.new-parent {
 }
 
 .djs-popup-search {
+  position: relative;
+  width: auto;
   margin: 10px 12px;
 }
 
@@ -604,19 +606,10 @@ svg.new-parent {
   margin: 0;
 }
 
-.djs-popup-search {
-  position: relative;
-  width: auto;
-}
-
 .djs-popup-search-icon {
   position: absolute;
   left: 8px;
   top: 7px;
-}
-
-.djs-popup-search input {
-  padding-left: 25px;
 }
 
 .djs-popup-results {
