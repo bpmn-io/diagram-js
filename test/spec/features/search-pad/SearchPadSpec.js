@@ -30,13 +30,21 @@ describe('features/searchPad', function() {
 
   var capturedEvents;
   var searchProvider;
+  var rootElements;
   var elements;
 
   var input_node;
 
   beforeEach(inject(function(searchPad, eventBus, canvas) {
 
-    canvas.setRootElement({ id: 'root' });
+    rootElements = {
+      rootA: { id: 'root-a' },
+      rootB: { id: 'root-b', }
+    };
+
+    canvas.setRootElement(rootElements.rootA);
+
+    canvas.addRootElement(rootElements.rootB);
 
     elements = {
       one: {
@@ -44,7 +52,7 @@ describe('features/searchPad', function() {
       },
       two: {
         a: canvas.addShape({ id: 'two-a', x: 200, y: 0, width: 100, height: 100 }),
-        b: canvas.addShape({ id: 'two-b', x: 400, y: 0, width: 100, height: 100 })
+        b: canvas.addShape({ id: 'two-b', x: 400, y: 0, width: 100, height: 100 }, rootElements.rootB)
       }
     };
 
@@ -87,7 +95,22 @@ describe('features/searchPad', function() {
               { normal: '-a' }
             ],
             element: elements.two.a
-          },{
+          }, {
+            primaryTokens: [
+              { matched: 'Two' },
+              { normal: ' B' }
+            ],
+            secondaryTokens: [
+              { normal: 'Shape_' },
+              { matched: 'two' },
+              { normal: '-b' }
+            ],
+            element: elements.two.b
+          } ];
+        }
+
+        if (pattern === 'two-b') {
+          return [ {
             primaryTokens: [
               { matched: 'Two' },
               { normal: ' B' }
@@ -205,12 +228,11 @@ describe('features/searchPad', function() {
 
   describe('searching/selection', function() {
 
-    var element;
-
-    beforeEach(inject(function(searchPad) {
+    beforeEach(inject(function(selection, searchPad) {
 
       // given
-      element = searchProvider.find('one')[0].element;
+      selection.select(elements.one.a);
+
       searchPad.open();
     }));
 
@@ -286,13 +308,30 @@ describe('features/searchPad', function() {
     });
 
 
+    it('should reset selection on escape without enter', inject(function(selection) {
+
+      // given
+      selection.select(elements.one.a);
+
+      typeText(input_node, 'two');
+
+      expect(selection.isSelected(elements.one.a)).to.be.false;
+
+      // when
+      triggerKeyEvent(input_node, 'keyup', 'Escape');
+
+      // then
+      expect(selection.isSelected(elements.one.a)).to.be.true;
+    }));
+
+
     it('should set overlay on an highlighted element', inject(function(overlays) {
 
       // when
       typeText(input_node, 'one');
 
       // then
-      var overlay = overlays.get({ element: element });
+      var overlay = overlays.get({ element: elements.one.a });
       expect(overlay).length(1);
     }));
 
@@ -306,7 +345,7 @@ describe('features/searchPad', function() {
       triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
-      var overlay = overlays.get({ element: element });
+      var overlay = overlays.get({ element: elements.one.a });
       expect(overlay).length(0);
     }));
 
@@ -337,7 +376,7 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('select should keep zoom level', inject(function(canvas) {
+    it('select set zoom level to 1', inject(function(canvas) {
 
       // given
       canvas.zoom(0.4);
@@ -348,8 +387,43 @@ describe('features/searchPad', function() {
       triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
-      var newViewbox = canvas.viewbox();
-      expect(newViewbox).to.have.property('scale', 0.4);
+      expect(canvas.zoom()).to.equal(1);
+    }));
+
+
+    it('select reset viewbox on escape without enter', inject(function(canvas) {
+
+      // given
+      var viewbox = canvas.viewbox();
+
+      typeText(input_node, 'two');
+
+      expect(canvas.viewbox()).not.to.eql(viewbox);
+
+      // when
+      triggerKeyEvent(input_node, 'keyup', 'Escape');
+
+      // then
+      expect(canvas.viewbox()).to.eql(viewbox);
+    }));
+
+
+    it('should reset root element on escape without enter', inject(function(canvas, selection) {
+
+      // given
+      selection.select(elements.one.a);
+
+      expect(canvas.getRootElement()).to.equal(rootElements.rootA);
+
+      typeText(input_node, 'two-b');
+
+      expect(canvas.getRootElement()).to.equal(rootElements.rootB);
+
+      // when
+      triggerKeyEvent(input_node, 'keyup', 'Escape');
+
+      // then
+      expect(canvas.getRootElement()).to.equal(rootElements.rootA);
     }));
 
 
@@ -362,7 +436,7 @@ describe('features/searchPad', function() {
       triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
-      expect(selection.isSelected(element)).to.be.true;
+      expect(selection.isSelected(elements.one.a)).to.be.true;
     }));
 
 
