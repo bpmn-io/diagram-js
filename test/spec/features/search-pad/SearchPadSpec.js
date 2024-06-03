@@ -207,6 +207,34 @@ describe('features/searchPad', function() {
   }));
 
 
+  it('should close on <drag.init>', inject(function(eventBus, searchPad) {
+
+    // given
+    searchPad.open();
+
+    // when
+    eventBus.fire('drag.init');
+
+    // then
+    expect(searchPad.isOpen()).to.equal(false);
+    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
+  }));
+
+
+  it('should close on <elements.changed>', inject(function(eventBus, searchPad) {
+
+    // given
+    searchPad.open();
+
+    // when
+    eventBus.fire('elements.changed');
+
+    // then
+    expect(searchPad.isOpen()).to.equal(false);
+    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
+  }));
+
+
   it('should toggle open/close', inject(function(searchPad) {
 
     // when
