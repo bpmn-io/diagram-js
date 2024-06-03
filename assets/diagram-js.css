@@ -939,7 +939,6 @@ svg.new-parent {
 }
 
 .djs-search-result {
-  width: 100%;
   padding: 6px 10px;
   background: white;
   border-bottom: solid 1px var(--search-result-border-color);
