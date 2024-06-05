@@ -1495,28 +1495,6 @@ describe('features/popup-menu', function() {
     }));
 
 
-    it('should show search results (matching label & search)', inject(async function(popupMenu) {
-
-      // given
-      popupMenu.registerProvider('test-menu', testMenuProvider);
-      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
-
-      // when
-      await triggerSearch('delta search');
-
-      // then
-      var shownEntries;
-
-      await waitFor(() => {
-        shownEntries = queryPopupAll('.entry');
-
-        expect(shownEntries).to.have.length(1);
-      });
-
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
-    }));
-
-
     describe('ranking', function() {
 
       it('should hide rank < 0 items', inject(async function(popupMenu) {
@@ -1646,6 +1624,18 @@ describe('features/popup-menu', function() {
             c: {
               id: 'c',
               label: 'Charlie'
+            },
+            d: {
+              id: 'd',
+              label: 'Delta'
+            },
+            e: {
+              id: 'e',
+              label: 'Echo'
+            },
+            f: {
+              id: 'f',
+              label: 'Foxtrot'
             }
           };
         },
@@ -1668,11 +1658,80 @@ describe('features/popup-menu', function() {
       await waitFor(() => {
         shownEntries = queryPopupAll('.entry');
 
-        expect(shownEntries).to.have.length(1);
+        expect(shownEntries).to.have.length(6);
       });
 
       expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Alpha');
     }));
+
+
+    describe('sorting', function() {
+
+      it('should order entries', inject(async function(popupMenu) {
+
+        // given
+        var testMenuProvider = {
+          getPopupMenuEntries: function() {
+            return {
+              a: {
+                id: 'a',
+                label: 'bar foo'
+              },
+              b: {
+                id: 'b',
+                label: 'foo baz'
+              },
+              c: {
+                id: 'c',
+                label: 'bar',
+                description: 'bar foo'
+              },
+              d: {
+                id: 'd',
+                label: 'bar',
+                description: 'foo baz'
+              },
+              e: {
+                id: 'e',
+                label: 'bar',
+                description: 'foo bar'
+              },
+              f: {
+                id: 'f',
+                label: 'foo bar'
+              },
+              g: {
+                id: 'g',
+                label: 'bar'
+              }
+            };
+          }
+        };
+
+        popupMenu.registerProvider('test-menu', testMenuProvider);
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('foo');
+
+        // then
+        var shownEntries;
+
+        await waitFor(() => {
+          shownEntries = queryPopupAll('.entry');
+
+          expect(shownEntries).to.have.length(6);
+        });
+
+        expect(shownEntries[0].getAttribute('data-id')).to.eql('f');
+        expect(shownEntries[1].getAttribute('data-id')).to.eql('b');
+        expect(shownEntries[2].getAttribute('data-id')).to.eql('a');
+        expect(shownEntries[3].getAttribute('data-id')).to.eql('e');
+        expect(shownEntries[4].getAttribute('data-id')).to.eql('d');
+        expect(shownEntries[5].getAttribute('data-id')).to.eql('c');
+      }));
+
+    });
 
   });
 
