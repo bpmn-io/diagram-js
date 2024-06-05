@@ -278,6 +278,17 @@ describe('features/searchPad', function() {
     });
 
 
+    it('should not display root elements', inject(function(canvas) {
+
+      // when
+      typeText(input_node, 'root');
+
+      // then
+      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
+      expect(result_nodes).length(0);
+    }));
+
+
     it('should display results', inject(function(canvas) {
 
       // given
