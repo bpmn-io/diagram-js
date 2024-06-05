@@ -121,4 +121,12 @@ export default interface PopupMenuProvider {
    * ```
    */
   getEmptyPlaceholder?(): PopupMenuEmptyPlaceholderProvider | PopupMenuEmptyPlaceholder;
+
+  /**
+   * Finds entries matching a given pattern.
+   *
+   * @param entries
+   * @param pattern
+   */
+  findPopupMenuEntries?(entries: PopupMenuEntry[], pattern: string): PopupMenuEntry[];
 }

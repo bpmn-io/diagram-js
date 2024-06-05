@@ -1628,6 +1628,52 @@ describe('features/popup-menu', function() {
       expect(customNode.textContent).to.eql('foobar');
     }));
 
+
+    it('should use custom search', inject(async function(popupMenu) {
+
+      // given
+      var testMenuProvider = {
+        getPopupMenuEntries: function() {
+          return {
+            a: {
+              id: 'a',
+              label: 'Alpha'
+            },
+            b: {
+              id: 'b',
+              label: 'Bravo'
+            },
+            c: {
+              id: 'c',
+              label: 'Charlie'
+            }
+          };
+        },
+        findPopupMenuEntries: function(entries, search) {
+          return entries.filter(function(entry) {
+            return entry.label === search.split('').reverse().join('');
+          });
+        }
+      };
+
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('ahpla');
+
+      // then
+      var shownEntries;
+
+      await waitFor(() => {
+        shownEntries = queryPopupAll('.entry');
+
+        expect(shownEntries).to.have.length(1);
+      });
+
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Alpha');
+    }));
+
   });
 
 
