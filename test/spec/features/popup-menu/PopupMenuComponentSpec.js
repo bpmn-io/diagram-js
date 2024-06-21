@@ -1,3 +1,5 @@
+import { expectToBeAccessible } from '@bpmn-io/a11y';
+
 import PopupMenuComponent from 'lib/features/popup-menu/PopupMenuComponent';
 
 import {
@@ -712,6 +714,16 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(searchInput.getAttribute('aria-label')).to.eql('Search');
+    });
+
+
+    it('should report no violations', async function() {
+
+      // given
+      await createPopupMenu({ container, entries, title: 'Search', search: true });
+
+      // then
+      await expectToBeAccessible(container);
     });
   });
 
