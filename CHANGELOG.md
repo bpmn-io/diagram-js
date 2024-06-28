@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `CHORE`: do not query DOM for `Canvas#hasMarker` check ([919](https://github.com/bpmn-io/diagram-js/pull/919))
+
 ## 14.7.2
 
 * `FIX`: remove incorrect attribute in popup menu item ([#918](https://github.com/bpmn-io/diagram-js/pull/918))
