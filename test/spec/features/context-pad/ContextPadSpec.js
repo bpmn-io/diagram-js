@@ -933,6 +933,17 @@ describe('features/context-pad', function() {
 
     describe('<element.marker.update>', function() {
 
+      var clock;
+
+      beforeEach(function() {
+        clock = sinon.useFakeTimers();
+      });
+
+      afterEach(function() {
+        clock.restore();
+      });
+
+
       it('should hide context pad when djs-element-hidden is added', inject(function(canvas, contextPad) {
 
         // given
@@ -942,11 +953,13 @@ describe('features/context-pad', function() {
 
         contextPad.open(shape);
 
+        // assume
         expect(contextPad.isOpen()).to.be.true;
         expect(contextPad.isShown()).to.be.true;
 
         // when
         canvas.addMarker(shape, 'djs-element-hidden');
+        clock.runToFrame();
 
         // then
         expect(contextPad.isOpen()).to.be.true;
@@ -964,12 +977,15 @@ describe('features/context-pad', function() {
         canvas.addMarker(shape, 'djs-element-hidden');
 
         contextPad.open(shape);
+        clock.runToFrame();
 
+        // assume
         expect(contextPad.isOpen()).to.be.true;
         expect(contextPad.isShown()).to.be.false;
 
         // when
         canvas.removeMarker(shape, 'djs-element-hidden');
+        clock.runToFrame();
 
         // then
         expect(contextPad.isOpen()).to.be.true;
@@ -977,22 +993,32 @@ describe('features/context-pad', function() {
       }));
 
 
-      it('should not update visibility if not open', inject(function(canvas, contextPad) {
+      it('should only update once per frame', inject(function(canvas, contextPad) {
 
         // given
+        var hideSpy = sinon.spy(contextPad, 'hide');
         var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
 
         canvas.addShape(shape);
 
-        expect(contextPad.isOpen()).to.be.false;
+        contextPad.open(shape);
 
-        var spy = sinon.spy(contextPad, '_updateVisibility');
+
+        // assume
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.true;
 
         // when
         canvas.addMarker(shape, 'djs-element-hidden');
+        canvas.removeMarker(shape, 'djs-element-hidden');
+        canvas.addMarker(shape, 'djs-element-hidden');
+
+        clock.runToFrame();
 
         // then
-        expect(spy).not.to.have.been.called;
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.false;
+        expect(hideSpy).to.have.been.calledOnce;
       }));
 
 
@@ -1017,6 +1043,33 @@ describe('features/context-pad', function() {
 
         // then
         expect(spy).not.to.have.been.called;
+      }));
+
+
+      it('should not update when diagram was destroyed', inject(function(canvas, contextPad) {
+
+        // given
+        var diagramJs = getDiagramJS();
+        var hideSpy = sinon.spy(contextPad, 'hide');
+
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        contextPad.open(shape);
+
+        // assume
+        expect(contextPad.isOpen()).to.be.true;
+        expect(contextPad.isShown()).to.be.true;
+
+        // when
+        canvas.addMarker(shape, 'djs-element-hidden');
+        diagramJs.destroy();
+
+        clock.runToFrame();
+
+        // then
+        expect(hideSpy).not.to.have.been.called;
       }));
 
     });
