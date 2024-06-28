@@ -6,9 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.8.0
+
 * `FEAT`: add `scheduler` service ([#915](https://github.com/bpmn-io/diagram-js/pull/915))
-* `CHORE`: update `contextPad` visibility only once per frame ([#https://github.com/bpmn-io/diagram-js/pull/915](https://github.com/bpmn-io/diagram-js/pull/915))
-* `CHORE`: do not query DOM for `Canvas#hasMarker` check ([919](https://github.com/bpmn-io/diagram-js/pull/919))
+* `CHORE`: update `contextPad` visibility only once per frame ([#915](https://github.com/bpmn-io/diagram-js/pull/915))
+* `CHORE`: do not query DOM for `Canvas#hasMarker` check ([#919](https://github.com/bpmn-io/diagram-js/pull/919))
+* `CHORE`: only update context pad if affected element's marker changed ([#912](https://github.com/bpmn-io/diagram-js/pull/912))
 
 ## 14.7.2
 
