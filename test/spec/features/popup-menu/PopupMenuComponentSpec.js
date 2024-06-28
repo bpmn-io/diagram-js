@@ -17,6 +17,8 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
+import { defaultFindEntries } from '../../../../lib/features/popup-menu/PopupMenu';
+
 
 const TEST_IMAGE_URL = `data:image/svg+xml;utf8,${
   encodeURIComponent(`
@@ -739,6 +741,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     const props = {
       entries: [],
       headerEntries: [],
+      findEntries: defaultFindEntries,
       position() {
         return { x: 0, y: 0 };
       },

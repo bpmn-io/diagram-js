@@ -4,7 +4,8 @@ import PopupMenuProvider, {
   PopupMenuEntries,
   PopupMenuHeaderEntries,
   PopupMenuEntriesProvider,
-  PopupMenuProviderHeaderEntriesProvider
+  PopupMenuProviderHeaderEntriesProvider,
+  PopupMenuEntry
 } from './PopupMenuProvider';
 
 export class FooPopupMenuProvider implements PopupMenuProvider {
@@ -109,5 +110,9 @@ export class BazPopupMenuProvider implements PopupMenuProvider {
         }
       ];
     };
+  }
+
+  findPopupMenuEntries(entries: PopupMenuEntry[], pattern: string): PopupMenuEntry[] {
+    return entries.filter(entry => entry.label.includes(pattern));
   }
 }
