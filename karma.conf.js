@@ -2,6 +2,8 @@
 
 var path = require('path');
 
+var fs = require('fs');
+
 var coverage = process.env.COVERAGE;
 
 // configures browsers to run test against
@@ -10,6 +12,12 @@ var browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
 
 // use puppeteer provided Chrome for testing
 process.env.CHROME_BIN = require('puppeteer').executablePath();
+
+var tmpDir = path.join(__dirname, 'tmp');
+
+fs.mkdirSync(tmpDir, { recursive: true });
+
+var firefoxProfile = fs.mkdtempSync(path.join(tmpDir, 'firefox-profile'));
 
 var absoluteBasePath = path.resolve(__dirname);
 
@@ -34,6 +42,14 @@ module.exports = function(karma) {
     },
 
     reporters: [ 'progress' ].concat(coverage ? 'coverage' : []),
+
+    customLaunchers: {
+      'FirefoxHeadless': {
+        base: 'Firefox',
+        flags: [ '-headless' ],
+        profile: firefoxProfile
+      }
+    },
 
     browsers,
 
