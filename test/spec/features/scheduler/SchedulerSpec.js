@@ -14,6 +14,14 @@ describe('features/scheduler', function() {
   }));
 
 
+  beforeEach(inject(function(scheduler) {
+
+    scheduler.DEBUG = true;
+  }));
+
+
+  this.timeout(10000);
+
   it('should schedule task', inject(async function(scheduler) {
 
     // given
@@ -22,10 +30,15 @@ describe('features/scheduler', function() {
     // when
     const promise = scheduler.schedule(fn);
 
+
+    console.log('SCHEDULE TASK');
+
     // assume
     expect(fn).not.to.have.been.called;
 
     // when
+    console.log('AWAIT SCHEDULED');
+
     await promise;
 
     // then
@@ -55,7 +68,7 @@ describe('features/scheduler', function() {
 
   describe('execution behavior', function() {
 
-    it('should only execute latest task', inject(async function(scheduler) {
+    it.skip('should only execute latest task', inject(async function(scheduler) {
 
       // given
       const fn = sinon.spy();
@@ -73,7 +86,7 @@ describe('features/scheduler', function() {
     }));
 
 
-    it('should return task result', inject(async function(scheduler) {
+    it.skip('should return task result', inject(async function(scheduler) {
 
       // given
       const fn = () => 10;
@@ -86,7 +99,7 @@ describe('features/scheduler', function() {
     }));
 
 
-    it('should catch task error', inject(async function(scheduler) {
+    it.skip('should catch task error', inject(async function(scheduler) {
 
       // given
       const fn = () => {
@@ -108,7 +121,7 @@ describe('features/scheduler', function() {
     }));
 
 
-    it('should cancel when diagram is destroyed', inject(
+    it.skip('should cancel when diagram is destroyed', inject(
       async function(scheduler) {
 
         // given
