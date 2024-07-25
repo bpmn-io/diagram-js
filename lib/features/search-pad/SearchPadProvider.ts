@@ -1,8 +1,8 @@
 import { Element } from '../../model/Types';
 
 export type Token = {
-  matched: string;
-  normal: string;
+  matched?: string;
+  normal?: string;
 };
 
 export type SearchResult = {
