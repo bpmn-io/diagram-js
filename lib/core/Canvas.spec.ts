@@ -199,3 +199,7 @@ canvas.zoom(1, {
   x: 100,
   y: 100
 });
+
+canvas.zoom('fit-viewport');
+canvas.zoom('fit-viewport', true);
+canvas.zoom('fit-viewport', false);
