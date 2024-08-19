@@ -1,9 +1,9 @@
-import Diagram from "../Diagram";
+import Diagram from '../Diagram';
 
-import DefaultRenderer from "./DefaultRenderer";
+import DefaultRenderer from './DefaultRenderer';
 
-import ElementFactory from "../core/ElementFactory";
-import GraphicsFactory from "../core/GraphicsFactory";
+import ElementFactory from '../core/ElementFactory';
+import GraphicsFactory from '../core/GraphicsFactory';
 
 const diagram = new Diagram();
 

@@ -1,11 +1,17 @@
-import { Element } from '../../model/Types';
+import type { Element } from '../../model/Types';
 
-import { ContextPadTarget } from './ContextPad';
+import type { ContextPadTarget } from './ContextPad';
 
-export type ContextPadEntryAction<ElementType extends Element = Element> = (event: Event, target: ContextPadTarget<ElementType>, autoActivate: boolean) => any;
+export type ContextPadEntryAction<ElementType extends Element = Element> = (
+  event: Event,
+  target: ContextPadTarget<ElementType>,
+  autoActivate: boolean
+) => any;
 
 export type ContextPadEntry<ElementType extends Element = Element> = {
-  action: Record<string, ContextPadEntryAction<ElementType>> | ContextPadEntryAction<ElementType>;
+  action:
+    | Record<string, ContextPadEntryAction<ElementType>>
+    | ContextPadEntryAction<ElementType>;
   className?: string;
   group?: string;
   html?: string;
@@ -13,15 +19,21 @@ export type ContextPadEntry<ElementType extends Element = Element> = {
   title?: string;
 };
 
-export type ContextPadEntries<ElementType extends Element = Element> = Record<string, ContextPadEntry<ElementType>>;
+export type ContextPadEntries<ElementType extends Element = Element> = Record<
+  string,
+  ContextPadEntry<ElementType>
+>;
 
-export type ContextPadEntriesCallback<ElementType extends Element = Element> = (entries: ContextPadEntries<ElementType>) => ContextPadEntries<ElementType>;
+export type ContextPadEntriesCallback<ElementType extends Element = Element> = (
+  entries: ContextPadEntries<ElementType>
+) => ContextPadEntries<ElementType>;
 
 /**
  * An interface to be implemented by a context menu provider.
  */
-export default interface ContextPadProvider<ElementType extends Element = Element> {
-
+export default interface ContextPadProvider<
+  ElementType extends Element = Element
+> {
   /**
    * Returns a map of entries or a function that receives, modifies and returns
    * a map of entries for one element.
@@ -50,7 +62,9 @@ export default interface ContextPadProvider<ElementType extends Element = Elemen
    *
    * @param element
    */
-  getContextPadEntries?: (element: ElementType) => ContextPadEntriesCallback<ElementType> | ContextPadEntries<ElementType>;
+  getContextPadEntries?: (
+    element: ElementType
+  ) => ContextPadEntriesCallback<ElementType> | ContextPadEntries<ElementType>;
 
   /**
    * Returns a map of entries or a function that receives, modifies and returns
@@ -79,5 +93,7 @@ export default interface ContextPadProvider<ElementType extends Element = Elemen
    *
    * @param elements
    */
-  getMultiElementContextPadEntries?: (elements: ElementType[]) => ContextPadEntriesCallback<ElementType> | ContextPadEntries<ElementType>;
+  getMultiElementContextPadEntries?: (
+    elements: ElementType[]
+  ) => ContextPadEntriesCallback<ElementType> | ContextPadEntries<ElementType>;
 }
