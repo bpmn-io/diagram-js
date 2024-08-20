@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.9.0
+
+* `CHORE`: export types compatible with `verbatimModuleSyntax` ([#927](https://github.com/bpmn-io/diagram-js/pull/927), [#864](https://github.com/bpmn-io/diagram-js/issues/864))
+* `CHORE`: re-compute context pad position next frame ([#920](https://github.com/bpmn-io/diagram-js/pull/920))
+
 ## 14.8.0
 
 * `FEAT`: add `scheduler` service ([#915](https://github.com/bpmn-io/diagram-js/pull/915))
