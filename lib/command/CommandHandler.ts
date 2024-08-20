@@ -1,12 +1,11 @@
-import { ElementLike } from "../core/Types";
-import { CommandContext } from "./CommandStack";
+import type { ElementLike } from '../core/Types';
+import type { CommandContext } from './CommandStack';
 
 /**
  * A command handler that may be registered via
  * {@link CommandStack#registerHandler}.
  */
 export default interface CommandHandler {
-
   /**
    * Execute changes described in the passed action context.
    *

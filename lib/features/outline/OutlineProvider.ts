@@ -1,4 +1,4 @@
-import { Element } from '../../model/Types';
+import type { Element } from '../../model/Types';
 
 export type Outline = SVGSVGElement | SVGCircleElement | SVGRectElement;
 
@@ -6,7 +6,6 @@ export type Outline = SVGSVGElement | SVGCircleElement | SVGRectElement;
  * An interface to be implemented by an outline provider.
  */
 export default interface OutlineProvider {
-
   /**
    * Returns outline shape for given element.
    *
@@ -49,13 +48,13 @@ export default interface OutlineProvider {
    *  } else if (element.type === 'Bar') {
    *    return true;
    *  }
-   * 
+   *
    *  return false;
    * }
    * ```
-   * 
+   *
    * @param element
    * @param outline
-  */
+   */
   updateOutline: (element: Element, outline: Outline) => boolean;
 }

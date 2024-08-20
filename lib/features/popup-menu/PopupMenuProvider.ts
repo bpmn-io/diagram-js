@@ -1,8 +1,12 @@
-import { VNode } from '@bpmn-io/diagram-js-ui';
+import type { VNode } from '@bpmn-io/diagram-js-ui';
 
-import { PopupMenuTarget } from './PopupMenu';
+import type { PopupMenuTarget } from './PopupMenu';
 
-export type PopupMenuEntryAction = (event: Event, entry: PopupMenuEntry, action?: string) => any;
+export type PopupMenuEntryAction = (
+  event: Event,
+  entry: PopupMenuEntry,
+  action?: string
+) => any;
 
 export type PopupMenuEntry = {
   action: PopupMenuEntryAction;
@@ -15,9 +19,15 @@ export type PopupMenuEntry = {
 
 export type PopupMenuEntries = Record<string, PopupMenuEntry>;
 
-export type PopupMenuEntriesProvider = (entries: PopupMenuEntries) => PopupMenuEntries;
+export type PopupMenuEntriesProvider = (
+  entries: PopupMenuEntries
+) => PopupMenuEntries;
 
-export type PopupMenuHeaderEntryAction = (event: Event, entry: PopupMenuHeaderEntry, action?: string) => any;
+export type PopupMenuHeaderEntryAction = (
+  event: Event,
+  entry: PopupMenuHeaderEntry,
+  action?: string
+) => any;
 
 export type PopupMenuHeaderEntry = {
   action: PopupMenuHeaderEntryAction;
@@ -33,17 +43,20 @@ export type PopupMenuHeaderEntry = {
 
 export type PopupMenuHeaderEntries = PopupMenuHeaderEntry[];
 
-export type PopupMenuProviderHeaderEntriesProvider = (entries: PopupMenuHeaderEntries) => PopupMenuHeaderEntries;
+export type PopupMenuProviderHeaderEntriesProvider = (
+  entries: PopupMenuHeaderEntries
+) => PopupMenuHeaderEntries;
 
 export type PopupMenuEmptyPlaceholder = VNode;
 
-export type PopupMenuEmptyPlaceholderProvider = (search: string) => PopupMenuEmptyPlaceholder;
+export type PopupMenuEmptyPlaceholderProvider = (
+  search: string
+) => PopupMenuEmptyPlaceholder;
 
 /**
  * An interface to be implemented by a popup menu provider.
  */
 export default interface PopupMenuProvider {
-
   /**
    * Returns a map of entries or a function that receives, modifies and returns
    * a map of entries.
@@ -72,7 +85,9 @@ export default interface PopupMenuProvider {
    *
    * @param target
    */
-  getPopupMenuEntries(target: PopupMenuTarget): PopupMenuEntriesProvider | PopupMenuEntries;
+  getPopupMenuEntries(
+    target: PopupMenuTarget
+  ): PopupMenuEntriesProvider | PopupMenuEntries;
 
   /**
    * Returns a list of header entries or a function that receives, modifies and
@@ -104,7 +119,9 @@ export default interface PopupMenuProvider {
    *
    * @param target
    */
-  getHeaderEntries?(target: PopupMenuTarget): PopupMenuProviderHeaderEntriesProvider | PopupMenuHeaderEntries;
+  getHeaderEntries?(
+    target: PopupMenuTarget
+  ): PopupMenuProviderHeaderEntriesProvider | PopupMenuHeaderEntries;
 
   /**
    * Returns a component to be displayed when no popup menu entries
@@ -120,5 +137,7 @@ export default interface PopupMenuProvider {
    * }
    * ```
    */
-  getEmptyPlaceholder?(): PopupMenuEmptyPlaceholderProvider | PopupMenuEmptyPlaceholder;
+  getEmptyPlaceholder?():
+    | PopupMenuEmptyPlaceholderProvider
+    | PopupMenuEmptyPlaceholder;
 }
