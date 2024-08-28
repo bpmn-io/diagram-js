@@ -74,14 +74,15 @@
   --resizer-fill-color: var(--color-blue-205-100-45);
   --resizer-stroke-color: var(--canvas-fill-color);
 
-  --search-container-background-color: var(--color-grey-225-10-97);
-  --search-container-border-color: var(--color-blue-205-100-50);
-  --search-container-box-shadow-color: var(--color-blue-205-100-95);
-  --search-container-box-shadow-inset-color: var(--color-grey-225-10-80);
+  --search-font-family: "IBM Plex Sans", sans-serif;
+  --search-font-size: 14px;
+  --search-container-background-color: var(--color-white);
+  --search-shadow-color: var(--color-black-opacity-30);
   --search-input-border-color: var(--color-grey-225-10-75);
-  --search-result-border-color: var(--color-grey-225-10-75);
-  --search-result-highlight-color: var(--color-black);
-  --search-result-selected-color: var(--color-blue-205-100-45-opacity-30);
+  --search-input-focus-border-color: var(--color-blue-205-100-50);
+  --search-input-focus-background-color: var(--color-blue-205-100-95);
+  --search-result-hover-background-color: var(--color-grey-225-10-95);
+  --search-result-secondary-color: var(--color-grey-225-10-55);
 
   --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);
   --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);
@@ -532,7 +533,7 @@ svg.new-parent {
   width: 100%;
   box-sizing: border-box;
   font-size: var(--popup-font-size);
-  padding: 3px 6px;
+  padding: 3px 6px 3px 28px;
   border-radius: 2px;
   border: solid 1px var(--popup-search-border-color);
   line-height: 21px;
@@ -593,6 +594,8 @@ svg.new-parent {
 }
 
 .djs-popup-search {
+  position: relative;
+  width: auto;
   margin: 10px 12px;
 }
 
@@ -603,19 +606,10 @@ svg.new-parent {
   margin: 0;
 }
 
-.djs-popup-search {
-  position: relative;
-  width: auto;
-}
-
 .djs-popup-search-icon {
   position: absolute;
   left: 8px;
   top: 7px;
-}
-
-.djs-popup-search input {
-  padding-left: 25px;
 }
 
 .djs-popup-results {
@@ -889,6 +883,14 @@ svg.new-parent {
 /**
  * search pad
  */
+.djs-search-open .djs-context-pad {
+  display: none;
+}
+
+.djs-search-open .djs-connection.selected .djs-outline {
+  display: block;
+}
+
 .djs-search-container {
   position: absolute;
   top: 20px;
@@ -902,76 +904,79 @@ svg.new-parent {
   max-width: 400px;
   z-index: 10;
 
-  font-size: 1.05em;
-  opacity: 0.9;
-  background: var(--search-container-background-color);
-  border: solid 1px var(--search-container-border-color);
+  font-family: var(--search-font-family);
+  font-size: var(--search-font-size);
   border-radius: 2px;
-  box-shadow: 0 0 0 2px var(--search-container-box-shadow-color), 0 0 0 1px var(--search-container-box-shadow-inset-color) inset;
+  box-shadow: 0px 2px 6px var(--search-shadow-color);
 }
 
 .djs-search-container:not(.open) {
   display: none;
 }
 
+.djs-search-input {
+  position: relative;
+}
+
+.djs-search-input svg {
+  position: absolute;
+  left: 8px;
+  top: 7px;
+}
+
 .djs-search-input input {
-  font-size: 1.05em;
+  font-size: var(--search-font-size);
   width: 100%;
-  padding: 6px 10px;
+  padding: 3px 6px 3px 28px;
   border: 1px solid var(--search-input-border-color);
+  border-radius: 2px;
   box-sizing: border-box;
+  line-height: 21px;
 }
 
 .djs-search-input input:focus {
+  background-color: var(--search-input-focus-background-color);
+  border: solid 1px var(--search-input-focus-border-color);
   outline: none;
-  border-color: var(--search-input-border-color);
 }
 
 .djs-search-results {
   position: relative;
   overflow-y: auto;
   max-height: 200px;
-}
-
-.djs-search-results:hover {
-  cursor: pointer;
+  background: var(--search-container-background-color);
 }
 
 .djs-search-result {
-  width: 100%;
-  padding: 6px 10px;
-  background: white;
-  border-bottom: solid 1px var(--search-result-border-color);
-  border-radius: 1px;
-}
-
-.djs-search-highlight {
-  color: var(--search-result-highlight-color);
+  padding: 6px 8px;
 }
 
 .djs-search-result-primary {
-  margin: 0 0 10px;
+  margin: 0 0 3px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .djs-search-result-secondary {
   font-family: monospace;
   margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--search-result-secondary-color);
 }
 
 .djs-search-result:hover {
-  background: var(--search-result-selected-color);
+  background: var(--search-result-hover-background-color);
 }
 
 .djs-search-result-selected {
-  background: var(--search-result-selected-color);
+  background: var(--search-result-hover-background-color);
 }
 
 .djs-search-result-selected:hover {
-  background: var(--search-result-selected-color);
-}
-
-.djs-search-overlay {
-  background: var(--search-result-selected-color);
+  background: var(--search-result-hover-background-color);
 }
 
 /**

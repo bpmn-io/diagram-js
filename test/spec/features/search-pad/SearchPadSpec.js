@@ -30,21 +30,29 @@ describe('features/searchPad', function() {
 
   var capturedEvents;
   var searchProvider;
+  var rootElements;
   var elements;
 
   var input_node;
 
   beforeEach(inject(function(searchPad, eventBus, canvas) {
 
-    canvas.setRootElement({ id: 'FOO' });
+    rootElements = {
+      rootA: { id: 'root-a' },
+      rootB: { id: 'root-b', }
+    };
+
+    canvas.setRootElement(rootElements.rootA);
+
+    canvas.addRootElement(rootElements.rootB);
 
     elements = {
       one: {
-        a: canvas.addShape({ id: 'one-a', x: 0, y: 0, width: 100, height: 80 })
+        a: canvas.addShape({ id: 'one-a', x: 0, y: 0, width: 100, height: 100 })
       },
       two: {
-        a: canvas.addShape({ id: 'two-a', x: 0, y: 0, width: 100, height: 80 }),
-        b: canvas.addShape({ id: 'two-b', x: 0, y: 0, width: 100, height: 80 })
+        a: canvas.addShape({ id: 'two-a', x: 200, y: 0, width: 100, height: 100 }),
+        b: canvas.addShape({ id: 'two-b', x: 400, y: 0, width: 100, height: 100 }, rootElements.rootB)
       }
     };
 
@@ -63,12 +71,13 @@ describe('features/searchPad', function() {
         if (pattern === 'one') {
           return [ {
             primaryTokens: [
-              { normal: 'one' }
+              { matched: 'One' },
+              { normal: ' A' }
             ],
             secondaryTokens: [
-              { normal: 'some_' },
-              { matched: 'DataStore' },
-              { normal: '_123456_id' }
+              { normal: 'Shape_' },
+              { matched: 'one' },
+              { normal: '-a' }
             ],
             element: elements.one.a
           } ];
@@ -77,22 +86,39 @@ describe('features/searchPad', function() {
         if (pattern === 'two') {
           return [ {
             primaryTokens: [
-              { normal: 'one' }
+              { matched: 'Two' },
+              { normal: ' A' }
             ],
             secondaryTokens: [
-              { normal: 'some_' },
-              { matched: 'DataStore' },
-              { normal: '_123456_id' }
+              { normal: 'Shape_' },
+              { matched: 'two' },
+              { normal: '-a' }
             ],
             element: elements.two.a
-          },{
+          }, {
             primaryTokens: [
-              { normal: 'two' }
+              { matched: 'Two' },
+              { normal: ' B' }
             ],
             secondaryTokens: [
-              { normal: 'some_' },
-              { matched: 'DataStore' },
-              { normal: '_123456_id' }
+              { normal: 'Shape_' },
+              { matched: 'two' },
+              { normal: '-b' }
+            ],
+            element: elements.two.b
+          } ];
+        }
+
+        if (pattern === 'two-b') {
+          return [ {
+            primaryTokens: [
+              { matched: 'Two' },
+              { normal: ' B' }
+            ],
+            secondaryTokens: [
+              { normal: 'Shape_' },
+              { matched: 'two' },
+              { normal: '-b' }
             ],
             element: elements.two.b
           } ];
@@ -133,14 +159,14 @@ describe('features/searchPad', function() {
   }));
 
 
-  it('should be closed by default', inject(function(canvas, eventBus, searchPad) {
+  it('should be closed by default', inject(function(searchPad) {
 
     // then
     expect(searchPad.isOpen()).to.equal(false);
   }));
 
 
-  it('should open', inject(function(canvas, eventBus, searchPad) {
+  it('should open', inject(function(searchPad) {
 
     // when
     searchPad.open();
@@ -151,7 +177,7 @@ describe('features/searchPad', function() {
   }));
 
 
-  it('should error on open when provider not registered', inject(function(canvas, eventBus, searchPad) {
+  it('should error on open when provider not registered', inject(function(searchPad) {
 
     // given
     searchPad.registerProvider(undefined);
@@ -167,7 +193,7 @@ describe('features/searchPad', function() {
   }));
 
 
-  it('should close', inject(function(canvas, eventBus, searchPad) {
+  it('should close', inject(function(searchPad) {
 
     // given
     searchPad.open();
@@ -181,7 +207,35 @@ describe('features/searchPad', function() {
   }));
 
 
-  it('should toggle open/close', inject(function(canvas, eventBus, searchPad) {
+  it('should close on <drag.init>', inject(function(eventBus, searchPad) {
+
+    // given
+    searchPad.open();
+
+    // when
+    eventBus.fire('drag.init');
+
+    // then
+    expect(searchPad.isOpen()).to.equal(false);
+    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
+  }));
+
+
+  it('should close on <elements.changed>', inject(function(eventBus, searchPad) {
+
+    // given
+    searchPad.open();
+
+    // when
+    eventBus.fire('elements.changed');
+
+    // then
+    expect(searchPad.isOpen()).to.equal(false);
+    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
+  }));
+
+
+  it('should toggle open/close', inject(function(searchPad) {
 
     // when
     searchPad.toggle();
@@ -202,17 +256,16 @@ describe('features/searchPad', function() {
 
   describe('searching/selection', function() {
 
-    var element;
-
-    beforeEach(inject(function(searchPad, eventBus) {
+    beforeEach(inject(function(selection, searchPad) {
 
       // given
-      element = searchProvider.find('one')[0].element;
+      selection.select(elements.one.a);
+
       searchPad.open();
     }));
 
 
-    it('should not search on empty string', inject(function(canvas, eventBus, searchPad) {
+    it('should not search on empty string', function() {
 
       // given
       var find = sinon.spy(searchProvider, 'find');
@@ -222,10 +275,21 @@ describe('features/searchPad', function() {
 
       // then
       expect(find).callCount(0);
+    });
+
+
+    it('should not display root elements', inject(function(canvas) {
+
+      // when
+      typeText(input_node, 'root');
+
+      // then
+      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
+      expect(result_nodes).length(0);
     }));
 
 
-    it('should display results', inject(function(canvas, eventBus, searchPad) {
+    it('should display results', inject(function(canvas) {
 
       // given
       var find = sinon.spy(searchProvider, 'find');
@@ -240,7 +304,7 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('should escape displayed results', inject(function(canvas, eventBus, searchPad) {
+    it('should escape displayed results', inject(function(canvas) {
 
       // when
       typeText(input_node, 'html');
@@ -253,7 +317,7 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('should preselect first result', inject(function(canvas, eventBus, searchPad) {
+    it('should preselect first result', inject(function(canvas) {
 
       // when
       typeText(input_node, 'two');
@@ -265,7 +329,7 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('should select result on enter', inject(function(canvas, eventBus, searchPad) {
+    it('should select result on enter', function() {
 
       // given
       typeText(input_node, 'two');
@@ -280,35 +344,27 @@ describe('features/searchPad', function() {
         EVENTS.closed,
         EVENTS.selected
       ]);
-    }));
+    });
 
 
-    it('should set overlay on an highlighted element', inject(function(searchPad, overlays) {
-
-      // when
-      typeText(input_node, 'one');
-
-      // then
-      var overlay = overlays.get({ element: element });
-      expect(overlay).length(1);
-    }));
-
-
-    it('should remove overlay from an element on enter', inject(function(searchPad, overlays) {
+    it('should reset selection on escape without enter', inject(function(selection) {
 
       // given
-      typeText(input_node, 'one');
+      selection.select(elements.one.a);
+
+      typeText(input_node, 'two');
+
+      expect(selection.isSelected(elements.one.a)).to.be.false;
 
       // when
-      triggerKeyEvent(input_node, 'keyup', 'Enter');
+      triggerKeyEvent(input_node, 'keyup', 'Escape');
 
       // then
-      var overlay = overlays.get({ element: element });
-      expect(overlay).length(0);
+      expect(selection.isSelected(elements.one.a)).to.be.true;
     }));
 
 
-    it('select should scroll element into view', inject(function(searchPad, canvas) {
+    it('select should scroll element into view', inject(function(canvas) {
 
       // given
       typeText(input_node, 'one');
@@ -334,7 +390,7 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('select should keep zoom level', inject(function(searchPad, canvas) {
+    it('select set zoom level to 1', inject(function(canvas) {
 
       // given
       canvas.zoom(0.4);
@@ -345,12 +401,47 @@ describe('features/searchPad', function() {
       triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
-      var newViewbox = canvas.viewbox();
-      expect(newViewbox).to.have.property('scale', 0.4);
+      expect(canvas.zoom()).to.equal(1);
     }));
 
 
-    it('select should apply selection on an element', inject(function(searchPad, selection) {
+    it('select reset viewbox on escape without enter', inject(function(canvas) {
+
+      // given
+      var viewbox = canvas.viewbox();
+
+      typeText(input_node, 'two');
+
+      expect(canvas.viewbox()).not.to.eql(viewbox);
+
+      // when
+      triggerKeyEvent(input_node, 'keyup', 'Escape');
+
+      // then
+      expect(canvas.viewbox()).to.eql(viewbox);
+    }));
+
+
+    it('should reset root element on escape without enter', inject(function(canvas, selection) {
+
+      // given
+      selection.select(elements.one.a);
+
+      expect(canvas.getRootElement()).to.equal(rootElements.rootA);
+
+      typeText(input_node, 'two-b');
+
+      expect(canvas.getRootElement()).to.equal(rootElements.rootB);
+
+      // when
+      triggerKeyEvent(input_node, 'keyup', 'Escape');
+
+      // then
+      expect(canvas.getRootElement()).to.equal(rootElements.rootA);
+    }));
+
+
+    it('select should apply selection on an element', inject(function(selection) {
 
       // given
       typeText(input_node, 'one');
@@ -359,11 +450,11 @@ describe('features/searchPad', function() {
       triggerKeyEvent(input_node, 'keyup', 'Enter');
 
       // then
-      expect(selection.isSelected(element)).to.be.true;
+      expect(selection.isSelected(elements.one.a)).to.be.true;
     }));
 
 
-    it('should close on escape', inject(function(canvas, eventBus, searchPad) {
+    it('should close on escape', inject(function(searchPad) {
 
       // when
       triggerKeyEvent(input_node, 'keyup', 'Escape');
@@ -374,7 +465,7 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('should preselect next/previus results on arrow down/up', inject(function(canvas, eventBus, searchPad) {
+    it('should preselect next/previus results on arrow down/up', inject(function(canvas) {
 
       // given
       typeText(input_node, 'two');
@@ -403,7 +494,7 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('should not move input cursor on arrow down', inject(function(canvas, eventBus, searchPad) {
+    it('should not move input cursor on arrow down', function() {
 
       // given
       typeText(input_node, 'two');
@@ -411,10 +502,10 @@ describe('features/searchPad', function() {
       // when press 'down'
       var e = triggerKeyEvent(input_node, 'keydown', 'ArrowDown');
       expect(e.defaultPrevented).to.be.true;
-    }));
+    });
 
 
-    it('should not move input cursor on arrow up', inject(function(canvas, eventBus, searchPad) {
+    it('should not move input cursor on arrow up', function() {
 
       // given
       typeText(input_node, 'two');
@@ -422,10 +513,10 @@ describe('features/searchPad', function() {
       // when press 'up'
       var e = triggerKeyEvent(input_node, 'keydown', 'ArrowUp');
       expect(e.defaultPrevented).to.be.true;
-    }));
+    });
 
 
-    it('should not search while navigating text in input box left', inject(function(canvas, eventBus, searchPad) {
+    it('should not search while navigating text in input box left', function() {
 
       // given
       var find = sinon.spy(searchProvider, 'find');
@@ -436,10 +527,10 @@ describe('features/searchPad', function() {
 
       // then
       expect(find).callCount('two'.length);
-    }));
+    });
 
 
-    it('should not search while navigating text in input box right', inject(function(canvas, eventBus, searchPad) {
+    it('should not search while navigating text in input box right', function() {
 
       // given
       var find = sinon.spy(searchProvider, 'find');
@@ -450,7 +541,7 @@ describe('features/searchPad', function() {
 
       // then
       expect(find).callCount('two'.length);
-    }));
+    });
 
   });
 
