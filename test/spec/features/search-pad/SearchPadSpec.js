@@ -20,6 +20,7 @@ var EVENTS = {
   closed: 'searchPad.closed',
   opened: 'searchPad.opened',
   preselected: 'searchPad.preselected',
+  restored: 'searchPad.restored',
   selected: 'searchPad.selected'
 };
 
@@ -193,46 +194,90 @@ describe('features/searchPad', function() {
   }));
 
 
-  it('should close', inject(function(searchPad) {
+  describe('close', function() {
 
-    // given
-    searchPad.open();
+    it('should close and restore', inject(function(searchPad) {
 
-    // when
-    searchPad.close();
+      // given
+      searchPad.open();
 
-    // then
-    expect(searchPad.isOpen()).to.equal(false);
-    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
-  }));
+      // when
+      searchPad.close();
 
-
-  it('should close on <drag.init>', inject(function(eventBus, searchPad) {
-
-    // given
-    searchPad.open();
-
-    // when
-    eventBus.fire('drag.init');
-
-    // then
-    expect(searchPad.isOpen()).to.equal(false);
-    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
-  }));
+      // then
+      expect(searchPad.isOpen()).to.equal(false);
+      expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.restored, EVENTS.closed ]);
+    }));
 
 
-  it('should close on <elements.changed>', inject(function(eventBus, searchPad) {
+    it('should close and not restore', inject(function(searchPad) {
 
-    // given
-    searchPad.open();
+      // given
+      searchPad.open();
 
-    // when
-    eventBus.fire('elements.changed');
+      // when
+      searchPad.close(false);
 
-    // then
-    expect(searchPad.isOpen()).to.equal(false);
-    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
-  }));
+      // then
+      expect(searchPad.isOpen()).to.equal(false);
+      expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
+    }));
+
+
+    it('should close on <drag.init> and restore', inject(function(eventBus, searchPad) {
+
+      // given
+      searchPad.open();
+
+      // when
+      eventBus.fire('drag.init');
+
+      // then
+      expect(searchPad.isOpen()).to.equal(false);
+      expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.restored, EVENTS.closed ]);
+    }));
+
+
+    it('should close on <elements.changed> and restore', inject(function(eventBus, searchPad) {
+
+      // given
+      searchPad.open();
+
+      // when
+      eventBus.fire('elements.changed');
+
+      // then
+      expect(searchPad.isOpen()).to.equal(false);
+      expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.restored, EVENTS.closed ]);
+    }));
+
+
+    it('should close on <Escape> and restore', inject(function(searchPad) {
+
+      // given
+      searchPad.open();
+
+      // when
+      triggerKeyEvent(input_node, 'keyup', 'Escape');
+
+      // then
+      expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.restored, EVENTS.closed ]);
+    }));
+
+
+    it('should close on click and not restore', inject(function(canvas, searchPad) {
+
+      // given
+      searchPad.open();
+
+      // when
+      triggerMouseEvent(canvas.getContainer(), 'click', 0, 0);
+
+      // then
+      expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
+    }));
+
+  });
 
 
   it('should toggle open/close', inject(function(searchPad) {
@@ -243,14 +288,14 @@ describe('features/searchPad', function() {
 
     // then
     expect(searchPad.isOpen()).to.equal(false);
-    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
+    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.restored, EVENTS.closed ]);
 
     // when
     searchPad.toggle();
 
     // then
     expect(searchPad.isOpen()).to.equal(true);
-    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed, EVENTS.opened ]);
+    expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.restored, EVENTS.closed, EVENTS.opened ]);
   }));
 
 
@@ -461,7 +506,7 @@ describe('features/searchPad', function() {
 
       // then
       expect(searchPad.isOpen()).to.equal(false);
-      expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
+      expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.restored, EVENTS.closed ]);
     }));
 
 
@@ -558,6 +603,21 @@ describe('features/searchPad', function() {
     }));
   });
 });
+
+
+function triggerMouseEvent(element, eventType, x, y) {
+  var event = new MouseEvent(eventType, {
+    view: window,
+    bubbles: true,
+    cancelable: true,
+    clientX: x,
+    clientY: y
+  });
+
+  element.dispatchEvent(event);
+
+  return event;
+}
 
 
 function triggerKeyEvent(element, eventType, code) {
