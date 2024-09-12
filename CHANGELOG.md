@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.10.0
+
+* `FEAT`: align search styling with other popups ([#913](https://github.com/bpmn-io/diagram-js/pull/913))
+* `CHORE`: use existing outline in search ([#913](https://github.com/bpmn-io/diagram-js/pull/913))
+* `FIX`: only commit search viewport changes on `ENTER` ([#913](https://github.com/bpmn-io/diagram-js/pull/913))
+
 ## 14.9.0
 
 * `CHORE`: export types compatible with `verbatimModuleSyntax` ([#927](https://github.com/bpmn-io/diagram-js/pull/927), [#864](https://github.com/bpmn-io/diagram-js/issues/864))
