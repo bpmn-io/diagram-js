@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.11.0
+
+* `FEAT`: add `search` utility
+* `FEAT`: sort popup entry search results semantically ([#916](https://github.com/bpmn-io/diagram-js/pull/916))
+
 ## 14.10.0
 
 * `FEAT`: align search styling with other popups ([#913](https://github.com/bpmn-io/diagram-js/pull/913))
