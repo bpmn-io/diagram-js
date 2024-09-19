@@ -1974,7 +1974,7 @@ describe('features/popup-menu', function() {
 
       var y = documentBounds.height - 40;
 
-      var cursorPosition = { x: documentBounds.left + 100, y: documentBounds.top + y };
+      var cursorPosition = { x: documentBounds.left + 100, y };
 
       // when
       popupMenu.open({}, 'custom-provider', cursorPosition);
@@ -1996,8 +1996,7 @@ describe('features/popup-menu', function() {
       // given
       var documentBounds = document.documentElement.getBoundingClientRect();
 
-      const y = - 5;
-      var cursorPosition = { x: documentBounds.left + 100, y: documentBounds.top + y };
+      var cursorPosition = { x: documentBounds.left + 100, y: documentBounds.top - 5 };
 
       // when
       popupMenu.open({}, 'custom-provider', cursorPosition);
@@ -2010,7 +2009,7 @@ describe('features/popup-menu', function() {
       };
 
       // then
-      expect(menu.offsetTop).to.be.closeTo(y + menuDimensions.height, 3);
+      expect(menu.offsetTop).to.be.closeTo(documentBounds.top + menuDimensions.height, 3);
     }));
 
 
