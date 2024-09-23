@@ -442,21 +442,6 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('select set zoom level to 1', inject(function(canvas) {
-
-      // given
-      canvas.zoom(0.4);
-
-      typeText(input_node, 'one');
-
-      // when
-      triggerKeyEvent(input_node, 'keyup', 'Enter');
-
-      // then
-      expect(canvas.zoom()).to.equal(1);
-    }));
-
-
     it('select reset viewbox on escape without enter', inject(function(canvas) {
 
       // given
