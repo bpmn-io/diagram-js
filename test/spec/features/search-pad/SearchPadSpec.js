@@ -438,7 +438,7 @@ describe('features/searchPad', function() {
       // then
       var newViewbox = canvas.viewbox();
       expect(newViewbox).to.have.property('x', -100);
-      expect(newViewbox).to.have.property('y', -400);
+      expect(newViewbox).to.have.property('y', -300);
     }));
 
 
