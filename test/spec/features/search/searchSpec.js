@@ -15,7 +15,7 @@ describe('search', function() {
   }));
 
 
-  it('complex', inject(function(search) {
+  it('should search complex', inject(function(search) {
 
     // given
     const items = [
@@ -63,7 +63,7 @@ describe('search', function() {
   }));
 
 
-  it('should by match', inject(function(search) {
+  it('should sort by match', inject(function(search) {
 
     // given
     const items = [
@@ -96,7 +96,7 @@ describe('search', function() {
   }));
 
 
-  it('should by match location', inject(function(search) {
+  it('should sort by match location', inject(function(search) {
 
     // given
     const items = [
@@ -193,6 +193,38 @@ describe('search', function() {
     expect(results).to.have.length(2);
     expect(results[0].item).to.eql(items[2]);
     expect(results[1].item).to.eql(items[0]);
+  }));
+
+
+  it('should handle duplicate entries', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'baz',
+        description: 'baz'
+      },
+      {
+        title: 'Kafka message',
+        description: 'Nope'
+      },
+      {
+        title: 'Kafka message',
+        description: 'Nope'
+      }
+    ];
+
+    // when
+    const results = search(items, 'g', {
+      keys: [
+        'title',
+        'description',
+        'search'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
   }));
 
 });
