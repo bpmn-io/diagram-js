@@ -83,6 +83,7 @@
   --search-input-focus-background-color: var(--color-blue-205-100-95);
   --search-result-hover-background-color: var(--color-grey-225-10-95);
   --search-result-secondary-color: var(--color-grey-225-10-55);
+  --search-preselected-background-color: var(--color-blue-205-100-50-opacity-15);
 
   --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);
   --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);
@@ -977,6 +978,10 @@ svg.new-parent {
 
 .djs-search-result-selected:hover {
   background: var(--search-result-hover-background-color);
+}
+
+.djs-element.djs-search-preselected .djs-outline {
+  fill: var(--search-preselected-background-color) !important;
 }
 
 /**
