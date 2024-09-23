@@ -1495,6 +1495,28 @@ describe('features/popup-menu', function() {
     }));
 
 
+    it('should show search results (matching label & search)', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('delta search');
+
+      // then
+      var shownEntries;
+
+      await waitFor(() => {
+        shownEntries = queryPopupAll('.entry');
+
+        expect(shownEntries).to.have.length(1);
+      });
+
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
+    }));
+
+
     describe('ranking', function() {
 
       it('should hide rank < 0 items', inject(async function(popupMenu) {
