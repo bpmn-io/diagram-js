@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.11.1
+
+_Partially reverts v14.11.0._
+
+* `FIX`: revert `search` integration into popup menu
+
 ## 14.11.0
 
 * `FEAT`: add `search` utility
