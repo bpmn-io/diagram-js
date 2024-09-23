@@ -362,7 +362,7 @@ describe('features/searchPad', function() {
     }));
 
 
-    it('should preselect first result', inject(function(canvas) {
+    it('should preselect first result', inject(function(canvas, selection) {
 
       // when
       typeText(input_node, 'two');
@@ -371,10 +371,12 @@ describe('features/searchPad', function() {
       var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
       expect(domClasses(result_nodes[0]).has(SearchPad.RESULT_SELECTED_CLASS)).to.be.true;
       expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.preselected ]);
+      expect(selection.isSelected(elements.two.a)).to.be.true;
+      expect(domClasses(canvas.getGraphics(elements.two.a)).has('djs-search-preselected')).to.be.true;
     }));
 
 
-    it('should select result on enter', function() {
+    it('should select result on enter', inject(function(canvas, selection) {
 
       // given
       typeText(input_node, 'two');
@@ -389,10 +391,13 @@ describe('features/searchPad', function() {
         EVENTS.closed,
         EVENTS.selected
       ]);
-    });
+
+      expect(selection.isSelected(elements.two.a)).to.be.true;
+      expect(domClasses(canvas.getGraphics(elements.two.a)).has('djs-search-preselected')).to.be.false;
+    }));
 
 
-    it('should reset selection on escape without enter', inject(function(selection) {
+    it('should reset selection on escape without enter', inject(function(canvas, selection) {
 
       // given
       selection.select(elements.one.a);
@@ -406,6 +411,8 @@ describe('features/searchPad', function() {
 
       // then
       expect(selection.isSelected(elements.one.a)).to.be.true;
+
+      expect(domClasses(canvas.getGraphics(elements.two.a)).has('djs-search-preselected')).to.be.false;
     }));
 
 
