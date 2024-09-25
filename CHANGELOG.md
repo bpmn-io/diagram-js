@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 14.11.2
+
+* `FIX`: restore search result highlight ([#931](https://github.com/bpmn-io/diagram-js/pull/931))
+* `FIX`: correct search result highlight not being removed ([#931](https://github.com/bpmn-io/diagram-js/pull/931))
+* `FIX`: do not change zoom when search openes ([#931](https://github.com/bpmn-io/diagram-js/pull/931))
+
 ## 14.11.1
 
 _Partially reverts v14.11.0._
