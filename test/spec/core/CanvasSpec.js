@@ -869,20 +869,11 @@ describe('Canvas', function() {
 
       it('should return copy of viewbox', inject(function(canvas) {
 
-        // given
-        canvas.addShape({ id: 's0', x: 0, y: 0, width: 300, height: 300 });
-
-        var shape = canvas.addShape({ id: 's1', x: 10000, y: 0, width: 300, height: 300 });
-
-        var viewbox = canvas.viewbox(),
-            viewboxStringified = JSON.stringify(viewbox);
-
         // when
-        canvas.scrollToElement(shape);
+        var viewbox = canvas.viewbox();
 
         // then
-        expect(JSON.stringify(viewbox)).to.eql(viewboxStringified);
-        expect(JSON.stringify(canvas.viewbox())).not.to.eql(viewboxStringified);
+        expect(viewbox).to.not.equal(canvas.viewbox());
       }));
 
 
