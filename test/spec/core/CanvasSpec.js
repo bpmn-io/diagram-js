@@ -398,6 +398,7 @@ describe('Canvas', function() {
     beforeEach(function() {
       container = TestContainer.get(this);
     });
+
     beforeEach(createDiagram());
 
 
@@ -1327,6 +1328,7 @@ describe('Canvas', function() {
     beforeEach(function() {
       container = TestContainer.get(this);
     });
+
     beforeEach(createDiagram({ canvas: { width: 500, height: 500 } }));
 
 
@@ -1855,7 +1857,7 @@ describe('Canvas', function() {
       }));
 
 
-      it('should remove cached viewbox on shape add', inject(
+      it('should remove cached viewbox on shape change', inject(
         function(canvas, eventBus, graphicsFactory) {
           var shape = canvas.addShape({
             id: 's0',
@@ -2068,6 +2070,7 @@ describe('Canvas', function() {
     beforeEach(function() {
       container = TestContainer.get(this);
     });
+
     beforeEach(createDiagram({ canvas: { width: 300, height: 300 } }));
 
 
@@ -2117,7 +2120,7 @@ describe('Canvas', function() {
     }));
 
 
-    it('should return abs position (zoomed in)', inject(function(canvas) {
+    it('should return abs position (zoomed out)', inject(function(canvas) {
 
       // given
       var shape = { id: 's0', x: 10, y: 20, width: 300, height: 200 };
@@ -2140,6 +2143,7 @@ describe('Canvas', function() {
     beforeEach(function() {
       container = TestContainer.get(this);
     });
+
     beforeEach(createDiagram({ canvas: { width: 300, height: 300 } }));
 
     var shape;
@@ -2185,6 +2189,7 @@ describe('Canvas', function() {
     beforeEach(function() {
       container = TestContainer.get(this);
     });
+
     beforeEach(createDiagram({ canvas: { width: 300, height: 300 } }));
 
 
