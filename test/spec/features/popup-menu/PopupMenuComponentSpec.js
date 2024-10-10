@@ -45,7 +45,7 @@ insertCSS('fake-font.css', `
 
 describe('features/popup-menu - <PopupMenu>', function() {
 
-  let container, teardown;
+  let container, cleanup;
 
   beforeEach(function() {
     container = domify('<div class="djs-parent"></div>');
@@ -56,7 +56,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
   afterEach(function() {
     container.parentNode.removeChild(container);
 
-    teardown && teardown();
+    cleanup && cleanup();
   });
 
 
@@ -86,7 +86,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     await createPopupMenu({ container, onClosed });
 
     // when
-    teardown();
+    cleanup();
 
     // then
     expect(onClosed).to.have.been.calledOnce;
@@ -748,10 +748,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       ...restOptions
     };
 
-    teardown = () => {
+    cleanup = () => {
       render(null, container);
 
-      teardown = null;
+      cleanup = null;
     };
 
     const result = render(
