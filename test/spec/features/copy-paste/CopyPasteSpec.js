@@ -445,7 +445,7 @@ describe('features/copy-paste', function() {
         });
 
 
-        it('should fire <copyPaste.pasteElements> event when pasting elements', function(done) {
+        it('should fire <copyPaste.pasteElement> event when pasting elements', function(done) {
           getDiagramJS().invoke(function(copyPaste, elementFactory, eventBus) {
 
             // given

@@ -1446,7 +1446,7 @@ describe('features/context-pad', function() {
         }
       }
 
-      var test = inject(function(canvas, contextPad) {
+      inject(function(canvas, contextPad) {
 
         // given
         var shape = { id: 's1', type: 'bigImage', width: 100, height: 100, x: 10, y: 10 };
@@ -1474,9 +1474,7 @@ describe('features/context-pad', function() {
         image.onerror = function(error) {
           done(error);
         };
-      });
-
-      test();
+      })();
     });
   });
 

@@ -490,7 +490,7 @@ describe('features/overlays', function() {
     }
 
 
-    it('should position top left of shape', inject(function(overlays) {
+    it(' (connection)', inject(function(overlays) {
 
       var html = createOverlay();
 
@@ -533,7 +533,8 @@ describe('features/overlays', function() {
 
     }));
 
-    it('should position top left of shape', inject(function(overlays, canvas) {
+
+    it('should position top left of connection', inject(function(overlays, canvas) {
 
       var html = createOverlay();
 
@@ -1176,7 +1177,7 @@ describe('features/overlays', function() {
 
     function verifyScale(overlayConfig, expectedScales) {
 
-      var test = inject(function(canvas, overlays) {
+      inject(function(canvas, overlays) {
 
         // given
         var shape = canvas.addShape({
@@ -1218,9 +1219,7 @@ describe('features/overlays', function() {
           expect(effectiveScale).to.be.closeTo(expectedScale, 0.00001);
         });
 
-      });
-
-      test();
+      })();
     }
 
 

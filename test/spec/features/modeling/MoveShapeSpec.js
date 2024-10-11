@@ -198,7 +198,7 @@ describe('features/modeling - move shape', function() {
     }));
 
 
-    it('execute', inject(function(modeling, commandStack) {
+    it('redo', inject(function(modeling, commandStack) {
 
       // given
       modeling.moveShape(childShape, { x: -20, y: +20 }, rootShape, 0);

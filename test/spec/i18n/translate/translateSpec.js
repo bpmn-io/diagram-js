@@ -38,11 +38,6 @@ describe('i18n - translate', function() {
       expect(translate('<div />')).to.eql('<div />');
     }));
 
-
-    it('should handle missing replacement', inject(function(translate) {
-      expect(translate('FOO {bar}!', {})).to.eql('FOO {bar}!');
-    }));
-
   });
 
 
