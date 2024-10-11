@@ -61,7 +61,7 @@ describe('navigation/keyboard-move', function() {
 
 
     describe('with Cmd/Ctrl', function() {
-      
+
       describe('with default config', function() {
 
         it('should not move when neither Ctrl nor Cmd is pressed down',
@@ -81,12 +81,12 @@ describe('navigation/keyboard-move', function() {
 
 
         describe('with custom config', function() {
-  
+
           var BASE_SPEED = 50,
               HIGH_SPEED = 200;
-  
+
           describe('without shift', function() {
-  
+
             var decisionTable = [
               {
                 desc: 'move left',
@@ -113,52 +113,52 @@ describe('navigation/keyboard-move', function() {
                 y: BASE_SPEED
               }
             ];
-  
+
             forEach(decisionTable, function(testCase) {
-  
+
               forEach(testCase.keys, function(key) {
-  
+
                 it('should ' + testCase.desc + ' with CtrlKey', inject(function(canvas, keyboard) {
-  
+
                   // given
                   var event = createKeyEvent(key, {
                     ctrlKey: true,
                     shiftKey: false
                   });
-  
+
                   // when
                   keyboard._keyHandler(event);
-  
+
                   // then
                   expect(canvas.viewbox().x).to.eql(testCase.x);
                   expect(canvas.viewbox().y).to.eql(testCase.y);
                 }));
-  
-  
+
+
                 it('should ' + testCase.desc + ' with CmdKey', inject(function(canvas, keyboard) {
-  
+
                   // given
                   var event = createKeyEvent(key, {
                     metaKey: true,
                     shiftKey: false
                   });
-  
+
                   // when
                   keyboard._keyHandler(event);
-  
+
                   // then
                   expect(canvas.viewbox().x).to.eql(testCase.x);
                   expect(canvas.viewbox().y).to.eql(testCase.y);
                 }));
-  
+
               });
-  
+
             });
-  
+
           });
-  
+
           describe('with shift', function() {
-  
+
             var decisionTable = [
               {
                 desc: 'move left',
@@ -185,30 +185,30 @@ describe('navigation/keyboard-move', function() {
                 y: HIGH_SPEED
               },
             ];
-  
+
             forEach(decisionTable, function(testCase) {
-  
+
               forEach(testCase.keys, function(key) {
-  
+
                 it('should ' + testCase.desc, inject(function(canvas, keyboard) {
-  
+
                   // given
                   var event = createKeyEvent(key, { ctrlKey: true, shiftKey: true });
-  
+
                   // when
                   keyboard._keyHandler(event);
-  
+
                   // then
                   expect(canvas.viewbox().x).to.eql(testCase.x);
                   expect(canvas.viewbox().y).to.eql(testCase.y);
                 }));
-  
+
               });
-  
+
             });
-  
+
           });
-  
+
         });
 
       });
