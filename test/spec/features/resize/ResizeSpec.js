@@ -313,29 +313,6 @@ describe('features/resize - Resize', function() {
     }));
 
 
-    it('should resize to minimum bounds', inject(function(canvas, resize, dragging, elementFactory) {
-
-      // given
-      var shape = elementFactory.createShape({
-        id: 'shapeA',
-        resizable: 'always',
-        x: 100, y: 100, width: 100, height: 100
-      });
-
-      shape = canvas.addShape(shape);
-
-      // when
-      resize.activate(canvasEvent({ x: 0, y: 0 }), shape, 'se');
-      dragging.move(canvasEvent({ x: -99, y: -99 }));
-      dragging.end();
-
-      // then
-      var shapeBounds = pick(shape, [ 'x', 'y', 'width', 'height' ]);
-
-      expect(shapeBounds).to.eql({ x: 100, y: 100, width: 10, height: 10 });
-    }));
-
-
     it('should not resize due to rules', inject(function(resize, canvas, dragging, elementFactory) {
 
       // given

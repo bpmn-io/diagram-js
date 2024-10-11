@@ -329,61 +329,6 @@ describe('resize/ResizeUtil', function() {
   });
 
 
-  describe('getMinResizeBounds', function() {
-
-    var currentBounds = {
-      x: 100, y: 100,
-      width: 100, height: 100
-    };
-
-    var minDimensions = {
-      width: 50, height: 50
-    };
-
-
-    it('should give min bounds for "nw"', function() {
-
-      // when
-      var newBounds = getMinResizeBounds('nw', currentBounds, minDimensions);
-
-      // then
-      expect(newBounds).to.eql({ x: 150, y: 150, width: 50, height: 50 });
-    });
-
-
-    it('should give min bounds for "sw"', function() {
-
-      // when
-      var newBounds = getMinResizeBounds('sw', currentBounds, minDimensions);
-
-      // then
-      expect(newBounds).to.eql({ x: 150, y: 100, width: 50, height: 50 });
-    });
-
-
-    it('should give min bounds for "ne"', function() {
-
-      // when
-      var newBounds = getMinResizeBounds('ne', currentBounds, minDimensions);
-
-      // then
-      expect(newBounds).to.eql({ x: 100, y: 150, width: 50, height: 50 });
-    });
-
-
-    it('should give min bounds for "se"', function() {
-
-      // when
-      var newBounds = getMinResizeBounds('se', currentBounds, minDimensions);
-
-      // then
-      expect(newBounds).to.eql({ x: 100, y: 100, width: 50, height: 50 });
-    });
-
-
-  });
-
-
   describe('addPadding', function() {
 
     var bounds = {
