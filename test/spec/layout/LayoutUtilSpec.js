@@ -1,9 +1,14 @@
 import {
   filterRedundantWaypoints,
   getOrientation,
-  getMid
+  getMid,
+  asTRBL,
+  asConnectionTRBL
 } from 'lib/layout/LayoutUtil';
 
+import {
+  create,
+} from 'lib/model';
 
 function rect(x, y, width, height) {
   return { x: x, y: y, width: width, height: height };
@@ -171,6 +176,51 @@ describe('layout/LayoutUtil', function() {
         { x: 50, y: 100 }
       ]);
     });
+  });
+
+  describe('#asTRBL', function() {
+
+    it('should return top, right, bottom and left when shape', function() {
+
+      // given
+      var shape = create('shape', {
+        x: 10,
+        y: 20,
+        width: 100,
+        height: 100
+      });
+
+      // then
+      expect(asTRBL(shape)).to.deep.equal({
+        top: 20,
+        right: 110,
+        bottom: 120,
+        left: 10
+      });
+    });
+
+    it('should return top, right, bottom and left when flow element', function() {
+
+      // given
+      var waypoints = [ { x: 10, y: 10 }, { x: 100, y: 100 } ];
+
+      // when
+      var connection = create('connection', {
+        waypoints: waypoints,
+        width: 20,
+        height: 5
+      });
+
+      // then
+      expect(asConnectionTRBL(connection)).to.deep.equal({
+        top: 55,
+        right: 75,
+        bottom: 55,
+        left: 55
+      });
+
+    });
+
   });
 
 });

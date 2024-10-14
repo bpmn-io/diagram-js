@@ -19,12 +19,16 @@ export type Dimensions = {
 
 export type Rect = Dimensions & Point;
 
-export type RectTRBL = {
+export type TRBL = {
   top: number;
   right: number;
   bottom: number;
   left: number;
 };
+
+export type RectTRBL = TRBL
+
+export type ConnectionTRBL = TRBL;
 
 export type Axis = 'x' | 'y';
 
