@@ -1,6 +1,6 @@
 {
   "name": "diagram-js",
-  "version": "14.11.3",
+  "version": "15.0.0-alpha-keyboard",
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "main": "lib/Diagram.js",
   "module": "lib/Diagram.js",

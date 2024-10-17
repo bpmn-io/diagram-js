@@ -4,7 +4,14 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 ## Unreleased
 
-_**Note:** Yet to be released changes appear here._
+* `FEAT`: only copy if selected elements ([#660](https://github.com/bpmn-io/diagram-js/pull/660))
+* `FEAT`: make canvas browser selectable ([#659](https://github.com/bpmn-io/diagram-js/pull/659))
+* `FEAT`: trigger keyboard bindings on browser selection only ([#661](https://github.com/bpmn-io/diagram-js/issues/661))
+* `CHORE`: remove utility exports on `KeyboardBindings` ([#665](https://github.com/bpmn-io/diagram-js/pull/665))
+
+### Breaking Changes
+
+* Keyboard binding target can no longer be chosen. Configure keyboard binding via the `keyboard.bind` configuration and rely on keybindings to work if the canvas has browser focus. ([#661](https://github.com/bpmn-io/diagram-js/issues/661))
 
 ## 14.11.3
 
