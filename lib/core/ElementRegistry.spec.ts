@@ -57,6 +57,10 @@ elementRegistry.getGraphics(shapeLike);
 
 elementRegistry.getGraphics(shape);
 
+elementRegistry.getGraphicsSvg(shapeLike);
+
+elementRegistry.getGraphicsSvg(shape);
+
 elementRegistry.updateGraphics('shape', shapeGfx1);
 
 elementRegistry.updateGraphics(shapeLike, shapeGfx1);
