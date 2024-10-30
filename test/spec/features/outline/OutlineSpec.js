@@ -3,25 +3,24 @@ import {
   inject
 } from 'test/TestHelper';
 
-import selectionModule from 'lib/features/selection';
+import outlineModule from 'lib/features/outline';
 
 import {
   query as domQuery
 } from 'min-dom';
 
 import {
-  classes as svgClasses,
   create as svgCreate,
   attr as svgAttr
 } from 'tiny-svg';
 
 
-describe('features/outline/Outline', function() {
+describe('features/outline - Outline', function() {
 
-  beforeEach(bootstrapDiagram({ modules: [ selectionModule ] }));
+  beforeEach(bootstrapDiagram({ modules: [ outlineModule ] }));
+
 
   it('should expose API', inject(function(outline) {
-
     expect(outline).to.exist;
     expect(outline.updateShapeOutline).to.exist;
   }));
@@ -50,9 +49,6 @@ describe('features/outline/Outline', function() {
       expect(outline).to.exist;
 
       expect(svgAttr(outline, 'x')).to.exist;
-
-      // outline class is set
-      expect(svgClasses(gfx).has('selected')).to.be.true;
     }));
 
 
@@ -71,9 +67,23 @@ describe('features/outline/Outline', function() {
       expect(outline).to.exist;
 
       expect(svgAttr(outline, 'x')).to.exist;
+    }));
 
-      // outline class is set
-      expect(svgClasses(gfx).has('selected')).to.be.true;
+
+    it('should not show box for connection', inject(function(selection, canvas, elementRegistry) {
+
+      // given
+      var connection = canvas.addConnection({ id: 'select1', waypoints: [ { x: 25, y: 25 }, { x: 115, y: 115 } ] });
+
+      // when
+      selection.select(connection);
+
+      // then
+      var gfx = elementRegistry.getGraphics(connection);
+      var outline = domQuery('.djs-outline', gfx);
+
+      expect(outline).to.exist;
+      expect(getComputedStyle(outline).display).to.equal('none');
     }));
 
   });
@@ -101,8 +111,8 @@ describe('features/outline/Outline', function() {
       var outline = domQuery('.djs-outline', gfx);
 
       expect(outline).to.exist;
-      expect(svgClasses(gfx).has('selected')).to.be.false; // Outline class is not set
     }));
+
   });
 
 
@@ -189,8 +199,8 @@ describe('features/outline/Outline', function() {
 
       var gfx = elementRegistry.getGraphics(shape);
       var outlineShape = domQuery('.djs-outline', gfx);
+
       expect(outlineShape).to.exist;
-      expect(svgClasses(gfx).has('selected')).to.be.true;
     }));
 
 
@@ -216,5 +226,7 @@ describe('features/outline/Outline', function() {
       // then
       expect(outlineElement.tagName).to.equal('rect');
     }));
+
   });
+
 });

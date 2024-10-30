@@ -22,7 +22,7 @@ import {
 } from '../../../util/MockEvents';
 
 
-describe('features/selection/Selection', function() {
+describe('features/selection/SelectionBehavior', function() {
 
   beforeEach(bootstrapDiagram({
     modules: [
