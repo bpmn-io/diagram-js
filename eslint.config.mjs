@@ -1,6 +1,9 @@
 import bpmnIoPlugin from 'eslint-plugin-bpmn-io';
 
 const files = {
+  ignored: [
+    'tmp'
+  ],
   build: [
     '*.js',
     '*.mjs'
@@ -11,6 +14,9 @@ const files = {
 };
 
 export default [
+  {
+    ignores: files.ignored
+  },
 
   // build
   ...bpmnIoPlugin.configs.node.map(config => {
