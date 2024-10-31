@@ -15,6 +15,31 @@ describe('search', function() {
   }));
 
 
+  it('should search simple', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'foo',
+        description: 'woop'
+      },
+      {
+        title: 'foobar'
+      }
+    ];
+
+    const searchItems = (items, term) => search(items, term, {
+      keys: [
+        'title',
+        'description'
+      ]
+    });
+
+    // then
+    expect(searchItems(items, 'foo')).to.have.length(2);
+    expect(searchItems(items, 'bar')).to.have.length(1);
+    expect(searchItems(items, 'other')).to.have.length(0);
+  }));
 
 
   describe('result', function() {
@@ -75,6 +100,8 @@ describe('search', function() {
     }));
 
   });
+
+
   it('should search complex', inject(function(search) {
 
     // given
@@ -156,7 +183,7 @@ describe('search', function() {
   }));
 
 
-  it('should sort by match location', inject(function(search) {
+  it('should prioritize start of word', inject(function(search) {
 
     // given
     const items = [
@@ -185,8 +212,34 @@ describe('search', function() {
     // then
     expect(results).to.have.length(3);
     expect(results[0].item).to.eql(items[1]);
-    expect(results[1].item).to.eql(items[2]);
-    expect(results[2].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[0]);
+    expect(results[2].item).to.eql(items[2]);
+  }));
+
+
+  it('should prioritize start of term', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'yes barfoo'
+      },
+      {
+        title: 'yes foowoo'
+      }
+    ];
+
+    // when
+    const results = search(items, 'foo', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[1]);
+    expect(results[1].item).to.eql(items[0]);
   }));
 
 
@@ -288,24 +341,42 @@ describe('search', function() {
   }));
 
 
+  it('should match case insensitive', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'KAFKAF'
+      }
+    ];
+
+    // when
+    const results = search(items, 'kaf', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(1);
+    expect(results[0].item).to.eql(items[0]);
+  }));
+
+
   it('should match partial tokens', inject(function(search) {
 
     // given
     const items = [
       {
-        title: 'baz',
-        description: 'baz'
-      },
-      {
         title: 'Kafka amess',
         description: 'Nope'
       },
       {
-        title: 'Kaboom'
+        title: 'mess',
+        description: 'kafka'
       },
       {
-        title: 'Kafka message',
-        description: 'Nope'
+        title: 'mess'
       }
     ];
 
@@ -320,7 +391,35 @@ describe('search', function() {
 
     // then
     expect(results).to.have.length(2);
-    expect(results[0].item).to.eql(items[3]);
+    expect(results[0].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[1]);
+  }));
+
+
+  it('should match with spaces', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'bar foo bar'
+      },
+      {
+        title: 'other bar foo'
+      }
+    ];
+
+    // when
+    const results = search(items, 'foo bar', {
+      keys: [
+        'title',
+        'description',
+        'search'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[0]);
     expect(results[1].item).to.eql(items[1]);
   }));
 
