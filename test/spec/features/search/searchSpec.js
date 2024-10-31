@@ -264,6 +264,27 @@ describe('search', function() {
     expect(results[1].item).to.eql(items[1]);
   }));
 
+
+  it('should search with whitespace', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'bar foo bar'
+      }
+    ];
+
+    // when
+    const results = search(items, ' foo   bar ', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(1);
+  }));
+
 });
 
 
