@@ -15,6 +15,66 @@ describe('search', function() {
   }));
 
 
+
+
+  describe('result', function() {
+
+    it('should provide <item>', inject(function(search) {
+
+      // given
+      const items = [
+        {
+          title: 'foo',
+          description: 'woop'
+        },
+        {
+          title: 'foobar'
+        }
+      ];
+
+      // when
+      const result = search(items, 'foo', {
+        keys: [
+          'title',
+          'description'
+        ]
+      });
+
+      // then
+      expect(result[0].item).to.equal(items[0]);
+      expect(result[1].item).to.equal(items[1]);
+    }));
+
+
+    it('should provide <tokens>', inject(function(search) {
+
+      // given
+      const items = [
+        {
+          title: 'foo',
+          description: 'woop'
+        },
+        {
+          title: 'foobar'
+        }
+      ];
+
+      // when
+      const result = search(items, 'foo', {
+        keys: [
+          'title',
+          'description'
+        ]
+      });
+
+      // then
+      expect(result[0].tokens).to.have.keys([ 'title', 'description' ]);
+      expect(result[1].tokens).to.have.keys([ 'title', 'description' ]);
+
+      expect(result[1].tokens.description).to.be.empty;
+    }));
+
+  });
   it('should search complex', inject(function(search) {
 
     // given
