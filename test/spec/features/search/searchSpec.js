@@ -5,7 +5,8 @@ import {
 
 import search from '../../../../lib/features/search';
 
-describe('search', function() {
+
+describe('features/search', function() {
 
   beforeEach(bootstrapDiagram({ modules: [ search ] }));
 
@@ -447,7 +448,7 @@ describe('search', function() {
 });
 
 
-describe('overriding search', function() {
+describe('features/search - overrides', function() {
 
   beforeEach(bootstrapDiagram({
     modules: [
