@@ -227,6 +227,43 @@ describe('search', function() {
     expect(results).to.have.length(2);
   }));
 
+
+  it('should match partial tokens', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'baz',
+        description: 'baz'
+      },
+      {
+        title: 'Kafka amess',
+        description: 'Nope'
+      },
+      {
+        title: 'Kaboom'
+      },
+      {
+        title: 'Kafka message',
+        description: 'Nope'
+      }
+    ];
+
+    // when
+    const results = search(items, 'Kaf mess', {
+      keys: [
+        'title',
+        'description',
+        'search'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[3]);
+    expect(results[1].item).to.eql(items[1]);
+  }));
+
 });
 
 
