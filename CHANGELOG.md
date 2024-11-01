@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: make multi-selection outline an outline concern ([#944](https://github.com/bpmn-io/diagram-js/issues/944)
+
+### Breaking Changes
+
+* The `selection` feature does not provide visual outline by default anymore. Use the `outline` feature to re-enable it.
+
 ## 14.11.3
 
 * `CHORE`: simplify viewbox cloning ([#935](https://github.com/bpmn-io/diagram-js/pull/935))
