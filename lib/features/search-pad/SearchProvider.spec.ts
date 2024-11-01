@@ -14,12 +14,20 @@ export class FooSearchProvider implements SearchProvider {
           {
             matched: pattern,
             normal: pattern
+          },
+          {
+            match: true,
+            value: 'bar'
           }
         ],
         secondaryTokens: [
           {
             matched: 'bar',
             normal: 'bar'
+          },
+          {
+            match: false,
+            value: 'foo'
           }
         ],
         element: create('shape')

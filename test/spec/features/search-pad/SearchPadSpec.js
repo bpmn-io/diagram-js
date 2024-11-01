@@ -1,5 +1,6 @@
 import {
   bootstrapDiagram,
+  getDiagramJS,
   inject
 } from 'test/TestHelper';
 
@@ -25,7 +26,7 @@ var EVENTS = {
 };
 
 
-describe('features/searchPad', function() {
+describe('features/search-pad', function() {
 
   beforeEach(bootstrapDiagram({ modules: [ searchPadModule ] }));
 
@@ -139,6 +140,17 @@ describe('features/searchPad', function() {
           } ];
         }
 
+        if (pattern === 'modern') {
+          return [ {
+            primaryTokens: [
+              { match: true, value: 'foo' }
+            ],
+            secondaryTokens: [
+              { match: false, value: 'bar' }
+            ],
+            element: elements.one.a
+          } ];
+        }
         return [];
       };
     }
@@ -313,6 +325,79 @@ describe('features/searchPad', function() {
   }));
 
 
+  describe('results', function() {
+
+    beforeEach(inject(function(selection, searchPad) {
+
+      // given
+      selection.select(elements.one.a);
+
+      searchPad.open();
+    }));
+
+
+    it('should render modern <search> tokens', inject(function(canvas) {
+
+      // when
+      typeText(input_node, 'modern');
+
+      // then
+      expectResultsHTML([
+        {
+          primary: '<b class="djs-search-highlight">foo</b>',
+          secondary: 'bar'
+        }
+      ]);
+    }));
+
+
+    it('should render legacy tokens', inject(function(canvas) {
+
+      // when
+      typeText(input_node, 'two');
+
+      // then
+      expectResultsHTML([
+        {
+          primary: '<b class="djs-search-highlight">Two</b> A',
+          secondary: 'Shape_<b class="djs-search-highlight">two</b>-a'
+        },
+        {
+          primary: '<b class="djs-search-highlight">Two</b> B',
+          secondary: 'Shape_<b class="djs-search-highlight">two</b>-b'
+        }
+      ]);
+    }));
+
+
+    it('should not show root elements', inject(function(canvas) {
+
+      // when
+      typeText(input_node, 'root');
+
+      // then
+      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
+      expect(result_nodes).length(0);
+    }));
+
+
+    it('should escape results', inject(function(canvas) {
+
+      // when
+      typeText(input_node, 'html');
+
+      // then
+      expectResultsHTML([
+        {
+          primary: '&lt;html/&gt;',
+          secondary: 'some_<b class="djs-search-highlight">&lt;html/&gt;</b>_123456_id'
+        }
+      ]);
+    }));
+
+  });
+
+
   describe('searching/selection', function() {
 
     beforeEach(inject(function(selection, searchPad) {
@@ -321,6 +406,19 @@ describe('features/searchPad', function() {
       selection.select(elements.one.a);
 
       searchPad.open();
+    }));
+
+
+    it('should search per key stroke', inject(function(canvas) {
+
+      // given
+      var find = sinon.spy(searchProvider, 'find');
+
+      // when
+      typeText(input_node, 'tw');
+
+      // then
+      expect(find).callCount(2);
     }));
 
 
@@ -335,45 +433,6 @@ describe('features/searchPad', function() {
       // then
       expect(find).callCount(0);
     });
-
-
-    it('should not display root elements', inject(function(canvas) {
-
-      // when
-      typeText(input_node, 'root');
-
-      // then
-      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
-      expect(result_nodes).length(0);
-    }));
-
-
-    it('should display results', inject(function(canvas) {
-
-      // given
-      var find = sinon.spy(searchProvider, 'find');
-
-      // when
-      typeText(input_node, 'two');
-
-      // then
-      expect(find).callCount(3);
-      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
-      expect(result_nodes).length(2);
-    }));
-
-
-    it('should escape displayed results', inject(function(canvas) {
-
-      // when
-      typeText(input_node, 'html');
-
-      // then
-      var result_nodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
-
-      expect(result_nodes).to.have.length(1);
-      expect(result_nodes[0].innerHTML).not.to.contain('<html/>');
-    }));
 
 
     it('should preselect first result', inject(function(canvas, selection) {
@@ -607,7 +666,9 @@ describe('features/searchPad', function() {
       // then
       expect(input.getAttribute('aria-label')).to.eql('Search in diagram');
     }));
+
   });
+
 });
 
 
@@ -643,5 +704,32 @@ function typeText(element, text) {
   input.forEach(function(c) {
     element.value += c;
     triggerKeyEvent(element, 'keyup', c.charCodeAt(0));
+  });
+}
+
+
+/**
+ * @param { { primary: string, secondary: string }[] } expectedResults
+ */
+function expectResultsHTML(expectedResults) {
+
+  return getDiagramJS().invoke(function(canvas) {
+
+    var resultNodes = domQueryAll(SearchPad.RESULT_SELECTOR, canvas.getContainer());
+
+    expect(resultNodes).to.have.length(expectedResults.length);
+
+    expectedResults.forEach((expectedResult, idx) => {
+      var primaryHTML = domQuery('.djs-search-result-primary', resultNodes[idx]).innerHTML;
+      var secondaryHTML = domQuery('.djs-search-result-secondary', resultNodes[idx]).innerHTML;
+
+      expect(primaryHTML).to.eql(
+        expectedResult.primary
+      );
+
+      expect(secondaryHTML).to.eql(
+        expectedResult.secondary
+      );
+    });
   });
 }
