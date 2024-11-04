@@ -9,11 +9,6 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
-import {
-  filter
-} from 'min-dash';
-
-
 var bindings = {
   mouseover: 'element.hover',
   mouseout: 'element.out',
@@ -295,9 +290,7 @@ describe('features/interaction-events', function() {
   describe('api', function() {
 
     function getHits(gfx) {
-
-      // TODO(nikku): remove filter when we drop PhantomJS
-      return filter(domQueryAll('.djs-hit', gfx), function(hit) { return typeof hit !== 'number'; });
+      return domQueryAll('.djs-hit', gfx);
     }
 
 
