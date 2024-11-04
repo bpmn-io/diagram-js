@@ -613,7 +613,7 @@ describe('features/palette', function() {
     }));
 
 
-    (isPhantomJS() ? it.skip : it)('should update tool highlight', inject(function(eventBus, palette) {
+    it('should update tool highlight', inject(function(eventBus, palette) {
 
       // given
       var toolName = 'entryA';
@@ -629,7 +629,7 @@ describe('features/palette', function() {
     }));
 
 
-    (isPhantomJS() ? it.skip : it)('should unset tool highlight', inject(function(eventBus, palette) {
+    it('should unset tool highlight', inject(function(eventBus, palette) {
 
       // given
       var toolName = 'entryA';
@@ -875,8 +875,4 @@ function expectContainerCls(marker, expectedActive) {
 
 function getEntryNode(action, container) {
   return domQuery('.entry[data-action="' + action + '"]', container);
-}
-
-function isPhantomJS() {
-  return /PhantomJS/.test(window.navigator.userAgent);
 }
