@@ -277,6 +277,20 @@ describe('features/searchPad', function() {
       expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
     }));
 
+
+    it('should refocus canvas on close', inject(function(canvas, searchPad) {
+
+      // given
+      sinon.spy(canvas, 'restoreFocus');
+      searchPad.open();
+
+      // when
+      triggerMouseEvent(canvas.getContainer(), 'click', 0, 0);
+
+      // then
+      expect(canvas.restoreFocus).to.have.been.calledOnce;
+    }));
+
   });
 
 
