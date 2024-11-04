@@ -6,11 +6,17 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
-* `FEAT`: make multi-selection outline an outline concern ([#944](https://github.com/bpmn-io/diagram-js/issues/944)
+## 15.0.0
+
+* `FEAT`: make canvas browser selectable ([#659](https://github.com/bpmn-io/diagram-js/pull/659))
+* `FEAT`: make keyboard binding implicit ([#661](https://github.com/bpmn-io/diagram-js/issues/661))
+* `FEAT`: make multi-selection outline an outline concern ([#944](https://github.com/bpmn-io/diagram-js/issues/944))
 
 ### Breaking Changes
 
-* The `selection` feature does not provide visual outline by default anymore. Use the `outline` feature to re-enable it.
+* `Keyboard` binding target can no longer be chosen. Configure keyboard binding via the `keyboard.bind` configuration and rely on keybindings to work if the canvas has browser focus. ([#661](https://github.com/bpmn-io/diagram-js/issues/661))
+* The `Canvas` is now a focusable component, that is recognized accordingly by the browser, with all benefits for UX and interaction. Components that pull focus from the `Canvas` during modeling must ensure to restore the focus (if intended), via `Canvas#restoreFocus`. ([#661](https://github.com/bpmn-io/diagram-js/issues/661))
+* The `selection` feature does not provide visual outline by default anymore. Use the `outline` feature to re-enable it. ([#944](https://github.com/bpmn-io/diagram-js/issues/944))
 
 ## 14.11.3
 
