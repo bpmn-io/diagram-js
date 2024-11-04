@@ -8,12 +8,12 @@ _**Note:** Yet to be released changes appear here._
 
 ## 15.1.0
 
-* `FEAT`: find `search` terms across all keys ([#932](https://github.com/bpmn-io/diagram-js/pull/932))
-* `FEAT`: `search` always returns tokens for matched items ([#932](https://github.com/bpmn-io/diagram-js/pull/932))
 * `FEAT`: integrate `popup-menu` with `search` ([#932](https://github.com/bpmn-io/diagram-js/pull/932))
 * `FEAT`: recognize modern `search` tokens in `search-pad` ([#932](https://github.com/bpmn-io/diagram-js/pull/932))
 * `FEAT`: improve `search` types ([#932](https://github.com/bpmn-io/diagram-js/pull/932))
 * `FIX`: correctly handle duplicate entries and whitespace in `search` ([#932](https://github.com/bpmn-io/diagram-js/pull/932))
+* `FIX`: find `search` terms across all keys ([#932](https://github.com/bpmn-io/diagram-js/pull/932))
+* `FIX`: `search` always returns tokens for matched items ([#932](https://github.com/bpmn-io/diagram-js/pull/932))
 
 ## 15.0.0
 
