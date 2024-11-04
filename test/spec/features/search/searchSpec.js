@@ -218,6 +218,36 @@ describe('features/search', function() {
   }));
 
 
+  it('should prioritize exact match', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'baz foo bar'
+      },
+      {
+        title: 'foo bar baz'
+      },
+      {
+        title: 'foo bar'
+      }
+    ];
+
+    // when
+    const results = search(items, 'foo bar', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(3);
+    expect(results[0].item).to.eql(items[2]);
+    expect(results[1].item).to.eql(items[1]);
+    expect(results[2].item).to.eql(items[0]);
+  }));
+
+
   it('should prioritize start of term', inject(function(search) {
 
     // given
