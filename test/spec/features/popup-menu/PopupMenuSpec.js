@@ -706,6 +706,20 @@ describe('features/popup-menu', function() {
       }).not.to.throw();
     }));
 
+
+    it('should refocus canvas on close', inject(function(canvas, popupMenu) {
+
+      // given
+      sinon.spy(canvas, 'restoreFocus');
+
+      // when
+      popupMenu.close();
+
+      // then
+      expect(canvas.restoreFocus).to.have.been.calledOnce;
+
+    }));
+
   });
 
 
