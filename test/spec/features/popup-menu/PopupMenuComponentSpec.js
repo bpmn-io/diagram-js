@@ -741,7 +741,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     const props = {
       entries: [],
       headerEntries: [],
-      searchFn: searchFn,
+      searchFn,
       position() {
         return { x: 0, y: 0 };
       },
