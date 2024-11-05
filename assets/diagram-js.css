@@ -984,7 +984,7 @@
   background: var(--search-result-hover-background-color);
 }
 
-.djs-element.djs-search-preselected .djs-outline {
+.djs-search-open .djs-element .djs-outline {
   fill: var(--search-preselected-background-color) !important;
 }
 

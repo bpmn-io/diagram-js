@@ -445,7 +445,6 @@ describe('features/search-pad', function() {
       expect(domClasses(result_nodes[0]).has(SearchPad.RESULT_SELECTED_CLASS)).to.be.true;
       expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.preselected ]);
       expect(selection.isSelected(elements.two.a)).to.be.true;
-      expect(domClasses(canvas.getGraphics(elements.two.a)).has('djs-search-preselected')).to.be.true;
     }));
 
 
@@ -466,7 +465,6 @@ describe('features/search-pad', function() {
       ]);
 
       expect(selection.isSelected(elements.two.a)).to.be.true;
-      expect(domClasses(canvas.getGraphics(elements.two.a)).has('djs-search-preselected')).to.be.false;
     }));
 
 
@@ -484,8 +482,6 @@ describe('features/search-pad', function() {
 
       // then
       expect(selection.isSelected(elements.one.a)).to.be.true;
-
-      expect(domClasses(canvas.getGraphics(elements.two.a)).has('djs-search-preselected')).to.be.false;
     }));
 
 
