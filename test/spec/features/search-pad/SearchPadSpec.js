@@ -192,6 +192,19 @@ describe('features/search-pad', function() {
     }));
 
 
+    it('should clear selection', inject(function(searchPad, selection) {
+
+      // given
+      selection.select(elements.one.a);
+
+      // when
+      searchPad.open();
+
+      // then
+      expect(selection.get()).to.be.empty;
+    }));
+
+
     it('should error when provider not registered', inject(function(searchPad) {
 
       // given
