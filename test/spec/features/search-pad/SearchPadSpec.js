@@ -25,6 +25,7 @@ var EVENTS = {
   selected: 'searchPad.selected'
 };
 
+var SEARCH_OPEN_MARKER_CLS = 'djs-search-open';
 
 describe('features/search-pad', function() {
 
@@ -205,6 +206,16 @@ describe('features/search-pad', function() {
     }));
 
 
+    it('should attach <open> marker to diagram container', inject(function(searchPad) {
+
+      // when
+      searchPad.open();
+
+      // then
+      expectOpenMarker(true);
+    }));
+
+
     it('should error when provider not registered', inject(function(searchPad) {
 
       // given
@@ -250,6 +261,19 @@ describe('features/search-pad', function() {
       // then
       expect(searchPad.isOpen()).to.equal(false);
       expect(capturedEvents).to.eql([ EVENTS.opened, EVENTS.closed ]);
+    }));
+
+
+    it('should remove <open> marker from diagram container', inject(function(searchPad) {
+
+      // given
+      searchPad.open();
+
+      // when
+      searchPad.close();
+
+      // then
+      expectOpenMarker(false);
     }));
 
 
@@ -744,5 +768,16 @@ function expectResultsHTML(expectedResults) {
         expectedResult.secondary
       );
     });
+  });
+}
+
+
+function expectOpenMarker(expected) {
+
+  return getDiagramJS().invoke((canvas) => {
+
+    const container = canvas.getContainer();
+
+    expect(domClasses(container).has(SEARCH_OPEN_MARKER_CLS)).to.equal(expected);
   });
 }
