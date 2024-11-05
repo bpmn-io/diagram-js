@@ -179,31 +179,35 @@ describe('features/search-pad', function() {
   }));
 
 
-  it('should open', inject(function(searchPad) {
+  describe('open', function() {
 
-    // when
-    searchPad.open();
+    it('should open', inject(function(searchPad) {
 
-    // then
-    expect(searchPad.isOpen()).to.equal(true);
-    expect(capturedEvents).to.eql([ EVENTS.opened ]);
-  }));
-
-
-  it('should error on open when provider not registered', inject(function(searchPad) {
-
-    // given
-    searchPad.registerProvider(undefined);
-
-    // when
-    expect(function() {
+      // when
       searchPad.open();
-    }).to.throw('no search provider registered');
 
-    // then
-    expect(searchPad.isOpen()).to.equal(false);
-    expect(capturedEvents).to.eql([]);
-  }));
+      // then
+      expect(searchPad.isOpen()).to.equal(true);
+      expect(capturedEvents).to.eql([ EVENTS.opened ]);
+    }));
+
+
+    it('should error when provider not registered', inject(function(searchPad) {
+
+      // given
+      searchPad.registerProvider(undefined);
+
+      // when
+      expect(function() {
+        searchPad.open();
+      }).to.throw('no search provider registered');
+
+      // then
+      expect(searchPad.isOpen()).to.equal(false);
+      expect(capturedEvents).to.eql([]);
+    }));
+
+  });
 
 
   describe('close', function() {
