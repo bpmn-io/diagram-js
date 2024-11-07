@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.2.0
+
+* `FIX`: clear selection when opening search pad ([#https://github.com/bpmn-io/diagram-js/pull/947](https://github.com/bpmn-io/diagram-js/pull/947))
+* `FIX`: correct dangling selection after search pad interaction ([#https://github.com/bpmn-io/diagram-js/pull/947](https://github.com/bpmn-io/diagram-js/pull/947))
+* `CHORE`: simplify search pad pre-selection behavior ([#https://github.com/bpmn-io/diagram-js/pull/947](https://github.com/bpmn-io/diagram-js/pull/947))
+
 ## 15.1.0
 
 * `FEAT`: integrate `popup-menu` with `search` ([#932](https://github.com/bpmn-io/diagram-js/pull/932))
