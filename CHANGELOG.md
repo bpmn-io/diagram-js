@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.2.1
+
+* `FIX`: limit overly permissive regex ([#949](https://github.com/bpmn-io/diagram-js/pull/949))
+
 ## 15.2.0
 
 * `FIX`: clear selection when opening search pad ([#https://github.com/bpmn-io/diagram-js/pull/947](https://github.com/bpmn-io/diagram-js/pull/947))
@@ -196,7 +200,7 @@ _Partially reverts v14.11.0._
 ## 12.8.1
 
 * `FIX`: reposition popup menu if it opens above the viewport ([#829](https://github.com/bpmn-io/diagram-js/pull/829))
- 
+
 ## 12.8.0
 
 * `FEAT`: remove selection outline from connections ([#826](https://github.com/bpmn-io/diagram-js/pull/826))
