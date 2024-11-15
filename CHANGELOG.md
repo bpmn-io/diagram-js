@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.2.2
+
+* `FIX`: correct `Keyboard#bind` and config types ([#https://github.com/bpmn-io/diagram-js/pull/948](https://github.com/bpmn-io/diagram-js/pull/948))
+
 ## 15.2.1
 
 * `FIX`: limit overly permissive regex ([#949](https://github.com/bpmn-io/diagram-js/pull/949))
