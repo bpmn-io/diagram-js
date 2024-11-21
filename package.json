@@ -56,7 +56,7 @@
     "@testing-library/preact": "^3.2.4",
     "babel-loader": "^9.2.1",
     "babel-plugin-istanbul": "^7.0.0",
-    "bio-dts": "^0.10.0",
+    "bio-dts": "^0.11.0",
     "chai": "^4.5.0",
     "del-cli": "^6.0.0",
     "eslint": "^9.11.1",
