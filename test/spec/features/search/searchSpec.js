@@ -189,16 +189,13 @@ describe('features/search', function() {
     // given
     const items = [
       {
-        title: 'bar baz foo',
-        description: 'bar'
+        title: 'foobar'
       },
       {
-        title: 'foo',
-        description: 'bar'
+        title: 'bar baz ofoo foo -+ofoo woofoo foo'
       },
       {
-        title: 'baz foo',
-        description: 'bar'
+        title: 'baz foo'
       }
     ];
 
@@ -212,8 +209,8 @@ describe('features/search', function() {
 
     // then
     expect(results).to.have.length(3);
-    expect(results[0].item).to.eql(items[1]);
-    expect(results[1].item).to.eql(items[0]);
+    expect(results[0].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[1]);
     expect(results[2].item).to.eql(items[2]);
   }));
 
@@ -223,13 +220,19 @@ describe('features/search', function() {
     // given
     const items = [
       {
-        title: 'baz foo bar'
+        title: 'foo bar'
+      },
+      {
+        title: 'foo baz and very long additional text\nalso foo bar'
+      },
+      {
+        title: 'baz and very long foo bar bar bar\nalso foo bar'
       },
       {
         title: 'foo bar baz'
       },
       {
-        title: 'foo bar'
+        title: 'baz foo bar'
       }
     ];
 
@@ -241,10 +244,12 @@ describe('features/search', function() {
     });
 
     // then
-    expect(results).to.have.length(3);
-    expect(results[0].item).to.eql(items[2]);
+    expect(results).to.have.length(5);
+    expect(results[0].item).to.eql(items[0]);
     expect(results[1].item).to.eql(items[1]);
-    expect(results[2].item).to.eql(items[0]);
+    expect(results[2].item).to.eql(items[2]);
+    expect(results[3].item).to.eql(items[3]);
+    expect(results[4].item).to.eql(items[4]);
   }));
 
 
@@ -253,10 +258,13 @@ describe('features/search', function() {
     // given
     const items = [
       {
-        title: 'yes barfoo'
+        title: 'yes foowoo'
       },
       {
-        title: 'yes foowoo'
+        title: 'yesfoo woofoo'
+      },
+      {
+        title: 'yes barfoo'
       }
     ];
 
@@ -268,9 +276,10 @@ describe('features/search', function() {
     });
 
     // then
-    expect(results).to.have.length(2);
-    expect(results[0].item).to.eql(items[1]);
-    expect(results[1].item).to.eql(items[0]);
+    expect(results).to.have.length(3);
+    expect(results[0].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[1]);
+    expect(results[2].item).to.eql(items[2]);
   }));
 
 
@@ -399,12 +408,12 @@ describe('features/search', function() {
     // given
     const items = [
       {
-        title: 'Kafka amess',
-        description: 'Nope'
-      },
-      {
         title: 'mess',
         description: 'kafka'
+      },
+      {
+        title: 'Kafka amess',
+        description: 'Nope'
       },
       {
         title: 'mess'
@@ -460,7 +469,7 @@ describe('features/search', function() {
     // given
     const items = [
       {
-        title: 'bar foo bar'
+        title: 'bar foo   bar'
       }
     ];
 
