@@ -475,6 +475,22 @@ describe('features/search', function() {
     expect(results).to.have.length(1);
   }));
 
+
+  it('should error on whitespace pattern', inject(function(search) {
+
+    // given
+    const fn = () => {
+      search([], ' ', {
+        keys: [
+          'title'
+        ]
+      });
+    };
+
+    // then
+    expect(fn).to.throw(/<pattern> must not be empty/);
+  }));
+
 });
 
 
