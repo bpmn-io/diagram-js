@@ -223,13 +223,13 @@ describe('features/search', function() {
         title: 'foo bar'
       },
       {
-        title: 'foo baz and very long additional text\nalso foo bar'
+        title: 'foo bar baz'
       },
       {
         title: 'baz and very long foo bar bar bar\nalso foo bar'
       },
       {
-        title: 'foo bar baz'
+        title: 'foo baz and very long additional text\nalso foo bar'
       },
       {
         title: 'baz foo bar'
@@ -250,6 +250,32 @@ describe('features/search', function() {
     expect(results[2].item).to.eql(items[2]);
     expect(results[3].item).to.eql(items[3]);
     expect(results[4].item).to.eql(items[4]);
+  }));
+
+
+  it('should prioritize longest match', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'yes foowoo'
+      },
+      {
+        title: 'yeskay foowoo'
+      }
+    ];
+
+    // when
+    const results = search(items, 'yes foo', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[1]);
   }));
 
 
