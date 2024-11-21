@@ -1531,6 +1531,25 @@ describe('features/popup-menu', function() {
     }));
 
 
+    it('should handle whitespace only search', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('   ');
+
+      // then
+      await waitFor(() => {
+        const shownEntries = queryPopupAll('.entry');
+
+        // just ignores it
+        expect(shownEntries).to.have.length(5);
+      });
+    }));
+
+
     describe('ranking', function() {
 
       it('should hide rank < 0 items', inject(async function(popupMenu) {
