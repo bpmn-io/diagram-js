@@ -450,6 +450,19 @@ describe('features/search-pad', function() {
     }));
 
 
+    it('should ignore whitespace only', inject(function(canvas) {
+
+      // given
+      var find = sinon.spy(searchProvider, 'find');
+
+      // when
+      typeText(input_node, '  ');
+
+      // then
+      expect(find).callCount(0);
+    }));
+
+
     it('should search per key stroke', inject(function(canvas) {
 
       // given
