@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: do not search/filter on whitespace only ([#954](https://github.com/bpmn-io/diagram-js/pull/954))
+
 ## 15.2.2
 
 * `FIX`: correct `Keyboard#bind` and config types ([#948](https://github.com/bpmn-io/diagram-js/pull/948))
