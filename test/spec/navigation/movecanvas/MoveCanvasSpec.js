@@ -153,6 +153,69 @@ describe('navigation/movecanvas', function() {
 
   });
 
+
+  describe('integration - canvas focus', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        moveCanvasModule,
+        interactionEventsModule
+      ]
+    }));
+
+    beforeEach(inject(function(canvas) {
+
+      canvas.addShape({
+        id: 'test',
+        width: 100,
+        height: 100,
+        x: 100,
+        y: 100
+      });
+    }));
+
+
+    it('should not activate if canvas focus is prevented', inject(
+      function(eventBus, canvas, moveCanvas) {
+
+        // given
+        var rootElement = canvas.getRootElement();
+
+        // forcefully disable <mousedown> action
+        eventBus.on('element.mousedown', 1500, event => {
+          return false;
+        });
+
+        eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+
+        // when
+        document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+
+        // then
+        expect(moveCanvas.isActive()).to.be.false;
+      }
+    ));
+
+
+    it('should activate, implicitly focussing canvas', inject(
+      function(eventBus, canvas, moveCanvas) {
+
+        // given
+        var rootElement = canvas.getRootElement();
+
+        // when
+        eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+
+        // and
+        document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+
+        // then
+        expect(moveCanvas.isActive()).to.be.true;
+      }
+    ));
+
+  });
+
 });
 
 
