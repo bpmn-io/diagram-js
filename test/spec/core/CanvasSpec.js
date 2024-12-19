@@ -96,6 +96,22 @@ describe('core/Canvas', function() {
     });
 
 
+    it('should focus on <element.mousedown>', inject(function(canvas, eventBus) {
+
+      // given
+      var svg = container.querySelector('svg');
+
+      // when
+      eventBus.fire('element.mousedown',{
+        element: canvas.getRootElement(),
+        gfx: svg
+      });
+
+      // then
+      expect(document.activeElement).to.equal(svg);
+    }));
+
+
     describe('<hover>', function() {
 
       /**
