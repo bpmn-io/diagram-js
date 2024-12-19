@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.2.4
+
+* `FIX`: canvas `autoFocus` must explicitly be enabled ([#956](https://github.com/bpmn-io/diagram-js/pull/956))
+
 ## 15.2.3
 
 * `FIX`: adjust search to prioritize start of word and exact matches ([#953](https://github.com/bpmn-io/diagram-js/pull/953))
