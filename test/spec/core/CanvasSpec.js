@@ -20,7 +20,7 @@ import {
 import { getChildren as getChildrenGfx } from 'lib/util/GraphicsUtil';
 
 
-describe('Canvas', function() {
+describe('core/Canvas', function() {
 
   var container;
 
@@ -112,7 +112,7 @@ describe('Canvas', function() {
       });
 
 
-      it('should focus if body is focused', inject(function(canvas, eventBus) {
+      it('should NOT focus if body is focused', inject(function(canvas, eventBus) {
 
         // given
         var svg = container.querySelector('svg');
@@ -124,7 +124,7 @@ describe('Canvas', function() {
         });
 
         // then
-        expect(document.activeElement).to.equal(svg);
+        expect(document.activeElement).to.not.equal(svg);
       }));
 
 
@@ -170,6 +170,37 @@ describe('Canvas', function() {
       }));
 
     });
+
+  });
+
+
+  describe('focus handling <config.autoFocus>', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(createDiagram({
+      canvas: {
+        autoFocus: true
+      }
+    }));
+
+
+    it('should focus if body is focused', inject(function(canvas, eventBus) {
+
+      // given
+      var svg = container.querySelector('svg');
+
+      // when
+      eventBus.fire('element.hover', {
+        element: canvas.getRootElement(),
+        gfx: svg
+      });
+
+      // then
+      expect(document.activeElement).to.equal(svg);
+    }));
 
   });
 
