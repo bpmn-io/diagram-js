@@ -211,6 +211,8 @@ describe('core/Canvas', function() {
       container = TestContainer.get(this);
     });
 
+    beforeEach(createDiagram());
+
 
     it('should fire "canvas.resized" event', inject(function(eventBus, canvas) {
 
@@ -231,7 +233,7 @@ describe('core/Canvas', function() {
   });
 
 
-  describe('destroy', function() {
+  describe('#destroy', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
@@ -252,7 +254,7 @@ describe('core/Canvas', function() {
   });
 
 
-  describe('clear', function() {
+  describe('#clear', function() {
 
     beforeEach(createDiagram());
 
@@ -295,6 +297,47 @@ describe('core/Canvas', function() {
       expect(canvas._planes).to.be.empty;
       expect(canvas._layers).to.be.empty;
       expect(canvas._rootElement).not.to.exist;
+    }));
+
+  });
+
+
+  describe('#focus', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(createDiagram());
+
+
+    it('should emit <canvas.focus.changed> event', inject(function(canvas, eventBus) {
+
+      // assume
+      expect(canvas.isFocused()).to.be.false;
+
+      // when
+      const focusSpy = sinon.spy(function(event) {
+        expect(event.focused).to.be.true;
+      });
+
+      eventBus.once('canvas.focus.changed', focusSpy);
+
+      canvas.focus();
+
+      // then
+      expect(focusSpy).to.have.been.calledOnce;
+
+      // and when
+      const refocusSpy = sinon.spy();
+
+      eventBus.once('canvas.focus.changed', refocusSpy);
+
+      canvas.focus();
+
+      // then
+      // focus is not triggered again
+      expect(refocusSpy).not.to.have.been.called;
     }));
 
   });
