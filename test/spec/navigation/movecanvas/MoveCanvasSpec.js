@@ -46,7 +46,12 @@ describe('navigation/movecanvas', function() {
     beforeEach(bootstrapDiagram({
       modules: [
         moveCanvasModule
-      ]
+      ],
+      config: {
+        canvas: {
+          autoFocus: true
+        }
+      }
     }));
 
     beforeEach(inject(function(canvas) {
@@ -93,7 +98,12 @@ describe('navigation/movecanvas', function() {
     beforeEach(bootstrapDiagram({
       modules: [
         moveCanvasModule
-      ]
+      ],
+      config: {
+        canvas: {
+          autoFocus: true
+        }
+      }
     }));
 
     beforeEach(inject(function(canvas) {
@@ -130,7 +140,12 @@ describe('navigation/movecanvas', function() {
       modules: [
         moveCanvasModule,
         interactionEventsModule
-      ]
+      ],
+      config: {
+        canvas: {
+          autoFocus: true
+        }
+      }
     }));
 
 
@@ -150,6 +165,55 @@ describe('navigation/movecanvas', function() {
         console.error('click', e);
       });
     }));
+
+  });
+
+
+  describe('integration - canvas focus', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        moveCanvasModule,
+        interactionEventsModule
+      ]
+    }));
+
+
+    it('should not activate if canvas is not focused', inject(
+      function(eventBus, canvas, moveCanvas) {
+
+        // given
+        var rootElement = canvas.getRootElement();
+
+        eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+
+        // when
+        document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+
+        // then
+        expect(moveCanvas.isActive()).to.be.false;
+      }
+    ));
+
+
+    it('should activate if canvas is focused', inject(
+      function(eventBus, canvas, moveCanvas) {
+
+        // given
+        var rootElement = canvas.getRootElement();
+
+        // when
+        canvas.focus();
+
+        eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+
+        // and
+        document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+
+        // then
+        expect(moveCanvas.isActive()).to.be.true;
+      }
+    ));
 
   });
 
