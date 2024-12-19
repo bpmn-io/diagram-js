@@ -20,7 +20,7 @@ import {
 import { getChildren as getChildrenGfx } from 'lib/util/GraphicsUtil';
 
 
-describe('Canvas', function() {
+describe('core/Canvas', function() {
 
   var container;
 
@@ -96,6 +96,22 @@ describe('Canvas', function() {
     });
 
 
+    it('should focus on <element.mousedown>', inject(function(canvas, eventBus) {
+
+      // given
+      var svg = container.querySelector('svg');
+
+      // when
+      eventBus.fire('element.mousedown',{
+        element: canvas.getRootElement(),
+        gfx: svg
+      });
+
+      // then
+      expect(document.activeElement).to.equal(svg);
+    }));
+
+
     describe('<hover>', function() {
 
       /**
@@ -112,7 +128,7 @@ describe('Canvas', function() {
       });
 
 
-      it('should focus if body is focused', inject(function(canvas, eventBus) {
+      it('should NOT focus if body is focused', inject(function(canvas, eventBus) {
 
         // given
         var svg = container.querySelector('svg');
@@ -124,7 +140,7 @@ describe('Canvas', function() {
         });
 
         // then
-        expect(document.activeElement).to.equal(svg);
+        expect(document.activeElement).to.not.equal(svg);
       }));
 
 
@@ -174,11 +190,44 @@ describe('Canvas', function() {
   });
 
 
+  describe('focus handling <config.autoFocus>', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(createDiagram({
+      canvas: {
+        autoFocus: true
+      }
+    }));
+
+
+    it('should focus if body is focused', inject(function(canvas, eventBus) {
+
+      // given
+      var svg = container.querySelector('svg');
+
+      // when
+      eventBus.fire('element.hover', {
+        element: canvas.getRootElement(),
+        gfx: svg
+      });
+
+      // then
+      expect(document.activeElement).to.equal(svg);
+    }));
+
+  });
+
+
   describe('events', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
     });
+
+    beforeEach(createDiagram());
 
 
     it('should fire "canvas.resized" event', inject(function(eventBus, canvas) {
@@ -200,7 +249,7 @@ describe('Canvas', function() {
   });
 
 
-  describe('destroy', function() {
+  describe('#destroy', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
@@ -221,7 +270,7 @@ describe('Canvas', function() {
   });
 
 
-  describe('clear', function() {
+  describe('#clear', function() {
 
     beforeEach(createDiagram());
 
@@ -264,6 +313,47 @@ describe('Canvas', function() {
       expect(canvas._planes).to.be.empty;
       expect(canvas._layers).to.be.empty;
       expect(canvas._rootElement).not.to.exist;
+    }));
+
+  });
+
+
+  describe('#focus', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(createDiagram());
+
+
+    it('should emit <canvas.focus.changed> event', inject(function(canvas, eventBus) {
+
+      // assume
+      expect(canvas.isFocused()).to.be.false;
+
+      // when
+      const focusSpy = sinon.spy(function(event) {
+        expect(event.focused).to.be.true;
+      });
+
+      eventBus.once('canvas.focus.changed', focusSpy);
+
+      canvas.focus();
+
+      // then
+      expect(focusSpy).to.have.been.calledOnce;
+
+      // and when
+      const refocusSpy = sinon.spy();
+
+      eventBus.once('canvas.focus.changed', refocusSpy);
+
+      canvas.focus();
+
+      // then
+      // focus is not triggered again
+      expect(refocusSpy).not.to.have.been.called;
     }));
 
   });

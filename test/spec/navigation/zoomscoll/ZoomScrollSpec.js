@@ -8,10 +8,6 @@ import {
   assign
 } from 'min-dash';
 
-import {
-  domify
-} from 'min-dom';
-
 import zoomScrollModule from 'lib/navigation/zoomscroll';
 
 
@@ -21,7 +17,9 @@ describe('navigation/zoomscroll', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [ zoomScrollModule ],
-      canvas: { deferUpdate: false }
+      canvas: {
+        deferUpdate: false
+      }
     }));
 
 
@@ -36,7 +34,7 @@ describe('navigation/zoomscroll', function() {
       });
 
       expect(zoomScroll).to.exist;
-      expect(zoomScroll._enabled).to.be.true;
+      expect(zoomScroll._enabled).to.be.false;
     }));
 
   });
@@ -46,7 +44,9 @@ describe('navigation/zoomscroll', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [ zoomScrollModule ],
-      canvas: { deferUpdate: false }
+      canvas: {
+        deferUpdate: false
+      }
     }));
 
 
@@ -88,7 +88,9 @@ describe('navigation/zoomscroll', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [ zoomScrollModule ],
-      canvas: { deferUpdate: false }
+      canvas: {
+        deferUpdate: false
+      }
     }));
 
 
@@ -170,7 +172,9 @@ describe('navigation/zoomscroll', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [ zoomScrollModule ],
-      canvas: { deferUpdate: false },
+      canvas: {
+        deferUpdate: false
+      },
       zoomScroll: {
         enabled: false
       }
@@ -243,34 +247,48 @@ describe('navigation/zoomscroll', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [ zoomScrollModule ],
-      canvas: { deferUpdate: false }
+      canvas: {
+        deferUpdate: false
+      }
+    }));
+
+    beforeEach(inject(function(canvas) {
+
+      canvas.addShape({
+        id: 'test',
+        width: 100,
+        height: 100,
+        x: 100,
+        y: 100
+      });
     }));
 
 
-    describe('should mute', function() {
+    it('should not scroll, if canvas is not focused', inject(function(zoomScroll, canvas) {
 
-      it('on .djs-scrollable target', inject(function(zoomScroll) {
+      // given
+      var zoomSpy = sinon.spy(zoomScroll, 'zoom');
+      var scrollSpy = sinon.spy(zoomScroll, 'scroll');
 
-        // given
-        var zoomSpy = sinon.spy(zoomScroll, 'zoom');
-        var scrollSpy = sinon.spy(zoomScroll, 'scroll');
+      var event = wheelEvent({
+        target: canvas._svg
+      });
 
-        var event = wheelEvent({
-          target: domify('<div class="djs-scrollable" />')
-        });
+      // when
+      zoomScroll._handleWheel(event);
 
-        // when
-        zoomScroll._handleWheel(event);
+      // then
+      expect(zoomSpy).not.to.have.been.called;
+      expect(scrollSpy).not.to.have.been.called;
+    }));
 
-        // then
-        expect(zoomSpy).not.to.have.been.called;
-        expect(scrollSpy).not.to.have.been.called;
+
+    describe('should scroll, if canvas is focused', function() {
+
+      beforeEach(inject(function(canvas) {
+        canvas.focus();
       }));
 
-    });
-
-
-    describe('should scroll', function() {
 
       it('two-dimensional', expectScroll({
         expectedDelta: {
@@ -316,6 +334,11 @@ describe('navigation/zoomscroll', function() {
 
     describe('should zoom', function() {
 
+      beforeEach(inject(function(canvas) {
+        canvas.focus();
+      }));
+
+
       it('with scroll + ctrlKey', expectZoom({
         expectedDelta: 0.7949999999999999,
         expectedPosition: { x: 100, y: 70 },
@@ -353,10 +376,17 @@ describe('navigation/zoomscroll', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [ zoomScrollModule ],
-      canvas: { deferUpdate: false },
+      canvas: {
+        deferUpdate: false
+      },
       zoomScroll: {
         scale: 0.5
       }
+    }));
+
+
+    beforeEach(inject(function(canvas) {
+      canvas.focus();
     }));
 
 
