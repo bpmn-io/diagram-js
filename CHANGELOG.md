@@ -9,6 +9,8 @@ _**Note:** Yet to be released changes appear here._
 ## 15.2.4
 
 * `FIX`: canvas `autoFocus` must explicitly be enabled ([#956](https://github.com/bpmn-io/diagram-js/pull/956))
+* `FIX`: properly integrate `zoomscroll` with canvas focus ([#956](https://github.com/bpmn-io/diagram-js/pull/956))
+* `FIX`: properly integrate `movecanvas` with canvas focus ([#956](https://github.com/bpmn-io/diagram-js/pull/956))
 
 ## 15.2.3
 
