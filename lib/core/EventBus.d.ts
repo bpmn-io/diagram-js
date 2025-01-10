@@ -84,6 +84,7 @@
  */
 export default class EventBus<EventMap = null> {
   /**
+   *
    * Register an event listener for events with the given name.
    *
    * The callback will be invoked with `event, ...additionalArguments`
@@ -107,6 +108,7 @@ export default class EventBus<EventMap = null> {
   ): void;
 
   /**
+   *
    * Register an event listener for events with the given name.
    *
    * The callback will be invoked with `event, ...additionalArguments`
@@ -132,7 +134,6 @@ export default class EventBus<EventMap = null> {
   ): void;
 
   /**
-   *
    * Register an event listener for events with the given name.
    *
    * The callback will be invoked with `event, ...additionalArguments`
@@ -152,7 +153,6 @@ export default class EventBus<EventMap = null> {
   on<T>(events: string|string[], callback: EventBusEventCallback<T>, that?: any): void;
 
   /**
-   *
    * Register an event listener for events with the given name.
    *
    * The callback will be invoked with `event, ...additionalArguments`
@@ -178,6 +178,7 @@ export default class EventBus<EventMap = null> {
   ): void;
 
   /**
+   *
    * Register an event listener that is called only once.
    *
    *
@@ -192,6 +193,7 @@ export default class EventBus<EventMap = null> {
   ): void;
 
   /**
+   *
    * Register an event listener that is called only once.
    *
    *
@@ -208,7 +210,6 @@ export default class EventBus<EventMap = null> {
   ): void;
 
   /**
-   *
    * Register an event listener that is called only once.
    *
    *
@@ -219,7 +220,6 @@ export default class EventBus<EventMap = null> {
   once<T>(events: string|string[], callback: EventBusEventCallback<T>, that?: any): void;
 
   /**
-   *
    * Register an event listener that is called only once.
    *
    *

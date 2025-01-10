@@ -13,15 +13,6 @@ export default class Palette {
   constructor(eventBus: EventBus, canvas: Canvas);
 
   /**
-   * Register a palette provider with the given priority. See
-   * {@link PaletteProvider} for examples.
-   *
-   * @param priority
-   * @param provider
-   */
-  registerProvider(priority: number, provider: PaletteProvider): void;
-
-  /**
    *
    * Register a palette provider with default priority. See
    * {@link PaletteProvider} for examples.
@@ -29,6 +20,15 @@ export default class Palette {
    * @param provider
    */
   registerProvider(provider: PaletteProvider): void;
+
+  /**
+   * Register a palette provider with the given priority. See
+   * {@link PaletteProvider} for examples.
+   *
+   * @param priority
+   * @param provider
+   */
+  registerProvider(priority: number, provider: PaletteProvider): void;
 
   /**
    * Returns the palette entries.

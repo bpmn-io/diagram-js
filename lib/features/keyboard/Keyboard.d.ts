@@ -32,6 +32,7 @@ export default class Keyboard {
   }, eventBus: EventBus);
 
   /**
+   *
    * Bind keyboard events to the canvas node.
    */
   bind(): void;

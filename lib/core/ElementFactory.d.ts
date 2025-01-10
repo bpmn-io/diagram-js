@@ -40,22 +40,13 @@ export default class ElementFactory<T extends import("../model/Types").Connectio
   createConnection(attrs?: Partial<Connection>): T;
 
   /**
-   * Create a label.
+   * Create a root element.
    *
    * @param type
    * @param attrs
    * @return
    */
-  create(type: 'label', attrs?: Partial<Label>): U;
-
-  /**
-   * Create a connection.
-   *
-   * @param type
-   * @param attrs
-   * @return
-   */
-  create(type: 'connection', attrs?: Partial<Connection>): T;
+  create(type: 'root', attrs?: Partial<Root>): V;
 
   /**
    * Create a shape.
@@ -67,13 +58,22 @@ export default class ElementFactory<T extends import("../model/Types").Connectio
   create(type: 'shape', attrs?: Partial<Shape>): W;
 
   /**
-   * Create a root element.
+   * Create a connection.
    *
    * @param type
    * @param attrs
    * @return
    */
-  create(type: 'root', attrs?: Partial<Root>): V;
+  create(type: 'connection', attrs?: Partial<Connection>): T;
+
+  /**
+   * Create a label.
+   *
+   * @param type
+   * @param attrs
+   * @return
+   */
+  create(type: 'label', attrs?: Partial<Label>): U;
 }
 
 type Element = import('../model/Types').Element;

@@ -15,15 +15,6 @@ export default class ContextPad {
   constructor(canvas: Canvas, elementRegistry: ElementRegistry, eventBus: EventBus, scheduler: any);
 
   /**
-   * Register a context pad provider with the given priority. See
-   * {@link ContextPadProvider} for examples.
-   *
-   * @param priority
-   * @param provider
-   */
-  registerProvider(priority: number, provider: ContextPadProvider): void;
-
-  /**
    *
    * Register a context pad provider with the default priority. See
    * {@link ContextPadProvider} for examples.
@@ -31,6 +22,15 @@ export default class ContextPad {
    * @param provider
    */
   registerProvider(provider: ContextPadProvider): void;
+
+  /**
+   * Register a context pad provider with the given priority. See
+   * {@link ContextPadProvider} for examples.
+   *
+   * @param priority
+   * @param provider
+   */
+  registerProvider(priority: number, provider: ContextPadProvider): void;
 
   /**
    * Get context pad entries for given elements.

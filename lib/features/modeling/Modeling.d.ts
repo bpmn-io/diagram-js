@@ -78,9 +78,9 @@ export default class Modeling<T extends import("../../model/Types").Connection =
   /**
    * Create a connection.
    *
+   *
    * @param source
    * @param target
-   * @param parentIndex
    * @param connection
    * @param parent
    * @param hints
@@ -90,7 +90,6 @@ export default class Modeling<T extends import("../../model/Types").Connection =
   createConnection(
     source: U,
     target: U,
-    parentIndex: number,
     connection: Partial<T>,
     parent: W,
     hints?: ModelingHints
@@ -99,9 +98,9 @@ export default class Modeling<T extends import("../../model/Types").Connection =
   /**
    * Create a connection.
    *
-   *
    * @param source
    * @param target
+   * @param parentIndex
    * @param connection
    * @param parent
    * @param hints
@@ -111,10 +110,29 @@ export default class Modeling<T extends import("../../model/Types").Connection =
   createConnection(
     source: U,
     target: U,
+    parentIndex: number,
     connection: Partial<T>,
     parent: W,
     hints?: ModelingHints
   ): T;
+
+  /**
+   * Create a shape.
+   *
+   *
+   * @param shape
+   * @param position
+   * @param target
+   * @param hints
+   *
+   * @return
+   */
+  createShape(
+    shape: Partial<X>,
+    position: Point,
+    target: W,
+    hints?: ModelingCreateShapeHints
+  ): X;
 
   /**
    * Create a shape.
@@ -132,24 +150,6 @@ export default class Modeling<T extends import("../../model/Types").Connection =
     position: Point,
     target: W,
     parentIndex: number,
-    hints?: ModelingCreateShapeHints
-  ): X;
-
-  /**
-   * Create a shape.
-   *
-   *
-   * @param shape
-   * @param position
-   * @param target
-   * @param hints
-   *
-   * @return
-   */
-  createShape(
-    shape: Partial<X>,
-    position: Point,
-    target: W,
     hints?: ModelingCreateShapeHints
   ): X;
 

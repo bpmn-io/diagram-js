@@ -50,6 +50,7 @@ export default class Diagram<ServiceMap = null> {
   constructor(options?: DiagramOptions, injector?: Injector<ServiceMap>);
 
   /**
+   *
    * Resolves a diagram service.
    *
    *
@@ -84,7 +85,6 @@ export default class Diagram<ServiceMap = null> {
   get<T>(name: string, strict: true): T;
 
   /**
-   *
    * Resolves a diagram service.
    *
    *
@@ -95,6 +95,7 @@ export default class Diagram<ServiceMap = null> {
   get<T>(name: string): T;
 
   /**
+   *
    * Invoke the given function, injecting dependencies provided in
    * array notation. Return the result.
    *
@@ -108,7 +109,6 @@ export default class Diagram<ServiceMap = null> {
   invoke<T>(func: ArrayFunc<T>, context?: InjectionContext, locals?: LocalsMap): T;
 
   /**
-   *
    * Invoke the given function, injecting dependencies. Return the result.
    *
    *

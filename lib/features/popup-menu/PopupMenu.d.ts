@@ -43,16 +43,6 @@ export default class PopupMenu {
   isEmpty(target: PopupMenuTarget, providerId: string): boolean;
 
   /**
-   * Register a popup menu provider with the given priority. See
-   * {@link PopupMenuProvider} for examples.
-   *
-   * @param id
-   * @param priority
-   * @param provider
-   */
-  registerProvider(id: string, priority: number, provider: PopupMenuProvider): void;
-
-  /**
    *
    * Register a popup menu provider with default priority. See
    * {@link PopupMenuProvider} for examples.
@@ -61,6 +51,16 @@ export default class PopupMenu {
    * @param provider
    */
   registerProvider(id: string, provider: PopupMenuProvider): void;
+
+  /**
+   * Register a popup menu provider with the given priority. See
+   * {@link PopupMenuProvider} for examples.
+   *
+   * @param id
+   * @param priority
+   * @param provider
+   */
+  registerProvider(id: string, priority: number, provider: PopupMenuProvider): void;
 
   /**
    * Check if the popup menu is open.

@@ -1,29 +1,5 @@
 /**
- * Creates a label.
- *
- * @example
- *
- * ```javascript
- * import * as Model from 'diagram-js/lib/model';
- *
- * const label = Model.create('label', {
- *   x: 100,
- *   y: 100,
- *   width: 100,
- *   height: 100,
- *   labelTarget: shape
- * });
- * ```
- *
- * @param type
- * @param attrs
- *
- * @return
- */
-export function create(type: 'label', attrs?: Object): Label;
-
-/**
- * Creates a shape.
+ * Creates a root element.
  *
  *
  * @example
@@ -31,7 +7,7 @@ export function create(type: 'label', attrs?: Object): Label;
  * ```javascript
  * import * as Model from 'diagram-js/lib/model';
  *
- * const shape = Model.create('shape', {
+ * const root = Model.create('root', {
  *   x: 100,
  *   y: 100,
  *   width: 100,
@@ -44,7 +20,7 @@ export function create(type: 'label', attrs?: Object): Label;
  *
  * @return
  */
-export function create(type: 'shape', attrs?: any): Shape;
+export function create(type: 'root', attrs?: any): Root;
 
 /**
  * Creates a connection.
@@ -71,7 +47,7 @@ export function create(type: 'shape', attrs?: any): Shape;
 export function create(type: 'connection', attrs?: any): Connection;
 
 /**
- * Creates a root element.
+ * Creates a shape.
  *
  *
  * @example
@@ -79,7 +55,7 @@ export function create(type: 'connection', attrs?: any): Connection;
  * ```javascript
  * import * as Model from 'diagram-js/lib/model';
  *
- * const root = Model.create('root', {
+ * const shape = Model.create('shape', {
  *   x: 100,
  *   y: 100,
  *   width: 100,
@@ -92,7 +68,31 @@ export function create(type: 'connection', attrs?: any): Connection;
  *
  * @return
  */
-export function create(type: 'root', attrs?: any): Root;
+export function create(type: 'shape', attrs?: any): Shape;
+
+/**
+ * Creates a label.
+ *
+ * @example
+ *
+ * ```javascript
+ * import * as Model from 'diagram-js/lib/model';
+ *
+ * const label = Model.create('label', {
+ *   x: 100,
+ *   y: 100,
+ *   width: 100,
+ *   height: 100,
+ *   labelTarget: shape
+ * });
+ * ```
+ *
+ * @param type
+ * @param attrs
+ *
+ * @return
+ */
+export function create(type: 'label', attrs?: Object): Label;
 
 /**
  * Checks whether an object is a model instance.
