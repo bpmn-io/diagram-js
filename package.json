@@ -54,7 +54,7 @@
     "@babel/core": "^7.25.2",
     "@bpmn-io/a11y": "^0.1.0",
     "@testing-library/preact": "^3.2.4",
-    "babel-loader": "^9.2.1",
+    "babel-loader": "^10.0.0",
     "babel-plugin-istanbul": "^7.0.0",
     "bio-dts": "^0.11.0",
     "chai": "^4.5.0",
