@@ -144,10 +144,70 @@ describe('features/search', function() {
     // then
     expect(results).to.have.length(5);
     expect(results[0].item).to.eql(items[1]);
-    expect(results[1].item).to.eql(items[5]);
-    expect(results[2].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[0]);
+    expect(results[2].item).to.eql(items[5]);
     expect(results[3].item).to.eql(items[4]);
     expect(results[4].item).to.eql(items[3]);
+  }));
+
+
+  it('should prioritize secondary key start of word', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        label: 'Invoice Form',
+        search: 'resource form',
+      },
+      {
+        label: 'User task',
+        search: 'form human',
+      }
+    ];
+
+    const searchItems = (items, term) => search(items, term, {
+      keys: [
+        'label',
+        'search'
+      ]
+    });
+
+    // when
+    const results = searchItems(items, 'form');
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[1]);
+  }));
+
+
+  it('should prioritize based on key order in case of equal score', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        label: 'something else A',
+        search: 'term ',
+      },
+      {
+        label: 'term',
+        search: 'term something else B',
+      },
+    ];
+    const searchItems = (items, term) => search(items, term, {
+      keys: [
+        'label',
+        'search',
+      ]
+    });
+
+    // when
+    const results = searchItems(items, 'term');
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[1]);
+    expect(results[1].item).to.eql(items[0]);
   }));
 
 
