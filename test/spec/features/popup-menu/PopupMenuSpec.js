@@ -1,4 +1,4 @@
-import { waitFor as originalWaitFor } from '@testing-library/preact';
+import { act, waitFor } from '@testing-library/preact';
 
 import {
   bootstrapDiagram,
@@ -10,7 +10,8 @@ import testImage from './resources/a.png';
 
 import {
   assign,
-  isFunction
+  isFunction,
+  map
 } from 'min-dash';
 
 import {
@@ -25,8 +26,6 @@ import popupMenuModule from 'lib/features/popup-menu';
 import modelingModule from 'lib/features/modeling';
 
 import { html } from 'lib/ui';
-
-const waitFor = (callback) => originalWaitFor(callback, { timeout: 10000 });
 
 const entrySet = (entries) => {
 
@@ -44,8 +43,6 @@ const entrySet = (entries) => {
 
 
 describe('features/popup-menu', function() {
-
-  this.timeout(10000);
 
   beforeEach(bootstrapDiagram({
     modules: [
@@ -1466,15 +1463,7 @@ describe('features/popup-menu', function() {
       await triggerSearch('alpha');
 
       // then
-      var shownEntries;
-
-      await waitFor(() => {
-        shownEntries = queryPopupAll('.entry');
-
-        expect(shownEntries).to.have.length(1);
-      });
-
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Alpha');
+      await expectEntries([ 'Alpha' ]);
     }));
 
 
@@ -1488,15 +1477,7 @@ describe('features/popup-menu', function() {
       await triggerSearch('search');
 
       // then
-      var shownEntries;
-
-      await waitFor(() => {
-        shownEntries = queryPopupAll('.entry');
-
-        expect(shownEntries).to.have.length(1);
-      });
-
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
+      await expectEntries([ 'Delta' ]);
     }));
 
 
@@ -1510,16 +1491,7 @@ describe('features/popup-menu', function() {
       await triggerSearch('description');
 
       // then
-      var shownEntries;
-
-      await waitFor(() => {
-        shownEntries = queryPopupAll('.entry');
-
-        expect(shownEntries).to.have.length(1);
-      });
-
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Echo');
-      expect(shownEntries[0].querySelector('.djs-popup-entry-description').textContent).to.eql('description');
+      await expectEntries([ 'Echo' ]);
     }));
 
 
@@ -1533,15 +1505,7 @@ describe('features/popup-menu', function() {
       await triggerSearch('delta search');
 
       // then
-      var shownEntries;
-
-      await waitFor(() => {
-        shownEntries = queryPopupAll('.entry');
-
-        expect(shownEntries).to.have.length(1);
-      });
-
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Delta');
+      await expectEntries([ 'Delta' ]);
     }));
 
 
@@ -1561,29 +1525,19 @@ describe('features/popup-menu', function() {
       popupMenu.registerProvider('test-menu', provider);
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
-      // assume
-      triggerSearch('hug');
-      let shownEntries;
-      await waitFor(() => {
-        shownEntries = queryPopupAll('.entry');
-        expect(shownEntries).to.have.length(1);
-      });
-
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Hugging');
-      expect(shownEntries[0].classList.contains('selected')).to.be.true;
-
       // when
-      triggerSearch('hu');
+      await triggerSearch('hug');
 
       // then
-      shownEntries = [];
-      await waitFor(() => {
-        shownEntries = queryPopupAll('.entry');
-        expect(shownEntries).to.have.length(2);
-      });
+      await expectEntries([ 'Hugging' ]);
+      await expectSelected('Hugging');
 
-      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Human');
-      expect(shownEntries[0].classList.contains('selected')).to.be.true;
+      // but when
+      await triggerSearch('hu');
+
+      // then
+      await expectEntries([ 'Human', 'Hugging' ]);
+      await expectSelected('Human');
     }));
 
 
@@ -1597,12 +1551,13 @@ describe('features/popup-menu', function() {
       await triggerSearch('   ');
 
       // then
-      await waitFor(() => {
-        const shownEntries = queryPopupAll('.entry');
-
-        // just ignores it
-        expect(shownEntries).to.have.length(5);
-      });
+      await expectEntries([
+        'Alpha',
+        'Bravo',
+        'Charlie',
+        'Delta',
+        'Echo'
+      ]);
     }));
 
 
@@ -1617,17 +1572,13 @@ describe('features/popup-menu', function() {
         popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
         // then
-        var shownEntries;
-
-        await waitFor(() => {
-          shownEntries = queryPopupAll('.entry');
-
-          expect(shownEntries).to.have.length(5);
-        });
-
-        expect(Array.from(shownEntries).find(entry => {
-          entry.querySelector('.djs-popup-label').textContent === 'Foxtrot';
-        })).not.to.exist;
+        await expectEntries([
+          'Alpha',
+          'Bravo',
+          'Charlie',
+          'Delta',
+          'Echo'
+        ]);
       }));
 
 
@@ -1641,15 +1592,7 @@ describe('features/popup-menu', function() {
         await triggerSearch('foxtrot');
 
         // then
-        var shownEntries;
-
-        await waitFor(() => {
-          shownEntries = queryPopupAll('.entry');
-
-          expect(shownEntries).to.have.length(1);
-        });
-
-        expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Foxtrot');
+        await expectEntries([ 'Foxtrot' ]);
       }));
 
     });
@@ -1670,11 +1613,7 @@ describe('features/popup-menu', function() {
       await triggerSearch('foobar');
 
       // then
-      await waitFor(() => {
-        var shownEntries = queryPopupAll('.entry');
-
-        expect(shownEntries).to.have.length(0);
-      });
+      await expectEntries([ ]);
 
       var noSearchResultsNode = queryPopup('.djs-popup-no-results');
 
@@ -1701,11 +1640,7 @@ describe('features/popup-menu', function() {
       await triggerSearch('foobar');
 
       // then
-      await waitFor(() => {
-        var shownEntries = queryPopupAll('.entry');
-
-        expect(shownEntries).to.have.length(0);
-      });
+      await expectEntries([ ]);
 
       var noSearchResultsNode = queryPopup('.djs-popup-no-results');
 
@@ -2604,6 +2539,50 @@ function getGroup(groupName) {
   return domQuery('[data-group="' + groupName + '"]', getPopupContainer());
 }
 
+function getEntryLabel(entry) {
+  return entry.querySelector('.djs-popup-label').textContent;
+}
+
+/**
+ * Return labels for currently open popup menu entries.
+ *
+ * @return {Promise<string[]>} entryLabels
+ */
+function queryEntryLabels() {
+  return waitFor(() => {
+    return queryPopupAll('.entry');
+  }).then(entries => {
+    return map(entries, getEntryLabel);
+  });
+}
+
+/**
+ * @param {string[]} expectedEntryLabels
+ */
+async function expectEntries(expectedEntryLabels) {
+
+  const entryLabels = await queryEntryLabels();
+
+  expect(entryLabels, 'entry labels').to.eql(expectedEntryLabels);
+}
+
+/**
+ * @param {string} expectedSelectedEntryLabel
+ */
+async function expectSelected(expectedSelectedEntryLabel) {
+
+  return waitFor(() => {
+    const selectedEntry = queryPopup('.entry.selected');
+
+    expect(selectedEntry).to.exist;
+
+    return selectedEntry;
+  }).then(selectedEntry => {
+
+    expect(getEntryLabel(selectedEntry), 'selected entry').to.eql(expectedSelectedEntryLabel);
+  });
+}
+
 /**
  * @param {string} key
  *
@@ -2618,10 +2597,12 @@ function keyUp(key) {
  */
 function triggerSearch(value) {
 
-  var searchInput = queryPopup('.djs-popup-search input');
+  return act(() => {
+    var searchInput = queryPopup('.djs-popup-search input');
 
-  expect(searchInput, 'search exists').to.exist;
+    expect(searchInput, 'search exists').to.exist;
 
-  searchInput.value = value;
-  searchInput.dispatchEvent(keyUp('ArrowRight'));
+    searchInput.value = value;
+    searchInput.dispatchEvent(keyUp('ArrowRight'));
+  });
 }
