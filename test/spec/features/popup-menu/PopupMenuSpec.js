@@ -28,6 +28,20 @@ import { html } from 'lib/ui';
 
 const waitFor = (callback) => originalWaitFor(callback, { timeout: 10000 });
 
+const entrySet = (entries) => {
+
+  return entries.reduce((keyedEntries, entry) => {
+
+    expect(entry).to.have.property('id');
+    expect(keyedEntries).not.to.have.property(entry.id);
+
+    keyedEntries[entry.id] = entry;
+
+    return keyedEntries;
+  }, {});
+
+};
+
 
 describe('features/popup-menu', function() {
 
@@ -1531,6 +1545,48 @@ describe('features/popup-menu', function() {
     }));
 
 
+    it('should always select first', inject(async function(popupMenu) {
+
+      // given
+      const entries = [
+        { id: '1', label: 'Hugging' },
+        { id: '2', label: 'Human' },
+        { id: '3', label: 'World' },
+        { id: '4', label: 'Entry 4' },
+        { id: '5', label: 'Entry 5' },
+        { id: '6', label: 'Entry 6' }
+      ];
+
+      const provider = new Provider(entrySet(entries), { });
+      popupMenu.registerProvider('test-menu', provider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // assume
+      triggerSearch('hug');
+      let shownEntries;
+      await waitFor(() => {
+        shownEntries = queryPopupAll('.entry');
+        expect(shownEntries).to.have.length(1);
+      });
+
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Hugging');
+      expect(shownEntries[0].classList.contains('selected')).to.be.true;
+
+      // when
+      triggerSearch('hu');
+
+      // then
+      shownEntries = [];
+      await waitFor(() => {
+        shownEntries = queryPopupAll('.entry');
+        expect(shownEntries).to.have.length(2);
+      });
+
+      expect(shownEntries[0].querySelector('.djs-popup-label').textContent).to.eql('Human');
+      expect(shownEntries[0].classList.contains('selected')).to.be.true;
+    }));
+
+
     it('should handle whitespace only search', inject(async function(popupMenu) {
 
       // given
@@ -2412,19 +2468,6 @@ describe('features/popup-menu - integration', function() {
     `)
   }`;
 
-  const entrySet = (entries) => {
-
-    return entries.reduce((keyedEntries, entry) => {
-
-      expect(entry).to.have.property('id');
-      expect(keyedEntries).not.to.have.property(entry.id);
-
-      keyedEntries[entry.id] = entry;
-
-      return keyedEntries;
-    }, {});
-
-  };
 
   beforeEach(bootstrapDiagram({
     modules: [
