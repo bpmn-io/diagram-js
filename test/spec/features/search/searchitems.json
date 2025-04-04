@@ -1,0 +1,429 @@
+[
+  {
+    "id": "replace-with-user-task",
+    "label": "User task",
+    "className": "bpmn-icon-user",
+    "search": "form human"
+  },
+  {
+    "id": "replace-with-service-task",
+    "label": "Service task",
+    "className": "bpmn-icon-service",
+    "search": "job worker"
+  },
+  {
+    "id": "replace-with-send-task",
+    "label": "Send task",
+    "className": "bpmn-icon-send",
+    "search": "job worker"
+  },
+  {
+    "id": "replace-with-receive-task",
+    "label": "Receive task",
+    "className": "bpmn-icon-receive",
+    "search": "message"
+  },
+  {
+    "id": "replace-with-manual-task",
+    "label": "Manual task",
+    "className": "bpmn-icon-manual"
+  },
+  {
+    "id": "replace-with-rule-task",
+    "label": "Business rule task",
+    "className": "bpmn-icon-business-rule",
+    "search": "dmn decision"
+  },
+  {
+    "id": "replace-with-script-task",
+    "label": "Script task",
+    "className": "bpmn-icon-script",
+    "search": "job worker"
+  },
+  {
+    "id": "replace-with-call-activity",
+    "label": "Call activity",
+    "className": "bpmn-icon-call-activity",
+    "search": "child process"
+  },
+  {
+    "id": "replace-with-collapsed-subprocess",
+    "label": "Sub-process (collapsed)",
+    "className": "bpmn-icon-subprocess-collapsed"
+  },
+  {
+    "id": "replace-with-expanded-subprocess",
+    "label": "Sub-process (expanded)",
+    "className": "bpmn-icon-subprocess-expanded"
+  },
+  {
+    "id": "replace-with-collapsed-ad-hoc-subprocess",
+    "label": "Ad-hoc sub-process (collapsed)",
+    "className": "bpmn-icon-subprocess-collapsed"
+  },
+  {
+    "id": "replace-with-ad-hoc-subprocess",
+    "label": "Ad-hoc sub-process (expanded)",
+    "className": "bpmn-icon-subprocess-expanded"
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.AWSLAMBDA.v2",
+    "label": "AWS Lambda Outbound Connector",
+    "description": "Invoke a function",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.GraphQL.v1",
+    "label": "GraphQL Outbound Connector",
+    "description": "Execute GraphQL query",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.AWSDynamoDB.v1",
+    "label": "AWS DynamoDB Outbound Connector",
+    "description": "Manage tables and items with AWS DynamoDB.",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.AWSSQS.v1",
+    "label": "Amazon SQS Outbound Connector",
+    "description": "Send messages to Amazon SQS.",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.GoogleDrive.v1",
+    "label": "Google Drive Outbound Connector",
+    "description": "Manage Google Drive files and folders",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.RabbitMQ.v1",
+    "label": "RabbitMQ Outbound Connector",
+    "description": "Send message to RabbitMQ",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.SendGrid.v2",
+    "label": "SendGrid Outbound Connector",
+    "description": "Send an email via SendGrid",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.Slack.v1",
+    "label": "Slack Outbound Connector",
+    "description": "Create a channel or send a message to a channel or user",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.GitHub.v1",
+    "label": "GitHub Outbound Connector",
+    "description": "Manage GitHub issues, branches, releases, and more",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.GitLab.v1",
+    "label": "GitLab Outbound Connector",
+    "description": "Manage GitLab issues, branches, releases, and more",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.GoogleMapsPlatform.v1",
+    "label": "Google Maps Platform Outbound Connector",
+    "description": "Validate addresses, retrieve postal addresses and calculate distances with Googe Maps",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.WhatsApp.v1",
+    "label": "WhatsApp Business Outbound Connector",
+    "description": "Send messages via WhatsApp",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.Salesforce.v1",
+    "label": "Salesforce Outbound Connector",
+    "description": "Call the Salesforce APIs from your process",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.AWSEventBridge.v1",
+    "label": "Amazon EventBridge Outbound Connector",
+    "description": "Send events to AWS EventBridge",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.HuggingFace.v1",
+    "label": "Hugging Face Outbound Connector",
+    "description": "Interact with Hugging Face inference API",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.AzureOpenAI.outbound.v1",
+    "label": "Azure OpenAI Connector",
+    "description": "Interact with Azure OpenAI from your BPMN process",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.aws.s3.v1",
+    "label": "AWS S3 Outbound Connector",
+    "description": "Execute S3 requests",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.AWSTEXTRACT.v1",
+    "label": "AWS Textract Outbound Connector",
+    "description": "Extract text and data using AWS Textract.",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.HttpJson.v2",
+    "label": "REST Outbound Connector",
+    "description": "Invoke REST API",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.Asana.v1",
+    "label": "Asana Outbound Connector",
+    "description": "Create, update, and manage tasks and projects in Asana.",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.AWSSNS.v1",
+    "label": "Amazon SNS Outbound connector",
+    "description": "Send messages to Amazon SNS.",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.GoogleSheets.v1",
+    "label": "Google Sheets Outbound Connector",
+    "description": "Manage spreadsheets with Google Sheets",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.KAFKA.v1",
+    "label": "Kafka Outbound Connector",
+    "description": "Produce Kafka message",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.MSTeams.v1",
+    "label": "Microsoft Teams Outbound Connector",
+    "description": "Create, update, and send a message to your Microsoft Teams",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.EasyPost.v1",
+    "label": "Easy Post Outbound Connector",
+    "description": "Manage addresses, parcels, and shipments with Easy Post.",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.CamundaOperate.v1",
+    "label": "Camunda Operate Outbound connector",
+    "description": "Fetch data from Camunda Operate API",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.Twilio.v1",
+    "label": "Twilio Outbound Connector",
+    "description": "Send SMS messages or retrieve message information using the Twilio API",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.BluePrism.v1",
+    "label": "Blue Prism Outbound Connector",
+    "description": "Manage Blue Prism work queues and items.",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.MSFT.O365.Mail.v1",
+    "label": "Microsoft Office 365 Mail Connector",
+    "description": "Work with Office 365 Mail via your BPMN process",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.AWSSAGEMAKER.v1",
+    "label": "AWS SageMaker Outbound Connector",
+    "description": "Run inferences using AWS SageMaker.",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.Jdbc.v1",
+    "label": "SQL Database Connector",
+    "description": "Read and write data from a Camunda process directly to a SQL database (e.g., Microsoft SQL Server, MySQL, PostgreSQL)",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.aws.bedrock.v1",
+    "label": "AWS Bedrock Outbound Connector",
+    "description": "Invoke models and converse using AWS Bedrock.",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.email.v1",
+    "label": "Email Connector",
+    "description": "Execute email requests",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.box",
+    "label": "Box Outbound Connector",
+    "description": "Interact with the Box Document API",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.OpenAI.v1",
+    "label": "OpenAI Outbound Connector",
+    "description": "Interact with ChatGPT or moderation API",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.AutomationAnywhere",
+    "label": "Automation Anywhere Outbound Connector",
+    "description": "Orchestrate your Automation Anywhere bots with Camunda. You can create new queue items and get the result from it",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.connectors.UIPath.v1",
+    "label": "UiPath Outbound Connector",
+    "description": "Orchestrate your UiPath bots with Camunda. You can create new queue items and get the result from it",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-camunda.connectors.rpa",
+    "label": "RPA Connector",
+    "description": "Connects with the Camunda RPA Worker",
+    "group": {
+      "id": "connectors",
+      "name": "Connectors"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.examples.ElementType",
+    "label": "Element Type",
+    "description": "An example element template that changes the element type.",
+    "group": {
+      "id": "templates",
+      "name": "Templates"
+    }
+  },
+  {
+    "id": "replace.template-io.camunda.examples.compatibility",
+    "label": "Compatibility test",
+    "description": "This version is compatible with Camunda 8.5 and above.",
+    "group": {
+      "id": "templates",
+      "name": "Templates"
+    }
+  }
+]

@@ -4,7 +4,7 @@ import {
 } from 'test/TestHelper';
 
 import search from '../../../../lib/features/search';
-
+import exampleItems from './searchitems.json';
 
 describe('features/search', function() {
 
@@ -647,6 +647,33 @@ describe('features/search - overrides', function() {
     expect(results).to.have.length(2);
     expect(results[0].item).to.eql(items[0]);
     expect(results[1].item).to.eql(items[2]);
+  }));
+
+});
+
+
+describe('features/search - real world example', function() {
+
+  beforeEach(bootstrapDiagram({ modules: [ search ] }));
+
+  it('should search via search', inject(function(search, elementRegistry) {
+    const options = { keys: [
+      'label', 'search', 'description'
+    ] };
+
+    // when
+    const resultA = search(exampleItems, 'fo', options);
+    const resultB = search(exampleItems, 'f', options);
+    const resultC = search(exampleItems, 'human', options);
+    const resultD = search(exampleItems, 'hu', options);
+
+    // then
+    expect(resultA[0].item.id).to.be.eql('replace-with-user-task');
+    expect(resultB[0].item.id).to.be.eql('replace-with-user-task');
+    expect(resultC[0].item.id).to.be.eql('replace-with-user-task');
+    expect(resultD[0].item.id).to.be.eql('replace.template-io.camunda.connectors.HuggingFace.v1');
+    expect(resultD[1].item.id).to.be.eql('replace-with-user-task');
+
   }));
 
 });
