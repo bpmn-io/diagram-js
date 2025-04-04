@@ -145,7 +145,36 @@
     "group": {
       "id": "connectors",
       "name": "Connectors"
-    }
+    },
+    "search": [
+      "create issue",
+      "get issue",
+      "update issue",
+      "create issue comment",
+      "search issues",
+      "list commits",
+      "create release",
+      "update release",
+      "delete release",
+      "list releases",
+      "list branches",
+      "get branch",
+      "merge branch",
+      "list organization repositories",
+      "create organization repository",
+      "get repository",
+      "update repository",
+      "delete repository",
+      "list repository contributors",
+      "create organization invitation",
+      "get repository content",
+      "list code scanning alerts for a repository",
+      "list code scanning alerts for an organization",
+      "create a workflow dispatch event",
+      "create a reference",
+      "create a pull request",
+      "list repository collaborators"
+    ]
   },
   {
     "id": "replace.template-io.camunda.connectors.GitLab.v1",
@@ -154,7 +183,23 @@
     "group": {
       "id": "connectors",
       "name": "Connectors"
-    }
+    },
+    "search": [
+      "create issue",
+      "delete issue",
+      "comment to issue",
+      "search issues",
+      "get issue by ID",
+      "get releases by project ID",
+      "get release by tag name",
+      "create release",
+      "list repository branches",
+      "create repository branch",
+      "create repository file",
+      "get repository file",
+      "update repository file",
+      "create merge request"
+    ]
   },
   {
     "id": "replace.template-io.camunda.connectors.GoogleMapsPlatform.v1",
@@ -163,7 +208,12 @@
     "group": {
       "id": "connectors",
       "name": "Connectors"
-    }
+    },
+    "search": [
+      "find address",
+      "check address",
+      "get distance"
+    ]
   },
   {
     "id": "replace.template-io.camunda.connectors.WhatsApp.v1",

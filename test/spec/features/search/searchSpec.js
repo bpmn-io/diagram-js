@@ -676,4 +676,16 @@ describe('features/search - real world example', function() {
 
   }));
 
+  it('should search via keywords', inject(function(search, elementRegistry) {
+    const options = { keys: [
+      'label', 'search', 'description'
+    ] };
+
+    // when
+    const resultA = search(exampleItems, 'create issue', options);
+
+    expect(resultA).to.have.length(2); // result for github and gitlab
+
+  }));
+
 });
