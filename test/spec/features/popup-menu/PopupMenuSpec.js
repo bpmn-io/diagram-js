@@ -1495,6 +1495,51 @@ describe('features/popup-menu', function() {
     }));
 
 
+    it('should show search results (prioritizing search over description)', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', {
+        getEntries: function() {
+          return [
+            {
+              id: 'search',
+              label: 'First',
+              search: 'search'
+            },
+            {
+              id: 'description',
+              label: 'Second',
+              description: 'search things'
+            },
+            {
+              id: 'other-1',
+              label: 'Other 1'
+            },
+            {
+              id: 'other-2',
+              label: 'Other 2'
+            },
+            {
+              id: 'other-3',
+              label: 'Other 3'
+            },
+            {
+              id: 'other-4',
+              label: 'Other 4'
+            }
+          ];
+        }
+      });
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('search');
+
+      // then
+      await expectEntries([ 'First', 'Second' ]);
+    }));
+
+
     it('should show search results (matching label & search)', inject(async function(popupMenu) {
 
       // given
