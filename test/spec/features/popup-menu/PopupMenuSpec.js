@@ -7,6 +7,7 @@ import {
 } from 'test/TestHelper';
 
 import testImage from './resources/a.png';
+import exampleEntries from './PopupMenu.example-entries.json';
 
 import {
   assign,
@@ -1583,6 +1584,21 @@ describe('features/popup-menu', function() {
       // then
       await expectEntries([ 'Human', 'Hugging' ]);
       await expectSelected('Human');
+    }));
+
+
+    it('should search via keywords', inject(async function(popupMenu) {
+
+      // given
+      const provider = new Provider(entrySet(exampleEntries), { });
+      popupMenu.registerProvider('test-menu', provider);
+      popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+      // when
+      await triggerSearch('create issue');
+
+      // then
+      await expectEntries([ 'GitHub Outbound Connector', 'GitLab Outbound Connector' ]);
     }));
 
 
