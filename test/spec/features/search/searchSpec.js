@@ -5,6 +5,7 @@ import {
 
 import search from '../../../../lib/features/search';
 
+
 describe('features/search', function() {
 
   beforeEach(bootstrapDiagram({ modules: [ search ] }));
