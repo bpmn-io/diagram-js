@@ -571,6 +571,38 @@ describe('features/search', function() {
   }));
 
 
+  it('should calculate per search term', inject(function(search) {
+    const items = [
+      {
+        'id': '0',
+        'search':'send task',
+      },
+      {
+        'id': '1',
+        'search': [
+          'send task',
+        ]
+      },
+      {
+        'id': '2',
+        'search': [
+          'send task',
+          'send task',
+        ]
+      },
+    ];
+
+    const results = search(items, 'Send', {
+      keys: [
+        'search',
+      ],
+      customOption: true
+    });
+
+    expect(results[0].score).to.eql(results[1].score);
+  }));
+
+
   it('should error on whitespace pattern', inject(function(search) {
 
     // given
