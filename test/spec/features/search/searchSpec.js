@@ -595,11 +595,11 @@ describe('features/search', function() {
     const results = search(items, 'Send', {
       keys: [
         'search',
-      ],
-      customOption: true
+      ]
     });
 
     expect(results[0].score).to.eql(results[1].score);
+    expect(results[0].score).to.eql(results[2].score);
   }));
 
 
