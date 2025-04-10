@@ -8,6 +8,16 @@ import {
 
 import testImage from './resources/a.png';
 
+/**
+ * values extracted from a camunda-modeler instance performing a search in the create element menu.
+ * Adjustments:
+ *   Keywords that were in metadata were added to the search properties
+ *   DocumentRef and icons were removed
+ *
+ * Latest extraction: v5.35.0
+ */
+import exampleEntries from './PopupMenu.example-entries.json';
+
 import {
   assign,
   isFunction,
@@ -1642,6 +1652,38 @@ describe('features/popup-menu', function() {
 
     });
 
+
+    describe('keywords', function() {
+
+      it('should find actions', inject(async function(popupMenu) {
+
+        // given
+        const provider = new Provider(entrySet(exampleEntries), { });
+        popupMenu.registerProvider('test-menu', provider);
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('create issue');
+
+        // then
+        await expectEntries([ 'GitHub Outbound Connector', 'GitLab Outbound Connector', 'GitHub Webhook Start Event Connector', 'GitHub Webhook Intermediate Catch Event Connector' ]);
+      }));
+
+      it('should find ai tools', inject(async function(popupMenu) {
+
+        // given
+        const provider = new Provider(entrySet(exampleEntries), { });
+        popupMenu.registerProvider('test-menu', provider);
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('open ai');
+
+        // then
+        await expectEntries([ 'OpenAI Outbound Connector', 'Azure OpenAI Connector' ]);
+      }));
+
+    });
 
     it('should render entry if no search results', inject(async function(popupMenu) {
 
