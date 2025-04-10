@@ -1622,6 +1622,39 @@ describe('features/popup-menu', function() {
     }));
 
 
+    describe('keywords', function() {
+
+      it('should find actions', inject(async function(popupMenu) {
+
+        // given
+        const provider = new Provider(entrySet(exampleEntries), { });
+        popupMenu.registerProvider('test-menu', provider);
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('create issue');
+
+        // then
+        await expectEntries([ 'GitHub Outbound Connector', 'GitLab Outbound Connector', 'GitHub Webhook Start Event Connector', 'GitHub Webhook Intermediate Catch Event Connector' ]);
+      }));
+
+      it('should find ai tools', inject(async function(popupMenu) {
+
+        // given
+        const provider = new Provider(entrySet(exampleEntries), { });
+        popupMenu.registerProvider('test-menu', provider);
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('open ai');
+
+        // then
+        await expectEntries([ 'Azure OpenAI Connector', 'OpenAI Outbound Connector' ]);
+      }));
+
+    });
+
+
     describe('ranking', function() {
 
       it('should hide rank < 0 items', inject(async function(popupMenu) {

@@ -913,7 +913,10 @@
     "group": {
       "id": "connectors",
       "name": "Connectors"
-    }
+    },
+    "search": [
+      "open ai"
+    ]
   },
   {
     "id": "create.template-io.camunda.connectors.aws.s3.v1",
@@ -1335,6 +1338,9 @@
     "id": "create.template-io.camunda.connectors.OpenAI.v1",
     "label": "OpenAI Outbound Connector",
     "description": "Interact with ChatGPT or moderation API",
+    "search": [
+      "open ai"
+    ],
     "group": {
       "id": "connectors",
       "name": "Connectors"
