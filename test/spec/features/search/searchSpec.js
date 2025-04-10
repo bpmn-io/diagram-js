@@ -312,10 +312,10 @@ describe('features/search', function() {
         title: 'foo bar baz'
       },
       {
-        title: 'baz and very long foo bar bar bar\nalso foo bar'
+        title: 'foo baz and very long additional text\nalso foo bar'
       },
       {
-        title: 'foo baz and very long additional text\nalso foo bar'
+        title: 'baz and very long foo bar bar bar\nalso foo bar'
       },
       {
         title: 'baz foo bar'
@@ -373,10 +373,10 @@ describe('features/search', function() {
         title: 'yes foowoo'
       },
       {
-        title: 'yesfoo woofoo'
+        title: 'yes barfoo'
       },
       {
-        title: 'yes barfoo'
+        title: 'yesfoo woofoo'
       }
     ];
 

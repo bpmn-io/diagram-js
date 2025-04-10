@@ -1581,18 +1581,18 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
 
       // when
-      await triggerSearch('hug');
+      await triggerSearch('hum');
 
       // then
-      await expectEntries([ 'Hugging' ]);
-      await expectSelected('Hugging');
+      await expectEntries([ 'Human' ]);
+      await expectSelected('Human');
 
       // but when
       await triggerSearch('hu');
 
       // then
-      await expectEntries([ 'Human', 'Hugging' ]);
-      await expectSelected('Human');
+      await expectEntries([ 'Hugging', 'Human', ]);
+      await expectSelected('Hugging');
     }));
 
 
