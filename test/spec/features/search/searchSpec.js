@@ -103,6 +103,32 @@ describe('features/search', function() {
   });
 
 
+  it('should keep type of input in <tokens>', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'match',
+        search: [ 'match search', 'other search' ]
+      }
+    ];
+
+    // when
+    const result = search(items, 'match', {
+      keys: [
+        'title',
+        'search'
+      ]
+    });
+
+    // then
+    expect(result[0].tokens.title).to.have.length(1);
+    expect(result[0].tokens.search).to.have.length(2);
+    expect(result[0].tokens.search[0]).to.have.length(2);
+    expect(result[0].tokens.search[1]).to.have.length(1);
+  }));
+
+
   it('should search complex', inject(function(search) {
 
     // given
@@ -400,6 +426,37 @@ describe('features/search', function() {
     expect(results[0].item).to.eql(items[1]);
     expect(results[1].item).to.eql(items[0]);
     expect(results[2].item).to.eql(items[2]);
+  }));
+
+
+  it('should sort arrays alphabetically', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: [ 'foobaz' ],
+        description: [ 'foo' ]
+      },
+      {
+        title: [ 'foobar' ],
+        description: [ 'foo' ]
+      },
+
+    ];
+
+    // when
+    const results = search(items, 'foo', {
+      keys: [
+        'title',
+        'description'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[1]);
+    expect(results[1].item).to.eql(items[0]);
+
   }));
 
 
