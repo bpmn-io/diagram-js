@@ -72,33 +72,63 @@ describe('features/search', function() {
     }));
 
 
-    it('should provide <tokens>', inject(function(search) {
+    describe('should provide <tokens>', function() {
 
-      // given
-      const items = [
-        {
-          title: 'foo',
-          description: 'woop'
-        },
-        {
-          title: 'foobar'
-        }
-      ];
+      it('string value', inject(function(search) {
 
-      // when
-      const result = search(items, 'foo', {
-        keys: [
-          'title',
-          'description'
-        ]
-      });
+        // given
+        const items = [
+          {
+            title: 'foo',
+            description: 'woop',
+            search: [ 'foowoo', 'bar' ]
+          },
+          {
+            title: 'foobar'
+          }
+        ];
 
-      // then
-      expect(result[0].tokens).to.have.keys([ 'title', 'description' ]);
-      expect(result[1].tokens).to.have.keys([ 'title', 'description' ]);
+        // when
+        const result = search(items, 'foo', {
+          keys: [
+            'title',
+            'description'
+          ]
+        });
 
-      expect(result[1].tokens.description).to.be.empty;
-    }));
+        expect(result[0].tokens).to.have.keys([ 'title', 'description' ]);
+        expect(result[0].tokens.title).to.have.length(1);
+        expect(result[0].tokens.description).to.have.length(1);
+
+        expect(result[1].tokens).to.have.keys([ 'title', 'description' ]);
+        expect(result[1].tokens.title).to.have.length(2);
+        expect(result[1].tokens.description).to.be.empty;
+      }));
+
+
+      it('string[] value', inject(function(search) {
+
+        // given
+        const items = [
+          {
+            search: [ 'foowoo', 'bar' ]
+          }
+        ];
+
+        // when
+        const result = search(items, 'foo', {
+          keys: [
+            'search'
+          ]
+        });
+
+        expect(result[0].tokens).to.have.keys([ 'search' ]);
+        expect(result[0].tokens.search).to.have.length(2);
+        expect(result[0].tokens.search[0]).to.have.length(2);
+        expect(result[0].tokens.search[1]).to.have.length(1);
+      }));
+
+    });
 
   });
 
@@ -369,38 +399,71 @@ describe('features/search', function() {
   }));
 
 
-  it('should sort alphabetically', inject(function(search) {
+  describe('should sort alphabetically', function() {
 
-    // given
-    const items = [
-      {
-        title: 'foobaz',
-        description: 'foo'
-      },
-      {
-        title: 'foobar',
-        description: 'foo'
-      },
-      {
-        title: 'foobazbaz',
-        description: 'foo'
-      }
-    ];
+    it('string value', inject(function(search) {
 
-    // when
-    const results = search(items, 'foo', {
-      keys: [
-        'title',
-        'description'
-      ]
-    });
+      // given
+      const items = [
+        {
+          title: 'foobaz',
+          description: 'foo'
+        },
+        {
+          title: 'foobar',
+          description: 'foo'
+        },
+        {
+          title: 'foobazbaz',
+          description: 'foo'
+        }
+      ];
 
-    // then
-    expect(results).to.have.length(3);
-    expect(results[0].item).to.eql(items[1]);
-    expect(results[1].item).to.eql(items[0]);
-    expect(results[2].item).to.eql(items[2]);
-  }));
+      // when
+      const results = search(items, 'foo', {
+        keys: [
+          'title',
+          'description'
+        ]
+      });
+
+      // then
+      expect(results).to.have.length(3);
+      expect(results[0].item).to.eql(items[1]);
+      expect(results[1].item).to.eql(items[0]);
+      expect(results[2].item).to.eql(items[2]);
+    }));
+
+
+    it('string[] value', inject(function(search) {
+
+      // given
+      const items = [
+        {
+          title: [ 'foobaz' ],
+          description: [ 'foo' ]
+        },
+        {
+          title: [ 'foobar' ],
+          description: [ 'foo' ]
+        },
+      ];
+
+      // when
+      const results = search(items, 'foo', {
+        keys: [
+          'title',
+          'description'
+        ]
+      });
+
+      // then
+      expect(results).to.have.length(2);
+      expect(results[0].item).to.eql(items[1]);
+      expect(results[1].item).to.eql(items[0]);
+    }));
+
+  });
 
 
   it('should handle missing keys', inject(function(search) {
