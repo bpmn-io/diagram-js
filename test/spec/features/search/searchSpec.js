@@ -466,6 +466,30 @@ describe('features/search', function() {
   });
 
 
+  it('should match combined terms', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'foobar'
+      },
+      {
+        title: 'foo-bar'
+      }
+    ];
+
+    // when
+    const results = search(items, 'foo bar', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
+  }));
+
+
   it('should handle missing keys', inject(function(search) {
 
     // given
