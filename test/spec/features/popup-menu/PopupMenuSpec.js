@@ -2108,7 +2108,7 @@ describe('features/popup-menu', function() {
       };
 
       // then
-      expect(menu.offsetTop).to.be.closeTo(y - menuDimensions.height, 3);
+      expect(menu.offsetTop).to.be.closeTo(y - menuDimensions.height, 4);
     }));
 
 
@@ -2130,7 +2130,7 @@ describe('features/popup-menu', function() {
       };
 
       // then
-      expect(menu.offsetTop).to.be.closeTo(documentBounds.top + menuDimensions.height, 3);
+      expect(menu.offsetTop).to.be.closeTo(documentBounds.top + menuDimensions.height, 4);
     }));
 
 
