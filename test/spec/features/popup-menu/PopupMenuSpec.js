@@ -2112,7 +2112,7 @@ describe('features/popup-menu', function() {
     }));
 
 
-    it('should open within bounds bellow', inject(function(popupMenu) {
+    it('should open within bounds below', inject(function(popupMenu) {
 
       // given
       var documentBounds = document.documentElement.getBoundingClientRect();
