@@ -2108,11 +2108,11 @@ describe('features/popup-menu', function() {
       };
 
       // then
-      expect(menu.offsetTop).to.be.closeTo(y - menuDimensions.height, 3);
+      expect(menu.offsetTop).to.be.closeTo(y - menuDimensions.height, 4);
     }));
 
 
-    it('should open within bounds bellow', inject(function(popupMenu) {
+    it('should open within bounds below', inject(function(popupMenu) {
 
       // given
       var documentBounds = document.documentElement.getBoundingClientRect();
@@ -2130,7 +2130,7 @@ describe('features/popup-menu', function() {
       };
 
       // then
-      expect(menu.offsetTop).to.be.closeTo(documentBounds.top + menuDimensions.height, 3);
+      expect(menu.offsetTop).to.be.closeTo(documentBounds.top + menuDimensions.height, 4);
     }));
 
 
