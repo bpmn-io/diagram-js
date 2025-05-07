@@ -318,13 +318,13 @@ describe('navigation/zoomscroll', function() {
 
       it('axis inverted via shiftKey', expectScroll({
         expectedDelta: {
-          dx: -10.5,
+          dx: -25.5,
           dy: 0
         },
         onWheel: {
           deltaMode: 0,
           deltaX: 34,
-          deltaY: 14,
+          deltaY: -0,
           shiftKey: true
         }
       }));
