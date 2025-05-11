@@ -26,6 +26,79 @@ describe('core/EventBus', function() {
       expect(listener).to.have.been.called;
     });
 
+    it('should fire async listeners before sync listeners', function() {
+
+      // given
+      var listener = sinon.spy();
+      var asyncListener = sinon.spy(async function(params) {
+        return undefined;
+      });
+
+      eventBus.on('foo', asyncListener);
+      eventBus.on('foo', listener);
+
+      // when
+      eventBus.fire('foo', {});
+
+      // then
+      expect(listener).to.have.been.called;
+      expect(asyncListener).to.have.been.called;
+    });
+
+    it('should fire async listeners after sync listeners', function() {
+
+      // given
+      var listener = sinon.spy();
+      var asyncListener = sinon.spy(async function(params) {
+        return undefined;
+      });
+
+      eventBus.on('foo', listener);
+      eventBus.on('foo', asyncListener);
+
+      // when
+      eventBus.fire('foo', {});
+
+      // then
+      expect(listener).to.have.been.called;
+      expect(asyncListener).to.have.been.called;
+    });
+
+    it('should fire async listeners and do NOT stop propagation', function() {
+
+      // given
+      var listener = sinon.spy();
+      var asyncListener = sinon.spy(async function() {
+        return false;
+      });
+
+      eventBus.on('foo', asyncListener);
+      eventBus.on('foo', listener);
+
+      // when
+      eventBus.fire('foo', {});
+
+      // then
+      expect(asyncListener).to.have.been.called;
+      expect(listener).to.have.been.called;
+    });
+
+    it('should NOT fire async listeners by cancelBubble', function() {
+
+      // given
+      var listener = sinon.spy();
+      var asyncListener = sinon.spy(async function() {});
+
+      eventBus.on('foo', asyncListener);
+      eventBus.on('foo', listener);
+
+      // when
+      eventBus.fire('foo', { cancelBubble: true });
+
+      // then
+      expect(asyncListener).not.to.have.been.called;
+      expect(listener).not.to.have.been.called;
+    });
 
     it('should fire typed listener', function() {
 
