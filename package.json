@@ -29,7 +29,7 @@
     "url": "https://github.com/bpmn-io/diagram-js"
   },
   "engines": {
-    "node": "*"
+    "node": ">=8"
   },
   "keywords": [
     "modeler",
