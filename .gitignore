@@ -3,6 +3,7 @@ dist/
 tmp/
 coverage/
 lib/**/*.d.ts
+lib/**/*.d.ts.map
 .idea/
 .vscode/
 .DS_Store

@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "run-s generate-types:*",
-    "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts -r lib",
+    "generate-types:generate": "del-cli \"lib/**/*.d.ts(.map)?\" && npx bio-dts -r lib --declarationMap",
     "generate-types:test": "tsc --noEmit --noImplicitAny",
     "test": "karma start",
     "prepublishOnly": "run-s generate-types"
