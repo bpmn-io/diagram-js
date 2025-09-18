@@ -12,6 +12,7 @@ export type PopupMenuEntry = {
   action: PopupMenuEntryAction;
   className: string;
   group?: string;
+  disabled?: boolean;
   imageUrl?: string;
   imageHtml?: string;
   label: string;
@@ -40,6 +41,7 @@ export type PopupMenuHeaderEntry = {
   active?: boolean;
   className: string;
   group?: string;
+  disabled?: boolean;
   id: string;
   imageUrl?: string;
   imageHtml?: string;
