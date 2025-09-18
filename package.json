@@ -58,7 +58,7 @@
     "babel-plugin-istanbul": "^7.0.0",
     "bio-dts": "^0.11.0",
     "chai": "^4.5.0",
-    "del-cli": "^6.0.0",
+    "del-cli": "^7.0.0",
     "eslint": "^9.11.1",
     "eslint-plugin-bpmn-io": "^2.0.2",
     "jquery": "^3.5.1",
