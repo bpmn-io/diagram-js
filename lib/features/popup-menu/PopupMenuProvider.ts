@@ -23,6 +23,12 @@ export type PopupMenuEntriesProvider = (
   entries: PopupMenuEntries
 ) => PopupMenuEntries;
 
+export type PopupMenuGroup = {
+  id: string,
+  name?: string,
+  entries: PopupMenuEntry[]
+};
+
 export type PopupMenuHeaderEntryAction = (
   event: Event,
   entry: PopupMenuHeaderEntry,
