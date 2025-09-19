@@ -1,5 +1,7 @@
 import { expectToBeAccessible } from '@bpmn-io/a11y';
 
+import { act } from '@testing-library/preact';
+
 import PopupMenuComponent from 'lib/features/popup-menu/PopupMenuComponent';
 
 import {
@@ -801,16 +803,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
       cleanup = null;
     };
 
-    const result = render(
-      html`
-        <${PopupMenuComponent} ...${ props } />
-      `,
-      container
-    );
-
-    await whenStable(500);
-
-    return result;
+    return act(() => {
+      return render(
+        html`
+          <${PopupMenuComponent} ...${ props } />
+        `,
+        container
+      );
+    });
   }
 
 });
@@ -845,11 +845,5 @@ function dragStart() {
 }
 
 async function trigger(element, event) {
-  element.dispatchEvent(event);
-
-  return whenStable(500);
-}
-
-function whenStable(timeout = 50) {
-  return new Promise(resolve => setTimeout(resolve, timeout));
+  return act(() => element.dispatchEvent(event));
 }
