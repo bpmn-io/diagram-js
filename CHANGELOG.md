@@ -6,12 +6,16 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.3.1
+
+* `FIX`: ensure keyboard navigation in popup menu accounts for group order ([#989](https://github.com/bpmn-io/diagram-js/pull/989))
+
 ## 15.3.0
 
-* `FIX`: always select first search entry ([#967](https://github.com/bpmn-io/diagram-js/pull/967))
 * `FEAT`: support searching through arrays ([#970](https://github.com/bpmn-io/diagram-js/pull/970))
 * `FEAT`: prioritize `search` over `description` when matching entries ([#963](https://github.com/bpmn-io/diagram-js/pull/963))
 * `FEAT`: sort `search` terms across all keys ([#963](https://github.com/bpmn-io/diagram-js/pull/963))
+* `FIX`: always select first search entry ([#967](https://github.com/bpmn-io/diagram-js/pull/967))
 
 ## 15.2.4
 
