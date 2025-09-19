@@ -43,7 +43,7 @@ function createPopupMenuList(options) {
   } = options;
 
   const props = {
-    entries: [ ],
+    groupedEntries: [ ],
     selectedEntry: null,
     setSelectedEntry: () => {},
     onSelect: () => {},
