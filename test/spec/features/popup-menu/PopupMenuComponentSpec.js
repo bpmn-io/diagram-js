@@ -1,5 +1,7 @@
 import { expectToBeAccessible } from '@bpmn-io/a11y';
 
+import { act } from '@testing-library/preact';
+
 import PopupMenuComponent from 'lib/features/popup-menu/PopupMenuComponent';
 
 import {
@@ -692,6 +694,50 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(domQuery('.selected', container).textContent).to.eql('Entry 6');
     });
 
+
+    it('should navigate through shuffled grouped entries in visual order', async function() {
+
+      // given
+      const shuffledGroupEntries = [
+        { id: '1', label: 'Group A - Entry 1', group: 'Group A' },
+        { id: '3', label: 'Group B - Entry 1', group: 'Group B' },
+        { id: '5', label: 'Group C - Entry 1', group: 'Group C' },
+        { id: '2', label: 'Group A - Entry 2', group: 'Group A' },
+        { id: '6', label: 'Group C - Entry 2', group: 'Group C' },
+        { id: '4', label: 'Group B - Entry 2', group: 'Group B' }
+      ];
+
+      await createPopupMenu({ container, entries: shuffledGroupEntries, search: true });
+
+      const popupEl = domQuery('.djs-popup', container);
+
+      // Visual order should be alphabetical by group: A1, A2, B1, B2, C1, C2
+      expect(domQuery('.selected', container).textContent).to.include('Group A - Entry 1');
+
+      await trigger(popupEl, keyDown('ArrowDown'));
+      expect(domQuery('.selected', container).textContent).to.include('Group A - Entry 2');
+
+      await trigger(popupEl, keyDown('ArrowDown'));
+      expect(domQuery('.selected', container).textContent).to.include('Group B - Entry 1');
+
+      await trigger(popupEl, keyDown('ArrowDown'));
+      expect(domQuery('.selected', container).textContent).to.include('Group B - Entry 2');
+
+      await trigger(popupEl, keyDown('ArrowDown'));
+      expect(domQuery('.selected', container).textContent).to.include('Group C - Entry 1');
+
+      await trigger(popupEl, keyDown('ArrowDown'));
+      expect(domQuery('.selected', container).textContent).to.include('Group C - Entry 2');
+
+      // Should wrap around to first entry
+      await trigger(popupEl, keyDown('ArrowDown'));
+      expect(domQuery('.selected', container).textContent).to.include('Group A - Entry 1');
+
+      // Should jump back to the last entry
+      await trigger(popupEl, keyDown('ArrowUp'));
+      expect(domQuery('.selected', container).textContent).to.include('Group C - Entry 2');
+    });
+
   });
 
 
@@ -757,16 +803,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
       cleanup = null;
     };
 
-    const result = render(
-      html`
-        <${PopupMenuComponent} ...${ props } />
-      `,
-      container
-    );
-
-    await whenStable(500);
-
-    return result;
+    return act(() => {
+      return render(
+        html`
+          <${PopupMenuComponent} ...${ props } />
+        `,
+        container
+      );
+    });
   }
 
 });
@@ -801,11 +845,5 @@ function dragStart() {
 }
 
 async function trigger(element, event) {
-  element.dispatchEvent(event);
-
-  return whenStable(500);
-}
-
-function whenStable(timeout = 50) {
-  return new Promise(resolve => setTimeout(resolve, timeout));
+  return act(() => element.dispatchEvent(event));
 }

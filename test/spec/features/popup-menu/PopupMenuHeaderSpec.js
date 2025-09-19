@@ -1,3 +1,5 @@
+import { act } from '@testing-library/preact';
+
 import PopupMenuHeader from 'lib/features/popup-menu/PopupMenuHeader';
 
 import {
@@ -237,11 +239,5 @@ function mouseLeave() {
 }
 
 async function trigger(element, event) {
-  element.dispatchEvent(event);
-
-  return whenStable(500);
-}
-
-function whenStable(timeout = 50) {
-  return new Promise(resolve => setTimeout(resolve, timeout));
+  return act(() => element.dispatchEvent(event));
 }
