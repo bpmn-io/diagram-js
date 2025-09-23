@@ -10,6 +10,10 @@ import {
 } from 'lib/ui';
 
 import {
+  fireEvent
+} from '@testing-library/preact';
+
+import {
   insertCSS
 } from 'test/TestHelper';
 
@@ -121,6 +125,22 @@ describe('features/popup-menu - <PopupMenu>', function() {
     expect(popupBounds.y).to.be.closeTo(100, 1);
   });
 
+  it('should render disabled entry', async function() {
+
+    // given
+    const entries = [
+      { id: '1', label: 'Entry 1', disabled: true }
+    ];
+
+    // when
+    await createPopupMenu({ container, entries });
+
+    const entry = domQuery('.entry', container);
+
+    // then
+    expect(entry.classList.contains('disabled')).to.be.true;
+  });
+
 
   describe('should focus', function() {
 
@@ -211,10 +231,32 @@ describe('features/popup-menu - <PopupMenu>', function() {
       var entry = domQuery('.entry', container);
 
       // when
-      entry.click();
+      fireEvent.click(entry);
 
       // then
       expect(onSelect).to.have.been.calledOnceWith(sinon.match.any);
+      expect(onClose).not.to.have.been.called;
+    });
+
+
+    it('should NOT close on disabled entry click', async function() {
+
+      // given
+      const onClose = sinon.spy();
+      const onSelect = sinon.spy();
+
+      const entries = [ { id: '1', label: 'Entry 1', disabled: true } ];
+
+      // when
+      await createPopupMenu({ container, entries, onClose, onSelect });
+
+      var entry = domQuery('.entry', container);
+
+      // when
+      fireEvent.click(entry);
+
+      // then
+      expect(onSelect).not.to.have.been.called;
       expect(onClose).not.to.have.been.called;
     });
 
@@ -247,6 +289,21 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should select first entry', async function() {
       const entries = [
         { id: '1', label: 'Entry 1' },
+        { id: '2', label: 'Entry 2' }
+      ];
+
+      await createPopupMenu({ container, entries });
+
+      const firstEntry = domQuery('.entry', container);
+
+      // then
+      expect(firstEntry.classList.contains('selected')).to.be.true;
+    });
+
+
+    it('should select first entry even if disabled', async function() {
+      const entries = [
+        { id: '1', label: 'Entry 1', disabled: true },
         { id: '2', label: 'Entry 2' }
       ];
 
@@ -347,7 +404,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       await createPopupMenu({ container, entries, onSelect: onSelectSpy });
 
       // when
-      domQuery('.entry', container).dispatchEvent(dragStart());
+      fireEvent.dragStart(domQuery('.entry', container));
 
       // then
       expect(onSelectSpy).to.have.been.calledOnce;
@@ -408,8 +465,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'Entry 3';
 
       // when
-      await trigger(searchInput, keyDown('ArrowUp'));
-      await trigger(searchInput, keyUp('ArrowUp'));
+      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
@@ -427,8 +484,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'Entry';
 
       // when
-      await trigger(searchInput, keyDown('ArrowDown'));
-      await trigger(searchInput, keyUp('ArrowDown'));
+      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(5);
@@ -450,8 +507,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'Foo bar';
 
       // when
-      await trigger(searchInput, keyDown('ArrowDown'));
-      await trigger(searchInput, keyUp('ArrowDown'));
+      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(0);
@@ -468,8 +525,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = entries[0].description;
 
       // when
-      await trigger(searchInput, keyDown('ArrowUp'));
-      await trigger(searchInput, keyUp('ArrowUp'));
+      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
@@ -486,8 +543,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = entries[4].search;
 
       // when
-      await trigger(searchInput, keyDown('ArrowUp'));
-      await trigger(searchInput, keyUp('ArrowUp'));
+      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
@@ -504,8 +561,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = entries[5].id;
 
       // when
-      await trigger(searchInput, keyDown('ArrowUp'));
-      await trigger(searchInput, keyUp('ArrowUp'));
+      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(0);
@@ -521,8 +578,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'entry';
 
       // when
-      await trigger(searchInput, keyDown('ArrowUp'));
-      await trigger(searchInput, keyUp('ArrowUp'));
+      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
 
       // then
       expect(domQuery('.entry[data-id="7"]', container)).to.not.exist;
@@ -572,6 +629,73 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
+  describe('mouse', function() {
+
+    const entries = [
+      { id: '1', label: 'Entry 1' },
+      { id: '2', label: 'Entry 2' },
+      { id: '3', label: 'Entry 3' }
+    ];
+
+    it('should select entry on hover', async function() {
+
+      // given
+      await createPopupMenu({ container, entries });
+
+      const secondEntry = domQueryAll('.entry', container)[1];
+
+      // when
+      fireEvent.mouseEnter(secondEntry);
+
+      // then
+      expect(secondEntry.classList.contains('selected')).to.be.true;
+    });
+
+
+    it('should select disabled entry on hover', async function() {
+
+      // given
+      const disabledEntries = [
+        { id: '1', label: 'Entry 1', disabled: true },
+        { id: '2', label: 'Entry 2' }
+      ];
+
+      await createPopupMenu({ container, entries: disabledEntries });
+
+      const firstEntry = domQueryAll('.entry', container)[0];
+
+      // when
+      fireEvent.mouseEnter(firstEntry);
+
+      // then
+      expect(firstEntry.classList.contains('selected')).to.be.true;
+    });
+
+
+    it('should not trigger disabled entry on click', async function() {
+
+      // given
+      const onSelect = sinon.spy();
+
+      const disabledEntries = [
+        { id: '1', label: 'Entry 1', disabled: true },
+        { id: '2', label: 'Entry 2' }
+      ];
+
+      await createPopupMenu({ container, entries: disabledEntries, onSelect });
+
+      const firstEntry = domQueryAll('.entry', container)[0];
+
+      // when
+      firstEntry.click();
+
+      // then
+      expect(onSelect).not.to.be.called;
+    });
+
+  });
+
+
   describe('keyboard', function() {
 
     const entries = [
@@ -594,13 +718,34 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       const searchInput = domQuery('.djs-popup-search input', container);
 
-      const enterEvent = keyDown('Enter');
-
       // when
-      await trigger(searchInput, enterEvent);
+      fireEvent.keyDown(searchInput, { key: 'Enter' });
 
       // then
-      expect(onSelect).to.be.calledOnceWith(enterEvent, entries[0]);
+      expect(onSelect).to.be.calledOnceWith(sinon.match({ key: 'Enter' }), entries[0]);
+    });
+
+
+    it('should not trigger disabled entry with <Enter>', async function() {
+
+      // given
+      const onClose = sinon.spy();
+      const onSelect = sinon.spy();
+
+      const disabledEntries = [
+        { id: '1', label: 'Entry 1', disabled: true },
+        { id: '2', label: 'Entry 2' }
+      ];
+
+      await createPopupMenu({ container, entries: disabledEntries, onClose, onSelect });
+
+      const popupEl = domQuery('.djs-popup', container);
+
+      // when
+      fireEvent.keyDown(popupEl, { key: 'Enter' });
+
+      // then
+      expect(onSelect).not.to.be.called;
     });
 
 
@@ -619,7 +764,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         expect(searchInput).to.exist;
 
         // when
-        await trigger(searchInput, keyDown('Escape'));
+        fireEvent.keyDown(searchInput, { key: 'Escape' });
 
         // then
         expect(onClose).to.be.calledOnce;
@@ -636,7 +781,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         const popupEl = domQuery('.djs-popup', container);
 
         // when
-        popupEl.dispatchEvent(keyDown('Escape'));
+        fireEvent.keyDown(popupEl, { key: 'Escape' });
 
         // then
         expect(onClose).to.be.calledOnce;
@@ -651,7 +796,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         await createPopupMenu({ container, entries, onClose });
 
         // when
-        document.documentElement.dispatchEvent(keyDown('Escape'));
+        fireEvent.keyDown(document.documentElement, { key: 'Escape' });
 
         // then
         expect(onClose).to.be.calledOnce;
@@ -671,7 +816,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(domQuery('.selected', container).textContent).to.eql('Entry 1');
 
       // when
-      await trigger(searchInput, keyDown('ArrowDown'));
+      fireEvent.keyDown(searchInput, { key: 'ArrowDown' });
 
       // then
       expect(domQuery('.selected', container).textContent).to.eql('Entry 2');
@@ -688,7 +833,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(domQuery('.selected', container).textContent).to.eql('Entry 1');
 
       // when
-      await trigger(searchInput, keyDown('ArrowUp'));
+      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
 
       // then
       expect(domQuery('.selected', container).textContent).to.eql('Entry 6');
@@ -714,27 +859,27 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // Visual order should be alphabetical by group: A1, A2, B1, B2, C1, C2
       expect(domQuery('.selected', container).textContent).to.include('Group A - Entry 1');
 
-      await trigger(popupEl, keyDown('ArrowDown'));
+      fireEvent.keyDown(popupEl, { key: 'ArrowDown' });
       expect(domQuery('.selected', container).textContent).to.include('Group A - Entry 2');
 
-      await trigger(popupEl, keyDown('ArrowDown'));
+      fireEvent.keyDown(popupEl, { key: 'ArrowDown' });
       expect(domQuery('.selected', container).textContent).to.include('Group B - Entry 1');
 
-      await trigger(popupEl, keyDown('ArrowDown'));
+      fireEvent.keyDown(popupEl, { key: 'ArrowDown' });
       expect(domQuery('.selected', container).textContent).to.include('Group B - Entry 2');
 
-      await trigger(popupEl, keyDown('ArrowDown'));
+      fireEvent.keyDown(popupEl, { key: 'ArrowDown' });
       expect(domQuery('.selected', container).textContent).to.include('Group C - Entry 1');
 
-      await trigger(popupEl, keyDown('ArrowDown'));
+      fireEvent.keyDown(popupEl, { key: 'ArrowDown' });
       expect(domQuery('.selected', container).textContent).to.include('Group C - Entry 2');
 
       // Should wrap around to first entry
-      await trigger(popupEl, keyDown('ArrowDown'));
+      fireEvent.keyDown(popupEl, { key: 'ArrowDown' });
       expect(domQuery('.selected', container).textContent).to.include('Group A - Entry 1');
 
       // Should jump back to the last entry
-      await trigger(popupEl, keyDown('ArrowUp'));
+      fireEvent.keyDown(popupEl, { key: 'ArrowUp' });
       expect(domQuery('.selected', container).textContent).to.include('Group C - Entry 2');
     });
 
@@ -762,6 +907,22 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(searchInput.getAttribute('aria-label')).to.eql('Search');
+    });
+
+
+    it('should have role aria-disable for disabled entry', async function() {
+
+      // given
+      const entries = [
+        { id: '1', label: 'Entry 1', disabled: true }
+      ];
+
+      await createPopupMenu({ container, entries });
+
+      const entry = domQuery('.entry', container);
+
+      // then
+      expect(entry.getAttribute('aria-disabled')).to.eql('true');
     });
 
 
@@ -814,36 +975,3 @@ describe('features/popup-menu - <PopupMenu>', function() {
   }
 
 });
-
-
-// helpers /////////////
-
-/**
- * @param { string } key
- *
- * @return { KeyboardEvent }
- */
-function keyDown(key) {
-  return new KeyboardEvent('keydown', { key, bubbles: true });
-}
-
-/**
- * @param { string } key
- *
- * @return { KeyboardEvent }
- */
-function keyUp(key) {
-  return new KeyboardEvent('keyup', { key, bubbles: true });
-}
-
-/**
- *
- * @return { DragEvent }
- */
-function dragStart() {
-  return new DragEvent('dragstart');
-}
-
-async function trigger(element, event) {
-  return act(() => element.dispatchEvent(event));
-}

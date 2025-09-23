@@ -63,6 +63,7 @@
   --popup-background-color: var(--color-white);
   --popup-border-color: transparent;
   --popup-shadow-color: var(--color-black-opacity-30);
+  --popup-disabled-color: var(--color-grey-225-10-35);
   --popup-description-color: var(--color-grey-225-10-55);
   --popup-no-results-color: var(--color-grey-225-10-55);
   --popup-entry-title-color: var(--color-grey-225-10-55);
@@ -672,6 +673,11 @@
 
 .djs-popup .entry.selected {
   background-color: var(--popup-entry-hover-color);
+}
+
+.djs-popup .entry.disabled {
+  color: var(--popup-disabled-color);
+  cursor: not-allowed;
 }
 
 .djs-popup-body .entry:not(:first-child) {

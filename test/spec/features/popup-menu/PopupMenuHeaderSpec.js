@@ -1,11 +1,13 @@
-import { act } from '@testing-library/preact';
-
 import PopupMenuHeader from 'lib/features/popup-menu/PopupMenuHeader';
 
 import {
   html,
   render
 } from 'lib/ui';
+
+import {
+  fireEvent
+} from '@testing-library/preact';
 
 import {
   query as domQuery,
@@ -113,6 +115,29 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
   });
 
 
+  it('should render disabled entry', function() {
+
+    // when
+    createPopupMenuHeader({
+      container,
+      headerEntries: [
+        {
+          id: 'foo',
+          label: 'Foo',
+          action: () => {},
+          disabled: true
+        }
+      ]
+    });
+
+    const fooEntry = domQuery('.entry[data-id="foo"]', container);
+
+    // then
+    expect(fooEntry.classList.contains('disabled')).to.be.true;
+    expect(fooEntry.tagName).to.eql('SPAN');
+  });
+
+
   it('should select header entry on mouseenter if has action', async function() {
 
     // given
@@ -137,7 +162,7 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
     const fooEntry = domQuery('.entry[data-id="foo"]', container);
 
     // when
-    await trigger(fooEntry, mouseEnter());
+    fireEvent.mouseEnter(fooEntry);
 
     // then
     expect(spy).to.have.been.calledWithMatch({ id: 'foo' });
@@ -169,7 +194,7 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
     const fooEntry = domQuery('.entry[data-id="foo"]', container);
 
     // when
-    await trigger(fooEntry, mouseLeave());
+    fireEvent.mouseLeave(fooEntry);
 
     // then
     expect(spy).to.have.been.calledWithMatch(null);
@@ -200,7 +225,63 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
     const barEntry = domQuery('.entry[data-id="bar"]', container);
 
     // when
-    await trigger(barEntry, mouseEnter());
+    fireEvent.mouseEnter(barEntry);
+
+    // then
+    expect(spy).not.to.have.been.called;
+  });
+
+
+  it('should note select disabled header entry on mouseenter', async function() {
+
+    // given
+    const spy = sinon.spy();
+
+    createPopupMenuHeader({
+      container,
+      headerEntries: [
+        {
+          id: 'foo',
+          label: 'Foo',
+          action: () => {},
+          disabled: true
+        }
+      ],
+      setSelectedEntry: spy
+    });
+
+    const fooEntry = domQuery('.entry[data-id="foo"]', container);
+
+    // when
+    fireEvent.mouseEnter(fooEntry);
+
+    // then
+    expect(spy).not.to.have.been.called;
+  });
+
+
+  it('should not trigger action on disabled entry click', async function() {
+
+    // given
+    const spy = sinon.spy();
+
+    createPopupMenuHeader({
+      container,
+      headerEntries: [
+        {
+          id: 'foo',
+          label: 'Foo',
+          action: () => {},
+          disabled: true
+        }
+      ],
+      onSelect: spy
+    });
+
+    const fooEntry = domQuery('.entry[data-id="foo"]', container);
+
+    // when
+    fireEvent.click(fooEntry);
 
     // then
     expect(spy).not.to.have.been.called;
@@ -228,16 +309,4 @@ function createPopupMenuHeader(options) {
     html`<${ PopupMenuHeader } ...${props} />`,
     container
   );
-}
-
-function mouseEnter() {
-  return new MouseEvent('mouseenter', { bubbles: true });
-}
-
-function mouseLeave() {
-  return new MouseEvent('mouseleave', { bubbles: true });
-}
-
-async function trigger(element, event) {
-  return act(() => element.dispatchEvent(event));
 }
