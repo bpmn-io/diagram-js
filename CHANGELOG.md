@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.4.0
+
+* `FEAT`: support disabled entries in popup menu ([#987](https://github.com/bpmn-io/diagram-js/pull/987))
+
 ## 15.3.1
 
 * `FIX`: ensure keyboard navigation in popup menu accounts for group order ([#989](https://github.com/bpmn-io/diagram-js/pull/989))
