@@ -63,11 +63,11 @@
   --popup-background-color: var(--color-white);
   --popup-border-color: transparent;
   --popup-shadow-color: var(--color-black-opacity-30);
+  --popup-disabled-color: var(--color-grey-225-10-35);
   --popup-description-color: var(--color-grey-225-10-55);
   --popup-no-results-color: var(--color-grey-225-10-55);
   --popup-entry-title-color: var(--color-grey-225-10-55);
   --popup-entry-hover-color:  var(--color-grey-225-10-95);
-  --popup-entry-disabled-hover-color: var(--color-grey-225-10-75);
   --popup-search-border-color: var(--color-grey-225-10-75);
   --popup-search-focus-border-color: var(--color-blue-205-100-50);
   --popup-search-focus-background-color: var(--color-blue-205-100-95);
@@ -671,22 +671,13 @@
   height: min-content;
 }
 
-.djs-popup .entry.selected:not(.disabled) {
+.djs-popup .entry.selected {
   background-color: var(--popup-entry-hover-color);
 }
 
 .djs-popup .entry.disabled {
-  color: var(--popup-description-color);
+  color: var(--popup-disabled-color);
   cursor: not-allowed;
-  opacity: 0.65;
-}
-
-.djs-popup .entry.selected.disabled {
-  background-color: var(--popup-entry-disabled-hover-color);
-}
-
-.djs-popup .entry.disabled .djs-popup-entry-icon {
-  opacity: 0.65;
 }
 
 .djs-popup-body .entry:not(:first-child) {
