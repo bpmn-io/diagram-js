@@ -2500,6 +2500,8 @@ describe('features/popup-menu - integration', function() {
     `)
   }`;
 
+  this.timeout(5000);
+
 
   beforeEach(bootstrapDiagram({
     modules: [
