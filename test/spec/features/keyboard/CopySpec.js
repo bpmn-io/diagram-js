@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -56,7 +59,7 @@ describe('features/keyboard - copy', function() {
       it(testCase.desc, inject(function(keyboard, editorActions) {
 
         // given
-        var copySpy = sinon.spy(editorActions, 'trigger');
+        var copySpy = spy(editorActions, 'trigger');
 
         var event = createKeyEvent(key, { ctrlKey: testCase.ctrlKey });
 

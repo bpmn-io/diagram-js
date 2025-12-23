@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -70,7 +73,7 @@ describe('navigation/zoomscroll', function() {
 
     it('should only zoom in once threshold is reached', inject(function(zoomScroll, canvas) {
 
-      var zoomSpy = sinon.spy(canvas, 'zoom');
+      var zoomSpy = spy(canvas, 'zoom');
 
       // when
       zoomScroll.zoom(0.06);
@@ -267,8 +270,8 @@ describe('navigation/zoomscroll', function() {
     it('should not scroll, if canvas is not focused', inject(function(zoomScroll, canvas) {
 
       // given
-      var zoomSpy = sinon.spy(zoomScroll, 'zoom');
-      var scrollSpy = sinon.spy(zoomScroll, 'scroll');
+      var zoomSpy = spy(zoomScroll, 'zoom');
+      var scrollSpy = spy(zoomScroll, 'scroll');
 
       var event = wheelEvent({
         target: canvas._svg
@@ -466,8 +469,8 @@ function expectZoom(opts) {
     getDiagramJS().invoke(function(zoomScroll) {
 
       // given
-      var zoomSpy = sinon.spy(zoomScroll, 'zoom');
-      var scrollSpy = sinon.spy(zoomScroll, 'scroll');
+      var zoomSpy = spy(zoomScroll, 'zoom');
+      var scrollSpy = spy(zoomScroll, 'scroll');
 
       // when
       zoomScroll._handleWheel(wheelEvent(event));
@@ -492,8 +495,8 @@ function expectScroll(opts) {
     getDiagramJS().invoke(function(zoomScroll) {
 
       // given
-      var zoomSpy = sinon.spy(zoomScroll, 'zoom');
-      var scrollSpy = sinon.spy(zoomScroll, 'scroll');
+      var zoomSpy = spy(zoomScroll, 'zoom');
+      var scrollSpy = spy(zoomScroll, 'scroll');
 
       // when
       zoomScroll._handleWheel(wheelEvent(event));

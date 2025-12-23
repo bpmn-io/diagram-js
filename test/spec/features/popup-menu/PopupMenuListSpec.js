@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import PopupMenuList from 'lib/features/popup-menu/PopupMenuList';
 
 import {

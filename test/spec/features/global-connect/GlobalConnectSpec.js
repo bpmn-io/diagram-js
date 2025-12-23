@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -73,7 +76,7 @@ describe('features/global-connect-tool', function() {
 
       // given
       var shape = shapeAbleToStartConnection;
-      var connectSpy = sinon.spy(function(event) {
+      var connectSpy = spy(function(event) {
         expect(event.context).to.eql({
           start: shape,
           connectionStart: { x: 150, y: 130 }
@@ -100,7 +103,7 @@ describe('features/global-connect-tool', function() {
 
       // given
       var shape = shapeUnableToStartConnection;
-      var connectSpy = sinon.spy();
+      var connectSpy = spy();
 
       eventBus.once('connect.init', connectSpy);
 

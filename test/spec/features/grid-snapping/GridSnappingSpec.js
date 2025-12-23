@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -29,6 +31,7 @@ import {
 import { isString } from 'min-dash';
 
 import { mid } from 'lib/features/snapping/SnapUtil';
+
 
 var LOW_PRIORITY = 500;
 

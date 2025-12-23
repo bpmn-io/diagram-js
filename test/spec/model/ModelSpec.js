@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   create,
   isModelElement
@@ -8,6 +10,7 @@ import {
   isLabel,
   isRoot
 } from '../../../lib/util/ModelUtil';
+
 
 describe('model', function() {
 

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import TestContainer from 'mocha-test-container-support';
 
 import {

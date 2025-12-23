@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -11,8 +14,6 @@ import spaceToolModule from 'lib/features/space-tool';
 import {
   createCanvasEvent as canvasEvent
 } from '../../../../util/MockEvents';
-
-var spy = sinon.spy;
 
 
 describe('features/grid-snapping - space tool', function() {

@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -168,7 +171,7 @@ describe('features/connect', function() {
     it('should connect with start position', inject(function(connect, dragging, modeling) {
 
       // given
-      var connectSpy = sinon.spy(modeling, 'connect');
+      var connectSpy = spy(modeling, 'connect');
 
       // when
       connect.start(canvasEvent({ x: 200, y: 0 }), shape1, { x: 200, y: 0 });
@@ -195,7 +198,7 @@ describe('features/connect', function() {
     it('should pass meta-data and hints to modeling', inject(function(connect, dragging, modeling) {
 
       // given
-      var connectSpy = sinon.spy(modeling, 'connect');
+      var connectSpy = spy(modeling, 'connect');
 
       // assume
       // connect rule returns { type: 'test:Connection' }
@@ -226,7 +229,7 @@ describe('features/connect', function() {
       function(connect, dragging, eventBus) {
 
         // given
-        var connectSpy = sinon.spy(function(event) {
+        var connectSpy = spy(function(event) {
           expect(event.context.connection).to.exist;
         });
 
@@ -381,7 +384,7 @@ describe('features/connect', function() {
     it('should display preview if connection is reversed', inject(function(connect, dragging, eventBus, connectionPreview) {
 
       // given
-      var connectionPreviewSpy = sinon.spy(connectionPreview, 'drawPreview');
+      var connectionPreviewSpy = spy(connectionPreview, 'drawPreview');
 
       eventBus.on('commandStack.connection.create.canExecute', 9999, function(event) {
         return event.context.source.id !== 's1';

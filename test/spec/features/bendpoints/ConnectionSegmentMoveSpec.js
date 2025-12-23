@@ -1,3 +1,6 @@
+import { spy } from 'sinon';
+import { expect } from 'chai';
+
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -16,6 +19,7 @@ import { isSnapped } from 'lib/features/snapping/SnapUtil';
 
 import { getMid } from 'lib/layout/LayoutUtil';
 import { getConnectionIntersection } from '../../../../lib/features/bendpoints/BendpointUtil';
+
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]
@@ -74,11 +78,11 @@ describe('features/bendpoints - segment move', function() {
       });
       canvas.addConnection(connection);
 
-      var spy = sinon.spy(function(e) {
+      var executeSpy = spy(function(e) {
         expect(e.context.hints).to.have.property('segmentMove');
       });
 
-      eventBus.once('commandStack.execute', spy);
+      eventBus.once('commandStack.execute', executeSpy);
 
       // when
       connectionSegmentMove.start(canvasEvent({ x: 0, y: 0 }), connection, 1);
@@ -86,7 +90,7 @@ describe('features/bendpoints - segment move', function() {
       dragging.end();
 
       // then
-      expect(spy).to.have.been.called;
+      expect(executeSpy).to.have.been.called;
 
     }));
 
@@ -107,14 +111,14 @@ describe('features/bendpoints - segment move', function() {
       });
       canvas.addConnection(connection);
 
-      var spy = sinon.spy(function(e) {
+      var executeSpy = spy(function(e) {
         expect(e.context.hints.segmentMove).to.eql({
           segmentStartIndex: 1,
           newSegmentStartIndex: 0
         });
       });
 
-      eventBus.once('commandStack.execute', spy);
+      eventBus.once('commandStack.execute', executeSpy);
 
       // when
       connectionSegmentMove.start(canvasEvent({ x: 0, y: 0 }), connection, 2);
@@ -122,7 +126,7 @@ describe('features/bendpoints - segment move', function() {
       dragging.end();
 
       // then
-      expect(spy).to.have.been.called;
+      expect(executeSpy).to.have.been.called;
 
     }));
 
@@ -145,12 +149,12 @@ describe('features/bendpoints - segment move', function() {
         });
         canvas.addConnection(connection);
 
-        var spy = sinon.spy(function(e) {
+        var executeSpy = spy(function(e) {
           expect(e.context.hints).to.have.property('segmentMove');
           expect(e.context.hints.segmentMove.newSegmentStartIndex).to.eql(0);
         });
 
-        eventBus.once('commandStack.execute', spy);
+        eventBus.once('commandStack.execute', executeSpy);
 
         // when
         connectionSegmentMove.start(canvasEvent({ x: 0, y: 0 }), connection, 2);
@@ -158,7 +162,7 @@ describe('features/bendpoints - segment move', function() {
         dragging.end();
 
         // then
-        expect(spy).to.have.been.called;
+        expect(executeSpy).to.have.been.called;
       }));
 
 
@@ -181,12 +185,12 @@ describe('features/bendpoints - segment move', function() {
         });
         canvas.addConnection(connection);
 
-        var spy = sinon.spy(function(e) {
+        var executeSpy = spy(function(e) {
           expect(e.context.hints).to.have.property('segmentMove');
           expect(e.context.hints.segmentMove.newSegmentStartIndex).to.eql(1);
         });
 
-        eventBus.once('commandStack.execute', spy);
+        eventBus.once('commandStack.execute', executeSpy);
 
         // when
         connectionSegmentMove.start(canvasEvent({ x: 0, y: 0 }), connection, 3);
@@ -194,7 +198,7 @@ describe('features/bendpoints - segment move', function() {
         dragging.end();
 
         // then
-        expect(spy).to.have.been.called;
+        expect(executeSpy).to.have.been.called;
       }));
 
 
@@ -218,12 +222,12 @@ describe('features/bendpoints - segment move', function() {
         });
         canvas.addConnection(connection);
 
-        var spy = sinon.spy(function(e) {
+        var executeSpy = spy(function(e) {
           expect(e.context.hints).to.have.property('segmentMove');
           expect(e.context.hints.segmentMove.newSegmentStartIndex).to.eql(1);
         });
 
-        eventBus.once('commandStack.execute', spy);
+        eventBus.once('commandStack.execute', executeSpy);
 
         // when
         connectionSegmentMove.start(canvasEvent({ x: 0, y: 0 }), connection, 4);
@@ -231,7 +235,7 @@ describe('features/bendpoints - segment move', function() {
         dragging.end();
 
         // then
-        expect(spy).to.have.been.called;
+        expect(executeSpy).to.have.been.called;
       }));
 
     });
@@ -292,7 +296,7 @@ describe('features/bendpoints - segment move', function() {
 
         var event = canvasEvent({ x: 0, y: 0 });
 
-        var spy = sinon.spy(function(e) {
+        var dragInitSpy = spy(function(e) {
           expect(e.context.dragPosition).to.exist;
           expect(e.context.dragPosition).to.eql({
             x: 200,
@@ -300,13 +304,13 @@ describe('features/bendpoints - segment move', function() {
           });
         });
 
-        eventBus.once('drag.init', spy);
+        eventBus.once('drag.init', dragInitSpy);
 
         // when
         connectionSegmentMove.start(event, connection, 1);
 
         // then
-        expect(spy).to.have.been.called;
+        expect(dragInitSpy).to.have.been.called;
 
       }
     ));
@@ -332,18 +336,18 @@ describe('features/bendpoints - segment move', function() {
         var event = canvasEvent({ x: 200, y: 275 }),
             intersection = getConnectionIntersection(canvas, connection.waypoints, event);
 
-        var spy = sinon.spy(function(e) {
+        var dragInitSpy = spy(function(e) {
           expect(e.context.dragPosition).to.exist;
           expect(e.context.dragPosition).to.eql(intersection.point);
         });
 
-        eventBus.once('drag.init', spy);
+        eventBus.once('drag.init', dragInitSpy);
 
         // when
         connectionSegmentMove.start(event, connection, 1);
 
         // then
-        expect(spy).to.have.been.called;
+        expect(dragInitSpy).to.have.been.called;
 
       }
     ));

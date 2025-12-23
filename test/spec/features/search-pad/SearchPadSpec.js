@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -334,7 +337,7 @@ describe('features/search-pad', function() {
     it('should refocus canvas on close', inject(function(canvas, searchPad) {
 
       // given
-      sinon.spy(canvas, 'restoreFocus');
+      spy(canvas, 'restoreFocus');
       searchPad.open();
 
       // when
@@ -453,7 +456,7 @@ describe('features/search-pad', function() {
     it('should ignore whitespace only', inject(function(canvas) {
 
       // given
-      var find = sinon.spy(searchProvider, 'find');
+      var find = spy(searchProvider, 'find');
 
       // when
       typeText(input_node, '  ');
@@ -466,7 +469,7 @@ describe('features/search-pad', function() {
     it('should search per key stroke', inject(function(canvas) {
 
       // given
-      var find = sinon.spy(searchProvider, 'find');
+      var find = spy(searchProvider, 'find');
 
       // when
       typeText(input_node, 'tw');
@@ -479,7 +482,7 @@ describe('features/search-pad', function() {
     it('should not search on empty string', function() {
 
       // given
-      var find = sinon.spy(searchProvider, 'find');
+      var find = spy(searchProvider, 'find');
 
       // when
       typeText(input_node, '');
@@ -679,7 +682,7 @@ describe('features/search-pad', function() {
     it('should not search while navigating text in input box left', function() {
 
       // given
-      var find = sinon.spy(searchProvider, 'find');
+      var find = spy(searchProvider, 'find');
       typeText(input_node, 'two');
 
       // when press 'left'
@@ -693,7 +696,7 @@ describe('features/search-pad', function() {
     it('should not search while navigating text in input box right', function() {
 
       // given
-      var find = sinon.spy(searchProvider, 'find');
+      var find = spy(searchProvider, 'find');
       typeText(input_node, 'two');
 
       // when press 'right'

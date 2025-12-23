@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -145,7 +148,7 @@ describe('features/hover-fix', function() {
           // given
           var gfx = elementRegistry.getGraphics(shape1);
 
-          var listener = sinon.spy(function(event) {
+          var listener = spy(function(event) {
             expect(event.hover).to.eql(shape1);
             expect(event.hoverGfx).to.eql(gfx);
           });
@@ -206,7 +209,7 @@ describe('features/hover-fix', function() {
       it('should ensure out', inject(function(dragging, canvas, eventBus) {
 
         // given
-        var listener = sinon.spy(function(event) {
+        var listener = spy(function(event) {
           expect(event.hover).to.eql(shape1);
           expect(event.hoverGfx).to.eql(canvas.getGraphics(shape1));
         });
@@ -253,7 +256,7 @@ describe('features/hover-fix', function() {
       it('should prevent additional out', inject(function(dragging, canvas, eventBus) {
 
         // given
-        var listener = sinon.spy(function(event) {
+        var listener = spy(function(event) {
           expect(event.hover).to.eql(shape1);
           expect(event.hoverGfx).to.eql(canvas.getGraphics(shape1));
         });

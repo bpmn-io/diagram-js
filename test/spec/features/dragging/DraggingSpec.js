@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -480,7 +483,7 @@ describe('features/dragging - error Handling', function() {
         throw new Error('<foo.move> error');
       });
 
-      var errorSpy = sinon.spy(function(event) {
+      var errorSpy = spy(function(event) {
         expect(event.error).to.have.property('message', '<foo.move> error');
 
         return false;

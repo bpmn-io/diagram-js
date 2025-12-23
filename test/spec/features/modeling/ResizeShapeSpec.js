@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   bootstrapDiagram,
   inject
@@ -28,6 +30,7 @@ var layoutModule = {
 };
 
 import { getNewAttachPoint } from 'lib/util/AttachUtil';
+
 
 function bounds(b) {
   return pick(b, [ 'x', 'y', 'width', 'height' ]);

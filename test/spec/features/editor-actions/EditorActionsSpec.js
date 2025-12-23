@@ -1,3 +1,9 @@
+import { expect } from 'chai';
+import {
+  spy,
+  stub
+} from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -228,11 +234,11 @@ describe('feature/editor-actions - actions', function() {
     beforeEach(inject(function(selection, modeling) {
       selectedElements = [];
 
-      sinon.stub(selection, 'get').callsFake(function() {
+      stub(selection, 'get').callsFake(function() {
         return selectedElements;
       });
 
-      removeElements = sinon.spy(modeling, 'removeElements');
+      removeElements = spy(modeling, 'removeElements');
     }));
 
 
@@ -316,7 +322,7 @@ describe('feature/editor-actions - actions', function() {
       it('should call rule with .elements property', inject(function(editorActions, customRules) {
         selectedElements = [ 'a', 'b', 'c' ];
 
-        var ruleFn = sinon.spy(function(context) {
+        var ruleFn = spy(function(context) {
           return true;
         });
 
@@ -348,7 +354,7 @@ describe('feature/editor-actions - actions', function() {
     it('should trigger action', inject(function(keyboardMoveSelection, editorActions) {
 
       // given
-      var moveSpy = sinon.spy(keyboardMoveSelection, 'moveSelection');
+      var moveSpy = spy(keyboardMoveSelection, 'moveSelection');
 
       // when
       editorActions.trigger('moveSelection', {
@@ -376,7 +382,7 @@ describe('feature/editor-actions - actions', function() {
     it('should trigger action', inject(function(keyboardMove, editorActions) {
 
       // given
-      var moveSpy = sinon.spy(keyboardMove, 'moveCanvas');
+      var moveSpy = spy(keyboardMove, 'moveCanvas');
 
       // when
       editorActions.trigger('moveCanvas', {

@@ -1,3 +1,9 @@
+import { expect } from 'chai';
+import {
+  restore,
+  spy
+} from 'sinon';
+
 import { act, waitFor } from '@testing-library/preact';
 
 import {
@@ -91,7 +97,7 @@ describe('features/popup-menu', function() {
     it('should add provider', inject(function(popupMenu) {
 
       // given
-      var entriesSpy = sinon.spy(function() {
+      var entriesSpy = spy(function() {
         return {};
       });
 
@@ -109,7 +115,7 @@ describe('features/popup-menu', function() {
     it('should add two providers', inject(function(popupMenu) {
 
       // given
-      var entriesSpy = sinon.spy(function() {
+      var entriesSpy = spy(function() {
         return {};
       });
 
@@ -131,7 +137,7 @@ describe('features/popup-menu', function() {
     it('should add multiple providers for the same id', inject(function(popupMenu) {
 
       // given
-      var entriesSpy = sinon.spy(function() {
+      var entriesSpy = spy(function() {
         return {};
       });
 
@@ -265,8 +271,8 @@ describe('features/popup-menu', function() {
     it('should open', inject(async function(popupMenu, eventBus) {
 
       // given
-      var openSpy = sinon.spy();
-      var openedSpy = sinon.spy();
+      var openSpy = spy();
+      var openedSpy = spy();
 
       eventBus.on('popupMenu.open', openSpy);
       eventBus.on('popupMenu.opened', openedSpy);
@@ -541,7 +547,7 @@ describe('features/popup-menu', function() {
       it('should open first menu', inject(function(popupMenu, eventBus) {
 
         // given
-        var openSpy = sinon.spy();
+        var openSpy = spy();
 
         eventBus.on('popupMenu.open', openSpy);
 
@@ -559,7 +565,7 @@ describe('features/popup-menu', function() {
       it('should open second menu', inject(function(popupMenu, eventBus) {
 
         // given
-        var openSpy = sinon.spy();
+        var openSpy = spy();
 
         eventBus.on('popupMenu.open', openSpy);
 
@@ -582,7 +588,7 @@ describe('features/popup-menu', function() {
     it('should refresh', inject(function(eventBus, popupMenu) {
 
       // given
-      var refreshSpy = sinon.spy();
+      var refreshSpy = spy();
 
       eventBus.on('popupMenu.refresh', refreshSpy);
 
@@ -642,7 +648,7 @@ describe('features/popup-menu', function() {
     it('should not refresh', inject(function(eventBus, popupMenu) {
 
       // given
-      var refreshSpy = sinon.spy();
+      var refreshSpy = spy();
 
       eventBus.on('popupMenu.refresh', refreshSpy);
 
@@ -659,7 +665,7 @@ describe('features/popup-menu', function() {
   describe('#close', function() {
 
     beforeEach(inject(async function(eventBus, popupMenu) {
-      var openedSpy = sinon.spy();
+      var openedSpy = spy();
 
       eventBus.on('popupMenu.opened', openedSpy);
 
@@ -674,8 +680,8 @@ describe('features/popup-menu', function() {
     it('should close', inject(async function(popupMenu, eventBus) {
 
       // given
-      var closeSpy = sinon.spy();
-      var closedSpy = sinon.spy();
+      var closeSpy = spy();
+      var closedSpy = spy();
 
       eventBus.on('popupMenu.close', closeSpy);
       eventBus.on('popupMenu.closed', closedSpy);
@@ -697,7 +703,7 @@ describe('features/popup-menu', function() {
     it('should remove container', inject(function(popupMenu, eventBus) {
 
       // given
-      var closeSpy = sinon.spy();
+      var closeSpy = spy();
       var container = getPopupContainer();
 
       eventBus.on('popupMenu.close', closeSpy);
@@ -731,7 +737,7 @@ describe('features/popup-menu', function() {
     it('should refocus canvas on close', inject(function(canvas, popupMenu) {
 
       // given
-      sinon.spy(canvas, 'restoreFocus');
+      spy(canvas, 'restoreFocus');
 
       // when
       popupMenu.close();
@@ -925,7 +931,7 @@ describe('features/popup-menu', function() {
     it('should fire "popupMenu.trigger"', inject(function(popupMenu, eventBus) {
 
       // given
-      var triggerSpy = sinon.spy();
+      var triggerSpy = spy();
       eventBus.on('popupMenu.trigger', triggerSpy);
 
       popupMenu.registerProvider('test-menu', {
@@ -1056,7 +1062,7 @@ describe('features/popup-menu', function() {
 
     describe('events', function() {
 
-      afterEach(sinon.restore);
+      afterEach(restore);
 
 
       it('should refresh (element.changed)',inject(function(eventBus, popupMenu) {
@@ -1068,7 +1074,7 @@ describe('features/popup-menu', function() {
 
         popupMenu.open(element, 'menu', { x: 100, y: 100 });
 
-        const refreshSpy = sinon.spy();
+        const refreshSpy = spy();
 
         eventBus.on('popupMenu.refresh', refreshSpy);
 
@@ -1089,7 +1095,7 @@ describe('features/popup-menu', function() {
 
         popupMenu.open({ id: 'foo' }, 'menu', { x: 100, y: 100 });
 
-        const refreshSpy = sinon.spy();
+        const refreshSpy = spy();
 
         eventBus.on('popupMenu.refresh', refreshSpy);
 
@@ -1146,13 +1152,13 @@ describe('features/popup-menu', function() {
           popupMenu.open({}, 'menu', { x: 100, y: 100 });
           popupMenu.close();
 
-          var spy = sinon.spy(popupMenu, 'close');
+          var closeSpy = spy(popupMenu, 'close');
 
           // when
           eventBus.fire('canvas.viewbox.changing');
 
           // then
-          expect(spy).to.not.have.been.called;
+          expect(closeSpy).to.not.have.been.called;
         }
       ));
 
@@ -1997,7 +2003,7 @@ describe('features/popup-menu', function() {
     it('should trigger action on click', inject(function(popupMenu) {
 
       // given
-      var actionListener = sinon.spy();
+      var actionListener = spy();
 
       var testProvider = {
         getHeaderEntries: function() {
@@ -2408,7 +2414,7 @@ describe('features/popup-menu', function() {
       popupMenu.registerProvider('menu', new LegacyProvider());
       popupMenu.open({}, 'menu', { x: 100, y: 100 });
 
-      var closeSpy = sinon.spy();
+      var closeSpy = spy();
 
       eventBus.on('popupMenu.close', closeSpy);
 

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   bootstrapDiagram,
   inject
@@ -8,6 +10,7 @@ import {
 } from 'min-dash';
 
 import modelingModule from 'lib/features/modeling';
+
 
 function containment(element) {
   return pick(element, [ 'x', 'y', 'parent' ]);

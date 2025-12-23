@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -282,7 +285,7 @@ describe('features/distribute-elements', function() {
       it('should respect rules (false)', inject(function(distributeElements, eventBus,testRules) {
 
         // given
-        var changedSpy = sinon.spy();
+        var changedSpy = spy();
 
         eventBus.once('commandStack.changed', function(_, context) {
           changedSpy(context.elements);
@@ -301,7 +304,7 @@ describe('features/distribute-elements', function() {
       it('should respect rules (true)', inject(function(distributeElements, eventBus, testRules) {
 
         // given
-        var changedSpy = sinon.spy();
+        var changedSpy = spy();
 
         eventBus.once('elements.changed', function(_, context) {
           changedSpy(context.elements);
@@ -321,7 +324,7 @@ describe('features/distribute-elements', function() {
       it('should respect rules (array)', inject(function(distributeElements, eventBus, testRules) {
 
         // given
-        var changedSpy = sinon.spy();
+        var changedSpy = spy();
 
         eventBus.once('elements.changed', function(_, context) {
           changedSpy(context.elements);

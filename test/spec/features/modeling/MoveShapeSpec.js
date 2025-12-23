@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -235,7 +238,7 @@ describe('features/modeling - move shape', function() {
       // given
       var originalWaypoints = connection.waypoints;
 
-      var preLayoutSpy = sinon.spy(function(event) {
+      var preLayoutSpy = spy(function(event) {
 
         var context = event.context,
             connection = context.connection;

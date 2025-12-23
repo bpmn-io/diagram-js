@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import schedulerModule from 'lib/features/scheduler';
 
 import {
@@ -17,7 +20,7 @@ describe('features/scheduler', function() {
   it('should schedule task', inject(async function(scheduler) {
 
     // given
-    const fn = sinon.spy();
+    const fn = spy();
 
     // when
     const promise = scheduler.schedule(fn);
@@ -36,7 +39,7 @@ describe('features/scheduler', function() {
   it('should cancel task', inject(async function(scheduler) {
 
     // given
-    const fn = sinon.spy();
+    const fn = spy();
 
     const promise = scheduler.schedule(fn, 'myId');
 
@@ -58,8 +61,8 @@ describe('features/scheduler', function() {
     it('should only execute latest task', inject(async function(scheduler) {
 
       // given
-      const fn = sinon.spy();
-      const fn2 = sinon.spy();
+      const fn = spy();
+      const fn2 = spy();
 
       // when
       await Promise.race([
@@ -112,7 +115,7 @@ describe('features/scheduler', function() {
       async function(scheduler) {
 
         // given
-        const fn = sinon.spy();
+        const fn = spy();
         const promise = scheduler.schedule(fn);
 
         // when

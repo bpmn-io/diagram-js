@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -22,6 +25,7 @@ import {
 } from 'min-dom';
 
 import { classes as svgClasses } from 'tiny-svg';
+
 
 function bounds(b) {
   return pick(b, [ 'x', 'y', 'width', 'height' ]);
@@ -363,7 +367,7 @@ describe('features/resize - Resize', function() {
       function(canvas, dragging, elementFactory, modeling, resize) {
 
         // given
-        var resizeShapeSpy = sinon.spy(modeling, 'resizeShape');
+        var resizeShapeSpy = spy(modeling, 'resizeShape');
 
         var shape = elementFactory.createShape({
           id: 'shapeA',

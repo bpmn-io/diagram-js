@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   connectRectangles,
   connectPoints,

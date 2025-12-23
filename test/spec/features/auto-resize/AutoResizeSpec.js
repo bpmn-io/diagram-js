@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -164,7 +167,7 @@ describe('features/auto-resize', function() {
     it('should only resize on actual size change', inject(function(autoResize, modeling) {
 
       // given
-      var resizeSpy = sinon.spy(autoResize, 'resize');
+      var resizeSpy = spy(autoResize, 'resize');
 
       // when
       modeling.moveElements([ topLevelShape ], { x: -300, y: 0 }, parentShape);
@@ -291,7 +294,7 @@ describe('features/auto-resize', function() {
       it('on move <ne>', inject(function(autoResize, modeling) {
 
         // given
-        var resizeSpy = sinon.spy(autoResize, 'resize');
+        var resizeSpy = spy(autoResize, 'resize');
 
         // when
         modeling.moveElements([ childShape1 ], { x: -100, y: -100 }, parentShape);
@@ -382,7 +385,7 @@ describe('features/auto-resize', function() {
         inject(function(autoResize, canvas, elementFactory, modeling) {
 
           // given
-          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+          var autoResizeSpy = spy(autoResize, '_expand');
 
           hiddenContainedChild = elementFactory.createShape({
             id: 'hiddenContainedChild',
@@ -419,7 +422,7 @@ describe('features/auto-resize', function() {
         inject(function(autoResize, modeling) {
 
           // given
-          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+          var autoResizeSpy = spy(autoResize, '_expand');
 
           // when
           modeling.toggleCollapse(collapsedShape);
@@ -441,7 +444,7 @@ describe('features/auto-resize', function() {
         inject(function(autoResize, canvas, elementFactory, modeling) {
 
           // given
-          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+          var autoResizeSpy = spy(autoResize, '_expand');
 
           var expandedShape = elementFactory.createShape({
             id: 'hiddenContainedChild',
@@ -504,7 +507,7 @@ describe('features/auto-resize', function() {
       it('should resize also the parent element', inject(function(autoResize, modeling) {
 
         // given
-        var autoResizeSpy = sinon.spy(autoResize, '_expand');
+        var autoResizeSpy = spy(autoResize, '_expand');
 
         // when
         modeling.toggleCollapse(collapsedShape);
@@ -552,7 +555,7 @@ describe('features/auto-resize', function() {
         inject(function(autoResize, eventBus, modeling) {
 
           // given
-          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+          var autoResizeSpy = spy(autoResize, '_expand');
 
           eventBus.on('commandStack.shape.toggleCollapse.preExecute', function(event) {
             event.context.hints = { autoResize: false };
@@ -622,7 +625,7 @@ describe('features/auto-resize', function() {
       it('should resize parent', inject(function(autoResize, replace) {
 
         // given
-        var autoResizeSpy = sinon.spy(autoResize, '_expand');
+        var autoResizeSpy = spy(autoResize, '_expand');
 
         var replacement = {
           id: 'replacement',
@@ -647,7 +650,7 @@ describe('features/auto-resize', function() {
         inject(function(autoResize, replace) {
 
           // given
-          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+          var autoResizeSpy = spy(autoResize, '_expand');
 
           var replacement = {
             id: 'replacement',
@@ -713,7 +716,7 @@ describe('features/auto-resize', function() {
       it('should resize parent', inject(function(autoResize, modeling) {
 
         // given
-        var autoResizeSpy = sinon.spy(autoResize, '_expand');
+        var autoResizeSpy = spy(autoResize, '_expand');
 
         var newBounds = {
           x: 110,
@@ -738,7 +741,7 @@ describe('features/auto-resize', function() {
       it('on resize child shape <nwse>', inject(function(autoResize, modeling) {
 
         // given
-        var resizeSpy = sinon.spy(autoResize, 'resize');
+        var resizeSpy = spy(autoResize, 'resize');
 
         var newBounds = { x: 0, y: 0, width: 500, height: 500 };
 
@@ -757,7 +760,7 @@ describe('features/auto-resize', function() {
         inject(function(autoResize, eventBus, modeling) {
 
           // given
-          var autoResizeSpy = sinon.spy(autoResize, '_expand');
+          var autoResizeSpy = spy(autoResize, '_expand');
 
           eventBus.on('commandStack.shape.resize.preExecute', function(event) {
             event.context.hints = { autoResize: false };
@@ -787,8 +790,8 @@ describe('features/auto-resize', function() {
   it('should provide extension points', inject(function(autoResize, modeling) {
 
     // given
-    var getPaddingSpy = sinon.spy(autoResize, 'getPadding'),
-        getOffsetSpy = sinon.spy(autoResize, 'getOffset');
+    var getPaddingSpy = spy(autoResize, 'getPadding'),
+        getOffsetSpy = spy(autoResize, 'getOffset');
 
     // when
     modeling.moveElements([ childShape1 ], { x: -50, y: 0 });

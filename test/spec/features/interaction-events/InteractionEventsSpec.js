@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -102,7 +105,7 @@ describe('features/interaction-events', function() {
         // given
         var parentGfx = elementRegistry.getGraphics(parentShape);
 
-        var listenerFn = sinon.spy(function(e) {
+        var listenerFn = spy(function(e) {
           expect(e.element).to.eql(parentShape);
           expect(e.gfx).to.eql(parentGfx);
 
@@ -133,7 +136,7 @@ describe('features/interaction-events', function() {
         // given
         var rootGfx = elementRegistry.getGraphics(rootShape);
 
-        var listenerFn = sinon.spy();
+        var listenerFn = spy();
 
         // given
         eventBus.on(bindings[type], listenerFn);
@@ -189,7 +192,7 @@ describe('features/interaction-events', function() {
       function(interactionEvents, eventBus, canvas) {
 
         // given
-        var listenerFn = sinon.spy();
+        var listenerFn = spy();
 
         var node = canvas._svg;
 
@@ -211,7 +214,7 @@ describe('features/interaction-events', function() {
     it('should unregister', inject(function(interactionEvents, eventBus) {
 
       // given
-      var listenerFn = sinon.spy();
+      var listenerFn = spy();
 
       var node = document.body;
 
@@ -254,34 +257,34 @@ describe('features/interaction-events', function() {
     it('should allow to create custom hit element', inject(function(elementFactory, canvas, eventBus) {
 
       // given
-      var spy = sinon.spy(),
+      var createHitSpy = spy(),
           shape = elementFactory.createShape({
             id: 'shape',
             x: 0, y: 0, width: 100, height: 100
           });
 
-      eventBus.on('interactionEvents.createHit', spy);
+      eventBus.on('interactionEvents.createHit', createHitSpy);
 
       // when
       canvas.addShape(shape, rootShape);
 
       // then
-      expect(spy).to.have.been.calledOnce;
+      expect(createHitSpy).to.have.been.calledOnce;
     }));
 
 
     it('should allow to update custom element', inject(function(elementFactory, canvas, eventBus) {
 
       // given
-      var spy = sinon.spy();
+      var updateHitSpy = spy();
 
-      eventBus.on('interactionEvents.updateHit', spy);
+      eventBus.on('interactionEvents.updateHit', updateHitSpy);
 
       // when
       eventBus.fire('shape.changed', { element: childShape });
 
       // then
-      expect(spy).to.have.been.calledOnce;
+      expect(updateHitSpy).to.have.been.calledOnce;
     }));
 
   });

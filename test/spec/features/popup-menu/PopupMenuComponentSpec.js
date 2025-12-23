@@ -1,3 +1,10 @@
+import { expect } from 'chai';
+
+import {
+  match,
+  spy
+} from 'sinon';
+
 import { expectToBeAccessible } from '@bpmn-io/a11y';
 
 import { act } from '@testing-library/preact';
@@ -76,7 +83,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
   it('should emit "opened" after mounting', async function() {
 
     // given
-    const onOpened = sinon.spy();
+    const onOpened = spy();
 
     // when
     await createPopupMenu({ container, onOpened });
@@ -89,7 +96,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
   it('should emit "closed" after unmounting', async function() {
 
     // given
-    const onClosed = sinon.spy();
+    const onClosed = spy();
 
     await createPopupMenu({ container, onClosed });
 
@@ -207,7 +214,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
   describe('close', function() {
 
     it('should close on background click', async function() {
-      const onClose = sinon.spy();
+      const onClose = spy();
 
       await createPopupMenu({ container, onClose });
 
@@ -220,8 +227,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should NOT close on selection', async function() {
 
       // given
-      const onClose = sinon.spy();
-      const onSelect = sinon.spy();
+      const onClose = spy();
+      const onSelect = spy();
 
       const entries = [ { id: '1', label: 'Entry 1' } ];
 
@@ -234,7 +241,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       fireEvent.click(entry);
 
       // then
-      expect(onSelect).to.have.been.calledOnceWith(sinon.match.any);
+      expect(onSelect).to.have.been.calledOnceWith(match.any);
       expect(onClose).not.to.have.been.called;
     });
 
@@ -242,8 +249,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should NOT close on disabled entry click', async function() {
 
       // given
-      const onClose = sinon.spy();
-      const onSelect = sinon.spy();
+      const onClose = spy();
+      const onSelect = spy();
 
       const entries = [ { id: '1', label: 'Entry 1', disabled: true } ];
 
@@ -264,8 +271,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should NOT close on click inside', async function() {
 
       // given
-      const onClose = sinon.spy();
-      const onSelect = sinon.spy();
+      const onClose = spy();
+      const onSelect = spy();
 
       const entries = [ { id: '1', label: 'Entry 1' } ];
 
@@ -399,7 +406,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // given
       const entries = [ { id: '1', label: '1', action: { dragstart: ()=> {} } } ];
 
-      const onSelectSpy = sinon.spy();
+      const onSelectSpy = spy();
 
       await createPopupMenu({ container, entries, onSelect: onSelectSpy });
 
@@ -675,7 +682,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should not trigger disabled entry on click', async function() {
 
       // given
-      const onSelect = sinon.spy();
+      const onSelect = spy();
 
       const disabledEntries = [
         { id: '1', label: 'Entry 1', disabled: true },
@@ -711,8 +718,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should trigger entry with <Enter>', async function() {
 
       // given
-      const onClose = sinon.spy();
-      const onSelect = sinon.spy();
+      const onClose = spy();
+      const onSelect = spy();
 
       await createPopupMenu({ container, entries, search: true, onClose, onSelect });
 
@@ -722,15 +729,15 @@ describe('features/popup-menu - <PopupMenu>', function() {
       fireEvent.keyDown(searchInput, { key: 'Enter' });
 
       // then
-      expect(onSelect).to.be.calledOnceWith(sinon.match({ key: 'Enter' }), entries[0]);
+      expect(onSelect).to.be.calledOnceWith(match({ key: 'Enter' }), entries[0]);
     });
 
 
     it('should not trigger disabled entry with <Enter>', async function() {
 
       // given
-      const onClose = sinon.spy();
-      const onSelect = sinon.spy();
+      const onClose = spy();
+      const onSelect = spy();
 
       const disabledEntries = [
         { id: '1', label: 'Entry 1', disabled: true },
@@ -754,7 +761,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       it('on search', async function() {
 
         // given
-        const onClose = sinon.spy();
+        const onClose = spy();
 
         await createPopupMenu({ container, entries, onClose, search: true });
 
@@ -774,7 +781,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       it('on popup', async function() {
 
         // given
-        const onClose = sinon.spy();
+        const onClose = spy();
 
         await createPopupMenu({ container, entries, onClose, search: true });
 
@@ -791,7 +798,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       it('global', async function() {
 
         // given
-        const onClose = sinon.spy();
+        const onClose = spy();
 
         await createPopupMenu({ container, entries, onClose });
 

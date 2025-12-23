@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -187,7 +190,7 @@ describe('features/align-elements', function() {
       function(alignElements, eventBus) {
 
         // given
-        var changedSpy = sinon.spy();
+        var changedSpy = spy();
 
         eventBus.once('commandStack.changed', changedSpy);
 
@@ -328,7 +331,7 @@ describe('features/align-elements', function() {
       it('should respect rules (false)', inject(function(alignElements, eventBus, testRules) {
 
         // given
-        var changedSpy = sinon.spy();
+        var changedSpy = spy();
 
         eventBus.once('elements.changed', function(_, context) {
           changedSpy(context.elements);
@@ -347,7 +350,7 @@ describe('features/align-elements', function() {
       it('should respect rules (true)', inject(function(alignElements, eventBus, testRules) {
 
         // given
-        var changedSpy = sinon.spy();
+        var changedSpy = spy();
 
         eventBus.once('elements.changed', function(_, context) {
           changedSpy(context.elements);
@@ -367,7 +370,7 @@ describe('features/align-elements', function() {
       it('should respect rules (array)', inject(function(alignElements, eventBus, testRules) {
 
         // given
-        var changedSpy = sinon.spy();
+        var changedSpy = spy();
 
         eventBus.once('elements.changed', function(_, context) {
           changedSpy(context.elements);
