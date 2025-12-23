@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -123,7 +126,7 @@ describe('features/auto-place', function() {
     it('<autoPlace.start>', inject(function(autoPlace, eventBus) {
 
       // given
-      var listener = sinon.spy(function(event) {
+      var listener = spy(function(event) {
 
         // then
         expect(event.shape).to.equal(newShape);
@@ -142,7 +145,7 @@ describe('features/auto-place', function() {
     it('<autoPlace>', inject(function(autoPlace, eventBus) {
 
       // given
-      var listener = sinon.spy(function(event) {
+      var listener = spy(function(event) {
 
         // then
         expect(event.shape).to.equal(newShape);
@@ -171,7 +174,7 @@ describe('features/auto-place', function() {
     it('<autoPlace.end>', inject(function(autoPlace, eventBus) {
 
       // given
-      var listener = sinon.spy(function(event) {
+      var listener = spy(function(event) {
 
         // then
         expect(event.shape).to.equal(newShape);

@@ -1,6 +1,9 @@
+import { expect } from 'chai';
+
 import inherits from 'inherits-browser';
 
 import RuleProvider from 'lib/features/rules/RuleProvider';
+
 
 export default function CreateRules(injector) {
   injector.invoke(RuleProvider, this);

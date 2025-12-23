@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -148,7 +151,7 @@ describe('features/modeling - reconnect connection', function() {
       it('should layout connection', inject(function(modeling) {
 
         // given
-        var layoutSpy = sinon.spy(modeling, 'layoutConnection'),
+        var layoutSpy = spy(modeling, 'layoutConnection'),
             docking = { x: 120, y: 120 };
 
         // when
@@ -214,7 +217,7 @@ describe('features/modeling - reconnect connection', function() {
         // given
         var newWaypoints = [ { x: 110, y: 110 }, { x: 300, y: 300 } ],
             docking = newWaypoints[0],
-            layoutSpy = sinon.spy(modeling, 'layoutConnection');
+            layoutSpy = spy(modeling, 'layoutConnection');
 
         // when
         modeling.reconnectStart(connection, childShape, newWaypoints);
@@ -282,7 +285,7 @@ describe('features/modeling - reconnect connection', function() {
       it('should layout connection', inject(function(modeling) {
 
         // given
-        var layoutSpy = sinon.spy(modeling, 'layoutConnection'),
+        var layoutSpy = spy(modeling, 'layoutConnection'),
             docking = { x: 120, y: 120 };
 
         // when
@@ -348,7 +351,7 @@ describe('features/modeling - reconnect connection', function() {
         // given
         var newWaypoints = [ { x: 110, y: 110 }, { x: 300, y: 300 } ],
             docking = newWaypoints[1],
-            layoutSpy = sinon.spy(modeling, 'layoutConnection');
+            layoutSpy = spy(modeling, 'layoutConnection');
 
         // when
         modeling.reconnectEnd(connection, childShape, newWaypoints);

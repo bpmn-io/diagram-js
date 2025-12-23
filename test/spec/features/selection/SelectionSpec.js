@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -210,7 +213,7 @@ describe('features/selection/Selection', function() {
         // given
         selection.select(shape1);
 
-        var changedSpy = sinon.spy();
+        var changedSpy = spy();
 
         eventBus.on('selection.changed', changedSpy);
 
@@ -229,7 +232,7 @@ describe('features/selection/Selection', function() {
         // given
         selection.select(connection1);
 
-        var changedSpy = sinon.spy();
+        var changedSpy = spy();
 
         eventBus.on('selection.changed', changedSpy);
 
@@ -252,7 +255,7 @@ describe('features/selection/Selection', function() {
         // given
         selection.select(shape1);
 
-        var changedSpy = sinon.spy(function() {});
+        var changedSpy = spy(function() {});
 
         eventBus.on('selection.changed', changedSpy);
 

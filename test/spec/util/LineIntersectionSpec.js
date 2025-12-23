@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   getApproxIntersection
 } from 'lib/util/LineIntersection';

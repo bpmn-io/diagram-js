@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -18,6 +19,11 @@ import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
 
 import { getMid } from 'lib/layout/LayoutUtil';
 
+
+import {
+  restore,
+  spy
+} from 'sinon';
 import {
   query as domQuery,
   queryAll as domQueryAll
@@ -356,7 +362,7 @@ describe('features/bendpoints - move', function() {
     it('should pass hints (actual moved bendpoint)', inject(function(bendpointMove, canvas, dragging, eventBus) {
 
       // given
-      var executeSpy = sinon.spy(function(event) {
+      var executeSpy = spy(function(event) {
         var context = event.context,
             hints = context.hints;
 
@@ -390,7 +396,7 @@ describe('features/bendpoints - move', function() {
     it('should pass hints (connection start)', inject(function(bendpointMove, canvas, dragging, eventBus) {
 
       // given
-      var executeSpy = sinon.spy(function(event) {
+      var executeSpy = spy(function(event) {
         var context = event.context,
             hints = context.hints;
 
@@ -433,7 +439,7 @@ describe('features/bendpoints - move', function() {
     it('should pass hints (connection end)', inject(function(bendpointMove, canvas, dragging, eventBus) {
 
       // given
-      var executeSpy = sinon.spy(function(event) {
+      var executeSpy = spy(function(event) {
         var context = event.context,
             hints = context.hints;
 
@@ -724,10 +730,10 @@ describe('features/bendpoints - move', function() {
     beforeEach(inject(setupDiagram));
 
     beforeEach(inject(function(connectionPreview) {
-      drawPreviewSpy = sinon.spy(connectionPreview, 'drawPreview');
+      drawPreviewSpy = spy(connectionPreview, 'drawPreview');
     }));
 
-    afterEach(sinon.restore);
+    afterEach(restore);
 
 
     it('should display preview when bendpoint is added', inject(function(canvas, bendpointMove, dragging) {

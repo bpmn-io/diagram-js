@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -156,7 +159,7 @@ describe('features/move - Move', function() {
       function(dragging, elementRegistry, modeling, move) {
 
         // given
-        var moveElementsSpy = sinon.spy(modeling, 'moveElements');
+        var moveElementsSpy = spy(modeling, 'moveElements');
 
         move.start(canvasEvent({ x: 0, y: 0 }), childShape);
 

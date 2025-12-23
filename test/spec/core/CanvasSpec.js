@@ -1,3 +1,9 @@
+import { expect } from 'chai';
+import {
+  spy,
+  useFakeTimers
+} from 'sinon';
+
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -233,7 +239,7 @@ describe('core/Canvas', function() {
     it('should fire "canvas.resized" event', inject(function(eventBus, canvas) {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
       eventBus.on('canvas.resized', listener);
 
       canvas._cachedViewbox = 'FOO';
@@ -333,7 +339,7 @@ describe('core/Canvas', function() {
       expect(canvas.isFocused()).to.be.false;
 
       // when
-      const focusSpy = sinon.spy(function(event) {
+      const focusSpy = spy(function(event) {
         expect(event.focused).to.be.true;
       });
 
@@ -345,7 +351,7 @@ describe('core/Canvas', function() {
       expect(focusSpy).to.have.been.calledOnce;
 
       // and when
-      const refocusSpy = sinon.spy();
+      const refocusSpy = spy();
 
       eventBus.once('canvas.focus.changed', refocusSpy);
 
@@ -371,7 +377,7 @@ describe('core/Canvas', function() {
     it('should fire <shape.add> event', inject(function(canvas, eventBus) {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
       eventBus.on('shape.add', listener);
 
       // when
@@ -385,7 +391,7 @@ describe('core/Canvas', function() {
     it('should fire <shape.added> event', inject(function(canvas, eventBus) {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
       eventBus.on('shape.added', listener);
 
       // when
@@ -533,7 +539,7 @@ describe('core/Canvas', function() {
     it('should fire <shape.removed> event', inject(function(canvas, eventBus, elementRegistry) {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
       eventBus.on('shape.removed', listener);
 
       canvas.addShape({ id: 'a', x: 10, y: 20, width: 50, height: 50 });
@@ -601,7 +607,7 @@ describe('core/Canvas', function() {
     it('should fire <connection.added> event', inject(function(canvas, eventBus) {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
 
       canvas.addShape({ id: 's1', x: 10, y: 10, width: 30, height: 30 });
       canvas.addShape({ id: 's2', x: 100, y: 100, width: 30, height: 30 });
@@ -673,7 +679,7 @@ describe('core/Canvas', function() {
     it('should fire <connection.removed> event', inject(function(canvas, eventBus, elementRegistry) {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
 
       canvas.addShape({ id: 's1', x: 10, y: 10, width: 30, height: 30 });
       canvas.addShape({ id: 's2', x: 100, y: 100, width: 30, height: 30 });
@@ -1295,7 +1301,7 @@ describe('core/Canvas', function() {
 
       it('should fire <canvas.viewbox.changed> event', inject(function(canvas, eventBus) {
 
-        var changedListener = sinon.spy();
+        var changedListener = spy();
         eventBus.on('canvas.viewbox.changed', changedListener);
 
         // given
@@ -1334,7 +1340,7 @@ describe('core/Canvas', function() {
       beforeEach(function() {
         container = TestContainer.get(this);
 
-        clock = sinon.useFakeTimers();
+        clock = useFakeTimers();
       });
 
       afterEach(function() {
@@ -1357,7 +1363,7 @@ describe('core/Canvas', function() {
       it('should debounce viewbox update', inject(function(eventBus, canvas) {
 
         // given
-        var changedListener = sinon.spy(function(event) {
+        var changedListener = spy(function(event) {
           var viewbox = event.viewbox;
 
           expect(viewbox).to.exist;
@@ -1412,7 +1418,7 @@ describe('core/Canvas', function() {
       it('should not debounce viewbox update', inject(function(eventBus, canvas) {
 
         // given
-        var changedListener = sinon.spy(function(event) {
+        var changedListener = spy(function(event) {
           var viewbox = event.viewbox;
 
           expect(viewbox).to.exist;
@@ -1468,7 +1474,7 @@ describe('core/Canvas', function() {
 
       it('should fire <canvas.viewbox.changed>', inject(function(eventBus, canvas) {
 
-        var changedListener = sinon.spy();
+        var changedListener = spy();
         eventBus.on('canvas.viewbox.changed', changedListener);
 
         // given

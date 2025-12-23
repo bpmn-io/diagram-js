@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 
 import {
@@ -34,7 +37,7 @@ describe('features/auto-scroll - AutoScroll', function() {
         scrollRepeatTimeout: 100000
       });
 
-      scrollSpy = sinon.spy(canvas, 'scroll');
+      scrollSpy = spy(canvas, 'scroll');
 
       dragging.init(canvasEvent({ x: 100, y: 100 }), 'foo');
 
@@ -71,7 +74,7 @@ describe('features/auto-scroll - AutoScroll', function() {
     it('stopped on cleanup', inject(function(dragging, autoScroll) {
 
       // given
-      var stopScroll = sinon.spy(autoScroll, 'stopScroll');
+      var stopScroll = spy(autoScroll, 'stopScroll');
 
       // when
       dragging.move(canvasEvent({
@@ -89,7 +92,7 @@ describe('features/auto-scroll - AutoScroll', function() {
     it('stopped on moving outside the border', inject(function(dragging, autoScroll) {
 
       // given
-      var stopScroll = sinon.spy(autoScroll, 'stopScroll');
+      var stopScroll = spy(autoScroll, 'stopScroll');
 
       // when
       dragging.move(canvasEvent({

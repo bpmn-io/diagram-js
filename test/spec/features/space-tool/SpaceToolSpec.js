@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   query as domQuery
 } from 'min-dom';
@@ -21,9 +24,8 @@ import {
 
 import { isMac } from 'lib/util/Platform';
 
-var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 
-var spy = sinon.spy;
+var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 
 
 describe('features/space-tool', function() {
@@ -1152,7 +1154,7 @@ describe('features/space-tool', function() {
       // when
       spaceTool.activateMakeSpace(canvasEvent({ x: 0, y: 0 }));
 
-      var layoutConnectionSpy = sinon.spy(function(event) {
+      var layoutConnectionSpy = spy(function(event) {
         var context = event.context,
             hints = context.hints;
 
@@ -1174,7 +1176,7 @@ describe('features/space-tool', function() {
       // when
       spaceTool.activateMakeSpace(canvasEvent({ x: 300, y: 0 }));
 
-      var layoutConnectionSpy = sinon.spy(function(event) {
+      var layoutConnectionSpy = spy(function(event) {
         var context = event.context,
             hints = context.hints;
 

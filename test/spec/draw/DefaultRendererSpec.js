@@ -1,7 +1,10 @@
+import { expect } from 'chai';
+
 import {
   bootstrapDiagram,
   inject
 } from 'test/TestHelper';
+
 import { create } from 'tiny-svg';
 
 import drawModule from 'lib/draw';

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   getNewAttachPoint
 } from 'lib/util/AttachUtil';

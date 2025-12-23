@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -13,6 +16,7 @@ import keyboardModule from 'lib/features/keyboard';
 import editorActionsModule from 'lib/features/editor-actions';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
+
 
 var KEYS_PASTE = [ 'v', 'V' ];
 
@@ -54,7 +58,7 @@ describe('features/keyboard - paste', function() {
       it(testCase.desc, inject(function(keyboard, editorActions) {
 
         // given
-        var pasteSpy = sinon.spy(editorActions, 'trigger');
+        var pasteSpy = spy(editorActions, 'trigger');
 
         var event = createKeyEvent(key, { ctrlKey: testCase.ctrlKey });
 

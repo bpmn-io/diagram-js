@@ -1,3 +1,9 @@
+import { expect } from 'chai';
+import {
+  restore,
+  spy
+} from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -20,6 +26,7 @@ import {
 } from 'tiny-svg';
 
 import { getMid } from 'lib/layout/LayoutUtil';
+
 
 var testModules = [
   createModule,
@@ -921,23 +928,23 @@ describe('features/create - Create', function() {
 
   describe('hints', function() {
 
-    afterEach(sinon.restore);
+    afterEach(restore);
 
 
     it('should fire create.start with hints', inject(function(create, eventBus) {
 
       // given
-      var spy = sinon.spy(function(event) {
+      var createStartSpy = spy(function(event) {
         expect(event.context.hints).to.exist;
       });
 
-      eventBus.once('create.start', spy);
+      eventBus.once('create.start', createStartSpy);
 
       // when
       create.start(canvasEvent({ x: 0, y: 0 }), newShape);
 
       // then
-      expect(spy).to.have.been.called;
+      expect(createStartSpy).to.have.been.called;
     }));
 
 
@@ -947,11 +954,11 @@ describe('features/create - Create', function() {
         // given
         var parentGfx = elementRegistry.getGraphics(parentShape);
 
-        var spy = sinon.spy(function(event) {
+        var createEndSpy = spy(function(event) {
           expect(event.context.hints).to.exist;
         });
 
-        eventBus.once('create.end', spy);
+        eventBus.once('create.end', createEndSpy);
 
         // when
         create.start(canvasEvent({ x: 0, y: 0 }), newShape);
@@ -963,7 +970,7 @@ describe('features/create - Create', function() {
         dragging.end();
 
         // then
-        expect(spy).to.have.been.called;
+        expect(createEndSpy).to.have.been.called;
       }
     ));
 

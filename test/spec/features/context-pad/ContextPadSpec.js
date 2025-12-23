@@ -1,3 +1,9 @@
+import { expect } from 'chai';
+import {
+  spy,
+  useFakeTimers
+} from 'sinon';
+
 import {
   createEvent as globalEvent
 } from '../../../util/MockEvents';
@@ -20,6 +26,7 @@ import contextPadModule from 'lib/features/context-pad';
 import selectionModule from 'lib/features/selection';
 
 import ContextPadProvider from './ContextPadProvider';
+
 
 var providerModule = {
   __init__: [ 'contextPadProvider' ],
@@ -89,7 +96,7 @@ describe('features/context-pad', function() {
 
         // given
         var provider = {
-          getContextPadEntries: sinon.spy()
+          getContextPadEntries: spy()
         };
 
         contextPad.registerProvider(provider);
@@ -109,7 +116,7 @@ describe('features/context-pad', function() {
 
         // given
         var provider = {
-          getMultiElementContextPadEntries: sinon.spy()
+          getMultiElementContextPadEntries: spy()
         };
 
         contextPad.registerProvider(provider);
@@ -473,7 +480,7 @@ describe('features/context-pad', function() {
         expect(contextPad.isOpen()).to.be.true;
         expect(contextPad.isShown()).to.be.false;
 
-        var showSpy = sinon.spy();
+        var showSpy = spy();
 
         eventBus.on('contextPad.show', showSpy);
 
@@ -500,7 +507,7 @@ describe('features/context-pad', function() {
         expect(contextPad.isOpen()).to.be.true;
         expect(contextPad.isShown()).to.be.true;
 
-        var hideSpy = sinon.spy();
+        var hideSpy = spy();
 
         eventBus.on('contextPad.hide', hideSpy);
 
@@ -520,7 +527,7 @@ describe('features/context-pad', function() {
         var updatePositionSpy;
 
         beforeEach(inject(function(contextPad) {
-          updatePositionSpy = sinon.spy(contextPad, '_updatePosition');
+          updatePositionSpy = spy(contextPad, '_updatePosition');
         }));
 
         afterEach(function() {
@@ -674,8 +681,8 @@ describe('features/context-pad', function() {
     }
 
     beforeEach(inject(function(eventBus) {
-      openSpy = sinon.spy();
-      closeSpy = sinon.spy();
+      openSpy = spy();
+      closeSpy = spy();
 
       eventBus.on('contextPad.open', function(event) {
         openSpy(event.current.target);
@@ -936,7 +943,7 @@ describe('features/context-pad', function() {
       var clock;
 
       beforeEach(function() {
-        clock = sinon.useFakeTimers();
+        clock = useFakeTimers();
       });
 
       afterEach(function() {
@@ -996,7 +1003,7 @@ describe('features/context-pad', function() {
       it('should only update once per frame', inject(function(canvas, contextPad) {
 
         // given
-        var hideSpy = sinon.spy(contextPad, 'hide');
+        var hideSpy = spy(contextPad, 'hide');
         var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
 
         canvas.addShape(shape);
@@ -1036,13 +1043,13 @@ describe('features/context-pad', function() {
 
         expect(contextPad.isOpen()).to.be.true;
 
-        var spy = sinon.spy(contextPad, '_updateVisibility');
+        var updateVisibilitySpy = spy(contextPad, '_updateVisibility');
 
         // when
         canvas.addMarker(shape2, 'djs-element-hidden');
 
         // then
-        expect(spy).not.to.have.been.called;
+        expect(updateVisibilitySpy).not.to.have.been.called;
       }));
 
 
@@ -1050,7 +1057,7 @@ describe('features/context-pad', function() {
 
         // given
         var diagramJs = getDiagramJS();
-        var hideSpy = sinon.spy(contextPad, 'hide');
+        var hideSpy = spy(contextPad, 'hide');
 
         var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
 
@@ -1084,7 +1091,7 @@ describe('features/context-pad', function() {
     var clock;
 
     beforeEach(function() {
-      clock = sinon.useFakeTimers();
+      clock = useFakeTimers();
     });
 
     afterEach(function() {
@@ -1131,7 +1138,7 @@ describe('features/context-pad', function() {
 
       var event = globalEvent(target, { x: 0, y: 0 });
 
-      sinon.spy(contextPad, 'triggerEntry');
+      spy(contextPad, 'triggerEntry');
 
       // when
       contextPad.trigger('mouseover', event);
@@ -1174,7 +1181,7 @@ describe('features/context-pad', function() {
 
       var event = globalEvent(target, { x: 0, y: 0 });
 
-      sinon.spy(contextPad, 'triggerEntry');
+      spy(contextPad, 'triggerEntry');
 
       // when
       contextPad.trigger('mouseover', event);
@@ -1367,7 +1374,7 @@ describe('features/context-pad', function() {
 
       // given
       var shape = canvas.addShape({ id: 's1', width: 100, height: 100, x: 10, y: 10 });
-      var triggerSpy = sinon.spy();
+      var triggerSpy = spy();
 
       eventBus.on('contextPad.trigger', triggerSpy);
 
@@ -1672,14 +1679,14 @@ describe('features/context-pad', function() {
 
       contextPad.open(shape);
 
-      var spy = sinon.spy(contextPad, '_createHtml');
+      var createHtmlSpy = spy(contextPad, '_createHtml');
 
       // when
       var pad = contextPad.getPad(shape);
 
       // then
       expect(pad).to.exist;
-      expect(spy).not.to.have.been.called;
+      expect(createHtmlSpy).not.to.have.been.called;
     }));
 
 
@@ -1690,14 +1697,14 @@ describe('features/context-pad', function() {
 
       contextPad.open(shape);
 
-      var spy = sinon.spy(contextPad, '_createHtml');
+      var createHtmlSpy = spy(contextPad, '_createHtml');
 
       // when
       var pad = contextPad.getPad([ shape ]);
 
       // then
       expect(pad).to.exist;
-      expect(spy).not.to.have.been.called;
+      expect(createHtmlSpy).not.to.have.been.called;
     }));
 
 
@@ -1708,14 +1715,14 @@ describe('features/context-pad', function() {
 
       contextPad.open([ shape ]);
 
-      var spy = sinon.spy(contextPad, '_createHtml');
+      var createHtmlSpy = spy(contextPad, '_createHtml');
 
       // when
       var pad = contextPad.getPad(shape);
 
       // then
       expect(pad).to.exist;
-      expect(spy).not.to.have.been.called;
+      expect(createHtmlSpy).not.to.have.been.called;
     }));
 
 
@@ -1727,14 +1734,14 @@ describe('features/context-pad', function() {
 
       contextPad.open(shape);
 
-      var spy = sinon.spy(contextPad, '_createHtml');
+      var createHtmlSpy = spy(contextPad, '_createHtml');
 
       // when
       var pad = contextPad.getPad(shape2);
 
       // then
       expect(pad).to.exist;
-      expect(spy).to.have.been.called;
+      expect(createHtmlSpy).to.have.been.called;
     }));
 
 
@@ -1743,7 +1750,7 @@ describe('features/context-pad', function() {
       var warnSpy;
 
       beforeEach(function() {
-        warnSpy = sinon.spy(console, 'warn');
+        warnSpy = spy(console, 'warn');
       });
 
       afterEach(function() {

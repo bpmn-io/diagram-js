@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
 
 import {
@@ -20,6 +23,7 @@ import { getNewAttachShapeDelta } from 'lib/util/AttachUtil';
 import { query as domQuery } from 'min-dom';
 
 import { classes as svgClasses } from 'tiny-svg';
+
 
 var ATTACH = { attach: true };
 var NO_ATTACH = { attach: false };
@@ -192,7 +196,7 @@ describe('features/attach-support', function() {
     it('should move with closure', inject(function(modeling, eventBus) {
 
       // given
-      var listener = sinon.spy(function(event) {
+      var listener = spy(function(event) {
 
         var closure = event.context.closure;
 

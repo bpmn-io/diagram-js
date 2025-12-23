@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import PopupMenuHeader from 'lib/features/popup-menu/PopupMenuHeader';
 
 import {
@@ -13,6 +16,7 @@ import {
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
+
 
 const TEST_IMAGE_URL = `data:image/svg+xml;utf8,${
   encodeURIComponent(`
@@ -141,7 +145,7 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
   it('should select header entry on mouseenter if has action', async function() {
 
     // given
-    const spy = sinon.spy();
+    const selectedSpy = spy();
 
     createPopupMenuHeader({
       container,
@@ -156,7 +160,7 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
           label: 'Bar'
         }
       ],
-      setSelectedEntry: spy
+      setSelectedEntry: selectedSpy
     });
 
     const fooEntry = domQuery('.entry[data-id="foo"]', container);
@@ -165,14 +169,14 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
     fireEvent.mouseEnter(fooEntry);
 
     // then
-    expect(spy).to.have.been.calledWithMatch({ id: 'foo' });
+    expect(selectedSpy).to.have.been.calledWithMatch({ id: 'foo' });
   });
 
 
   it('should deselect header entry on mouseleave if has action', async function() {
 
     // given
-    const spy = sinon.spy();
+    const selectedSpy = spy();
 
     createPopupMenuHeader({
       container,
@@ -188,7 +192,7 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
           label: 'Bar'
         }
       ],
-      setSelectedEntry: spy
+      setSelectedEntry: selectedSpy
     });
 
     const fooEntry = domQuery('.entry[data-id="foo"]', container);
@@ -197,14 +201,14 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
     fireEvent.mouseLeave(fooEntry);
 
     // then
-    expect(spy).to.have.been.calledWithMatch(null);
+    expect(selectedSpy).to.have.been.calledWithMatch(null);
   });
 
 
   it('should not select header entry on mouseenter if not has action', async function() {
 
     // given
-    const spy = sinon.spy();
+    const selectedSpy = spy();
 
     createPopupMenuHeader({
       container,
@@ -219,7 +223,7 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
           label: 'Bar'
         }
       ],
-      setSelectedEntry: spy
+      setSelectedEntry: selectedSpy
     });
 
     const barEntry = domQuery('.entry[data-id="bar"]', container);
@@ -228,14 +232,14 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
     fireEvent.mouseEnter(barEntry);
 
     // then
-    expect(spy).not.to.have.been.called;
+    expect(selectedSpy).not.to.have.been.called;
   });
 
 
   it('should note select disabled header entry on mouseenter', async function() {
 
     // given
-    const spy = sinon.spy();
+    const selectedSpy = spy();
 
     createPopupMenuHeader({
       container,
@@ -247,7 +251,7 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
           disabled: true
         }
       ],
-      setSelectedEntry: spy
+      setSelectedEntry: selectedSpy
     });
 
     const fooEntry = domQuery('.entry[data-id="foo"]', container);
@@ -256,14 +260,14 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
     fireEvent.mouseEnter(fooEntry);
 
     // then
-    expect(spy).not.to.have.been.called;
+    expect(selectedSpy).not.to.have.been.called;
   });
 
 
   it('should not trigger action on disabled entry click', async function() {
 
     // given
-    const spy = sinon.spy();
+    const selectSpy = spy();
 
     createPopupMenuHeader({
       container,
@@ -275,7 +279,7 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
           disabled: true
         }
       ],
-      onSelect: spy
+      onSelect: selectSpy
     });
 
     const fooEntry = domQuery('.entry[data-id="foo"]', container);
@@ -284,7 +288,7 @@ describe('features/popup-menu - <PopupMenuHeader>', function() {
     fireEvent.click(fooEntry);
 
     // then
-    expect(spy).not.to.have.been.called;
+    expect(selectSpy).not.to.have.been.called;
   });
 
 });

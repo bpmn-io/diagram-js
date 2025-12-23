@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import EventBus from 'lib/core/EventBus';
 
 
@@ -15,7 +18,7 @@ describe('core/EventBus', function() {
     it('should fire listener', function() {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
 
       eventBus.on('foo', listener);
 
@@ -30,7 +33,7 @@ describe('core/EventBus', function() {
     it('should fire typed listener', function() {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
 
       eventBus.on('foo', listener);
 
@@ -50,7 +53,7 @@ describe('core/EventBus', function() {
         bar: [ 1 ]
       });
 
-      var listener = sinon.spy(function(e) {
+      var listener = spy(function(e) {
         expect(e).to.equal(event);
 
         expect(e.bar).to.eql([ 1 ]);
@@ -69,7 +72,7 @@ describe('core/EventBus', function() {
     it('should register multiple', function() {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
 
       eventBus.on([ 'foo', 'foo' ], listener);
 
@@ -84,11 +87,11 @@ describe('core/EventBus', function() {
     it('should stopPropagation', function() {
 
       // given
-      var listener1 = sinon.spy(function(event) {
+      var listener1 = spy(function(event) {
         event.stopPropagation();
       });
 
-      var listener2 = sinon.spy();
+      var listener2 = spy();
 
       eventBus.on('foo', listener1);
       eventBus.on('foo', listener2);
@@ -105,7 +108,7 @@ describe('core/EventBus', function() {
     it('should fire event by name', function() {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
 
       // when
       eventBus.on('foo', listener);
@@ -122,7 +125,7 @@ describe('core/EventBus', function() {
     it('should register to multiple events', function() {
 
       // given
-      var listener1 = sinon.spy();
+      var listener1 = spy();
 
       eventBus.on([ 'foo', 'bar' ], listener1);
 
@@ -137,7 +140,7 @@ describe('core/EventBus', function() {
     it('should remove multiple listeners', function() {
 
       // given
-      var listener1 = sinon.spy();
+      var listener1 = spy();
 
       eventBus.on([ 'foo', 'bar' ], listener1);
       eventBus.off([ 'foo', 'bar' ], listener1);
@@ -158,7 +161,7 @@ describe('core/EventBus', function() {
     it('should call only once', function() {
 
       // given
-      var listener = sinon.spy();
+      var listener = spy();
 
       // when
       eventBus.once('onceEvent', listener);
@@ -188,9 +191,9 @@ describe('core/EventBus', function() {
     it('should call next after once listener', function() {
 
       // given
-      var listenerBefore = sinon.spy();
-      var listenerOnce = sinon.spy();
-      var listenerAfter = sinon.spy();
+      var listenerBefore = spy();
+      var listenerOnce = spy();
+      var listenerAfter = spy();
 
       eventBus.on('foo', listenerBefore);
       eventBus.once('foo', listenerOnce);
@@ -220,7 +223,7 @@ describe('core/EventBus', function() {
     it('should ignore once listener in loop', function() {
 
       // given
-      var listener = sinon.spy(function() {
+      var listener = spy(function() {
         eventBus.fire('onceEvent');
       });
 
@@ -479,11 +482,11 @@ describe('core/EventBus', function() {
     it('should stop propagation to other listeners', function() {
 
       // given
-      var listener1 = sinon.spy(function(event) {
+      var listener1 = spy(function(event) {
         return false;
       });
 
-      var listener2 = sinon.spy();
+      var listener2 = spy();
 
       eventBus.on('foo', listener1);
       eventBus.on('foo', listener2);
@@ -531,8 +534,8 @@ describe('core/EventBus', function() {
     it('should remove listeners by event type', function() {
 
       // given
-      var listener1 = sinon.spy();
-      var listener2 = sinon.spy();
+      var listener1 = spy();
+      var listener2 = spy();
 
       eventBus.on('foo', listener1);
       eventBus.on('foo', listener2);
@@ -550,8 +553,8 @@ describe('core/EventBus', function() {
     it('should remove listener by callback', function() {
 
       // given
-      var listener1 = sinon.spy();
-      var listener2 = sinon.spy();
+      var listener1 = spy();
+      var listener2 = spy();
 
       eventBus.on('foo', listener1);
       eventBus.on('foo', listener2);
@@ -569,8 +572,8 @@ describe('core/EventBus', function() {
     it('should remove once listener by callback', function() {
 
       // given
-      var listener1 = sinon.spy();
-      var listener2 = sinon.spy();
+      var listener1 = spy();
+      var listener2 = spy();
 
       eventBus.once('foo', listener1);
       eventBus.on('foo', listener2);
@@ -590,8 +593,8 @@ describe('core/EventBus', function() {
       // given
       var self = {};
 
-      var listener1 = sinon.spy();
-      var listener2 = sinon.spy();
+      var listener1 = spy();
+      var listener2 = spy();
 
       eventBus.on('foo', listener1, self);
       eventBus.on('foo', listener2);
@@ -611,8 +614,8 @@ describe('core/EventBus', function() {
       // given
       var self = {};
 
-      var listener1 = sinon.spy();
-      var listener2 = sinon.spy();
+      var listener1 = spy();
+      var listener2 = spy();
 
       eventBus.once('foo', listener1, self);
       eventBus.on('foo', listener2);
@@ -633,9 +636,9 @@ describe('core/EventBus', function() {
       var eventName = 'foo';
 
       var listener1,
-          listener2 = sinon.spy();
+          listener2 = spy();
 
-      listener1 = sinon.spy(function() {
+      listener1 = spy(function() {
         eventBus.off(eventName, listener2);
         eventBus.off(eventName, listener1);
       });
@@ -669,9 +672,9 @@ describe('core/EventBus', function() {
     it('should call lower priority listener', function() {
 
       // given
-      var listenerAdded = sinon.spy();
+      var listenerAdded = spy();
 
-      var listenerOnce = sinon.spy(function() {
+      var listenerOnce = spy(function() {
         eventBus.once('foo', 500, listenerAdded);
       });
 
@@ -697,9 +700,9 @@ describe('core/EventBus', function() {
     it('should NOT call higher priority listener', function() {
 
       // given
-      var listenerAdded = sinon.spy();
+      var listenerAdded = spy();
 
-      var listenerOnce = sinon.spy(function() {
+      var listenerOnce = spy(function() {
         eventBus.once('foo', 5000, listenerAdded);
       });
 
@@ -727,9 +730,9 @@ describe('core/EventBus', function() {
     it('should call same priority listener', function() {
 
       // given
-      var listenerAdded = sinon.spy();
+      var listenerAdded = spy();
 
-      var listenerOnce = sinon.spy(function() {
+      var listenerOnce = spy(function() {
         eventBus.once('foo', listenerAdded);
       });
 
@@ -751,7 +754,7 @@ describe('core/EventBus', function() {
     it('should propagate error via <error> event', function() {
 
       // given
-      var errorListener = sinon.spy();
+      var errorListener = spy();
       var failingListener = function() {
         throw new Error('expected failure');
       };

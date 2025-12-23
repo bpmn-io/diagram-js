@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import SnapContext from 'lib/features/snapping/SnapContext';
 
 

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
@@ -8,6 +9,8 @@ import bendpointsModule from 'lib/features/bendpoints';
 import rulesModule from './rules';
 import interactionModule from 'lib/features/interaction-events';
 
+
+import { spy } from 'sinon';
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents';
@@ -442,7 +445,7 @@ describe('features/bendpoints', function() {
 
         bendpointGfx = domQuery('.djs-bendpoint', bendpoints.getBendpointsContainer(connection));
 
-        listenerSpy = sinon.spy(function(event) {
+        listenerSpy = spy(function(event) {
           expect(event.originalEvent.target).to.equal(bendpointGfx);
           expect(event.element).to.equal(connection);
         });

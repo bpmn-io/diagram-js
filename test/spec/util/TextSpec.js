@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   assign,
   pick
@@ -8,7 +10,6 @@ import {
   attr as svgAttr,
   create as svgCreate
 } from 'tiny-svg';
-
 
 import TextUtil from 'lib/util/Text';
 

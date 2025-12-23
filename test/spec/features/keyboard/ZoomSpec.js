@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   bootstrapDiagram,
   inject
@@ -12,6 +14,7 @@ import zoomScrollModule from 'lib/navigation/zoomscroll';
 import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
+
 
 var KEYS = {
   ZOOM_IN: [ '+', 'Add', '=' ],

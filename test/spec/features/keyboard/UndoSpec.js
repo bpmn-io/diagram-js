@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -12,6 +15,7 @@ import editorActionsModule from 'lib/features/editor-actions';
 import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
+
 
 var KEYS_UNDO = [ 'z', 'Z' ];
 
@@ -65,7 +69,7 @@ describe('features/keyboard - undo', function() {
       it(testCase.desc, inject(function(keyboard, editorActions) {
 
         // given
-        var undoSpy = sinon.spy(editorActions, 'trigger');
+        var undoSpy = spy(editorActions, 'trigger');
 
         var event = createKeyEvent(key, {
           ctrlKey: testCase.ctrlKey,

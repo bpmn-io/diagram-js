@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -106,7 +109,7 @@ describe('features/modeling - create shape', function() {
     it('should mark as changed', inject(function(eventBus, modeling, commandStack) {
 
       // given
-      var changedSpy = sinon.spy(function(event) {
+      var changedSpy = spy(function(event) {
         expect(event.elements).to.have.length(1);
       });
 

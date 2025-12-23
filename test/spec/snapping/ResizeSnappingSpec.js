@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -15,9 +18,8 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../util/MockEvents';
 
-var VERY_LOW_PRIORITY = 100;
 
-var spy = sinon.spy;
+var VERY_LOW_PRIORITY = 100;
 
 
 describe('features/snapping - ResizeSnapping', function() {

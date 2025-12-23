@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   getDiagramJS,
@@ -22,6 +25,7 @@ import {
   isConnection,
   isLabel
 } from '../../../../lib/util/ModelUtil';
+
 
 /**
  * @typedef {import('../../../../lib/model/Types').Element} Element
@@ -685,7 +689,7 @@ describe('features/copy-paste', function() {
     it('should fire <copyPaste.createTree> for each shape', inject(function(copyPaste, eventBus) {
 
       // given
-      var createTreeSpy = sinon.spy();
+      var createTreeSpy = spy();
 
       eventBus.on('copyPaste.createTree', createTreeSpy);
 

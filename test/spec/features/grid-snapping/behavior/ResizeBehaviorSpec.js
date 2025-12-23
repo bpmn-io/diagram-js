@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   bootstrapDiagram,
   inject
@@ -12,6 +14,7 @@ import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
 import AutoResize from 'lib/features/auto-resize/AutoResize';
 
 import inherits from 'inherits-browser';
+
 
 /**
  * Custom auto-resize provider.

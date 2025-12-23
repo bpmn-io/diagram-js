@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import {
   bootstrapDiagram,
   inject
@@ -12,6 +14,7 @@ import rulesModule from './rules';
 import { getMid } from 'lib/layout/LayoutUtil';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
+
 
 var KEYS = {
   ArrowUp: 'up',

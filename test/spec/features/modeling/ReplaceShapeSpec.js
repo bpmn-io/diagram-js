@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -123,8 +126,8 @@ describe('features/modeling - replace shape', function() {
       var newShapeData = { x: 50, y: 50, width: 100, height: 100 },
           hints = { foo: 'foo' };
 
-      var moveElementsSpy = sinon.spy(modeling, 'moveElements'),
-          reconnectStartSpy = sinon.spy(modeling, 'reconnectStart');
+      var moveElementsSpy = spy(modeling, 'moveElements'),
+          reconnectStartSpy = spy(modeling, 'reconnectStart');
 
       // when
       modeling.replaceShape(shape1, newShapeData, hints);

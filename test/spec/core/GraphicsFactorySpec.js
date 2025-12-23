@@ -1,3 +1,10 @@
+import { expect } from 'chai';
+
+import {
+  match,
+  spy
+} from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -61,15 +68,15 @@ describe('GraphicsFactory', function() {
 
       var gfx = graphicsFactory.create('shape', element);
 
-      var spy = sinon.spy();
+      var renderSpy = spy();
 
-      eventBus.on('render.shape', spy);
+      eventBus.on('render.shape', renderSpy);
 
       // when
       graphicsFactory.drawShape(gfx, element, { foo: 'bar' });
 
       // then
-      expect(spy).to.have.been.calledWith(sinon.match({
+      expect(renderSpy).to.have.been.calledWith(match({
         attrs: { foo: 'bar' }
       }));
     }));
@@ -98,15 +105,15 @@ describe('GraphicsFactory', function() {
 
       var gfx = graphicsFactory.create('connection', element);
 
-      var spy = sinon.spy();
+      var renderSpy = spy();
 
-      eventBus.on('render.connection', spy);
+      eventBus.on('render.connection', renderSpy);
 
       // when
       graphicsFactory.drawConnection(gfx, element, { foo: 'bar' });
 
       // then
-      expect(spy).to.have.been.calledWith(sinon.match({
+      expect(renderSpy).to.have.been.calledWith(match({
         attrs: { foo: 'bar' }
       }));
     }));

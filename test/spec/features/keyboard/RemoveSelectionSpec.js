@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
@@ -12,6 +15,7 @@ import editorActionsModule from 'lib/features/editor-actions';
 import keyboardModule from 'lib/features/keyboard';
 
 import { createKeyEvent } from 'test/util/KeyEvents';
+
 
 var KEYS = [
   'Backspace',
@@ -42,7 +46,7 @@ describe('features/keyboard - remove selection', function() {
       inject(function(keyboard, editorActions) {
 
         // given
-        var removeSelectionSpy = sinon.spy(editorActions, 'trigger');
+        var removeSelectionSpy = spy(editorActions, 'trigger');
 
         var event = createKeyEvent(key);
 

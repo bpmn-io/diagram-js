@@ -1,11 +1,12 @@
+import { expect } from 'chai';
+import { spy } from 'sinon';
+
 import {
   bootstrapDiagram,
   inject
 } from 'test/TestHelper';
 
 import customModelingModule from './custom';
-
-var spy = sinon.spy;
 
 
 describe('features/modeling - layout connection', function() {

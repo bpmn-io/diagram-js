@@ -1,10 +1,13 @@
+import { spy } from 'sinon';
+import { expect } from 'chai';
+
 import {
   bootstrapDiagram,
   inject
 } from 'test/TestHelper';
 
-
 import cmdModule from 'lib/command';
+
 
 // example commands
 
@@ -796,7 +799,7 @@ describe('command/CommandStack', function() {
         commandStack._stack.push('FOO');
         commandStack._stackIdx = 10;
 
-        var changedSpy = sinon.spy(function() {});
+        var changedSpy = spy(function() {});
 
         eventBus.on('commandStack.reset', changedSpy);
 
@@ -828,7 +831,7 @@ describe('command/CommandStack', function() {
       it('during <execute>', inject(function(eventBus, commandStack) {
 
         // given
-        var invokeNested = sinon.spy(function invokeNested(event) {
+        var invokeNested = spy(function invokeNested(event) {
 
           // then
           expect(function() {
@@ -851,7 +854,7 @@ describe('command/CommandStack', function() {
       it('during <revert>', inject(function(eventBus, commandStack) {
 
         // given
-        var invokeNested = sinon.spy(function invokeNested(event) {
+        var invokeNested = spy(function invokeNested(event) {
 
           // then
           expect(function() {
@@ -889,7 +892,7 @@ describe('command/CommandStack', function() {
     it('should indicate <execute>', inject(function(eventBus, commandStack) {
 
       // given
-      var changedSpy = sinon.spy(function(event) {
+      var changedSpy = spy(function(event) {
         expect(event.trigger).to.eql('execute');
       });
 
@@ -906,7 +909,7 @@ describe('command/CommandStack', function() {
     it('with trigger <undo>', inject(function(eventBus, commandStack) {
 
       // given
-      var changedSpy = sinon.spy(function(event) {
+      var changedSpy = spy(function(event) {
         expect(event.trigger).to.eql('undo');
       });
 
@@ -925,7 +928,7 @@ describe('command/CommandStack', function() {
     it('with trigger <redo>', inject(function(eventBus, commandStack) {
 
       // given
-      var changedSpy = sinon.spy(function(event) {
+      var changedSpy = spy(function(event) {
         expect(event.trigger).to.eql('redo');
       });
 
@@ -944,7 +947,7 @@ describe('command/CommandStack', function() {
     it('with trigger <clear>', inject(function(eventBus, commandStack) {
 
       // given
-      var changedSpy = sinon.spy(function(event) {
+      var changedSpy = spy(function(event) {
         expect(event.trigger).to.eql('clear');
       });
 
