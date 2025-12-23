@@ -67,11 +67,11 @@ module.exports = function(karma) {
       module: {
         rules: [
           {
-            test: /TestHelper/,
+            test: require.resolve('./test/TestHelper.js'),
             sideEffects: true
           },
           {
-            test: /test\/globals.js/,
+            test: require.resolve('./test/globals.js'),
             sideEffects: true
           },
           {
