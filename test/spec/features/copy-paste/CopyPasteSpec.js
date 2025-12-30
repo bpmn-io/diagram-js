@@ -460,6 +460,35 @@ describe('features/copy-paste', function() {
           }
         ));
 
+
+        it('should cancel paste when <copyPaste.pasteElements> is prevented', inject(
+          function(copyPaste, elementFactory, eventBus) {
+
+            // given
+            eventBus.on('copyPaste.pasteElements', function() {
+              return false;
+            });
+
+            // given
+            copyPaste.copy([
+              childShape,
+              host
+            ]);
+
+            // when
+            copyPaste.paste({
+              element: parentShape,
+              point: {
+                x: 900,
+                y: 350
+              }
+            });
+
+            // then
+            expect(parentShape.children).to.have.length(0);
+          }
+        ));
+
       });
 
 
