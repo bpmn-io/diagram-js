@@ -465,7 +465,7 @@ describe('features/copy-paste', function() {
               return false;
             });
 
-            // given
+            // when
             copyPaste.copy([
               childShape,
               host
@@ -640,6 +640,41 @@ describe('features/copy-paste', function() {
         expect(elements[1].children).to.to.have.members([ elements[2] ]);
         expect(elements[1].collapsed).to.be.true;
         expect(elements[2].hidden).to.be.true;
+      }));
+
+    });
+
+
+    describe('duplicate', function() {
+
+      it('should duplicate shape and shape with attacher', inject(function(copyPaste) {
+
+        // when
+        copyPaste.duplicate([
+          childShape,
+          host
+        ], {
+          element: parentShape,
+          point: {
+            x: 900,
+            y: 350
+          }
+        });
+
+        // then
+        expect(parentShape.children).to.have.length(3);
+      }));
+
+
+      it('should not populate clipboard', inject(function(copyPaste, clipboard) {
+
+        // when
+        copyPaste.duplicate([
+          host
+        ]);
+
+        // then
+        expect(clipboard.isEmpty(), 'clipboard is empty').to.be.true;
       }));
 
     });
