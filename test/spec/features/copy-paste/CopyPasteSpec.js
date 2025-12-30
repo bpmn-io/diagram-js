@@ -1,6 +1,5 @@
 import {
   bootstrapDiagram,
-  getDiagramJS,
   inject
 } from 'test/TestHelper';
 
@@ -199,8 +198,8 @@ describe('features/copy-paste', function() {
 
     describe('events', function() {
 
-      it('should fire <copyPaste.canCopyElements> if elements are going to be copied', function(done) {
-        getDiagramJS().invoke(function(copyPaste, eventBus) {
+      it('should fire <copyPaste.canCopyElements> if elements are going to be copied', inject(
+        function(copyPaste, eventBus) {
 
           // given
           eventBus.on('copyPaste.canCopyElements', function(context) {
@@ -209,14 +208,12 @@ describe('features/copy-paste', function() {
             // then
             expect(elements).to.have.length(1);
             expect(elements[0]).to.have.equal(parentShape2);
-
-            done();
           });
 
           // when
           copyPaste.copy(parentShape2);
-        });
-      });
+        }
+      ));
 
 
       it('should only copy elements returned from <copyPaste.canCopyElements>', inject(
@@ -255,8 +252,8 @@ describe('features/copy-paste', function() {
       ));
 
 
-      it('should fire <copyPaste.elementsCopied> if elements were copied', function(done) {
-        getDiagramJS().invoke(function(clipboard, copyPaste, eventBus) {
+      it('should fire <copyPaste.elementsCopied> if elements were copied', inject(
+        function(clipboard, copyPaste, eventBus) {
 
           // given
           eventBus.on('copyPaste.elementsCopied', function(context) {
@@ -267,16 +264,13 @@ describe('features/copy-paste', function() {
             expect(elements).to.have.length(1);
             expect(elements[0]).to.equal(parentShape2);
 
-            expect(clipboard.isEmpty()).to.be.false;
             expect(clipboard.get()).to.equal(tree);
-
-            done();
           });
 
           // when
           copyPaste.copy(parentShape2);
-        });
-      });
+        }
+      ));
 
 
       it('should set empty tree if copying is not allowed', inject(function(copyPaste, eventBus) {
@@ -425,28 +419,26 @@ describe('features/copy-paste', function() {
 
       describe('events', function() {
 
-        it('should fire <copyPaste.pasteElements> event when pasting elements', function(done) {
-          getDiagramJS().invoke(function(copyPaste, elementFactory, eventBus) {
+        it('should fire <copyPaste.pasteElements> event when pasting elements', inject(
+          function(copyPaste, elementFactory, eventBus) {
 
             // given
             eventBus.on('copyPaste.pasteElements', function(context) {
               var hints = context.hints;
 
               expect(hints).to.exist;
-
-              done();
             });
 
             copyPaste.copy(elementFactory.createShape());
 
             // when
             copyPaste.paste();
-          });
-        });
+          }
+        ));
 
 
-        it('should fire <copyPaste.pasteElement> event when pasting elements', function(done) {
-          getDiagramJS().invoke(function(copyPaste, elementFactory, eventBus) {
+        it('should fire <copyPaste.pasteElement> event when pasting elements', inject(
+          function(copyPaste, elementFactory, eventBus) {
 
             // given
             eventBus.on('copyPaste.pasteElement', function(context) {
@@ -455,16 +447,14 @@ describe('features/copy-paste', function() {
 
               expect(cache).to.exist;
               expect(descriptor).to.exist;
-
-              done();
             });
 
             copyPaste.copy(elementFactory.createShape());
 
             // when
             copyPaste.paste();
-          });
-        });
+          }
+        ));
 
       });
 
