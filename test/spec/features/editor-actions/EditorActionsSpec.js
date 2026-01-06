@@ -450,4 +450,69 @@ describe('feature/editor-actions - actions', function() {
 
   });
 
+
+  describe('duplicate', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        copyPasteModule,
+        selectionModule,
+        modelingModule
+      ]
+    }));
+
+
+    var root, shape;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      root = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(root);
+
+      shape = elementFactory.createShape({
+        id: 'shape',
+        x: 100, y: 100,
+        width: 300, height: 300
+      });
+
+      canvas.addShape(shape, root);
+    }));
+
+
+    it('should duplicate non empty', inject(function(selection, editorActions, copyPaste) {
+
+      // given
+      selection.select(shape);
+
+      var duplicateSpy = sinon.spy(copyPaste, 'duplicate');
+
+      // when
+      editorActions.trigger('duplicate');
+
+      // then
+      expect(duplicateSpy).to.have.been.calledOnce;
+      expect(duplicateSpy).to.have.been.calledWith([ shape ]);
+    }));
+
+
+    it('should not duplicate empty', inject(function(selection, editorActions, copyPaste) {
+
+      // assume
+      expect(selection.get()).to.be.empty;
+
+      var duplicateSpy = sinon.spy(copyPaste, 'duplicate');
+
+      // when
+      var duplicated = editorActions.trigger('duplicate');
+
+      // then
+      expect(duplicated).not.to.exist;
+      expect(duplicateSpy).not.to.have.been.called;
+    }));
+
+  });
+
 });
