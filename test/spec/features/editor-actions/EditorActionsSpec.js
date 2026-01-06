@@ -13,6 +13,7 @@ import editorActionsModule from 'lib/features/editor-actions';
 import copyPasteModule from 'lib/features/copy-paste';
 import selectionModule from 'lib/features/selection';
 import keyboardMoveModule from 'lib/navigation/keyboard-move';
+import zoomScrollModule from 'lib/navigation/zoomscroll';
 import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
 import modelingModule from 'lib/features/modeling';
 import customRulesModule from './rules';
@@ -368,6 +369,7 @@ describe('feature/editor-actions - actions', function() {
 
   });
 
+
   describe('moveCanvas', function() {
 
     beforeEach(bootstrapDiagram({
@@ -397,7 +399,7 @@ describe('feature/editor-actions - actions', function() {
   });
 
 
-  describe('copy + paste', function() {
+  describe('copy', function() {
 
     beforeEach(bootstrapDiagram({
       modules: [
@@ -452,6 +454,249 @@ describe('feature/editor-actions - actions', function() {
 
       // then
       expect(copied).not.to.exist;
+    }));
+
+  });
+
+
+  describe('paste', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        copyPasteModule,
+        selectionModule,
+        modelingModule
+      ]
+    }));
+
+
+    var root, shape;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      root = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(root);
+
+      shape = elementFactory.createShape({
+        id: 'shape',
+        x: 100, y: 100,
+        width: 300, height: 300
+      });
+
+      canvas.addShape(shape, root);
+    }));
+
+
+    it('should paste', inject(function(selection, clipboard, editorActions, copyPaste) {
+
+      // given
+      selection.select(shape);
+      editorActions.trigger('copy');
+
+      var pasteSpy = spy(copyPaste, 'paste');
+
+      // when
+      editorActions.trigger('paste');
+
+      // then
+      expect(pasteSpy).to.have.been.calledOnce;
+    }));
+
+
+    it('should paste empty clipboard', inject(function(clipboard, editorActions, copyPaste) {
+
+      // given
+      expect(clipboard.isEmpty()).to.be.true;
+
+      var pasteSpy = spy(copyPaste, 'paste');
+
+      // when
+      editorActions.trigger('paste');
+
+      // then
+      expect(pasteSpy).to.have.been.calledOnce;
+    }));
+
+  });
+
+
+  describe('undo + redo', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        modelingModule
+      ]
+    }));
+
+
+    var rootShape, childShape;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      rootShape = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(rootShape);
+
+      childShape = elementFactory.createShape({
+        id: 'child',
+        x: 110, y: 110,
+        width: 100, height: 100
+      });
+
+      canvas.addShape(childShape, rootShape);
+    }));
+
+
+    it('should undo', inject(function(modeling, editorActions) {
+
+      // given
+      var originalX = childShape.x;
+      modeling.moveElements([ childShape ], { x: 100, y: 0 });
+
+      // when
+      editorActions.trigger('undo');
+
+      // then
+      expect(childShape.x).to.equal(originalX);
+    }));
+
+
+    it('should redo', inject(function(modeling, editorActions) {
+
+      // given
+      modeling.moveElements([ childShape ], { x: 100, y: 0 });
+      var movedX = childShape.x;
+
+      editorActions.trigger('undo');
+
+      // when
+      editorActions.trigger('redo');
+
+      // then
+      expect(childShape.x).to.equal(movedX);
+    }));
+
+  });
+
+
+  describe('duplicate', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        copyPasteModule,
+        selectionModule,
+        modelingModule
+      ]
+    }));
+
+
+    var root, shape;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      root = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(root);
+
+      shape = elementFactory.createShape({
+        id: 'shape',
+        x: 100, y: 100,
+        width: 300, height: 300
+      });
+
+      canvas.addShape(shape, root);
+    }));
+
+
+    it('should duplicate non empty', inject(function(selection, editorActions, copyPaste) {
+
+      // given
+      selection.select(shape);
+
+      var duplicateSpy = spy(copyPaste, 'duplicate');
+
+      // when
+      editorActions.trigger('duplicate');
+
+      // then
+      expect(duplicateSpy).to.have.been.calledOnce;
+      expect(duplicateSpy).to.have.been.calledWith([ shape ]);
+    }));
+
+
+    it('should not duplicate empty', inject(function(selection, editorActions, copyPaste) {
+
+      // assume
+      expect(selection.get()).to.be.empty;
+
+      var duplicateSpy = spy(copyPaste, 'duplicate');
+
+      // when
+      var duplicated = editorActions.trigger('duplicate');
+
+      // then
+      expect(duplicated).not.to.exist;
+      expect(duplicateSpy).not.to.have.been.called;
+    }));
+
+  });
+
+
+  describe('zoom', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        modelingModule
+      ]
+    }));
+
+
+    it('should zoom', inject(function(canvas, editorActions) {
+
+      // given
+      var zoomSpy = spy(canvas, 'zoom');
+
+      // when
+      editorActions.trigger('zoom', { value: 0.5 });
+
+      // then
+      expect(zoomSpy).to.have.been.calledOnce;
+      expect(zoomSpy).to.have.been.calledWith(0.5);
+    }));
+
+  });
+
+
+  describe('stepZoom', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        modelingModule,
+        zoomScrollModule
+      ]
+    }));
+
+
+    it('should step zoom', inject(function(zoomScroll, editorActions) {
+
+      // given
+      var stepZoomSpy = spy(zoomScroll, 'stepZoom');
+
+      // when
+      editorActions.trigger('stepZoom', { value: 1 });
+
+      // then
+      expect(stepZoomSpy).to.have.been.calledOnce;
+      expect(stepZoomSpy).to.have.been.calledWith(1);
     }));
 
   });
