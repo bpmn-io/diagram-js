@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.5.0
+
+* `FEAT`: allow to duplicate elements ([#998](https://github.com/bpmn-io/diagram-js/pull/998))
+
 ## 15.4.0
 
 * `FEAT`: support disabled entries in popup menu ([#987](https://github.com/bpmn-io/diagram-js/pull/987))
