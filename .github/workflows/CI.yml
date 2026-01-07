@@ -4,9 +4,11 @@ jobs:
   build_browsers:
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
         browser: [ Firefox, ChromeHeadless ]
+
 
     runs-on: ${{ matrix.os }}
 
@@ -38,6 +40,7 @@ jobs:
   build_os:
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ macos-latest, windows-latest ]
         browser: [ ChromeHeadless ]
