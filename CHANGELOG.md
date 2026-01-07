@@ -9,6 +9,7 @@ _**Note:** Yet to be released changes appear here._
 ## 15.5.0
 
 * `FEAT`: allow to duplicate elements ([#998](https://github.com/bpmn-io/diagram-js/pull/998))
+* `DEPS`: update to `path-intersection@4.0.0` ([#994](https://github.com/bpmn-io/diagram-js/pull/994))
 
 ## 15.4.0
 
