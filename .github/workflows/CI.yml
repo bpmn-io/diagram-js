@@ -1,11 +1,12 @@
 name: CI
 on: [ push, pull_request ]
 jobs:
-  build:
+  build_browsers:
 
     strategy:
       matrix:
         os: [ ubuntu-latest ]
+        browser: [ Firefox, ChromeHeadless ]
 
     runs-on: ${{ matrix.os }}
 
@@ -24,9 +25,10 @@ jobs:
     - name: Build
       env:
         COVERAGE: 1
-        TEST_BROWSERS: Firefox,ChromeHeadless
+        TEST_BROWSERS: ${{ matrix.browser }}
       run: xvfb-run npm run all
     - name: Upload coverage
+      if: matrix.browser == 'ChromeHeadless'
       uses: codecov/codecov-action@v5
       with:
         fail_ci_if_error: true
@@ -38,6 +40,7 @@ jobs:
     strategy:
       matrix:
         os: [ macos-latest, windows-latest ]
+        browser: [ ChromeHeadless ]
 
     runs-on: ${{ matrix.os }}
 
@@ -55,5 +58,5 @@ jobs:
       uses: bpmn-io/actions/setup@latest
     - name: Build
       env:
-        TEST_BROWSERS: ChromeHeadless
+        TEST_BROWSERS: ${{ matrix.browser }}
       run: npm run all
