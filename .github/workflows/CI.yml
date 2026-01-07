@@ -24,9 +24,15 @@ jobs:
       run: npm ci
     - name: Setup project
       uses: bpmn-io/actions/setup@latest
-    - name: Build
+    - name: Build (with coverage)
+      if: matrix.browser == 'ChromeHeadless'
       env:
         COVERAGE: 1
+        TEST_BROWSERS: ${{ matrix.browser }}
+      run: npm run all
+    - name: Build
+      if: matrix.browser == 'Firefox'
+      env:
         TEST_BROWSERS: ${{ matrix.browser }}
       run: xvfb-run npm run all
     - name: Upload coverage
