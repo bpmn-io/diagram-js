@@ -45,7 +45,7 @@ export default interface ContextPadProvider<
    * @example
    *
    * ```javascript
-   * getPopupMenuEntries(element) {
+   * getContextPadEntries(element) {
    *   return function(entries) {
    *     return {
    *       alert: {
