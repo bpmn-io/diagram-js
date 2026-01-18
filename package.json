@@ -61,7 +61,7 @@
     "del-cli": "^7.0.0",
     "eslint": "^9.11.1",
     "eslint-plugin-bpmn-io": "^2.0.2",
-    "jquery": "^3.7.1",
+    "jquery": "^4.0.0",
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "^2.2.1",
