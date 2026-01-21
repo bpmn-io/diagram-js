@@ -6,6 +6,14 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.6.0
+
+* `DEPS`: update to `min-dash@5.0.0`
+* `DEPS`: update to `didi@11.0.0`
+* `DEPS`: update to `min-dom@5.2.0`
+* `DEPS`: update to `path-intersection@4.1.0`
+* `DEPS`: update to `tiny-svg@4.1.4`
+
 ## 15.5.0
 
 * `FEAT`: allow to duplicate elements ([#998](https://github.com/bpmn-io/diagram-js/pull/998))
