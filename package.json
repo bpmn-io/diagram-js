@@ -87,6 +87,6 @@
     "min-dom": "^4.2.1",
     "object-refs": "^0.4.0",
     "path-intersection": "^4.0.0",
-    "tiny-svg": "^3.1.2"
+    "tiny-svg": "^4.1.4"
   }
 }
