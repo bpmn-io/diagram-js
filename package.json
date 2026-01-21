@@ -51,7 +51,7 @@
     "*.css"
   ],
   "devDependencies": {
-    "@babel/core": "^7.28.5",
+    "@babel/core": "^7.28.6",
     "@bpmn-io/a11y": "^0.1.0",
     "@testing-library/preact": "^3.2.4",
     "babel-loader": "^10.0.0",
