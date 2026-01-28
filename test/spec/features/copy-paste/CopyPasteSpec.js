@@ -731,6 +731,45 @@ describe('features/copy-paste', function() {
         ], tree, 1)).to.be.ok;
       }));
 
+
+      it('should NOT remove elements if disallowed through <copyPaste.canCopyElements>', inject(
+        function(copyPaste, eventBus) {
+
+          // given
+          eventBus.on('copyPaste.canCopyElements', function() {
+            return false;
+          });
+
+          // when
+          var tree = copyPaste.cut([ parentShape, parentShape2 ]);
+
+          // then
+          expect(tree).to.be.empty;
+          expect(parentShape.parent).to.equal(rootShape);
+          expect(parentShape2.parent).to.equal(rootShape);
+        }
+      ));
+
+
+      it('should only remove elements returned from <copyPaste.canCopyElements>', inject(
+        function(copyPaste, eventBus) {
+
+          // given
+          eventBus.on('copyPaste.canCopyElements', function() {
+            return [ parentShape2 ];
+          });
+
+          // when
+          var tree = copyPaste.cut([ parentShape, parentShape2 ]);
+
+          // then
+          expect(findElementInTree(parentShape, tree)).not.to.be.ok;
+          expect(findElementInTree(parentShape2, tree)).to.be.ok;
+          expect(parentShape.parent).to.equal(rootShape);
+          expect(parentShape2.parent).to.not.exist;
+        }
+      ));
+
     });
 
   });
