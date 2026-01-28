@@ -684,7 +684,7 @@ describe('feature/editor-actions - actions', function() {
 
       // given
       selection.select(shape);
-      var cutSpy = stub(copyPaste, 'cut'); // stub because with spy the args are altered
+      var cutSpy = stub(copyPaste, 'cut'); // stub to avoid executing copyPaste.cut() side effects
 
       // when
       editorActions.trigger('cut');
