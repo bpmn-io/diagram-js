@@ -649,6 +649,100 @@ describe('feature/editor-actions - actions', function() {
   });
 
 
+  describe('cut', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        copyPasteModule,
+        selectionModule,
+        modelingModule,
+        customRulesModule
+      ]
+    }));
+
+
+    var root, shape1, shape2;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      root = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(root);
+
+      shape1 = elementFactory.createShape({
+        id: 'shape_1',
+        x: 100, y: 100,
+        width: 300, height: 300
+      });
+
+      canvas.addShape(shape1, root);
+
+      shape2 = elementFactory.createShape({
+        id: 'shape_2',
+        x: 100, y: 500,
+        width: 300, height: 300
+      });
+
+      canvas.addShape(shape2, root);
+    }));
+
+
+    it('should cut non empty', inject(function(selection, editorActions, copyPaste) {
+
+      // given
+      selection.select(shape1);
+      var cutSpy = stub(copyPaste, 'cut'); // stub to avoid executing copyPaste.cut() side effects
+
+      // when
+      editorActions.trigger('cut');
+
+      // then
+      expect(cutSpy).to.have.been.calledOnce;
+      expect(cutSpy).to.have.been.calledWith([ shape1 ]);
+    }));
+
+
+    it('should cut only what can be removed', inject(
+      function(selection, editorActions, copyPaste, customRules) {
+
+        // assume
+        selection.select([ shape1, shape2 ]);
+
+        var cutSpy = stub(copyPaste, 'cut');
+        customRules.addRule('elements.delete', function() {
+          return [ shape1 ];
+        });
+
+        // when
+        editorActions.trigger('cut');
+
+        // then
+        expect(cutSpy).to.have.been.calledOnce;
+        expect(cutSpy).to.have.been.calledWith([ shape1 ]);
+      })
+    );
+
+
+    it('should not cut empty', inject(function(selection, editorActions, copyPaste) {
+
+      // assume
+      expect(selection.get()).to.be.empty;
+
+      var cutSpy = spy(copyPaste, 'cut');
+
+      // when
+      var cutResult = editorActions.trigger('cut');
+
+      // then
+      expect(cutResult).not.to.exist;
+      expect(cutSpy).not.to.have.been.called;
+    }));
+
+  });
+
+
   describe('zoom', function() {
 
     beforeEach(bootstrapDiagram({
