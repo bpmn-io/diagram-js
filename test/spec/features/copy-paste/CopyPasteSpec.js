@@ -682,6 +682,57 @@ describe('features/copy-paste', function() {
 
     });
 
+
+    describe('cut', function() {
+
+      it('should remove cut elements from the diagram', inject(function(copyPaste) {
+
+        // when
+        copyPaste.cut([
+          parentShape2
+        ]);
+
+        // then
+        expect(parentShape.children).to.be.empty;
+      }));
+
+
+      it('should populate clipboard with cut elements', inject(function(copyPaste, clipboard) {
+
+        // when
+        copyPaste.cut([
+          parentShape2
+        ]);
+
+        // then
+        var tree = clipboard.get();
+        expect(findElementsInTree([
+          childShape,
+          childShape2,
+          connection,
+          host
+        ], tree, 1)).to.be.ok;
+      }));
+
+
+      it('should return the copied tree', inject(function(copyPaste) {
+
+        // when
+        var tree = copyPaste.cut([
+          parentShape2
+        ]);
+
+        // then
+        expect(findElementsInTree([
+          childShape,
+          childShape2,
+          connection,
+          host
+        ], tree, 1)).to.be.ok;
+      }));
+
+    });
+
   });
 
 

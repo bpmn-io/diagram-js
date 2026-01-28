@@ -649,6 +649,70 @@ describe('feature/editor-actions - actions', function() {
   });
 
 
+  describe('cut', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        editorActionsModule,
+        copyPasteModule,
+        selectionModule,
+        modelingModule
+      ]
+    }));
+
+
+    var root, shape;
+
+    beforeEach(inject(function(elementFactory, canvas) {
+      root = elementFactory.createRoot({
+        id: 'root'
+      });
+
+      canvas.setRootElement(root);
+
+      shape = elementFactory.createShape({
+        id: 'shape',
+        x: 100, y: 100,
+        width: 300, height: 300
+      });
+
+      canvas.addShape(shape, root);
+    }));
+
+
+    it('should cut non empty', inject(function(selection, editorActions, copyPaste) {
+
+      // given
+      selection.select(shape);
+      var cutSpy = stub(copyPaste, 'cut'); // stub because with spy the args are altered
+
+      // when
+      editorActions.trigger('cut');
+
+      // then
+      expect(cutSpy).to.have.been.calledOnce;
+      expect(cutSpy).to.have.been.calledWith([ shape ]);
+    }));
+
+
+    it('should not cut empty', inject(function(selection, editorActions, copyPaste) {
+
+      // assume
+      expect(selection.get()).to.be.empty;
+
+      var cutSpy = spy(copyPaste, 'cut');
+
+      // when
+      var cutResult = editorActions.trigger('cut');
+
+      // then
+      expect(cutResult).not.to.exist;
+      expect(cutSpy).not.to.have.been.called;
+    }));
+
+  });
+
+
   describe('zoom', function() {
 
     beforeEach(bootstrapDiagram({
