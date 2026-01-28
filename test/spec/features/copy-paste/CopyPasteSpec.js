@@ -682,6 +682,96 @@ describe('features/copy-paste', function() {
 
     });
 
+
+    describe('cut', function() {
+
+      it('should remove cut elements from the diagram', inject(function(copyPaste) {
+
+        // when
+        copyPaste.cut([
+          parentShape2
+        ]);
+
+        // then
+        expect(parentShape2.parent).to.not.exist;
+      }));
+
+
+      it('should populate clipboard with cut elements', inject(function(copyPaste, clipboard) {
+
+        // when
+        copyPaste.cut([
+          parentShape2
+        ]);
+
+        // then
+        var tree = clipboard.get();
+        expect(findElementsInTree([
+          childShape,
+          childShape2,
+          connection,
+          host
+        ], tree, 1)).to.be.ok;
+      }));
+
+
+      it('should return the copied tree', inject(function(copyPaste) {
+
+        // when
+        var tree = copyPaste.cut([
+          parentShape2
+        ]);
+
+        // then
+        expect(findElementsInTree([
+          childShape,
+          childShape2,
+          connection,
+          host
+        ], tree, 1)).to.be.ok;
+      }));
+
+
+      it('should NOT remove elements if disallowed through <copyPaste.canCopyElements>', inject(
+        function(copyPaste, eventBus) {
+
+          // given
+          eventBus.on('copyPaste.canCopyElements', function() {
+            return false;
+          });
+
+          // when
+          var tree = copyPaste.cut([ parentShape, parentShape2 ]);
+
+          // then
+          expect(tree).to.be.empty;
+          expect(parentShape.parent).to.equal(rootShape);
+          expect(parentShape2.parent).to.equal(rootShape);
+        }
+      ));
+
+
+      it('should only cut elements returned from <copyPaste.canCopyElements>', inject(
+        function(copyPaste, eventBus) {
+
+          // given
+          eventBus.on('copyPaste.canCopyElements', function() {
+            return [ parentShape2 ];
+          });
+
+          // when
+          var tree = copyPaste.cut([ parentShape, parentShape2 ]);
+
+          // then
+          expect(findElementInTree(parentShape, tree)).not.to.be.ok;
+          expect(findElementInTree(parentShape2, tree)).to.be.ok;
+          expect(parentShape.parent).to.equal(rootShape);
+          expect(parentShape2.parent).to.not.exist;
+        }
+      ));
+
+    });
+
   });
 
 
