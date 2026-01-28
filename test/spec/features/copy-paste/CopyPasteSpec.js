@@ -693,7 +693,7 @@ describe('features/copy-paste', function() {
         ]);
 
         // then
-        expect(parentShape.children).to.be.empty;
+        expect(parentShape2.parent).to.not.exist;
       }));
 
 
