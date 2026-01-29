@@ -267,7 +267,7 @@ describe('navigation/zoomscroll', function() {
     }));
 
 
-    it('should not scroll, if canvas is not focused', inject(function(zoomScroll, canvas) {
+    it('should not scroll, if mouse is not over canvas', inject(function(zoomScroll, canvas) {
 
       // given
       var zoomSpy = spy(zoomScroll, 'zoom');
@@ -286,12 +286,12 @@ describe('navigation/zoomscroll', function() {
     }));
 
 
-    describe('should scroll, if canvas is focused', function() {
+    describe('should scroll, if mouse is over canvas', function() {
 
       beforeEach(inject(function(canvas) {
-        canvas.focus();
+        var event = createMouseOverEvent(event);
+        canvas._svg.dispatchEvent(event);
       }));
-
 
       it('two-dimensional', expectScroll({
         expectedDelta: {
@@ -338,7 +338,8 @@ describe('navigation/zoomscroll', function() {
     describe('should zoom', function() {
 
       beforeEach(inject(function(canvas) {
-        canvas.focus();
+        var event = createMouseOverEvent(event);
+        canvas._svg.dispatchEvent(event);
       }));
 
 
@@ -389,7 +390,8 @@ describe('navigation/zoomscroll', function() {
 
 
     beforeEach(inject(function(canvas) {
-      canvas.focus();
+      var event = createMouseOverEvent(event);
+      canvas._svg.dispatchEvent(event);
     }));
 
 
@@ -508,4 +510,20 @@ function expectScroll(opts) {
     });
   };
 
+}
+
+
+// helpers //////////////////////
+
+function createMouseOverEvent() {
+  var event = document.createEvent('MouseEvent');
+
+  event.initMouseEvent(
+    'mouseover', true, true, window,
+    0, 0, 0, 0, 0,
+    false, false, false, false,
+    0, null
+  );
+
+  return event;
 }
