@@ -17,10 +17,11 @@ CreateRules.prototype.init = function() {
 
   this.addRule('elements.move', function(context) {
     var shapes = context.shapes;
+    var isKeyboardMove = context.hints?.keyboardMove;
 
-    return !find(shapes, function(shape) {
-      return shape.id === 'shapeDisallowed';
-    });
+    return !(isKeyboardMove && findShapeById(shapes, 'shapeDisallowed'));
   });
 
 };
+
+const findShapeById = (shapes, id) => find(shapes, shape => shape.id === id);
