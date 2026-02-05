@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.8.0
+
+* `FEAT`: allow to react to keyboard move in `element.move` rules ([#1009](https://github.com/bpmn-io/diagram-js/pull/1009))
+
 ## 15.7.0
 
 * `FEAT`: allow to cut elements ([#1006](https://github.com/bpmn-io/diagram-js/pull/1006))
