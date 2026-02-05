@@ -217,6 +217,7 @@ describe('features/keyboard-move-selection', function() {
       // then
       expect(getMid(shapeDisallowed)).to.eql(mid);
     }));
+
   });
 
 });

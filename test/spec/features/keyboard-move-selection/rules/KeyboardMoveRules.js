@@ -19,9 +19,9 @@ CreateRules.prototype.init = function() {
     var shapes = context.shapes;
     var isKeyboardMove = context.hints?.keyboardMove;
 
-    return !(isKeyboardMove && findShapeById(shapes, 'shapeDisallowed'));
+    return isKeyboardMove && !find(shapes, function(shape) {
+      return shape.id === 'shapeDisallowed';
+    });
   });
 
 };
-
-const findShapeById = (shapes, id) => find(shapes, shape => shape.id === id);
