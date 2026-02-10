@@ -113,6 +113,10 @@
   background: var(--shape-drop-allowed-fill-color) !important;
 }
 
+.djs-container svg:focus {
+  outline-offset: -1px;
+}
+
 /**
  * outline styles
  */
