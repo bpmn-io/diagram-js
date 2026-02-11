@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.9.1
+
+* `FIX`: ensure outline always shows on canvas ([#1011](https://github.com/bpmn-io/diagram-js/pull/1011))
+
 ## 15.9.0
 
 * `FEAT`: activate wheel zoom/scoll on `mouseover` ([#1008](https://github.com/bpmn-io/diagram-js/pull/1008))
