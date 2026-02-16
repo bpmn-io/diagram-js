@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.10.0
+
+* `DEPS`: update to `min-dom@5.3.0`
+
 ## 15.9.1
 
 * `FIX`: ensure outline always shows on canvas ([#1011](https://github.com/bpmn-io/diagram-js/pull/1011))
