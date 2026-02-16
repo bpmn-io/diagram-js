@@ -8,6 +8,9 @@ import modelingModule from 'lib/features/modeling';
 import bendpointsModule from 'lib/features/bendpoints';
 import rulesModule from './rules';
 import interactionModule from 'lib/features/interaction-events';
+import OrderingProvider from 'lib/features/ordering/OrderingProvider';
+import MoveModule from 'lib/features/move';
+import { isConnection } from 'lib/util/ModelUtil';
 
 
 import { spy } from 'sinon';
@@ -614,6 +617,308 @@ describe('features/bendpoints', function() {
         expect(newBounds).to.eql(oldBounds);
       }
     ));
+
+  });
+
+  describe('no side effects', function() {
+
+    class CustomOrderingProvider extends OrderingProvider {
+      constructor(eventbus) {
+        super(eventbus);
+      }
+
+      getOrdering(element, newParent) {
+        if (isConnection(element)) {
+          return {
+            index: 1,
+            parent: newParent
+          };
+        } else {
+          return {
+            index: -1,
+            parent: newParent
+          };
+        }
+      }
+    }
+    CustomOrderingProvider.$inject = [ 'eventBus' ];
+
+    const CustomOrdering = {
+      __init__: [ 'ordering' ],
+      ordering: [ 'type', CustomOrderingProvider ]
+    };
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        interactionModule,
+        modelingModule,
+        MoveModule,
+        CustomOrdering,
+        bendpointsModule,
+        rulesModule
+      ]
+    }));
+
+    beforeEach(inject(function(elementFactory, modeling, canvas) {
+
+      rootShape = canvas.getRootElement();
+
+      shape1 = modeling.createShape(
+        {
+          id: 'shape.1',
+          type: 'A',
+          width: 300, height: 300
+        },
+        { x: 100, y: 100 },
+        rootShape
+      );
+
+      shape2 = modeling.createShape(
+        {
+          id: 'shape2',
+          type: 'A',
+          width: 100, height: 100
+        },
+        { x: 500, y: 100, },
+        rootShape
+      );
+
+      shape3 = modeling.createShape(
+        {
+          id: 'shape3',
+          type: 'B',
+          width: 100, height: 100
+        },
+        { x: 500, y: 400, },
+        rootShape
+      );
+
+      connection = modeling.connect(shape1, shape2);
+      connection2 = modeling.connect(shape1, shape2);
+
+      modeling.moveElements(
+        [ shape1, shape2, shape3 ],
+        { x: 1, y: 1 }
+      );
+    }));
+
+    function getPositionData(shape) {
+      return {
+        x: shape.x + Math.random() * (shape.width - 1),
+        y: shape.y + Math.random() * (shape.height - 1)
+      };
+    }
+
+    it('should not stop mousemove propagation', inject(
+      function(interactionEvents, eventBus, elementRegistry) {
+
+        function triggerMouseEvent(type, gfx, shape) {
+
+          let dummyEvent = canvasEvent(
+            getPositionData(shape),
+            { }
+          );
+          delete dummyEvent.target;
+
+          var event = document.createEvent('MouseEvent');
+          event.initMouseEvent(
+            type, true, true, window,
+            0, 0, 0,
+            dummyEvent.clientX, dummyEvent.clientY,
+            false, false, false, false, 0, null);
+          return gfx.dispatchEvent(event);
+        }
+
+        // given
+        function maker(shape) {
+          let gfx = elementRegistry.getGraphics(shape);
+          let org = shape;
+          return sinon.spy(function(event) {
+            expect(event.gfx).to.equal(gfx);
+            expect(event.element).to.equal(org);
+          });
+        }
+
+        // when
+        triggerMouseEvent(
+          'mouseover',
+          elementRegistry.getGraphics(shape1),
+          shape1
+        );
+        triggerMouseEvent(
+          'mouseout',
+          elementRegistry.getGraphics(shape1),
+          shape1
+        );
+        triggerMouseEvent(
+          'mouseover',
+          elementRegistry.getGraphics(shape2),
+          shape2
+        );
+        triggerMouseEvent(
+          'mouseout',
+          elementRegistry.getGraphics(shape2),
+          shape2
+        );
+        triggerMouseEvent(
+          'mouseover',
+          elementRegistry.getGraphics(shape3),
+          shape3
+        );
+        triggerMouseEvent(
+          'mouseout',
+          elementRegistry.getGraphics(shape3),
+          shape3
+        );
+
+        // then
+        let spy = maker(shape3);
+        eventBus.once('element.mousemove', spy);
+        triggerMouseEvent('mousemove', elementRegistry.getGraphics(shape3), shape3);
+        expect(spy).to.have.been.called;
+
+        spy = maker(shape2);
+        eventBus.once('element.mousemove', spy);
+        triggerMouseEvent('mousemove', elementRegistry.getGraphics(shape2), shape2);
+        expect(spy).to.have.been.called;
+
+        spy = maker(shape1);
+        eventBus.once('element.mousemove', spy);
+        triggerMouseEvent('mousemove', elementRegistry.getGraphics(shape1), shape1);
+        expect(spy).to.have.been.called;
+      }
+    ));
+
+    it('should not stop mousemove propagation on element.out on root svg element',
+      inject(
+        function(interactionEvents, canvas, eventBus, elementRegistry) {
+
+          function triggerMouseEvent(type, gfx, shape) {
+
+            let dummyEvent = canvasEvent(
+              getPositionData(shape),
+              { }
+            );
+            delete dummyEvent.target;
+
+            var event = document.createEvent('MouseEvent');
+            event.initMouseEvent(
+              type, true, true, window,
+              0, 0, 0,
+              dummyEvent.clientX, dummyEvent.clientY,
+              false, false, false, false, 0, null);
+            return gfx.dispatchEvent(event);
+          }
+
+          // given
+          function maker(shape) {
+            let gfx = elementRegistry.getGraphics(shape);
+            let org = shape;
+            return sinon.spy(function(event) {
+              expect(event.gfx).to.equal(gfx);
+              expect(event.element).to.equal(org);
+            });
+          }
+
+          // when
+          let root = canvas.getRootElement();
+          triggerMouseEvent(
+            'mouseover',
+            elementRegistry.getGraphics(root),
+            root
+          );
+          triggerMouseEvent(
+            'mouseout',
+            elementRegistry.getGraphics(root),
+            root
+          );
+
+          // then
+          let spy = maker(shape3);
+          eventBus.once('element.mousemove', spy);
+          triggerMouseEvent('mousemove',
+            elementRegistry.getGraphics(shape3), shape3);
+          expect(spy).to.have.been.called;
+
+          spy = maker(shape2);
+          eventBus.once('element.mousemove', spy);
+          triggerMouseEvent('mousemove',
+            elementRegistry.getGraphics(shape2), shape2);
+          expect(spy).to.have.been.called;
+
+          spy = maker(shape1);
+          eventBus.once('element.mousemove', spy);
+          triggerMouseEvent('mousemove',
+            elementRegistry.getGraphics(shape1), shape1);
+          expect(spy).to.have.been.called;
+        }
+      )
+    );
+
+    it('should not stop mousemove propagation after movemove on connection',
+      inject(
+        function(interactionEvents, eventBus, elementRegistry) {
+
+          function triggerMouseEvent(type, gfx, shape) {
+
+            let dummyEvent = canvasEvent(
+              getPositionData(shape),
+              { }
+            );
+            delete dummyEvent.target;
+
+            var event = document.createEvent('MouseEvent');
+            event.initMouseEvent(
+              type, true, true, window,
+              0, 0, 0,
+              dummyEvent.clientX, dummyEvent.clientY,
+              false, false, false, false, 0, null);
+            return gfx.dispatchEvent(event);
+          }
+
+          // given
+          function maker(shape) {
+            let gfx = elementRegistry.getGraphics(shape);
+            let org = shape;
+            return sinon.spy(function(event) {
+              expect(event.gfx).to.equal(gfx);
+              expect(event.element).to.equal(org);
+            });
+          }
+
+          // when
+          triggerMouseEvent(
+            'mouseover',
+            elementRegistry.getGraphics(connection),
+            connection
+          );
+          triggerMouseEvent(
+            'mouseout',
+            elementRegistry.getGraphics(connection),
+            connection
+          );
+
+          // then
+          let spy = maker(shape3);
+          eventBus.once('element.mousemove', spy);
+          triggerMouseEvent('mousemove',
+            elementRegistry.getGraphics(shape3), shape3);
+          expect(spy).to.have.been.called;
+
+          spy = maker(shape2);
+          eventBus.once('element.mousemove', spy);
+          triggerMouseEvent('mousemove',
+            elementRegistry.getGraphics(shape2), shape2);
+          expect(spy).to.have.been.called;
+
+          spy = maker(shape1);
+          eventBus.once('element.mousemove', spy);
+          triggerMouseEvent('mousemove',
+            elementRegistry.getGraphics(shape1), shape1);
+          expect(spy).to.have.been.called;
+        }
+      )
+    );
 
   });
 
