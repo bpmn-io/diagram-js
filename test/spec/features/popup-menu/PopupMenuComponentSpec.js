@@ -593,6 +593,66 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
+    describe('grouping', function() {
+
+      const groupedEntries = [
+        { id: '1', label: 'Entry 1', group: { id: 'a', name: 'Group A' } },
+        { id: '2', label: 'Entry 2', group: { id: 'a', name: 'Group A' } },
+        { id: '3', label: 'Entry 3', group: { id: 'b', name: 'Group B' } },
+        { id: '4', label: 'Entry 4', group: { id: 'b', name: 'Group B' } },
+        { id: '5', label: 'Entry 5', group: { id: 'b', name: 'Group B' } },
+        { id: '6', label: 'Entry 6', group: { id: 'b', name: 'Group B' } }
+      ];
+
+      it('should keep groups when not searching', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: groupedEntries, search: true });
+
+        // then
+        expect(domQueryAll('.entry-header', container)).to.have.length(2);
+      });
+
+
+      it('should remove groups during search', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: groupedEntries, search: true });
+
+        var searchInput = domQuery('.djs-popup-search input', container);
+        searchInput.value = 'Entry';
+
+        // when
+        fireEvent.keyDown(searchInput, { key: 'e' });
+        fireEvent.keyUp(searchInput, { key: 'e' });
+
+        // then
+        expect(domQueryAll('.entry-header', container)).to.have.length(0);
+        expect(domQueryAll('.entry', container)).to.have.length(6);
+      });
+
+
+      it('should restore groups when search is cleared', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: groupedEntries, search: true });
+
+        var searchInput = domQuery('.djs-popup-search input', container);
+        searchInput.value = 'Entry';
+        fireEvent.keyDown(searchInput, { key: 'e' });
+        fireEvent.keyUp(searchInput, { key: 'e' });
+
+        // when
+        searchInput.value = '';
+        fireEvent.keyDown(searchInput, { key: 'Backspace' });
+        fireEvent.keyUp(searchInput, { key: 'Backspace' });
+
+        // then
+        expect(domQueryAll('.entry-header', container)).to.have.length(2);
+      });
+    });
+
+
     describe('render', function() {
 
       const otherEntries = [
