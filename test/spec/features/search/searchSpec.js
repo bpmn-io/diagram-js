@@ -345,6 +345,32 @@ describe('features/search', function() {
   }));
 
 
+  it('should prioritize full word over partial match', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'yes foob ar'
+      },
+      {
+        title: 'yes foo bar'
+      }
+    ];
+
+    // when
+    const results = search(items, 'foo', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[1]);
+    expect(results[1].item).to.eql(items[0]);
+  }));
+
+
   it('should prioritize longest match', inject(function(search) {
 
     // given
