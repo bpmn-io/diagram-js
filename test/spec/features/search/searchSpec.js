@@ -675,6 +675,34 @@ describe('features/search', function() {
     expect(fn).to.throw(/<pattern> must not be empty/);
   }));
 
+
+  it('should respect keyWeights to change ordering', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'foo',
+        description: 'bar'
+      },
+      {
+        title: 'bar',
+        description: 'foo'
+      }
+    ];
+
+    const keys = [ 'title', 'description' ];
+
+    // when
+    const weightedResults = search(items, 'foo', {
+      keys,
+      keyWeights: { description: 10 }
+    });
+
+    // then
+    expect(weightedResults[0].item).to.eql(items[1]);
+    expect(weightedResults[1].item).to.eql(items[0]);
+  }));
+
 });
 
 
