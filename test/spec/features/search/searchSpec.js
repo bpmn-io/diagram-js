@@ -453,6 +453,32 @@ describe('features/search', function() {
   }));
 
 
+  it('should prioritize start of term for short matches', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'Service task'
+      },
+      {
+        title: 'User task'
+      }
+    ];
+
+    // when
+    const results = search(items, 'ser', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[1]);
+  }));
+
+
   it('should prioritize density over start of word', inject(function(search) {
 
     // given
