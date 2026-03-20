@@ -487,15 +487,15 @@ describe('features/search', function() {
     // given
     const items = [
       {
+        title: 'Service Task'
+      },
+      {
         title: 'ServeMeNow and do things',
         description: 'This builds on top of ServiceTask to do miraculous things'
       },
       {
         title: 'I also service',
         description: 'Services to deliver to the world'
-      },
-      {
-        title: 'Service Task'
       },
       {
         title: 'Very special task, based on service task',
