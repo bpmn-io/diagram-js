@@ -8,7 +8,8 @@ _**Note:** Yet to be released changes appear here._
 
 ## 15.10.0
 
-* `DEPS`: update to `min-dom@5.3.0`
+* `DEPS`: update to `min-dom@5.3.0` ([#1005](https://github.com/bpmn-io/diagram-js/issues/1005))
+* `FIX`: disable grouping in popup menu during search ([#1014](https://github.com/bpmn-io/diagram-js/pull/1014))
 
 ## 15.9.1
 
