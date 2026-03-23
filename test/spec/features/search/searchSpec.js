@@ -397,6 +397,32 @@ describe('features/search', function() {
   }));
 
 
+  it('should prioritize longest match over density', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'yes foowoo okeyyy'
+      },
+      {
+        title: 'yeskay foo'
+      }
+    ];
+
+    // when
+    const results = search(items, 'yes foo', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(2);
+    expect(results[0].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[1]);
+  }));
+
+
   it('should prioritize start of term', inject(function(search) {
 
     // given
@@ -405,7 +431,37 @@ describe('features/search', function() {
         title: 'yes foowoo'
       },
       {
+        title: 'yesfoo woo'
+      },
+      {
+        title: 'yes barfoo woop'
+      }
+    ];
+
+    // when
+    const results = search(items, 'foo', {
+      keys: [
+        'title'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(3);
+    expect(results[0].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[1]);
+    expect(results[2].item).to.eql(items[2]);
+  }));
+
+
+  it('should prioritize density over start of word', inject(function(search) {
+
+    // given
+    const items = [
+      {
         title: 'yesfoo woofoo'
+      },
+      {
+        title: 'yes foowoobub'
       },
       {
         title: 'yes barfoo'
@@ -421,6 +477,43 @@ describe('features/search', function() {
 
     // then
     expect(results).to.have.length(3);
+    expect(results[0].item).to.eql(items[0]);
+    expect(results[1].item).to.eql(items[1]);
+  }));
+
+
+  it('should prioritize high density', inject(function(search) {
+
+    // given
+    const items = [
+      {
+        title: 'ServeMeNow and do things',
+        description: 'This builds on top of ServiceTask to do miraculous things'
+      },
+      {
+        title: 'I also service',
+        description: 'Services to deliver to the world'
+      },
+      {
+        title: 'Service Task'
+      },
+      {
+        title: 'Very special task, based on service task',
+        keywords: [ 'service task', 'very special task', 'custom task' ]
+      }
+    ];
+
+    // when
+    const results = search(items, 'serv', {
+      keys: [
+        'title',
+        'description',
+        'keywords'
+      ]
+    });
+
+    // then
+    expect(results).to.have.length(4);
     expect(results[0].item).to.eql(items[0]);
     expect(results[1].item).to.eql(items[1]);
     expect(results[2].item).to.eql(items[2]);
