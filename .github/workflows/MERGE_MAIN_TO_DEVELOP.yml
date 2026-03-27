@@ -14,6 +14,8 @@ jobs:
     - name: Checkout develop
       uses: actions/checkout@v6
       with:
+        token: ${{ secrets.BPMN_IO_TOKEN }}
+        persist-credentials: true
         ref: develop
         fetch-depth: 0
     - name: Merge main to develop and push
