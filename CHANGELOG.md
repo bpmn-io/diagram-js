@@ -6,6 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.11.0
+
+* `FEAT`: prioritize full word matches in search ([#1017](https://github.com/bpmn-io/diagram-js/pull/1017))
+* `FEAT`: factor match density into search ([#1017](https://github.com/bpmn-io/diagram-js/pull/1017))
+* `CHORE`: prioritize later search matches slightly lower ([#1017](https://github.com/bpmn-io/diagram-js/pull/1017))
+
 ## 15.10.0
 
 * `DEPS`: update to `min-dom@5.3.0` ([#1005](https://github.com/bpmn-io/diagram-js/issues/1005))
