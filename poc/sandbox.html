@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Layout Sandbox — diagram-js</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      background: #0f1117;
+      color: #e2e8f0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 20px;
+      background: #151922;
+      border-bottom: 1px solid #2d3748;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .toolbar h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f8fafc;
+      white-space: nowrap;
+    }
+
+    .toolbar-sep {
+      width: 1px;
+      height: 20px;
+      background: #2d3748;
+      flex-shrink: 0;
+    }
+
+    .toolbar label {
+      font-size: 12px;
+      color: #64748b;
+      white-space: nowrap;
+    }
+
+    .toolbar input[type="range"] {
+      width: 100px;
+      accent-color: #3b82f6;
+    }
+
+    #width-value {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      color: #94a3b8;
+      min-width: 36px;
+    }
+
+    #label-input {
+      background: #1e2535;
+      border: 1px solid #2d3748;
+      border-radius: 5px;
+      color: #f8fafc;
+      font-size: 13px;
+      padding: 5px 10px;
+      width: 220px;
+      outline: none;
+    }
+
+    #label-input:focus { border-color: #3b82f6; }
+    #label-input::placeholder { color: #475569; }
+
+    .btn {
+      background: #1e2535;
+      border: 1px solid #2d3748;
+      border-radius: 5px;
+      color: #94a3b8;
+      font-size: 12px;
+      padding: 5px 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .btn:hover { background: #2d3748; color: #f8fafc; }
+
+    #diff-count {
+      font-size: 12px;
+      font-weight: 500;
+      margin-left: auto;
+    }
+
+    /* ── Panels ── */
+    .panels {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      gap: 1px;
+      background: #2d3748;
+    }
+
+    .panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #0f1117;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: #151922;
+      border-bottom: 1px solid #2d3748;
+      flex-shrink: 0;
+    }
+
+    .panel-header h2 {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .panel-current .panel-header h2 { color: #f87171; }
+    .panel-pretext  .panel-header h2 { color: #34d399; }
+
+    .panel-header .timing {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      color: #475569;
+    }
+
+    .panel-header .method {
+      font-size: 11px;
+      color: #475569;
+    }
+
+    .panel-header .method code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #64748b;
+    }
+
+    .svg-wrap {
+      flex: 1;
+      overflow: auto;
+      padding: 8px;
+    }
+
+    svg {
+      display: block;
+      cursor: default;
+    }
+
+    svg text {
+      user-select: none;
+      pointer-events: none;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    svg rect { cursor: pointer; }
+
+    /* ── Hint ── */
+    .hint {
+      padding: 6px 20px;
+      font-size: 11px;
+      color: #334155;
+      background: #0f1117;
+      border-top: 1px solid #1e2535;
+      flex-shrink: 0;
+    }
+
+    .hint span { color: #475569; }
+
+    /* ── Diff legend ── */
+    .diff-legend {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    .diff-legend i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2.5px solid #f97316;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <h1>Text Layout Sandbox</h1>
+    <div class="toolbar-sep"></div>
+
+    <label for="width-slider">Box width</label>
+    <input type="range" id="width-slider" min="60" max="220" value="120" step="4" />
+    <span id="width-value">120px</span>
+
+    <div class="toolbar-sep"></div>
+
+    <input type="text" id="label-input" placeholder="Click a box to edit its label…" />
+
+    <input type="number" id="add-count" value="10" min="1" max="10000" step="10"
+      style="width:64px;background:#1e2535;border:1px solid #2d3748;border-radius:5px;color:#f8fafc;font-size:13px;padding:5px 8px;outline:none;text-align:center" />
+    <button class="btn" id="add-label">+ Add boxes</button>
+    <button class="btn" id="reset">Reset</button>
+
+    <div class="toolbar-sep"></div>
+
+    <button class="btn" id="toggle-sync" style="color:#34d399">⇄ Synced</button>
+
+    <div class="toolbar-sep"></div>
+
+    <div class="diff-legend"><i></i> line-count mismatch</div>
+
+    <span id="diff-count" style="color:#34d399">✓ No differences</span>
+  </div>
+
+  <div class="panels">
+
+    <div class="panel panel-current">
+      <div class="panel-header">
+        <h2>Current — diagram-js</h2>
+        <span class="method"><code>SVGElement.getBBox()</code> loop</span>
+        <span class="timing" id="timing-current">—</span>
+        <span class="method" style="font-size:10px;color:#334155">layout only</span>
+      </div>
+      <div class="svg-wrap">
+        <svg id="svg-current"></svg>
+      </div>
+    </div>
+
+    <div class="panel panel-pretext">
+      <div class="panel-header">
+        <h2>Pretext</h2>
+        <span class="method"><code>prepareWithSegments()</code> + <code>layoutWithLines()</code></span>
+        <span class="timing" id="timing-pretext">—</span>
+        <span class="method" style="font-size:10px;color:#334155">layout only</span>
+      </div>
+      <div class="svg-wrap">
+        <svg id="svg-pretext"></svg>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="hint">
+    <span>Click any box to edit its label.</span>
+    &nbsp;·&nbsp;
+    <span>Drag the width slider to trigger re-layout.</span>
+    &nbsp;·&nbsp;
+    <span>Orange border = line count differs between engines.</span>
+    &nbsp;·&nbsp;
+    <span>Timings update on every interaction.</span>
+  </div>
+
+  <script src="dist/sandbox.js"></script>
+</body>
+</html>

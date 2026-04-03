@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "all": "run-s lint test generate-types",
+    "poc": "node poc/build.mjs",
     "lint": "eslint .",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "run-s generate-types:*",
@@ -80,6 +81,7 @@
   },
   "dependencies": {
     "@bpmn-io/diagram-js-ui": "^0.2.3",
+    "@chenglou/pretext": "^0.0.4",
     "clsx": "^2.1.1",
     "didi": "^11.0.0",
     "inherits-browser": "^0.1.0",

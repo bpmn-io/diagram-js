@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Layout Benchmark — diagram-js Text.js with pretext flag</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      background: #0f1117;
+      color: #e2e8f0;
+      padding: 40px 32px 80px;
+      line-height: 1.5;
+    }
+
+    h1 { font-size: 22px; font-weight: 600; color: #f8fafc; margin-bottom: 6px; }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 10px;
+      max-width: 680px;
+    }
+
+    .subtitle code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      background: #1e2535;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #7dd3fc;
+    }
+
+    .flag-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 28px;
+    }
+
+    .flag-note code { color: #a78bfa; background: none; padding: 0; font-size: 12px; }
+    .flag-note strong { color: #f8fafc; }
+
+    #run {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 9px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-bottom: 12px;
+    }
+
+    #run:hover:not(:disabled) { background: #2563eb; }
+    #run:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #status { font-size: 13px; color: #64748b; margin-bottom: 28px; min-height: 20px; }
+    #status.done { color: #34d399; }
+
+    .table-wrap { overflow-x: auto; }
+
+    table { border-collapse: collapse; width: 100%; min-width: 580px; }
+
+    thead tr:first-child th {
+      background: #1a1f2e;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 10px 14px 8px;
+      border-bottom: 1px solid #2d3748;
+      color: #94a3b8;
+      text-align: center;
+    }
+
+    thead tr:first-child th:first-child { text-align: left; }
+    thead tr:first-child th.cold-header { color: #f87171; }
+    thead tr:first-child th.hot-header  { color: #60a5fa; }
+
+    thead tr:nth-child(2) th {
+      background: #151922;
+      font-size: 11px;
+      color: #64748b;
+      padding: 6px 14px 8px;
+      font-weight: 400;
+      border-bottom: 2px solid #2d3748;
+      text-align: center;
+    }
+
+    thead tr:nth-child(2) th:first-child { text-align: left; }
+
+    tbody tr { border-bottom: 1px solid #1e2535; transition: background 0.1s; }
+    tbody tr:hover { background: #1a1f2e; }
+    tbody tr:last-child { border-bottom: none; }
+
+    td { padding: 11px 14px; text-align: center; font-variant-numeric: tabular-nums; }
+    td:first-child { text-align: left; font-weight: 600; color: #f8fafc; }
+    td.num { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; }
+    td.sep { border-left: 1px solid #2d3748; }
+
+    .badge {
+      display: inline-block;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 12px;
+      min-width: 44px;
+      text-align: center;
+    }
+
+    .divider { border-left: 1px solid #2d3748; }
+
+    /* chart */
+    .chart-wrap { margin-top: 40px; }
+    .chart-wrap h2 { font-size: 14px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .chart-wrap p  { font-size: 12px; color: #475569; margin-bottom: 16px; }
+
+    .chart-legend { display: flex; gap: 20px; margin-bottom: 12px; flex-wrap: wrap; }
+    .chart-legend span { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #94a3b8; }
+    .chart-legend i { display: inline-block; width: 24px; height: 3px; border-radius: 2px; }
+
+    canvas { display: block; border-radius: 8px; background: #1a1f2e; width: 100%; max-width: 860px; }
+
+    .notes { margin-top: 36px; color: #475569; font-size: 12px; max-width: 680px; line-height: 1.7; }
+    .notes strong { color: #64748b; }
+  </style>
+</head>
+<body>
+
+  <h1>Text Layout Benchmark — diagram-js</h1>
+  <p class="subtitle">
+    Both paths go through the real <code>Text.prototype.layoutText()</code> in <code>lib/util/Text.js</code>.
+    The flag <code>enablePretext(true)</code> swaps the inner <code>getBBox()</code> loop for
+    <code>prepareWithSegments()</code> + <code>layoutWithLines()</code> from
+    <a href="https://github.com/chenglou/pretext" style="color:#7dd3fc"><code>@chenglou/pretext</code></a>.
+    Everything else (padding, alignment, tspan creation) is unchanged.
+  </p>
+
+  <div class="flag-note">
+    <strong>Flag:</strong> <code>enablePretext(false)</code> → current &nbsp;|&nbsp; <code>enablePretext(true)</code> → pretext &nbsp;·&nbsp;
+    toggled between runs, same <code>Text</code> instance, same inputs
+  </div>
+
+  <button id="run">▶ Run Benchmark</button>
+  <div id="status"></div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2">Nodes</th>
+          <th colspan="3" class="cold-header">Cold — initial layout</th>
+          <th colspan="3" class="hot-header divider">Hot — re-layout (resize)</th>
+        </tr>
+        <tr>
+          <th>Current (ms)</th>
+          <th>Pretext (ms)</th>
+          <th>Speedup</th>
+          <th class="divider">Current (ms)</th>
+          <th>Pretext (ms)</th>
+          <th>Speedup</th>
+        </tr>
+      </thead>
+      <tbody id="results-body">
+        <tr>
+          <td colspan="7" style="text-align:center;color:#475569;padding:32px">
+            Click <strong>Run Benchmark</strong> to start
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart-wrap">
+    <h2>Time vs Node Count (log scale)</h2>
+    <p>Y-axis: milliseconds (log₁₀). X-axis: node count (log₁₀).</p>
+    <div class="chart-legend">
+      <span><i style="background:#f87171"></i> Current — cold</span>
+      <span><i style="background:#fb923c"></i> Current — hot</span>
+      <span><i style="background:#34d399"></i> Pretext — cold</span>
+      <span><i style="background:#22d3ee"></i> Pretext — hot</span>
+    </div>
+    <canvas id="chart" height="360"></canvas>
+  </div>
+
+  <div class="notes">
+    <strong>Cold:</strong> First layout of N unique label texts — pretext pays <code>prepareWithSegments()</code> + <code>layoutWithLines()</code>.<br>
+    <strong>Hot:</strong> Same texts re-laid out at a slightly narrower box width (simulates a diagram resize) —
+    pretext still calls <code>prepareWithSegments()</code> since the text changed width, but canvas measurements are cached.<br>
+    Median of 3 runs. JIT warmup pass before measurement.
+  </div>
+
+  <script>
+    const SERIES = [
+      { key: r => r.cold.currentMs, color: '#f87171' },
+      { key: r => r.hot.currentMs,  color: '#fb923c' },
+      { key: r => r.cold.pretextMs, color: '#34d399' },
+      { key: r => r.hot.pretextMs,  color: '#22d3ee' },
+    ];
+
+    const allResults = [];
+
+    function redrawChart() {
+      const canvas = document.getElementById('chart');
+      const W = canvas.offsetWidth, H = parseInt(canvas.getAttribute('height'));
+      canvas.width  = W * devicePixelRatio;
+      canvas.height = H * devicePixelRatio;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+
+      const PAD = { top: 20, right: 24, bottom: 44, left: 58 };
+      const plotW = W - PAD.left - PAD.right;
+      const plotH = H - PAD.top  - PAD.bottom;
+
+      const allX = allResults.map(r => r.count);
+      const allY = allResults.flatMap(r => SERIES.map(s => s.key(r))).filter(v => v > 0);
+      const xMin = Math.log10(Math.min(...allX)), xMax = Math.log10(Math.max(...allX));
+      const yMin = Math.floor(Math.log10(Math.min(...allY)) - 0.2);
+      const yMax = Math.ceil(Math.log10(Math.max(...allY))  + 0.2);
+
+      const toX = lx => PAD.left + ((lx - xMin) / (xMax - xMin)) * plotW;
+      const toY = ly => PAD.top  + plotH - ((ly - yMin) / (yMax - yMin)) * plotH;
+
+      ctx.fillStyle = '#1a1f2e';
+      ctx.fillRect(0, 0, W, H);
+
+      // Grid + labels
+      for (let ly = Math.ceil(yMin); ly <= Math.floor(yMax); ly++) {
+        const y = toY(ly);
+        ctx.strokeStyle = '#2d3748'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + plotW, y); ctx.stroke();
+        ctx.fillStyle = '#64748b'; ctx.font = '11px SF Mono, Fira Code, monospace';
+        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        ctx.fillText(ly >= 0 ? `${Math.round(10**ly)}ms` : `${(10**ly).toFixed(3)}ms`, PAD.left - 8, y);
+      }
+
+      const xTicks = [50, 100, 200, 500, 1000, 2000, 5000, 10000];
+      for (const n of xTicks) {
+        const lx = Math.log10(n);
+        if (lx < xMin - 0.05 || lx > xMax + 0.05) continue;
+        const x = toX(lx);
+        ctx.strokeStyle = '#2d3748'; ctx.beginPath(); ctx.moveTo(x, PAD.top); ctx.lineTo(x, PAD.top + plotH); ctx.stroke();
+        ctx.fillStyle = '#64748b'; ctx.font = '11px SF Mono, Fira Code, monospace';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        ctx.fillText(n >= 1000 ? `${n/1000}k` : String(n), x, PAD.top + plotH + 8);
+      }
+
+      ctx.fillStyle = '#475569'; ctx.font = '11px -apple-system, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+      ctx.fillText('nodes', PAD.left + plotW / 2, H - 2);
+
+      if (allResults.length < 2) return;
+
+      for (const series of SERIES) {
+        const points = allResults
+          .map(r => ({ lx: Math.log10(r.count), ly: Math.log10(series.key(r)) }))
+          .filter(p => isFinite(p.ly));
+        if (!points.length) continue;
+
+        ctx.beginPath(); ctx.strokeStyle = series.color; ctx.lineWidth = 2; ctx.lineJoin = 'round';
+        points.forEach((p, i) => { const x = toX(p.lx), y = toY(p.ly); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+        ctx.stroke();
+
+        for (const p of points) {
+          ctx.beginPath(); ctx.fillStyle = series.color;
+          ctx.arc(toX(p.lx), toY(p.ly), 3.5, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    }
+
+    window.__chartPush = function(result) { allResults.push(result); redrawChart(); };
+    window.addEventListener('resize', () => { if (allResults.length) redrawChart(); });
+  </script>
+  <script src="dist/bundle.js"></script>
+</body>
+</html>
