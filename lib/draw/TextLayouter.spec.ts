@@ -1,8 +1,8 @@
 // instantiation
 
-import Text from './Text';
+import TextLayouter from './TextLayouter';
 
-const text = new Text({
+const text = new TextLayouter({
   style: {
     fontFamily: 'Arial, sans-serif',
     fontSize: 1,
