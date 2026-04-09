@@ -11,7 +11,7 @@ import {
   create as svgCreate
 } from 'tiny-svg';
 
-import TextUtil from 'lib/draw/TextLayouter';
+import TextUtil from 'lib/text/TextLayouter';
 
 import TestContainer from 'mocha-test-container-support';
 
