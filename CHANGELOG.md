@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.12.0
+
+* `FEAT`: improve text rendering performance ([#1026](https://github.com/bpmn-io/diagram-js/issues/1026), [#1027](https://github.com/bpmn-io/diagram-js/pull/1027))
+
 ## 15.11.0
 
 * `FEAT`: prioritize full word matches in search ([#1017](https://github.com/bpmn-io/diagram-js/pull/1017))
