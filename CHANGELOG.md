@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: add to selection if `SHIFT` is pressed at start of lasso ([#1028](https://github.com/bpmn-io/diagram-js/issues/1028), [#1029](https://github.com/bpmn-io/diagram-js/pull/1029))
+
 ## 15.12.0
 
 * `FEAT`: improve text rendering performance ([#1026](https://github.com/bpmn-io/diagram-js/issues/1026), [#1027](https://github.com/bpmn-io/diagram-js/pull/1027))
