@@ -166,15 +166,18 @@ describe('features/lasso-tool', function() {
     it('should add to selection if shift is held at drag start', inject(
       function(lassoTool, dragging, selection, elementRegistry) {
 
-        // given - childShape is already selected
+        // given
+        // childShape is already selected
         selection.select([ elementRegistry.get('child') ]);
 
-        // when - start lasso with shift held, selecting childShape2 and childShape3
+        // when
+        // start lasso with shift held, selecting childShape2 and childShape3
         lassoTool.activateLasso(canvasEvent({ x: 175, y: 100 }));
         dragging.move(canvasEvent({ x: 295, y: 220 }, { shiftKey: true }));
         dragging.end(canvasEvent({ x: 295, y: 220 }));
 
-        // then - previously selected element is included
+        // then
+        // previously selected element is included
         var selected = selection.get();
         expect(selected).to.include(elementRegistry.get('child'));
         expect(selected).to.include(elementRegistry.get('child2'));
@@ -186,15 +189,18 @@ describe('features/lasso-tool', function() {
     it('should NOT add to selection if shift is held only at drag end', inject(
       function(lassoTool, dragging, selection, elementRegistry) {
 
-        // given - childShape is already selected
+        // given
+        // childShape is already selected
         selection.select([ elementRegistry.get('child') ]);
 
-        // when - start lasso WITHOUT shift, selecting childShape2 and childShape3
+        // when
+        // start lasso WITHOUT shift, selecting childShape2 and childShape3
         lassoTool.activateLasso(canvasEvent({ x: 175, y: 100 }));
         dragging.move(canvasEvent({ x: 295, y: 220 }));
         dragging.end(canvasEvent({ x: 295, y: 220 }, { shiftKey: true }));
 
-        // then - previously selected element is NOT included (shift at end is ignored)
+        // then
+        // previously selected element is NOT included (shift at end is ignored)
         var selected = selection.get();
         expect(selected).not.to.include(elementRegistry.get('child'));
         expect(selected).to.include(elementRegistry.get('child2'));
