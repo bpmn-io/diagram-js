@@ -146,7 +146,8 @@
   display: none;
 }
 
-.djs-multi-select .djs-element.selected .djs-outline {
+.djs-multi-select .djs-element.selected .djs-outline,
+.djs-dragging-active-lasso .djs-element.selected .djs-outline {
   stroke: var(--element-selected-outline-secondary-stroke-color);
   display: block;
 }
