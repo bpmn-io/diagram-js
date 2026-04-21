@@ -333,31 +333,60 @@ describe('features/lasso-tool - preview styling', function() {
     }));
 
 
-    it('should preserve original selection markers on cancel in add mode', inject(function(lassoTool, dragging, canvas, selection) {
+    describe('should restore original selection markers on cancel', function() {
 
-      // given
-      // child1 is pre-selected
-      selection.select([ child1 ]);
+      it('in <add> mode', inject(function(lassoTool, dragging, canvas, selection) {
 
-      lassoTool.activateLasso(canvasEvent({ x: 190, y: 90 }));
+        // given
+        selection.select([ child1 ]);
 
-      // when
-      // drag with shift to enclose child2
-      dragging.move(canvasEvent({ x: 310, y: 200 }, { shiftKey: true }));
+        lassoTool.activateLasso(canvasEvent({ x: 190, y: 90 }));
 
-      // assume
-      // both have markers
-      expect(canvas.hasMarker(child1, 'selected')).to.be.true;
-      expect(canvas.hasMarker(child2, 'selected')).to.be.true;
+        // when
+        // drag with shift to enclose child2
+        dragging.move(canvasEvent({ x: 310, y: 200 }, { shiftKey: true }));
 
-      // when
-      dragging.cancel();
+        // assume
+        // both have markers
+        expect(canvas.hasMarker(child1, 'selected')).to.be.true;
+        expect(canvas.hasMarker(child2, 'selected')).to.be.true;
 
-      // then
-      // original selection marker preserved, preview-only marker removed
-      expect(canvas.hasMarker(child1, 'selected')).to.be.true;
-      expect(canvas.hasMarker(child2, 'selected')).to.be.false;
-    }));
+        // when
+        dragging.cancel();
+
+        // then
+        // original selection marker preserved, preview-only marker removed
+        expect(canvas.hasMarker(child1, 'selected')).to.be.true;
+        expect(canvas.hasMarker(child2, 'selected')).to.be.false;
+      }));
+
+
+      it('in <new selection> mode', inject(function(lassoTool, dragging, canvas, selection) {
+
+        // given
+        selection.select([ child1 ]);
+
+        lassoTool.activateLasso(canvasEvent({ x: 190, y: 90 }));
+
+        // when
+        // drag without SHIFT to only select child2
+        dragging.move(canvasEvent({ x: 310, y: 200 }));
+
+        // assume
+        // child2 has marker
+        expect(canvas.hasMarker(child1, 'selected')).to.be.false;
+        expect(canvas.hasMarker(child2, 'selected')).to.be.true;
+
+        // when
+        dragging.cancel();
+
+        // then
+        // original selection marker preserved, preview-only marker removed
+        expect(canvas.hasMarker(child1, 'selected')).to.be.true;
+        expect(canvas.hasMarker(child2, 'selected')).to.be.false;
+      }));
+
+    });
 
 
     it('should include original selection and enclosed elements in final selection in add mode', inject(function(lassoTool, dragging, canvas, selection) {
@@ -380,30 +409,6 @@ describe('features/lasso-tool - preview styling', function() {
       expect(selected).to.include(child2);
       expect(selected).to.include(child3);
       expect(selected).to.not.include(child4);
-    }));
-
-
-    it('should NOT restore original selection markers on cancel when shift NOT pressed', inject(function(lassoTool, dragging, canvas, selection) {
-
-      // given
-      // child1 is pre-selected
-      selection.select([ child1 ]);
-
-      lassoTool.activateLasso(canvasEvent({ x: 190, y: 90 }));
-      dragging.move(canvasEvent({ x: 430, y: 200 }));
-
-      // assume
-      // child1 marker hidden (no shift)
-      expect(canvas.hasMarker(child1, 'selected')).to.be.false;
-
-      // when
-      dragging.cancel();
-
-      // then
-      // original selection markers not restored
-      expect(canvas.hasMarker(child1, 'selected')).to.be.false;
-      expect(canvas.hasMarker(child2, 'selected')).to.be.false;
-      expect(canvas.hasMarker(child3, 'selected')).to.be.false;
     }));
 
   });
