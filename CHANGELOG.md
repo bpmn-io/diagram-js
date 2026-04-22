@@ -9,7 +9,7 @@ _**Note:** Yet to be released changes appear here._
 ## 15.13.0
 
 * `FEAT`: add to selection if `SHIFT` is pressed at start of lasso ([#1028](https://github.com/bpmn-io/diagram-js/issues/1028), [#1029](https://github.com/bpmn-io/diagram-js/pull/1029))
-* `FEAT`: show outline around lasso-selected elements ([bpmn-js#1021](https://github.com/bpmn-io/bpmn-js/issues/173), [#1021](https://github.com/bpmn-io/diagram-js/pull/1021))
+* `FEAT`: show outline around lasso-selected elements ([#1021](https://github.com/bpmn-io/diagram-js/pull/1021))
 
 ## 15.12.0
 
