@@ -23,6 +23,13 @@ ResizeRules.prototype.init = function() {
       if (!shape.resizable) {
         return false;
       }
+
+      // check direction-specific resizability
+      if (context.direction && shape.resizableDirections) {
+        if (shape.resizableDirections.indexOf(context.direction) === -1) {
+          return false;
+        }
+      }
     } else {
       if (shape.resizable === 'always') {
         return true;

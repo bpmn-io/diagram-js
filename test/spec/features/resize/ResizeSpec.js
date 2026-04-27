@@ -137,6 +137,27 @@ describe('features/resize - Resize', function() {
       expect(resizeAnchors).to.have.length(0);
     }));
 
+
+    it('should add only for allowed directions', inject(function(canvas, selection, resizeHandles) {
+
+      // given
+      var restrictedShape = canvas.addShape({
+        id: 'restricted',
+        resizable: true,
+        resizableDirections: [ 'n', 'se' ],
+        x: 300, y: 100, width: 100, height: 100
+      });
+
+      // when
+      selection.select(restrictedShape);
+
+      // then
+      var parent = resizeHandles._getResizersParent();
+      expect(domQueryAll('.djs-resizer', parent)).to.have.length(2);
+      expect(domQuery('.djs-resizer-n', parent)).to.exist;
+      expect(domQuery('.djs-resizer-se', parent)).to.exist;
+    }));
+
   });
 
 
