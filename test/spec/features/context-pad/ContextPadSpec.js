@@ -461,6 +461,25 @@ describe('features/context-pad', function() {
         expect(contextPad.isOpen()).to.be.true;
       }));
 
+
+      it('should NOT open if blocked', inject(function(canvas, contextPad, eventBus) {
+
+        // given
+        var shape = { id: 's1', width: 100, height: 100, x: 10, y: 10 };
+
+        canvas.addShape(shape);
+
+        eventBus.on('contextPad.open.allowed', function() {
+          return false;
+        });
+
+        // when
+        contextPad.open(shape);
+
+        // then
+        expect(contextPad.isOpen()).to.be.false;
+      }));
+
     });
 
 
