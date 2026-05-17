@@ -290,6 +290,21 @@ describe('features/popup-menu', function() {
     }));
 
 
+    it('should NOT open if blocked', inject(function(popupMenu, eventBus) {
+
+      // given
+      eventBus.on('popupMenu.open.allowed', function() {
+        return false;
+      });
+
+      // when
+      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+
+      // then
+      expect(popupMenu._current).not.to.exist;
+    }));
+
+
     it('should scaffold basic structure', inject(function(popupMenu, canvas) {
 
       // when

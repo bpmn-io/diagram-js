@@ -352,6 +352,37 @@ describe('features/bendpoints - segment move', function() {
       }
     ));
 
+
+    it('should NOT start if blocked', inject(
+      function(canvas, connectionSegmentMove, dragging, eventBus, elementFactory) {
+
+        // given
+        connection = elementFactory.createConnection({
+          id: 'connection',
+          waypoints: [
+            { x: 200, y: 150 },
+            { x: 200, y: 300 },
+            { x: 600, y: 300 },
+            { x: 600, y: 150 }
+          ],
+          source: sourceShape,
+          target: targetShape
+        });
+        canvas.addConnection(connection);
+
+        eventBus.on('connectionSegment.move.init', function() {
+          return false;
+        });
+
+        // when
+        var result = connectionSegmentMove.start(canvasEvent({ x: 0, y: 0 }), connection, 1);
+
+        // then
+        expect(result).to.equal(false);
+        expect(dragging.context()).not.to.exist;
+      }
+    ));
+
   });
 
 

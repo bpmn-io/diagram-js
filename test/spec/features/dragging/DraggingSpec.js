@@ -92,6 +92,22 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
+    it('should cancel and return false if init is blocked', inject(function(dragging, eventBus) {
+
+      // given
+      eventBus.on('foo.init', function() {
+        return false;
+      });
+
+      // when
+      var result = dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      // then
+      expect(result).to.equal(false);
+      expect(dragging.context()).not.to.exist;
+    }));
+
+
     it('should pass custom data', inject(function(dragging) {
 
       // given

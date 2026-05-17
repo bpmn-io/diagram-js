@@ -188,6 +188,36 @@ describe('features/bendpoints', function() {
     ));
 
 
+    it('should NOT activate bendpoint move if blocked', inject(
+      function(dragging, eventBus, elementRegistry) {
+
+        // given
+        eventBus.on('bendpoint.move.init', function() {
+          return false;
+        });
+
+        // when
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 250, y: 250 })
+        });
+        eventBus.fire('element.mousedown', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 250, y: 250 })
+        });
+
+        var draggingContext = dragging.context();
+
+        // then
+        expect(draggingContext).not.to.exist;
+      }
+    ));
+
+
     it('should activate bendpoint move on intermediate waypoint', inject(
       function(dragging, eventBus, elementRegistry) {
 
@@ -295,6 +325,40 @@ describe('features/bendpoints', function() {
           // then
           expect(draggingContext).to.exist;
           expect(draggingContext.prefix).to.eql('connectionSegment.move');
+        }
+      ));
+
+
+      it('should NOT activate parallel move if blocked', inject(
+        function(dragging, eventBus, elementRegistry) {
+
+          // given
+          var segmentStart = connection.waypoints[0].x,
+              segmentEnd = connection.waypoints[1].x,
+              segmentCenter = segmentEnd - (segmentEnd - segmentStart) / 2;
+
+          eventBus.on('connectionSegment.move.init', function() {
+            return false;
+          });
+
+          // when
+          eventBus.fire('element.hover', {
+            element: connection,
+            gfx: elementRegistry.getGraphics(connection)
+          });
+          eventBus.fire('element.mousemove', {
+            element: connection,
+            originalEvent: canvasEvent({ x: segmentCenter, y: 250 })
+          });
+          eventBus.fire('element.mousedown', {
+            element: connection,
+            originalEvent: canvasEvent({ x: segmentCenter, y: 250 })
+          });
+
+          var draggingContext = dragging.context();
+
+          // then
+          expect(draggingContext).not.to.exist;
         }
       ));
 
