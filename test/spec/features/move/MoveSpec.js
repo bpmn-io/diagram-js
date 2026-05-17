@@ -198,6 +198,22 @@ describe('features/move - Move', function() {
       // then
       expect(dragging.context()).not.to.exist;
     }));
+
+
+    it('should NOT start if blocked', inject(function(dragging, eventBus, move) {
+
+      // given
+      eventBus.on('shape.move.init', function() {
+        return false;
+      });
+
+      // when
+      var result = move.start(canvasEvent({ x: 0, y: 0 }), childShape);
+
+      // then
+      expect(result).not.to.exist;
+      expect(dragging.context()).not.to.exist;
+    }));
   });
 
 

@@ -104,6 +104,25 @@ describe('features/editor-actions', function() {
       expect(trigger).to.throw('foo is not a registered action');
     }));
 
+
+    it('should NOT trigger an action if blocked', inject(function(editorActions, eventBus) {
+
+      // given
+      var actionSpy = spy();
+
+      editorActions.register('foo', actionSpy);
+
+      eventBus.on('editorActions.allowed', function() {
+        return false;
+      });
+
+      // when
+      editorActions.trigger('foo');
+
+      // then
+      expect(actionSpy).not.to.have.been.called;
+    }));
+
   });
 
 
