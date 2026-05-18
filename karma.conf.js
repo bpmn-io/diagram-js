@@ -9,7 +9,6 @@ var coverage = process.env.COVERAGE;
 var browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
 
 // use puppeteer provided Chrome for testing
-process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 var tmpDir = path.join(__dirname, 'tmp');
 
@@ -22,7 +21,8 @@ var absoluteBasePath = path.resolve(__dirname);
 var suite = coverage ? 'test/coverageBundle.js' : 'test/testBundle.js';
 
 
-module.exports = function(karma) {
+module.exports = async function(karma) {
+  process.env.CHROME_BIN = await require('puppeteer').executablePath();
   karma.set({
 
     frameworks: [
