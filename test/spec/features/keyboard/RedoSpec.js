@@ -19,6 +19,8 @@ import { createKeyEvent } from 'test/util/KeyEvents';
 
 var KEYS_REDO = [ 'y', 'Y' ];
 var KEYS_UNDO = [ 'z', 'Z' ];
+var KEY_CODE_Y = 'KeyY';
+var KEY_CODE_Z = 'KeyZ';
 
 
 describe('features/keyboard - redo', function() {
@@ -35,20 +37,26 @@ describe('features/keyboard - redo', function() {
   };
 
   var decisionTable = [ {
-    desc: 'should call redo',
-    keys: KEYS_UNDO,
-    ctrlKey: true,
-    shiftKey: true,
-    called: true
-  }, {
-    desc: 'should call redo',
+    desc: 'should call redo (Y key)',
     keys: KEYS_REDO,
     ctrlKey: true,
     shiftKey: false,
     called: true
   }, {
-    desc: 'should call redo',
-    keys: KEYS_REDO,
+    desc: 'should call redo (KeyY code)',
+    keyCode: KEY_CODE_Y,
+    ctrlKey: true,
+    shiftKey: false,
+    called: true
+  }, {
+    desc: 'should call redo (Z + Shift)',
+    keys: KEYS_UNDO,
+    ctrlKey: true,
+    shiftKey: true,
+    called: true
+  }, {
+    desc: 'should call redo (KeyZ + Shift)',
+    keyCode: KEY_CODE_Z,
     ctrlKey: true,
     shiftKey: true,
     called: true
@@ -83,16 +91,39 @@ describe('features/keyboard - redo', function() {
 
   forEach(decisionTable, function(testCase) {
 
-    forEach(testCase.keys, function(key) {
+    if (testCase.keys) {
+      forEach(testCase.keys, function(key) {
+
+        it(testCase.desc, inject(function(keyboard, editorActions) {
+
+          // given
+          var redoSpy = sinon.spy(editorActions, 'trigger');
+
+          var event = createKeyEvent(key, {
+            ctrlKey: testCase.ctrlKey,
+            shiftKey: testCase.shiftKey
+          });
+
+          // when
+          keyboard._keyHandler(event);
+
+          // then
+          expect(redoSpy.calledWith('redo')).to.be.equal(testCase.called);
+        }));
+
+      });
+    } else if (testCase.keyCode) {
 
       it(testCase.desc, inject(function(keyboard, editorActions) {
 
         // given
         var redoSpy = spy(editorActions, 'trigger');
 
+        var key = testCase.keyCode === KEY_CODE_Y ? 'y' : 'z';
         var event = createKeyEvent(key, {
           ctrlKey: testCase.ctrlKey,
-          shiftKey: testCase.shiftKey
+          shiftKey: testCase.shiftKey,
+          code: testCase.keyCode
         });
 
         // when
@@ -102,7 +133,7 @@ describe('features/keyboard - redo', function() {
         expect(redoSpy.calledWith('redo')).to.be.equal(testCase.called);
       }));
 
-    });
+    }
 
   });
 
