@@ -950,6 +950,517 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(domQuery('.selected', container).textContent).to.include('Group C - Entry 2');
     });
 
+
+    it('should pop one level with <Backspace>', async function() {
+
+      // given
+      const nestedEntries = [
+        {
+          id: '1',
+          label: 'A',
+          entries: [
+            { id: '1-1', label: 'A-A', action: () => {} },
+            { id: '1-2', label: 'A-B', action: () => {} }
+          ]
+        },
+        {
+          id: '2',
+          label: 'B',
+          action: () => {}
+        }
+      ];
+
+      await createPopupMenu({ container, entries: nestedEntries });
+
+      fireEvent.click(domQuery('.entry[data-id="1"]', container));
+
+      const popupEl = domQuery('.djs-popup', container);
+
+      // when
+      fireEvent.keyDown(popupEl, { key: 'Backspace' });
+
+      // then
+      const entryLabels = domQueryAll('.djs-popup-label', container);
+      expect([ ...entryLabels ].map(e => e.textContent)).to.eql([ 'A', 'B' ]);
+    });
+
+
+    it('should restore selection to popped entry after <Backspace>', async function() {
+
+      // given
+      const nestedEntries = [
+        {
+          id: '1',
+          label: 'A',
+          action: () => {}
+        },
+        {
+          id: '2',
+          label: 'B',
+          entries: [
+            { id: '2-1', label: 'B-A', action: () => {} }
+          ]
+        }
+      ];
+
+      await createPopupMenu({ container, entries: nestedEntries });
+
+      fireEvent.click(domQuery('.entry[data-id="2"]', container));
+
+      const popupEl = domQuery('.djs-popup', container);
+
+      // when
+      fireEvent.keyDown(popupEl, { key: 'Backspace' });
+
+      // then
+      expect(domQuery('.selected .djs-popup-label', container).textContent).to.eql('B');
+    });
+
+  });
+
+
+  describe('navigation', function() {
+
+    const navigateEntries = [
+      {
+        id: 'issues',
+        label: 'Issues',
+        entries: [
+          { id: 'create-issue', label: 'Create Issue', action: () => {} },
+          { id: 'list-issues', label: 'List Issues', action: () => {} }
+        ]
+      },
+      {
+        id: 'leaf',
+        label: 'Leaf',
+        action: () => {}
+      }
+    ];
+
+
+    it('should push level on click of navigate entry', async function() {
+
+      // given
+      const onSelect = spy();
+
+      await createPopupMenu({ container, entries: navigateEntries, onSelect });
+
+      const navigateEntry = domQuery('.entry[data-id="issues"]', container);
+
+      // when
+      fireEvent.click(navigateEntry);
+
+      // then
+      expect(onSelect).not.to.be.called;
+
+      const entryLabels = domQueryAll('.djs-popup-label', container);
+      expect([ ...entryLabels ].map(e => e.textContent)).to.eql([
+        'Create Issue',
+        'List Issues'
+      ]);
+    });
+
+
+    it('should not close popup on click of navigate entry', async function() {
+
+      // given
+      const onClose = spy();
+
+      await createPopupMenu({ container, entries: navigateEntries, onClose });
+
+      // when
+      fireEvent.click(domQuery('.entry[data-id="issues"]', container));
+
+      // then
+      expect(onClose).not.to.have.been.called;
+      expect(domQuery('.entry[data-id="create-issue"]', container)).to.exist;
+    });
+
+
+    it('should push level on <Enter> over navigate entry', async function() {
+
+      // given
+      const onSelect = spy();
+
+      await createPopupMenu({ container, entries: navigateEntries, onSelect });
+
+      const popupEl = domQuery('.djs-popup', container);
+
+      // when
+      fireEvent.keyDown(popupEl, { key: 'Enter' });
+
+      // then
+      expect(onSelect).not.to.be.called;
+
+      const entryLabels = domQueryAll('.djs-popup-label', container);
+      expect([ ...entryLabels ].map(e => e.textContent)).to.eql([
+        'Create Issue',
+        'List Issues'
+      ]);
+    });
+
+
+    it('should trigger onSelect on click of leaf entry', async function() {
+
+      // given
+      const onSelect = spy();
+
+      await createPopupMenu({ container, entries: navigateEntries, onSelect });
+
+      const leafEntry = domQuery('.entry[data-id="leaf"]', container);
+
+      // when
+      fireEvent.click(leafEntry);
+
+      // then
+      expect(onSelect).to.have.been.calledOnce;
+    });
+
+
+    it('should render chevron on navigate entry', async function() {
+
+      // when
+      await createPopupMenu({ container, entries: navigateEntries });
+
+      // then
+      expect(domQuery('.entry[data-id="issues"] .djs-popup-entry-chevron', container)).to.exist;
+      expect(domQuery('.entry[data-id="leaf"] .djs-popup-entry-chevron', container)).not.to.exist;
+    });
+
+
+    it('should not allow to drag navigate entries', async function() {
+
+      // given
+      const onSelect = spy();
+
+      await createPopupMenu({ container, entries: navigateEntries, onSelect });
+
+      const navigateEntry = domQuery('.entry[data-id="issues"]', container);
+
+      // when
+      fireEvent.dragStart(navigateEntry);
+
+      // then
+      expect(onSelect).not.to.have.been.called;
+      expect(navigateEntry.getAttribute('draggable')).to.eql('false');
+    });
+
+
+    it('should select first entry of new level after push', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: navigateEntries });
+
+      const navigateEntry = domQuery('.entry[data-id="issues"]', container);
+
+      // when
+      fireEvent.click(navigateEntry);
+
+      // then
+      expect(domQuery('.selected .djs-popup-label', container).textContent).to.eql('Create Issue');
+    });
+
+
+    it('should pop level on back button click', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: navigateEntries });
+
+      fireEvent.click(domQuery('.entry[data-id="issues"]', container));
+
+      // when
+      fireEvent.click(domQuery('.djs-popup-breadcrumbs-item--back', container));
+
+      // then
+      const entryLabels = domQueryAll('.djs-popup-label', container);
+      expect([ ...entryLabels ].map(e => e.textContent)).to.eql([ 'Issues', 'Leaf' ]);
+    });
+
+
+    it('should pop all the way to root on back button click', async function() {
+
+      // given
+      const threeLevelEntries = [
+        {
+          id: 'connector',
+          label: 'GitHub Connector',
+          entries: [
+            {
+              id: 'issues',
+              label: 'Issues',
+              entries: [
+                { id: 'create-issue', label: 'Create Issue', action: () => {} }
+              ]
+            }
+          ]
+        }
+      ];
+
+      await createPopupMenu({ container, entries: threeLevelEntries });
+
+      fireEvent.click(domQuery('.entry[data-id="connector"]', container));
+      fireEvent.click(domQuery('.entry[data-id="issues"]', container));
+
+      // when
+      fireEvent.click(domQuery('.djs-popup-breadcrumbs-item--back', container));
+
+      // then
+      const entryLabels = domQueryAll('.djs-popup-label', container);
+      expect([ ...entryLabels ].map(e => e.textContent)).to.eql([ 'GitHub Connector' ]);
+    });
+
+
+    it('should display breadcrumbs when nested even without title or header entries', async function() {
+
+      // given
+      const noTitleEntries = [
+        {
+          id: 'group',
+          label: 'Group',
+          entries: [
+            { id: 'leaf', label: 'Leaf', action: () => {} }
+          ]
+        }
+      ];
+
+      await createPopupMenu({ container, entries: noTitleEntries });
+
+      // when
+      fireEvent.click(domQuery('.entry[data-id="group"]', container));
+
+      // then
+      expect(domQuery('.djs-popup-breadcrumbs', container)).to.exist;
+      expect(domQuery('.djs-popup-breadcrumbs-item--back', container)).to.exist;
+    });
+
+
+    it('should hide header when nested', async function() {
+
+      // given
+      const noTitleEntries = [
+        {
+          id: 'group',
+          label: 'Group',
+          entries: [
+            { id: 'leaf', label: 'Leaf', action: () => {} }
+          ]
+        }
+      ];
+
+      await createPopupMenu({ container, entries: noTitleEntries, title: 'Root' });
+
+      // when
+      fireEvent.click(domQuery('.entry[data-id="group"]', container));
+
+      // then
+      expect(domQuery('.djs-popup-header', container)).not.to.exist;
+    });
+
+
+    it('should reset to root when entries prop identity changes (refresh)', async function() {
+
+      // given
+      const nestedEntries = [
+        {
+          id: 'group',
+          label: 'Group',
+          entries: [
+            { id: 'leaf', label: 'Leaf', action: () => {} }
+          ]
+        }
+      ];
+
+      await createPopupMenu({ container, entries: nestedEntries });
+
+      fireEvent.click(domQuery('.entry[data-id="group"]', container));
+
+      // assume
+      expect(domQuery('.djs-popup-breadcrumbs', container)).to.exist;
+
+      // when
+      const refreshedEntries = [
+        {
+          id: 'group',
+          label: 'Group',
+          entries: [
+            { id: 'leaf', label: 'Leaf', action: () => {} }
+          ]
+        }
+      ];
+
+      await createPopupMenu({ container, entries: refreshedEntries });
+
+      // then
+      expect(domQuery('.djs-popup-breadcrumbs', container)).not.to.exist;
+      const entryLabels = domQueryAll('.djs-popup-label', container);
+      expect([ ...entryLabels ].map(e => e.textContent)).to.eql([ 'Group' ]);
+    });
+
+
+    describe('cross-level search', function() {
+
+      const searchableEntries = [
+        {
+          id: 'github',
+          label: 'GitHub Connector',
+          entries: [
+            { id: 'list-issues', label: 'List Issues', search: [ 'list issues' ], action: () => {} },
+            { id: 'list-branches', label: 'List Branches', search: [ 'list branches' ], action: () => {} },
+            { id: 'create-issue', label: 'Create Issue', action: () => {} }
+          ]
+        },
+        {
+          id: 'email',
+          label: 'Email Connector',
+          entries: [
+            { id: 'list-emails', label: 'List Emails', search: [ 'list emails' ], action: () => {} },
+            { id: 'send-email', label: 'Send Email', action: () => {} }
+          ]
+        },
+        {
+          id: 'rest',
+          label: 'REST',
+          action: () => {}
+        }
+      ];
+
+
+      it('should return leaves from any level when searching', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: searchableEntries, search: true });
+
+        const input = domQuery('.djs-popup-search input', container);
+        input.value = 'list';
+
+        // when
+        fireEvent.keyUp(input, { key: 'l' });
+
+        // then
+        const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent);
+        expect(labels).to.include.members([ 'List Issues', 'List Branches', 'List Emails' ]);
+      });
+
+
+      it('should exclude navigate (group) entries from search results', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: searchableEntries, search: true });
+
+        const input = domQuery('.djs-popup-search input', container);
+        input.value = 'connector';
+
+        // when
+        fireEvent.keyUp(input, { key: 'r' });
+
+        // then
+        const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent);
+        expect(labels).not.to.include('GitHub Connector');
+        expect(labels).not.to.include('Email Connector');
+      });
+
+
+      it('should hide back button while searching', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: searchableEntries, search: true });
+
+        fireEvent.click(domQuery('.entry[data-id="github"]', container));
+
+        const input = domQuery('.djs-popup-search input', container);
+        input.value = 'list';
+
+        // when
+        fireEvent.keyUp(input, { key: 'l' });
+
+        // then
+        expect(domQuery('.djs-popup-breadcrumbs-item--back', container)).not.to.exist;
+      });
+
+
+      it('should render result count caption while searching', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: searchableEntries, search: true });
+
+        const input = domQuery('.djs-popup-search input', container);
+        input.value = 'list';
+
+        // when
+        fireEvent.keyUp(input, { key: 'l' });
+
+        // then
+        const caption = domQuery('.djs-popup-search-count', container);
+        expect(caption).to.exist;
+        expect(caption.textContent.trim()).to.eql('3 results found');
+      });
+
+
+      it('should not render result count when search is empty', async function() {
+
+        // when
+        await createPopupMenu({ container, entries: searchableEntries, search: true });
+
+        // then
+        expect(domQuery('.djs-popup-search-count', container)).not.to.exist;
+      });
+
+
+      it('should use singular form for one result', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: searchableEntries, search: true });
+
+        const input = domQuery('.djs-popup-search input', container);
+        input.value = 'send';
+
+        // when
+        fireEvent.keyUp(input, { key: 'd' });
+
+        // then
+        expect(domQuery('.djs-popup-search-count', container).textContent.trim()).to.eql('1 result found');
+      });
+
+
+      it('should render plain leaf labels while searching', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: searchableEntries, search: true });
+
+        const input = domQuery('.djs-popup-search input', container);
+        input.value = 'list issues';
+
+        // when
+        fireEvent.keyUp(input, { key: 's' });
+
+        // then
+        const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent);
+        expect(labels).to.include('List Issues');
+      });
+
+      it('should restore level view after clearing search', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: searchableEntries, search: true });
+
+        fireEvent.click(domQuery('.entry[data-id="github"]', container));
+
+        const input = domQuery('.djs-popup-search input', container);
+        input.value = 'list';
+        fireEvent.keyUp(input, { key: 'l' });
+
+        // when
+        input.value = '';
+        fireEvent.keyUp(input, { key: 'Backspace' });
+
+        // then
+        expect(domQuery('.djs-popup-breadcrumbs-item--back', container)).to.exist;
+        const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent);
+        expect(labels).to.have.members([ 'List Issues', 'List Branches', 'Create Issue' ]);
+      });
+
+    });
+
   });
 
 

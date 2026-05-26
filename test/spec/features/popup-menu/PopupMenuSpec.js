@@ -341,6 +341,75 @@ describe('features/popup-menu', function() {
     }));
 
 
+    it('should render nested navigate entries from provider', inject(async function(popupMenu, eventBus) {
+
+      // given
+      const openedSpy = spy();
+      eventBus.on('popupMenu.opened', openedSpy);
+
+      popupMenu.registerProvider('navigate-menu', {
+        getPopupMenuEntries: function() {
+          return {
+            github: {
+              label: 'GitHub Connector',
+              entries: {
+                'create-issue': { label: 'Create Issue', action: function() {} },
+                'list-issues': { label: 'List Issues', action: function() {} }
+              }
+            }
+          };
+        }
+      });
+
+      // when
+      popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+
+      // then
+      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+      expect(queryEntry('github')).to.exist;
+    }));
+
+
+    it('should navigate into nested entries on click', inject(async function(popupMenu, eventBus) {
+
+      // given
+      const openedSpy = spy();
+      eventBus.on('popupMenu.opened', openedSpy);
+
+      popupMenu.registerProvider('navigate-menu', {
+        getPopupMenuEntries: function() {
+          return {
+            github: {
+              label: 'GitHub Connector',
+              entries: {
+                'create-issue': { label: 'Create Issue', action: function() {} },
+                'list-issues': { label: 'List Issues', action: function() {} }
+              }
+            }
+          };
+        }
+      });
+
+      popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+
+      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+
+      // when
+      await act(() => {
+        queryEntry('github').dispatchEvent(new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          clientX: 0,
+          clientY: 0
+        }));
+      });
+
+      // then
+      const labels = await queryEntryLabels();
+      expect(labels).to.eql([ 'Create Issue', 'List Issues' ]);
+    }));
+
+
     it('should add action-id to entry', inject(function(popupMenu) {
 
       // when
