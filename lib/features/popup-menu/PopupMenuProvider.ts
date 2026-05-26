@@ -4,19 +4,44 @@ import type { PopupMenuTarget } from './PopupMenu.js';
 
 export type PopupMenuEntryAction = (
   event: Event,
-  entry: PopupMenuEntry,
+  entry: PopupMenuActionEntry,
   action?: string
 ) => any;
 
-export type PopupMenuEntry = {
-  action: PopupMenuEntryAction;
-  className: string;
+type PopupMenuEntryBase = {
+  className?: string;
   group?: string;
   disabled?: boolean;
   imageUrl?: string;
   imageHtml?: string;
-  label: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  documentationRef?: string;
+  rank?: number;
+  search?: string | string[];
+  searchable?: boolean;
 };
+
+/**
+ * Popup menu entry which performs an action when clicked.
+ */
+export type PopupMenuActionEntry = PopupMenuEntryBase & {
+  action: PopupMenuEntryAction;
+  entries?: never;
+};
+
+/**
+ * Popup menu entry which navigates to a sub-menu when clicked.
+ */
+export type PopupMenuStepEntry = PopupMenuEntryBase & {
+  entries: PopupMenuEntries;
+  action?: never;
+};
+
+export type PopupMenuEntry =
+  | PopupMenuActionEntry
+  | PopupMenuStepEntry;
 
 export type PopupMenuEntries = Record<string, PopupMenuEntry>;
 
