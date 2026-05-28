@@ -92,6 +92,44 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
+    describe('auto activate', function() {
+
+      it('should activate with mouse event', inject(function(dragging) {
+
+        // given
+        var events = recordEvents('foo');
+
+        var initialEvent = canvasEvent({ x: 10, y: 10 });
+
+        // when
+        dragging.init(initialEvent, 'foo', { autoActivate: true });
+
+        // then
+        expect(events.map(raw)).to.eql([
+          { type: 'foo.init' },
+          { type: 'foo.start', x: 10, y: 10, dx: 0, dy: 0 },
+          { type: 'foo.move', x: 10, y: 10, dx: 0, dy: 0 }
+        ]);
+      }));
+
+
+      it('should NOT activate without mouse event', inject(function(dragging) {
+
+        // given
+        var events = recordEvents('foo');
+
+        // when
+        dragging.init(null, 'foo', { autoActivate: true });
+
+        // then
+        expect(events.map(raw)).to.eql([
+          { type: 'foo.init' }
+        ]);
+      }));
+
+    });
+
+
     it('should pass custom data', inject(function(dragging) {
 
       // given
