@@ -10,14 +10,14 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import DefaultRenderer from 'lib/draw/DefaultRenderer';
+import DefaultRenderer from 'diagram-js/lib/draw/DefaultRenderer.js';
 
 import {
   createLine
-} from 'lib/util/RenderUtil';
+} from 'diagram-js/lib/util/RenderUtil.js';
 
 /**
- * @typedef {import('../../../../lib/model/Types.js').Connection} Connection
+ * @typedef {import('diagram-js/lib/model/Types.js').Connection} Connection
  */
 
 var HIGH_PRIORITY = 3000;

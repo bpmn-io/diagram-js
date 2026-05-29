@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   getNewAttachPoint
-} from 'lib/util/AttachUtil';
+} from 'diagram-js/lib/util/AttachUtil.js';
 
 
 describe('AttachUtil', function() {

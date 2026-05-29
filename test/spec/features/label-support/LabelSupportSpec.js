@@ -4,17 +4,17 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import labelSupportModule from 'lib/features/label-support';
-import moveModule from 'lib/features/move';
-import modelingModule from 'lib/features/modeling';
+import labelSupportModule from 'diagram-js/lib/features/label-support/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import rulesModule from './rules/index.js';
-import spaceToolModule from 'lib/features/space-tool';
+import spaceToolModule from 'diagram-js/lib/features/space-tool/index.js';
 
 import {
   classes as svgClasses

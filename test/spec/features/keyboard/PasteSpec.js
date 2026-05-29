@@ -4,18 +4,18 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   forEach
 } from 'min-dash';
 
-import copyPasteModule from 'lib/features/copy-paste';
-import modelingModule from 'lib/features/modeling';
-import keyboardModule from 'lib/features/keyboard';
-import editorActionsModule from 'lib/features/editor-actions';
+import copyPasteModule from 'diagram-js/lib/features/copy-paste/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
+import editorActionsModule from 'diagram-js/lib/features/editor-actions/index.js';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 
 
 var KEYS_PASTE = [ 'v', 'V' ];
