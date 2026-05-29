@@ -6,7 +6,7 @@ import {
 } from 'test/TestHelper';
 
 import translateModule from 'lib/i18n/translate';
-import customTranslateModule from './custom-translate';
+import customTranslateModule from './custom-translate/index.js';
 
 
 describe('i18n - translate', function() {

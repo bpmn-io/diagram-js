@@ -8,13 +8,13 @@ import {
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import { pick } from 'min-dash';
 
 import resizeModule from 'lib/features/resize';
 import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
+import rulesModule from './rules/index.js';
 import selectModule from 'lib/features/selection';
 
 import { getReferencePoint } from 'lib/features/resize/Resize';

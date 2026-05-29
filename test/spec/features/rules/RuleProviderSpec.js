@@ -5,9 +5,9 @@ import {
   inject
 } from 'test/TestHelper';
 
-import testRulesModule from './rules';
-import sayNoRulesModule from './say-no-rules';
-import priorityRulesModule from './priority-rules';
+import testRulesModule from './rules/index.js';
+import sayNoRulesModule from './say-no-rules/index.js';
+import priorityRulesModule from './priority-rules/index.js';
 import rulesModule from 'lib/features/rules';
 import modelingModule from 'lib/features/modeling';
 

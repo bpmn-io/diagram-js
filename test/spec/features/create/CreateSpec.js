@@ -11,7 +11,7 @@ import {
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
@@ -19,7 +19,7 @@ import dragModule from 'lib/features/dragging';
 import createModule from 'lib/features/create';
 import attachSupportModule from 'lib/features/attach-support';
 import connectionPreviewModule from 'lib/features/connection-preview';
-import rulesModule from './rules';
+import rulesModule from './rules/index.js';
 
 import {
   classes as svgClasses

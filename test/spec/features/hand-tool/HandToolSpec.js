@@ -6,7 +6,7 @@ import {
   inject
 } from 'test/TestHelper';
 
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
 import handToolModule from 'lib/features/hand-tool';
 import draggingModule from 'lib/features/dragging';

@@ -1,8 +1,8 @@
-export * from './helper';
+export * from './helper/index.js';
 
 import {
   insertCSS
-} from './helper';
+} from './helper/index.js';
 
 import diagramCSS from '../assets/diagram-js.css';
 

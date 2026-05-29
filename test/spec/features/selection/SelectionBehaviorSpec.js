@@ -16,12 +16,12 @@ import draggingModule from 'lib/features/dragging';
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
 import connectModule from 'lib/features/connect';
-import rulesModule from './rules';
+import rulesModule from './rules/index.js';
 import selectionModule from 'lib/features/selection';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 
 describe('features/selection/SelectionBehavior', function() {

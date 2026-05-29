@@ -7,7 +7,8 @@ import {
 
 import complexPreviewModule from 'lib/features/complex-preview';
 import modelingModule from 'lib/features/modeling';
-import rendererModule from '../preview-support/renderer';
+
+import rendererModule from '../preview-support/renderer/index.js';
 
 import {
   query as domQuery,

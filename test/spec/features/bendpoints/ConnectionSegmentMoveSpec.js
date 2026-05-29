@@ -7,7 +7,7 @@ import {
   inject
 } from 'test/TestHelper';
 
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
 import bendpointsModule from 'lib/features/bendpoints';
 import modelingModule from 'lib/features/modeling';
@@ -18,7 +18,7 @@ import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
 import { isSnapped } from 'lib/features/snapping/SnapUtil';
 
 import { getMid } from 'lib/layout/LayoutUtil';
-import { getConnectionIntersection } from '../../../../lib/features/bendpoints/BendpointUtil';
+import { getConnectionIntersection } from '../../../../lib/features/bendpoints/BendpointUtil.js';
 
 
 var layoutModule = {

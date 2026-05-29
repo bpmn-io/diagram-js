@@ -17,7 +17,7 @@ import {
 } from 'min-dom';
 import { isDefined } from 'min-dash';
 
-import { getMid } from '../../../lib/layout/LayoutUtil';
+import { getMid } from '../../../lib/layout/LayoutUtil.js';
 
 var testModules = [
   modelingModule,

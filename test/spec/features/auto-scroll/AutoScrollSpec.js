@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
 import {
   bootstrapDiagram,

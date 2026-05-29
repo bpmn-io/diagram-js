@@ -1,4 +1,4 @@
-import TestOrderingProvider from './TestOrderingProvider';
+import TestOrderingProvider from './TestOrderingProvider.js';
 
 export default {
   __init__: [ 'testOrderingProvider' ],

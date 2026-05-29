@@ -8,7 +8,7 @@ import {
 
 import { assign } from 'min-dash';
 
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
 import dragModule from 'lib/features/dragging';
 import hoverFixModule from 'lib/features/hover-fix';
