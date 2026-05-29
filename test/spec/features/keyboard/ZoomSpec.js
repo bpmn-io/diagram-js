@@ -3,17 +3,17 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   forEach
 } from 'min-dash';
 
-import editorActionsModule from 'lib/features/editor-actions';
-import zoomScrollModule from 'lib/navigation/zoomscroll';
-import keyboardModule from 'lib/features/keyboard';
+import editorActionsModule from 'diagram-js/lib/features/editor-actions/index.js';
+import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll/index.js';
+import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 
 
 var KEYS = {

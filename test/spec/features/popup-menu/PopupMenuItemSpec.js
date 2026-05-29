@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import PopupMenuItem from 'lib/features/popup-menu/PopupMenuItem';
+import PopupMenuItem from 'diagram-js/lib/features/popup-menu/PopupMenuItem.js';
 
 import {
   html,
   render
-} from 'lib/ui';
+} from 'diagram-js/lib/ui/index.js';
 
 import {
   query as domQuery

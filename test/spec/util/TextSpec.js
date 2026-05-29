@@ -11,7 +11,7 @@ import {
   create as svgCreate
 } from 'tiny-svg';
 
-import TextUtil from 'lib/util/Text';
+import TextUtil from 'diagram-js/lib/util/Text.js';
 
 import TestContainer from 'mocha-test-container-support';
 

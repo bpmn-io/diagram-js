@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import selectionModule from 'lib/features/selection';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
 
 import {
   classes as svgClasses,

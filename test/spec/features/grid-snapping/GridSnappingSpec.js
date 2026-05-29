@@ -4,21 +4,21 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import gridSnappingModule from 'lib/features/grid-snapping';
-import bendpointsModule from 'lib/features/bendpoints';
-import connectModule from 'lib/features/connect';
-import createModule from 'lib/features/create';
-import moveModule from 'lib/features/move';
-import resizeModule from 'lib/features/resize';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import gridSnappingModule from 'diagram-js/lib/features/grid-snapping/index.js';
+import bendpointsModule from 'diagram-js/lib/features/bendpoints/index.js';
+import connectModule from 'diagram-js/lib/features/connect/index.js';
+import createModule from 'diagram-js/lib/features/create/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
+import resizeModule from 'diagram-js/lib/features/resize/index.js';
 
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 
-import { asTRBL } from 'lib/layout/LayoutUtil';
+import { asTRBL } from 'diagram-js/lib/layout/LayoutUtil.js';
 
-import { SPACING } from 'lib/features/grid-snapping/GridUtil';
+import { SPACING } from 'diagram-js/lib/features/grid-snapping/GridUtil.js';
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]
@@ -30,7 +30,7 @@ import {
 
 import { isString } from 'min-dash';
 
-import { mid } from 'lib/features/snapping/SnapUtil';
+import { mid } from 'diagram-js/lib/features/snapping/SnapUtil.js';
 
 
 var LOW_PRIORITY = 500;

@@ -4,7 +4,7 @@ import {
   componentsToPath,
   createLine,
   updateLine
-} from 'lib/util/RenderUtil';
+} from 'diagram-js/lib/util/RenderUtil.js';
 
 import {
   attr as svgAttr

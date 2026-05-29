@@ -8,7 +8,7 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import TestContainer from 'mocha-test-container-support';
 
@@ -23,7 +23,7 @@ import {
   classes as svgClasses
 } from 'tiny-svg';
 
-import { getChildren as getChildrenGfx } from 'lib/util/GraphicsUtil';
+import { getChildren as getChildrenGfx } from 'diagram-js/lib/util/GraphicsUtil.js';
 
 
 describe('core/Canvas', function() {

@@ -4,7 +4,7 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   append as svgAppend,
@@ -12,7 +12,7 @@ import {
   create as svgCreate
 } from 'tiny-svg';
 
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]

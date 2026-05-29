@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import SnapContext from 'lib/features/snapping/SnapContext';
+import SnapContext from 'diagram-js/lib/features/snapping/SnapContext.js';
 
 
 describe('snapping - SnapContext', function() {

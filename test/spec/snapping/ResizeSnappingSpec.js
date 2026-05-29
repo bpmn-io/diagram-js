@@ -4,15 +4,15 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import resizeModule from 'lib/features/resize';
-import snappingModule from 'lib/features/snapping';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import resizeModule from 'diagram-js/lib/features/resize/index.js';
+import snappingModule from 'diagram-js/lib/features/snapping/index.js';
 
-import SnapContext from 'lib/features/snapping/SnapContext';
+import SnapContext from 'diagram-js/lib/features/snapping/SnapContext.js';
 
-import { getReferencePoint } from 'lib/features/resize/Resize';
+import { getReferencePoint } from 'diagram-js/lib/features/resize/Resize.js';
 
 import {
   createCanvasEvent as canvasEvent

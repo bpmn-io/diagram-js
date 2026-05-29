@@ -8,7 +8,7 @@ import {
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   classes as svgClasses

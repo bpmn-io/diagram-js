@@ -10,7 +10,7 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import testImage from './resources/a.png';
 
@@ -38,10 +38,10 @@ import {
 
 import { createEvent as globalEvent } from '../../../util/MockEvents.js';
 
-import popupMenuModule from 'lib/features/popup-menu';
-import modelingModule from 'lib/features/modeling';
+import popupMenuModule from 'diagram-js/lib/features/popup-menu/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
-import { html } from 'lib/ui';
+import { html } from 'diagram-js/lib/ui/index.js';
 
 const entrySet = (entries) => {
 

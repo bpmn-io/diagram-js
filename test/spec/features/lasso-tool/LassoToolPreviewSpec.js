@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
@@ -13,9 +13,9 @@ import {
   classes as domClasses
 } from 'min-dom';
 
-import modelingModule from 'lib/features/modeling';
-import lassoToolModule from 'lib/features/lasso-tool';
-import draggingModule from 'lib/features/dragging';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import lassoToolModule from 'diagram-js/lib/features/lasso-tool/index.js';
+import draggingModule from 'diagram-js/lib/features/dragging/index.js';
 
 
 describe('features/lasso-tool - preview styling', function() {
