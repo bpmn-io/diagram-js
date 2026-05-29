@@ -16,8 +16,6 @@ fs.mkdirSync(tmpDir, { recursive: true });
 
 var firefoxProfile = fs.mkdtempSync(path.join(tmpDir, 'firefox-profile'));
 
-var absoluteBasePath = path.resolve(__dirname);
-
 var suite = coverage ? 'test/coverageBundle.js' : 'test/testBundle.js';
 
 
@@ -106,10 +104,6 @@ module.exports = async function(karma) {
           'dev:module',
           'module',
           'main'
-        ],
-        modules: [
-          'node_modules',
-          absoluteBasePath
         ]
       },
       devtool: 'eval-source-map'
