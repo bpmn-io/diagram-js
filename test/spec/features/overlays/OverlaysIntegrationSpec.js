@@ -15,7 +15,7 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import $ from 'jquery';
+import { $ } from 'jquery';
 
 import overlayModule from 'lib/features/overlays';
 import selectionModule from 'lib/features/selection';
