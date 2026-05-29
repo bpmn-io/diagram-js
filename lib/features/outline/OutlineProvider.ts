@@ -1,4 +1,4 @@
-import type { Element } from '../../model/Types';
+import type { Element } from '../../model/Types.js';
 
 export type Outline = SVGSVGElement | SVGCircleElement | SVGRectElement;
 

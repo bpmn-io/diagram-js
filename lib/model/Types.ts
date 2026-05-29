@@ -1,4 +1,4 @@
-import type { Point } from '../util/Types';
+import type { Point } from '../util/Types.js';
 
 export type ElementLike = {
   id: string;

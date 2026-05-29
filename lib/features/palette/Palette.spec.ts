@@ -1,9 +1,9 @@
-import Diagram from '../../Diagram';
+import Diagram from '../../Diagram.js';
 
-import PaletteModule from '.';
-import Palette from './Palette';
+import PaletteModule from './index.js';
+import Palette from './Palette.js';
 
-import { FooPaletteProvider } from './PaletteProvider.spec';
+import { FooPaletteProvider } from './PaletteProvider.spec.js';
 
 const diagram = new Diagram({
   modules: [

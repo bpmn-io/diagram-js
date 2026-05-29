@@ -27,7 +27,7 @@ import {
 
 
 /**
- * @typedef {import('../../../../lib/model/Types').Element} Element
+ * @typedef {import('../../../../lib/model/Types.js').Element} Element
  */
 
 var HIGH_PRIORITY = 2000;

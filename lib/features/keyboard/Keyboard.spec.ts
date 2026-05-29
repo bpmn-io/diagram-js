@@ -1,5 +1,5 @@
-import Diagram from '../../Diagram';
-import Keyboard from './Keyboard';
+import Diagram from '../../Diagram.js';
+import Keyboard from './Keyboard.js';
 
 const diagram = new Diagram();
 

@@ -17,7 +17,7 @@ import {
 } from 'lib/util/RenderUtil';
 
 /**
- * @typedef {import('../../model').Connection} Connection
+ * @typedef {import('../../../../lib/model/Types.js').Connection} Connection
  */
 
 var HIGH_PRIORITY = 3000;

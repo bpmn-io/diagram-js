@@ -1,6 +1,6 @@
-import Diagram from '../Diagram';
+import Diagram from '../Diagram.js';
 
-import EventBus from './EventBus';
+import EventBus from './EventBus.js';
 
 const diagram = new Diagram();
 
