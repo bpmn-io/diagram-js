@@ -12,17 +12,17 @@ import {
   fireEvent
 } from '@testing-library/preact';
 
-import PopupMenuComponent from 'lib/features/popup-menu/PopupMenuComponent';
+import PopupMenuComponent from 'diagram-js/lib/features/popup-menu/PopupMenuComponent.js';
 
 import {
   html,
   render
-} from 'lib/ui';
+} from 'diagram-js/lib/ui/index.js';
 
 
 import {
   insertCSS
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   domify,
@@ -30,7 +30,7 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
-import searchFn from 'lib/features/search/search';
+import searchFn from 'diagram-js/lib/features/search/search.js';
 
 
 const TEST_IMAGE_URL = `data:image/svg+xml;utf8,${

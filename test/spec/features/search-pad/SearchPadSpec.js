@@ -5,14 +5,14 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createKeyEvent
-} from 'test/util/KeyEvents';
+} from 'diagram-js/test/util/KeyEvents.js';
 
-import searchPadModule from 'lib/features/search-pad';
-import SearchPad from 'lib/features/search-pad/SearchPad';
+import searchPadModule from 'diagram-js/lib/features/search-pad/index.js';
+import SearchPad from 'diagram-js/lib/features/search-pad/SearchPad.js';
 
 import {
   query as domQuery,

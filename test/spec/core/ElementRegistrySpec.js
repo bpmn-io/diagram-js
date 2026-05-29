@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 
 describe('ElementRegistry', function() {

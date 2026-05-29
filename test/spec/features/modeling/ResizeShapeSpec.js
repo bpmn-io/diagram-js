@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   pick
@@ -11,25 +11,25 @@ import {
 
 import {
   resizeBounds
-} from 'lib/features/resize/ResizeUtil';
+} from 'diagram-js/lib/features/resize/ResizeUtil.js';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import { getBBox } from 'lib/util/Elements';
+import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
-import modelingModule from 'lib/features/modeling';
-import resizeModule from 'lib/features/resize';
-import attachModule from 'lib/features/attach-support';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import resizeModule from 'diagram-js/lib/features/resize/index.js';
+import attachModule from 'diagram-js/lib/features/attach-support/index.js';
 
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 
 var layoutModule = {
   connectionDocking: [ 'type', CroppingConnectionDocking ]
 };
 
-import { getNewAttachPoint } from 'lib/util/AttachUtil';
+import { getNewAttachPoint } from 'diagram-js/lib/util/AttachUtil.js';
 
 
 function bounds(b) {

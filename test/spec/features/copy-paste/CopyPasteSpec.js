@@ -4,7 +4,7 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   filter,
@@ -14,21 +14,21 @@ import {
   some
 } from 'min-dash';
 
-import attachSupportModule from 'lib/features/attach-support';
-import copyPasteModule from 'lib/features/copy-paste';
-import createModule from 'lib/features/create';
-import modelingModule from 'lib/features/modeling';
+import attachSupportModule from 'diagram-js/lib/features/attach-support/index.js';
+import copyPasteModule from 'diagram-js/lib/features/copy-paste/index.js';
+import createModule from 'diagram-js/lib/features/create/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import rulesModule from './rules/index.js';
-import selectionModule from 'lib/features/selection';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
 
 import {
   isConnection,
   isLabel
-} from '../../../../lib/util/ModelUtil.js';
+} from 'diagram-js/lib/util/ModelUtil.js';
 
 
 /**
- * @typedef {import('../../../../lib/model/Types.js').Element} Element
+ * @typedef {import('diagram-js/lib/model/Types.js').Element} Element
  */
 
 var HIGH_PRIORITY = 2000;

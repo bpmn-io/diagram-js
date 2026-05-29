@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import Diagram from '../../lib/Diagram.js';
+import Diagram from 'diagram-js/lib/Diagram.js';
 
 
 describe('Diagram', function() {

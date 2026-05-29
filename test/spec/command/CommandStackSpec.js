@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import cmdModule from 'lib/command';
+import cmdModule from 'diagram-js/lib/command/index.js';
 
 
 // example commands

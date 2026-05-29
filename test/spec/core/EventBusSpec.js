@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import EventBus from 'lib/core/EventBus';
+import EventBus from 'diagram-js/lib/core/EventBus.js';
 
 
 describe('core/EventBus', function() {

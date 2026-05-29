@@ -4,14 +4,14 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import autoPlaceModule from 'lib/features/auto-place';
-import coreModule from 'lib/core';
-import modelingModule from 'lib/features/modeling';
-import selectionModule from 'lib/features/selection';
+import autoPlaceModule from 'diagram-js/lib/features/auto-place/index.js';
+import coreModule from 'diagram-js/lib/core/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import selectionModule from 'diagram-js/lib/features/selection/index.js';
 
-import { getMid } from 'lib/layout/LayoutUtil';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
 import {
   findFreePosition,
@@ -19,7 +19,7 @@ import {
   getConnectedAtPosition,
   getConnectedDistance,
   DEFAULT_DISTANCE
-} from 'lib/features/auto-place/AutoPlaceUtil';
+} from 'diagram-js/lib/features/auto-place/AutoPlaceUtil.js';
 
 import { assign } from 'min-dash';
 

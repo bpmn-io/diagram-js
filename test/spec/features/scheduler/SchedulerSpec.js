@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import schedulerModule from 'lib/features/scheduler';
+import schedulerModule from 'diagram-js/lib/features/scheduler/index.js';
 
 import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 
 describe('features/scheduler', function() {
