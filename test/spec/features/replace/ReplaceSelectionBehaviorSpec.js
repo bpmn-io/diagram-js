@@ -46,24 +46,50 @@ describe('features/replace - ReplaceSelectionBehavior', function() {
 
   describe('#replaceElement', function() {
 
-    it('should select after replacement', inject(function(replace, selection) {
+    it('should select previously selected after replacement', inject(
+      function(replace, selection) {
 
-      // given
-      var replacement = {
-        id: 'replacement',
-        width: 200,
-        height: 200
-      };
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
 
-      // when
-      var newShape = replace.replaceElement(originalShape, replacement);
+        selection.select(originalShape);
 
-      // then
-      expect(newShape).to.exist;
+        // when
+        var newShape = replace.replaceElement(originalShape, replacement);
 
-      // expect added
-      expect(selection.get()).to.eql([ newShape ]);
-    }));
+        // then
+        expect(newShape).to.exist;
+
+        // expect added
+        expect(selection.get()).to.eql([ newShape ]);
+      }
+    ));
+
+
+    it('should not select previously unselected after replacement', inject(
+      function(replace, selection) {
+
+        // given
+        var replacement = {
+          id: 'replacement',
+          width: 200,
+          height: 200
+        };
+
+        // when
+        var newShape = replace.replaceElement(originalShape, replacement);
+
+        // then
+        expect(newShape).to.exist;
+
+        // expect not added
+        expect(selection.get()).not.to.include(newShape);
+      }
+    ));
 
 
     it('should NOT select after replacement if <hints.select === false>', inject(function(replace, selection) {
@@ -75,13 +101,15 @@ describe('features/replace - ReplaceSelectionBehavior', function() {
         height: 200
       };
 
+      selection.select(originalShape);
+
       // when
       var newShape = replace.replaceElement(originalShape, replacement, { select: false });
 
       // then
       expect(newShape).to.exist;
 
-      // expect added
+      // expect not added
       expect(selection.get()).not.to.include(newShape);
     }));
 
