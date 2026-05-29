@@ -1,11 +1,11 @@
-import { Element, Connection, Shape } from '../model';
+import { Element, Connection, Shape } from '../model/index.js';
 
-import Diagram from '../Diagram';
+import Diagram from '../Diagram.js';
 
-import ElementFactory from '../core/ElementFactory';
-import GraphicsFactory from '../core/GraphicsFactory';
+import ElementFactory from '../core/ElementFactory.js';
+import GraphicsFactory from '../core/GraphicsFactory.js';
 
-import BaseRenderer from './BaseRenderer';
+import BaseRenderer from './BaseRenderer.js';
 
 class CustomRenderer extends BaseRenderer {
   canRender(element: Element): boolean {

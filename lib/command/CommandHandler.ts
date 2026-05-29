@@ -1,5 +1,5 @@
-import type { ElementLike } from '../core/Types';
-import type { CommandContext } from './CommandStack';
+import type { ElementLike } from '../core/Types.js';
+import type { CommandContext } from './CommandStack.js';
 
 /**
  * A command handler that may be registered via

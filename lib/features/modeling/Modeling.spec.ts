@@ -1,9 +1,9 @@
-import Diagram from '../../Diagram';
+import Diagram from '../../Diagram.js';
 
-import ElementFactory from '../../core/ElementFactory';
+import ElementFactory from '../../core/ElementFactory.js';
 
-import ModelingModule from '.';
-import Modeling from './Modeling';
+import ModelingModule from './index.js';
+import Modeling from './Modeling.js';
 
 import {
   Connection,
@@ -11,7 +11,7 @@ import {
   Label,
   Root,
   Shape
-} from '../../model';
+} from '../../model/index.js';
 
 const diagram = new Diagram({
   modules: [

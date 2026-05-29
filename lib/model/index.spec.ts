@@ -1,4 +1,4 @@
-import { create } from './index';
+import { create } from './index.js';
 
 const connection = create('connection', {
   id: 'foo',

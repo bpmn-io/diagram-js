@@ -1,9 +1,9 @@
-import Diagram from '../../Diagram';
+import Diagram from '../../Diagram.js';
 
-import ElementFactory from '../../core/ElementFactory';
+import ElementFactory from '../../core/ElementFactory.js';
 
-import SelectionModule from '.';
-import Selection from './Selection';
+import SelectionModule from './index.js';
+import Selection from './Selection.js';
 
 const diagram = new Diagram({
   modules: [

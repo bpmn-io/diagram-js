@@ -1,7 +1,7 @@
 import { pick } from 'min-dash';
 
 /**
- * @typedef {import('../../lib/util/Types').Point} Point
+ * @typedef {import('../../lib/util/Types.js').Point} Point
  */
 
 var POSITION_ATTRS = [ 'x', 'y' ];

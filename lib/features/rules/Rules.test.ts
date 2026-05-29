@@ -1,7 +1,7 @@
-import Diagram from '../../Diagram';
+import Diagram from '../../Diagram.js';
 
-import RulesModule from '.';
-import Rules from './Rules';
+import RulesModule from './index.js';
+import Rules from './Rules.js';
 
 const diagram = new Diagram({
   modules: [
