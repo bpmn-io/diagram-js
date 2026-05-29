@@ -6,6 +6,7 @@ const files = {
   ],
   build: [
     '*.js',
+    '*.cjs',
     '*.mjs'
   ],
   test: [
