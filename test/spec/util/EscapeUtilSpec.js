@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   escapeCSS,
   escapeHTML
-} from 'lib/util/EscapeUtil';
+} from 'diagram-js/lib/util/EscapeUtil.js';
 
 
 describe('util/EscapeUtil', function() {

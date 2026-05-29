@@ -7,7 +7,7 @@ import {
   getClosure,
   getParents,
   isFrameElement
-} from 'lib/util/Elements';
+} from 'diagram-js/lib/util/Elements.js';
 
 
 describe('util/Elements', function() {

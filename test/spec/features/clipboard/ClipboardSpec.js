@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import clipboardModule from 'lib/features/clipboard';
+import clipboardModule from 'diagram-js/lib/features/clipboard/index.js';
 
 
 describe('features/clipboard', function() {

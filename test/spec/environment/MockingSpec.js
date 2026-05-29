@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 
-import EventBus from 'lib/core/EventBus';
+import EventBus from 'diagram-js/lib/core/EventBus.js';
 
 
 describe('environment/Mocking', function() {

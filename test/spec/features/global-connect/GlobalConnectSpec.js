@@ -4,12 +4,12 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling';
-import globalConnectModule from 'lib/features/global-connect';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import globalConnectModule from 'diagram-js/lib/features/global-connect/index.js';
 import rulesModule from './rules/index.js';
 
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import Styles from 'lib/draw/Styles';
+import Styles from 'diagram-js/lib/draw/Styles.js';
 
 
 describe('draw/Styles', function() {

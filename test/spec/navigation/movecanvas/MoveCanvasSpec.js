@@ -4,14 +4,14 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   assign
 } from 'min-dash';
 
-import moveCanvasModule from 'lib/navigation/movecanvas';
-import interactionEventsModule from 'lib/features/interaction-events';
+import moveCanvasModule from 'diagram-js/lib/navigation/movecanvas/index.js';
+import interactionEventsModule from 'diagram-js/lib/features/interaction-events/index.js';
 
 
 describe('navigation/movecanvas', function() {
