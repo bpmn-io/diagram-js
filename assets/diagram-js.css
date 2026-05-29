@@ -1009,8 +1009,46 @@
   display: none !important;
 }
 
+/**
+ * draggable elements 
+ */
 .djs-element .djs-hit-stroke,
 .djs-element .djs-hit-click-stroke,
 .djs-element .djs-hit-all {
   cursor: move;
+}
+
+/**
+ * interaction lock
+ */
+.djs-interaction-locked {
+  user-select: none;
+}
+
+.djs-interaction-locked .djs-connection.selected .djs-outline {
+  display: initial; 
+}
+
+.djs-interaction-locked .djs-palette .entry {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.djs-interaction-locked .djs-palette .djs-palette-toggle {
+  pointer-events: none;
+}
+
+.djs-interaction-locked .djs-element .djs-hit-stroke,
+.djs-interaction-locked .djs-element .djs-hit-click-stroke,
+.djs-interaction-locked .djs-element .djs-hit-all {
+  cursor: unset;
+}
+
+.djs-interaction-locked .djs-resizer {
+  display: none;
+}
+
+.djs-interaction-locked .djs-segment-dragger,
+.djs-interaction-locked .djs-bendpoint {
+  display: none !important;
 }
