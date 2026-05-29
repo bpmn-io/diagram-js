@@ -1,7 +1,7 @@
 import {
   toSVGPoints,
   componentsToPath
-} from './RenderUtil';
+} from './RenderUtil.js';
 
 toSVGPoints([
   { x: 10, y: 100 },

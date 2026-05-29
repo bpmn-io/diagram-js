@@ -1,11 +1,11 @@
-import { PopupMenuTarget } from './PopupMenu';
+import { PopupMenuTarget } from './PopupMenu.js';
 
 import PopupMenuProvider, {
   PopupMenuEntries,
   PopupMenuHeaderEntries,
   PopupMenuEntriesProvider,
   PopupMenuProviderHeaderEntriesProvider
-} from './PopupMenuProvider';
+} from './PopupMenuProvider.js';
 
 export class FooPopupMenuProvider implements PopupMenuProvider {
   getPopupMenuEntries(target: PopupMenuTarget): PopupMenuEntries {

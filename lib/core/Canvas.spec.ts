@@ -1,7 +1,7 @@
-import Diagram from '../Diagram';
+import Diagram from '../Diagram.js';
 
-import Canvas from './Canvas';
-import ElementFactory from './ElementFactory';
+import Canvas from './Canvas.js';
+import ElementFactory from './ElementFactory.js';
 
 const diagram = new Diagram();
 

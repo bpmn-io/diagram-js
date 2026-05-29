@@ -5,7 +5,7 @@ import {
 } from 'test/TestHelper';
 
 /**
- * @typedef {import('../../lib/util/Types').Point} Point
+ * @typedef {import('../../lib/util/Types.js').Point} Point
  */
 
 /**

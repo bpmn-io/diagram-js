@@ -1,13 +1,13 @@
-import Diagram from '../Diagram';
+import Diagram from '../Diagram.js';
 
-import ElementFactory from './ElementFactory';
+import ElementFactory from './ElementFactory.js';
 
 import {
   Connection,
   Label,
   Root,
   Shape
-} from '../model/Types';
+} from '../model/Types.js';
 
 const diagram = new Diagram();
 
