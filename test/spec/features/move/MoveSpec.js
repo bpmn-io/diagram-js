@@ -5,7 +5,7 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
@@ -16,8 +16,8 @@ import {
   pick
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
 
 
 describe('features/move - Move', function() {

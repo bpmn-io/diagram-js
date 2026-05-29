@@ -4,9 +4,9 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import interactionEventsModule from 'lib/features/interaction-events';
+import interactionEventsModule from 'diagram-js/lib/features/interaction-events/index.js';
 
 import {
   queryAll as domQueryAll

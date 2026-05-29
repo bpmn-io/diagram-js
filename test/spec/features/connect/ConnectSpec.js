@@ -4,7 +4,7 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   classes as svgClasses
@@ -12,12 +12,12 @@ import {
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling';
-import connectModule from 'lib/features/connect';
-import connectionPreviewModule from 'lib/features/connection-preview';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import connectModule from 'diagram-js/lib/features/connect/index.js';
+import connectionPreviewModule from 'diagram-js/lib/features/connection-preview/index.js';
 import rulesModule from './rules/index.js';
 
-import { getMid } from 'lib/layout/LayoutUtil';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
 
 var testModules = [

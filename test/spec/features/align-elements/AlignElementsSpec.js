@@ -4,12 +4,12 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import { forEach, sortBy } from 'min-dash';
 
-import alignElementsModule from 'lib/features/align-elements';
-import modelingModule from 'lib/features/modeling';
+import alignElementsModule from 'diagram-js/lib/features/align-elements/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
 import testRules from './rules/index.js';
 

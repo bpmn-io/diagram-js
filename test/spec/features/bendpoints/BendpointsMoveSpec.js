@@ -3,22 +3,22 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import bendpointsModule from 'lib/features/bendpoints';
-import connectModule from 'lib/features/connect';
-import modelingModule from 'lib/features/modeling';
-import selectModule from 'lib/features/selection';
-import connectionPreviewModule from 'lib/features/connection-preview';
-import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+import bendpointsModule from 'diagram-js/lib/features/bendpoints/index.js';
+import connectModule from 'diagram-js/lib/features/connect/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import selectModule from 'diagram-js/lib/features/selection/index.js';
+import connectionPreviewModule from 'diagram-js/lib/features/connection-preview/index.js';
+import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 
 import rulesModule from './rules/index.js';
 
-import { getMid } from 'lib/layout/LayoutUtil';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
 
 import {
@@ -30,7 +30,7 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
-import { isSnapped } from 'lib/features/snapping/SnapUtil';
+import { isSnapped } from 'diagram-js/lib/features/snapping/SnapUtil.js';
 
 var testModules = [
   bendpointsModule,

@@ -4,7 +4,7 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
@@ -12,12 +12,12 @@ import {
 
 import { pick } from 'min-dash';
 
-import resizeModule from 'lib/features/resize';
-import modelingModule from 'lib/features/modeling';
+import resizeModule from 'diagram-js/lib/features/resize/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 import rulesModule from './rules/index.js';
-import selectModule from 'lib/features/selection';
+import selectModule from 'diagram-js/lib/features/selection/index.js';
 
-import { getReferencePoint } from 'lib/features/resize/Resize';
+import { getReferencePoint } from 'diagram-js/lib/features/resize/Resize.js';
 
 import {
   query as domQuery,

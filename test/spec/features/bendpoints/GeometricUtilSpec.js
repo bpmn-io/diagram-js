@@ -6,7 +6,7 @@ import {
   getDistancePointPoint,
   perpendicularFoot,
   rotateVector
-} from 'lib/features/bendpoints/GeometricUtil';
+} from 'diagram-js/lib/features/bendpoints/GeometricUtil.js';
 
 
 describe('features/bendpoints - GeometricUtil', function() {

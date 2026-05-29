@@ -4,18 +4,18 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
 import { assign } from 'min-dash';
 
-import dragModule from 'lib/features/dragging';
-import zoomScrollModule from 'lib/navigation/zoomscroll';
-import createModule from 'lib/features/create';
-import modelingModule from 'lib/features/modeling';
+import dragModule from 'diagram-js/lib/features/dragging/index.js';
+import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll/index.js';
+import createModule from 'diagram-js/lib/features/create/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 
 import { classes as svgClasses } from 'tiny-svg';
 

@@ -5,13 +5,13 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createEvent as globalEvent
 } from '../../../util/MockEvents.js';
 
-import paletteModule from 'lib/features/palette';
+import paletteModule from 'diagram-js/lib/features/palette/index.js';
 
 import {
   query as domQuery,

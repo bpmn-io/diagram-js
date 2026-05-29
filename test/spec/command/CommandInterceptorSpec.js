@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import inherits from 'inherits-browser';
 
-import cmdModule from 'lib/command';
+import cmdModule from 'diagram-js/lib/command/index.js';
 
-import CommandInterceptor from 'lib/command/CommandInterceptor';
+import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor.js';
 
 
 // example commands
