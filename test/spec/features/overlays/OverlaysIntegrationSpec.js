@@ -15,7 +15,7 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import $ from 'jquery';
+import { $ } from 'jquery';
 
 import overlayModule from 'diagram-js/lib/features/overlays/index.js';
 import selectionModule from 'diagram-js/lib/features/selection/index.js';
