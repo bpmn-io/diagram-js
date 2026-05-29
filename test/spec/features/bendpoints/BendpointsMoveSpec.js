@@ -7,15 +7,16 @@ import {
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import bendpointsModule from 'lib/features/bendpoints';
-import rulesModule from './rules';
 import connectModule from 'lib/features/connect';
 import modelingModule from 'lib/features/modeling';
 import selectModule from 'lib/features/selection';
 import connectionPreviewModule from 'lib/features/connection-preview';
 import CroppingConnectionDocking from 'lib/layout/CroppingConnectionDocking';
+
+import rulesModule from './rules/index.js';
 
 import { getMid } from 'lib/layout/LayoutUtil';
 

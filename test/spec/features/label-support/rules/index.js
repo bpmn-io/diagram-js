@@ -1,4 +1,4 @@
-import LabelSupportRules from './LabelSupportRules';
+import LabelSupportRules from './LabelSupportRules.js';
 
 export default {
   __init__: [ 'labelSupportRules' ],

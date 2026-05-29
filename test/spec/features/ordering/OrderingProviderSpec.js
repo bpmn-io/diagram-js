@@ -7,7 +7,7 @@ import {
 
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
-import orderingProviderModule from './provider';
+import orderingProviderModule from './provider/index.js';
 
 
 describe('features/ordering', function() {

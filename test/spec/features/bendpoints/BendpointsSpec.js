@@ -6,14 +6,14 @@ import {
 
 import modelingModule from 'lib/features/modeling';
 import bendpointsModule from 'lib/features/bendpoints';
-import rulesModule from './rules';
+import rulesModule from './rules/index.js';
 import interactionModule from 'lib/features/interaction-events';
 
 
 import { spy } from 'sinon';
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import {
   query as domQuery,

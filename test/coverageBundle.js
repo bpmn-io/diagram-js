@@ -1,6 +1,6 @@
 /* global require */
 
-import './globals';
+import './globals.js';
 
 var allTests = require.context('.', true, /Spec\.js$/);
 

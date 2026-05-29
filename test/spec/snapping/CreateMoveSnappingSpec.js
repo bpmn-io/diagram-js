@@ -20,7 +20,7 @@ import {
 
 import {
   createCanvasEvent as canvasEventMid
-} from '../../util/MockEvents';
+} from '../../util/MockEvents.js';
 
 
 describe('features/snapping - CreateMoveSnapping', function() {

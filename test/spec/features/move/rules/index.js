@@ -1,4 +1,4 @@
-import MoveRules from './MoveRules';
+import MoveRules from './MoveRules.js';
 
 export default {
   __init__: [ 'moveRules' ],

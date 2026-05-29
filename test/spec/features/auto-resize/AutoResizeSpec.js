@@ -8,7 +8,7 @@ import {
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import modelingModule from 'lib/features/modeling';
 import autoResizeModule from 'lib/features/auto-resize';

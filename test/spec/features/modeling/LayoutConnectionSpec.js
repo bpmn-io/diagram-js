@@ -6,7 +6,7 @@ import {
   inject
 } from 'test/TestHelper';
 
-import customModelingModule from './custom';
+import customModelingModule from './custom/index.js';
 
 
 describe('features/modeling - layout connection', function() {

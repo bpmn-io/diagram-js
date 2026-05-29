@@ -7,7 +7,7 @@ import {
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import toolManagerModule from 'lib/features/tool-manager';
 import handToolModule from 'lib/features/hand-tool';

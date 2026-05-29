@@ -10,7 +10,7 @@ import modelingModule from 'lib/features/modeling';
 
 import { getBBox } from 'lib/util/Elements';
 
-import { getMid } from '../../../../lib/layout/LayoutUtil';
+import { getMid } from '../../../../lib/layout/LayoutUtil.js';
 
 import { forEach } from 'min-dash';
 

@@ -16,7 +16,7 @@ import { getReferencePoint } from 'lib/features/resize/Resize';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../util/MockEvents';
+} from '../../util/MockEvents.js';
 
 
 var VERY_LOW_PRIORITY = 100;

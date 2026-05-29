@@ -12,7 +12,7 @@ import draggingModule from 'lib/features/dragging';
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
 import connectModule from 'lib/features/connect';
-import rulesModule from './rules';
+import rulesModule from './rules/index.js';
 import selectionModule from 'lib/features/selection';
 
 

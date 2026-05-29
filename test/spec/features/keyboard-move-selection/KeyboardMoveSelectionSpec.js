@@ -9,7 +9,7 @@ import { forEach } from 'min-dash';
 
 import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
 import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
+import rulesModule from './rules/index.js';
 
 import { getMid } from 'lib/layout/LayoutUtil';
 

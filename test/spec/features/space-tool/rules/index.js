@@ -1,4 +1,4 @@
-import SpaceToolRules from './SpaceToolRules';
+import SpaceToolRules from './SpaceToolRules.js';
 
 export default {
   __init__: [ 'spaceToolRules' ],

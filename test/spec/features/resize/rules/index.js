@@ -1,4 +1,4 @@
-import ResizeRules from './ResizeRules';
+import ResizeRules from './ResizeRules.js';
 
 export default {
   __init__: [ 'resizeRules' ],
