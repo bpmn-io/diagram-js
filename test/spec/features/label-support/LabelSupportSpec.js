@@ -8,12 +8,12 @@ import {
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import labelSupportModule from 'lib/features/label-support';
 import moveModule from 'lib/features/move';
 import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
+import rulesModule from './rules/index.js';
 import spaceToolModule from 'lib/features/space-tool';
 
 import {

@@ -5,7 +5,7 @@ import {
   inject
 } from 'test/TestHelper';
 
-import search from '../../../../lib/features/search';
+import search from '../../../../lib/features/search/index.js';
 
 
 describe('features/search', function() {

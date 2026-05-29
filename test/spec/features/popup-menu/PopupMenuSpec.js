@@ -36,7 +36,7 @@ import {
   classes as domClasses
 } from 'min-dom';
 
-import { createEvent as globalEvent } from '../../../util/MockEvents';
+import { createEvent as globalEvent } from '../../../util/MockEvents.js';
 
 import popupMenuModule from 'lib/features/popup-menu';
 import modelingModule from 'lib/features/modeling';

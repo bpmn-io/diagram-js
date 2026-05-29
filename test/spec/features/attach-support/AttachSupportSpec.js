@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents';
+import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
 import {
   bootstrapDiagram,
@@ -16,7 +16,8 @@ import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
 import replaceModule from 'lib/features/replace';
 import spaceToolModule from 'lib/features/space-tool';
-import rulesModule from './rules';
+
+import rulesModule from './rules/index.js';
 
 import { getNewAttachShapeDelta } from 'lib/util/AttachUtil';
 

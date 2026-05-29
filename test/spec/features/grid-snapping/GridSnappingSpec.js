@@ -26,7 +26,7 @@ var layoutModule = {
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import { isString } from 'min-dash';
 

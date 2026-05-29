@@ -9,7 +9,7 @@ import {
 
 import {
   createEvent as globalEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import paletteModule from 'lib/features/palette';
 

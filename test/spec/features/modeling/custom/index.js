@@ -4,7 +4,7 @@ import SelectionModule from 'lib/features/selection';
 import RulesModule from 'lib/features/rules';
 
 import Modeling from 'lib/features/modeling/Modeling';
-import CustomLayouter from './CustomLayouter';
+import CustomLayouter from './CustomLayouter.js';
 
 
 export default {

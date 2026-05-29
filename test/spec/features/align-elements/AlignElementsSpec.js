@@ -10,7 +10,8 @@ import { forEach, sortBy } from 'min-dash';
 
 import alignElementsModule from 'lib/features/align-elements';
 import modelingModule from 'lib/features/modeling';
-import testRules from './rules';
+
+import testRules from './rules/index.js';
 
 
 describe('features/align-elements', function() {

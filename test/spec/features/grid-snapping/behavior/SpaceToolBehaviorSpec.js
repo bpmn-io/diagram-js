@@ -13,7 +13,7 @@ import spaceToolModule from 'lib/features/space-tool';
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../../util/MockEvents';
+} from '../../../../util/MockEvents.js';
 
 
 describe('features/grid-snapping - space tool', function() {

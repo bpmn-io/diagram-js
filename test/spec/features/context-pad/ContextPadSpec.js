@@ -6,7 +6,7 @@ import {
 
 import {
   createEvent as globalEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import {
   bootstrapDiagram,
@@ -25,7 +25,7 @@ import {
 import contextPadModule from 'lib/features/context-pad';
 import selectionModule from 'lib/features/selection';
 
-import ContextPadProvider from './ContextPadProvider';
+import ContextPadProvider from './ContextPadProvider.js';
 
 
 var providerModule = {

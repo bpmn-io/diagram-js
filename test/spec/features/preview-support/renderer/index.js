@@ -1,4 +1,4 @@
-import MarkerRenderer from './MarkerRenderer';
+import MarkerRenderer from './MarkerRenderer.js';
 
 export default {
   __init__: [ 'defaultRenderer' ],

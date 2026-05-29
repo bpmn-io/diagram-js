@@ -7,14 +7,14 @@ import {
 
 import {
   createCanvasEvent as canvasEvent
-} from '../../../util/MockEvents';
+} from '../../../util/MockEvents.js';
 
 import modelingModule from 'lib/features/modeling';
 import moveModule from 'lib/features/move';
 import attachSupportModule from 'lib/features/attach-support';
-import rulesModule from './rules';
-import rendererModule from '../preview-support/renderer';
-import nestedRendererModule from '../preview-support/nested-renderer';
+import rulesModule from './rules/index.js';
+import rendererModule from '../preview-support/renderer/index.js';
+import nestedRendererModule from '../preview-support/nested-renderer/index.js';
 
 import {
   query as domQuery,

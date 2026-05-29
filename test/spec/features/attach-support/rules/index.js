@@ -1,4 +1,4 @@
-import AttachRules from './AttachRules';
+import AttachRules from './AttachRules.js';
 
 export default {
   __init__: [ 'attachRules' ],

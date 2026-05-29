@@ -1,4 +1,4 @@
-import ConnectRules from './ConnectRules';
+import ConnectRules from './ConnectRules.js';
 
 export default {
   __init__: [ 'connectRules' ],

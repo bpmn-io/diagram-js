@@ -1,4 +1,4 @@
-import BendpointRules from './BendpointRules';
+import BendpointRules from './BendpointRules.js';
 
 export default {
   __init__: [ 'bendpointRules' ],

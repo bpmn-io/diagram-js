@@ -1,4 +1,4 @@
-import PriorityRules from './PriorityRules';
+import PriorityRules from './PriorityRules.js';
 
 export default {
   __init__: [ 'priorityRules' ],

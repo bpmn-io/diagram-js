@@ -16,7 +16,7 @@ import keyboardMoveModule from 'lib/navigation/keyboard-move';
 import zoomScrollModule from 'lib/navigation/zoomscroll';
 import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
 import modelingModule from 'lib/features/modeling';
-import customRulesModule from './rules';
+import customRulesModule from './rules/index.js';
 
 
 describe('features/editor-actions', function() {

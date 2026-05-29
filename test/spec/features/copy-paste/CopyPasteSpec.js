@@ -18,13 +18,13 @@ import attachSupportModule from 'lib/features/attach-support';
 import copyPasteModule from 'lib/features/copy-paste';
 import createModule from 'lib/features/create';
 import modelingModule from 'lib/features/modeling';
-import rulesModule from './rules';
+import rulesModule from './rules/index.js';
 import selectionModule from 'lib/features/selection';
 
 import {
   isConnection,
   isLabel
-} from '../../../../lib/util/ModelUtil';
+} from '../../../../lib/util/ModelUtil.js';
 
 
 /**
