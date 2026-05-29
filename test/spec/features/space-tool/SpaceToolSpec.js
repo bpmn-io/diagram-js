@@ -10,11 +10,11 @@ import { attr as svgAttr } from 'tiny-svg';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import autoResizeModule from 'lib/features/auto-resize';
-import modelingModule from 'lib/features/modeling';
-import spaceToolModule from 'lib/features/space-tool';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import spaceToolModule from 'diagram-js/lib/features/space-tool/index.js';
 import autoResizeProviderModule from './auto-resize/index.js';
 import rulesModule from './rules/index.js';
 
@@ -22,7 +22,7 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import { isMac } from 'lib/util/Platform';
+import { isMac } from 'diagram-js/lib/util/Platform.js';
 
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };

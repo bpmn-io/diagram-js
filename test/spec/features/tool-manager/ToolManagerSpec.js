@@ -3,15 +3,15 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import toolManagerModule from 'lib/features/tool-manager';
-import handToolModule from 'lib/features/hand-tool';
-import draggingModule from 'lib/features/dragging';
+import toolManagerModule from 'diagram-js/lib/features/tool-manager/index.js';
+import handToolModule from 'diagram-js/lib/features/hand-tool/index.js';
+import draggingModule from 'diagram-js/lib/features/dragging/index.js';
 
 
 describe('features/tool-manager', function() {

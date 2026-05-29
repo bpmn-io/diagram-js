@@ -3,17 +3,17 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import dragModule from 'lib/features/dragging';
-import createModule from 'lib/features/create';
-import attachSupportModule from 'lib/features/attach-support';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import moveModule from 'diagram-js/lib/features/move/index.js';
+import dragModule from 'diagram-js/lib/features/dragging/index.js';
+import createModule from 'diagram-js/lib/features/create/index.js';
+import attachSupportModule from 'diagram-js/lib/features/attach-support/index.js';
 import rulesModule from './rules/index.js';
 
 import { queryAll as domQueryAll } from 'min-dom';

@@ -3,14 +3,14 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import autoResizeModule from 'lib/features/auto-resize';
-import modelingModule from 'lib/features/modeling';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
-import { getBBox } from 'lib/util/Elements';
+import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
-import { getMid } from '../../../../lib/layout/LayoutUtil.js';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
 import { forEach } from 'min-dash';
 

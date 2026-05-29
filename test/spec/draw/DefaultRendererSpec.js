@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import { create } from 'tiny-svg';
 
-import drawModule from 'lib/draw';
+import drawModule from 'diagram-js/lib/draw/index.js';
 
 
 describe('draw - DefaultRenderer', function() {

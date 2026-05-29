@@ -3,15 +3,15 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import testRulesModule from './rules/index.js';
 import sayNoRulesModule from './say-no-rules/index.js';
 import priorityRulesModule from './priority-rules/index.js';
-import rulesModule from 'lib/features/rules';
-import modelingModule from 'lib/features/modeling';
+import rulesModule from 'diagram-js/lib/features/rules/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling/index.js';
 
-import RuleProvider from 'lib/features/rules/RuleProvider';
+import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider.js';
 
 import inherits from 'inherits-browser';
 

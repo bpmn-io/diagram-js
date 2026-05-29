@@ -5,13 +5,13 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   assign
 } from 'min-dash';
 
-import zoomScrollModule from 'lib/navigation/zoomscroll';
+import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll/index.js';
 
 
 describe('navigation/zoomscroll', function() {
