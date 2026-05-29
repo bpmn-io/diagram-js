@@ -5,6 +5,14 @@
   "main": "lib/Diagram.js",
   "module": "lib/Diagram.js",
   "types": "lib/Diagram.d.ts",
+  "type": "module",
+  "exports": {
+    ".": "./lib/Diagram.js",
+    "./lib/*": "./lib/*",
+    "./test/*": "./test/*",
+    "./package.json": "./package.json",
+    "./assets/*": "./assets/*"
+  },
   "files": [
     "lib",
     "assets",
