@@ -17,12 +17,12 @@ import {
   findFreePosition,
   generateGetNextPosition,
   getConnectedAtPosition,
-  getConnectedDistance
+  getConnectedDistance,
+  DEFAULT_DISTANCE
 } from 'lib/features/auto-place/AutoPlaceUtil';
 
 import { assign } from 'min-dash';
 
-import { DEFAULT_DISTANCE } from 'lib/features/auto-place/AutoPlaceUtil';
 
 
 describe('features/auto-place', function() {
