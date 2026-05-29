@@ -36,6 +36,14 @@ export default [
     };
   }),
 
+  ...bpmnIoPlugin.configs.esm.map(config => {
+
+    return {
+      ...config,
+      ignores: files.build
+    };
+  }),
+
   // test
   ...bpmnIoPlugin.configs.mocha.map(config => {
 
