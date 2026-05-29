@@ -7,7 +7,10 @@ import {
 
 import { expectToBeAccessible } from '@bpmn-io/a11y';
 
-import { act } from '@testing-library/preact';
+import {
+  act,
+  fireEvent
+} from '@testing-library/preact';
 
 import PopupMenuComponent from 'lib/features/popup-menu/PopupMenuComponent';
 
@@ -16,9 +19,6 @@ import {
   render
 } from 'lib/ui';
 
-import {
-  fireEvent
-} from '@testing-library/preact';
 
 import {
   insertCSS
