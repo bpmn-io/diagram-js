@@ -7,6 +7,7 @@ import {
 
 import modelingModule from 'lib/features/modeling';
 import replaceModule from 'lib/features/replace';
+import selectionModule from 'lib/features/selection';
 
 
 describe('features/replace - ReplaceSelectionBehavior', function() {
@@ -14,6 +15,7 @@ describe('features/replace - ReplaceSelectionBehavior', function() {
   beforeEach(bootstrapDiagram({
     modules: [
       modelingModule,
+      selectionModule,
       replaceModule
     ]
   }));
