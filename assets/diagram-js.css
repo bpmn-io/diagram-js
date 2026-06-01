@@ -789,18 +789,6 @@
   margin: 1px;
 }
 
-.djs-popup-title,
-.djs-popup-label,
-.djs-popup .entry-header {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.djs-popup-entry-name {
-  display: flex;
-}
-
 .djs-popup-body {
   flex-direction: column;
   width: auto;
@@ -829,7 +817,6 @@
 
 .djs-popup-entry-docs {
   display: none;
-  align-items: center;
   margin-left: 3px;
   color: var(--popup-description-color);
 }
@@ -837,11 +824,11 @@
 .djs-popup-body .entry:focus-within .djs-popup-entry-docs,
 .djs-popup-body .entry:focus .djs-popup-entry-docs,
 .djs-popup-body .entry:hover .djs-popup-entry-docs {
-  display: flex;
+  display: inline;
 }
 
 .djs-popup-entry-docs svg {
-  vertical-align: bottom;
+  vertical-align: text-bottom;
   margin: auto 2px auto 2px;
 }
 
