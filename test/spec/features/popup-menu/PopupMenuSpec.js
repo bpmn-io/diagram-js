@@ -1453,7 +1453,7 @@ describe('features/popup-menu', function() {
       popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
 
       // then
-      var link = queryPopup('.djs-popup-entry-docs a');
+      var link = queryPopup('a.djs-popup-entry-docs');
 
       expect(link).to.exist;
 
