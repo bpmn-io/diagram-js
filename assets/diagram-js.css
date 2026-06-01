@@ -829,11 +829,10 @@
 }
 
 .djs-popup-entry-docs {
-  flex: 0;
-  flex-direction: row;
-  align-items: center;
-  padding-left: 5px;
   display: none;
+  align-items: center;
+  margin-left: 3px;
+  color: var(--popup-description-color);
 }
 
 .djs-popup-body .entry:hover .djs-popup-entry-docs {
@@ -841,8 +840,7 @@
 }
 
 .djs-popup-entry-docs svg {
-  vertical-align: middle;
-  margin: auto 2px auto 5px;
+  margin: auto 2px auto 2px;
 }
 
 /**
