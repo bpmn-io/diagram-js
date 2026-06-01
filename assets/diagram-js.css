@@ -834,6 +834,8 @@
   color: var(--popup-description-color);
 }
 
+.djs-popup-body .entry:focus-within .djs-popup-entry-docs,
+.djs-popup-body .entry:focus .djs-popup-entry-docs,
 .djs-popup-body .entry:hover .djs-popup-entry-docs {
   display: flex;
 }
