@@ -827,20 +827,16 @@
 }
 
 .djs-popup-entry-docs {
-  flex: 0;
-  flex-direction: row;
+  display: inline-flex;
   align-items: center;
-  padding-left: 5px;
-  display: none;
-}
-
-.djs-popup-body .entry:hover .djs-popup-entry-docs {
-  display: flex;
-}
-
-.djs-popup-entry-docs svg {
+  margin-left: 8px;
+  color: var(--popup-description-color);
   vertical-align: middle;
-  margin: auto 2px auto 5px;
+  padding-bottom: 2px;
+}
+
+.djs-popup-entry-docs:hover {
+  color: inherit;
 }
 
 /**
