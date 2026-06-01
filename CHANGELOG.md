@@ -6,6 +6,9 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: keep selection visible on canvas resize ([#1038](https://github.com/bpmn-io/diagram-js/pull/1038))
+
+
 ## 15.14.0
 
 * `FEAT`: pass direction to `canResize` when rendering handles ([#1031](https://github.com/bpmn-io/diagram-js/pull/1031))
