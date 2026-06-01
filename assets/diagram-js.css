@@ -775,6 +775,7 @@
 
 .djs-popup-entry-description {
   color: var(--popup-description-color);
+  margin-top: 3px;
 }
 
 .djs-popup-label,
@@ -789,7 +790,6 @@
 
 .djs-popup-title,
 .djs-popup-label,
-.djs-popup-entry-description,
 .djs-popup .entry-header {
   overflow: hidden;
   text-overflow: ellipsis;
