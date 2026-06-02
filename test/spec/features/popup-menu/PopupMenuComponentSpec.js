@@ -1005,12 +1005,147 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       await createPopupMenu({ container, entries: nestedEntries });
 
-      fireEvent.click(domQuery('.entry[data-id="2"]', container));
+      const entryEl = domQuery('.entry[data-id="2"]', container);
+
+      fireEvent.mouseEnter(entryEl);
+      fireEvent.click(entryEl);
 
       const popupEl = domQuery('.djs-popup', container);
 
       // when
       fireEvent.keyDown(popupEl, { key: 'Backspace' });
+
+      // then
+      expect(domQuery('.selected .djs-popup-label', container).textContent).to.eql('B');
+    });
+
+
+    it('should push level with <ArrowRight> over navigate entry', async function() {
+
+      // given
+      const nestedEntries = [
+        {
+          id: '1',
+          label: 'A',
+          entries: [
+            { id: '1-1', label: 'A-A', action: () => {} },
+            { id: '1-2', label: 'A-B', action: () => {} }
+          ]
+        },
+        {
+          id: '2',
+          label: 'B',
+          action: () => {}
+        }
+      ];
+
+      await createPopupMenu({ container, entries: nestedEntries });
+
+      const popupEl = domQuery('.djs-popup', container);
+
+      // when
+      fireEvent.keyDown(popupEl, { key: 'ArrowRight' });
+
+      // then
+      const entryLabels = domQueryAll('.djs-popup-label', container);
+      expect([ ...entryLabels ].map(e => e.textContent)).to.eql([ 'A-A', 'A-B' ]);
+    });
+
+
+    it('should not push level with <ArrowRight> over leaf entry', async function() {
+
+      // given
+      const nestedEntries = [
+        {
+          id: '1',
+          label: 'A',
+          action: () => {}
+        },
+        {
+          id: '2',
+          label: 'B',
+          entries: [
+            { id: '2-1', label: 'B-A', action: () => {} }
+          ]
+        }
+      ];
+
+      await createPopupMenu({ container, entries: nestedEntries });
+
+      const popupEl = domQuery('.djs-popup', container);
+
+      // when
+      fireEvent.keyDown(popupEl, { key: 'ArrowRight' });
+
+      // then
+      const entryLabels = domQueryAll('.djs-popup-label', container);
+      expect([ ...entryLabels ].map(e => e.textContent)).to.eql([ 'A', 'B' ]);
+    });
+
+
+    it('should pop one level with <ArrowLeft>', async function() {
+
+      // given
+      const nestedEntries = [
+        {
+          id: '1',
+          label: 'A',
+          entries: [
+            { id: '1-1', label: 'A-A', action: () => {} },
+            { id: '1-2', label: 'A-B', action: () => {} }
+          ]
+        },
+        {
+          id: '2',
+          label: 'B',
+          action: () => {}
+        }
+      ];
+
+      await createPopupMenu({ container, entries: nestedEntries });
+
+      fireEvent.click(domQuery('.entry[data-id="1"]', container));
+
+      const popupEl = domQuery('.djs-popup', container);
+
+      // when
+      fireEvent.keyDown(popupEl, { key: 'ArrowLeft' });
+
+      // then
+      const entryLabels = domQueryAll('.djs-popup-label', container);
+      expect([ ...entryLabels ].map(e => e.textContent)).to.eql([ 'A', 'B' ]);
+    });
+
+
+    it('should restore selection to popped entry after <ArrowLeft>', async function() {
+
+      // given
+      const nestedEntries = [
+        {
+          id: '1',
+          label: 'A',
+          action: () => {}
+        },
+        {
+          id: '2',
+          label: 'B',
+          entries: [
+            { id: '2-1', label: 'B-A', action: () => {} }
+          ]
+        }
+      ];
+
+      await createPopupMenu({ container, entries: nestedEntries });
+
+      const entryEl = domQuery('.entry[data-id="2"]', container);
+
+      fireEvent.mouseEnter(entryEl);
+      fireEvent.click(entryEl);
+
+      const popupEl = domQuery('.djs-popup', container);
+
+      // when
+      fireEvent.keyDown(popupEl, { key: 'ArrowLeft' });
 
       // then
       expect(domQuery('.selected .djs-popup-label', container).textContent).to.eql('B');
