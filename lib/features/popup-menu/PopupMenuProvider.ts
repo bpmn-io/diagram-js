@@ -10,7 +10,7 @@ export type PopupMenuEntryAction = (
 
 type PopupMenuEntryBase = {
   className?: string;
-  group?: string;
+  group?: string | { id: string, name?: string };
   disabled?: boolean;
   imageUrl?: string;
   imageHtml?: string;
