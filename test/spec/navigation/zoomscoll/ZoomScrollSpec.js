@@ -11,7 +11,7 @@ import {
   assign
 } from 'min-dash';
 
-import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll/index.js';
+import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll';
 
 
 describe('navigation/zoomscroll', function() {

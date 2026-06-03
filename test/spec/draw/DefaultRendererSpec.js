@@ -7,7 +7,7 @@ import {
 
 import { create } from 'tiny-svg';
 
-import drawModule from 'diagram-js/lib/draw/index.js';
+import drawModule from 'diagram-js/lib/draw';
 
 
 describe('draw - DefaultRenderer', function() {

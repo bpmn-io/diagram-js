@@ -9,13 +9,13 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import editorActionsModule from 'diagram-js/lib/features/editor-actions/index.js';
-import copyPasteModule from 'diagram-js/lib/features/copy-paste/index.js';
-import selectionModule from 'diagram-js/lib/features/selection/index.js';
-import keyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move/index.js';
-import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll/index.js';
-import keyboardMoveSelectionModule from 'diagram-js/lib/features/keyboard-move-selection/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import editorActionsModule from 'diagram-js/lib/features/editor-actions';
+import copyPasteModule from 'diagram-js/lib/features/copy-paste';
+import selectionModule from 'diagram-js/lib/features/selection';
+import keyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move';
+import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll';
+import keyboardMoveSelectionModule from 'diagram-js/lib/features/keyboard-move-selection';
+import modelingModule from 'diagram-js/lib/features/modeling';
 import customRulesModule from './rules/index.js';
 
 

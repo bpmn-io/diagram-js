@@ -10,8 +10,8 @@ import {
   assign
 } from 'min-dash';
 
-import moveCanvasModule from 'diagram-js/lib/navigation/movecanvas/index.js';
-import interactionEventsModule from 'diagram-js/lib/features/interaction-events/index.js';
+import moveCanvasModule from 'diagram-js/lib/navigation/movecanvas';
+import interactionEventsModule from 'diagram-js/lib/features/interaction-events';
 
 
 describe('navigation/movecanvas', function() {

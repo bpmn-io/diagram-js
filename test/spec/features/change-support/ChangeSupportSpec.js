@@ -5,8 +5,8 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import coreModule from 'diagram-js/lib/core/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import coreModule from 'diagram-js/lib/core';
 
 
 describe('features/change-support', function() {

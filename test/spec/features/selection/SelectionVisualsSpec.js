@@ -5,7 +5,7 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import selectionModule from 'diagram-js/lib/features/selection/index.js';
+import selectionModule from 'diagram-js/lib/features/selection';
 
 import {
   classes as svgClasses,

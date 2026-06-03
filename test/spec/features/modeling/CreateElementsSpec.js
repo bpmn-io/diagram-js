@@ -5,8 +5,8 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import autoResizeModule from 'diagram-js/lib/features/auto-resize/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 import { getBBox } from 'diagram-js/lib/util/Elements.js';
 

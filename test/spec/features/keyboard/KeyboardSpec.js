@@ -4,7 +4,7 @@ import {
   stub
 } from 'sinon';
 
-import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
+import keyboardModule from 'diagram-js/lib/features/keyboard';
 
 import {
   bootstrapDiagram,

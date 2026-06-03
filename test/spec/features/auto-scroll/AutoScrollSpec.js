@@ -8,8 +8,8 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import dragModule from 'diagram-js/lib/features/dragging/index.js';
-import scrollModule from 'diagram-js/lib/features/auto-scroll/index.js';
+import dragModule from 'diagram-js/lib/features/dragging';
+import scrollModule from 'diagram-js/lib/features/auto-scroll';
 
 
 describe('features/auto-scroll - AutoScroll', function() {

@@ -5,7 +5,7 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import mouseModule from 'diagram-js/lib/features/mouse/index.js';
+import mouseModule from 'diagram-js/lib/features/mouse';
 
 import { createMoveEvent } from 'diagram-js/lib/features/mouse/Mouse.js';
 

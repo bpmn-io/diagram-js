@@ -13,9 +13,9 @@ import {
   classes as domClasses
 } from 'min-dom';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import lassoToolModule from 'diagram-js/lib/features/lasso-tool/index.js';
-import draggingModule from 'diagram-js/lib/features/dragging/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import lassoToolModule from 'diagram-js/lib/features/lasso-tool';
+import draggingModule from 'diagram-js/lib/features/dragging';
 
 
 describe('features/lasso-tool - preview styling', function() {
