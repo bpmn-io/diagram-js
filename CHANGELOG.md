@@ -6,6 +6,14 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.15.0
+
+* `FEAT`: introduce multi-step navigation to popup menu ([#1040](https://github.com/bpmn-io/diagram-js/pull/1040))
+* `FEAT`: show search result number in popup menu ([#1040](https://github.com/bpmn-io/diagram-js/pull/1040))
+* `FEAT`: improve popup menu styling ([#1041](https://github.com/bpmn-io/diagram-js/pull/1041))
+* `FEAT`: improve popup menu assistive text and labels ([#1041](https://github.com/bpmn-io/diagram-js/pull/1041))
+* `FEAT`: do not cut of popup menu label and description tests ([#1041](https://github.com/bpmn-io/diagram-js/pull/1041))
+
 ## 15.14.0
 
 * `FEAT`: pass direction to `canResize` when rendering handles ([#1031](https://github.com/bpmn-io/diagram-js/pull/1031))
