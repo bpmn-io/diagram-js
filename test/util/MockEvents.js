@@ -13,7 +13,7 @@ import {
  * computed based on the loaded diagrams canvas position and the
  * specified canvas local coordinates.
  *
- * @param {Point} position of the event local the canvas (closure)
+ * @param {Point} position of the event local to the canvas (closure)
  * @param {Object} [data]
  *
  * @return {Event} event, scoped to the given canvas
