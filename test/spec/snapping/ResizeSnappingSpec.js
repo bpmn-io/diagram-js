@@ -6,9 +6,9 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import resizeModule from 'diagram-js/lib/features/resize/index.js';
-import snappingModule from 'diagram-js/lib/features/snapping/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import resizeModule from 'diagram-js/lib/features/resize';
+import snappingModule from 'diagram-js/lib/features/snapping';
 
 import SnapContext from 'diagram-js/lib/features/snapping/SnapContext.js';
 

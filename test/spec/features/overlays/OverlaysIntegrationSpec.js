@@ -17,11 +17,11 @@ import {
 
 import { $ } from 'jquery';
 
-import overlayModule from 'diagram-js/lib/features/overlays/index.js';
-import selectionModule from 'diagram-js/lib/features/selection/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import resizeModule from 'diagram-js/lib/features/resize/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
+import overlayModule from 'diagram-js/lib/features/overlays';
+import selectionModule from 'diagram-js/lib/features/selection';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import resizeModule from 'diagram-js/lib/features/resize';
+import moveModule from 'diagram-js/lib/features/move';
 
 import {
   resizeBounds

@@ -6,8 +6,8 @@ import {
   getDiagramJS
 } from 'diagram-js/test/TestHelper.js';
 
-import outlineModule from 'diagram-js/lib/features/outline/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import outlineModule from 'diagram-js/lib/features/outline';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 import {
   classes as domClasses,

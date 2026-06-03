@@ -5,10 +5,10 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import autoResizeModule from 'diagram-js/lib/features/auto-resize/index.js';
-import gridSnappingModule from 'diagram-js/lib/features/grid-snapping/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize';
+import gridSnappingModule from 'diagram-js/lib/features/grid-snapping';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
 
 import AutoResizeProvider from 'diagram-js/lib/features/auto-resize/AutoResizeProvider.js';
 import AutoResize from 'diagram-js/lib/features/auto-resize/AutoResize.js';

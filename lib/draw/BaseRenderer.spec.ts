@@ -1,4 +1,4 @@
-import { Element, Connection, Shape } from '../model/index.js';
+import { Element, Connection, Shape } from 'diagram-js/lib/model';
 
 import Diagram from '../Diagram.js';
 

@@ -6,7 +6,7 @@ import PopupMenuBreadcrumbs from 'diagram-js/lib/features/popup-menu/PopupMenuBr
 import {
   html,
   render
-} from 'diagram-js/lib/ui/index.js';
+} from 'diagram-js/lib/ui';
 
 import {
   fireEvent

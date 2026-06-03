@@ -10,10 +10,10 @@ import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
 import { assign } from 'min-dash';
 
-import dragModule from 'diagram-js/lib/features/dragging/index.js';
-import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll/index.js';
-import createModule from 'diagram-js/lib/features/create/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import dragModule from 'diagram-js/lib/features/dragging';
+import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll';
+import createModule from 'diagram-js/lib/features/create';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 

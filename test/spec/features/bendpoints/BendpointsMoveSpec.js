@@ -9,11 +9,11 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import bendpointsModule from 'diagram-js/lib/features/bendpoints/index.js';
-import connectModule from 'diagram-js/lib/features/connect/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import selectModule from 'diagram-js/lib/features/selection/index.js';
-import connectionPreviewModule from 'diagram-js/lib/features/connection-preview/index.js';
+import bendpointsModule from 'diagram-js/lib/features/bendpoints';
+import connectModule from 'diagram-js/lib/features/connect';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import selectModule from 'diagram-js/lib/features/selection';
+import connectionPreviewModule from 'diagram-js/lib/features/connection-preview';
 import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 
 import rulesModule from './rules/index.js';

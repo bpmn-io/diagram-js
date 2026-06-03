@@ -8,8 +8,8 @@ import {
 
 import { forEach, sortBy } from 'min-dash';
 
-import distributeElementsModule from 'diagram-js/lib/features/distribute-elements/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import distributeElementsModule from 'diagram-js/lib/features/distribute-elements';
+import modelingModule from 'diagram-js/lib/features/modeling';
 import testRules from './rules/index.js';
 
 

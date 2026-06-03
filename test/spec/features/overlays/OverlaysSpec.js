@@ -16,7 +16,7 @@ import {
   assignStyle
 } from 'min-dom';
 
-import overlayModule from 'diagram-js/lib/features/overlays/index.js';
+import overlayModule from 'diagram-js/lib/features/overlays';
 
 
 describe('features/overlays', function() {

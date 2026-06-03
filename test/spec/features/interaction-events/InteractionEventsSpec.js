@@ -6,7 +6,7 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import interactionEventsModule from 'diagram-js/lib/features/interaction-events/index.js';
+import interactionEventsModule from 'diagram-js/lib/features/interaction-events';
 
 import {
   queryAll as domQueryAll

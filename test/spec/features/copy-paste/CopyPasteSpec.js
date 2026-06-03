@@ -14,10 +14,10 @@ import {
   some
 } from 'min-dash';
 
-import attachSupportModule from 'diagram-js/lib/features/attach-support/index.js';
-import copyPasteModule from 'diagram-js/lib/features/copy-paste/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import selectionModule from 'diagram-js/lib/features/selection/index.js';
+import attachSupportModule from 'diagram-js/lib/features/attach-support';
+import copyPasteModule from 'diagram-js/lib/features/copy-paste';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import selectionModule from 'diagram-js/lib/features/selection';
 
 import rulesModule from './rules/index.js';
 
