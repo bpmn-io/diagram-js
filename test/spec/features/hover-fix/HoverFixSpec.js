@@ -10,8 +10,8 @@ import { assign } from 'min-dash';
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import dragModule from 'diagram-js/lib/features/dragging/index.js';
-import hoverFixModule from 'diagram-js/lib/features/hover-fix/index.js';
+import dragModule from 'diagram-js/lib/features/dragging';
+import hoverFixModule from 'diagram-js/lib/features/hover-fix';
 
 
 describe('features/hover-fix', function() {

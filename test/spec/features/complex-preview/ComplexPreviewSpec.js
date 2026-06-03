@@ -5,8 +5,8 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import complexPreviewModule from 'diagram-js/lib/features/complex-preview/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import complexPreviewModule from 'diagram-js/lib/features/complex-preview';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 import rendererModule from '../preview-support/renderer/index.js';
 

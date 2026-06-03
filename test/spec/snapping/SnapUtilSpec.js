@@ -5,7 +5,7 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 import { getChildren } from 'diagram-js/lib/features/snapping/SnapUtil.js';
 

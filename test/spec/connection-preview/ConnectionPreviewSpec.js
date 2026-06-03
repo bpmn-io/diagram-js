@@ -6,8 +6,8 @@ import {
 
 import TestContainer from 'mocha-test-container-support';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import connectionPreviewModule from 'diagram-js/lib/features/connection-preview/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import connectionPreviewModule from 'diagram-js/lib/features/connection-preview';
 
 import BaseLayouter from 'diagram-js/lib/layout/BaseLayouter.js';
 import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';

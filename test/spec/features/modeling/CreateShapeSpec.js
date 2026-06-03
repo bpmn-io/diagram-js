@@ -6,7 +6,7 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 
 describe('features/modeling - create shape', function() {

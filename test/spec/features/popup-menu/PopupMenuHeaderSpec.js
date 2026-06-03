@@ -6,7 +6,7 @@ import PopupMenuHeader from 'diagram-js/lib/features/popup-menu/PopupMenuHeader.
 import {
   html,
   render
-} from 'diagram-js/lib/ui/index.js';
+} from 'diagram-js/lib/ui';
 
 import {
   fireEvent

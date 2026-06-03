@@ -14,7 +14,7 @@ import {
   assignStyle
 } from 'min-dom';
 
-import tooltipsModule from 'diagram-js/lib/features/tooltips/index.js';
+import tooltipsModule from 'diagram-js/lib/features/tooltips';
 
 
 describe('features/tooltips', function() {

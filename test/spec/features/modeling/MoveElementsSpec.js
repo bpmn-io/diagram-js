@@ -9,7 +9,7 @@ import {
   pick
 } from 'min-dash';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 
 function containment(element) {

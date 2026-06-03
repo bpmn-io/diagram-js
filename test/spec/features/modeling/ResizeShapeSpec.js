@@ -19,9 +19,9 @@ import {
 
 import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import resizeModule from 'diagram-js/lib/features/resize/index.js';
-import attachModule from 'diagram-js/lib/features/attach-support/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import resizeModule from 'diagram-js/lib/features/resize';
+import attachModule from 'diagram-js/lib/features/attach-support';
 
 import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 

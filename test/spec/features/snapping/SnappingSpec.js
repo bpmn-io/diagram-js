@@ -6,9 +6,9 @@ import {
 } from 'diagram-js/test/TestHelper.js';
 
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import snappingModule from 'diagram-js/lib/features/snapping/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import snappingModule from 'diagram-js/lib/features/snapping';
+import moveModule from 'diagram-js/lib/features/move';
 
 
 describe('features/snapping', function() {

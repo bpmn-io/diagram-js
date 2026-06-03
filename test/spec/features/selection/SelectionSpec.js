@@ -6,14 +6,14 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import coreModule from 'diagram-js/lib/core/index.js';
-import createModule from 'diagram-js/lib/features/create/index.js';
-import draggingModule from 'diagram-js/lib/features/dragging/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
-import connectModule from 'diagram-js/lib/features/connect/index.js';
+import coreModule from 'diagram-js/lib/core';
+import createModule from 'diagram-js/lib/features/create';
+import draggingModule from 'diagram-js/lib/features/dragging';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
+import connectModule from 'diagram-js/lib/features/connect';
 import rulesModule from './rules/index.js';
-import selectionModule from 'diagram-js/lib/features/selection/index.js';
+import selectionModule from 'diagram-js/lib/features/selection';
 
 
 describe('features/selection/Selection', function() {

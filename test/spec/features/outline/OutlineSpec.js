@@ -5,7 +5,7 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import outlineModule from 'diagram-js/lib/features/outline/index.js';
+import outlineModule from 'diagram-js/lib/features/outline';
 
 import {
   query as domQuery

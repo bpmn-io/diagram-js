@@ -38,10 +38,10 @@ import {
 
 import { createEvent as globalEvent } from '../../../util/MockEvents.js';
 
-import popupMenuModule from 'diagram-js/lib/features/popup-menu/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import popupMenuModule from 'diagram-js/lib/features/popup-menu';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
-import { html, options } from 'diagram-js/lib/ui/index.js';
+import { html, options } from 'diagram-js/lib/ui';
 
 
 const entrySet = (entries) => {

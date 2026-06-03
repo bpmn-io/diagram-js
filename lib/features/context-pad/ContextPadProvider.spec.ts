@@ -1,6 +1,6 @@
 import ContextPadProvider, { ContextPadEntries, ContextPadEntryAction } from './ContextPadProvider.js';
 
-import { Element } from '../../model/index.js';
+import { Element } from 'diagram-js/lib/model';
 
 export class FooContextPadProvider implements ContextPadProvider {
   getContextPadEntries(element: Element): ContextPadEntries {

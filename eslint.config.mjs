@@ -49,6 +49,17 @@ export default [
     };
   }),
 
+  // validated via `tsc` and webpack bundling
+  {
+    ignores: [
+      ...files.build,
+      ...files.test
+    ],
+    rules: {
+      'import-x/extensions': 'off'
+    }
+  },
+
   // test
   ...bpmnIoPlugin.configs.mocha.map(config => {
 

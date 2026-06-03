@@ -5,10 +5,10 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import coreModule from 'diagram-js/lib/core/index.js';
-import commandModule from 'diagram-js/lib/command/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import rootElementsModule from 'diagram-js/lib/features/root-elements/index.js';
+import coreModule from 'diagram-js/lib/core';
+import commandModule from 'diagram-js/lib/command';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import rootElementsModule from 'diagram-js/lib/features/root-elements';
 
 
 describe('features/planes/RootElementsBehavior', function() {
