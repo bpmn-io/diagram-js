@@ -85,6 +85,29 @@ describe('navigation/movecanvas', function() {
       expect(moveCanvas.isActive()).to.be.false;
     }));
 
+
+    it('should NOT start on mousedown on .djs-draggable', inject(function(eventBus, moveCanvas, canvas) {
+
+      // given
+      var svg = canvas.getContainer().querySelector('svg');
+
+      var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+      group.classList.add('djs-draggable');
+
+      var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+
+      group.appendChild(rect);
+
+      svg.appendChild(group);
+
+      // when
+      eventBus.fire(mouseDownEvent(rootElement, { target: rect }));
+
+      // then
+      expect(moveCanvas.isActive()).to.be.false;
+    }));
+
   });
 
 
