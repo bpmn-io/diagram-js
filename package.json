@@ -1,6 +1,6 @@
 {
   "name": "diagram-js",
-  "version": "15.17.0",
+  "version": "16.0.0-esm.0",
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "main": "lib/Diagram.js",
   "module": "lib/Diagram.js",
@@ -82,7 +82,7 @@
     "lint": "eslint .",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "run-s generate-types:*",
-    "generate-types:generate": "del-cli \"lib/**/*.d.ts\" \"lib/**/*.d.ts.map\" && npx bio-dts -r lib --declarationMap",
+    "generate-types:generate": "del-cli \"lib/**/*.d.ts\" && npx bio-dts -r lib",
     "generate-types:test": "tsc --noEmit --noImplicitAny",
     "test": "karma start karma.conf.cjs",
     "prepublishOnly": "run-s generate-types"
@@ -120,7 +120,7 @@
     "@testing-library/preact": "^3.2.4",
     "babel-loader": "^10.1.1",
     "babel-plugin-istanbul": "^8.0.0",
-    "bio-dts": "^0.15.2",
+    "bio-dts": "^0.14.1",
     "chai": "^6.0.0",
     "del-cli": "^7.0.0",
     "eslint": "^9.39.4",
