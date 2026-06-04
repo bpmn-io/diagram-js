@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.16.0
+
+* `FEAT`: allow blocking canvas interactions ([#1032](https://github.com/bpmn-io/diagram-js/pull/1032))
+
 ## 15.15.1
 
 * `FIX`: correct popup menu closing on inside clicks ([#1045](https://github.com/bpmn-io/diagram-js/pull/1045))
