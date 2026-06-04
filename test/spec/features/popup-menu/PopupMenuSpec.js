@@ -278,14 +278,14 @@ describe('features/popup-menu', function() {
       eventBus.on('popupMenu.opened', openedSpy);
 
       // when
-      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+      await act(() => {
+        popupMenu.open({}, 'menu', { x: 100, y: 100 });
+      });
 
       // then
       expect(popupMenu._current).to.exist;
+
       expect(openSpy).to.have.been.calledOnce;
-
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
-
       expect(openedSpy).to.have.been.calledOnce;
     }));
 
@@ -344,9 +344,6 @@ describe('features/popup-menu', function() {
     it('should render nested navigate entries from provider', inject(async function(popupMenu, eventBus) {
 
       // given
-      const openedSpy = spy();
-      eventBus.on('popupMenu.opened', openedSpy);
-
       popupMenu.registerProvider('navigate-menu', {
         getPopupMenuEntries: function() {
           return {
@@ -362,10 +359,11 @@ describe('features/popup-menu', function() {
       });
 
       // when
-      popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      await act(() => {
+        popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      });
 
       // then
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
       expect(queryEntry('github')).to.exist;
     }));
 
@@ -373,9 +371,6 @@ describe('features/popup-menu', function() {
     it('should navigate into nested entries on click', inject(async function(popupMenu, eventBus) {
 
       // given
-      const openedSpy = spy();
-      eventBus.on('popupMenu.opened', openedSpy);
-
       popupMenu.registerProvider('navigate-menu', {
         getPopupMenuEntries: function() {
           return {
@@ -390,9 +385,9 @@ describe('features/popup-menu', function() {
         }
       });
 
-      popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
-
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+      await act(() => {
+        popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      });
 
       // when
       await act(() => {
@@ -734,15 +729,20 @@ describe('features/popup-menu', function() {
   describe('#close', function() {
 
     beforeEach(inject(async function(eventBus, popupMenu) {
+
+      // given
       var openedSpy = spy();
 
       eventBus.on('popupMenu.opened', openedSpy);
 
       popupMenu.registerProvider('menu', menuProvider);
 
-      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+      await act(() => {
+        popupMenu.open({}, 'menu', { x: 100, y: 100 });
+      });
 
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+      // assume
+      expect(openedSpy).to.have.been.calledOnce;
     }));
 
 
@@ -756,9 +756,11 @@ describe('features/popup-menu', function() {
       eventBus.on('popupMenu.closed', closedSpy);
 
       // when
-      popupMenu.close();
+      await act(() => {
+        popupMenu.close();
+      });
 
-      await waitFor(() => expect(closedSpy).to.have.been.calledOnce);
+      expect(closedSpy).to.have.been.calledOnce;
 
       // then
       var open = popupMenu.isOpen();
@@ -2582,9 +2584,12 @@ describe('features/popup-menu', function() {
         }
       });
 
-      popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      await act(() => {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
 
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+      // assume
+      expect(openedSpy).to.have.been.calledOnce;
 
       // when
       // clicking outside the popup menu
@@ -2621,9 +2626,12 @@ describe('features/popup-menu', function() {
         }
       });
 
-      popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      await act(() => {
+        popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      });
 
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+      // assume
+      expect(openedSpy).to.have.been.calledOnce;
 
       // navigate into nested entry
       withSyncRendering(() => {
@@ -2676,9 +2684,12 @@ describe('features/popup-menu', function() {
         }
       });
 
-      popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      await act(() => {
+        popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      });
 
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+      // assume
+      expect(openedSpy).to.have.been.calledOnce;
 
       // when
       // navigating into entry
