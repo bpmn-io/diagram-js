@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.15.1
+
+* `FIX`: correct popup menu closing on inside clicks ([#1045](https://github.com/bpmn-io/diagram-js/pull/1045))
+* `DEPS`: update to `@bpmn-io/diagram-js-ui@0.2.4` ([#1045](https://github.com/bpmn-io/diagram-js/pull/1045))
+
 ## 15.15.0
 
 * `FEAT`: introduce multi-step navigation to popup menu ([#1040](https://github.com/bpmn-io/diagram-js/pull/1040))

@@ -41,7 +41,7 @@ import { createEvent as globalEvent } from '../../../util/MockEvents.js';
 import popupMenuModule from 'lib/features/popup-menu';
 import modelingModule from 'lib/features/modeling';
 
-import { html } from 'lib/ui';
+import { html, options } from 'lib/ui';
 
 const entrySet = (entries) => {
 
@@ -278,14 +278,14 @@ describe('features/popup-menu', function() {
       eventBus.on('popupMenu.opened', openedSpy);
 
       // when
-      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+      await act(() => {
+        popupMenu.open({}, 'menu', { x: 100, y: 100 });
+      });
 
       // then
       expect(popupMenu._current).to.exist;
+
       expect(openSpy).to.have.been.calledOnce;
-
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
-
       expect(openedSpy).to.have.been.calledOnce;
     }));
 
@@ -359,9 +359,6 @@ describe('features/popup-menu', function() {
     it('should render nested navigate entries from provider', inject(async function(popupMenu, eventBus) {
 
       // given
-      const openedSpy = spy();
-      eventBus.on('popupMenu.opened', openedSpy);
-
       popupMenu.registerProvider('navigate-menu', {
         getPopupMenuEntries: function() {
           return {
@@ -377,10 +374,11 @@ describe('features/popup-menu', function() {
       });
 
       // when
-      popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      await act(() => {
+        popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      });
 
       // then
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
       expect(queryEntry('github')).to.exist;
     }));
 
@@ -388,9 +386,6 @@ describe('features/popup-menu', function() {
     it('should navigate into nested entries on click', inject(async function(popupMenu, eventBus) {
 
       // given
-      const openedSpy = spy();
-      eventBus.on('popupMenu.opened', openedSpy);
-
       popupMenu.registerProvider('navigate-menu', {
         getPopupMenuEntries: function() {
           return {
@@ -405,9 +400,9 @@ describe('features/popup-menu', function() {
         }
       });
 
-      popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
-
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+      await act(() => {
+        popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      });
 
       // when
       await act(() => {
@@ -749,15 +744,20 @@ describe('features/popup-menu', function() {
   describe('#close', function() {
 
     beforeEach(inject(async function(eventBus, popupMenu) {
+
+      // given
       var openedSpy = spy();
 
       eventBus.on('popupMenu.opened', openedSpy);
 
       popupMenu.registerProvider('menu', menuProvider);
 
-      popupMenu.open({}, 'menu', { x: 100, y: 100 });
+      await act(() => {
+        popupMenu.open({}, 'menu', { x: 100, y: 100 });
+      });
 
-      await waitFor(() => expect(openedSpy).to.have.been.calledOnce);
+      // assume
+      expect(openedSpy).to.have.been.calledOnce;
     }));
 
 
@@ -771,9 +771,11 @@ describe('features/popup-menu', function() {
       eventBus.on('popupMenu.closed', closedSpy);
 
       // when
-      popupMenu.close();
+      await act(() => {
+        popupMenu.close();
+      });
 
-      await waitFor(() => expect(closedSpy).to.have.been.calledOnce);
+      expect(closedSpy).to.have.been.calledOnce;
 
       // then
       var open = popupMenu.isOpen();
@@ -2577,6 +2579,152 @@ describe('features/popup-menu', function() {
 
   });
 
+
+  describe('modal behavior', function() {
+
+    it('should close when clicking outside of popup menu', inject(async function(popupMenu, eventBus) {
+
+      // given
+      const openedSpy = spy();
+      const closeSpy = spy();
+
+      eventBus.on('popupMenu.opened', openedSpy);
+      eventBus.on('popupMenu.close', closeSpy);
+
+      popupMenu.registerProvider('test-menu', {
+        getPopupMenuEntries: function() {
+          return {
+            foo: { label: 'Foo', action: function() {} }
+          };
+        }
+      });
+
+      await act(() => {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
+
+      // assume
+      expect(openedSpy).to.have.been.calledOnce;
+
+      // when
+      // clicking outside the popup menu
+      document.body.dispatchEvent(new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true
+      }));
+
+      // then
+      expect(closeSpy).to.have.been.calledOnce;
+      expect(popupMenu.isOpen()).to.be.false;
+    }));
+
+
+    it('should NOT CLOSE when navigating backwards', inject(async function(popupMenu, eventBus) {
+
+      // given
+      const openedSpy = spy();
+      const closeSpy = spy();
+
+      eventBus.on('popupMenu.opened', openedSpy);
+      eventBus.on('popupMenu.close', closeSpy);
+
+      popupMenu.registerProvider('navigate-menu', {
+        getPopupMenuEntries: function() {
+          return {
+            github: {
+              label: 'GitHub Connector',
+              entries: {
+                'create-issue': { label: 'Create Issue', action: function() {} }
+              }
+            }
+          };
+        }
+      });
+
+      await act(() => {
+        popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      });
+
+      // assume
+      expect(openedSpy).to.have.been.calledOnce;
+
+      // navigate into nested entry
+      withSyncRendering(() => {
+        queryEntry('github').dispatchEvent(new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        }));
+      });
+
+      await expectEntries([ 'Create Issue' ]);
+
+      // when
+      // navigating back detaches the clicked (back) node before the click
+      // reaches the document body (see #withSyncRendering)
+      withSyncRendering(() => {
+        queryPopup('.djs-popup-breadcrumbs-item--back').dispatchEvent(new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        }));
+      });
+
+      // then
+      // we navigated back to the root entries
+      await expectEntries([ 'GitHub Connector' ]);
+
+      // popup menu is still open
+      expect(closeSpy).not.to.have.been.called;
+    }));
+
+
+    it('should NOT CLOSE when navigating into nested entries', inject(async function(popupMenu, eventBus) {
+
+      // given
+      const openedSpy = spy();
+      const closeSpy = spy();
+
+      eventBus.on('popupMenu.opened', openedSpy);
+      eventBus.on('popupMenu.close', closeSpy);
+
+      popupMenu.registerProvider('navigate-menu', {
+        getPopupMenuEntries: function() {
+          return {
+            github: {
+              label: 'GitHub Connector',
+              entries: {
+                'create-issue': { label: 'Create Issue', action: function() {} }
+              }
+            }
+          };
+        }
+      });
+
+      await act(() => {
+        popupMenu.open({}, 'navigate-menu', { x: 100, y: 100 });
+      });
+
+      // assume
+      expect(openedSpy).to.have.been.calledOnce;
+
+      // when
+      // navigating into entry
+      withSyncRendering(() => {
+        queryEntry('github').dispatchEvent(new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        }));
+      });
+
+      // then
+      // nested entry is shown
+      await expectEntries([ 'Create Issue' ]);
+
+      // popup menu is still open
+      expect(closeSpy).not.to.have.been.called;
+    }));
+
+  });
+
 });
 
 
@@ -2677,6 +2825,27 @@ describe('features/popup-menu - integration', function() {
 
 
 // helpers /////////////
+
+/**
+ * Run `fn` while preact flushes re-renders synchronously.
+ *
+ * Emulates a real (user) click, where the micro-task scheduled re-render runs
+ * _between_ event listeners, i.e. before the event finishes propagating. A
+ * synthetic `dispatchEvent` cannot reproduce this on its own, as it keeps the
+ * call stack busy and thus defers the re-render past the whole event.
+ *
+ * @param {() => void} fn
+ */
+function withSyncRendering(fn) {
+  const previous = options.debounceRendering;
+  options.debounceRendering = cb => cb();
+
+  try {
+    fn();
+  } finally {
+    options.debounceRendering = previous;
+  }
+}
 
 function Provider(entries, headerEntries) {
   this.getPopupMenuEntries = isFunction(entries)

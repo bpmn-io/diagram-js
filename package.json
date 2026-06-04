@@ -1,6 +1,6 @@
 {
   "name": "diagram-js",
-  "version": "15.15.0",
+  "version": "15.15.1",
   "description": "A toolbox for displaying and modifying diagrams on the web",
   "main": "lib/Diagram.js",
   "module": "lib/Diagram.js",
@@ -79,7 +79,7 @@
     "webpack": "^5.104.1"
   },
   "dependencies": {
-    "@bpmn-io/diagram-js-ui": "^0.2.3",
+    "@bpmn-io/diagram-js-ui": "^0.2.4",
     "clsx": "^2.1.1",
     "didi": "^11.0.0",
     "inherits-browser": "^0.1.0",
