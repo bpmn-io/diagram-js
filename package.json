@@ -59,7 +59,7 @@
     "bio-dts": "^0.14.1",
     "chai": "^6.0.0",
     "del-cli": "^7.0.0",
-    "eslint": "^9.39.2",
+    "eslint": "^9.39.4",
     "eslint-plugin-bpmn-io": "^2.3.0",
     "jquery": "^4.0.0",
     "karma": "^6.4.4",
