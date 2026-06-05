@@ -8,8 +8,8 @@ import {
 
 import { forEach, sortBy } from 'min-dash';
 
-import alignElementsModule from 'diagram-js/lib/features/align-elements/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import alignElementsModule from 'diagram-js/lib/features/align-elements';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 import testRules from './rules/index.js';
 

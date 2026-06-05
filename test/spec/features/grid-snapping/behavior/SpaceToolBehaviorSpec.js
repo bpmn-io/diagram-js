@@ -6,10 +6,10 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import gridSnappingModule from 'diagram-js/lib/features/grid-snapping/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
-import spaceToolModule from 'diagram-js/lib/features/space-tool/index.js';
+import gridSnappingModule from 'diagram-js/lib/features/grid-snapping';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
+import spaceToolModule from 'diagram-js/lib/features/space-tool';
 
 import {
   createCanvasEvent as canvasEvent

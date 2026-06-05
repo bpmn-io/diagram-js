@@ -6,13 +6,13 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import gridSnappingModule from 'diagram-js/lib/features/grid-snapping/index.js';
-import bendpointsModule from 'diagram-js/lib/features/bendpoints/index.js';
-import connectModule from 'diagram-js/lib/features/connect/index.js';
-import createModule from 'diagram-js/lib/features/create/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
-import resizeModule from 'diagram-js/lib/features/resize/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import gridSnappingModule from 'diagram-js/lib/features/grid-snapping';
+import bendpointsModule from 'diagram-js/lib/features/bendpoints';
+import connectModule from 'diagram-js/lib/features/connect';
+import createModule from 'diagram-js/lib/features/create';
+import moveModule from 'diagram-js/lib/features/move';
+import resizeModule from 'diagram-js/lib/features/resize';
 
 import CroppingConnectionDocking from 'diagram-js/lib/layout/CroppingConnectionDocking.js';
 

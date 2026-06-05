@@ -13,7 +13,7 @@ import {
   getEnclosedElements
 } from 'diagram-js/lib/util/Elements.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 
 describe('util/Elements', function() {

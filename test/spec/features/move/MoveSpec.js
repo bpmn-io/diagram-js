@@ -16,8 +16,8 @@ import {
   pick
 } from 'min-dash';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
 
 
 describe('features/move - Move', function() {

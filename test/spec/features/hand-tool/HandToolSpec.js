@@ -8,9 +8,9 @@ import {
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import handToolModule from 'diagram-js/lib/features/hand-tool/index.js';
-import draggingModule from 'diagram-js/lib/features/dragging/index.js';
-import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
+import handToolModule from 'diagram-js/lib/features/hand-tool';
+import draggingModule from 'diagram-js/lib/features/dragging';
+import keyboardModule from 'diagram-js/lib/features/keyboard';
 
 import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 

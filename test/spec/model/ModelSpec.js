@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   create,
   isModelElement
-} from 'diagram-js/lib/model/index.js';
+} from 'diagram-js/lib/model';
 
 import {
   isConnection,

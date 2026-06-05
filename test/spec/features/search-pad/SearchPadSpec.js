@@ -11,7 +11,7 @@ import {
   createKeyEvent
 } from 'diagram-js/test/util/KeyEvents.js';
 
-import searchPadModule from 'diagram-js/lib/features/search-pad/index.js';
+import searchPadModule from 'diagram-js/lib/features/search-pad';
 import SearchPad from 'diagram-js/lib/features/search-pad/SearchPad.js';
 
 import {

@@ -6,7 +6,7 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import cmdModule from 'diagram-js/lib/command/index.js';
+import cmdModule from 'diagram-js/lib/command';
 
 
 // example commands

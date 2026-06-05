@@ -1,6 +1,6 @@
 import SearchProvider, { SearchResult } from './SearchPadProvider.js';
 
-import { create } from '../../model/index.js';
+import { create } from 'diagram-js/lib/model';
 
 export class FooSearchProvider implements SearchProvider {
   find(pattern: string): SearchResult[] {

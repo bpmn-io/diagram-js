@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import schedulerModule from 'diagram-js/lib/features/scheduler/index.js';
+import schedulerModule from 'diagram-js/lib/features/scheduler';
 
 import {
   bootstrapDiagram,

@@ -5,8 +5,8 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import replaceModule from 'diagram-js/lib/features/replace/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import replaceModule from 'diagram-js/lib/features/replace';
 
 import {
   query as domQuery

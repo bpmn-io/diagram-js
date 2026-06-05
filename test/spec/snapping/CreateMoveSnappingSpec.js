@@ -5,10 +5,10 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import createModule from 'diagram-js/lib/features/create/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
-import snappingModule from 'diagram-js/lib/features/snapping/index.js';
+import createModule from 'diagram-js/lib/features/create';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
+import snappingModule from 'diagram-js/lib/features/snapping';
 
 import SnapContext from 'diagram-js/lib/features/snapping/SnapContext.js';
 

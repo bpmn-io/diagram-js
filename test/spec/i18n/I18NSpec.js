@@ -6,8 +6,8 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import paletteModule from 'diagram-js/lib/features/palette/index.js';
-import i18nModule from 'diagram-js/lib/i18n/index.js';
+import paletteModule from 'diagram-js/lib/features/palette';
+import i18nModule from 'diagram-js/lib/i18n';
 
 
 describe('i18n', function() {

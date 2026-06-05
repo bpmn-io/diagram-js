@@ -7,8 +7,8 @@ import {
 
 import { forEach } from 'min-dash';
 
-import keyboardMoveSelectionModule from 'diagram-js/lib/features/keyboard-move-selection/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import keyboardMoveSelectionModule from 'diagram-js/lib/features/keyboard-move-selection';
+import modelingModule from 'diagram-js/lib/features/modeling';
 import rulesModule from './rules/index.js';
 
 import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';

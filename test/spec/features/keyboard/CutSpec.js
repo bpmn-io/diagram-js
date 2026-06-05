@@ -10,10 +10,10 @@ import {
   forEach
 } from 'min-dash';
 
-import copyPasteModule from 'diagram-js/lib/features/copy-paste/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
-import editorActionsModule from 'diagram-js/lib/features/editor-actions/index.js';
+import copyPasteModule from 'diagram-js/lib/features/copy-paste';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import keyboardModule from 'diagram-js/lib/features/keyboard';
+import editorActionsModule from 'diagram-js/lib/features/editor-actions';
 
 import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 

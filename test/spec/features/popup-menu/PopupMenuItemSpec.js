@@ -5,7 +5,7 @@ import PopupMenuItem from 'diagram-js/lib/features/popup-menu/PopupMenuItem.js';
 import {
   html,
   render
-} from 'diagram-js/lib/ui/index.js';
+} from 'diagram-js/lib/ui';
 
 import {
   query as domQuery

@@ -5,7 +5,7 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import clipboardModule from 'diagram-js/lib/features/clipboard/index.js';
+import clipboardModule from 'diagram-js/lib/features/clipboard';
 
 
 describe('features/clipboard', function() {

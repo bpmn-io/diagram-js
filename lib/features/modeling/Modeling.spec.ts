@@ -11,7 +11,7 @@ import {
   Label,
   Root,
   Shape
-} from '../../model/index.js';
+} from 'diagram-js/lib/model';
 
 const diagram = new Diagram({
   modules: [
