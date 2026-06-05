@@ -51,10 +51,10 @@
     "*.css"
   ],
   "devDependencies": {
-    "@babel/core": "^7.28.6",
+    "@babel/core": "^7.29.7",
     "@bpmn-io/a11y": "^0.1.0",
     "@testing-library/preact": "^3.2.4",
-    "babel-loader": "^10.0.0",
+    "babel-loader": "^10.1.1",
     "babel-plugin-istanbul": "^8.0.0",
     "bio-dts": "^0.14.1",
     "chai": "^6.0.0",
@@ -69,14 +69,14 @@
     "karma-mocha": "^2.0.1",
     "karma-safari-launcher": "^1.0.0",
     "karma-webpack": "^5.0.1",
-    "mocha": "^11.0.0",
+    "mocha": "^11.7.6",
     "mocha-test-container-support": "^0.2.0",
     "npm-run-all2": "^9.0.0",
-    "puppeteer": "^25.0.0",
+    "puppeteer": "^25.1.0",
     "sinon": "^22.0.0",
     "sinon-chai": "^4.0.0",
     "typescript": "^5.9.3",
-    "webpack": "^5.104.1"
+    "webpack": "^5.107.2"
   },
   "dependencies": {
     "@bpmn-io/diagram-js-ui": "^0.2.4",
