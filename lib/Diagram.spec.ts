@@ -35,6 +35,15 @@ const foo = diagram.invoke((modeling: Modeling, eventBus: EventBus) => {
 
 foo.bar = false;
 
+const untypedEventBus = diagram.get<EventBus>('someService');
+
+untypedEventBus.fire('this-event');
+
+const maybeEventBus = diagram.get<EventBus>('eventBus', false);
+
+// @ts-expect-error possibly null
+maybeEventBus.fire('this-event');
+
 type NoneEvent = {};
 
 type EventMap = {
