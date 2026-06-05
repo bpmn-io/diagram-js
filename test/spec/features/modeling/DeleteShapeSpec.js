@@ -5,9 +5,9 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import contextPadModule from 'diagram-js/lib/features/context-pad/index.js';
-import selectionModule from 'diagram-js/lib/features/selection/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import contextPadModule from 'diagram-js/lib/features/context-pad';
+import selectionModule from 'diagram-js/lib/features/selection';
 
 
 describe('features/modeling - #removeShape', function() {

@@ -10,9 +10,9 @@ import {
   forEach
 } from 'min-dash';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import editorActionsModule from 'diagram-js/lib/features/editor-actions/index.js';
-import keyboardModule from 'diagram-js/lib/features/keyboard/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import editorActionsModule from 'diagram-js/lib/features/editor-actions';
+import keyboardModule from 'diagram-js/lib/features/keyboard';
 
 import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 

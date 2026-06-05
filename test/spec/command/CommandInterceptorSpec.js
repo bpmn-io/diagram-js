@@ -7,7 +7,7 @@ import {
 
 import inherits from 'inherits-browser';
 
-import cmdModule from 'diagram-js/lib/command/index.js';
+import cmdModule from 'diagram-js/lib/command';
 
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor.js';
 

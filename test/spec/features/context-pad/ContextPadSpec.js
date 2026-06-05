@@ -22,8 +22,8 @@ import {
   classes as domClasses
 } from 'min-dom';
 
-import contextPadModule from 'diagram-js/lib/features/context-pad/index.js';
-import selectionModule from 'diagram-js/lib/features/selection/index.js';
+import contextPadModule from 'diagram-js/lib/features/context-pad';
+import selectionModule from 'diagram-js/lib/features/selection';
 
 import ContextPadProvider from './ContextPadProvider.js';
 

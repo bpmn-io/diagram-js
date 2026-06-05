@@ -4,10 +4,10 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import bendpointsModule from 'diagram-js/lib/features/bendpoints/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import bendpointsModule from 'diagram-js/lib/features/bendpoints';
 import rulesModule from './rules/index.js';
-import interactionModule from 'diagram-js/lib/features/interaction-events/index.js';
+import interactionModule from 'diagram-js/lib/features/interaction-events';
 
 
 import { spy } from 'sinon';

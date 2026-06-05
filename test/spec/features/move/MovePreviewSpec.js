@@ -9,9 +9,9 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
-import attachSupportModule from 'diagram-js/lib/features/attach-support/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
+import attachSupportModule from 'diagram-js/lib/features/attach-support';
 import rulesModule from './rules/index.js';
 import rendererModule from '../preview-support/renderer/index.js';
 import nestedRendererModule from '../preview-support/nested-renderer/index.js';

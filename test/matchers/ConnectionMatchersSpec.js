@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   create
-} from 'diagram-js/lib/model/index.js';
+} from 'diagram-js/lib/model';
 
 
 describe('matchers/ConnectionMatchers', function() {

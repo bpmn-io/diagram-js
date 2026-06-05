@@ -13,8 +13,8 @@ import {
   forEach
 } from 'min-dash';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import keyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import keyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move';
 
 
 describe('navigation/keyboard-move', function() {

@@ -5,7 +5,7 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import search from 'diagram-js/lib/features/search/index.js';
+import search from 'diagram-js/lib/features/search';
 
 
 describe('features/search', function() {

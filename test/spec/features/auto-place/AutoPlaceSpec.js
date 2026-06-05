@@ -6,10 +6,10 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import autoPlaceModule from 'diagram-js/lib/features/auto-place/index.js';
-import coreModule from 'diagram-js/lib/core/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import selectionModule from 'diagram-js/lib/features/selection/index.js';
+import autoPlaceModule from 'diagram-js/lib/features/auto-place';
+import coreModule from 'diagram-js/lib/core';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import selectionModule from 'diagram-js/lib/features/selection';
 
 import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 

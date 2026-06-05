@@ -12,9 +12,9 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import autoResizeModule from 'diagram-js/lib/features/auto-resize/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import spaceToolModule from 'diagram-js/lib/features/space-tool/index.js';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import spaceToolModule from 'diagram-js/lib/features/space-tool';
 import autoResizeProviderModule from './auto-resize/index.js';
 import rulesModule from './rules/index.js';
 

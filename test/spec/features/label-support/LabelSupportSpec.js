@@ -10,11 +10,11 @@ import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import labelSupportModule from 'diagram-js/lib/features/label-support/index.js';
-import moveModule from 'diagram-js/lib/features/move/index.js';
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
+import labelSupportModule from 'diagram-js/lib/features/label-support';
+import moveModule from 'diagram-js/lib/features/move';
+import modelingModule from 'diagram-js/lib/features/modeling';
 import rulesModule from './rules/index.js';
-import spaceToolModule from 'diagram-js/lib/features/space-tool/index.js';
+import spaceToolModule from 'diagram-js/lib/features/space-tool';
 
 import {
   classes as svgClasses

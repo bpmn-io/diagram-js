@@ -8,8 +8,8 @@ import {
   inject
 } from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'diagram-js/lib/features/modeling/index.js';
-import snappingModule from 'diagram-js/lib/features/snapping/index.js';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import snappingModule from 'diagram-js/lib/features/snapping';
 
 import SnapContext, { SnapPoints } from 'diagram-js/lib/features/snapping/SnapContext.js';
 
