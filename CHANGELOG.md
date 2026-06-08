@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.17.0
+
+* `FEAT`: ship type declaration maps ([#977](https://github.com/bpmn-io/diagram-js/pull/977))
+
 ## 15.16.0
 
 * `FEAT`: allow blocking canvas interactions ([#1032](https://github.com/bpmn-io/diagram-js/pull/1032))
