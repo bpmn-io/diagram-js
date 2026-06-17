@@ -12,7 +12,7 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import { assign, isArray } from 'min-dash';
 
@@ -22,8 +22,8 @@ import {
   classes as domClasses
 } from 'min-dom';
 
-import contextPadModule from 'lib/features/context-pad';
-import selectionModule from 'lib/features/selection';
+import contextPadModule from 'diagram-js/lib/features/context-pad';
+import selectionModule from 'diagram-js/lib/features/selection';
 
 import ContextPadProvider from './ContextPadProvider.js';
 

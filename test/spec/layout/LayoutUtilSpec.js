@@ -4,7 +4,7 @@ import {
   filterRedundantWaypoints,
   getOrientation,
   getMid
-} from 'lib/layout/LayoutUtil';
+} from 'diagram-js/lib/layout/LayoutUtil.js';
 
 
 function rect(x, y, width, height) {

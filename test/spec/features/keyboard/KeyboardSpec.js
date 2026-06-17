@@ -4,14 +4,14 @@ import {
   stub
 } from 'sinon';
 
-import keyboardModule from 'lib/features/keyboard';
+import keyboardModule from 'diagram-js/lib/features/keyboard';
 
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 
 
 describe('features/keyboard', function() {

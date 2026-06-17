@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   forEach
@@ -14,7 +14,7 @@ import {
   assignStyle
 } from 'min-dom';
 
-import tooltipsModule from 'lib/features/tooltips';
+import tooltipsModule from 'diagram-js/lib/features/tooltips';
 
 
 describe('features/tooltips', function() {

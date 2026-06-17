@@ -4,14 +4,14 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import { assign } from 'min-dash';
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import dragModule from 'lib/features/dragging';
-import hoverFixModule from 'lib/features/hover-fix';
+import dragModule from 'diagram-js/lib/features/dragging';
+import hoverFixModule from 'diagram-js/lib/features/hover-fix';
 
 
 describe('features/hover-fix', function() {

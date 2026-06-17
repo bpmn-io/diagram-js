@@ -7,25 +7,25 @@ import {
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import dragModule from 'lib/features/dragging';
-import createModule from 'lib/features/create';
-import attachSupportModule from 'lib/features/attach-support';
-import connectionPreviewModule from 'lib/features/connection-preview';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
+import dragModule from 'diagram-js/lib/features/dragging';
+import createModule from 'diagram-js/lib/features/create';
+import attachSupportModule from 'diagram-js/lib/features/attach-support';
+import connectionPreviewModule from 'diagram-js/lib/features/connection-preview';
 import rulesModule from './rules/index.js';
 
 import {
   classes as svgClasses
 } from 'tiny-svg';
 
-import { getMid } from 'lib/layout/LayoutUtil';
+import { getMid } from 'diagram-js/lib/layout/LayoutUtil.js';
 
 
 var testModules = [

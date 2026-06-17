@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import PopupMenuHeader from 'lib/features/popup-menu/PopupMenuHeader';
+import PopupMenuHeader from 'diagram-js/lib/features/popup-menu/PopupMenuHeader.js';
 
 import {
   html,
   render
-} from 'lib/ui';
+} from 'diagram-js/lib/ui';
 
 import {
   fireEvent

@@ -1,6 +1,6 @@
 import inherits from 'inherits-browser';
 
-import OrderingProvider from 'lib/features/ordering/OrderingProvider';
+import OrderingProvider from 'diagram-js/lib/features/ordering/OrderingProvider.js';
 
 import {
   findIndex

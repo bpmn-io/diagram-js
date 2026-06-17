@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   pointsOnLine,
   pointsAligned
-} from 'lib/util/Geometry';
+} from 'diagram-js/lib/util/Geometry.js';
 
 
 describe('util/Geometry', function() {

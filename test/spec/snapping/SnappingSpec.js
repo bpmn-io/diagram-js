@@ -6,14 +6,14 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import snappingModule from 'lib/features/snapping';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import snappingModule from 'diagram-js/lib/features/snapping';
 
-import SnapContext, { SnapPoints } from 'lib/features/snapping/SnapContext';
+import SnapContext, { SnapPoints } from 'diagram-js/lib/features/snapping/SnapContext.js';
 
-import { SNAP_LINE_HIDE_DELAY } from 'lib/features/snapping/Snapping';
+import { SNAP_LINE_HIDE_DELAY } from 'diagram-js/lib/features/snapping/Snapping.js';
 
 import { queryAll as domQueryAll } from 'min-dom';
 

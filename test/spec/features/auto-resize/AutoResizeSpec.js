@@ -4,19 +4,19 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
 } from '../../../util/MockEvents.js';
 
-import modelingModule from 'lib/features/modeling';
-import autoResizeModule from 'lib/features/auto-resize';
-import createModule from 'lib/features/create';
-import replaceModule from 'lib/features/replace';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize';
+import createModule from 'diagram-js/lib/features/create';
+import replaceModule from 'diagram-js/lib/features/replace';
 
-import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
-import AutoResize from 'lib/features/auto-resize/AutoResize';
+import AutoResizeProvider from 'diagram-js/lib/features/auto-resize/AutoResizeProvider.js';
+import AutoResize from 'diagram-js/lib/features/auto-resize/AutoResize.js';
 
 import inherits from 'inherits-browser';
 

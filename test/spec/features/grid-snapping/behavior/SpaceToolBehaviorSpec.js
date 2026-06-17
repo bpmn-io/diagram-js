@@ -4,12 +4,12 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import gridSnappingModule from 'lib/features/grid-snapping';
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import spaceToolModule from 'lib/features/space-tool';
+import gridSnappingModule from 'diagram-js/lib/features/grid-snapping';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
+import spaceToolModule from 'diagram-js/lib/features/space-tool';
 
 import {
   createCanvasEvent as canvasEvent

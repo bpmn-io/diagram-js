@@ -4,21 +4,21 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 
-import handToolModule from 'lib/features/hand-tool';
-import draggingModule from 'lib/features/dragging';
-import keyboardModule from 'lib/features/keyboard';
+import handToolModule from 'diagram-js/lib/features/hand-tool';
+import draggingModule from 'diagram-js/lib/features/dragging';
+import keyboardModule from 'diagram-js/lib/features/keyboard';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 
 import {
   assign
 } from 'min-dash';
 
-import { isMac } from 'lib/util/Platform';
+import { isMac } from 'diagram-js/lib/util/Platform.js';
 
 var keyModifier = isMac() ? { metaKey: true } : { ctrlKey: true };
 

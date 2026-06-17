@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   create
-} from 'lib/model';
+} from 'diagram-js/lib/model';
 
 
 describe('matchers/BoundsMatchers', function() {

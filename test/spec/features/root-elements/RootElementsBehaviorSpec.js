@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import coreModule from 'lib/core';
-import commandModule from 'lib/command';
-import modelingModule from 'lib/features/modeling';
-import rootElementsModule from 'lib/features/root-elements';
+import coreModule from 'diagram-js/lib/core';
+import commandModule from 'diagram-js/lib/command';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import rootElementsModule from 'diagram-js/lib/features/root-elements';
 
 
 describe('features/planes/RootElementsBehavior', function() {

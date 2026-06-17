@@ -4,7 +4,7 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
@@ -14,9 +14,9 @@ import {
   assign
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
-import lassoToolModule from 'lib/features/lasso-tool';
-import draggingModule from 'lib/features/dragging';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import lassoToolModule from 'diagram-js/lib/features/lasso-tool';
+import draggingModule from 'diagram-js/lib/features/dragging';
 
 
 describe('features/lasso-tool', function() {

@@ -7,15 +7,15 @@ import {
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import editorActionsModule from 'lib/features/editor-actions';
-import copyPasteModule from 'lib/features/copy-paste';
-import selectionModule from 'lib/features/selection';
-import keyboardMoveModule from 'lib/navigation/keyboard-move';
-import zoomScrollModule from 'lib/navigation/zoomscroll';
-import keyboardMoveSelectionModule from 'lib/features/keyboard-move-selection';
-import modelingModule from 'lib/features/modeling';
+import editorActionsModule from 'diagram-js/lib/features/editor-actions';
+import copyPasteModule from 'diagram-js/lib/features/copy-paste';
+import selectionModule from 'diagram-js/lib/features/selection';
+import keyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move';
+import zoomScrollModule from 'diagram-js/lib/navigation/zoomscroll';
+import keyboardMoveSelectionModule from 'diagram-js/lib/features/keyboard-move-selection';
+import modelingModule from 'diagram-js/lib/features/modeling';
 import customRulesModule from './rules/index.js';
 
 

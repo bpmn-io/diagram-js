@@ -3,15 +3,15 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import autoResizeModule from 'lib/features/auto-resize';
-import gridSnappingModule from 'lib/features/grid-snapping';
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
+import autoResizeModule from 'diagram-js/lib/features/auto-resize';
+import gridSnappingModule from 'diagram-js/lib/features/grid-snapping';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
 
-import AutoResizeProvider from 'lib/features/auto-resize/AutoResizeProvider';
-import AutoResize from 'lib/features/auto-resize/AutoResize';
+import AutoResizeProvider from 'diagram-js/lib/features/auto-resize/AutoResizeProvider.js';
+import AutoResize from 'diagram-js/lib/features/auto-resize/AutoResize.js';
 
 import inherits from 'inherits-browser';
 

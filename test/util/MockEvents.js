@@ -2,10 +2,10 @@ import { assign } from 'min-dash';
 
 import {
   getDiagramJS
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 /**
- * @typedef {import('../../lib/util/Types.js').Point} Point
+ * @typedef {import('diagram-js/lib/util/Types.js').Point} Point
  */
 
 /**
@@ -13,7 +13,7 @@ import {
  * computed based on the loaded diagrams canvas position and the
  * specified canvas local coordinates.
  *
- * @param {Point} point of the event local the canvas (closure)
+ * @param {Point} position of the event local to the canvas (closure)
  * @param {Object} [data]
  *
  * @return {Event} event, scoped to the given canvas

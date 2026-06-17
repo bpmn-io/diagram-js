@@ -4,17 +4,17 @@ import {
   bootstrapDiagram,
   inject,
   getDiagramJS
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import outlineModule from 'lib/features/outline';
-import modelingModule from 'lib/features/modeling';
+import outlineModule from 'diagram-js/lib/features/outline';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 import {
   classes as domClasses,
   query as domQuery
 } from 'min-dom';
 
-import { getBBox } from 'lib/util/Elements';
+import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
 
 describe('features/outline - MultiSelectionOutline', function() {

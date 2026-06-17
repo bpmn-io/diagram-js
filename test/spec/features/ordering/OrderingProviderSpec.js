@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
 import orderingProviderModule from './provider/index.js';
 
 

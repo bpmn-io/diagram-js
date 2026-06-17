@@ -1,9 +1,9 @@
-import CommandModule from 'lib/command';
-import ChangeSupportModule from 'lib/features/change-support';
-import SelectionModule from 'lib/features/selection';
-import RulesModule from 'lib/features/rules';
+import CommandModule from 'diagram-js/lib/command';
+import ChangeSupportModule from 'diagram-js/lib/features/change-support';
+import SelectionModule from 'diagram-js/lib/features/selection';
+import RulesModule from 'diagram-js/lib/features/rules';
 
-import Modeling from 'lib/features/modeling/Modeling';
+import Modeling from 'diagram-js/lib/features/modeling/Modeling.js';
 import CustomLayouter from './CustomLayouter.js';
 
 

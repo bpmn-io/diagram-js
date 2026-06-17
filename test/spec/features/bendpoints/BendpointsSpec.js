@@ -2,12 +2,12 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
-import bendpointsModule from 'lib/features/bendpoints';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import bendpointsModule from 'diagram-js/lib/features/bendpoints';
 import rulesModule from './rules/index.js';
-import interactionModule from 'lib/features/interaction-events';
+import interactionModule from 'diagram-js/lib/features/interaction-events';
 
 
 import { spy } from 'sinon';
@@ -22,7 +22,7 @@ import {
 
 import {
   getVisual
-} from 'lib/util/GraphicsUtil';
+} from 'diagram-js/lib/util/GraphicsUtil.js';
 
 
 describe('features/bendpoints', function() {

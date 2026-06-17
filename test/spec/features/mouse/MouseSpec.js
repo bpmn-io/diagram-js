@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import mouseModule from 'lib/features/mouse';
+import mouseModule from 'diagram-js/lib/features/mouse';
 
-import { createMoveEvent } from 'lib/features/mouse/Mouse';
+import { createMoveEvent } from 'diagram-js/lib/features/mouse/Mouse.js';
 
 
 describe('features/mouse', function() {

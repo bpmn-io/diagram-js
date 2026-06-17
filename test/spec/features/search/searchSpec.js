@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import search from '../../../../lib/features/search/index.js';
+import search from 'diagram-js/lib/features/search';
 
 
 describe('features/search', function() {

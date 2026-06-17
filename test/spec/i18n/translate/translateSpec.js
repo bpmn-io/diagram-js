@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import translateModule from 'lib/i18n/translate';
+import translateModule from 'diagram-js/lib/i18n/translate';
 import customTranslateModule from './custom-translate/index.js';
 
 

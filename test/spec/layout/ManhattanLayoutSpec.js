@@ -4,7 +4,7 @@ import {
   connectRectangles,
   connectPoints,
   repairConnection
-} from 'lib/layout/ManhattanLayout';
+} from 'diagram-js/lib/layout/ManhattanLayout.js';
 
 
 function point(x, y) {

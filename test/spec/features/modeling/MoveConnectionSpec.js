@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import modelingModule from 'lib/features/modeling';
+import modelingModule from 'diagram-js/lib/features/modeling';
 
 
 describe('features/modeling - move connection', function() {

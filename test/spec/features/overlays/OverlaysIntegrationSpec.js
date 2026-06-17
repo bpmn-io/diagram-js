@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
 import {
   createCanvasEvent as canvasEvent
@@ -17,15 +17,15 @@ import {
 
 import { $ } from 'jquery';
 
-import overlayModule from 'lib/features/overlays';
-import selectionModule from 'lib/features/selection';
-import modelingModule from 'lib/features/modeling';
-import resizeModule from 'lib/features/resize';
-import moveModule from 'lib/features/move';
+import overlayModule from 'diagram-js/lib/features/overlays';
+import selectionModule from 'diagram-js/lib/features/selection';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import resizeModule from 'diagram-js/lib/features/resize';
+import moveModule from 'diagram-js/lib/features/move';
 
 import {
   resizeBounds
-} from 'lib/features/resize/ResizeUtil';
+} from 'diagram-js/lib/features/resize/ResizeUtil.js';
 
 
 describe('features/overlay - integration', function() {

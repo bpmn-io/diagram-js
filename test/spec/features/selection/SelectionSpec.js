@@ -4,16 +4,16 @@ import { spy } from 'sinon';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import coreModule from 'lib/core';
-import createModule from 'lib/features/create';
-import draggingModule from 'lib/features/dragging';
-import modelingModule from 'lib/features/modeling';
-import moveModule from 'lib/features/move';
-import connectModule from 'lib/features/connect';
+import coreModule from 'diagram-js/lib/core';
+import createModule from 'diagram-js/lib/features/create';
+import draggingModule from 'diagram-js/lib/features/dragging';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import moveModule from 'diagram-js/lib/features/move';
+import connectModule from 'diagram-js/lib/features/connect';
 import rulesModule from './rules/index.js';
-import selectionModule from 'lib/features/selection';
+import selectionModule from 'diagram-js/lib/features/selection';
 
 
 describe('features/selection/Selection', function() {

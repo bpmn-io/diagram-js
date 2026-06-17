@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import IdGenerator from 'lib/util/IdGenerator';
+import IdGenerator from 'diagram-js/lib/util/IdGenerator.js';
 
 
 describe('util/IdGenerator', function() {

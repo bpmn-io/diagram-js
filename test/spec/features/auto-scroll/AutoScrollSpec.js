@@ -6,10 +6,10 @@ import { createCanvasEvent as canvasEvent } from '../../../util/MockEvents.js';
 import {
   bootstrapDiagram,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import dragModule from 'lib/features/dragging';
-import scrollModule from 'lib/features/auto-scroll';
+import dragModule from 'diagram-js/lib/features/dragging';
+import scrollModule from 'diagram-js/lib/features/auto-scroll';
 
 
 describe('features/auto-scroll - AutoScroll', function() {

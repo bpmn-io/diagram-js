@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   getApproxIntersection
-} from 'lib/util/LineIntersection';
+} from 'diagram-js/lib/util/LineIntersection.js';
 
 
 describe('features/bendpoints - LineIntersection', function() {

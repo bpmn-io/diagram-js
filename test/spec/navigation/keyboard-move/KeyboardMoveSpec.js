@@ -4,17 +4,17 @@ import {
   bootstrapDiagram,
   getDiagramJS,
   inject
-} from 'test/TestHelper';
+} from 'diagram-js/test/TestHelper.js';
 
-import { createKeyEvent } from 'test/util/KeyEvents';
+import { createKeyEvent } from 'diagram-js/test/util/KeyEvents.js';
 
 import {
   assign,
   forEach
 } from 'min-dash';
 
-import modelingModule from 'lib/features/modeling';
-import keyboardMoveModule from 'lib/navigation/keyboard-move';
+import modelingModule from 'diagram-js/lib/features/modeling';
+import keyboardMoveModule from 'diagram-js/lib/navigation/keyboard-move';
 
 
 describe('navigation/keyboard-move', function() {
