@@ -287,7 +287,7 @@ describe('features/keyboard - legacy', function() {
   var errorSpy;
 
   beforeEach(function() {
-    errorSpy = spy(console, 'error');
+    errorSpy = stub(console, 'error');
   });
 
   afterEach(function() {
