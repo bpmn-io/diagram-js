@@ -35,7 +35,7 @@ module.exports = function(karma) {
       [suite]: [ 'webpack' ]
     },
 
-    reporters: [ 'progress' ].concat(coverage ? 'coverage' : []),
+    reporters: [ 'tldr' ].concat(coverage ? 'coverage' : []),
 
     customLaunchers: {
       'FirefoxHeadless': {
