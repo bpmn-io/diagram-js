@@ -1787,6 +1787,144 @@ describe('features/popup-menu', function() {
     });
 
 
+    describe('keyword inheritance (nested entries)', function() {
+
+      function nestedProvider(github) {
+        return {
+          getPopupMenuEntries: function() {
+            return {
+              github,
+              'filler-1': { label: 'Filler 1', action: function() {} },
+              'filler-2': { label: 'Filler 2', action: function() {} },
+              'filler-3': { label: 'Filler 3', action: function() {} },
+              'filler-4': { label: 'Filler 4', action: function() {} },
+              'filler-5': { label: 'Filler 5', action: function() {} }
+            };
+          }
+        };
+      }
+
+
+      it('should find leaf by ancestor search keyword', inject(async function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('test-menu', nestedProvider({
+          label: 'GitHub Connector',
+          search: 'github',
+          entries: {
+            'create-issue': { label: 'Create Issue', action: function() {} }
+          }
+        }));
+
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('github');
+
+        // then
+        await expectEntries([ 'Create Issue' ]);
+      }));
+
+
+      it('should match ancestor and leaf keywords combined', inject(async function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('test-menu', {
+          getPopupMenuEntries: function() {
+            return {
+              github: {
+                label: 'GitHub Connector',
+                search: 'github',
+                entries: {
+                  'create-issue': { label: 'Create Issue', search: 'ticket', action: function() {} },
+                  'list-issues': { label: 'List Issues', action: function() {} }
+                }
+              },
+              'filler-1': { label: 'Filler 1', action: function() {} },
+              'filler-2': { label: 'Filler 2', action: function() {} },
+              'filler-3': { label: 'Filler 3', action: function() {} },
+              'filler-4': { label: 'Filler 4', action: function() {} }
+            };
+          }
+        });
+
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('github ticket');
+
+        // then
+        await expectEntries([ 'Create Issue' ]);
+      }));
+
+
+      it('should inherit keywords across multiple levels', inject(async function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('test-menu', nestedProvider({
+          label: 'GitHub Connector',
+          search: 'github',
+          entries: {
+            issues: {
+              label: 'Issues',
+              search: 'issue',
+              entries: {
+                'open-ticket': { label: 'Open ticket', action: function() {} }
+              }
+            }
+          }
+        }));
+
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('github issue');
+
+        // then
+        await expectEntries([ 'Open ticket' ]);
+      }));
+
+
+      it('should not leak keywords to sibling subtrees', inject(async function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('test-menu', {
+          getPopupMenuEntries: function() {
+            return {
+              github: {
+                label: 'GitHub Connector',
+                search: 'github',
+                entries: {
+                  'create-issue': { label: 'Create Issue', action: function() {} }
+                }
+              },
+              gitlab: {
+                label: 'GitLab Connector',
+                search: 'gitlab',
+                entries: {
+                  'create-mr': { label: 'Create Merge Request', action: function() {} }
+                }
+              },
+              'filler-1': { label: 'Filler 1', action: function() {} },
+              'filler-2': { label: 'Filler 2', action: function() {} },
+              'filler-3': { label: 'Filler 3', action: function() {} },
+              'filler-4': { label: 'Filler 4', action: function() {} }
+            };
+          }
+        });
+
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('github');
+
+        // then
+        await expectEntries([ 'Create Issue' ]);
+      }));
+
+    });
+
+
     it('should render entry if no search results', inject(async function(popupMenu) {
 
       // given
