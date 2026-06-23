@@ -1776,7 +1776,130 @@ describe('core/Canvas', function() {
 
       // then
       expect(canvas.getRootElement()).to.equal(shapeRoot);
+    }));
 
+
+    it('scrolls multiple elements into view', inject(function(canvas) {
+
+      // given
+      var shape1 = canvas.addShape({
+        id: 's1',
+        x: 650, y: 650,
+        width: 50, height: 50
+      });
+
+      var shape2 = canvas.addShape({
+        id: 's2',
+        x: 700, y: 700,
+        width: 50, height: 50
+      });
+
+      // when
+      canvas.scrollToElement([ shape1, shape2 ]);
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(350);
+      expect(newViewbox.y).to.equal(350);
+
+    }));
+
+
+    it('switches to shared root for a collection of elements', inject(function(canvas) {
+
+      // given
+      var shapeRoot = canvas.addRootElement({ id: 'root' });
+
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 0, y: 0,
+        width: 10, height: 10
+      }, shapeRoot);
+
+      var otherRoot = canvas.addRootElement(null);
+      canvas.setRootElement(otherRoot);
+
+      // when
+      canvas.scrollToElement([ shape ]);
+
+      // then
+      expect(canvas.getRootElement()).to.equal(shapeRoot);
+    }));
+
+
+    it('switches to shared root included in collection of elements', inject(function(canvas) {
+
+      // given
+      var shapeRoot = canvas.addRootElement({ id: 'root' });
+
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 0, y: 0,
+        width: 10, height: 10
+      }, shapeRoot);
+
+      var otherRoot = canvas.addRootElement(null);
+      canvas.setRootElement(otherRoot);
+
+      // when
+      canvas.scrollToElement([ shape, shapeRoot ]);
+
+      // then
+      var newViewbox = canvas.viewbox();
+
+      expect(canvas.getRootElement()).to.equal(shapeRoot);
+      expect(newViewbox.x).to.equal(-100);
+      expect(newViewbox.y).to.equal(-100);
+    }));
+
+
+    it('bails if no shared root for a collection of elements', inject(function(canvas) {
+
+      // given
+      var rootA = canvas.addRootElement({ id: 'rootA' });
+      var shapeA = canvas.addShape({
+        id: 'shapeA',
+        x: 0, y: 0,
+        width: 10, height: 10
+      }, rootA);
+
+      var rootB = canvas.addRootElement({ id: 'rootB' });
+      var shapeB = canvas.addShape({
+        id: 'shapeB',
+        x: 650, y: 650,
+        width: 50, height: 50
+      }, rootB);
+
+      canvas.setRootElement(rootA);
+
+      var initialViewbox = canvas.viewbox();
+
+      // when
+      canvas.scrollToElement([ shapeA, shapeB ]);
+
+      // then
+      var newViewbox = canvas.viewbox();
+
+      expect(canvas.getRootElement()).to.equal(rootA);
+      expect(newViewbox.x).to.equal(initialViewbox.x);
+      expect(newViewbox.y).to.equal(initialViewbox.y);
+    }));
+
+
+    it('bails for multiple root elements as arguments', inject(function(canvas) {
+
+      // given
+      var shapeRoot = canvas.addRootElement({ id: 'root' });
+      var otherRoot = canvas.addRootElement({ id: 'other-root' });
+      var defaultRoot = canvas.addRootElement(null);
+
+      canvas.setRootElement(defaultRoot);
+
+      // when
+      canvas.scrollToElement([ shapeRoot, otherRoot ]);
+
+      // then
+      expect(canvas.getRootElement()).to.equal(defaultRoot);
     }));
 
   });
@@ -2902,4 +3025,3 @@ function expectChildren(parent, children) {
   });
 
 }
-
