@@ -10,6 +10,7 @@ _**Note:** Yet to be released changes appear here._
 
 * `FEAT`: use parents' entries keywords for search in popup menu ([#1053](https://github.com/bpmn-io/diagram-js/pull/1053))
 * `FEAT`: keep selection visible on canvas resize ([#1038](https://github.com/bpmn-io/diagram-js/pull/1038))
+* `CHORE`: support scrolling to multiple elements via `Canvas#scrollToElement` ([#1038](https://github.com/bpmn-io/diagram-js/pull/1038))
 
 ## 15.17.0
 

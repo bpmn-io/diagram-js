@@ -1731,6 +1731,55 @@ describe('core/Canvas', function() {
 
     }));
 
+
+    it('scrolls multiple elements into view', inject(function(canvas) {
+
+      // given
+      var shape1 = canvas.addShape({
+        id: 's1',
+        x: 650, y: 650,
+        width: 50, height: 50
+      });
+
+      var shape2 = canvas.addShape({
+        id: 's2',
+        x: 700, y: 700,
+        width: 50, height: 50
+      });
+
+      // when
+      canvas.scrollToElement([ shape1, shape2 ]);
+
+      // then
+      var newViewbox = canvas.viewbox();
+      expect(newViewbox.x).to.equal(350);
+      expect(newViewbox.y).to.equal(350);
+
+    }));
+
+
+    it('does not switch root for a collection of elements', inject(function(canvas) {
+
+      // given
+      var shapeRoot = canvas.addRootElement({ id: 'root' });
+
+      var shape = canvas.addShape({
+        id: 's0',
+        x: 0, y: 0,
+        width: 10, height: 10
+      }, shapeRoot);
+
+      var otherRoot = canvas.addRootElement(null);
+      canvas.setRootElement(otherRoot);
+
+      // when
+      canvas.scrollToElement([ shape ]);
+
+      // then
+      expect(canvas.getRootElement()).to.equal(otherRoot);
+
+    }));
+
   });
 
 

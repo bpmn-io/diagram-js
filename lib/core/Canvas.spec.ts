@@ -177,6 +177,10 @@ canvas.scrollToElement(shapeLike);
 
 canvas.scrollToElement(connectionLike);
 
+canvas.scrollToElement([ shape1, connection ]);
+
+canvas.scrollToElement([ shapeLike, connectionLike ]);
+
 canvas.setRootElement(root);
 
 canvas.showLayer('foo');
