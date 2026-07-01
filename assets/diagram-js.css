@@ -527,7 +527,7 @@
 .djs-popup {
   line-height: 1;
   box-sizing: border-box;
-  width: min-content;
+  width: 350px !important;
   background: var(--popup-background-color);
   overflow: hidden;
   position: fixed;
