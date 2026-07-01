@@ -1885,6 +1885,47 @@ describe('features/popup-menu', function() {
       }));
 
 
+      it('should show root ancestor label above leaf while searching', inject(async function(popupMenu) {
+
+        // given
+        popupMenu.registerProvider('test-menu', {
+          getPopupMenuEntries: function() {
+            return {
+              github: {
+                label: 'GitHub Connector',
+                entries: {
+                  issues: {
+                    label: 'Issues',
+                    entries: {
+                      'open-ticket': { label: 'Open ticket', action: function() {} }
+                    }
+                  }
+                }
+              },
+              'filler-1': { label: 'Filler 1', action: function() {} },
+              'filler-2': { label: 'Filler 2', action: function() {} },
+              'filler-3': { label: 'Filler 3', action: function() {} },
+              'filler-4': { label: 'Filler 4', action: function() {} },
+              'filler-5': { label: 'Filler 5', action: function() {} }
+            };
+          }
+        });
+
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 }, { search: true });
+
+        // when
+        await triggerSearch('open ticket');
+
+        // then
+        await expectEntries([ 'Open ticket' ]);
+
+        const parent = queryPopup('.djs-popup-entry-search-header');
+
+        expect(parent).to.exist;
+        expect(parent.textContent.trim()).to.eql('GitHub Connector');
+      }));
+
+
       it('should not leak keywords to sibling subtrees', inject(async function(popupMenu) {
 
         // given

@@ -21,6 +21,7 @@ type PopupMenuEntryBase = {
   rank?: number;
   search?: string | string[];
   searchable?: boolean;
+  searchHeader?: string;
 };
 
 /**

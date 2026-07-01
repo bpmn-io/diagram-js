@@ -772,6 +772,16 @@
   flex: 1;
 }
 
+.djs-popup-entry-search-header {
+  font-size: .75em;
+  font-weight: var(--popup-header-font-weight);
+  color: var(--popup-description-color);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: .25em;
+  line-height: 1.4em;
+}
+
 .djs-popup-entry-description {
   font-size: .9em;
   margin-top: .25em;

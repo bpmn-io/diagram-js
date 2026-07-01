@@ -1573,6 +1573,74 @@ describe('features/popup-menu - <PopupMenu>', function() {
         expect(labels).to.include('List Issues');
       });
 
+      describe('search header', function() {
+
+        const searchHeaderEntries = [
+          {
+            id: 'list-issues',
+            label: 'List Issues',
+            searchHeader: 'GitHub Connector',
+            search: [ 'list issues' ],
+            action: () => {}
+          },
+          {
+            id: 'list-emails',
+            label: 'List Emails',
+            searchHeader: 'Email Connector',
+            search: [ 'list emails' ],
+            action: () => {}
+          },
+          { id: 'a', label: 'A', action: () => {} },
+          { id: 'b', label: 'B', action: () => {} },
+          { id: 'c', label: 'C', action: () => {} },
+          { id: 'd', label: 'D', action: () => {} }
+        ];
+
+        it('should render search header above name while searching', async function() {
+
+          // given
+          await createPopupMenu({ container, entries: searchHeaderEntries, search: true });
+
+          const input = domQuery('.djs-popup-search input', container);
+          input.value = 'list';
+
+          // when
+          fireEvent.keyUp(input, { key: 't' });
+
+          // then
+          const parents = [ ...domQueryAll('.djs-popup-entry-search-header', container) ].map(e => e.textContent.trim());
+          expect(parents).to.include.members([ 'GitHub Connector', 'Email Connector' ]);
+        });
+
+
+        it('should not render search header when not searching', async function() {
+
+          // when
+          await createPopupMenu({ container, entries: searchHeaderEntries, search: true });
+
+          // then
+          expect(domQuery('.djs-popup-entry-search-header', container)).not.to.exist;
+        });
+
+
+        it('should not render search header for entries without one', async function() {
+
+          // given
+          await createPopupMenu({ container, entries: searchHeaderEntries, search: true });
+
+          const input = domQuery('.djs-popup-search input', container);
+          input.value = 'A';
+
+          // when
+          fireEvent.keyUp(input, { key: 'a' });
+
+          // then
+          const entry = domQuery('.entry[data-id="a"]', container);
+          expect(domQuery('.djs-popup-entry-search-header', entry)).not.to.exist;
+        });
+
+      });
+
       it('should restore level view after clearing search', async function() {
 
         // given
