@@ -775,7 +775,7 @@
 .djs-popup-entry-search-header {
   font-size: .75em;
   font-weight: var(--popup-header-font-weight);
-  color: var(--popup-description-color);
+  color: var(--popup-entry-title-color);
   letter-spacing: .04em;
   text-transform: uppercase;
   margin-bottom: .25em;
