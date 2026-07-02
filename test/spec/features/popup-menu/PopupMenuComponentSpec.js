@@ -362,13 +362,16 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(firstEntry.title).to.be.empty;
+      expect(firstEntry.getAttribute('aria-label')).to.eql('1');
       expect(firstEntry.textContent).to.eql('1');
 
       expect(secondEntry.title).to.eql('Toggle foo');
+      expect(secondEntry.getAttribute('aria-label')).to.eql('Toggle foo');
       expect(secondEntry.textContent).to.eql('');
       expect(secondEntry.innerHTML).to.include(`<img class="djs-popup-entry-icon" src="${ imageUrl }" alt="">`);
 
       expect(describedEntry.title).to.be.empty;
+      expect(describedEntry.getAttribute('aria-label')).to.eql('FOO');
       expect(describedEntry.textContent).to.eql('FOOI DESCRIBE IT');
     });
 
