@@ -709,6 +709,16 @@
   padding-right: 9px;
 }
 
+/**
+ * The results list is focusable (as a listbox holding
+ * `aria-activedescendant`) when there is no search field.
+ * The active entry is indicated via `.entry.selected`, so we hide
+ * the outline on the list container itself.
+ */
+.djs-popup-results:focus {
+  outline: none;
+}
+
 .djs-popup-group {
   margin: 0;
   padding: 0;
@@ -816,19 +826,51 @@
   color: var(--popup-no-results-color);
 }
 
+.djs-popup-footer {
+  display: flex;
+  padding: 5px 12px 7px 12px;
+  border-top: solid 1px var(--popup-border-color);
+}
+
+/**
+ * The footer holds the keyboard/assistive-technology reachable documentation
+ * link. Mouse users get the per-entry `.djs-popup-entry-docs` affordance on
+ * hover instead, so the (redundant) footer link is hidden while the results
+ * list is hovered and shown during keyboard navigation.
+ */
+.djs-popup-results:hover ~ .djs-popup-footer {
+  display: none;
+}
+
 .djs-popup-entry-docs {
   display: none;
   margin-left: 3px;
   color: var(--popup-description-color);
 }
 
-.djs-popup-body .entry:focus-within .djs-popup-entry-docs,
-.djs-popup-body .entry:focus .djs-popup-entry-docs,
 .djs-popup-body .entry:hover .djs-popup-entry-docs {
   display: inline;
 }
 
 .djs-popup-entry-docs svg {
+  vertical-align: middle;
+  margin: 2px;
+}
+
+.djs-popup-footer-docs {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: var(--popup-secondary-font-size);
+  color: var(--popup-description-color);
+  text-decoration: none;
+}
+
+.djs-popup-footer-docs:hover {
+  text-decoration: underline;
+}
+
+.djs-popup-footer-docs svg {
   vertical-align: middle;
   margin: 2px;
 }

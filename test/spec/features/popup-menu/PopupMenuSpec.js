@@ -3189,6 +3189,58 @@ describe('features/popup-menu - integration', function() {
 
   }));
 
+
+  // accessibility playground
+  //
+  // add `.only` to this test and run `npm run dev` to open a rich popup menu
+  // for manual inspection (DevTools > Accessibility pane and/or a screen
+  // reader). Covers the #1056 rework:
+  //
+  //   - entries are role="option", named from their visible label
+  //   - hovering an entry reveals the mouse-only (aria-hidden) docs icon
+  //   - the actionable "Open entry documentation" link sits in the footer and
+  //     reflects the active entry (keyboard/AT reachable via Tab)
+  //   - > 5 entries render a search field (role="combobox") driving the list
+  //     (role="listbox") via aria-activedescendant
+  it('should render accessibility playground', inject(function(popupMenu) {
+
+    // given
+    const tasksGroup = { id: 'tasks', name: 'Tasks' };
+    const gatewaysGroup = { id: 'gateways', name: 'Gateways' };
+
+    const entries = entrySet([
+      { id: 'task', label: 'Task', group: tasksGroup, className: 'bpmn-icon-task',
+        documentationRef: 'https://docs.camunda.io/docs/components/modeler/bpmn/tasks/' },
+      { id: 'service-task', label: 'Service Task', group: tasksGroup, className: 'bpmn-icon-service',
+        description: 'Invokes a service, e.g. a REST endpoint',
+        documentationRef: 'https://docs.camunda.io/docs/components/modeler/bpmn/service-tasks/' },
+      { id: 'user-task', label: 'User Task', group: tasksGroup, className: 'bpmn-icon-user',
+        documentationRef: 'https://docs.camunda.io/docs/components/modeler/bpmn/user-tasks/' },
+      { id: 'script-task', label: 'Script Task', group: tasksGroup, className: 'bpmn-icon-script' },
+      { id: 'send-task', label: 'Send Task', group: tasksGroup, className: 'bpmn-icon-send' },
+      { id: 'exclusive-gateway', label: 'Exclusive Gateway', group: gatewaysGroup, className: 'bpmn-icon-gateway-xor',
+        documentationRef: 'https://docs.camunda.io/docs/components/modeler/bpmn/exclusive-gateways/' },
+      { id: 'parallel-gateway', label: 'Parallel Gateway', group: gatewaysGroup, className: 'bpmn-icon-gateway-parallel' }
+    ]);
+
+    const provider = new Provider(entries);
+
+    // when
+    popupMenu.registerProvider('a11y-playground', provider);
+
+    // then
+    // searchable variant (combobox + listbox); to inspect the non-searchable
+    // listbox variant, drop `search: true` (or pass < 6 entries)
+    popupMenu.open({}, 'a11y-playground', {
+      x: 100, y: 100
+    }, {
+      width: 250,
+      search: true,
+      title: 'Append element'
+    });
+
+  }));
+
 });
 
 
