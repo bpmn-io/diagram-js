@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.18.1
+
+* `FIX`: restore a11y title for popup menu entries ([#1057](https://github.com/bpmn-io/diagram-js/pull/1057), [#1056](https://github.com/bpmn-io/diagram-js/issues/1056))
+
 ## 15.18.0
 
 * `FEAT`: use parents' entries keywords for search in popup menu ([#1053](https://github.com/bpmn-io/diagram-js/pull/1053))
