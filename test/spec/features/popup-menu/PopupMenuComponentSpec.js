@@ -180,7 +180,28 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // when
       await createPopupMenu({
-        container
+        container,
+        entries: [
+          { id: '1', label: 'Entry 1' },
+          { id: '2', label: 'Entry 2' }
+        ]
+      });
+
+      const listboxEl = domQuery(
+        '.djs-popup-results', container
+      );
+
+      // then
+      expect(document.activeElement).to.equal(listboxEl);
+    });
+
+
+    it('without search or entries', async function() {
+
+      // when
+      await createPopupMenu({
+        container,
+        emptyPlaceholder: 'No entries'
       });
 
       const popupEl = domQuery(
@@ -1666,6 +1687,282 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       await expectToBeAccessible(container);
+    });
+
+
+    it('should render entries as options', async function() {
+
+      // given
+      await createPopupMenu({ container, entries });
+
+      // when
+      const options = domQueryAll('.entry', container);
+
+      // then
+      expect(options).to.have.length(entries.length);
+
+      options.forEach(option => {
+        expect(option.getAttribute('role')).to.eql('option');
+      });
+    });
+
+
+    it('should derive accessible name from content (no title needed)', async function() {
+
+      // given
+      await createPopupMenu({ container, entries });
+
+      // when
+      const [ firstEntry ] = domQueryAll('.entry', container);
+
+      // then
+      // `role="option"` supports name from contents, so the visible
+      // label is the accessible name without an extra title/aria-label
+      expect(firstEntry.getAttribute('role')).to.eql('option');
+      expect(firstEntry.title).to.be.empty;
+      expect(firstEntry.getAttribute('aria-label')).not.to.exist;
+      expect(firstEntry.textContent).to.contain('Entry 1');
+    });
+
+
+    it('should mark selected entry with aria-selected', async function() {
+
+      // given
+      await createPopupMenu({ container, entries });
+
+      // when
+      const selected = domQuery('.entry.selected', container);
+      const notSelected = domQuery('.entry:not(.selected)', container);
+
+      // then
+      expect(selected.getAttribute('aria-selected')).to.eql('true');
+      expect(notSelected.getAttribute('aria-selected')).not.to.exist;
+    });
+
+
+    it('should mark entries with sub menu via aria-haspopup', async function() {
+
+      // given
+      const entries = [
+        {
+          id: 'nav',
+          label: 'Navigate',
+          entries: [ { id: 'child', label: 'Child' } ]
+        }
+      ];
+
+      await createPopupMenu({ container, entries });
+
+      // when
+      const entry = domQuery('.entry', container);
+
+      // then
+      expect(entry.getAttribute('aria-haspopup')).to.eql('true');
+    });
+
+
+    it('should wire search field (combobox) to results (listbox)', async function() {
+
+      // given
+      await createPopupMenu({ container, entries, title: 'Search', search: true });
+
+      // when
+      const input = domQuery('.djs-popup-search input', container);
+      const results = domQuery('.djs-popup-results', container);
+      const selected = domQuery('.entry.selected', container);
+
+      // then
+      expect(input.getAttribute('role')).to.eql('combobox');
+      expect(input.getAttribute('aria-expanded')).to.eql('true');
+      expect(input.getAttribute('aria-autocomplete')).to.eql('list');
+
+      expect(results.getAttribute('role')).to.eql('listbox');
+      expect(results.id).to.exist.and.to.eql(input.getAttribute('aria-controls'));
+
+      expect(input.getAttribute('aria-activedescendant')).to.eql(selected.id);
+    });
+
+
+    it('should keep listbox out of tab order when searchable (combobox owns focus)', async function() {
+
+      // given
+      await createPopupMenu({ container, entries, title: 'Search', search: true });
+
+      // when
+      const results = domQuery('.djs-popup-results', container);
+
+      // then
+      expect(results.getAttribute('tabindex')).to.eql('-1');
+      expect(results.getAttribute('aria-activedescendant')).not.to.exist;
+    });
+
+
+    it('should make listbox the focus holder when not searchable', async function() {
+
+      // given
+      const entries = [
+        { id: '1', label: 'Entry 1' },
+        { id: '2', label: 'Entry 2' }
+      ];
+
+      await createPopupMenu({ container, entries });
+
+      // when
+      const results = domQuery('.djs-popup-results', container);
+      const selected = domQuery('.entry.selected', container);
+
+      // then
+      expect(results.getAttribute('tabindex')).to.eql('0');
+      expect(results.getAttribute('aria-activedescendant')).to.eql(selected.id);
+    });
+
+
+    it('should not show an outline on the focused listbox', async function() {
+
+      // given
+      const entries = [
+        { id: '1', label: 'Entry 1' },
+        { id: '2', label: 'Entry 2' }
+      ];
+
+      await createPopupMenu({ container, entries });
+
+      // when
+      const results = domQuery('.djs-popup-results', container);
+
+      results.focus();
+
+      // then
+      expect(document.activeElement).to.equal(results);
+      expect(getComputedStyle(results).outlineStyle).to.eql('none');
+    });
+
+
+    describe('entry documentation', function() {
+
+      const docEntries = [
+        { id: '1', label: 'Entry 1', documentationRef: 'https://example.com/1' },
+        { id: '2', label: 'Entry 2' }
+      ];
+
+
+      it('should render a per-row documentation icon hidden from assistive technology', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: docEntries });
+
+        // when
+        // the per-row icon lives inside the option, as a mouse affordance
+        const rowLink = domQuery('.entry .djs-popup-entry-docs', container);
+
+        // then
+        expect(rowLink).to.exist;
+        expect(rowLink.getAttribute('aria-hidden')).to.eql('true');
+        expect(rowLink.getAttribute('tabindex')).to.eql('-1');
+        expect(rowLink.getAttribute('href')).to.eql('https://example.com/1');
+      });
+
+
+      it('should render the actionable documentation link in the footer', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: docEntries });
+
+        // when
+        const link = domQuery('.djs-popup-footer-docs', container);
+
+        // then
+        // the actionable, AT-reachable link is hoisted out of the listbox
+        expect(link).to.exist;
+        expect(link.closest('.entry')).not.to.exist;
+        expect(link.closest('[role="listbox"]')).not.to.exist;
+        expect(link.closest('.djs-popup-footer')).to.exist;
+      });
+
+
+      it('should reflect the active entry in the footer documentation link', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: docEntries });
+
+        // when
+        // the first entry (with docs) is active by default
+        const link = domQuery('.djs-popup-footer-docs', container);
+
+        // then
+        expect(link.getAttribute('href')).to.eql('https://example.com/1');
+        expect(link.getAttribute('aria-label')).to.eql('Open entry documentation for Entry 1');
+      });
+
+
+      it('should hide the footer documentation link for entries without docs', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: [
+          { id: '1', label: 'Entry 1' },
+          { id: '2', label: 'Entry 2', documentationRef: 'https://example.com/2' }
+        ] });
+
+        // when
+        // first (docs-less) entry is active by default
+        const link = domQuery('.djs-popup-footer-docs', container);
+
+        // then
+        expect(link).not.to.exist;
+      });
+
+
+      it('should keep the footer documentation link keyboard reachable', async function() {
+
+        // given
+        await createPopupMenu({ container, entries: docEntries });
+
+        // when
+        const link = domQuery('.djs-popup-footer-docs', container);
+
+        link.focus();
+
+        // then
+        // a plain link outside the listbox is naturally focusable
+        expect(document.activeElement).to.equal(link);
+      });
+
+    });
+
+
+    it('should generate unique ids per popup instance', async function() {
+
+      // given
+      await createPopupMenu({ container, entries });
+      const firstId = domQuery('.djs-popup-results', container).id;
+
+      const otherContainer = domify('<div class="djs-parent"></div>');
+      document.body.appendChild(otherContainer);
+
+      // when
+      await act(() => render(
+        html`<${PopupMenuComponent} ...${ {
+          entries,
+          headerEntries: [],
+          searchFn,
+          position() { return { x: 0, y: 0 }; },
+          onClose() {},
+          onOpened() {},
+          onClosed() {}
+        } } />`,
+        otherContainer
+      ));
+
+      const secondId = domQuery('.djs-popup-results', otherContainer).id;
+
+      // then
+      expect(firstId).to.exist;
+      expect(secondId).to.exist;
+      expect(secondId).not.to.eql(firstId);
+
+      // cleanup
+      render(null, otherContainer);
+      document.body.removeChild(otherContainer);
     });
   });
 
