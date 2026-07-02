@@ -34,6 +34,36 @@ describe('features/popup-menu - <PopupMenuItem>', function() {
     expect(domQuery('.entry', container)).to.exist;
   });
 
+
+  it('should be labelled by <label>', function() {
+
+    // when
+    createPopupMenu({
+      container,
+      entry: { id: 'foo', label: 'User task' }
+    });
+
+    // then
+    const entry = domQuery('.entry', container);
+
+    expect(entry.getAttribute('aria-label')).to.eql('User task');
+  });
+
+
+  it('should be labelled by <title>', function() {
+
+    // when
+    createPopupMenu({
+      container,
+      entry: { id: 'foo', label: 'User task', title: 'User task (long)' }
+    });
+
+    // then
+    const entry = domQuery('.entry', container);
+
+    expect(entry.getAttribute('aria-label')).to.eql('User task (long)');
+  });
+
 });
 
 
