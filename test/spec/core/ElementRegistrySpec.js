@@ -6,7 +6,7 @@ import {
 } from 'test/TestHelper';
 
 
-describe('ElementRegistry', function() {
+describe('core/ElementRegistry', function() {
 
   beforeEach(bootstrapDiagram());
 

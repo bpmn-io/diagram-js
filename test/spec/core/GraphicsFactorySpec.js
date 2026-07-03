@@ -15,7 +15,7 @@ import {
 } from 'tiny-svg';
 
 
-describe('GraphicsFactory', function() {
+describe('core/GraphicsFactory', function() {
 
   beforeEach(bootstrapDiagram());
 
