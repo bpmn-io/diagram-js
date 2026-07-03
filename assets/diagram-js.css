@@ -57,6 +57,7 @@
 
   --popup-font-family: "IBM Plex Sans", sans-serif;
   --popup-font-size: 14px;
+  --popup-secondary-font-size: .9em;
   --popup-header-entry-selected-color: var(--color-blue-205-100-50);
   --popup-header-font-weight: bolder;
   --popup-header-group-divider-color: var(--color-grey-225-10-75);
@@ -696,7 +697,7 @@
 
 .djs-popup-search-count {
   margin: 0 12px;
-  font-size: 11px;
+  font-size: var(--popup-secondary-font-size);
   color: var(--popup-description-color);
 }
 
@@ -773,7 +774,7 @@
 }
 
 .djs-popup-entry-description {
-  font-size: .9em;
+  font-size: var(--popup-secondary-font-size);
   margin-top: .25em;
 
   color: var(--popup-description-color);
