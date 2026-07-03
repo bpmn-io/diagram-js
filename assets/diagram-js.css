@@ -885,6 +885,10 @@
   display: none;
 }
 
+.djs-bendpoint.floating:not(.positioned) {
+  display: none;
+}
+
 .djs-segment-dragger:hover .djs-visual,
 .djs-segment-dragger.djs-dragging .djs-visual,
 .djs-bendpoint:hover .djs-visual,

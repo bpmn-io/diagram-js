@@ -582,6 +582,95 @@ describe('features/bendpoints', function() {
     ));
 
 
+    it('should NOT show floating bendpoint before it got positioned', inject(
+      function(eventBus, canvas, elementRegistry) {
+
+        // given
+        var layer = canvas.getLayer('overlays');
+
+        // when
+        // hovering the connection without moving the mouse over it
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+
+        var bendpointContainer = domQuery('.djs-bendpoints', layer),
+            floatingBendpointGfx = domQuery('.floating', bendpointContainer);
+
+        // then
+        // floating bendpoint is NOT shown as a ghost at (0, 0)
+        expect(isVisible(floatingBendpointGfx)).to.be.false;
+      }
+    ));
+
+
+    it('should NOT show floating bendpoint at (0, 0) after connection changed', inject(
+      function(eventBus, canvas, elementRegistry, bendpoints) {
+
+        // given
+        var layer = canvas.getLayer('overlays');
+
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+
+        // position floating bendpoint
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 525, y: 250 })
+        });
+
+        // when
+        // handles get recreated, e.g. after dropping a bendpoint
+        bendpoints.updateHandles(connection);
+
+        var bendpointContainer = domQuery('.djs-bendpoints', layer),
+            floatingBendpointGfx = domQuery('.floating', bendpointContainer);
+
+        // then
+        // floating bendpoint is NOT shown as a ghost at (0, 0)
+        expect(isVisible(floatingBendpointGfx)).to.be.false;
+      }
+    ));
+
+
+    it('should hide floating bendpoint on out', inject(
+      function(eventBus, canvas, elementRegistry) {
+
+        // given
+        var layer = canvas.getLayer('overlays');
+
+        eventBus.fire('element.hover', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+
+        // position floating bendpoint
+        eventBus.fire('element.mousemove', {
+          element: connection,
+          originalEvent: canvasEvent({ x: 525, y: 250 })
+        });
+
+        var bendpointContainer = domQuery('.djs-bendpoints', layer),
+            floatingBendpointGfx = domQuery('.floating', bendpointContainer);
+
+        // assume
+        expect(isVisible(floatingBendpointGfx)).to.be.true;
+
+        // when
+        eventBus.fire('element.out', {
+          element: connection,
+          gfx: elementRegistry.getGraphics(connection)
+        });
+
+        // then
+        expect(isVisible(floatingBendpointGfx)).to.be.false;
+      }
+    ));
+
+
     it('should update floating bendpoint position on mousemove', inject(
       function(selection, canvas, eventBus, elementRegistry) {
 
@@ -682,3 +771,11 @@ describe('features/bendpoints', function() {
   });
 
 });
+
+
+// helpers //////////
+
+function isVisible(element) {
+  return window.getComputedStyle(element).display !== 'none';
+}
+
