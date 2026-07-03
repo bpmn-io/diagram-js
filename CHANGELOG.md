@@ -6,6 +6,7 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: defer outline rendering until needed ([#1064](https://github.com/bpmn-io/diagram-js/pull/1064))
 * `FIX`: build element copy tree in linear time ([#1066](https://github.com/bpmn-io/diagram-js/pull/1066))
 * `FIX`: improve `Elements#getParents` utility to resolve in linear time ([#1065](https://github.com/bpmn-io/diagram-js/pull/1065))
 * `FIX`: avoid layout thrashing when creating element previews ([#1063](https://github.com/bpmn-io/diagram-js/pull/1063))
