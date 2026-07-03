@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: only re-order children when actual order changed ([#1062](https://github.com/bpmn-io/diagram-js/pull/1062))
+
 ## 15.18.1
 
 * `FIX`: restore a11y title for popup menu entries ([#1057](https://github.com/bpmn-io/diagram-js/pull/1057), [#1056](https://github.com/bpmn-io/diagram-js/issues/1056))
