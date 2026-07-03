@@ -481,6 +481,35 @@ describe('features/move - MovePreview', function() {
         })
       );
 
+
+      it('should not add connection with endpoint outside moved elements to dragGroup',
+        inject(function(move, dragging, elementRegistry, selection) {
+
+          var rootGfx = elementRegistry.getGraphics(rootShape),
+              dragGroup;
+
+          // given
+          // connectionA connects host -> shape, but only host is moved
+          selection.select([ host ]);
+
+          // when
+          move.start(canvasEvent({ x: 0, y: 0 }), host);
+
+          dragging.hover({
+            element: rootShape,
+            gfx: rootGfx
+          });
+
+          dragging.move(canvasEvent({ x: 150, y: 200 }));
+
+          dragGroup = dragging.context().data.context.dragGroup;
+
+          // then
+          expect(dragGroup).to.exist;
+          expect(domQuery('[data-element-id="connectionA"]', dragGroup)).not.to.exist;
+        })
+      );
+
     });
 
   });
