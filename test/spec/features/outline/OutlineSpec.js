@@ -28,6 +28,149 @@ describe('features/outline - Outline', function() {
   }));
 
 
+  describe('lazy creation', function() {
+
+    it('should not create outline on shape added', inject(
+      function(canvas, elementRegistry) {
+
+        // when
+        var shape = canvas.addShape({
+          id: 'test',
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 100
+        });
+
+        // then
+        var gfx = elementRegistry.getGraphics(shape);
+
+        expect(domQuery('.djs-outline', gfx)).not.to.exist;
+      }
+    ));
+
+
+    it('should not create outline on connection added', inject(
+      function(canvas, elementRegistry) {
+
+        // when
+        var connection = canvas.addConnection({
+          id: 'connection',
+          waypoints: [ { x: 25, y: 25 }, { x: 115, y: 115 } ]
+        });
+
+        // then
+        var gfx = elementRegistry.getGraphics(connection);
+
+        expect(domQuery('.djs-outline', gfx)).not.to.exist;
+      }
+    ));
+
+
+    it('should create outline on hover', inject(
+      function(canvas, eventBus, elementRegistry) {
+
+        // given
+        var shape = canvas.addShape({
+          id: 'test',
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 100
+        });
+
+        // when
+        eventBus.fire('element.hover', { element: shape });
+
+        // then
+        var gfx = elementRegistry.getGraphics(shape);
+
+        expect(domQuery('.djs-outline', gfx)).to.exist;
+      }
+    ));
+
+
+    it('should create outline only once', inject(
+      function(canvas, eventBus, selection, elementRegistry) {
+
+        // given
+        var shape = canvas.addShape({
+          id: 'test',
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 100
+        });
+
+        // when
+        eventBus.fire('element.hover', { element: shape });
+        selection.select(shape);
+
+        // then
+        var gfx = elementRegistry.getGraphics(shape);
+
+        expect(gfx.querySelectorAll('.djs-outline')).to.have.length(1);
+      }
+    ));
+
+
+    it('should not update outline on change if not yet created', inject(
+      function(canvas, eventBus, elementRegistry) {
+
+        // given
+        var shape = canvas.addShape({
+          id: 'test',
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 100
+        });
+
+        // when
+        eventBus.fire('shape.changed', {
+          element: shape,
+          gfx: elementRegistry.getGraphics(shape)
+        });
+
+        // then
+        var gfx = elementRegistry.getGraphics(shape);
+
+        expect(domQuery('.djs-outline', gfx)).not.to.exist;
+      }
+    ));
+
+
+    it('should keep created outline in sync on change', inject(
+      function(canvas, eventBus, selection, elementRegistry) {
+
+        // given
+        var shape = canvas.addShape({
+          id: 'test',
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 100
+        });
+
+        selection.select(shape);
+
+        var gfx = elementRegistry.getGraphics(shape);
+        var outline = domQuery('.djs-outline', gfx);
+
+        // when
+        shape.width = 200;
+
+        eventBus.fire('shape.changed', { element: shape, gfx: gfx });
+
+        // then
+        // width = element.width + offset (5) * 2
+        expect(svgAttr(outline, 'width')).to.eql('210');
+      }
+    ));
+
+  });
+
+
   describe('select', function() {
 
     it('should add outline to shape', inject(function(selection, canvas, elementRegistry) {
