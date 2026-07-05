@@ -7,12 +7,14 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 _**Note:** Yet to be released changes appear here._
 
 * `FEAT`: defer outline rendering until needed ([#1064](https://github.com/bpmn-io/diagram-js/pull/1064))
+* `FIX`: collect `Elements#selfAndChildren` unique results in linear time ([#1065](https://github.com/bpmn-io/diagram-js/pull/1065))
 * `FIX`: build element copy tree in linear time ([#1066](https://github.com/bpmn-io/diagram-js/pull/1066))
 * `FIX`: improve `Elements#getParents` utility to resolve in linear time ([#1065](https://github.com/bpmn-io/diagram-js/pull/1065))
 * `FIX`: avoid layout thrashing when creating element previews ([#1063](https://github.com/bpmn-io/diagram-js/pull/1063))
 * `FIX`: resolve affected edges in move preview in linear time ([#1063](https://github.com/bpmn-io/diagram-js/pull/1063))
 * `FIX`: only re-order children when actual order changed ([#1062](https://github.com/bpmn-io/diagram-js/pull/1062))
 * `FIX`: do not show floating bendpoint at `(0|0)` position ([#1061](https://github.com/bpmn-io/diagram-js/pull/1061))
+* `CHORE`: always return unique `Elements#selfAndChildren` results; `unique` / `allowDuplicates` flags are deprecated and ignored ([#1065](https://github.com/bpmn-io/diagram-js/pull/1065))
 
 ## 15.18.1
 
