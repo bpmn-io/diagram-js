@@ -25,6 +25,7 @@ describe('features/outline - Outline', function() {
   it('should expose API', inject(function(outline) {
     expect(outline).to.exist;
     expect(outline.updateShapeOutline).to.exist;
+    expect(outline.createOutline).to.exist;
   }));
 
 
@@ -165,6 +166,67 @@ describe('features/outline - Outline', function() {
         // then
         // width = element.width + offset (5) * 2
         expect(svgAttr(outline, 'width')).to.eql('210');
+      }
+    ));
+
+
+    it('should create outline via #createOutline', inject(
+      function(canvas, outline, elementRegistry) {
+
+        // given
+        var shape = canvas.addShape({
+          id: 'test',
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 100
+        });
+
+        // when
+        var created = outline.createOutline(shape);
+
+        // then
+        var gfx = elementRegistry.getGraphics(shape);
+
+        expect(created).to.exist;
+        expect(domQuery('.djs-outline', gfx)).to.equal(created);
+      }
+    ));
+
+
+    it('should create outline via #createOutline only once', inject(
+      function(canvas, outline, elementRegistry) {
+
+        // given
+        var shape = canvas.addShape({
+          id: 'test',
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 100
+        });
+
+        // when
+        var first = outline.createOutline(shape);
+        var second = outline.createOutline(shape);
+
+        // then
+        var gfx = elementRegistry.getGraphics(shape);
+
+        expect(second).to.equal(first);
+        expect(gfx.querySelectorAll('.djs-outline')).to.have.length(1);
+      }
+    ));
+
+
+    it('should return null via #createOutline without graphics', inject(
+      function(outline) {
+
+        // when
+        var created = outline.createOutline({ id: 'non-existing' });
+
+        // then
+        expect(created).to.be.null;
       }
     ));
 
