@@ -142,7 +142,7 @@ describe('features/outline - Outline', function() {
 
 
     it('should keep created outline in sync on change', inject(
-      function(canvas, eventBus, selection, elementRegistry) {
+      function(canvas, outline, eventBus, elementRegistry) {
 
         // given
         var shape = canvas.addShape({
@@ -153,19 +153,19 @@ describe('features/outline - Outline', function() {
           height: 100
         });
 
-        selection.select(shape);
-
-        var gfx = elementRegistry.getGraphics(shape);
-        var outline = domQuery('.djs-outline', gfx);
+        var outlineGfx = outline.createOutline(shape);
 
         // when
         shape.width = 200;
 
-        eventBus.fire('shape.changed', { element: shape, gfx: gfx });
+        eventBus.fire('shape.changed', {
+          element: shape,
+          gfx: elementRegistry.getGraphics(shape)
+        });
 
         // then
         // width = element.width + offset (5) * 2
-        expect(svgAttr(outline, 'width')).to.eql('210');
+        expect(svgAttr(outlineGfx, 'width')).to.eql('210');
       }
     ));
 
