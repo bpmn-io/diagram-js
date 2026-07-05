@@ -366,6 +366,55 @@ describe('util/Elements', function() {
       ]);
     });
 
+
+    it('should keep nested elements without selected ancestor', function() {
+
+      // when
+      // neither shapeA21 nor shapeA2/shapeA are part of the selection
+      var parents = getParents([
+        shapeA210,
+        shapeB
+      ]);
+
+      // then
+      expect(parents).to.eql([
+        shapeA210,
+        shapeB
+      ]);
+    });
+
+
+    it('should detect skip-level ancestor', function() {
+
+      // when
+      // shapeA is an indirect ancestor of shapeA210
+      var parents = getParents([
+        shapeA,
+        shapeA210
+      ]);
+
+      // then
+      expect(parents).to.eql([
+        shapeA
+      ]);
+    });
+
+
+    it('should preserve input order', function() {
+
+      // when
+      var parents = getParents([
+        shapeB,
+        shapeA
+      ]);
+
+      // then
+      expect(parents).to.eql([
+        shapeB,
+        shapeA
+      ]);
+    });
+
   });
 
 
