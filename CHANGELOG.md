@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: avoid layout thrashing when creating element previews ([#1063](https://github.com/bpmn-io/diagram-js/pull/1063))
+* `FIX`: resolve affected edges in move preview in linear time ([#1063](https://github.com/bpmn-io/diagram-js/pull/1063))
 * `FIX`: only re-order children when actual order changed ([#1062](https://github.com/bpmn-io/diagram-js/pull/1062))
 
 ## 15.18.1
