@@ -128,6 +128,26 @@ describe('util/Elements', function() {
       expect(result.length).to.equal(6);
       expect(ids(result)).to.eql(ids([ a ].concat(a.children).concat(child.children)));
     });
+
+
+    it('should return unique elements preserving order', function() {
+
+      // given
+      // parent listed after some of its children + duplicates
+      var a = shapeA;
+
+      // when
+      var result = selfAndDirectChildren([ shapeA1, a, shapeA1, shapeA2 ]);
+
+      // then
+      // first occurrence wins, no duplicates
+      expect(ids(result)).to.eql([
+        'a.1', 'a.1.0', 'a.1.1',
+        'a', 'a.0', 'a.2',
+        'a.2.0', 'a.2.1'
+      ]);
+    });
+
   });
 
 
@@ -144,6 +164,25 @@ describe('util/Elements', function() {
 
       // then
       expect(result.length).to.equal(14);
+    });
+
+
+    it('should always return unique result', function() {
+
+      // given
+      var a = shapeA;
+
+      // when
+      // same root passed twice + a nested descendant
+      var result = selfAndAllChildren([ a, a, shapeA21 ]);
+
+      // then
+      expect(ids(result)).to.eql([
+        'a',
+        'a.0',
+        'a.1', 'a.1.0', 'a.1.1',
+        'a.2', 'a.2.0', 'a.2.1', 'a.2.1.0'
+      ]);
     });
 
   });
