@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.19.0
+
+_Improves rendering and editing of larger diagrams significantly._
+
 * `FEAT`: defer outline rendering until needed ([#1064](https://github.com/bpmn-io/diagram-js/pull/1064))
 * `FIX`: only re-order children when actual order changed ([#1062](https://github.com/bpmn-io/diagram-js/pull/1062))
 * `FIX`: do not show floating bendpoint at `(0|0)` position ([#1061](https://github.com/bpmn-io/diagram-js/pull/1061))
