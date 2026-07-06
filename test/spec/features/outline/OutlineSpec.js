@@ -219,14 +219,16 @@ describe('features/outline - Outline', function() {
     ));
 
 
-    it('should return null via #createOutline without graphics', inject(
+    it('should throw via #createOutline without graphics', inject(
       function(outline) {
 
         // when
-        var created = outline.createOutline({ id: 'non-existing' });
+        function create() {
+          outline.createOutline({ id: 'non-existing' });
+        }
 
         // then
-        expect(created).to.be.null;
+        expect(create).to.throw('cannot create outline for non-rendered element');
       }
     ));
 
