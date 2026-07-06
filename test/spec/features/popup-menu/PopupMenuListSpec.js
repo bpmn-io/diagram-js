@@ -48,6 +48,7 @@ function createPopupMenuList(options) {
     groupedEntries: [ ],
     selectedEntry: null,
     setSelectedEntry: () => {},
+    keyboardSelection: { current: false },
     onSelect: () => {},
     ...restProps
   };

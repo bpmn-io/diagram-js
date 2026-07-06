@@ -1586,6 +1586,7 @@ describe('features/popup-menu', function() {
 
       // when
       await act(function() {
+        queryPopup('.djs-popup-results').dispatchEvent(mouseMove());
         queryEntry('3').dispatchEvent(new MouseEvent('mouseenter'));
       });
 
@@ -1593,6 +1594,122 @@ describe('features/popup-menu', function() {
       await expectSelected('Entry 3');
 
       expect(scrollSpy).not.to.have.been.called;
+    }));
+
+  });
+
+
+  describe('mouse navigation', function() {
+
+    afterEach(restore);
+
+
+    var entries = [
+      { id: '1', label: 'Entry 1' },
+      { id: '2', label: 'Entry 2' },
+      { id: '3', label: 'Entry 3' }
+    ];
+
+    var testMenuProvider = {
+      getEntries: function() {
+        return entries;
+      }
+    };
+
+
+    it('should select on mouse hover', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+
+      await act(function() {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
+
+      // when
+      await act(function() {
+        queryPopup('.djs-popup-results').dispatchEvent(mouseMove());
+        queryEntry('3').dispatchEvent(new MouseEvent('mouseenter'));
+      });
+
+      // then
+      await expectSelected('Entry 3');
+    }));
+
+
+    it('should NOT steal selection on mouse enter while navigating with keyboard', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+
+      await act(function() {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
+
+      await act(function() {
+        queryPopup('.djs-popup').dispatchEvent(keyDown('ArrowDown'));
+      });
+
+      await expectSelected('Entry 2');
+
+      // when
+      await act(function() {
+        queryEntry('3').dispatchEvent(new MouseEvent('mouseenter'));
+      });
+
+      // then
+      await expectSelected('Entry 2');
+    }));
+
+
+    it('should deselect on mouse leave', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+
+      await act(function() {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
+
+      await act(function() {
+        queryPopup('.djs-popup-results').dispatchEvent(mouseMove());
+        queryEntry('3').dispatchEvent(new MouseEvent('mouseenter'));
+      });
+
+      await expectSelected('Entry 3');
+
+      // when
+      await act(function() {
+        queryEntry('3').dispatchEvent(new MouseEvent('mouseleave'));
+      });
+
+      // then
+      expect(queryPopup('.entry.selected')).not.to.exist;
+    }));
+
+
+    it('should NOT deselect on mouse leave while navigating with keyboard', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+
+      await act(function() {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
+
+      await act(function() {
+        queryPopup('.djs-popup').dispatchEvent(keyDown('ArrowDown'));
+      });
+
+      await expectSelected('Entry 2');
+
+      // when
+      await act(function() {
+        queryEntry('2').dispatchEvent(new MouseEvent('mouseleave'));
+      });
+
+      // then
+      await expectSelected('Entry 2');
     }));
 
   });
@@ -3208,6 +3325,13 @@ function keyUp(key) {
  */
 function keyDown(key) {
   return new KeyboardEvent('keydown', { key, bubbles: true });
+}
+
+/**
+ * @return {MouseEvent}
+ */
+function mouseMove() {
+  return new MouseEvent('mousemove', { bubbles: true });
 }
 
 /**
