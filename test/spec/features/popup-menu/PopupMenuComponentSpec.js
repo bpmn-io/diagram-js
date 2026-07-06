@@ -475,8 +475,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'Entry 3';
 
       // when
-      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
-      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      await act(async () => {
+        fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+        fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
@@ -494,8 +496,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'Entry';
 
       // when
-      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
-      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      await act(async () => {
+        fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+        fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(5);
@@ -517,8 +521,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'Foo bar';
 
       // when
-      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
-      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      await act(async () => {
+        fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+        fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(0);
@@ -535,8 +541,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = entries[0].description;
 
       // when
-      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
-      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      await act(async () => {
+        fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+        fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
@@ -553,8 +561,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = entries[4].search;
 
       // when
-      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
-      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      await act(async () => {
+        fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+        fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(1);
@@ -571,8 +581,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = entries[5].id;
 
       // when
-      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
-      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      await act(async () => {
+        fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+        fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      });
 
       // then
       expect(domQueryAll('.entry', container)).to.have.length(0);
@@ -588,8 +600,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       searchInput.value = 'entry';
 
       // when
-      fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
-      fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      await act(async () => {
+        fireEvent.keyDown(searchInput, { key: 'ArrowUp' });
+        fireEvent.keyUp(searchInput, { key: 'ArrowUp' });
+      });
 
       // then
       expect(domQuery('.entry[data-id="7"]', container)).to.not.exist;
@@ -626,8 +640,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
         searchInput.value = 'Entry';
 
         // when
-        fireEvent.keyDown(searchInput, { key: 'e' });
-        fireEvent.keyUp(searchInput, { key: 'e' });
+        await act(async () => {
+          fireEvent.keyDown(searchInput, { key: 'e' });
+          fireEvent.keyUp(searchInput, { key: 'e' });
+        });
 
         // then
         expect(domQueryAll('.entry-header', container)).to.have.length(0);
@@ -642,13 +658,17 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
         var searchInput = domQuery('.djs-popup-search input', container);
         searchInput.value = 'Entry';
-        fireEvent.keyDown(searchInput, { key: 'e' });
-        fireEvent.keyUp(searchInput, { key: 'e' });
+        await act(async () => {
+          fireEvent.keyDown(searchInput, { key: 'e' });
+          fireEvent.keyUp(searchInput, { key: 'e' });
+        });
 
         // when
         searchInput.value = '';
-        fireEvent.keyDown(searchInput, { key: 'Backspace' });
-        fireEvent.keyUp(searchInput, { key: 'Backspace' });
+        await act(async () => {
+          fireEvent.keyDown(searchInput, { key: 'Backspace' });
+          fireEvent.keyUp(searchInput, { key: 'Backspace' });
+        });
 
         // then
         expect(domQueryAll('.entry-header', container)).to.have.length(2);
