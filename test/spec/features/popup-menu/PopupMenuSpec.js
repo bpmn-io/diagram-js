@@ -1485,6 +1485,119 @@ describe('features/popup-menu', function() {
   });
 
 
+  describe('scroll selected into view', function() {
+
+    afterEach(restore);
+
+
+    var entries = [
+      { id: '1', label: 'Entry 1' },
+      { id: '2', label: 'Entry 2' },
+      { id: '3', label: 'Entry 3' }
+    ];
+
+    var testMenuProvider = {
+      getEntries: function() {
+        return entries;
+      }
+    };
+
+
+    it('should NOT scroll on open', inject(async function(popupMenu) {
+
+      // given
+      var scrollSpy = spyScrollIntoView();
+
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+
+      // when
+      await act(function() {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
+
+      // then
+      expect(scrollSpy).not.to.have.been.called;
+    }));
+
+
+    it('should scroll on keyboard navigation', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+
+      await act(function() {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
+
+      var scrollSpy = spyScrollIntoView();
+
+      // when
+      await act(function() {
+        queryPopup('.djs-popup').dispatchEvent(keyDown('ArrowDown'));
+      });
+
+      // then
+      await expectSelected('Entry 2');
+
+      expect(scrollSpy).to.have.been.called;
+    }));
+
+
+    it('should NOT scroll on mouse hover', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+
+      await act(function() {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
+
+      var scrollSpy = spyScrollIntoView();
+
+      // when
+      await act(function() {
+        queryEntry('3').dispatchEvent(new MouseEvent('mouseenter'));
+      });
+
+      // then
+      await expectSelected('Entry 3');
+
+      expect(scrollSpy).not.to.have.been.called;
+    }));
+
+
+    it('should NOT scroll on mouse hover after keyboard navigation', inject(async function(popupMenu) {
+
+      // given
+      popupMenu.registerProvider('test-menu', testMenuProvider);
+
+      await act(function() {
+        popupMenu.open({}, 'test-menu', { x: 100, y: 100 });
+      });
+
+      // navigate with keyboard first
+      await act(function() {
+        queryPopup('.djs-popup').dispatchEvent(keyDown('ArrowDown'));
+      });
+
+      await expectSelected('Entry 2');
+
+      var scrollSpy = spyScrollIntoView();
+
+      // when
+      await act(function() {
+        queryEntry('3').dispatchEvent(new MouseEvent('mouseenter'));
+      });
+
+      // then
+      await expectSelected('Entry 3');
+
+      expect(scrollSpy).not.to.have.been.called;
+    }));
+
+  });
+
+
   describe('search', function() {
 
     var testMenuProvider = {
@@ -3086,6 +3199,30 @@ async function expectSelected(expectedSelectedEntryLabel) {
  */
 function keyUp(key) {
   return new KeyboardEvent('keyup', { key, bubbles: true });
+}
+
+/**
+ * @param {string} key
+ *
+ * @return {KeyboardEvent}
+ */
+function keyDown(key) {
+  return new KeyboardEvent('keydown', { key, bubbles: true });
+}
+
+/**
+ * Spy on the scroll-into-view mechanism used by the popup menu list.
+ *
+ * @return {import('sinon').SinonSpy}
+ */
+function spyScrollIntoView() {
+  var proto = window.HTMLElement.prototype;
+
+  var method = typeof proto.scrollIntoViewIfNeeded === 'function'
+    ? 'scrollIntoViewIfNeeded'
+    : 'scrollIntoView';
+
+  return spy(proto, method);
 }
 
 /**
