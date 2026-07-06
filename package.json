@@ -76,7 +76,7 @@
     "sinon": "^22.0.0",
     "sinon-chai": "^4.0.0",
     "typescript": "^5.9.3",
-    "webpack": "^5.107.2"
+    "webpack": "^5.108.1"
   },
   "dependencies": {
     "@bpmn-io/diagram-js-ui": "^0.2.4",
