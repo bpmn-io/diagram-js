@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: add feature to keep selection visible ([#1038](https://github.com/bpmn-io/diagram-js/pull/1038))
+
 ## 15.22.0
 
 * `FEAT`: restore canvas focus in next render cycle ([#1081](https://github.com/bpmn-io/diagram-js/pull/1081))
