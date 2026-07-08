@@ -7,6 +7,7 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 _**Note:** Yet to be released changes appear here._
 
 * `FEAT`: add feature to keep selection visible ([#1038](https://github.com/bpmn-io/diagram-js/pull/1038))
+* `FEAT`: keep selection visible on element resize and move via API ([#1079](https://github.com/bpmn-io/diagram-js/pull/1079))
 
 ## 15.22.0
 

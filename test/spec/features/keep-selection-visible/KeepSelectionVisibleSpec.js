@@ -7,6 +7,8 @@ import {
 } from 'test/TestHelper';
 
 import coreModule from 'lib/core';
+import draggingModule from 'lib/features/dragging';
+import modelingModule from 'lib/features/modeling';
 import selectionModule from 'lib/features/selection';
 import keepSelectionVisibleModule from 'lib/features/keep-selection-visible';
 
@@ -231,6 +233,70 @@ describe('features/keep-selection-visible', function() {
   });
 
 
+  describe('#keepVisible', function() {
+
+    it('should scroll selection into view when invoked', inject(
+      function(canvas, keepSelectionVisible, selection) {
+
+        // given
+        act(() => {
+          selection.select(shape3);
+        });
+
+        shape3.x = 1200;
+
+        // when
+        keepSelectionVisible.keepVisible();
+
+        // then
+        expectSelectionInView(canvas, selection);
+      }
+    ));
+
+
+    it('should NOT scroll when selection still visible', inject(
+      function(canvas, keepSelectionVisible, selection) {
+
+        // given
+        act(() => {
+          selection.select(shape3);
+        });
+
+        var viewboxBefore = canvas.viewbox();
+
+        // when
+        keepSelectionVisible.keepVisible();
+
+        // then
+        expectViewboxUnchanged(canvas, viewboxBefore);
+      }
+    ));
+
+
+    it('should NOT scroll when selection was not visible before', inject(
+      function(canvas, keepSelectionVisible, selection) {
+
+        // given
+        act(() => {
+          selection.select(shape1);
+          canvas.scroll({ dx: -2000, dy: 0 });
+        });
+
+        var viewboxBefore = canvas.viewbox();
+
+        shape1.x = 1200;
+
+        // when
+        keepSelectionVisible.keepVisible();
+
+        // then
+        expectViewboxUnchanged(canvas, viewboxBefore);
+      }
+    ));
+
+  });
+
+
   describe('visibility flag tracking', function() {
 
     it('should not bring selection back after user scrolls it away', inject(
@@ -275,6 +341,153 @@ describe('features/keep-selection-visible', function() {
     ));
 
   });
+
+  describe('scroll adjustment on element change', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [
+        coreModule,
+        draggingModule,
+        modelingModule,
+        selectionModule,
+        keepSelectionVisibleModule
+      ],
+      canvas: {
+        width: 800,
+        height: 600
+      }
+    }));
+
+    beforeEach(inject(function(canvas) {
+
+      shape1 = canvas.addShape({
+        id: 'shape1', x: 700, y: 200, width: 100, height: 100
+      });
+
+      shape3 = canvas.addShape({
+        id: 'shape3', x: 10, y: 10, width: 100, height: 100
+      });
+    }));
+
+
+    it('should keep selection visible when selected element is moved via API', inject(
+      function(canvas, modeling, selection) {
+
+        // given
+        act(() => {
+          selection.select(shape3);
+        });
+
+        // when
+        modeling.moveElements([ shape3 ], { x: 1200, y: 0 });
+
+        // then
+        expectSelectionInView(canvas, selection);
+      }
+    ));
+
+
+    it('should keep selection visible when selected element is resized via API', inject(
+      function(canvas, modeling, selection) {
+
+        // given
+        act(() => {
+          selection.select(shape3);
+        });
+
+        // when
+        modeling.resizeShape(shape3, { x: 500, y: 10, width: 400, height: 100 });
+
+        // then
+        expectSelectionInView(canvas, selection);
+      }
+    ));
+
+
+    it('should keep selection visible on undo', inject(
+      function(canvas, commandStack, modeling, selection) {
+
+        // given
+        act(() => {
+          selection.select(shape3);
+        });
+
+        act(() => {
+          modeling.moveElements([ shape3 ], { x: 1200, y: 0 });
+        });
+
+        // when
+        commandStack.undo();
+
+        // then
+        expectSelectionInView(canvas, selection);
+      }
+    ));
+
+
+    it('should NOT scroll when unselected element is moved via API', inject(
+      function(canvas, modeling, selection) {
+
+        // given
+        act(() => {
+          selection.select(shape3);
+        });
+
+        var viewboxBefore = canvas.viewbox();
+
+        // when
+        modeling.moveElements([ shape1 ], { x: 1200, y: 0 });
+
+        // then
+        expectViewboxUnchanged(canvas, viewboxBefore);
+      }
+    ));
+
+
+    it('should NOT scroll when selection was not visible before', inject(
+      function(canvas, modeling, selection) {
+
+        // given
+        act(() => {
+          selection.select(shape1);
+          canvas.scroll({ dx: -2000, dy: 0 });
+        });
+
+        var viewboxBefore = canvas.viewbox();
+
+        // when
+        modeling.moveElements([ shape1 ], { x: 100, y: 0 });
+
+        // then
+        expectViewboxUnchanged(canvas, viewboxBefore);
+      }
+    ));
+
+
+    it('should NOT scroll when element is moved interactively', inject(
+      function(canvas, dragging, modeling, selection) {
+
+        // given
+        act(() => {
+          selection.select(shape3);
+        });
+
+        var viewboxBefore = canvas.viewbox();
+
+        dragging.context = function() {
+          return {};
+        };
+
+        // when
+        modeling.moveElements([ shape3 ], { x: 1200, y: 0 });
+
+        // then
+        expectViewboxUnchanged(canvas, viewboxBefore);
+      }
+    ));
+
+  });
+
 
 });
 
