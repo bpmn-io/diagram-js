@@ -1927,6 +1927,24 @@ describe('features/popup-menu - <PopupMenu>', function() {
         expect(document.activeElement).to.equal(link);
       });
 
+
+      it('should not trigger selected entry when pressing <Enter> on footer documentation link', async function() {
+
+        // given
+        const onSelect = spy();
+
+        await createPopupMenu({ container, entries: docEntries, onSelect });
+
+        const link = domQuery('.djs-popup-footer-docs', container);
+
+        // when
+        link.focus();
+        fireEvent.keyDown(link, { key: 'Enter' });
+
+        // then
+        expect(onSelect).not.to.have.been.called;
+      });
+
     });
 
 
