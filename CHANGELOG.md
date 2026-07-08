@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.20.1
+
+ * `FIX`: allow triggering popup menu documentation link via `ENTER` ([#1076](https://github.com/bpmn-io/diagram-js/pull/1076))
+
 ## 15.20.0
 
 * `FEAT`: improve aural interface / accessibility of popup menu ([#1059](https://github.com/bpmn-io/diagram-js/pull/1059), [#735](https://github.com/bpmn-io/diagram-js/issues/735))
