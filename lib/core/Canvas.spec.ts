@@ -98,6 +98,8 @@ canvas.findRoot(shapeLike);
 
 canvas.findRoot(connectionLike);
 
+canvas.findRoot([ shape1, connectionLike ]);
+
 canvas.getAbsoluteBBox(shape1);
 
 canvas.getAbsoluteBBox(shapeLike);
