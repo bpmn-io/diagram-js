@@ -877,6 +877,54 @@ describe('core/Canvas', function() {
     }));
 
 
+    describe('#findRoot', function() {
+
+      it('should find self for root element', inject(function(canvas) {
+
+        // given
+        var root = canvas.setRootElement({ id: 'root' });
+
+        // when
+        var foundRoot = canvas.findRoot(root);
+
+        // then
+        expect(foundRoot).to.equal(root);
+      }));
+
+
+      it('should find shared root for multiple elements', inject(function(canvas) {
+
+        // given
+        var root = canvas.setRootElement({ id: 'root' });
+        var shape = canvas.addShape({ id: 'shape', x: 10, y: 10, width: 100, height: 100 }, root);
+
+        // when
+        var foundRoot = canvas.findRoot([ root, shape ]);
+
+        // then
+        expect(foundRoot).to.equal(root);
+      }));
+
+
+      it('should not find root for elements on different roots', inject(function(canvas) {
+
+        // given
+        var rootA = canvas.setRootElement({ id: 'rootA' });
+        var shapeA = canvas.addShape({ id: 'shapeA', x: 10, y: 10, width: 100, height: 100 }, rootA);
+
+        var rootB = canvas.addRootElement({ id: 'rootB' });
+        canvas.addShape({ id: 'shapeB', x: 20, y: 20, width: 100, height: 100 }, rootB);
+
+        // when
+        var foundRoot = canvas.findRoot([ shapeA, 'shapeB' ]);
+
+        // then
+        expect(foundRoot).not.to.exist;
+      }));
+
+    });
+
+
     describe('#removeRootElement', function() {
 
       it('should remove root element', inject(function(canvas, elementRegistry) {
