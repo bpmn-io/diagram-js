@@ -232,6 +232,39 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
+  it('should NOT apply custom width if not provided', async function() {
+
+    // when
+    await createPopupMenu({
+      container
+    });
+
+    const popup = domQuery(
+      '.djs-popup', container
+    );
+
+    // then
+    expect(popup.style.width).to.eql('');
+  });
+
+
+  it('should apply custom width (over limit)', async function() {
+
+    // when
+    await createPopupMenu({
+      container,
+      width: 400
+    });
+
+    const popup = domQuery(
+      '.djs-popup', container
+    );
+
+    // then
+    expect(getComputedStyle(popup).width).to.eql('400px');
+  });
+
+
   describe('close', function() {
 
     it('should close on background click', async function() {
