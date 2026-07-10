@@ -371,6 +371,9 @@ describe('features/search-pad', function() {
 
   describe('results', function() {
 
+    // increase timeout for slower CI environments (e.g. macOS runners)
+    this.timeout(10000);
+
     beforeEach(inject(function(selection, searchPad) {
 
       // given
