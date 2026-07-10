@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.21.0
+
+* `FEAT`: use auto width with max value of 300px for popup menu ([#1078](https://github.com/bpmn-io/diagram-js/pull/1078))
+
 ## 15.20.1
 
  * `FIX`: allow triggering popup menu documentation link via `ENTER` ([#1076](https://github.com/bpmn-io/diagram-js/pull/1076))
