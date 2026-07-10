@@ -343,9 +343,6 @@ describe('features/snapping - CreateMoveSnapping', function() {
 
       describe('shape', function() {
 
-        // increase timeout for slower CI environments (e.g. macOS runners)
-        this.timeout(10000);
-
         var shape3;
 
         beforeEach(inject(function(canvas, dragging, elementFactory, move) {
