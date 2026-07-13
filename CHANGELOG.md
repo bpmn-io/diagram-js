@@ -6,6 +6,9 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.22.0
+
+* `FEAT`: restore canvas focus in next render cycle ([#1081](https://github.com/bpmn-io/diagram-js/pull/1081))
 * `DEPS`: update to `min-dash@5.1.0`
 
 ## 15.21.0
