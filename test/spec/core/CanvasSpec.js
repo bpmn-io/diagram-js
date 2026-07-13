@@ -198,8 +198,15 @@ describe('core/Canvas', function() {
 
   describe('focus handling <config.autoFocus>', function() {
 
+    var clock;
+
     beforeEach(function() {
       container = TestContainer.get(this);
+      clock = useFakeTimers();
+    });
+
+    afterEach(function() {
+      clock.restore();
     });
 
     beforeEach(createDiagram({
@@ -214,6 +221,8 @@ describe('core/Canvas', function() {
       // given
       var svg = container.querySelector('svg');
 
+      document.body.focus();
+
       // when
       eventBus.fire('element.hover', {
         element: canvas.getRootElement(),
@@ -221,6 +230,10 @@ describe('core/Canvas', function() {
       });
 
       // then
+      expect(document.activeElement).to.equal(document.body);
+
+      clock.tick(0);
+
       expect(document.activeElement).to.equal(svg);
     }));
 
@@ -360,6 +373,70 @@ describe('core/Canvas', function() {
       // then
       // focus is not triggered again
       expect(refocusSpy).not.to.have.been.called;
+    }));
+
+  });
+
+
+  describe('#restoreFocus', function() {
+
+    var clock;
+
+    /**
+     * @type { HTMLElement }
+     */
+    let inputEl;
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+      clock = useFakeTimers();
+    });
+
+    afterEach(function() {
+      clock.restore();
+      inputEl && inputEl.remove();
+    });
+
+    beforeEach(createDiagram());
+
+
+    it('should restore focus asynchronously', inject(function(canvas) {
+
+      // given
+      var svg = container.querySelector('svg');
+
+      document.body.focus();
+
+      // when
+      canvas.restoreFocus();
+
+      // then
+      expect(document.activeElement).to.equal(document.body);
+
+      // but when...
+      clock.tick(0);
+
+      // then
+      expect(document.activeElement).to.equal(svg);
+    }));
+
+
+    it('should not restore focus if document focus changed in the meantime', inject(function(canvas) {
+
+      // given
+      inputEl = document.createElement('input');
+
+      document.body.appendChild(inputEl);
+      document.body.focus();
+
+      // when
+      canvas.restoreFocus();
+      inputEl.focus();
+
+      // then
+      clock.tick(0);
+
+      expect(document.activeElement).to.equal(inputEl);
     }));
 
   });
