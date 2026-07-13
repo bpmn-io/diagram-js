@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `DEPS`: update to `min-dash@5.1.0`
+
 ## 15.21.0
 
 * `FEAT`: use auto width with max value of 300px for popup menu ([#1078](https://github.com/bpmn-io/diagram-js/pull/1078))
