@@ -232,6 +232,24 @@ describe('features/popup-menu - <PopupMenu>', function() {
   });
 
 
+  it('should apply custom width via css variable', async function() {
+
+    // when
+    await createPopupMenu({
+      container,
+      width: 'var(--foo, 360px)'
+    });
+
+    const popup = domQuery(
+      '.djs-popup', container
+    );
+
+    // then
+    expect(popup.style.width).to.eql('var(--foo, 360px)');
+    expect(getComputedStyle(popup).width).to.eql('360px');
+  });
+
+
   it('should NOT apply custom width if not provided', async function() {
 
     // when
