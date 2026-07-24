@@ -147,6 +147,11 @@
   display: none;
 }
 
+.djs-connection.selected .djs-visual path {
+    stroke: var(--element-selected-outline-stroke-color) !important;
+    fill: var(--element-selected-outline-stroke-color) !important;
+}
+
 .djs-multi-select .djs-element.selected .djs-outline,
 .djs-dragging-active-lasso .djs-element.selected .djs-outline {
   stroke: var(--element-selected-outline-secondary-stroke-color);
