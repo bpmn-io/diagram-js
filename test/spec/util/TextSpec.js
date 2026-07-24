@@ -122,11 +122,7 @@ describe('util - Text', function() {
 
     svgAppend(container, element);
 
-    var bbox = element.getBBox();
-
     drawRect({
-      x: bbox.x,
-      y: bbox.y,
       width: dimensions.width,
       height: dimensions.height
     }, { strokeWidth: '1px', stroke: 'fuchsia' });
