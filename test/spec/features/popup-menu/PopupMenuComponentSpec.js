@@ -1288,6 +1288,84 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
+    describe('entry actions (documentation link + chevron)', function() {
+
+      const actionEntries = [
+        {
+          id: 'both',
+          label: 'Both',
+          documentationRef: 'https://example.com/docs',
+          entries: [
+            { id: 'both-child', label: 'Child', action: () => {} }
+          ]
+        },
+        {
+          id: 'docs-only',
+          label: 'Docs only',
+          documentationRef: 'https://example.com/docs',
+          action: () => {}
+        },
+        {
+          id: 'chevron-only',
+          label: 'Chevron only',
+          entries: [
+            { id: 'chevron-child', label: 'Child', action: () => {} }
+          ]
+        },
+        {
+          id: 'plain',
+          label: 'Plain',
+          action: () => {}
+        }
+      ];
+
+
+      it('should render documentation link and chevron as siblings in one actions container', async function() {
+
+        // when
+        await createPopupMenu({ container, entries: actionEntries });
+
+        // then
+        const actions = domQuery('.entry[data-id="both"] .djs-popup-entry-actions', container);
+
+        expect(actions).to.exist;
+        expect(domQuery('.djs-popup-entry-docs', actions)).to.exist;
+        expect(domQuery('.djs-popup-entry-chevron', actions)).to.exist;
+      });
+
+
+      it('should render the actions container for a single-affordance entry', async function() {
+
+        // when
+        await createPopupMenu({ container, entries: actionEntries });
+
+        // then
+        const docsOnly = domQuery('.entry[data-id="docs-only"] .djs-popup-entry-actions', container);
+
+        expect(docsOnly).to.exist;
+        expect(domQuery('.djs-popup-entry-docs', docsOnly)).to.exist;
+        expect(domQuery('.djs-popup-entry-chevron', docsOnly)).not.to.exist;
+
+        const chevronOnly = domQuery('.entry[data-id="chevron-only"] .djs-popup-entry-actions', container);
+
+        expect(chevronOnly).to.exist;
+        expect(domQuery('.djs-popup-entry-chevron', chevronOnly)).to.exist;
+        expect(domQuery('.djs-popup-entry-docs', chevronOnly)).not.to.exist;
+      });
+
+
+      it('should not render the actions container when no affordance is present', async function() {
+
+        // when
+        await createPopupMenu({ container, entries: actionEntries });
+
+        // then
+        expect(domQuery('.entry[data-id="plain"] .djs-popup-entry-actions', container)).not.to.exist;
+      });
+
+    });
+
+
     it('should not close popup on click of navigate entry', async function() {
 
       // given
