@@ -100,6 +100,13 @@
   --tooltip-error-background-color: var(--color-red-360-100-97);
   --tooltip-error-border-color: var(--color-red-360-100-45);
   --tooltip-error-color: var(--color-red-360-100-45);
+
+  --hover-tooltip-font-family: "IBM Plex Sans", sans-serif;
+  --hover-tooltip-background-color: var(--color-grey-225-10-15);
+  --hover-tooltip-color: var(--color-white);
+  --hover-tooltip-shadow-color: var(--color-black-opacity-10);
+
+  --palette-tooltip-shortcut-background-color: var(--color-grey-225-10-35);
 }
 
 /**
@@ -482,6 +489,49 @@
 
 .djs-palette.open .djs-palette-toggle {
   display: none;
+}
+
+.djs-hover-tooltip {
+  position: fixed;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 10px;
+  border-radius: 4px;
+
+  background-color: var(--hover-tooltip-background-color);
+  color: var(--hover-tooltip-color);
+
+  font-family: var(--hover-tooltip-font-family);
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  pointer-events: none;
+  box-shadow: 0 1px 4px var(--hover-tooltip-shadow-color);
+}
+
+.djs-hover-tooltip--right {
+  transform: translateY(-50%);
+}
+
+.djs-hover-tooltip--top {
+  transform: translate(-50%, -100%);
+}
+
+.djs-palette-tooltip-shortcut {
+  padding: 1px 5px;
+
+  border-radius: 3px;
+
+  background-color: var(--palette-tooltip-shortcut-background-color);
+
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 1.2;
 }
 
 /**
