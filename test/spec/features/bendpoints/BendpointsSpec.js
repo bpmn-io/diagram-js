@@ -770,6 +770,56 @@ describe('features/bendpoints', function() {
 
   });
 
+
+  describe('interaction events', function() {
+
+    // dispatch a native DOM mouse event so it passes through the actual
+    // interaction event delegation that is wired up on the root SVG element
+    function triggerMouseEvent(type, gfx) {
+      var event = document.createEvent('MouseEvent');
+
+      event.initMouseEvent(
+        type, true, true, window,
+        0, 0, 0, 0, 0,
+        false, false, false, false, 0, null
+      );
+
+      return gfx.dispatchEvent(event);
+    }
+
+
+    // ensure the bendpoints feature does not de-register the global
+    // <element.mousemove> interaction event as a side effect of handling
+    // <element.out> on the root element
+    //
+    // cf. https://github.com/bpmn-io/diagram-js/issues/965
+    it('should keep firing <element.mousemove> after <element.out> on root', inject(
+      function(canvas, eventBus, elementRegistry) {
+
+        // given
+        var rootGfx = elementRegistry.getGraphics(canvas.getRootElement()),
+            shapeGfx = elementRegistry.getGraphics(shape1);
+
+        // leaving the root SVG element
+        triggerMouseEvent('mouseout', rootGfx);
+
+        var moveSpy = spy();
+
+        eventBus.once('element.mousemove', moveSpy);
+
+        // when
+        // moving the mouse over a shape
+        triggerMouseEvent('mousemove', shapeGfx);
+
+        // then
+        // <element.mousemove> is still propagated to the shape
+        expect(moveSpy).to.have.been.calledOnce;
+        expect(moveSpy.getCall(0).args[0].element).to.equal(shape1);
+      }
+    ));
+
+  });
+
 });
 
 
