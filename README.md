@@ -1,6 +1,7 @@
 # diagram-js
 
 [![CI](https://github.com/bpmn-io/diagram-js/workflows/CI/badge.svg)](https://github.com/bpmn-io/diagram-js/actions?query=workflow%3ACI)
+[![Plumber Score](https://score.getplumber.io/github.com/bpmn-io/diagram-js.svg)](https://score.getplumber.io/github.com/bpmn-io/diagram-js)
 
 A toolbox for displaying and modifying diagrams on the web.
 
