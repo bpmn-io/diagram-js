@@ -91,6 +91,40 @@ describe('features/outline - Outline', function() {
     ));
 
 
+    it('should not create outline for root on hover', inject(
+      function(canvas, eventBus, elementRegistry) {
+
+        // given
+        var root = canvas.getRootElement();
+
+        // when
+        eventBus.fire('element.hover', { element: root });
+
+        // then
+        var gfx = elementRegistry.getGraphics(root);
+
+        expect(domQuery('.djs-outline', gfx)).not.to.exist;
+      }
+    ));
+
+
+    it('should not create outline for root on selection', inject(
+      function(canvas, eventBus, elementRegistry) {
+
+        // given
+        var root = canvas.getRootElement();
+
+        // when
+        eventBus.fire('selection.changed', { newSelection: [ root ] });
+
+        // then
+        var gfx = elementRegistry.getGraphics(root);
+
+        expect(domQuery('.djs-outline', gfx)).not.to.exist;
+      }
+    ));
+
+
     it('should create outline only once', inject(
       function(canvas, eventBus, selection, elementRegistry) {
 
