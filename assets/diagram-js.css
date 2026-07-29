@@ -153,6 +153,10 @@
   display: block;
 }
 
+.djs-outline-hidden .djs-outline {
+  display: none !important;
+}
+
 .djs-shape.connect-ok .djs-visual > :nth-child(1) {
   fill: var(--shape-connect-allowed-fill-color) !important;
 }
