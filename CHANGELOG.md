@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.23.2
+
+* `FIX`: support hiding element outlines ([#1094](https://github.com/bpmn-io/diagram-js/pull/1094))
+
 ## 15.23.1
 
 * `FIX`: do not create outline for root element ([#1093](https://github.com/bpmn-io/diagram-js/pull/1093))
