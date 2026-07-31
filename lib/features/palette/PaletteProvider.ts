@@ -7,6 +7,7 @@ export type PaletteEntry = {
   html?: string;
   imageUrl?: string;
   separator?: boolean;
+  shortcut?: string;
   title?: string;
 };
 
