@@ -857,6 +857,7 @@
   visibility: hidden;
   padding: 2px 3px;
   color: var(--popup-description-color);
+  background: #fff;
   border: 1px solid var(--popup-search-border-color);
   border-radius: 4px;
   cursor: pointer;
@@ -868,9 +869,7 @@
 }
 
 .djs-popup-body .entry .djs-popup-entry-docs:hover {
-  color: var(--popup-entry-title-color);
-  background: var(--color-grey-225-10-90);
-  border-color: var(--color-grey-225-10-55);
+  background: #f2f3f5;
 }
 
 .djs-popup-entry-docs svg {
