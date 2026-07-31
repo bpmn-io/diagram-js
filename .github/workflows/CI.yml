@@ -14,16 +14,16 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v7
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Use Node.js
-      uses: actions/setup-node@v7
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: 24
         cache: 'npm'
     - name: Install dependencies
       run: npm ci
     - name: Setup project
-      uses: bpmn-io/actions/setup@latest
+      uses: bpmn-io/actions/setup@0b748d8b9d89e51077fff957a29e42135fe0dd2f # latest
     - name: Build (with coverage)
       if: matrix.browser == 'ChromeHeadless'
       env:
@@ -37,7 +37,7 @@ jobs:
       run: xvfb-run npm run all
     - name: Upload coverage
       if: matrix.browser == 'ChromeHeadless'
-      uses: codecov/codecov-action@v7
+      uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
       with:
         fail_ci_if_error: true
       env:
@@ -55,16 +55,16 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v7
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Use Node.js
-      uses: actions/setup-node@v7
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: 24
         cache: 'npm'
     - name: Install dependencies
       run: npm ci
     - name: Setup project
-      uses: bpmn-io/actions/setup@latest
+      uses: bpmn-io/actions/setup@0b748d8b9d89e51077fff957a29e42135fe0dd2f # latest
     - name: Build
       env:
         TEST_BROWSERS: ${{ matrix.browser }}
