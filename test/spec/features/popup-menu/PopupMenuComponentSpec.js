@@ -132,6 +132,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     expect(popupBounds.y).to.be.closeTo(100, 1);
   });
 
+
   it('should render disabled entry', async function() {
 
     // given
@@ -690,6 +691,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         { id: '6', label: 'Entry 6', group: { id: 'b', name: 'Group B' } }
       ];
 
+
       it('should keep groups when not searching', async function() {
 
         // given
@@ -742,6 +744,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         // then
         expect(domQueryAll('.entry-header', container)).to.have.length(2);
       });
+
     });
 
 
@@ -795,6 +798,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       { id: '2', label: 'Entry 2' },
       { id: '3', label: 'Entry 3' }
     ];
+
 
     it('should select entry on hover', async function() {
 
@@ -2033,10 +2037,10 @@ describe('features/popup-menu - <PopupMenu>', function() {
       render(null, otherContainer);
       document.body.removeChild(otherContainer);
     });
+
   });
 
 
-  // helpers
   describe('tabs', function() {
 
     const REUSABLE_TAB = { id: 'reusable', label: 'Reusable' };
@@ -2434,6 +2438,8 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
   });
 
+
+  // helpers
   async function createPopupMenu(options) {
 
     const {
