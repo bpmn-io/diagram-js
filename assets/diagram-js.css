@@ -621,11 +621,34 @@
   margin: 10px 12px;
 }
 
+.djs-popup-tabs-container {
+  position: relative;
+  border-bottom: solid 1px var(--popup-tab-strip-border-color);
+}
+
+.djs-popup-tabs-container:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 1px;
+  width: 24px;
+  pointer-events: none;
+  background: linear-gradient(to right, transparent, var(--popup-background-color));
+}
+
 .djs-popup-tabs {
   display: flex;
+  flex-wrap: nowrap;
   gap: 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 0 12px;
-  border-bottom: solid 1px var(--popup-tab-strip-border-color);
+  scrollbar-width: none;
+}
+
+.djs-popup-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .djs-popup-tab {
@@ -634,11 +657,13 @@
   border: none;
   border-bottom: solid 2px transparent;
   border-radius: 0;
+  flex: 0 0 auto;
   padding: 6px 10px;
   font: inherit;
   font-size: var(--popup-font-size);
   color: var(--popup-tab-color);
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .djs-popup-tab:hover {

@@ -2055,6 +2055,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
       { id: 'entry-4', label: 'Entry 4', action: () => {} }
     ];
 
+    const manyTabEntries = [
+      { id: 'first-entry', label: 'First entry', tab: { id: 'first', label: 'First tab' }, action: () => {} },
+      { id: 'second-entry', label: 'Second entry', tab: { id: 'second', label: 'Second tab' }, action: () => {} },
+      { id: 'third-entry', label: 'Third entry', tab: { id: 'third', label: 'Third tab' }, action: () => {} },
+      { id: 'fourth-entry', label: 'Fourth entry', tab: { id: 'fourth', label: 'Fourth tab' }, action: () => {} },
+      { id: 'fifth-entry', label: 'Fifth entry', tab: { id: 'fifth', label: 'Fifth tab' }, action: () => {} }
+    ];
+
     it('should render tab strip when entries carry distinct tabs', async function() {
 
       // when
@@ -2401,6 +2409,31 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // then
       const selected = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-selected'));
       expect(selected).to.eql([ 'true', 'false' ]);
+    });
+
+
+    it('should scroll active tab into view', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: manyTabEntries });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+      const lastTab = strip.children[4];
+      const method = typeof lastTab.scrollIntoViewIfNeeded === 'function'
+        ? 'scrollIntoViewIfNeeded'
+        : 'scrollIntoView';
+      const scrollIntoView = spy();
+
+      lastTab[method] = scrollIntoView;
+      strip.children[0].focus();
+
+      // when
+      await act(() => {
+        fireEvent.keyDown(strip.children[0], { key: 'End' });
+      });
+
+      // then
+      expect(scrollIntoView).to.have.been.called;
     });
 
 
