@@ -2,6 +2,22 @@ import type { VNode } from '@bpmn-io/diagram-js-ui';
 
 import type { PopupMenuTarget } from './PopupMenu.js';
 
+/**
+ * A tab partitioning popup menu entries. Entries carrying the same `tab.id`
+ * are shown together; entries without a `tab` belong to the default tab
+ * (`config.popupMenu.defaultTab`). The tab strip renders only when at least
+ * two distinct tabs exist.
+ */
+export type PopupMenuTab = {
+  id: string;
+  label: string;
+
+  /**
+   * Explanatory hover text, surfaced as the tab button's `title`.
+   */
+  title?: string;
+};
+
 export type PopupMenuEntryAction = (
   event: Event,
   entry: PopupMenuActionEntry,
@@ -21,6 +37,7 @@ type PopupMenuEntryBase = {
   rank?: number;
   search?: string | string[];
   searchable?: boolean;
+  tab?: PopupMenuTab;
 };
 
 /**

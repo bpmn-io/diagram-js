@@ -72,6 +72,12 @@
   --popup-search-border-color: var(--color-grey-225-10-75);
   --popup-search-focus-border-color: var(--color-blue-205-100-50);
   --popup-search-focus-background-color: var(--color-blue-205-100-95);
+  --popup-tab-color: var(--color-grey-225-10-55);
+  --popup-tab-hover-color: var(--color-grey-225-10-15);
+  --popup-tab-active-color: var(--color-grey-225-10-15);
+  --popup-tab-active-border-color: var(--color-blue-205-100-50);
+  --popup-tab-strip-border-color: var(--color-grey-225-10-90);
+  --popup-tab-focus-border-color: var(--color-blue-205-100-50);
 
   --resizer-fill-color: var(--color-blue-205-100-45);
   --resizer-stroke-color: var(--canvas-fill-color);
@@ -613,6 +619,41 @@
   position: relative;
   width: auto;
   margin: 10px 12px;
+}
+
+.djs-popup-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 12px;
+  border-bottom: solid 1px var(--popup-tab-strip-border-color);
+}
+
+.djs-popup-tab {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-bottom: solid 2px transparent;
+  border-radius: 0;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: var(--popup-font-size);
+  color: var(--popup-tab-color);
+  cursor: pointer;
+}
+
+.djs-popup-tab:hover {
+  color: var(--popup-tab-hover-color);
+}
+
+.djs-popup-tab:focus-visible {
+  outline: solid 1px var(--popup-tab-focus-border-color);
+  outline-offset: -2px;
+}
+
+.djs-popup-tab[aria-selected="true"] {
+  color: var(--popup-tab-active-color);
+  border-bottom-color: var(--popup-tab-active-border-color);
+  font-weight: var(--popup-header-font-weight);
 }
 
 .djs-popup-title {
