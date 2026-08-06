@@ -132,6 +132,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     expect(popupBounds.y).to.be.closeTo(100, 1);
   });
 
+
   it('should render disabled entry', async function() {
 
     // given
@@ -690,6 +691,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         { id: '6', label: 'Entry 6', group: { id: 'b', name: 'Group B' } }
       ];
 
+
       it('should keep groups when not searching', async function() {
 
         // given
@@ -742,6 +744,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
         // then
         expect(domQueryAll('.entry-header', container)).to.have.length(2);
       });
+
     });
 
 
@@ -795,6 +798,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       { id: '2', label: 'Entry 2' },
       { id: '3', label: 'Entry 3' }
     ];
+
 
     it('should select entry on hover', async function() {
 
@@ -2032,6 +2036,438 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // cleanup
       render(null, otherContainer);
       document.body.removeChild(otherContainer);
+    });
+
+  });
+
+
+  describe('tabs', function() {
+
+    const CUSTOM_TAB = { id: 'custom', label: 'Custom' };
+    const DEFAULT_TAB = { id: 'default', label: 'Default' };
+
+    const tabEntries = [
+      { id: 'entry-1', label: 'Entry 1', action: () => {} },
+      { id: 'entry-2', label: 'Entry 2', action: () => {} },
+      { id: 'custom-entry-1', label: 'Custom Entry 1', tab: CUSTOM_TAB, action: () => {} },
+      { id: 'custom-entry-2', label: 'Custom Entry 2', tab: CUSTOM_TAB, action: () => {} },
+      { id: 'entry-3', label: 'Entry 3', action: () => {} },
+      { id: 'entry-4', label: 'Entry 4', action: () => {} }
+    ];
+
+    const manyTabEntries = [
+      { id: 'first-entry', label: 'First entry', tab: { id: 'first', label: 'First tab' }, action: () => {} },
+      { id: 'second-entry', label: 'Second entry', tab: { id: 'second', label: 'Second tab' }, action: () => {} },
+      { id: 'third-entry', label: 'Third entry', tab: { id: 'third', label: 'Third tab' }, action: () => {} },
+      { id: 'fourth-entry', label: 'Fourth entry', tab: { id: 'fourth', label: 'Fourth tab' }, action: () => {} },
+      { id: 'fifth-entry', label: 'Fifth entry', tab: { id: 'fifth', label: 'Fifth tab' }, action: () => {} }
+    ];
+
+    it('should render tab strip when entries carry distinct tabs', async function() {
+
+      // when
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      // then
+      const tabs = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.textContent.trim());
+      expect(tabs).to.eql([ 'Default', 'Custom' ]);
+    });
+
+
+    it('should not render tab strip without tabbed entries', async function() {
+
+      // given
+      const entries = tabEntries.filter(entry => !entry.tab);
+
+      // when
+      await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB });
+
+      // then
+      expect(domQuery('.djs-popup-tabs', container)).not.to.exist;
+    });
+
+
+    it('should not render a default tab when every entry is tabbed', async function() {
+
+      // given
+      const entries = tabEntries.filter(entry => entry.tab);
+
+      // when
+      await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB });
+
+      // then
+      expect(domQuery('.djs-popup-tabs', container)).not.to.exist;
+    });
+
+
+    it('should stay untabbed when untagged entries have no default tab', async function() {
+
+      // when
+      await createPopupMenu({ container, entries: tabEntries });
+
+      // then
+      expect(domQuery('.djs-popup-tabs', container)).not.to.exist;
+    });
+
+
+    it('should keep the default tab when entries tag it explicitly', async function() {
+
+      // given
+      const entries = tabEntries.map(entry => ({ ...entry, tab: entry.tab || DEFAULT_TAB }));
+
+      // when
+      await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB });
+
+      // then
+      const tabs = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.textContent.trim());
+      expect(tabs).to.eql([ 'Default', 'Custom' ]);
+    });
+
+
+    it('should show default tab entries initially', async function() {
+
+      // when
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      // then
+      const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent.trim());
+      expect(labels).to.eql([ 'Entry 1', 'Entry 2', 'Entry 3', 'Entry 4' ]);
+    });
+
+
+    it('should switch entries on tab select', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      // when
+      await act(() => {
+        fireEvent.click(domQueryAll('.djs-popup-tab', container)[1]);
+      });
+
+      // then
+      const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent.trim());
+      expect(labels).to.eql([ 'Custom Entry 1', 'Custom Entry 2' ]);
+
+      const selected = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-selected'));
+      expect(selected).to.eql([ 'false', 'true' ]);
+    });
+
+
+    it('should search globally across tabs', async function() {
+
+      // given
+      const entries = [
+        { id: 'search-default', label: 'Search Default', group: { id: 'default', name: 'Default' }, action: () => {} },
+        {
+          id: 'search-custom',
+          label: 'Search Custom',
+          tab: CUSTOM_TAB,
+          group: { id: 'custom', name: 'Custom' },
+          action: () => {}
+        },
+        ...tabEntries
+      ];
+
+      await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB, search: true });
+
+      const input = domQuery('.djs-popup-search input', container);
+      input.value = 'search';
+
+      // when
+      fireEvent.keyUp(input, { key: 'd' });
+
+      // then
+      const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent.trim());
+      expect(labels).to.have.members([ 'Search Default', 'Search Custom' ]);
+    });
+
+
+    it('should hide tab strip while searching', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, search: true });
+
+      const input = domQuery('.djs-popup-search input', container);
+      input.value = 'custom';
+
+      // when
+      fireEvent.keyUp(input, { key: 'r' });
+
+      // then
+      expect(domQuery('.djs-popup-tabs', container)).not.to.exist;
+    });
+
+
+    it('should restore active tab after clearing search', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, search: true });
+
+      await act(() => {
+        fireEvent.click(domQueryAll('.djs-popup-tab', container)[1]);
+      });
+
+      const input = domQuery('.djs-popup-search input', container);
+      input.value = 'custom';
+      fireEvent.keyUp(input, { key: 'k' });
+
+      // when
+      input.value = '';
+      fireEvent.keyUp(input, { key: 'Backspace' });
+
+      // then
+      const selected = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-selected'));
+      expect(selected).to.eql([ 'false', 'true' ]);
+
+      const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent.trim());
+      expect(labels).to.eql([ 'Custom Entry 1', 'Custom Entry 2' ]);
+    });
+
+
+    it('should hide tab strip while drilled into a step entry', async function() {
+
+      // given
+
+      // the step entry comes first so it is the initially selected
+      // entry (drill-down acts on the selected entry)
+      const entries = [
+        {
+          id: 'multi-step',
+          label: 'Multi step',
+          entries: [
+            { id: 'step-1', label: 'Step 1', action: () => {} }
+          ]
+        },
+        ...tabEntries
+      ];
+
+      await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB });
+
+      // when
+      await act(() => {
+        fireEvent.click(domQuery('.entry[data-id="multi-step"]', container));
+      });
+
+      // then
+      expect(domQuery('.djs-popup-tabs', container)).not.to.exist;
+      expect(domQuery('.djs-popup-breadcrumbs', container)).to.exist;
+    });
+
+
+    it('should switch tabs with arrow keys within the strip', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+      const firstTab = strip.children[0];
+
+      firstTab.focus();
+
+      // when
+      await act(() => {
+        fireEvent.keyDown(firstTab, { key: 'ArrowRight' });
+      });
+
+      // then
+      const selected = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-selected'));
+      expect(selected).to.eql([ 'false', 'true' ]);
+    });
+
+
+    it('should keep focus in the strip when activating a tab by keyboard', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, search: true });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      strip.children[1].focus();
+
+      // when
+      await act(() => {
+        fireEvent.click(strip.children[1], { detail: 0 });
+      });
+
+      // then
+      expect(document.activeElement).to.equal(strip.children[1]);
+    });
+
+
+    it('should focus the search input when activating a tab by pointer', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, search: true });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      // when
+      await act(() => {
+        fireEvent.click(strip.children[1], { detail: 1 });
+      });
+
+      // then
+      expect(document.activeElement).to.equal(domQuery('.djs-popup-search input', container));
+    });
+
+
+    it('should switch tabs backwards with <ArrowLeft>', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      strip.children[0].focus();
+
+      // when
+      await act(() => {
+        fireEvent.keyDown(strip.children[0], { key: 'ArrowLeft' });
+      });
+
+      // then
+      const selected = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-selected'));
+      expect(selected).to.eql([ 'false', 'true' ]);
+    });
+
+
+    it('should ignore other keys within the strip', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      strip.children[0].focus();
+
+      // when
+      await act(() => {
+        fireEvent.keyDown(strip.children[0], { key: 'a' });
+      });
+
+      // then
+      const selected = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-selected'));
+      expect(selected).to.eql([ 'true', 'false' ]);
+    });
+
+
+    it('should not trigger selected entry when pressing <Enter> on a tab', async function() {
+
+      // given
+      const onSelect = spy();
+
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, onSelect });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      // when
+      strip.children[0].focus();
+      fireEvent.keyDown(strip.children[0], { key: 'Enter' });
+
+      // then
+      expect(onSelect).not.to.have.been.called;
+    });
+
+
+    it('should switch to last tab with <End>', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      strip.children[0].focus();
+
+      // when
+      await act(() => {
+        fireEvent.keyDown(strip.children[0], { key: 'End' });
+      });
+
+      // then
+      const selected = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-selected'));
+      expect(selected).to.eql([ 'false', 'true' ]);
+    });
+
+
+    it('should switch to first tab with <Home>', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      await act(() => {
+        fireEvent.click(strip.children[1]);
+      });
+
+      // when
+      await act(() => {
+        fireEvent.keyDown(strip.children[1], { key: 'Home' });
+      });
+
+      // then
+      const selected = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-selected'));
+      expect(selected).to.eql([ 'true', 'false' ]);
+    });
+
+
+    it('should scroll active tab into view', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: manyTabEntries });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+      const lastTab = strip.children[4];
+      const method = typeof lastTab.scrollIntoViewIfNeeded === 'function'
+        ? 'scrollIntoViewIfNeeded'
+        : 'scrollIntoView';
+      const scrollIntoView = spy();
+
+      lastTab[method] = scrollIntoView;
+      strip.children[0].focus();
+
+      // when
+      await act(() => {
+        fireEvent.keyDown(strip.children[0], { key: 'End' });
+      });
+
+      // then
+      expect(scrollIntoView).to.have.been.called;
+    });
+
+
+    it('should render tab title as hover text', async function() {
+
+      // given
+      const entries = [
+        { id: 'entry-1', label: 'Entry 1', action: () => {} },
+        {
+          id: 'custom-entry',
+          label: 'Custom Entry',
+          tab: { ...CUSTOM_TAB, title: 'Building blocks you can reuse' },
+          action: () => {}
+        }
+      ];
+
+      // when
+      await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB });
+
+      // then
+      const titles = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('title'));
+      expect(titles).to.eql([ null, 'Building blocks you can reuse' ]);
+    });
+
+
+    it('should point each tab at the results list', async function() {
+
+      // when
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      // then
+      const resultsId = domQuery('[role="listbox"]', container).id;
+      const controls = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-controls'));
+      expect(controls).to.eql([ resultsId, resultsId ]);
     });
   });
 

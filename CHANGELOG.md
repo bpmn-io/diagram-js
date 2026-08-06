@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: support tabs in the popup menu ([#1095](https://github.com/bpmn-io/diagram-js/issues/1095))
+
 ## 15.23.2
 
 * `FIX`: support hiding element outlines ([#1094](https://github.com/bpmn-io/diagram-js/pull/1094))

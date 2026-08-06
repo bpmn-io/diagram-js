@@ -72,6 +72,12 @@
   --popup-search-border-color: var(--color-grey-225-10-75);
   --popup-search-focus-border-color: var(--color-blue-205-100-50);
   --popup-search-focus-background-color: var(--color-blue-205-100-95);
+  --popup-tab-color: var(--color-grey-225-10-55);
+  --popup-tab-hover-color: var(--color-grey-225-10-15);
+  --popup-tab-active-color: var(--color-grey-225-10-15);
+  --popup-tab-active-border-color: var(--color-blue-205-100-50);
+  --popup-tab-strip-border-color: var(--color-grey-225-10-90);
+  --popup-tab-focus-border-color: var(--color-blue-205-100-50);
 
   --resizer-fill-color: var(--color-blue-205-100-45);
   --resizer-stroke-color: var(--canvas-fill-color);
@@ -613,6 +619,66 @@
   position: relative;
   width: auto;
   margin: 10px 12px;
+}
+
+.djs-popup-tabs-container {
+  position: relative;
+  border-bottom: solid 1px var(--popup-tab-strip-border-color);
+}
+
+.djs-popup-tabs-container:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 1px;
+  width: 24px;
+  pointer-events: none;
+  background: linear-gradient(to right, transparent, var(--popup-background-color));
+}
+
+.djs-popup-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 12px;
+  scrollbar-width: none;
+}
+
+.djs-popup-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.djs-popup-tab {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-bottom: solid 2px transparent;
+  border-radius: 0;
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: var(--popup-font-size);
+  color: var(--popup-tab-color);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.djs-popup-tab:hover {
+  color: var(--popup-tab-hover-color);
+}
+
+.djs-popup-tab:focus-visible {
+  outline: solid 1px var(--popup-tab-focus-border-color);
+  outline-offset: -2px;
+}
+
+.djs-popup-tab[aria-selected="true"] {
+  color: var(--popup-tab-active-color);
+  border-bottom-color: var(--popup-tab-active-border-color);
+  font-weight: var(--popup-header-font-weight);
 }
 
 .djs-popup-title {
