@@ -2043,33 +2043,33 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
   describe('tabs', function() {
 
-    const REUSABLE_TAB = { id: 'reusable', label: 'Reusable' };
-    const DEFAULT_TAB = { id: 'bpmn', label: 'BPMN' };
+    const CUSTOM_TAB = { id: 'custom', label: 'Custom' };
+    const DEFAULT_TAB = { id: 'default', label: 'Default' };
 
-    const tabbedEntries = [
-      { id: 'task', label: 'Task', action: () => {} },
-      { id: 'gateway', label: 'Gateway', action: () => {} },
-      { id: 'connector-a', label: 'Connector A', tab: REUSABLE_TAB, action: () => {} },
-      { id: 'connector-b', label: 'Connector B', tab: REUSABLE_TAB, action: () => {} },
-      { id: 'event', label: 'Event', action: () => {} },
-      { id: 'subprocess', label: 'Sub-process', action: () => {} }
+    const tabEntries = [
+      { id: 'entry-1', label: 'Entry 1', action: () => {} },
+      { id: 'entry-2', label: 'Entry 2', action: () => {} },
+      { id: 'custom-entry-1', label: 'Custom Entry 1', tab: CUSTOM_TAB, action: () => {} },
+      { id: 'custom-entry-2', label: 'Custom Entry 2', tab: CUSTOM_TAB, action: () => {} },
+      { id: 'entry-3', label: 'Entry 3', action: () => {} },
+      { id: 'entry-4', label: 'Entry 4', action: () => {} }
     ];
 
     it('should render tab strip when entries carry distinct tabs', async function() {
 
       // when
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
 
       // then
       const tabs = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.textContent.trim());
-      expect(tabs).to.eql([ 'BPMN', 'Reusable' ]);
+      expect(tabs).to.eql([ 'Default', 'Custom' ]);
     });
 
 
     it('should not render tab strip without tabbed entries', async function() {
 
       // given
-      const entries = tabbedEntries.filter(entry => !entry.tab);
+      const entries = tabEntries.filter(entry => !entry.tab);
 
       // when
       await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB });
@@ -2082,7 +2082,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should not render a default tab when every entry is tabbed', async function() {
 
       // given
-      const entries = tabbedEntries.filter(entry => entry.tab);
+      const entries = tabEntries.filter(entry => entry.tab);
 
       // when
       await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB });
@@ -2095,7 +2095,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should stay untabbed when untagged entries have no default tab', async function() {
 
       // when
-      await createPopupMenu({ container, entries: tabbedEntries });
+      await createPopupMenu({ container, entries: tabEntries });
 
       // then
       expect(domQuery('.djs-popup-tabs', container)).not.to.exist;
@@ -2105,32 +2105,32 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should keep the default tab when entries tag it explicitly', async function() {
 
       // given
-      const entries = tabbedEntries.map(entry => ({ ...entry, tab: entry.tab || DEFAULT_TAB }));
+      const entries = tabEntries.map(entry => ({ ...entry, tab: entry.tab || DEFAULT_TAB }));
 
       // when
       await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB });
 
       // then
       const tabs = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.textContent.trim());
-      expect(tabs).to.eql([ 'BPMN', 'Reusable' ]);
+      expect(tabs).to.eql([ 'Default', 'Custom' ]);
     });
 
 
     it('should show default tab entries initially', async function() {
 
       // when
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
 
       // then
       const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent.trim());
-      expect(labels).to.eql([ 'Task', 'Gateway', 'Event', 'Sub-process' ]);
+      expect(labels).to.eql([ 'Entry 1', 'Entry 2', 'Entry 3', 'Entry 4' ]);
     });
 
 
     it('should switch entries on tab select', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
 
       // when
       await act(() => {
@@ -2139,7 +2139,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent.trim());
-      expect(labels).to.eql([ 'Connector A', 'Connector B' ]);
+      expect(labels).to.eql([ 'Custom Entry 1', 'Custom Entry 2' ]);
 
       const selected = [ ...domQueryAll('.djs-popup-tab', container) ].map(e => e.getAttribute('aria-selected'));
       expect(selected).to.eql([ 'false', 'true' ]);
@@ -2150,38 +2150,38 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // given
       const entries = [
-        { id: 'send-task', label: 'Send task', group: { id: 'tasks', name: 'Tasks' }, action: () => {} },
+        { id: 'search-default', label: 'Search Default', group: { id: 'default', name: 'Default' }, action: () => {} },
         {
-          id: 'send-connector',
-          label: 'Send connector',
-          tab: REUSABLE_TAB,
-          group: { id: 'communication', name: 'Communication' },
+          id: 'search-custom',
+          label: 'Search Custom',
+          tab: CUSTOM_TAB,
+          group: { id: 'custom', name: 'Custom' },
           action: () => {}
         },
-        ...tabbedEntries
+        ...tabEntries
       ];
 
       await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB, search: true });
 
       const input = domQuery('.djs-popup-search input', container);
-      input.value = 'send';
+      input.value = 'search';
 
       // when
       fireEvent.keyUp(input, { key: 'd' });
 
       // then
       const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent.trim());
-      expect(labels).to.have.members([ 'Send task', 'Send connector' ]);
+      expect(labels).to.have.members([ 'Search Default', 'Search Custom' ]);
     });
 
 
     it('should hide tab strip while searching', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB, search: true });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, search: true });
 
       const input = domQuery('.djs-popup-search input', container);
-      input.value = 'connector';
+      input.value = 'custom';
 
       // when
       fireEvent.keyUp(input, { key: 'r' });
@@ -2194,14 +2194,14 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should restore active tab after clearing search', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB, search: true });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, search: true });
 
       await act(() => {
         fireEvent.click(domQueryAll('.djs-popup-tab', container)[1]);
       });
 
       const input = domQuery('.djs-popup-search input', container);
-      input.value = 'task';
+      input.value = 'custom';
       fireEvent.keyUp(input, { key: 'k' });
 
       // when
@@ -2213,7 +2213,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       expect(selected).to.eql([ 'false', 'true' ]);
 
       const labels = [ ...domQueryAll('.djs-popup-label', container) ].map(e => e.textContent.trim());
-      expect(labels).to.eql([ 'Connector A', 'Connector B' ]);
+      expect(labels).to.eql([ 'Custom Entry 1', 'Custom Entry 2' ]);
     });
 
 
@@ -2231,7 +2231,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
             { id: 'step-1', label: 'Step 1', action: () => {} }
           ]
         },
-        ...tabbedEntries
+        ...tabEntries
       ];
 
       await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB });
@@ -2250,7 +2250,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should switch tabs with arrow keys within the strip', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
 
       const strip = domQuery('.djs-popup-tabs', container);
       const firstTab = strip.children[0];
@@ -2271,7 +2271,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should keep focus in the strip when activating a tab by keyboard', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB, search: true });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, search: true });
 
       const strip = domQuery('.djs-popup-tabs', container);
 
@@ -2290,7 +2290,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should focus the search input when activating a tab by pointer', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB, search: true });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, search: true });
 
       const strip = domQuery('.djs-popup-tabs', container);
 
@@ -2307,7 +2307,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should switch tabs backwards with <ArrowLeft>', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
 
       const strip = domQuery('.djs-popup-tabs', container);
 
@@ -2327,7 +2327,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should ignore other keys within the strip', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
 
       const strip = domQuery('.djs-popup-tabs', container);
 
@@ -2349,7 +2349,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       // given
       const onSelect = spy();
 
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB, onSelect });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB, onSelect });
 
       const strip = domQuery('.djs-popup-tabs', container);
 
@@ -2365,7 +2365,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should switch to last tab with <End>', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
 
       const strip = domQuery('.djs-popup-tabs', container);
 
@@ -2385,7 +2385,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should switch to first tab with <Home>', async function() {
 
       // given
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
 
       const strip = domQuery('.djs-popup-tabs', container);
 
@@ -2408,11 +2408,11 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // given
       const entries = [
-        { id: 'task', label: 'Task', action: () => {} },
+        { id: 'entry-1', label: 'Entry 1', action: () => {} },
         {
-          id: 'connector',
-          label: 'Connector',
-          tab: { ...REUSABLE_TAB, title: 'Building blocks you can reuse' },
+          id: 'custom-entry',
+          label: 'Custom Entry',
+          tab: { ...CUSTOM_TAB, title: 'Building blocks you can reuse' },
           action: () => {}
         }
       ];
@@ -2429,7 +2429,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
     it('should point each tab at the results list', async function() {
 
       // when
-      await createPopupMenu({ container, entries: tabbedEntries, defaultTab: DEFAULT_TAB });
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
 
       // then
       const resultsId = domQuery('[role="listbox"]', container).id;
