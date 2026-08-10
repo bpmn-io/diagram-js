@@ -11,10 +11,6 @@ import type { PopupMenuTarget } from './PopupMenu.js';
 export type PopupMenuTab = {
   id: string;
   label: string;
-
-  /**
-   * Explanatory hover text, surfaced as the tab button's `title`.
-   */
   title?: string;
 };
 
