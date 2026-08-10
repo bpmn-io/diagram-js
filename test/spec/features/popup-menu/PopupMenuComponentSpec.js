@@ -2060,7 +2060,9 @@ describe('features/popup-menu - <PopupMenu>', function() {
       { id: 'second-entry', label: 'Second entry', tab: { id: 'second', label: 'Second tab' }, action: () => {} },
       { id: 'third-entry', label: 'Third entry', tab: { id: 'third', label: 'Third tab' }, action: () => {} },
       { id: 'fourth-entry', label: 'Fourth entry', tab: { id: 'fourth', label: 'Fourth tab' }, action: () => {} },
-      { id: 'fifth-entry', label: 'Fifth entry', tab: { id: 'fifth', label: 'Fifth tab' }, action: () => {} }
+      { id: 'fifth-entry', label: 'Fifth entry', tab: { id: 'fifth', label: 'Fifth tab' }, action: () => {} },
+      { id: 'sixth-entry', label: 'Sixth entry', tab: { id: 'sixth', label: 'Sixth tab' }, action: () => {} },
+      { id: 'seventh-entry', label: 'Seventh entry', tab: { id: 'seventh', label: 'Seventh tab' }, action: () => {} }
     ];
 
     it('should render tab strip when entries carry distinct tabs', async function() {
@@ -2276,6 +2278,64 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
+    it('should step into an entry after leaving the strip with <ArrowDown>', async function() {
+
+      // given
+
+      // the step entry sits second so a single <ArrowDown> selects it
+      const [ firstEntry, ...restEntries ] = tabEntries;
+
+      const entries = [
+        firstEntry,
+        {
+          id: 'multi-step',
+          label: 'Multi step',
+          entries: [
+            { id: 'step-1', label: 'Step 1', action: () => {} }
+          ]
+        },
+        ...restEntries
+      ];
+
+      await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB, search: true });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      strip.children[0].focus();
+
+      await act(() => {
+        fireEvent.keyDown(strip.children[0], { key: 'ArrowDown' });
+      });
+
+      // when
+      await act(() => {
+        fireEvent.keyDown(document.activeElement, { key: 'ArrowRight' });
+      });
+
+      // then
+      expect(domQuery('.djs-popup-breadcrumbs', container)).to.exist;
+    });
+
+
+    it('should focus the list when leaving the strip without search', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      strip.children[0].focus();
+
+      // when
+      await act(() => {
+        fireEvent.keyDown(strip.children[0], { key: 'ArrowDown' });
+      });
+
+      // then
+      expect(document.activeElement).to.equal(domQuery('[role="listbox"]', container));
+    });
+
+
     it('should keep focus in the strip when activating a tab by keyboard', async function() {
 
       // given
@@ -2418,7 +2478,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       await createPopupMenu({ container, entries: manyTabEntries });
 
       const strip = domQuery('.djs-popup-tabs', container);
-      const lastTab = strip.children[4];
+      const lastTab = strip.lastElementChild;
       const method = typeof lastTab.scrollIntoViewIfNeeded === 'function'
         ? 'scrollIntoViewIfNeeded'
         : 'scrollIntoView';
@@ -2434,6 +2494,102 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
       // then
       expect(scrollIntoView).to.have.been.called;
+    });
+
+
+    it('should not render scroll controls when tabs fit', async function() {
+
+      // given
+
+      // when
+      await createPopupMenu({ container, entries: tabEntries, defaultTab: DEFAULT_TAB });
+
+      // then
+      expect(domQuery('.djs-popup-tabs-scroll', container)).not.to.exist;
+    });
+
+
+    it('should render scroll control when tabs overflow', async function() {
+
+      // given
+
+      // when
+      await createPopupMenu({ container, entries: manyTabEntries });
+
+      // then
+      expect(domQuery('.djs-popup-tabs-scroll-end', container)).to.exist;
+    });
+
+
+    it('should scroll cut off tab into view on scroll control click', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: manyTabEntries });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      // when
+      await act(() => {
+        fireEvent.click(domQuery('.djs-popup-tabs-scroll-end', container));
+      });
+
+      // then
+      expect(strip.scrollLeft).to.be.above(0);
+    });
+
+
+    it('should reveal the start control once scrolled', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: manyTabEntries });
+
+      // when
+      await act(() => {
+        fireEvent.click(domQuery('.djs-popup-tabs-scroll-end', container));
+      });
+
+      // then
+      expect(domQuery('.djs-popup-tabs-scroll-start', container)).to.exist;
+    });
+
+
+    it('should scroll back on start control click', async function() {
+
+      // given
+      await createPopupMenu({ container, entries: manyTabEntries });
+
+      const strip = domQuery('.djs-popup-tabs', container);
+
+      strip.children[0].focus();
+
+      await act(() => {
+        fireEvent.keyDown(strip.children[0], { key: 'End' });
+      });
+
+      const scrolled = strip.scrollLeft;
+
+      // when
+      await act(() => {
+        fireEvent.click(domQuery('.djs-popup-tabs-scroll-start', container));
+      });
+
+      // then
+      expect(strip.scrollLeft).to.be.below(scrolled);
+    });
+
+
+    it('should keep scroll controls out of the tab order', async function() {
+
+      // given
+
+      // when
+      await createPopupMenu({ container, entries: manyTabEntries });
+
+      // then
+      const control = domQuery('.djs-popup-tabs-scroll-end', container);
+
+      expect(control.getAttribute('tabindex')).to.eql('-1');
+      expect(control.getAttribute('aria-hidden')).to.eql('true');
     });
 
 
