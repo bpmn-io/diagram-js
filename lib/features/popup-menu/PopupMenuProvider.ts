@@ -3,10 +3,13 @@ import type { VNode } from '@bpmn-io/diagram-js-ui';
 import type { PopupMenuTarget } from './PopupMenu.js';
 
 /**
- * A tab partitioning popup menu entries. Entries carrying the same `tab.id`
- * are shown together; entries without a `tab` belong to the default tab
- * (`config.popupMenu.defaultTab`). The tab strip renders only when at least
- * two distinct tabs exist.
+ * A tab partitioning root-level popup menu entries. Entries carrying the
+ * same `tab.id` are shown together; entries without a `tab` fall into the
+ * default tab (`config.popupMenu.defaultTab`). The tab strip renders only when
+ * at least two distinct tabs exist.
+ *
+ * Tabs partition the root level only. A `tab` set on a nested (drilled-into)
+ * entry is ignored.
  */
 export type PopupMenuTab = {
   id: string;
