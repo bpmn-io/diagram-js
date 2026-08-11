@@ -6,7 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.24.0
+
 * `FEAT`: support tabs in the popup menu ([#1095](https://github.com/bpmn-io/diagram-js/issues/1095))
+* `FIX`: lay out docs link and drill-in chevron in popup menu as sibling actions ([#1088](https://github.com/bpmn-io/diagram-js/pull/1088))
 
 ## 15.23.2
 
