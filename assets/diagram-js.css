@@ -72,6 +72,12 @@
   --popup-search-border-color: var(--color-grey-225-10-75);
   --popup-search-focus-border-color: var(--color-blue-205-100-50);
   --popup-search-focus-background-color: var(--color-blue-205-100-95);
+  --popup-tab-color: var(--color-grey-225-10-55);
+  --popup-tab-hover-color: var(--color-grey-225-10-15);
+  --popup-tab-active-color: var(--color-grey-225-10-15);
+  --popup-tab-active-border-color: var(--color-blue-205-100-50);
+  --popup-tab-strip-border-color: var(--color-grey-225-10-90);
+  --popup-tab-focus-border-color: var(--color-blue-205-100-50);
 
   --resizer-fill-color: var(--color-blue-205-100-45);
   --resizer-stroke-color: var(--canvas-fill-color);
@@ -613,6 +619,97 @@
   position: relative;
   width: auto;
   margin: 10px 12px;
+}
+
+.djs-popup-tabs-container {
+  position: relative;
+  border-bottom: solid 1px var(--popup-tab-strip-border-color);
+}
+
+/**
+ * The scroll control doubles as the edge fade: tabs scrolled past it fade out
+ * rather than being cut off behind an opaque block.
+ */
+.djs-popup-tabs-scroll {
+  appearance: none;
+  position: absolute;
+  top: 0;
+  bottom: 1px;
+  width: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  color: var(--popup-tab-color);
+  cursor: pointer;
+}
+
+.djs-popup-tabs-scroll:hover {
+  color: var(--popup-tab-hover-color);
+}
+
+.djs-popup-tabs-scroll-start {
+  left: 0;
+  justify-content: flex-start;
+  background: linear-gradient(to left, transparent, var(--popup-background-color) 60%);
+}
+
+.djs-popup-tabs-scroll-end {
+  right: 0;
+  justify-content: flex-end;
+  background: linear-gradient(to right, transparent, var(--popup-background-color) 60%);
+}
+
+.djs-popup-tabs-scroll-start svg {
+  transform: rotate(180deg);
+}
+
+.djs-popup-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 12px;
+
+  /* keep scrolled-to tabs clear of the scroll controls */
+  scroll-padding: 0 28px;
+  scrollbar-width: none;
+}
+
+.djs-popup-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.djs-popup-tab {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-bottom: solid 2px transparent;
+  border-radius: 0;
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: var(--popup-font-size);
+  color: var(--popup-tab-color);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.djs-popup-tab:hover {
+  color: var(--popup-tab-hover-color);
+}
+
+.djs-popup-tab:focus-visible {
+  outline: solid 1px var(--popup-tab-focus-border-color);
+  outline-offset: -2px;
+}
+
+.djs-popup-tab[aria-selected="true"] {
+  color: var(--popup-tab-active-color);
+  border-bottom-color: var(--popup-tab-active-border-color);
+  font-weight: var(--popup-header-font-weight);
 }
 
 .djs-popup-title {
