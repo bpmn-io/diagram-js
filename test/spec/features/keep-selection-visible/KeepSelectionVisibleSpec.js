@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { spy } from 'sinon';
 
 import {
   bootstrapDiagram,
@@ -12,6 +13,8 @@ import keepSelectionVisibleModule from 'lib/features/keep-selection-visible';
 
 import { getBBox } from 'lib/util/Elements';
 import { asTRBL } from 'lib/layout/LayoutUtil';
+
+var UPDATE_DEBOUNCE_INTERVAL = 300;
 
 
 describe('features/keep-selection-visible', function() {
@@ -276,6 +279,29 @@ describe('features/keep-selection-visible', function() {
 
   });
 
+
+  describe('teardown', function() {
+
+    it('should cancel scheduled update when diagram is destroyed', inject(
+      async function(canvas, selection) {
+
+        // given
+        selection.select(shape1);
+
+        var viewboxSpy = spy(canvas, 'viewbox');
+
+        // when
+        getDiagramJS().destroy();
+
+        await wait(UPDATE_DEBOUNCE_INTERVAL * 2);
+
+        // then
+        expect(viewboxSpy).not.to.have.been.called;
+      }
+    ));
+
+  });
+
 });
 
 
@@ -321,4 +347,8 @@ function act(fn) {
       keepSelectionVisible._flush();
     }
   });
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

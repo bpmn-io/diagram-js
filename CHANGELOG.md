@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: do not keep selection visible after diagram destroy ([#1098](https://github.com/bpmn-io/diagram-js/pull/1098))
+
 ## 15.24.0
 
 * `FEAT`: support tabs in the popup menu ([#1095](https://github.com/bpmn-io/diagram-js/issues/1095))
