@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.24.1
+
 * `FIX`: do not keep selection visible after diagram destroy ([#1098](https://github.com/bpmn-io/diagram-js/pull/1098))
 
 ## 15.24.0
