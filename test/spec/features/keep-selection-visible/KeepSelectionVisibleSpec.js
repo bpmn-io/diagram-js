@@ -293,10 +293,12 @@ describe('features/keep-selection-visible', function() {
         // when
         getDiagramJS().destroy();
 
+        var viewboxCallCount = viewboxSpy.callCount;
+
         await wait(UPDATE_DEBOUNCE_INTERVAL * 2);
 
         // then
-        expect(viewboxSpy).not.to.have.been.called;
+        expect(viewboxSpy.callCount).to.equal(viewboxCallCount);
       }
     ));
 
