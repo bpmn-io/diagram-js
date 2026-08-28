@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.26.0
+
 * `FEAT`: add tooltip with title and shortcut on palette entries ([#1082](https://github.com/bpmn-io/diagram-js/pull/1082))
 
 ## 15.25.0
