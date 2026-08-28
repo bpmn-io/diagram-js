@@ -12,6 +12,7 @@
   --color-grey-225-10-95: hsl(225, 10%, 95%);
   --color-grey-225-10-97: hsl(225, 10%, 97%);
 
+  --color-blue-205-100-40: hsl(205, 100%, 40%);
   --color-blue-205-100-45: hsl(205, 100%, 45%);
   --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);
   --color-blue-205-100-50: hsl(205, 100%, 50%);
@@ -33,15 +34,17 @@
 
   --canvas-fill-color: var(--color-white);
 
+  --accent-color: var(--color-blue-205-100-40);
+
   --bendpoint-fill-color: var(--color-blue-205-100-45);
   --bendpoint-stroke-color: var(--canvas-fill-color);
 
   --context-pad-entry-background-color: var(--color-white);
   --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);
 
-  --element-dragger-color: var(--color-blue-205-100-50);
+  --element-dragger-color: var(--accent-color);
   --element-hover-outline-fill-color: var(--color-blue-205-100-45);
-  --element-selected-outline-stroke-color: var(--color-blue-205-100-50);
+  --element-selected-outline-stroke-color: var(--accent-color);
   --element-selected-outline-secondary-stroke-color: var(--color-blue-205-100-70);
 
   --lasso-fill-color: var(--color-blue-205-100-50-opacity-15);
@@ -49,7 +52,7 @@
 
   --palette-entry-color: var(--color-grey-225-10-15);
   --palette-entry-hover-color: var(--color-blue-205-100-45);
-  --palette-entry-selected-color: var(--color-blue-205-100-50);
+  --palette-entry-selected-color: var(--accent-color);
   --palette-separator-color: var(--color-grey-225-10-75);
   --palette-toggle-hover-background-color: var(--color-grey-225-10-55);
   --palette-background-color: var(--color-grey-225-10-97);
@@ -58,7 +61,7 @@
   --popup-font-family: "IBM Plex Sans", sans-serif;
   --popup-font-size: 14px;
   --popup-secondary-font-size: .9em;
-  --popup-header-entry-selected-color: var(--color-blue-205-100-50);
+  --popup-header-entry-selected-color: var(--accent-color);
   --popup-header-font-weight: bolder;
   --popup-header-group-divider-color: var(--color-grey-225-10-75);
   --popup-background-color: var(--color-white);
@@ -70,14 +73,14 @@
   --popup-entry-title-color: var(--color-grey-225-10-55);
   --popup-entry-hover-color:  var(--color-grey-225-10-95);
   --popup-search-border-color: var(--color-grey-225-10-75);
-  --popup-search-focus-border-color: var(--color-blue-205-100-50);
+  --popup-search-focus-border-color: var(--accent-color);
   --popup-search-focus-background-color: var(--color-blue-205-100-95);
   --popup-tab-color: var(--color-grey-225-10-55);
   --popup-tab-hover-color: var(--color-grey-225-10-15);
   --popup-tab-active-color: var(--color-grey-225-10-15);
-  --popup-tab-active-border-color: var(--color-blue-205-100-50);
+  --popup-tab-active-border-color: var(--accent-color);
   --popup-tab-strip-border-color: var(--color-grey-225-10-90);
-  --popup-tab-focus-border-color: var(--color-blue-205-100-50);
+  --popup-tab-focus-border-color: var(--accent-color);
 
   --resizer-fill-color: var(--color-blue-205-100-45);
   --resizer-stroke-color: var(--canvas-fill-color);
@@ -87,17 +90,17 @@
   --search-container-background-color: var(--color-white);
   --search-shadow-color: var(--color-black-opacity-30);
   --search-input-border-color: var(--color-grey-225-10-75);
-  --search-input-focus-border-color: var(--color-blue-205-100-50);
+  --search-input-focus-border-color: var(--accent-color);
   --search-input-focus-background-color: var(--color-blue-205-100-95);
   --search-result-hover-background-color: var(--color-grey-225-10-95);
   --search-result-secondary-color: var(--color-grey-225-10-55);
   --search-preselected-background-color: var(--color-blue-205-100-50-opacity-15);
 
-  --shape-attach-allowed-stroke-color: var(--color-blue-205-100-50);
+  --shape-attach-allowed-stroke-color: var(--accent-color);
   --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);
   --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);
   --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);
-  --shape-resize-preview-stroke-color: var(--color-blue-205-100-50);
+  --shape-resize-preview-stroke-color: var(--accent-color);
 
   --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);
 
