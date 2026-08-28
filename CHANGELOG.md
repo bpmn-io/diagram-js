@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.25.0
+
 * `FEAT`: give resize handle a border radius ([#1100](https://github.com/bpmn-io/diagram-js/pull/1100))
 * `FEAT`: give segment dragger a border radius ([#1100](https://github.com/bpmn-io/diagram-js/pull/1100))
 * `FEAT`: add `--accent-color` theming token ([#1099](https://github.com/bpmn-io/diagram-js/pull/1099))
