@@ -6,6 +6,9 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: add `--accent-color` theming token ([#1099](https://github.com/bpmn-io/diagram-js/pull/1099))
+* `FIX`: use WCAG AA compliant primary accent color ([#1099](https://github.com/bpmn-io/diagram-js/pull/1099))
+
 ## 15.24.1
 
 * `FIX`: do not keep selection visible after diagram destroy ([#1098](https://github.com/bpmn-io/diagram-js/pull/1098))
