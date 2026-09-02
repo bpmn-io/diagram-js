@@ -6,7 +6,8 @@ const files = {
   ],
   build: [
     '*.js',
-    '*.mjs'
+    '*.mjs',
+    'tasks/**/*.mjs'
   ],
   test: [
     '**/test/**/*.js'

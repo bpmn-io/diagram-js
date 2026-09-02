@@ -1,46 +1,26 @@
 /**
  * color definitions
+ *
+ * Colours resolve through the semantic tokens in `@bpmn-io/theme`; a handful of
+ * values with no matching token still point at the palette directly.
  */
 .djs-parent {
-  --color-grey-225-10-15: hsl(225, 10%, 15%);
-  --color-grey-225-10-35: hsl(225, 10%, 35%);
-  --color-grey-225-10-55: hsl(225, 10%, 55%);
-  --color-grey-225-10-75: hsl(225, 10%, 75%);
-  --color-grey-225-10-80: hsl(225, 10%, 80%);
-  --color-grey-225-10-85: hsl(225, 10%, 85%);
-  --color-grey-225-10-90: hsl(225, 10%, 90%);
-  --color-grey-225-10-95: hsl(225, 10%, 95%);
-  --color-grey-225-10-97: hsl(225, 10%, 97%);
 
-  --color-blue-205-100-40: hsl(205, 100%, 40%);
-  --color-blue-205-100-45: hsl(205, 100%, 45%);
-  --color-blue-205-100-45-opacity-30: hsla(205, 100%, 45%, 30%);
-  --color-blue-205-100-50: hsl(205, 100%, 50%);
-  --color-blue-205-100-50-opacity-15: hsla(205, 100%, 50%, 15%);
-  --color-blue-205-100-70: hsl(205, 100%, 75%);
-  --color-blue-205-100-95: hsl(205, 100%, 95%);
+  --canvas-fill-color: var(--bio-surface);
 
-  --color-green-150-86-44: hsl(150, 86%, 44%);
-
-  --color-red-360-100-40: hsl(360, 100%, 40%);
-  --color-red-360-100-45: hsl(360, 100%, 45%);
-  --color-red-360-100-92: hsl(360, 100%, 92%);
-  --color-red-360-100-97: hsl(360, 100%, 97%);
-
-  --color-white: hsl(0, 0%, 100%);
-  --color-black: hsl(0, 0%, 0%);
-  --color-black-opacity-10: hsla(0, 0%, 0%, 10%);
-  --color-black-opacity-30: hsla(0, 0%, 0%, 30%);
-
-  --canvas-fill-color: var(--color-white);
-
+  /*
+   * Selection affordances keep the conventional editor blue rather than the
+   * theme's accent: a themed accent can be dark, and a dark outline blends
+   * into the very element strokes it wraps. Deliberately on the palette, not a
+   * semantic token, so a theme does not capture them by accident.
+   */
   --accent-color: var(--color-blue-205-100-40);
 
   --bendpoint-fill-color: var(--color-blue-205-100-45);
   --bendpoint-stroke-color: var(--canvas-fill-color);
 
-  --context-pad-entry-background-color: var(--color-white);
-  --context-pad-entry-hover-background-color: var(--color-grey-225-10-95);
+  --context-pad-entry-background-color: var(--bio-surface);
+  --context-pad-entry-hover-background-color: var(--bio-surface-medium);
 
   --element-dragger-color: var(--accent-color);
   --element-hover-outline-fill-color: var(--color-blue-205-100-45);
@@ -50,36 +30,39 @@
   --lasso-fill-color: var(--color-blue-205-100-50-opacity-15);
   --lasso-stroke-color: var(--element-selected-outline-stroke-color);
 
-  --palette-entry-color: var(--color-grey-225-10-15);
-  --palette-entry-hover-color: var(--color-blue-205-100-45);
+  --palette-entry-color: var(--bio-text);
+  --palette-entry-hover-color: var(--bio-accent-hover);
   --palette-entry-selected-color: var(--accent-color);
-  --palette-separator-color: var(--color-grey-225-10-75);
-  --palette-toggle-hover-background-color: var(--color-grey-225-10-55);
-  --palette-background-color: var(--color-grey-225-10-97);
-  --palette-border-color: var(--color-grey-225-10-75);
+  --palette-separator-color: var(--bio-border);
+  --palette-toggle-hover-background-color: var(--bio-text-subtlest);
+  --palette-background-color: var(--bio-surface-subtle);
+  --palette-border-color: var(--bio-border);
 
   --popup-font-family: "IBM Plex Sans", sans-serif;
   --popup-font-size: 14px;
   --popup-secondary-font-size: .9em;
   --popup-header-entry-selected-color: var(--accent-color);
   --popup-header-font-weight: bolder;
-  --popup-header-group-divider-color: var(--color-grey-225-10-75);
-  --popup-background-color: var(--color-white);
+  --popup-header-group-divider-color: var(--bio-border);
+  --popup-background-color: var(--bio-surface-overlay);
   --popup-border-color: transparent;
-  --popup-shadow-color: var(--color-black-opacity-30);
-  --popup-disabled-color: var(--color-grey-225-10-35);
-  --popup-description-color: var(--color-grey-225-10-35);
-  --popup-no-results-color: var(--color-grey-225-10-55);
-  --popup-entry-title-color: var(--color-grey-225-10-55);
-  --popup-entry-hover-color:  var(--color-grey-225-10-95);
-  --popup-search-border-color: var(--color-grey-225-10-75);
+  --popup-shadow-color: var(--bio-shadow);
+  --popup-scrollbar-thumb-color: var(--bio-border);
+  --popup-button-background-color: var(--bio-surface-overlay);
+  --popup-button-hover-background-color: var(--bio-surface-medium);
+  --popup-disabled-color: var(--bio-text-subtle);
+  --popup-description-color: var(--bio-text-subtle);
+  --popup-no-results-color: var(--bio-text-subtlest);
+  --popup-entry-title-color: var(--bio-text-subtlest);
+  --popup-entry-hover-color:  var(--bio-surface-medium);
+  --popup-search-border-color: var(--bio-border);
   --popup-search-focus-border-color: var(--accent-color);
-  --popup-search-focus-background-color: var(--color-blue-205-100-95);
-  --popup-tab-color: var(--color-grey-225-10-55);
-  --popup-tab-hover-color: var(--color-grey-225-10-15);
-  --popup-tab-active-color: var(--color-grey-225-10-15);
+  --popup-search-focus-background-color: var(--bio-focus-surface);
+  --popup-tab-color: var(--bio-text-subtlest);
+  --popup-tab-hover-color: var(--bio-text);
+  --popup-tab-active-color: var(--bio-text);
   --popup-tab-active-border-color: var(--accent-color);
-  --popup-tab-strip-border-color: var(--color-grey-225-10-90);
+  --popup-tab-strip-border-color: var(--bio-border-disabled);
   --popup-tab-focus-border-color: var(--accent-color);
 
   --resizer-fill-color: var(--color-blue-205-100-45);
@@ -87,37 +70,37 @@
 
   --search-font-family: "IBM Plex Sans", sans-serif;
   --search-font-size: 14px;
-  --search-container-background-color: var(--color-white);
-  --search-shadow-color: var(--color-black-opacity-30);
-  --search-input-border-color: var(--color-grey-225-10-75);
+  --search-container-background-color: var(--bio-surface-overlay);
+  --search-shadow-color: var(--bio-shadow);
+  --search-input-border-color: var(--bio-border);
   --search-input-focus-border-color: var(--accent-color);
-  --search-input-focus-background-color: var(--color-blue-205-100-95);
-  --search-result-hover-background-color: var(--color-grey-225-10-95);
-  --search-result-secondary-color: var(--color-grey-225-10-55);
+  --search-input-focus-background-color: var(--bio-accent-surface);
+  --search-result-hover-background-color: var(--bio-surface-medium);
+  --search-result-secondary-color: var(--bio-text-subtlest);
   --search-preselected-background-color: var(--color-blue-205-100-50-opacity-15);
 
   --shape-attach-allowed-stroke-color: var(--accent-color);
-  --shape-connect-allowed-fill-color: var(--color-grey-225-10-97);
-  --shape-drop-allowed-fill-color: var(--color-grey-225-10-97);
-  --shape-drop-not-allowed-fill-color: var(--color-red-360-100-97);
+  --shape-connect-allowed-fill-color: var(--bio-surface-subtle);
+  --shape-drop-allowed-fill-color: var(--bio-surface-subtle);
+  --shape-drop-not-allowed-fill-color: var(--bio-danger-surface-subtle);
   --shape-resize-preview-stroke-color: var(--accent-color);
 
   --snap-line-stroke-color: var(--color-blue-205-100-45-opacity-30);
 
-  --space-tool-crosshair-stroke-color: var(--color-black);
+  --space-tool-crosshair-stroke-color: var(--bio-text);
 
-  --tooltip-error-background-color: var(--color-red-360-100-97);
-  --tooltip-error-border-color: var(--color-red-360-100-45);
-  --tooltip-error-color: var(--color-red-360-100-45);
+  --tooltip-error-background-color: var(--bio-danger-surface-subtle);
+  --tooltip-error-border-color: var(--bio-danger);
+  --tooltip-error-color: var(--bio-danger);
 
   --hover-tooltip-font-family: "IBM Plex Sans", sans-serif;
   --hover-tooltip-font-size: 12px;
   --hover-tooltip-secondary-font-size: 11px;
-  --hover-tooltip-background-color: var(--color-grey-225-10-15);
-  --hover-tooltip-color: var(--color-white);
-  --hover-tooltip-shadow-color: var(--color-black-opacity-10);
+  --hover-tooltip-background-color: var(--bio-surface-inverted);
+  --hover-tooltip-color: var(--bio-text-on-inverted);
+  --hover-tooltip-shadow-color: var(--bio-shadow-subtle);
 
-  --palette-tooltip-shortcut-background-color: var(--color-grey-225-10-35);
+  --palette-tooltip-shortcut-background-color: var(--bio-surface-inverted-subtle);
 }
 
 /**
@@ -825,7 +808,7 @@
 }
 
 .djs-popup-breadcrumbs-item--back:hover {
-  background: #f2f3f5;
+  background: var(--popup-button-hover-background-color);
 }
 
 .djs-popup-breadcrumbs-item--current {
@@ -974,7 +957,7 @@
 
 .djs-popup *::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--popup-scrollbar-thumb-color);
 }
 
 .djs-popup *::-webkit-scrollbar-track {
@@ -1013,7 +996,7 @@
   visibility: hidden;
   padding: 2px 3px;
   color: var(--popup-description-color);
-  background: #fff;
+  background: var(--popup-button-background-color);
   border: 1px solid var(--popup-search-border-color);
   border-radius: 4px;
   cursor: pointer;
@@ -1025,7 +1008,7 @@
 }
 
 .djs-popup-body .entry .djs-popup-entry-docs:hover {
-  background: #f2f3f5;
+  background: var(--popup-button-hover-background-color);
 }
 
 .djs-popup-entry-docs svg {

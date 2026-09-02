@@ -14,14 +14,16 @@
     "!lib/**/*.spec.ts"
   ],
   "scripts": {
-    "all": "run-s lint test generate-types",
+    "all": "run-s lint build:css test generate-types",
     "lint": "eslint .",
+    "build:css": "node tasks/build-css.mjs",
+    "pretest": "npm run build:css",
     "dev": "npm test -- --auto-watch --no-single-run",
     "generate-types": "run-s generate-types:*",
     "generate-types:generate": "del-cli \"lib/**/*.d.ts\" \"lib/**/*.d.ts.map\" && npx bio-dts -r lib --declarationMap",
     "generate-types:test": "tsc --noEmit --noImplicitAny",
     "test": "karma start",
-    "prepublishOnly": "run-s generate-types"
+    "prepublishOnly": "run-s build:css generate-types"
   },
   "repository": {
     "type": "git",
@@ -53,6 +55,7 @@
   "devDependencies": {
     "@babel/core": "^8.0.0",
     "@bpmn-io/a11y": "^0.1.0",
+    "@bpmn-io/theme": "^0.0.0",
     "@testing-library/preact": "^3.2.4",
     "babel-loader": "^10.1.1",
     "babel-plugin-istanbul": "^8.0.0",
