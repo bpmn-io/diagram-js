@@ -63,7 +63,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
   let container, cleanup;
 
   beforeEach(function() {
-    container = domify('<div class="djs-parent"></div>');
+    container = domify('<div class="djs-parent bio-theme-parent"></div>');
 
     document.body.appendChild(container);
   });
@@ -2009,7 +2009,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       await createPopupMenu({ container, entries });
       const firstId = domQuery('.djs-popup-results', container).id;
 
-      const otherContainer = domify('<div class="djs-parent"></div>');
+      const otherContainer = domify('<div class="djs-parent bio-theme-parent"></div>');
       document.body.appendChild(otherContainer);
 
       // when
