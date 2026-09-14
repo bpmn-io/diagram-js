@@ -1983,6 +1983,78 @@ describe('features/popup-menu - <PopupMenu>', function() {
       });
 
 
+      it('should switch documentation presentation between keyboard and pointer', async function() {
+
+        // given
+        const entries = [
+          { id: '1', label: 'Entry 1', documentationRef: 'https://example.com/1' },
+          { id: '2', label: 'Entry 2', documentationRef: 'https://example.com/2' }
+        ];
+
+        await createPopupMenu({ container, entries });
+
+        const popup = domQuery('.djs-popup', container);
+        const results = domQuery('.djs-popup-results', container);
+        const footer = domQuery('.djs-popup-footer', container);
+        const firstRow = domQuery('.entry[data-id="1"]', container);
+        const secondRow = domQuery('.entry[data-id="2"]', container);
+        const firstRowDocs = domQuery('.entry[data-id="1"] .djs-popup-entry-docs', container);
+        const keyboardFooterRule = getDiagramCSSRule(
+          '.djs-popup--keyboard .djs-popup-results:hover ~ .djs-popup-footer'
+        );
+        const keyboardInlineDocsRule = getDiagramCSSRule(
+          '.djs-popup--keyboard .djs-popup-body .entry:hover .djs-popup-entry-docs'
+        );
+
+        // the popup begins in keyboard presentation
+        expect(popup.classList.contains('djs-popup--keyboard')).to.be.true;
+        expect(getComputedStyle(footer).display).to.eql('flex');
+        expect(getComputedStyle(firstRowDocs).visibility).to.eql('hidden');
+        expect(keyboardFooterRule).to.exist;
+        expect(keyboardFooterRule.style.display).to.eql('flex');
+        expect(keyboardInlineDocsRule).to.exist;
+        expect(keyboardInlineDocsRule.style.visibility).to.eql('hidden');
+
+        // the pointer is physically over the first row, then keyboard
+        // navigation moves selection to the second row
+        await act(() => {
+          fireEvent.mouseEnter(firstRow);
+          fireEvent.mouseMove(firstRow);
+          fireEvent.keyDown(results, { key: 'ArrowDown' });
+        });
+
+        expect(secondRow.classList.contains('selected')).to.be.true;
+        expect(domQuery('.djs-popup-footer-docs', container).getAttribute('href')).to.eql('https://example.com/2');
+
+        // moving within the physically hovered first row does not emit
+        // another mouseenter, but must restore its pointer selection
+        await act(() => {
+          fireEvent.mouseMove(firstRow);
+        });
+
+        expect(popup.classList.contains('djs-popup--pointer')).to.be.true;
+        expect(popup.classList.contains('djs-popup--keyboard')).to.be.false;
+        expect(firstRow.classList.contains('selected')).to.be.true;
+        expect(secondRow.classList.contains('selected')).to.be.false;
+        expect(domQuery('.djs-popup-footer-docs', container).getAttribute('href')).to.eql('https://example.com/1');
+        expect(domQuery('.djs-popup-footer-docs', container).getAttribute('aria-label')).to.eql(
+          'Open entry documentation for Entry 1'
+        );
+        expect(getComputedStyle(footer).display).to.eql('none');
+
+        // any keyboard input restores the keyboard presentation, even while
+        // the physical pointer remains over the result list
+        await act(() => {
+          fireEvent.keyDown(results, { key: 'a' });
+        });
+
+        expect(popup.classList.contains('djs-popup--keyboard')).to.be.true;
+        expect(popup.classList.contains('djs-popup--pointer')).to.be.false;
+        expect(getComputedStyle(footer).display).to.eql('flex');
+        expect(getComputedStyle(firstRowDocs).visibility).to.eql('hidden');
+      });
+
+
       it('should not trigger selected entry when pressing <Enter> on footer documentation link', async function() {
 
         // given
@@ -2663,6 +2735,12 @@ describe('features/popup-menu - <PopupMenu>', function() {
         container
       );
     });
+  }
+
+  function getDiagramCSSRule(selector) {
+    const styleEl = document.querySelector('[data-css-file="diagram-js.css"]');
+
+    return Array.from(styleEl.sheet.cssRules).find(rule => rule.selectorText === selector);
   }
 
 });
