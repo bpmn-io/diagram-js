@@ -74,7 +74,9 @@ describe('core/Canvas', function() {
       var diagramContainer = container.querySelector('.djs-container');
 
       expect(diagramContainer).not.to.be.null;
-      expect(diagramContainer.className).to.eql('djs-container djs-parent');
+      expect(diagramContainer.classList.contains('djs-container')).to.be.true;
+      expect(diagramContainer.classList.contains('djs-parent')).to.be.true;
+      expect(diagramContainer.classList.contains('bio-theme-parent')).to.be.true;
     }));
 
   });
