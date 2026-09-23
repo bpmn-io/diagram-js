@@ -672,6 +672,25 @@ describe('util - Text', function() {
 
   describe('#getDimensions', function() {
 
+    function measure(label) {
+      return textUtil.getDimensions(label, { box: { width: 10000, height: 100 } }).width;
+    }
+
+    function findLabel(matches) {
+      var label = 'Case successfully processed';
+
+      for (var i = 0; i < 50; i++) {
+        if (matches(measure(label))) {
+          return label;
+        }
+
+        label = 'i' + label;
+      }
+
+      throw new Error('no label matches');
+    }
+
+
     it('should get bounding box of simple label', function() {
 
       // given
@@ -687,6 +706,31 @@ describe('util - Text', function() {
       // then
       expect(dimensions).to.exist;
       expect(toFitBBox(dimensions, { width: 100, height: 20 })).to.be.true;
+    });
+
+
+    it('should break line narrower than box but wider than rounded box', function() {
+
+      // given
+      var label = findLabel(function(width) {
+        return width - Math.floor(width) < 0.4;
+      });
+
+      var width = measure(label);
+
+      // assume
+      expect(Math.round(Math.floor(width) + 0.49)).to.be.at.most(width);
+
+      // when
+      var dimensions = textUtil.getDimensions(label, {
+        box: {
+          width: Math.floor(width) + 0.49,
+          height: 100
+        }
+      });
+
+      // then
+      expect(dimensions.width).to.be.below(width);
     });
 
 
