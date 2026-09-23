@@ -672,6 +672,25 @@ describe('util - Text', function() {
 
   describe('#getDimensions', function() {
 
+    function measure(label) {
+      return textUtil.getDimensions(label, { box: { width: 10000, height: 100 } }).width;
+    }
+
+    function findLabel(matches) {
+      var label = 'Case successfully processed';
+
+      for (var i = 0; i < 50; i++) {
+        if (matches(measure(label))) {
+          return label;
+        }
+
+        label = 'i' + label;
+      }
+
+      throw new Error('no label matches');
+    }
+
+
     it('should get bounding box of simple label', function() {
 
       // given
@@ -689,6 +708,51 @@ describe('util - Text', function() {
       expect(toFitBBox(dimensions, { width: 100, height: 20 })).to.be.true;
     });
 
+
+    it('should not wrap line that fits box with fractional width', function() {
+
+      // given
+      var label = findLabel(function(width) {
+        return width - Math.floor(width) < 0.4;
+      });
+
+      var width = measure(label);
+
+      // when
+      var dimensions = textUtil.getDimensions(label, {
+        box: {
+          width: Math.floor(width) + 0.49,
+          height: 100
+        }
+      });
+
+      // then
+      expect(dimensions.width).to.eql(width);
+    });
+
+
+    it('should wrap line minimally wider than box', function() {
+
+      // given
+      var label = findLabel(function(width) {
+        var fraction = width - Math.floor(width);
+
+        return fraction > 0.5 && fraction < 0.9;
+      });
+
+      var width = measure(label);
+
+      // when
+      var dimensions = textUtil.getDimensions(label, {
+        box: {
+          width: Math.floor(width) + 0.4,
+          height: 100
+        }
+      });
+
+      // then
+      expect(dimensions.width).to.be.below(width);
+    });
 
     it('should get bounding box of multi line label', function() {
 
