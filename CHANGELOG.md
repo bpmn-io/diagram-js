@@ -6,6 +6,11 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.27.1
+
+* `FIX`: prevent overflowing of text when layouting it ([#1106](https://github.com/bpmn-io/diagram-js/pull/1106), [#1105](https://github.com/bpmn-io/diagram-js/pull/1105))
+* `FIX`: prevent text layouting from looping in certain scenarios ([#1106](https://github.com/bpmn-io/diagram-js/pull/1106), [#1105](https://github.com/bpmn-io/diagram-js/pull/1105))
+
 ## 15.27.0
 
 * `FEAT`: source colors and corner radii from `@bpmn-io/theme` tokens ([#1102](https://github.com/bpmn-io/diagram-js/pull/1102))
