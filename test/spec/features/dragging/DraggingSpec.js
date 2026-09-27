@@ -213,6 +213,114 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
+    it('should cancel drag on listener error', inject(function(dragging, eventBus) {
+
+      // given
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      eventBus.on('foo.move', function() {
+        throw new Error('broken move handler');
+      });
+
+      // when
+      expect(function() {
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+      }).to.throw('broken move handler');
+
+      // then
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should not duplicate errors on subsequent moves', inject(function(dragging, eventBus) {
+
+      // given
+      var errors = 0;
+
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      eventBus.on('foo.move', function() {
+        throw new Error('broken move handler');
+      });
+
+      eventBus.on('error', function() {
+        errors++;
+      });
+
+      // when
+      expect(function() {
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+      }).to.throw('broken move handler');
+
+      // then
+      expect(errors).to.eql(1);
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should clean up if a cancel listener fails', inject(function(dragging, eventBus) {
+
+      // given
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      eventBus.on('foo.move', function() {
+        throw new Error('broken move handler');
+      });
+
+      eventBus.on('foo.cancel', function() {
+        throw new Error('broken cancel handler');
+      });
+
+      // when
+      expect(function() {
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+      }).to.throw('broken cancel handler');
+
+      // then
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should allow the next drag after error cancellation', inject(function(dragging, eventBus) {
+
+      // given
+      var events = recordEvents('foo');
+
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      var broken = function() {
+        throw new Error('broken move handler');
+      };
+
+      eventBus.on('foo.move', broken);
+
+      expect(function() {
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+      }).to.throw('broken move handler');
+
+      expect(dragging.context()).to.be.null;
+
+      eventBus.off('foo.move', broken);
+
+      // when
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+      dragging.move(canvasEvent({ x: 30, y: 20 }));
+      dragging.end();
+
+      // then
+      var starts = events.filter(function(e) {
+        return e.type === 'foo.start';
+      });
+
+      var ends = events.filter(function(e) {
+        return e.type === 'foo.end';
+      });
+
+      expect(starts).to.have.length(2);
+      expect(ends).to.have.length(1);
+    }));
+
+
     it('should fire life-cycle events', inject(function(dragging, canvas) {
 
       // given
