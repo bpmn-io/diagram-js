@@ -232,10 +232,17 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
-    it('should not duplicate errors on subsequent moves', inject(function(dragging, eventBus) {
+    it('should not re-report errors on subsequent mouse moves', inject(function(dragging, eventBus) {
 
       // given
       var errors = 0;
+
+      dragging.setOptions({ manual: false });
+
+      eventBus.on('error', function() {
+        errors++;
+        return false;
+      });
 
       dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
 
@@ -243,14 +250,9 @@ describe('features/dragging - Dragging', function() {
         throw new Error('broken move handler');
       });
 
-      eventBus.on('error', function() {
-        errors++;
-      });
-
       // when
-      expect(function() {
-        dragging.move(canvasEvent({ x: 30, y: 20 }));
-      }).to.throw('broken move handler');
+      document.dispatchEvent(new MouseEvent('mousemove', { clientX: 30, clientY: 20 }));
+      document.dispatchEvent(new MouseEvent('mousemove', { clientX: 35, clientY: 25 }));
 
       // then
       expect(errors).to.eql(1);
@@ -277,6 +279,54 @@ describe('features/dragging - Dragging', function() {
       }).to.throw('broken cancel handler');
 
       // then
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should clean up if a cleanup listener fails', inject(function(dragging, eventBus) {
+
+      // given
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      eventBus.on('foo.move', function() {
+        throw new Error('broken move handler');
+      });
+
+      eventBus.on('foo.cleanup', function() {
+        throw new Error('broken cleanup handler');
+      });
+
+      // when
+      expect(function() {
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+      }).to.throw('broken cleanup handler');
+
+      // then
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should cancel before a handled error listener', inject(function(dragging, eventBus) {
+
+      // given
+      var errors = 0;
+
+      eventBus.on('error', function() {
+        errors++;
+        return false;
+      });
+
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      eventBus.on('foo.move', function() {
+        throw new Error('broken move handler');
+      });
+
+      // when
+      dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+      // then
+      expect(errors).to.eql(1);
       expect(dragging.context()).to.be.null;
     }));
 
