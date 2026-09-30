@@ -45,7 +45,7 @@ npm install
 npm test
 
 // Running the test suite with every file change
-TEST_BROWSERS=(Chrome|Firefox|IE) npm run dev
+TEST_BROWSERS=(Chrome|Firefox) npm run dev
 ```
 
 ### Discussing Code Changes
