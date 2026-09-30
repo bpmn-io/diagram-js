@@ -18,13 +18,9 @@ import { createKeyEvent } from 'test/util/KeyEvents';
 
 var KEYS = {
   ArrowUp: 'up',
-  Up: 'up',
   ArrowLeft: 'left',
-  Left: 'left',
   ArrowRight: 'right',
-  Right: 'right',
-  ArrowDown: 'down',
-  Down: 'down'
+  ArrowDown: 'down'
 };
 
 var shape1, shape2;

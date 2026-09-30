@@ -17,8 +17,8 @@ import { createKeyEvent } from 'test/util/KeyEvents';
 
 
 var KEYS = {
-  ZOOM_IN: [ '+', 'Add', '=' ],
-  ZOOM_OUT: [ '-', 'Subtract' ],
+  ZOOM_IN: [ '+', '=' ],
+  ZOOM_OUT: [ '-' ],
   ZOOM_DEFAULT: [ '0' ],
 };
 

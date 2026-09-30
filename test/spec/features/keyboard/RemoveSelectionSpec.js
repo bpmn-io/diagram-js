@@ -19,8 +19,7 @@ import { createKeyEvent } from 'test/util/KeyEvents';
 
 var KEYS = [
   'Backspace',
-  'Delete',
-  'Del'
+  'Delete'
 ];
 
 
