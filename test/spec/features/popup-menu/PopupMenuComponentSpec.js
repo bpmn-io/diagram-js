@@ -1983,6 +1983,69 @@ describe('features/popup-menu - <PopupMenu>', function() {
       });
 
 
+      it('should select entry under pointer on mouse move after keyboard navigation', async function() {
+
+        // given
+        const entries = [
+          { id: '1', label: 'Entry 1', documentationRef: 'https://example.com/1' },
+          { id: '2', label: 'Entry 2', documentationRef: 'https://example.com/2' },
+          { id: '3', label: 'Entry 3', documentationRef: 'https://example.com/3' }
+        ];
+
+        await createPopupMenu({ container, entries });
+
+        const results = domQuery('.djs-popup-results', container);
+        const footer = domQuery('.djs-popup-footer', container);
+        const thirdEntry = domQuery('.entry[data-id="3"]', container);
+
+        await act(() => {
+          fireEvent.keyDown(results, { key: 'ArrowDown' });
+        });
+
+        // when
+        await act(() => {
+          fireEvent.mouseMove(thirdEntry);
+        });
+
+        // then
+        expect(domQuery('.selected', container)).to.equal(thirdEntry);
+        expect(results.getAttribute('aria-activedescendant')).to.eql(thirdEntry.id);
+        expect(getComputedStyle(footer).display).to.eql('none');
+      });
+
+
+      it('should restore footer documentation link on keyboard interaction', async function() {
+
+        // given
+        const entries = [
+          { id: '1', label: 'Entry 1', documentationRef: 'https://example.com/1' },
+          { id: '2', label: 'Entry 2', documentationRef: 'https://example.com/2' }
+        ];
+
+        await createPopupMenu({ container, entries });
+
+        const results = domQuery('.djs-popup-results', container);
+        const footer = domQuery('.djs-popup-footer', container);
+        const firstEntry = domQuery('.entry[data-id="1"]', container);
+
+        await act(() => {
+          fireEvent.mouseMove(firstEntry);
+        });
+
+        // when
+        await act(() => {
+          fireEvent.keyDown(results, { key: 'ArrowDown' });
+        });
+
+        // then
+        const link = domQuery('.djs-popup-footer-docs', container);
+
+        expect(getComputedStyle(footer).display).not.to.eql('none');
+        expect(link.getAttribute('href')).to.eql('https://example.com/2');
+        expect(link.getAttribute('aria-label')).to.eql('Open entry documentation for Entry 2');
+      });
+
+
       it('should not trigger selected entry when pressing <Enter> on footer documentation link', async function() {
 
         // given

@@ -1019,11 +1019,10 @@
 
 /**
  * The footer holds the keyboard/assistive-technology reachable documentation
- * link. Mouse users get the per-entry `.djs-popup-entry-docs` affordance on
- * hover instead, so the (redundant) footer link is hidden while the results
- * list is hovered and shown during keyboard navigation.
+ * link. Pointer interaction switches the popup to the per-entry
+ * `.djs-popup-entry-docs` affordance instead.
  */
-.djs-popup-results:hover ~ .djs-popup-footer {
+.djs-popup--pointer .djs-popup-footer {
   display: none;
 }
 
@@ -1042,7 +1041,7 @@
   transition: background-color .12s ease, border-color .12s ease, color .12s ease;
 }
 
-.djs-popup-body .entry:hover .djs-popup-entry-docs {
+.djs-popup--pointer .djs-popup-body .entry:hover .djs-popup-entry-docs {
   visibility: visible;
 }
 
