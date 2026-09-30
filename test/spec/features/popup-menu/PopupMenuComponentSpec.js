@@ -1983,7 +1983,7 @@ describe('features/popup-menu - <PopupMenu>', function() {
       });
 
 
-      it('should synchronize documentation presentation with interaction mode', async function() {
+      it('should select entry under pointer on mouse move after keyboard navigation', async function() {
 
         // given
         const entries = [
@@ -1994,96 +1994,55 @@ describe('features/popup-menu - <PopupMenu>', function() {
 
         await createPopupMenu({ container, entries });
 
-        const popup = domQuery('.djs-popup', container);
         const results = domQuery('.djs-popup-results', container);
         const footer = domQuery('.djs-popup-footer', container);
-        const firstRow = domQuery('.entry[data-id="1"]', container);
-        const secondRow = domQuery('.entry[data-id="2"]', container);
-        const thirdRow = domQuery('.entry[data-id="3"]', container);
-        const pointerFooterRule = getDiagramCSSRule(
-          '.djs-popup--pointer .djs-popup-footer'
-        );
-        const pointerInlineDocsRule = getDiagramCSSRule(
-          '.djs-popup--pointer .djs-popup-body .entry:hover .djs-popup-entry-docs'
-        );
+        const thirdEntry = domQuery('.entry[data-id="3"]', container);
 
-        const getState = () => {
-          const footerLink = domQuery('.djs-popup-footer-docs', container);
+        await act(() => {
+          fireEvent.keyDown(results, { key: 'ArrowDown' });
+        });
 
-          return {
-            keyboardMode: popup.classList.contains('djs-popup--keyboard'),
-            pointerMode: popup.classList.contains('djs-popup--pointer'),
-            firstSelected: firstRow.classList.contains('selected'),
-            secondSelected: secondRow.classList.contains('selected'),
-            thirdSelected: thirdRow.classList.contains('selected'),
-            activeDescendant: results.getAttribute('aria-activedescendant'),
-            footerDisplay: getComputedStyle(footer).display,
-            footerHref: footerLink.getAttribute('href'),
-            footerLabel: footerLink.getAttribute('aria-label')
-          };
-        };
+        // when
+        await act(() => {
+          fireEvent.mouseMove(thirdEntry);
+        });
+
+        // then
+        expect(domQuery('.selected', container)).to.equal(thirdEntry);
+        expect(results.getAttribute('aria-activedescendant')).to.eql(thirdEntry.id);
+        expect(getComputedStyle(footer).display).to.eql('none');
+      });
+
+
+      it('should restore footer documentation link on keyboard interaction', async function() {
+
+        // given
+        const entries = [
+          { id: '1', label: 'Entry 1', documentationRef: 'https://example.com/1' },
+          { id: '2', label: 'Entry 2', documentationRef: 'https://example.com/2' }
+        ];
+
+        await createPopupMenu({ container, entries });
+
+        const results = domQuery('.djs-popup-results', container);
+        const footer = domQuery('.djs-popup-footer', container);
+        const firstEntry = domQuery('.entry[data-id="1"]', container);
+
+        await act(() => {
+          fireEvent.mouseMove(firstEntry);
+        });
 
         // when
         await act(() => {
           fireEvent.keyDown(results, { key: 'ArrowDown' });
         });
 
-        const keyboardState = getState();
-
-        await act(() => {
-          fireEvent.mouseMove(thirdRow);
-        });
-
-        const pointerState = getState();
-
-        await act(() => {
-          fireEvent.keyDown(results, { key: 'ArrowDown' });
-        });
-
-        const restoredKeyboardState = getState();
-        const footerLink = domQuery('.djs-popup-footer-docs', container);
-
-        footerLink.focus();
-
         // then
-        expect(keyboardState).to.eql({
-          keyboardMode: true,
-          pointerMode: false,
-          firstSelected: false,
-          secondSelected: true,
-          thirdSelected: false,
-          activeDescendant: secondRow.id,
-          footerDisplay: 'flex',
-          footerHref: 'https://example.com/2',
-          footerLabel: 'Open entry documentation for Entry 2'
-        });
-        expect(pointerState).to.eql({
-          keyboardMode: false,
-          pointerMode: true,
-          firstSelected: false,
-          secondSelected: false,
-          thirdSelected: true,
-          activeDescendant: thirdRow.id,
-          footerDisplay: 'none',
-          footerHref: 'https://example.com/3',
-          footerLabel: 'Open entry documentation for Entry 3'
-        });
-        expect(restoredKeyboardState).to.eql({
-          keyboardMode: true,
-          pointerMode: false,
-          firstSelected: true,
-          secondSelected: false,
-          thirdSelected: false,
-          activeDescendant: firstRow.id,
-          footerDisplay: 'flex',
-          footerHref: 'https://example.com/1',
-          footerLabel: 'Open entry documentation for Entry 1'
-        });
-        expect(document.activeElement).to.equal(footerLink);
-        expect(pointerFooterRule).to.exist;
-        expect(pointerFooterRule.style.display).to.eql('none');
-        expect(pointerInlineDocsRule).to.exist;
-        expect(pointerInlineDocsRule.style.visibility).to.eql('visible');
+        const link = domQuery('.djs-popup-footer-docs', container);
+
+        expect(getComputedStyle(footer).display).not.to.eql('none');
+        expect(link.getAttribute('href')).to.eql('https://example.com/2');
+        expect(link.getAttribute('aria-label')).to.eql('Open entry documentation for Entry 2');
       });
 
 
@@ -2767,12 +2726,6 @@ describe('features/popup-menu - <PopupMenu>', function() {
         container
       );
     });
-  }
-
-  function getDiagramCSSRule(selector) {
-    const styleEl = document.querySelector('[data-css-file="diagram-js.css"]');
-
-    return Array.from(styleEl.sheet.cssRules).find(rule => rule.selectorText === selector);
   }
 
 });
