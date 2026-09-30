@@ -6,6 +6,7 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: support letter shortcuts on non-Latin keyboard layouts ([#1112](https://github.com/bpmn-io/diagram-js/pull/1112), [#928](https://github.com/bpmn-io/diagram-js/issues/928))
 * `CHORE`: drop Internet Explorer specific key names and remove remaining IE 11 references
 
 ## 15.27.3
