@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.27.2
+
+* `FIX`: cancel canvas move on diagram destroy ([#1110](https://github.com/bpmn-io/diagram-js/pull/1110), [#1109](https://github.com/bpmn-io/diagram-js/issues/1109))
+
 ## 15.27.1
 
 * `FIX`: prevent overflowing of text when layouting it ([#1106](https://github.com/bpmn-io/diagram-js/pull/1106), [#1105](https://github.com/bpmn-io/diagram-js/pull/1105))
