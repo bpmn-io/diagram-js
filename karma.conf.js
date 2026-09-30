@@ -67,7 +67,7 @@ module.exports = function(karma) {
 
     webpack: {
       mode: 'development',
-      target: 'browserslist:last 2 versions, IE 11',
+      target: 'browserslist:last 2 versions',
       module: {
         rules: [
           {
