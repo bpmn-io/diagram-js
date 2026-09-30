@@ -146,6 +146,32 @@ describe('navigation/movecanvas', function() {
       expect(viewbox.y - updatedViewbox.y).to.eql(100);
     }));
 
+
+    it('should cancel on diagram destroy', inject(function(eventBus, moveCanvas) {
+
+      // given
+      var diagram = getDiagramJS();
+
+      eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+
+      document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+
+      // assume
+      expect(moveCanvas.isActive()).to.be.true;
+
+      // when
+      diagram.destroy();
+
+      // then
+      expect(moveCanvas.isActive()).to.be.false;
+
+      // no error on subsequent interaction with destroyed canvas
+      expect(function() {
+        document.dispatchEvent(createMouseEvent(300, 200, 'mousemove'));
+        document.dispatchEvent(createMouseEvent(300, 200, 'mouseup'));
+      }).not.to.throw();
+    }));
+
   });
 
 
