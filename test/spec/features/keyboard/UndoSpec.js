@@ -87,4 +87,24 @@ describe('features/keyboard - undo', function() {
 
   });
 
+
+  it('should call undo on non-Latin layout', inject(function(keyboard, editorActions) {
+
+    // given
+    var triggerSpy = spy(editorActions, 'trigger');
+
+    // Cyrillic <я> on physical Z key
+    var event = createKeyEvent('я', {
+      code: 'KeyZ',
+      ctrlKey: true
+    });
+
+    // when
+    keyboard._keyHandler(event);
+
+    // then
+    expect(triggerSpy.calledWith('undo')).to.be.true;
+    expect(triggerSpy.calledWith('redo')).to.be.false;
+  }));
+
 });
