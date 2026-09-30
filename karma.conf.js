@@ -4,6 +4,9 @@ var fs = require('fs');
 
 var coverage = process.env.COVERAGE;
 
+// allows to raise the mocha test timeout on slow environments
+var testTimeout = process.env.TEST_TIMEOUT;
+
 // configures browsers to run test against
 // any of [ 'ChromeHeadless', 'Chrome', 'Firefox' ]
 var browsers = (process.env.TEST_BROWSERS || 'ChromeHeadless').split(',');
@@ -46,6 +49,10 @@ module.exports = function(karma) {
     },
 
     browsers,
+
+    client: {
+      mocha: testTimeout ? { timeout: parseInt(testTimeout, 10) } : {}
+    },
 
     browserNoActivityTimeout: 30000,
 
