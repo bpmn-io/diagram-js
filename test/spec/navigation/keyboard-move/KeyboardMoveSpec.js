@@ -53,10 +53,10 @@ describe('navigation/keyboard-move', function() {
   describe('arrow bindings', function() {
 
     var KEYS = {
-      LEFT: [ 'ArrowLeft', 'Left' ],
-      UP: [ 'ArrowUp', 'Up' ],
-      RIGHT: [ 'ArrowRight', 'Right' ],
-      DOWN: [ 'ArrowDown', 'Down' ],
+      LEFT: [ 'ArrowLeft' ],
+      UP: [ 'ArrowUp' ],
+      RIGHT: [ 'ArrowRight' ],
+      DOWN: [ 'ArrowDown' ],
     };
 
     beforeEach(bootstrapDiagram(defaultDiagramConfig));

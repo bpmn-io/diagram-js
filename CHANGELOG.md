@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `CHORE`: drop Internet Explorer specific key names and remove remaining IE 11 references
+
 ## 15.27.3
 
 * `FIX`: display documentation link in the bottom when keyboard is used ([#1103](https://github.com/bpmn-io/diagram-js/issues/1103))
