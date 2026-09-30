@@ -29,6 +29,6 @@ A clear and concise description of what you expected to happen.
 
 Please complete the following information:
 
- - Browser: [e.g. IE 11, Chrome 69]
- - OS: [e.g. Windows 7]
+ - Browser: [e.g. Chrome 140, Firefox 143]
+ - OS: [e.g. Windows 11]
  - Library version: [e.g. 2.0.0]
