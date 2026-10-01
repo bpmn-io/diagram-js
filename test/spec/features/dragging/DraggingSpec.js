@@ -213,6 +213,136 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
+    it('should cancel on listener error', inject(function(dragging, eventBus) {
+
+      // given
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      eventBus.on('foo.move', function() {
+        throw new Error('broken move handler');
+      });
+
+      // when
+      expect(function() {
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+      }).to.throw('broken move handler');
+
+      // then
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should cancel once if cancel listener fails', inject(function(dragging, eventBus) {
+
+      // given
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+      dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+      var cancels = 0;
+
+      eventBus.on('foo.cancel', function() {
+        cancels++;
+
+        throw new Error('broken cancel handler');
+      });
+
+      // when
+      expect(function() {
+        dragging.cancel();
+      }).to.throw('broken cancel handler');
+
+      // then
+      expect(cancels).to.eql(1);
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should clean up if cancel listener fails', inject(function(dragging, eventBus) {
+
+      // given
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      eventBus.on('foo.move', function() {
+        throw new Error('broken move handler');
+      });
+
+      eventBus.on('foo.cancel', function() {
+        throw new Error('broken cancel handler');
+      });
+
+      // when
+      expect(function() {
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+      }).to.throw('broken cancel handler');
+
+      // then
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should clean up if cleanup listener fails', inject(function(dragging, eventBus) {
+
+      // given
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+
+      eventBus.on('foo.move', function() {
+        throw new Error('broken move handler');
+      });
+
+      eventBus.on('foo.cleanup', function() {
+        throw new Error('broken cleanup handler');
+      });
+
+      // when
+      expect(function() {
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+      }).to.throw('broken cleanup handler');
+
+      // then
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should clean up if cleanup listener fails on end()', inject(function(dragging, eventBus) {
+
+      // given
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+      dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+      eventBus.on('foo.cleanup', function() {
+        throw new Error('broken cleanup handler');
+      });
+
+      // when
+      expect(function() {
+        dragging.end();
+      }).to.throw('broken cleanup handler');
+
+      // then
+      expect(dragging.context()).to.be.null;
+    }));
+
+
+    it('should clean up if cleanup listener fails on cancel()', inject(function(dragging, eventBus) {
+
+      // given
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+      dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+      eventBus.on('foo.cleanup', function() {
+        throw new Error('broken cleanup handler');
+      });
+
+      // when
+      expect(function() {
+        dragging.cancel();
+      }).to.throw('broken cleanup handler');
+
+      // then
+      expect(dragging.context()).to.be.null;
+    }));
+
+
     it('should fire life-cycle events', inject(function(dragging, canvas) {
 
       // given
