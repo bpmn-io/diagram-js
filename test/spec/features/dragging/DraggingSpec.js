@@ -306,6 +306,76 @@ describe('features/dragging - Dragging', function() {
     }));
 
 
+    it('should propagate original cleanup error on end()', inject(function(dragging, eventBus) {
+
+      // given
+      var errors = [];
+
+      eventBus.on('error', function(event) {
+        errors.push(event.error.message);
+      });
+
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+      dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+      var broken = function() {
+        throw new Error('broken cleanup handler');
+      };
+
+      eventBus.on('foo.cleanup', broken);
+
+      // when
+      expect(function() {
+        dragging.end();
+      }).to.throw('broken cleanup handler');
+
+      // then
+      expect(errors).to.eql([ 'broken cleanup handler' ]);
+      expect(dragging.context()).to.be.null;
+
+      eventBus.off('foo.cleanup', broken);
+
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+      expect(dragging.context()).to.exist;
+      dragging.cancel();
+    }));
+
+
+    it('should propagate original cleanup error on cancel()', inject(function(dragging, eventBus) {
+
+      // given
+      var errors = [];
+
+      eventBus.on('error', function(event) {
+        errors.push(event.error.message);
+      });
+
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+      dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+      var broken = function() {
+        throw new Error('broken cleanup handler');
+      };
+
+      eventBus.on('foo.cleanup', broken);
+
+      // when
+      expect(function() {
+        dragging.cancel();
+      }).to.throw('broken cleanup handler');
+
+      // then
+      expect(errors).to.eql([ 'broken cleanup handler' ]);
+      expect(dragging.context()).to.be.null;
+
+      eventBus.off('foo.cleanup', broken);
+
+      dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo');
+      expect(dragging.context()).to.exist;
+      dragging.cancel();
+    }));
+
+
     it('should cancel before a handled error listener', inject(function(dragging, eventBus) {
 
       // given
