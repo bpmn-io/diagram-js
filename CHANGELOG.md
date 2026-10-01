@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: cancel active drag on listener error ([#961](https://github.com/bpmn-io/diagram-js/issues/961))
+
 ## 15.28.0
 
 * `FEAT`: support letter shortcuts on non-Latin keyboard layouts ([#1112](https://github.com/bpmn-io/diagram-js/pull/1112), [#928](https://github.com/bpmn-io/diagram-js/issues/928))
