@@ -61,6 +61,34 @@ describe('Diagram', function() {
     });
 
 
+    it('should allow #get during eager __init__', function() {
+
+      // simulate bpmn-js-style registration of the diagram instance as a value
+      // before injector.init() (cf. bpmn-io/bpmn-js#1624)
+      var diagram = Object.create(Diagram.prototype);
+      var eventBus;
+
+      function Eager(diagram) {
+        eventBus = diagram.get('eventBus');
+      }
+
+      Diagram.call(diagram, {
+        canvas: {
+          container: container,
+          width: 700,
+          height: 500
+        },
+        modules: [ {
+          __init__: [ 'eager' ],
+          diagram: [ 'value', diagram ],
+          eager: [ 'type', Eager ]
+        } ]
+      });
+
+      expect(eventBus).to.exist;
+    });
+
+
     describe('should expose diagram services', function() {
 
 
