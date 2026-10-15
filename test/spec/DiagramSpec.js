@@ -110,7 +110,7 @@ describe('Diagram', function() {
         });
 
         // then
-        expect(diagram.get('foobar', false)).to.be.null;
+        expect(diagram.get('foobar', false)).to.be.undefined;
       });
 
 
