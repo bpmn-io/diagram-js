@@ -6,6 +6,10 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+### Breaking Changes
+
+* `Diagram#get` now returns `undefined` instead of `null` when a service is missing and strict lookup is disabled.
+
 ## 15.28.1
 
 * `FIX`: cancel active drag on listener error ([#961](https://github.com/bpmn-io/diagram-js/issues/961))
