@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 
+import { assign } from 'min-dash';
+
 import Diagram from '../../lib/Diagram.js';
 
 
@@ -61,31 +63,40 @@ describe('Diagram', function() {
     });
 
 
-    it('should allow #get during eager __init__', function() {
+    it('should allow eager __init__ to use Diagram#get', function() {
 
-      // simulate bpmn-js-style registration of the diagram instance as a value
-      // before injector.init() (cf. bpmn-io/bpmn-js#1624)
-      var diagram = Object.create(Diagram.prototype);
-      var eventBus;
-
-      function Eager(diagram) {
-        eventBus = diagram.get('eventBus');
+      // given
+      function CustomDiagram(options) {
+        Diagram.call(this, assign({}, options, {
+          modules: [ { diagram: [ 'value', this ] } ].concat(options.modules)
+        }));
       }
 
-      Diagram.call(diagram, {
+      CustomDiagram.prototype = Object.create(Diagram.prototype);
+
+      function Eager(diagram) {
+        this.canvas = diagram.get('canvas');
+      }
+
+      Eager.$inject = [ 'diagram' ];
+
+      var EagerModule = {
+        __init__: [ 'eager' ],
+        eager: [ 'type', Eager ]
+      };
+
+      // when
+      var diagram = new CustomDiagram({
         canvas: {
           container: container,
           width: 700,
           height: 500
         },
-        modules: [ {
-          __init__: [ 'eager' ],
-          diagram: [ 'value', diagram ],
-          eager: [ 'type', Eager ]
-        } ]
+        modules: [ EagerModule ]
       });
 
-      expect(eventBus).to.exist;
+      // then
+      expect(diagram.get('eager').canvas).to.equal(diagram.get('canvas'));
     });
 
 
