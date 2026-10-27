@@ -23,6 +23,7 @@ Some libraries / applications built on top of diagram-js:
 * [Node Sequencer](https://github.com/philippfromme/node-sequencer) - A Node-Based Sequencer for the Web ([Demo](https://philippfromme.github.io/node-sequencer-demo/))
 * [object-diagram-js](https://github.com/timKraeuter/object-diagram-js) - An object diagram viewer and editor ([Demo](https://timkraeuter.com/object-diagram-js/))
 * [postit-js](https://github.com/pinussilvestrus/postit-js) - Create Post-it boards on a canvas editor ([Demo](https://postit-js-demo.netlify.app/))
+* [uml-js](https://github.com/uml-js/uml-js) - Create various types of UML diagrams ([Demo](https://uml-js.github.io/uml-js/))
 
 ## Resources
 
