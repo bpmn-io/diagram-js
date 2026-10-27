@@ -129,6 +129,22 @@ describe('features/dragging - Dragging', function() {
 
     describe('trapClick', function() {
 
+      it('should prevent default action on drag end without trapping clicks', inject(function(dragging) {
+
+        // given
+        dragging.setOptions({ manual: false });
+
+        dragging.init(canvasEvent({ x: 10, y: 10 }), 'foo', { trapClick: false });
+        dragging.move(canvasEvent({ x: 30, y: 20 }));
+
+        // when
+        var realEvent = mouseDown(document, { x: 20, y: 20 });
+
+        // then
+        expect(realEvent.defaultPrevented).to.be.true;
+      }));
+
+
       it('should prevent default action on drag end', inject(function(dragging) {
 
         // given
