@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 
+import { assign } from 'min-dash';
+
 import Diagram from '../../lib/Diagram.js';
 
 
@@ -58,6 +60,43 @@ describe('Diagram', function() {
           }
         });
       }).to.throw(/No provider for "foo"!/);
+    });
+
+
+    it('should allow eager __init__ to use Diagram#get', function() {
+
+      // given
+      function CustomDiagram(options) {
+        Diagram.call(this, assign({}, options, {
+          modules: [ { diagram: [ 'value', this ] } ].concat(options.modules)
+        }));
+      }
+
+      CustomDiagram.prototype = Object.create(Diagram.prototype);
+
+      function Eager(diagram) {
+        this.canvas = diagram.get('canvas');
+      }
+
+      Eager.$inject = [ 'diagram' ];
+
+      var EagerModule = {
+        __init__: [ 'eager' ],
+        eager: [ 'type', Eager ]
+      };
+
+      // when
+      var diagram = new CustomDiagram({
+        canvas: {
+          container: container,
+          width: 700,
+          height: 500
+        },
+        modules: [ EagerModule ]
+      });
+
+      // then
+      expect(diagram.get('eager').canvas).to.equal(diagram.get('canvas'));
     });
 
 
