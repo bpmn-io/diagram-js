@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FEAT`: resize multiple selected elements together ([bpmn-io/bpmn-js#2507](https://github.com/bpmn-io/bpmn-js/issues/2507))
+
 ### Breaking Changes
 
 * `Diagram#get` now returns `undefined` instead of `null` when a service is missing and strict lookup is disabled.
