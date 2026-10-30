@@ -106,6 +106,23 @@ describe('features/grid-snapping - resize elements', function() {
   }));
 
 
+  it('should push shapes that cannot be resized by snapped edge', inject(function(canvas) {
+
+    // given
+    var fixedShape = canvas.addShape({
+      id: 'fixed',
+      x: 300, y: 300, width: 50, height: 50
+    });
+
+    // when
+    resizeElements([ shape1, fixedShape ], 'e', { x: 73, y: 0 });
+
+    // then
+    expect(shape1).to.have.bounds({ x: 100, y: 100, width: 170, height: 100 });
+    expect(fixedShape).to.have.bounds({ x: 370, y: 300, width: 50, height: 50 });
+  }));
+
+
   it('should keep minimum dimensions', function() {
 
     // when

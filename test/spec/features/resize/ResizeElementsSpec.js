@@ -159,7 +159,7 @@ describe('features/resize - ResizeElements', function() {
     ));
 
 
-    it('should add on bounds of elements that can be resized', inject(
+    it('should add on selection bounds', inject(
       function(canvas, selection, resizeHandles) {
 
         // given
@@ -176,7 +176,7 @@ describe('features/resize - ResizeElements', function() {
 
         var matrix = svgTransform(resizer).matrix;
 
-        expect({ x: matrix.e, y: matrix.f }).to.eql({ x: 200, y: 150 });
+        expect({ x: matrix.e, y: matrix.f }).to.eql({ x: 650, y: 225 });
       }
     ));
 
@@ -308,7 +308,7 @@ describe('features/resize - ResizeElements', function() {
     }));
 
 
-    it('should NOT move shape that cannot be resized in direction', inject(function(canvas) {
+    it('should push shape that cannot be resized in direction', inject(function(canvas) {
 
       // given
       var restrictedShape = canvas.addShape({
@@ -323,7 +323,56 @@ describe('features/resize - ResizeElements', function() {
 
       // then
       expect(shape1).to.have.bounds({ x: 100, y: 100, width: 400, height: 100 });
-      expect(restrictedShape).to.have.bounds({ x: 300, y: 300, width: 100, height: 100 });
+      expect(restrictedShape).to.have.bounds({ x: 600, y: 300, width: 100, height: 100 });
+    }));
+
+
+    it('should push shape that cannot be resized <w>', inject(function(canvas) {
+
+      // given
+      var fixedShape = canvas.addShape({
+        id: 'fixed',
+        x: 100, y: 300, width: 50, height: 50
+      });
+
+      // when
+      resizeElements([ shape3, fixedShape ], 'w', { x: -100, y: 0 });
+
+      // then
+      expect(shape3).to.have.bounds({ x: 200, y: 100, width: 200, height: 100 });
+      expect(fixedShape).to.have.bounds({ x: 0, y: 300, width: 50, height: 50 });
+    }));
+
+
+    it('should push shape by nearest dragged edge', inject(function(canvas) {
+
+      // given
+      var fixedShape = canvas.addShape({
+        id: 'fixed',
+        x: 220, y: 300, width: 50, height: 50
+      });
+
+      // when
+      resizeElements([ shape1, shape3, fixedShape ], 'e', { x: 300, y: 0 });
+
+      // then
+      expect(fixedShape).to.have.bounds({ x: 320, y: 300, width: 50, height: 50 });
+    }));
+
+
+    it('should NOT push shape inside resized shape', inject(function(canvas) {
+
+      // given
+      var fixedShape = canvas.addShape({
+        id: 'fixed',
+        x: 260, y: 120, width: 20, height: 20
+      });
+
+      // when
+      resizeElements([ shape1, shape2, fixedShape ], 'e', { x: 200, y: 0 });
+
+      // then
+      expect(fixedShape).to.have.bounds({ x: 260, y: 120, width: 20, height: 20 });
     }));
 
 
