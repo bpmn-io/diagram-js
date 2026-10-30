@@ -166,6 +166,7 @@
   fill: none;
   shape-rendering: geometricPrecision;
   stroke-width: 2px;
+  pointer-events: none;
 }
 
 .djs-outline {
