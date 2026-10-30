@@ -25,6 +25,8 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
+import { transform as svgTransform } from 'tiny-svg';
+
 
 describe('features/resize - ResizeElements', function() {
 
@@ -157,6 +159,28 @@ describe('features/resize - ResizeElements', function() {
     ));
 
 
+    it('should add on bounds of elements that can be resized', inject(
+      function(canvas, selection, resizeHandles) {
+
+        // given
+        var fixedShape = canvas.addShape({
+          id: 'fixed',
+          x: 600, y: 300, width: 50, height: 50
+        });
+
+        // when
+        selection.select([ shape1, fixedShape ]);
+
+        // then
+        var resizer = domQuery('.djs-resizer-e', resizeHandles._getResizersParent());
+
+        var matrix = svgTransform(resizer).matrix;
+
+        expect({ x: matrix.e, y: matrix.f }).to.eql({ x: 200, y: 150 });
+      }
+    ));
+
+
     it('should NOT add if rules forbid', inject(function(eventBus, selection) {
 
       // given
@@ -267,7 +291,7 @@ describe('features/resize - ResizeElements', function() {
     });
 
 
-    it('should move shape that cannot be resized', inject(function(canvas) {
+    it('should NOT move shape that cannot be resized', inject(function(canvas) {
 
       // given
       var fixedShape = canvas.addShape({
@@ -280,12 +304,11 @@ describe('features/resize - ResizeElements', function() {
 
       // then
       expect(shape1).to.have.bounds({ x: 100, y: 100, width: 200, height: 100 });
-
-      expect(fixedShape).to.have.bounds({ x: 125, y: 300, width: 50, height: 50 });
+      expect(fixedShape).to.have.bounds({ x: 100, y: 300, width: 50, height: 50 });
     }));
 
 
-    it('should move shape that cannot be resized in direction', inject(function(canvas) {
+    it('should NOT move shape that cannot be resized in direction', inject(function(canvas) {
 
       // given
       var restrictedShape = canvas.addShape({
@@ -299,8 +322,8 @@ describe('features/resize - ResizeElements', function() {
       resizeElements([ shape1, restrictedShape ], 'e', { x: 300, y: 0 });
 
       // then
-      expect(shape1).to.have.bounds({ x: 100, y: 100, width: 200, height: 100 });
-      expect(restrictedShape).to.have.bounds({ x: 550, y: 300, width: 100, height: 100 });
+      expect(shape1).to.have.bounds({ x: 100, y: 100, width: 400, height: 100 });
+      expect(restrictedShape).to.have.bounds({ x: 300, y: 300, width: 100, height: 100 });
     }));
 
 
@@ -333,7 +356,7 @@ describe('features/resize - ResizeElements', function() {
     }));
 
 
-    it('should NOT move children of shape resized in place', inject(function(canvas, elementFactory) {
+    it('should NOT move children', inject(function(canvas, elementFactory) {
 
       // given
       var parent = canvas.addShape(elementFactory.createShape({
@@ -355,7 +378,7 @@ describe('features/resize - ResizeElements', function() {
     }));
 
 
-    it('should move children along', inject(function(canvas, elementFactory) {
+    it('should keep containing children when moved', inject(function(canvas, elementFactory) {
 
       // given
       var parent = canvas.addShape(elementFactory.createShape({
@@ -373,8 +396,8 @@ describe('features/resize - ResizeElements', function() {
       resizeElements([ shape1, parent ], 'e', { x: 500, y: 0 });
 
       // then
-      expect(parent).to.have.bounds({ x: 500, y: 300, width: 600, height: 200 });
-      expect(child).to.have.bounds({ x: 600, y: 350, width: 50, height: 50 });
+      expect(parent).to.have.bounds({ x: 380, y: 300, width: 720, height: 200 });
+      expect(child).to.have.bounds({ x: 400, y: 350, width: 50, height: 50 });
     }));
 
 
@@ -400,27 +423,29 @@ describe('features/resize - ResizeElements', function() {
     }));
 
 
-    it('should move selected children', inject(function(canvas, elementFactory) {
+    it('should keep containing selected children that cannot be resized', inject(
+      function(canvas, elementFactory) {
 
-      // given
-      var parent = canvas.addShape(elementFactory.createShape({
-        id: 'parent',
-        resizable: 'always',
-        x: 100, y: 300, width: 300, height: 200
-      }));
+        // given
+        var parent = canvas.addShape(elementFactory.createShape({
+          id: 'parent',
+          resizable: 'always',
+          x: 100, y: 300, width: 300, height: 200
+        }));
 
-      var child = canvas.addShape(elementFactory.createShape({
-        id: 'child',
-        x: 300, y: 350, width: 50, height: 50
-      }), parent);
+        var child = canvas.addShape(elementFactory.createShape({
+          id: 'child',
+          x: 300, y: 350, width: 50, height: 50
+        }), parent);
 
-      // when
-      resizeElements([ shape1, parent, child ], 'e', { x: 300, y: 0 });
+        // when
+        resizeElements([ shape1, parent, child ], 'e', { x: -250, y: 0 });
 
-      // then
-      expect(parent).to.have.bounds({ x: 100, y: 300, width: 600, height: 200 });
-      expect(child).to.have.bounds({ x: 525, y: 350, width: 50, height: 50 });
-    }));
+        // then
+        expect(parent).to.have.bounds({ x: 100, y: 300, width: 270, height: 200 });
+        expect(child).to.have.bounds({ x: 300, y: 350, width: 50, height: 50 });
+      }
+    ));
 
 
     it('should ignore connections', inject(function(canvas) {
