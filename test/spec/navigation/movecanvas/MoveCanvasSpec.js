@@ -175,6 +175,169 @@ describe('navigation/movecanvas', function() {
   });
 
 
+  describe('toggle', function() {
+
+    var rootElement;
+
+    beforeEach(bootstrapDiagram({
+      modules: [ moveCanvasModule ],
+      canvas: {
+        deferUpdate: false
+      }
+    }));
+
+    beforeEach(inject(function(canvas) {
+      rootElement = canvas.getRootElement();
+    }));
+
+
+    it('should disable movement', inject(function(eventBus, canvas, moveCanvas) {
+
+      // given
+      var viewbox = canvas.viewbox();
+
+      // when
+      expect(moveCanvas.toggle(false)).to.be.false;
+      eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mouseup'));
+
+      // then
+      expect(moveCanvas.isActive()).to.be.false;
+      expect(canvas.viewbox()).to.eql(viewbox);
+    }));
+
+
+    it('should enable movement again', inject(function(eventBus, canvas, moveCanvas) {
+
+      // given
+      var viewbox = canvas.viewbox();
+      moveCanvas.toggle(false);
+
+      // when
+      expect(moveCanvas.toggle(true)).to.be.true;
+      eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mouseup'));
+
+      // then
+      expect(viewbox.x - canvas.viewbox().x).to.eql(200);
+      expect(viewbox.y - canvas.viewbox().y).to.eql(100);
+    }));
+
+
+    it('should toggle movement without an argument', inject(function(eventBus, moveCanvas) {
+
+      // when
+      expect(moveCanvas.toggle()).to.be.false;
+      eventBus.fire(mouseDownEvent(rootElement));
+
+      // then
+      expect(moveCanvas.isActive()).to.be.false;
+
+      // when
+      expect(moveCanvas.toggle()).to.be.true;
+      eventBus.fire(mouseDownEvent(rootElement));
+
+      // then
+      expect(moveCanvas.isActive()).to.be.true;
+    }));
+
+
+    it('should allow enabling repeatedly', inject(function(eventBus, canvas, moveCanvas) {
+
+      // given
+      var viewbox = canvas.viewbox();
+      moveCanvas.toggle(true);
+      moveCanvas.toggle(true);
+
+      // when
+      eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mouseup'));
+
+      // then
+      expect(viewbox.x - canvas.viewbox().x).to.eql(200);
+      expect(viewbox.y - canvas.viewbox().y).to.eql(100);
+    }));
+
+
+    [ false, true ].forEach(function(dragging) {
+      it('should cancel the current interaction when disabling (dragging: ' + dragging + ')',
+        inject(function(eventBus, canvas, moveCanvas) {
+
+          // given
+          eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+
+          if (dragging) {
+            document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+            expect(document.body.classList.contains('djs-cursor-grab')).to.be.true;
+          }
+
+          var viewbox = canvas.viewbox();
+
+          // when
+          moveCanvas.toggle(false);
+          document.dispatchEvent(createMouseEvent(300, 200, 'mousemove'));
+          document.dispatchEvent(createMouseEvent(300, 200, 'mouseup'));
+
+          // then
+          expect(moveCanvas.isActive()).to.be.false;
+          expect(document.body.classList.contains('djs-cursor-grab')).to.be.false;
+          expect(canvas.viewbox()).to.eql(viewbox);
+        })
+      );
+    });
+
+
+    [ 'canvas.viewbox.changing', 'canvas.viewbox.changed' ].forEach(function(eventName) {
+      it('should allow disabling from ' + eventName, inject(function(eventBus, canvas, moveCanvas) {
+
+        // given
+        var moveEvent = createMouseEvent(200, 100, 'mousemove');
+
+        eventBus.on(eventName, function() {
+          moveCanvas.toggle(false);
+        });
+
+        eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+
+        // when
+        document.dispatchEvent(moveEvent);
+
+        // then
+        expect(moveEvent.defaultPrevented).to.be.true;
+        expect(moveCanvas.isActive()).to.be.false;
+        expect(document.body.classList.contains('djs-cursor-grab')).to.be.false;
+
+        var viewbox = canvas.viewbox();
+
+        // when
+        document.dispatchEvent(createMouseEvent(300, 200, 'mousemove'));
+        document.dispatchEvent(createMouseEvent(300, 200, 'mouseup'));
+
+        // then
+        expect(canvas.viewbox()).to.eql(viewbox);
+      }));
+    });
+
+
+    it('should stay disabled across canvas focus changes', inject(function(eventBus, moveCanvas) {
+
+      // given
+      moveCanvas.toggle(false);
+
+      // when
+      eventBus.fire('canvas.focus.changed', { focused: false });
+      eventBus.fire('canvas.focus.changed', { focused: true });
+      eventBus.fire(mouseDownEvent(rootElement));
+
+      // then
+      expect(moveCanvas.isActive()).to.be.false;
+    }));
+  });
+
+
   describe('integration', function() {
 
     beforeEach(bootstrapDiagram({
@@ -264,6 +427,23 @@ describe('navigation/movecanvas', function() {
         expect(moveCanvas.isActive()).to.be.true;
       }
     ));
+
+
+    it('should respect prevented focus after re-enabling', inject(function(eventBus, canvas, moveCanvas) {
+
+      // given
+      moveCanvas.toggle(false);
+      moveCanvas.toggle(true);
+      eventBus.on('element.mousedown', 1500, function() {
+        return false;
+      });
+
+      // when
+      eventBus.fire(mouseDownEvent(canvas.getRootElement()));
+
+      // then
+      expect(moveCanvas.isActive()).to.be.false;
+    }));
 
   });
 
