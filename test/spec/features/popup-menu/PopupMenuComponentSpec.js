@@ -2435,6 +2435,49 @@ describe('features/popup-menu - <PopupMenu>', function() {
     });
 
 
+    it('should hide the keyboard-only documentation footer on pointer tab activation', async function() {
+
+      // given
+      const entries = [
+        { id: 'default-doc', label: 'Default entry', documentationRef: 'https://example.com/default' },
+        {
+          id: 'custom-doc',
+          label: 'Custom entry',
+          tab: CUSTOM_TAB,
+          documentationRef: 'https://example.com/custom'
+        }
+      ];
+
+      await createPopupMenu({ container, entries, defaultTab: DEFAULT_TAB, search: true });
+
+      const popup = domQuery('.djs-popup', container);
+      const footer = domQuery('.djs-popup-footer', container);
+      const tabs = domQueryAll('.djs-popup-tab', container);
+
+      expect(getComputedStyle(footer).display).not.to.equal('none');
+
+      // when - the pointer activates the second tab without moving over an entry
+      await act(() => {
+        fireEvent.click(tabs[1], { detail: 1 });
+      });
+
+      // then - only the pointer interaction mode hides keyboard-only docs
+      expect(domQuery('.djs-popup-footer-docs', container).getAttribute('href')).to.equal('https://example.com/custom');
+      expect(popup.classList.contains('djs-popup--pointer')).to.equal(true);
+      expect(getComputedStyle(footer).display).to.equal('none');
+
+      // when - resuming keyboard navigation
+      await act(() => {
+        fireEvent.keyDown(tabs[1], { key: 'ArrowLeft' });
+      });
+
+      // then - keyboard users can reach the documentation link again
+      expect(popup.classList.contains('djs-popup--pointer')).to.equal(false);
+      expect(getComputedStyle(footer).display).not.to.equal('none');
+      expect(domQuery('.djs-popup-footer-docs', container).getAttribute('href')).to.equal('https://example.com/default');
+    });
+
+
     it('should switch tabs backwards with <ArrowLeft>', async function() {
 
       // given
