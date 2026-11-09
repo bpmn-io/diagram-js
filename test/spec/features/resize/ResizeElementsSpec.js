@@ -497,6 +497,30 @@ describe('features/resize - ResizeElements', function() {
     ));
 
 
+    it('should NOT resize children that can be resized', inject(function(canvas, elementFactory) {
+
+      // given
+      var parent = canvas.addShape(elementFactory.createShape({
+        id: 'parent',
+        resizable: 'always',
+        x: 100, y: 300, width: 300, height: 200
+      }));
+
+      var child = canvas.addShape(elementFactory.createShape({
+        id: 'child',
+        resizable: 'always',
+        x: 300, y: 350, width: 50, height: 50
+      }), parent);
+
+      // when
+      resizeElements([ parent, child ], 'e', { x: -250, y: 0 });
+
+      // then
+      expect(parent).to.have.bounds({ x: 100, y: 300, width: 270, height: 200 });
+      expect(child).to.have.bounds({ x: 300, y: 350, width: 50, height: 50 });
+    }));
+
+
     it('should ignore connections', inject(function(canvas) {
 
       // given
