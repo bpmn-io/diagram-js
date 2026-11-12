@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 
+import { stub } from 'sinon';
+
 import {
   assign,
   pick
@@ -706,6 +708,66 @@ describe('util - Text', function() {
       // then
       expect(dimensions).to.exist;
       expect(toFitBBox(dimensions, { width: 100, height: 20 })).to.be.true;
+    });
+
+
+    it('should measure long whitespace runs without regex replacement', function() {
+
+      // given
+      var label = ' '.repeat(16384) + 'x';
+      var replace = String.prototype.replace;
+      var replaceStub = stub(String.prototype, 'replace').callsFake(function(pattern, replacement) {
+
+        // Fail before a backtracking regex can block the test runner.
+        if (this.toString() === label && pattern instanceof RegExp) {
+          throw new Error('unexpected regex replacement on long label');
+        }
+
+        return replace.call(this, pattern, replacement);
+      });
+
+      var layout;
+
+      try {
+
+        // when
+        layout = textUtil.layoutText(label, { box: { width: 1000000, height: 100 } });
+      } finally {
+        replaceStub.restore();
+      }
+
+      // then
+      expect(layout.element.textContent).to.equal(label);
+      expect(layout.dimensions.width).to.be.above(measure('x'));
+    });
+
+
+    it('should ignore trailing whitespace but preserve leading whitespace', function() {
+
+      // given
+      var label = '  label';
+
+      // when
+      var width = measure(label + ' \t\u00a0\u2003\ufeff');
+
+      // then
+      expect(width).to.equal(measure(label));
+      expect(width).to.be.above(measure('label'));
+      expect(measure(' \t\u00a0\u2003\ufeff')).to.equal(0);
+    });
+
+
+    it('should preserve empty line height', function() {
+
+      // when
+      var empty = textUtil.getDimensions('', { box: { width: 100, height: 100 } });
+      var singleLine = textUtil.getDimensions('label', { box: { width: 100, height: 100 } });
+      var twoLines = textUtil.getDimensions('\n', { box: { width: 100, height: 100 } });
+
+      // then
+      expect(empty.width).to.equal(0);
+      expect(empty.height).to.equal(singleLine.height);
+      expect(twoLines.height).to.equal(2 * empty.height);
     });
 
 
