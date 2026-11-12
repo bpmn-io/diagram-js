@@ -6,9 +6,12 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
-### Breaking Changes
+## 15.29.0
 
-* `Diagram#get` now returns `undefined` instead of `null` when a service is missing and strict lookup is disabled.
+* `FEAT`: support optional dependency injection via `?` annotations or default parameter values ([#1116](https://github.com/bpmn-io/diagram-js/pull/1116))
+* `FIX`: avoid backtracking when measuring text ([#1127](https://github.com/bpmn-io/diagram-js/pull/1127))
+* `FIX`: correct `Diagram#get` to return `undefined` instead of `null` when a service is missing and strict lookup is disabled ([#1116](https://github.com/bpmn-io/diagram-js/pull/1116))
+* `DEPS`: update to `didi@12.0.0`
 
 ## 15.28.1
 
