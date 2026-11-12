@@ -9,7 +9,7 @@ _**Note:** Yet to be released changes appear here._
 ## 15.29.0
 
 * `FEAT`: support optional dependency injection via `?` annotations or default parameter values ([#1116](https://github.com/bpmn-io/diagram-js/pull/1116))
-* `FIX`: avoid backtracking when measuring text ([#1127](https://github.com/bpmn-io/diagram-js/pull/1127))
+* `FIX`: avoid backtracking when measuring text ([#1127](https://github.com/bpmn-io/diagram-js/pull/1127), [`GHSA-h54p-wcrm-cv7w`](https://github.com/bpmn-io/diagram-js/security/advisories/GHSA-h54p-wcrm-cv7w))
 * `FIX`: correct `Diagram#get` to return `undefined` instead of `null` when a service is missing and strict lookup is disabled ([#1116](https://github.com/bpmn-io/diagram-js/pull/1116))
 * `DEPS`: update to `didi@12.0.0`
 
