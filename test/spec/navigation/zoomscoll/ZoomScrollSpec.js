@@ -37,7 +37,7 @@ describe('navigation/zoomscroll', function() {
       });
 
       expect(zoomScroll).to.exist;
-      expect(zoomScroll._enabled).to.be.false;
+      expect(zoomScroll._enabled).to.be.true;
     }));
 
   });
@@ -217,6 +217,44 @@ describe('navigation/zoomscroll', function() {
     }));
 
 
+    it('should not navigate when disabled by configuration', inject(function(zoomScroll, canvas) {
+
+      // given
+      var scrollSpy = spy(zoomScroll, 'scroll');
+
+      // when
+      var event = triggerWheel();
+
+      // then
+      expect(scrollSpy).not.to.have.been.called;
+      expect(event.defaultPrevented).to.be.false;
+    }));
+
+
+    [ false, true ].forEach(function(enabled) {
+      it('should preserve toggle(' + enabled + ') across hover changes', inject(function(zoomScroll) {
+
+        // given
+        var scrollSpy = spy(zoomScroll, 'scroll');
+        zoomScroll.toggle(true);
+        zoomScroll.toggle(enabled);
+
+        // when
+        triggerMouseEvent('mouseenter');
+        triggerMouseEvent('mouseover');
+        triggerMouseEvent('mouseout');
+        triggerMouseEvent('mouseleave');
+        triggerMouseEvent('mouseenter');
+        triggerMouseEvent('mouseover');
+        var event = triggerWheel();
+
+        // then
+        expect(scrollSpy.callCount).to.equal(enabled ? 1 : 0);
+        expect(event.defaultPrevented).to.equal(enabled);
+      }));
+    });
+
+
     it('should toggle enabled state on diagram click',
       inject(function(canvas, elementRegistry, zoomScroll) {
 
@@ -267,31 +305,23 @@ describe('navigation/zoomscroll', function() {
     }));
 
 
-    it('should not scroll, if mouse is not over canvas', inject(function(zoomScroll, canvas) {
+    it('should not scroll when the wheel event is outside the canvas', inject(function(zoomScroll) {
 
       // given
       var zoomSpy = spy(zoomScroll, 'zoom');
       var scrollSpy = spy(zoomScroll, 'scroll');
 
-      var event = wheelEvent({
-        target: canvas._svg
-      });
-
       // when
-      zoomScroll._handleWheel(event);
+      var event = triggerWheel(document.body);
 
       // then
       expect(zoomSpy).not.to.have.been.called;
       expect(scrollSpy).not.to.have.been.called;
+      expect(event.defaultPrevented).to.be.false;
     }));
 
 
-    describe('should scroll, if mouse is over canvas', function() {
-
-      beforeEach(inject(function(canvas) {
-        var event = createMouseOverEvent(event);
-        canvas._svg.dispatchEvent(event);
-      }));
+    describe('should scroll', function() {
 
       it('two-dimensional', expectScroll({
         expectedDelta: {
@@ -337,12 +367,6 @@ describe('navigation/zoomscroll', function() {
 
     describe('should zoom', function() {
 
-      beforeEach(inject(function(canvas) {
-        var event = createMouseOverEvent(event);
-        canvas._svg.dispatchEvent(event);
-      }));
-
-
       it('with scroll + ctrlKey', expectZoom({
         expectedDelta: 0.7949999999999999,
         expectedPosition: { x: 100, y: 70 },
@@ -372,6 +396,114 @@ describe('navigation/zoomscroll', function() {
 
     });
 
+
+    describe('HTML overlays', function() {
+
+      var overlay, child;
+
+      beforeEach(inject(function(canvas) {
+        overlay = document.createElement('div');
+        child = document.createElement('span');
+        overlay.appendChild(child);
+        canvas._container.appendChild(overlay);
+      }));
+
+
+      it('should pan and zoom on direct entry without canvas focus', inject(function(canvas, zoomScroll) {
+
+        // given
+        var scrollSpy = spy(zoomScroll, 'scroll');
+        var zoomSpy = spy(zoomScroll, 'zoom');
+
+        // assume
+        expect(canvas.isFocused()).to.be.false;
+
+        // when
+        var scroll = triggerWheel(child);
+        var zoom = triggerWheel(child, { ctrlKey: true });
+
+        // then
+        expect(scrollSpy).to.have.been.calledOnce;
+        expect(zoomSpy).to.have.been.calledOnce;
+        expect(scroll.defaultPrevented).to.be.true;
+        expect(zoom.defaultPrevented).to.be.true;
+      }));
+
+
+      it('should keep navigating when moving between SVG and overlay', inject(function(canvas, zoomScroll) {
+
+        // given
+        var scrollSpy = spy(zoomScroll, 'scroll');
+
+        // when
+        triggerMouseEvent('mouseout', canvas._svg, child);
+        triggerMouseEvent('mouseover', child, canvas._svg);
+        triggerWheel(child);
+        triggerMouseEvent('mouseout', child, canvas._svg);
+        triggerMouseEvent('mouseover', canvas._svg, child);
+        triggerWheel();
+
+        // then
+        expect(scrollSpy).to.have.been.calledTwice;
+      }));
+
+
+      [ false, true ].forEach(function(modified) {
+        [ false, true ].forEach(function(descendant) {
+          it('should leave ' + (modified ? 'modified' : 'ordinary') + ' wheel events on a scrollable ' +
+            (descendant ? 'descendant' : 'element') + ' alone', inject(function(canvas, zoomScroll) {
+
+            // given
+            overlay.classList.add('djs-scrollable');
+            var scrollSpy = spy(zoomScroll, 'scroll');
+            var zoomSpy = spy(zoomScroll, 'zoom');
+
+            // when
+            var event = triggerWheel(descendant ? child : overlay, { ctrlKey: modified });
+
+            // then
+            expect(scrollSpy).not.to.have.been.called;
+            expect(zoomSpy).not.to.have.been.called;
+            expect(event.defaultPrevented).to.be.false;
+          }));
+        });
+      });
+
+
+      it('should navigate after leaving a scrollable overlay', inject(function(canvas, zoomScroll) {
+
+        // given
+        overlay.classList.add('djs-scrollable');
+        var scrollSpy = spy(zoomScroll, 'scroll');
+
+        // when
+        triggerWheel(child);
+        triggerMouseEvent('mouseout', child, canvas._svg);
+        triggerMouseEvent('mouseover', canvas._svg, child);
+        triggerWheel();
+
+        // then
+        expect(scrollSpy).to.have.been.calledOnce;
+      }));
+
+
+      it('should navigate even if a wheel event was already prevented', inject(function(canvas, zoomScroll) {
+
+        // given
+        var scrollSpy = spy(zoomScroll, 'scroll');
+        child.addEventListener('wheel', function(event) {
+          event.preventDefault();
+        });
+
+        // when
+        triggerWheel(child);
+
+        // then
+        expect(scrollSpy).to.have.been.calledOnce;
+      }));
+
+    });
+
   });
 
 
@@ -386,12 +518,6 @@ describe('navigation/zoomscroll', function() {
       zoomScroll: {
         scale: 0.5
       }
-    }));
-
-
-    beforeEach(inject(function(canvas) {
-      var event = createMouseOverEvent(event);
-      canvas._svg.dispatchEvent(event);
     }));
 
 
@@ -515,15 +641,39 @@ function expectScroll(opts) {
 
 // helpers //////////////////////
 
-function createMouseOverEvent() {
+function createMouseEvent(type, relatedTarget) {
   var event = document.createEvent('MouseEvent');
 
   event.initMouseEvent(
-    'mouseover', true, true, window,
+    type, true, true, window,
     0, 0, 0, 0, 0,
     false, false, false, false,
-    0, null
+    0, relatedTarget || null
   );
 
   return event;
+}
+
+
+function triggerMouseEvent(type, target, relatedTarget) {
+  return getDiagramJS().invoke(function(canvas) {
+    target = target || (type === 'mouseenter' || type === 'mouseleave' ? canvas._container : canvas._svg);
+
+    target.dispatchEvent(createMouseEvent(type, relatedTarget));
+  });
+}
+
+
+function triggerWheel(target, options) {
+  return getDiagramJS().invoke(function(canvas) {
+    var event = new WheelEvent('wheel', assign({
+      bubbles: true,
+      cancelable: true,
+      deltaY: 10
+    }, options));
+
+    (target || canvas._svg).dispatchEvent(event);
+
+    return event;
+  });
 }
