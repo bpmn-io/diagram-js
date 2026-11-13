@@ -175,6 +175,53 @@ describe('navigation/movecanvas', function() {
   });
 
 
+  describe('configuration', function() {
+
+    beforeEach(bootstrapDiagram({
+      modules: [ moveCanvasModule ],
+      moveCanvas: {
+        enabled: false
+      }
+    }));
+
+
+    it('should not move when disabled by configuration', inject(function(eventBus, canvas, moveCanvas) {
+
+      // given
+      var viewbox = canvas.viewbox();
+
+      // when
+      eventBus.fire(mouseDownEvent(canvas.getRootElement(), { clientX: 0, clientY: 0 }));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mouseup'));
+
+      // then
+      expect(moveCanvas.isActive()).to.be.false;
+      expect(canvas.viewbox()).to.eql(viewbox);
+    }));
+
+
+    it('should allow enabling after being disabled by configuration', inject(function(eventBus, canvas, moveCanvas) {
+
+      // given
+      var viewbox = canvas.viewbox();
+
+      // when
+      moveCanvas.toggle(true);
+      eventBus.fire('canvas.focus.changed', { focused: false });
+      eventBus.fire('canvas.focus.changed', { focused: true });
+      eventBus.fire(mouseDownEvent(canvas.getRootElement(), { clientX: 0, clientY: 0 }));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mouseup'));
+
+      // then
+      expect(viewbox.x - canvas.viewbox().x).to.eql(200);
+      expect(viewbox.y - canvas.viewbox().y).to.eql(100);
+    }));
+
+  });
+
+
   describe('toggle', function() {
 
     var rootElement;
