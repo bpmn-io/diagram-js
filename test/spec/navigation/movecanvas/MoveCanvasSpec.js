@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { spy } from 'sinon';
 
 import {
   bootstrapDiagram,
@@ -337,6 +338,24 @@ describe('navigation/movecanvas', function() {
     });
 
 
+    it('should not silence clicks after cancellation', inject(function(eventBus, canvas, moveCanvas) {
+
+      // given
+      var clickSpy = spy();
+      eventBus.on('element.click', clickSpy);
+
+      eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+
+      // when
+      moveCanvas.toggle(false);
+      eventBus.fire('element.click', { element: rootElement });
+
+      // then
+      expect(clickSpy).to.have.been.calledOnce;
+    }));
+
+
     [ 'canvas.viewbox.changing', 'canvas.viewbox.changed' ].forEach(function(eventName) {
       it('should allow disabling from ' + eventName, inject(function(eventBus, canvas, moveCanvas) {
 
@@ -395,21 +414,29 @@ describe('navigation/movecanvas', function() {
     }));
 
 
-    it('should silence click', inject(function(eventBus, moveCanvas, canvas) {
+    it('should silence the click following a drag', inject(function(eventBus, canvas) {
 
-      canvas.addShape({
-        id: 'test',
-        width: 100,
-        height: 100,
-        x: 100,
-        y: 100
-      });
+      // given
+      var rootElement = canvas.getRootElement(),
+          clickSpy = spy();
 
-      // click should not be triggered on
-      // canvas drag
-      eventBus.on('element.click', function(e) {
-        console.error('click', e);
-      });
+      eventBus.on('element.click', clickSpy);
+
+      eventBus.fire(mouseDownEvent(rootElement, { clientX: 0, clientY: 0 }));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mousemove'));
+      document.dispatchEvent(createMouseEvent(200, 100, 'mouseup'));
+
+      // when
+      eventBus.fire('element.click', { element: rootElement });
+
+      // then
+      expect(clickSpy).not.to.have.been.called;
+
+      // but when
+      eventBus.fire('element.click', { element: rootElement });
+
+      // then
+      expect(clickSpy).to.have.been.calledOnce;
     }));
 
   });
