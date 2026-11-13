@@ -205,6 +205,26 @@ describe('util/Elements', function() {
     });
 
 
+    it('should NOT enclose connection with one end only', function() {
+
+      // given
+      var connection = {
+        id: 'connection',
+        source: shapeE,
+        target: shapeB,
+        waypoints: []
+      };
+
+      // when
+      var closure = getClosure([ shapeE, connection ]);
+
+      // then
+      expect(closure.allConnections).to.have.property('connection');
+      expect(closure.enclosedConnections).not.to.have.property('connection');
+      expect(closure.enclosedElements).not.to.have.property('connection');
+    });
+
+
     it('should be extensible', function() {
 
       // when

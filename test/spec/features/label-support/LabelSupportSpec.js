@@ -287,6 +287,66 @@ describe('features/label-support', function() {
     });
 
 
+    describe('connection label', function() {
+
+      var otherChildShape,
+          connection,
+          connectionLabel;
+
+      beforeEach(inject(function(elementFactory, canvas, modeling) {
+
+        otherChildShape = elementFactory.createShape({
+          id: 'otherChildShape',
+          x: 200, y: 110,
+          width: 100, height: 100
+        });
+
+        canvas.addShape(otherChildShape, parentShape);
+
+        connection = elementFactory.createConnection({
+          id: 'connection',
+          waypoints: [
+            { x: 250, y: 250 },
+            { x: 250, y: 210 }
+          ],
+          source: childShape,
+          target: otherChildShape
+        });
+
+        canvas.addConnection(connection, parentShape);
+
+        connectionLabel = modeling.createLabel(connection, { x: 270, y: 230 });
+      }));
+
+
+      it('should move with connection if both ends move', inject(function(modeling) {
+
+        // given
+        var position = { x: connectionLabel.x, y: connectionLabel.y };
+
+        // when
+        modeling.moveElements([ childShape, otherChildShape, connection ], { x: 10, y: 0 });
+
+        // then
+        expect(connectionLabel).to.have.position({ x: position.x + 10, y: position.y });
+      }));
+
+
+      it('should NOT move with connection if one end moves', inject(function(modeling) {
+
+        // given
+        var position = { x: connectionLabel.x, y: connectionLabel.y };
+
+        // when
+        modeling.moveElements([ childShape, connection ], { x: 10, y: 0 });
+
+        // then
+        expect(connectionLabel).to.have.position(position);
+      }));
+
+    });
+
+
     it('should move with closure', inject(function(modeling, eventBus) {
 
       // given
