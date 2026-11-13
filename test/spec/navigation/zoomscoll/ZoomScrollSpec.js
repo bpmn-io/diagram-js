@@ -37,7 +37,7 @@ describe('navigation/zoomscroll', function() {
       });
 
       expect(zoomScroll).to.exist;
-      expect(zoomScroll._enabled).to.be.false;
+      expect(zoomScroll._enabled).to.be.true;
     }));
 
   });
@@ -217,6 +217,44 @@ describe('navigation/zoomscroll', function() {
     }));
 
 
+    it('should not navigate when disabled by configuration', inject(function(zoomScroll, canvas) {
+
+      // given
+      var scrollSpy = spy(zoomScroll, 'scroll');
+
+      // when
+      var event = triggerWheel();
+
+      // then
+      expect(scrollSpy).not.to.have.been.called;
+      expect(event.defaultPrevented).to.be.false;
+    }));
+
+
+    [ false, true ].forEach(function(enabled) {
+      it('should preserve toggle(' + enabled + ') across hover changes', inject(function(zoomScroll) {
+
+        // given
+        var scrollSpy = spy(zoomScroll, 'scroll');
+        zoomScroll.toggle(true);
+        zoomScroll.toggle(enabled);
+
+        // when
+        triggerMouseEvent('mouseenter');
+        triggerMouseEvent('mouseover');
+        triggerMouseEvent('mouseout');
+        triggerMouseEvent('mouseleave');
+        triggerMouseEvent('mouseenter');
+        triggerMouseEvent('mouseover');
+        var event = triggerWheel();
+
+        // then
+        expect(scrollSpy.callCount).to.equal(enabled ? 1 : 0);
+        expect(event.defaultPrevented).to.equal(enabled);
+      }));
+    });
+
+
     it('should toggle enabled state on diagram click',
       inject(function(canvas, elementRegistry, zoomScroll) {
 
@@ -267,29 +305,23 @@ describe('navigation/zoomscroll', function() {
     }));
 
 
-    it('should not scroll, if mouse is not over canvas', inject(function(zoomScroll, canvas) {
+    it('should not scroll when the wheel event is outside the canvas', inject(function(zoomScroll) {
 
       // given
       var zoomSpy = spy(zoomScroll, 'zoom');
       var scrollSpy = spy(zoomScroll, 'scroll');
-      var event = wheelEvent({
-        target: canvas._svg
-      });
 
       // when
-      zoomScroll._handleWheel(event);
+      var event = triggerWheel(document.body);
 
       // then
       expect(zoomSpy).not.to.have.been.called;
       expect(scrollSpy).not.to.have.been.called;
+      expect(event.defaultPrevented).to.be.false;
     }));
 
 
-    describe('should scroll, if mouse is over canvas', function() {
-
-      beforeEach(function() {
-        triggerMouseEvent('mouseenter');
-      });
+    describe('should scroll', function() {
 
       it('two-dimensional', expectScroll({
         expectedDelta: {
@@ -334,10 +366,6 @@ describe('navigation/zoomscroll', function() {
 
 
     describe('should zoom', function() {
-
-      beforeEach(function() {
-        triggerMouseEvent('mouseenter');
-      });
 
       it('with scroll + ctrlKey', expectZoom({
         expectedDelta: 0.7949999999999999,
@@ -391,7 +419,6 @@ describe('navigation/zoomscroll', function() {
         expect(canvas.isFocused()).to.be.false;
 
         // when
-        triggerMouseEvent('mouseenter');
         var scroll = triggerWheel(child);
         var zoom = triggerWheel(child, { ctrlKey: true });
 
@@ -407,7 +434,6 @@ describe('navigation/zoomscroll', function() {
 
         // given
         var scrollSpy = spy(zoomScroll, 'scroll');
-        triggerMouseEvent('mouseenter');
 
         // when
         triggerMouseEvent('mouseout', canvas._svg, child);
@@ -431,7 +457,6 @@ describe('navigation/zoomscroll', function() {
             overlay.classList.add('djs-scrollable');
             var scrollSpy = spy(zoomScroll, 'scroll');
             var zoomSpy = spy(zoomScroll, 'zoom');
-            triggerMouseEvent('mouseenter');
 
             // when
             var event = triggerWheel(descendant ? child : overlay, { ctrlKey: modified });
@@ -450,7 +475,6 @@ describe('navigation/zoomscroll', function() {
         // given
         overlay.classList.add('djs-scrollable');
         var scrollSpy = spy(zoomScroll, 'scroll');
-        triggerMouseEvent('mouseenter');
 
         // when
         triggerWheel(child);
@@ -470,7 +494,6 @@ describe('navigation/zoomscroll', function() {
         child.addEventListener('wheel', function(event) {
           event.preventDefault();
         });
-        triggerMouseEvent('mouseenter');
 
         // when
         triggerWheel(child);
@@ -496,10 +519,6 @@ describe('navigation/zoomscroll', function() {
         scale: 0.5
       }
     }));
-
-    beforeEach(function() {
-      triggerMouseEvent('mouseenter');
-    });
 
 
     it('should adapt scroll', expectScroll({
