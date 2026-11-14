@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+* `FIX`: treat connection as enclosed only if both ends are ([#1129](https://github.com/bpmn-io/diagram-js/pull/1129))
+
 ## 15.29.0
 
 * `FEAT`: support optional dependency injection via `?` annotations or default parameter values ([#1116](https://github.com/bpmn-io/diagram-js/pull/1116))
