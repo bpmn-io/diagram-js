@@ -497,6 +497,30 @@ describe('features/resize - ResizeElements', function() {
     ));
 
 
+    it('should NOT push edges to contain children within padding', inject(
+      function(canvas, elementFactory) {
+
+        // given
+        var parent = canvas.addShape(elementFactory.createShape({
+          id: 'parent',
+          resizable: 'always',
+          x: 100, y: 300, width: 300, height: 200
+        }));
+
+        canvas.addShape(elementFactory.createShape({
+          id: 'child',
+          x: 110, y: 350, width: 50, height: 50
+        }), parent);
+
+        // when
+        resizeElements([ shape1, parent ], 's', { x: 0, y: 100 });
+
+        // then
+        expect(parent).to.have.bounds({ x: 100, y: 330, width: 300, height: 270 });
+      }
+    ));
+
+
     it('should NOT resize children that can be resized', inject(function(canvas, elementFactory) {
 
       // given
