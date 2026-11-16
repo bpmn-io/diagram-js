@@ -11,6 +11,9 @@ _**Note:** Yet to be released changes appear here._
 * `FEAT`: add `MoveCanvas#toggle` API and `config.moveCanvas.enabled` option ([#1123](https://github.com/bpmn-io/diagram-js/pull/1123), [#760](https://github.com/bpmn-io/diagram-js/issues/760))
 * `FEAT`: preserve explicitly configured wheel navigation enablement across hover changes ([#1128](https://github.com/bpmn-io/diagram-js/pull/1128))
 * `FIX`: handle wheel events over overlays ([#1128](https://github.com/bpmn-io/diagram-js/pull/1128), [#1077](https://github.com/bpmn-io/diagram-js/issues/1077))
+
+## 15.29.1
+
 * `FIX`: treat connection as enclosed only if both ends are ([#1129](https://github.com/bpmn-io/diagram-js/pull/1129))
 
 ## 15.29.0
