@@ -6,6 +6,8 @@ All notable changes to [diagram-js](https://github.com/bpmn-io/diagram-js) are d
 
 _**Note:** Yet to be released changes appear here._
 
+## 15.30.1
+
 * `DEPS`: update to `path-intersection@4.2.1`
 
 ## 15.30.0
