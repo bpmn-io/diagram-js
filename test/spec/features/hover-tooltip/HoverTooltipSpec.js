@@ -4,6 +4,7 @@ import sinon from 'sinon';
 
 import {
   bootstrapDiagram,
+  getDiagramJS,
   inject
 } from 'test/TestHelper';
 
@@ -165,5 +166,31 @@ describe('features/hover-tooltip', function() {
     // then
     expect(domQuery('.djs-hover-tooltip', canvas.getContainer())).not.to.exist;
   }));
+
+
+
+  it('should not render a pending tooltip after diagram destroy', inject(
+    function(canvas, hoverTooltip) {
+
+      // given
+      var diagram = getDiagramJS();
+
+      clock = sinon.useFakeTimers();
+
+      var container = addEntries(canvas);
+
+      register(hoverTooltip, container);
+
+      hover(getEntry(container, 'with-content'));
+
+      // when
+      diagram.destroy();
+
+      // then
+      expect(function() {
+        clock.tick(300);
+      }).not.to.throw();
+    }
+  ));
 
 });
